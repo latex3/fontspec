@@ -1,0 +1,4302 @@
+% \iffalse
+%<*internal>
+\iffalse
+%</internal>
+%<*readme>
+--------------------------
+THE FONTSPEC PACKAGE v1.18
+
+The fontspec package only works with XeTeX, 
+a unicode capable TeX-variant. It provides 
+an automatic and unified interface for loading 
+fonts in LaTeX. XeTeX allows a direct interface 
+to system-installed fonts, so no manual font 
+installation is required.
+
+This package also provides access to the large 
+number of font features available with AAT and 
+OpenType fonts, including upper and lower case 
+numbers, proportional and monospaced numbers, 
+swash letters, vulgar fractions, ligature 
+control, and many others.
+
+It also provides an interface to set the XeTeX 
+font mappings, font colour, relative font 
+scaling, inter-word space scaling, and more.
+
+------------------------
+SUMMARY OF USER COMMANDS
+
+Font families may be selected individually with the command
+   \fontspec[<font options>]{<font name>}
+
+Commands for selecting fonts efficiently can be created with
+   \newfontfamily\myfamily[<font options>]{<font name>}
+   \newfontface\myfont[<font options>]{<font name>}
+
+Default document fonts are selected with 
+   \setmainfont[<font options>]{<font name>}
+   \setsansfont[<font options>]{<font name>}
+   \setmonofont[<font options>]{<font name>}
+
+Fonts to be used in maths are defined with 
+   \setmathrm[<font options>]{<font name>}
+   \setmathsf[<font options>]{<font name>}
+   \setmathtt[<font options>]{<font name>}
+   \setboldmathrm[<font options>]{<font name>}
+
+Features to be used for every subsequently defined font are specified with
+   \defaultfontfeatures{<default font options>}
+
+Features may be added to the font currently in use with
+   \addfontfeatures{<font options to add>}
+   \addfontfeature{<...>} does the same thing
+
+Features not provided for out of the box may be defined with
+   \newAATfeature{<feature tag>}{<feature code>}{<selector code>}
+   \newICUfeature{<feature tag>}{[+|-]<4 letter feature string>}
+   \newfontfeature{<feature tag>}{<arbitrary XeTeX font options>}
+
+Features can be renamed and feature options can be renamed with
+   \aliasfontfeature{<current feature>}{<new feature>}
+   \aliasfontfeatureoption{<feature>}{<current option>}{<new option>}
+
+--------------
+Will Robertson
+2004--2008
+%</readme>
+%<*internal>
+\fi
+%</internal>
+%
+%<*internal>
+\begingroup
+%</internal>
+%<*batchfile>
+\input docstrip.tex
+\keepsilent
+\usedir{tex/xelatex/fontspec}
+\preamble
+
+  ________________________________
+  The fontspec package for XeLaTeX
+  (C) 2004--2008    Will Robertson
+
+  License information appended.
+
+
+\endpreamble
+\postamble
+
+Copyright 2004--2008 by Will Robertson <wspr81@gmail.com>
+
+Distributable under the LaTeX Project Public License,
+version 1.3c or higher (your choice). The latest version of
+this license is at: http://www.latex-project.org/lppl.txt
+
+This work is "maintained" (as per LPPL maintenance status) 
+by Will Robertson.
+
+This work consists of this file  fontspec.dtx
+          and the derived files fontspec.sty, 
+                                fontspec.cfg, 
+                                fontspec.ins, 
+                                fontspec-example.ltx,
+                            and fontspec.pdf.
+
+\endpostamble
+\askforoverwritefalse
+\generate{\file{fontspec.sty}{\from{fontspec.dtx}{fontspec}}}
+\generate{\file{fontspec.cfg}{\from{fontspec.dtx}{cfg}}}
+\generate{\file{fontspec-example.ltx}{\from{fontspec.dtx}{example}}}
+%</batchfile>
+%<batchfile>\endbatchfile
+%<*internal>
+\generate{\file{fontspec.ins}{\from{fontspec.dtx}{batchfile}}}
+\nopreamble\nopostamble
+\generate{\file{README.txt}{\from{\jobname.dtx}{readme}}}
+\generate{\file{fontspec-doc-style.sty}{\from{fontspec.dtx}{doc-style}}}
+\endgroup
+%</internal>
+%
+%<*driver>
+\documentclass[a4paper]{ltxdoc}
+\usepackage{fontspec-doc-style}
+\EnableCrossrefs
+\CodelineIndex
+\RecordChanges
+%\OnlyDescription
+\begin{document}
+\makeatletter                         ^^A% To document @-cmds
+\errorcontextlines=999                ^^A% Show up all my mistakes
+
+\GetFileInfo{fontspec.sty}
+
+\title{The {\fontspec[Scale=0.82,Variant=3]{Zapfino}{\addfontfeature{Variant=4}f}ontspec} package}
+\author{\scshape Will Robertson}
+\date{\filedate \qquad \fileversion}
+
+\maketitle
+\tableofcontents
+
+\newpage
+\section{Introduction}
+With the introduction of \name{Jonathan Kew}'s
+\XeTeX,\footnote{\texttt{http://scripts.sil.org/xetex}} users can
+now easily access system-wide fonts directly in a \TeX\
+variant, providing a best of both worlds environment. \XeTeX\
+eliminates the need for all those files required for installing
+fonts (|.tfm|, |.vf|, |.map|, \dots) and provides an easy
+way to select fonts in Plain \TeX: |\font\tenrm="Times New Roman" at 10pt|.
+
+Before \pkg{fontspec}, it was still necessary to write cumbersome font definition
+files for \LaTeX, since the NFSS had a lot more going on behind the
+scenes to allow easy commands like \cmd\emph\ or \cmd\bfseries.
+
+This package provides a
+completely automatic way to select font families in \LaTeX\ for
+arbitrary fonts. Furthermore, it allows very flexible
+control over the selection of advanced font features such as number case
+and fancy ligatures (and many more!) present in most modern fonts.
+
+\subsection{Usage}
+For basic use, no package options are required:
+\begin{Verbatim}[gobble=2]
+  \usepackage{fontspec}% provides font selecting commands
+  \usepackage{xunicode}% provides unicode character macros
+  \usepackage{xltxtra} % provides some fixes/extras
+\end{Verbatim}
+\name{Ross Moore}'s \pkg{xunicode} package is highly recommended, as it
+provides access \LaTeX's various methods for accessing extra
+characters and accents (for example, |\%|, |\$|, |\textbullet|, |\"u|, and
+so on), plus many more unicode characters.
+
+The \pkg{xltxtra} package adds a couple of general improvements to \LaTeX\ under
+\XeTeX; it also provides the \cmd\XeTeX\ macro to typeset the \XeTeX\ logo.
+
+\emph{The \pkg{babel} package is not really supported!} Especially Vietnamese,
+Greek, and Hebrew at least might not work correctly, as far as I can tell.
+There's a better chance with Cyrillic and Latin-based languages, however---\pkg{fontspec} ensures
+at least that fonts should load correctly, but hyphenation and other matters
+aren't guaranteed.
+
+The rest of this section documents \pkg{fontspec}'s package options, which are (briefly):
+\begin{description}[nolistsep,font=\ttfamily]
+\item [cm-default] Don't load the Latin Modern fonts;
+\item [no-math] Don't change any maths fonts;
+\item [no-config] Don't load \pkg{fontspec.cfg}; and,
+\item [quiet] Output \pkg{fontspec} warnings in the log file rather than the console output.
+\end{description}
+
+\subsubsection{Latin Modern defaults}
+\pkg{fontspec} defines a new \LaTeX\ font encoding for its purposes to allow
+the Latin Modern fonts to be used by default \new{v1.12}. This has three implications:
+\begin{enumerate}
+\item Unicode fonts are loaded by default; it didn't make sense to have the legacy Computer Modern fonts in the Unicode-enabled \XeTeX.
+\item If you don't have the Latin Modern OpenType fonts installed, you might want to consider doing so.
+\item \pkg{fontspec} also requires the \pkg{euenc} package\footnote{\url{http://tug.ctan.org/cgi-bin/ctanPackageInformation.py?id=euenc}} to be installed.
+\end{enumerate}
+Another package option is provided for controlling this behaviour: |[cm-default]| 
+will ignore the Latin Modern fonts and go about things as it used to. Use this
+option if you don't have the Latin Modern fonts installed or you (Mac-specifically) 
+want to use the `default \TeX\ font' without using the |xdvipdfmx| driver.
+
+\subsubsection{Maths `fiddling'}
+\new{v1.14}
+By default, \pkg{fontspec} adjusts \LaTeX's default maths setup in order to maintain the correct Computer Modern symbols when the roman font changes. However, it will attempt to avoid doing this if another maths font package is loaded (such as \pkg{mathpazo} or my upcoming \pkg{unicode-math} package).
+
+If you find that it is incorrectly changing the maths font when it should be leaving well enough alone, apply the |[no-math]| package option to manually suppress its maths font.
+
+\subsubsection{Configuration}
+If you wish to customise any part of the \pkg{fontspec} interface (see later 
+in this manual, \vref{sec:newfeatures} and~\ref{sec:aliasfontfeature}),
+this should be done by creating your own \texttt{fontspec.cfg} file,
+ \note{An example is distributed with the package.} 
+which will be automatically loaded if it is found by \XeTeX. Either place it
+in the same folder as the main document for isolated cases, or in a location that
+\XeTeX\ searches by default, \eg, \url{~/Library/texmf/xelatex/}.
+The package option |[no-config]| will suppress this behaviour
+under all circumstances. 
+\warn{v1.14}{Used to be \texttt{[noconfig]}, which still works.}
+
+\subsubsection{Warnings}\label{sec:quiet-warnings}
+This package can give many warnings that can be 
+harmless if you know what you're doing.
+Use the |[quiet]| package option to write 
+these warnings to the transcript (\texttt{.log}) file instead.
+
+Use the |[silent]| package option to completely suppress these warnings if you don't even want the |.log| file cluttered up.
+
+\subsection{About this manual}
+\warn{v1.6}{An example warning!}
+In the unfortunate case that I need to make backwards incompatible changes (you're probably pretty safe these days), such things, and some other comments, are noted in the margin of this document as shown here, with a red star if the
+change is relevant to the current release of the package. (New features
+are denoted similarly in blue.)
+
+This document has been typeset with \XeTeX\ using a variety of fonts
+to display various features that the package supports. You will not
+be able to typeset the documentation if you do not have all of these
+fonts, many of which are distributed with \MacOSX\ or are otherwise 
+commercial.
+
+Many examples are shown in this manual. These are typeset
+side-by-side with their verbatim source code, although various
+size-altering commands (\cs{large}, \cs{Huge}, \etc) are omitted for
+clarity. Since the package supports font features for both AAT and
+OpenType fonts (whose feature sets only overlap to some extent),
+examples are distinguished by colour: blue and red, respectively.
+Examples whose font type is irrelevant are typeset in green.
+
+\section{Brief overview}
+This manual can get rather in-depth, as there are a lot of font features
+to cover. A basic preamble set-up is shown below, to simply select some default
+document fonts. See the file \url{fontspec-example.tex} for a more detailed
+example.
+\begin{Verbatim}[gobble=2]
+  \usepackage{fontspec}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \setmainfont[Mapping=tex-text]{Baskerville}
+  \setsansfont[Mapping=tex-text]{Skia}
+  \setmonofont{Courier}
+\end{Verbatim}
+
+\section{Font selection}
+
+\DescribeMacro{\fontspec} 
+\cmd{\fontspec}\oarg{font features}\marg{font name} 
+is the base command of the package, used
+for selecting the specified \meta{font name} in a \LaTeX\ family. 
+The font features argument 
+accepts comma separated \meta{font feature}=\meta{option} lists; these will
+not be fully described until \vref{sec:features}. 
+
+As our first example, look how easy it is to select the
+Hoefler Text typeface with the \pkg{fontspec} package:
+\begin{example}
+  \def\pangram{The five boxing 
+             wizards jump quickly.\\}
+  \fontspec{Hoefler Text} \pangram
+    {\itshape             \pangram}
+    {\scshape             \pangram}
+    {\scshape\itshape     \pangram}
+  \bfseries               \pangram
+    {\itshape             \pangram}
+    {\scshape             \pangram}
+    {\itshape\scshape     \pangram}
+\end{example}
+The \pkg{fontspec} package takes care of the necessary font
+definitions for those shapes as shown above
+\emph{automatically}. Furthermore, it is not necessary to install
+the font for \XeTeX\ in any way whatsoever: every font that is
+installed in the operating system may be accessed.
+
+\subsection{Default font families}\label{sec:setxxfont}
+\DescribeMacro{\setmainfont} \DescribeMacro{\setsansfont}
+\DescribeMacro{\setmonofont} The \cs{setmainfont},
+\note{Or \cmd\setromanfont, a historical name that doesn't make much sense when you're, say, typesetting Greek.}
+\cs{setsansfont}, and \cs{setmonofont} commands are used to select
+the default font families for the entire document. They take the
+same arguments as \cmd{\fontspec}. For example:
+  \def\pangram{Pack my box with five 
+                     dozen liquor jugs.}
+\begin{example}
+  \setmainfont{Baskerville}
+  \setsansfont[Scale=0.86]{Skia}
+  \setmonofont[Scale=0.8]{Monaco}
+  \rmfamily\pangram\par
+  \sffamily\pangram\par
+  \ttfamily\pangram
+\end{example}
+Here, the scales of the fonts have been chosen to equalise their
+lowercase letter heights. The \feat{Scale} font feature will be discussed
+further in \vref{sec:font-ind-features}, including methods for automatic
+scaling.
+
+\subsection{Font instances for efficiency}
+\DescribeMacro{\newfontfamily} 
+For cases when a specific font with a specific feature set is going
+to be re-used many times in a document, it is inefficient to keep
+calling \cs{fontspec} for every use. While the command does not
+define a new font instance after the first call, the feature options
+must still be parsed and processed.
+
+For this reason, \emph{instances}
+of a font may be created with the \cmd\newfontfamily\ command,
+\warn{v1.11}{This macro used to be called \cmd\newfontinstance.
+  Backwards compatibility is preserved via \texttt{fontspec.cfg}.}
+as shown in the following example:
+\begin{example}
+  \newfontfamily\notefont{Didot}
+  \notefont This is a \emph{note}.
+\end{example}
+This macro should be used to create commands that would be used in 
+the same way as \cmd\rmfamily, for example.
+
+\DescribeMacro{\newfontface}
+Sometimes only a specific font face is desired, without accompanying italic or bold variants.
+This is common when selecting a fancy italic font, say, that has swash features unavailable
+in the upright forms. \cmd\newfontface\ is used for this purpose: \new{v1.11}
+\begin{example}
+  \newfontface\fancy
+      [Contextuals={WordInitial,WordFinal}]
+                       {Hoefler Text Italic}
+  \fancy where is all the vegemite
+\end{example}
+\noindent This example is repeated in \vref{sec:contextuals}.
+
+\subsection{Arbitrary bold/italic/small caps fonts} \label{sec:bfitfonts} 
+The automatic bold, italic, and bold italic font selections will not be
+adequate for the needs of every font: while some fonts mayn't even
+have bold or italic shapes, in which case a skilled (or lucky)
+designer may be able to chose well-matching accompanying shapes from
+a different font altogether, others can have a range of bold and
+italic fonts to chose between.  The \feat{BoldFont} and
+\feat{ItalicFont} features~\warn{v1.6}{These features used to be called
+  \feat{Bold} and \feat{Italic}, and these shorter names may still be
+  used if you desire.}  are provided for these situations. If only
+one of these is used, the bold italic font is requested as the
+default from the \emph{new} font.
+\begin{example}
+  \fontspec[BoldFont={Helvetica Neue}]
+                          {Helvetica Neue UltraLight}
+                Helvetica Neue UltraLight         \\
+  {\itshape     Helvetica Neue UltraLight Italic} \\
+  {\bfseries               Helvetica Neue       } \\
+  {\bfseries\itshape       Helvetica Neue Italic} \\
+\end{example}
+If a bold italic shape is not defined, or you want to specify
+\emph{both} custom bold and italic shapes, the \feat{BoldItalicFont}
+feature is provided~\warn{v1.6}{\opt{BoldItalic} also works}.
+
+For those cases that the base font name is repeated, you can
+replace it with an asterisk (first character only). For example,
+some space can be saved instead of writing `\texttt{Baskerville SemiBold}':
+\begin{example}
+  \fontspec[BoldFont={* SemiBold}]{Baskerville}
+         Baskerville \textit{Italic}
+  \bfseries SemiBold \textit{Italic}
+\end{example}
+
+As a matter of fact, this feature can also be used for the upright font too:
+\begin{example}
+  \fontspec[UprightFont={* SemiBold},
+            BoldFont={* Bold}]{Baskerville}
+         Upright \textit{Italic}
+  \bfseries Bold \textit{Bold Italic}
+\end{example}
+
+Old-fashioned font families used to distribute their small caps
+glyphs in separate fonts due to the limitations on the number
+of glyphs allowed in the PostScript Type~1 format. Such fonts may be used
+by declaring the \feat{SmallCapsFont} of the family you are specifying:
+\begin{Verbatim}
+  \fontspec[
+    SmallCapsFont={Minion MM Small Caps & Oldstyle Figures},
+           ]{Minion MM Roman}
+  Roman 123 \\ \textsc{Small caps 456}
+\end{Verbatim}
+
+
+\subsection{Math(s) fonts}
+
+When \cmd\setmainfont, \cmd\setsansfont\ and \cmd\setmonofont\ are
+used in the preamble, they also define the fonts to be used in maths
+mode inside the \cmd\mathrm-type commands. This only occurs in the
+preamble because \LaTeX\ freezes the maths fonts after this stage of
+the processing. The \pkg{fontspec} package must also be loaded after
+any maths font packages (\eg, \pkg{euler}) to be
+successful. (Actually, it is \emph{only} \pkg{euler} that is the
+problem.\footnote{Speaking of \pkg{euler}, if you want to use its \texttt{[mathbf]} option, it won't work, and you'll need to put this after \pkg{fontspec} is loaded instead:\ttfamily\cmd\AtBeginDocument\char`\{\cmd\DeclareMathAlphabet\cmd\mathbf\char`\{U\char`\}\char`\{eur\char`\}\char`\{b\char`\}\char`\{n\char`\}})
+
+Note that you may find that loading some maths packages won't be as smooth as you expect since \pkg{fontspec} (and \XeTeX\ in general) breaks many of the assumptions of \TeX\ as to where maths characters and accents can be found. Contact me if you have troubles, but I can't guarantee to be able to fix any incompatibilities. The Lucida and Euler maths fonts (the latter loaded with \pkg{euler} rather than \pkg{eulervm}) should be fine; for all others keep an eye out for problems.
+
+\DescribeMacro{\setmathrm} \DescribeMacro{\setboldmathrm}
+\DescribeMacro{\setmathsf} \DescribeMacro{\setmathtt} 
+However, the default text fonts may not necessarily be the ones you
+wish to use when typesetting maths (especially with the use of fancy
+ligatures and so on). For this reason, you may optionally use those
+commands listed in the margin (in the same way as our other
+\cmd\fontspec-like commands) to explicitly state which fonts to use
+inside such commands as \cmd\mathrm. Additionally, the
+\cmd\setboldmathrm\ command allows you define the font used for
+\cmd\mathrm\ when in bold maths mode (which is activated with, among
+others, \cmd\boldmath).
+
+For example, if you were using Optima with the Euler maths font, you
+might have this in your preamble:
+\begin{Verbatim}[gobble=2]
+  \usepackage{mathpazo}
+  \usepackage{fontspec,xunicode}
+  \setmainfont{Optima}
+  \setmathrm{Optima}
+  \setboldmathrm[BoldFont=Optima ExtraBlack]{Optima Bold}
+\end{Verbatim}
+and this would allow you to typeset something like this:
+\begingroup
+\setmainfont{Optima Regular}
+\begin{example}
+  $ X \rightarrow \mathrm{X} \rightarrow \mathbf{X} $
+  \\\boldmath
+  $ X \rightarrow \mathrm{X} \rightarrow \mathbf{X} $
+\end{example}
+\endgroup
+
+\subsection{External fonts}
+\XeTeX\ v0.995 introduced the feature of loading
+fonts not installed through the operating system (`external' fonts). This feature is currently
+only available through the |xdvipdfmx| driver, which is notably \emph{not}
+the default on \MacOSX.
+
+This feature is handled in \pkg{fontspec} with the font feature \feat{ExternalLocation}.
+When this feature is used, the main argument to \cmd\fontspec\ is the \emph{file name} of the
+font (in contrast to the usual syntax which requires the font display name) and the argument
+to the feature is the (absolute) path to the font. For example:
+\begin{verbatim}
+    \fontspec[ExternalLocation=/Users/will/Fonts/]{CODE2000.TTF}
+\end{verbatim}
+
+If no path is given, then the font will be found in a location normally searched by
+\XeTeX, including the current directory. For example, the following declaration
+could load either the Latin Modern roman font in the current directory or, say, 
+in \path{$TEXMF/fonts/opentype/public/lm/}:
+\begin{verbatim}
+    \fontspec[ExternalLocation]{lmroman10-regular}
+\end{verbatim}
+
+Bold and italic fonts cannot be automatically selected when external fonts
+are being used; they must be explicitly declared using the methods
+described in \vref{sec:bfitfonts}.
+
+\subsection{Miscellaneous font selecting details}
+
+By the way, from v1.9, \cmd\fontspec\ and \cmd\addfontfeatures\ 
+will now ignore following spaces as if it were a `naked' control 
+sequence; \eg, `|M. \fontspec{...} N|' and `|M. \fontspec{...}N|' 
+are the same.
+
+Note that this package redefines the \cs{itshape} and \cs{scshape}
+commands in order to allow them to select italic small caps in
+conjunction. (This was implicitly shown in the first example,
+but it's worth mentioning now, too.)
+
+
+\section{Selecting font features} \label{sec:selectingfeature} 
+
+The commands discussed so far each take an optional argument for
+accessing the font features of the requested font. These features
+are generally unavailable or harder to access in regular \LaTeX. The
+font features and their options are described in
+\vref{sec:features}, but before we look at the range of available
+font features, it is necessary to discuss how they can  be applied.
+
+\subsection{Default settings} \label{sec:defaults}
+\DescribeMacro{\defaultfontfeatures} It is desirable to define
+options that are applied to every subsequent font selection command:
+a default feature set, so to speak. This may be defined with the
+\cmd{\defaultfontfeatures}\marg{font features} command. 
+New calls of \cs{defaultfontfeatures} overwrite previous ones.
+\begin{example}
+  \fontspec{Didot} 
+   Some `default' Didot 0123456789             \\
+  \defaultfontfeatures{Numbers=OldStyle, Colour=888888}
+  \fontspec{Didot}
+   Now grey, with old-style figures: 0123456789
+\end{example}
+
+\subsection{Changing the currently selected features}
+\label{sec:addfontfeatures}
+\DescribeMacro{\addfontfeatures} 
+The \cs{addfontfeatures}\marg{font features} 
+command allows font features to be changed without
+knowing what features are currently selected or even what font is
+being used. A good example of this could be to add a hook to all
+tabular material to use monospaced numbers, as shown in the
+following example:
+\begin{example}
+  \fontspec[Numbers=OldStyle]{Skia}
+  `In 1842, 999 people sailed 97 miles in 
+   13 boats. In 1923, 111 people sailed 54
+   miles in 56 boats.'            \bigskip
+
+  {\addfontfeatures{Numbers={Monospaced,Lining}}
+  \begin{tabular}{@{} cccc @{}}
+    \toprule  Year & People & Miles & Boats \\ 
+    \midrule  1842 &  999   &  75   &  13   \\ 
+              1923 &  111   &  54   &  56   \\
+    \bottomrule
+  \end{tabular}}
+\end{example}
+\DescribeMacro{\addfontfeature}
+This command may also be executed under the alias \cmd{\addfontfeature}.
+
+\subsection{Priority of feature selection}
+Features defined with \cs{addfontfeatures} override features
+specified by \cs{fontspec}, which in turn override features
+specified by \cs{defaultfontfeatures}.  If in doubt, whenever a
+new font is chosen for the first time, an entry is made in the
+transcript (\texttt{.log}) file displaying the font name and the
+features requested.
+
+\subsection{Different features for different font shapes}
+
+It is entirely possible that separate fonts in a family will require
+separate options; \eg, Hoefler Text Italic contains various swash
+feature options that are completely unavailable in the upright shapes.
+
+The font features defined at the top level of the optional \cmd\fontspec\
+argument are applied to \emph{all} shapes of the family.
+Using \feat{Upright-}, \feat{SmallCaps-}, \feat{Bold-}, 
+\feat{Italic-}, and \feat{BoldItalicFeatures}, 
+separate font features may be defined to their respective shapes
+\emph{in addition} to, and with precedence over, the `global' font features.
+\begin{aatexample}
+  \fontspec{Hoefler Text} \itshape \scshape
+  Attention All Martini Drinkers \\
+  \addfontfeature{ItalicFeatures={Alternate = 1}}
+  Attention All Martini Drinkers \\
+\end{aatexample}
+Combined with the options for selecting arbitrary \emph{fonts} for
+the different shapes, these separate feature options allow the
+selection of arbitrary weights in the Skia typeface, for example:
+\begin{aatexample}
+  \fontspec[BoldFont={Skia},
+   BoldFeatures={Weight=2}]{Skia}
+  Skia \\ \bfseries Skia `Bold'
+\end{aatexample}
+
+Note that because most fonts include their small caps glyphs
+within the main font, these features are applied \emph{in addition} to
+any other shape-specific features as defined above, and hence \feat{SmallCapsFeatures}
+can be nested within \feat{ItalicFeatures} and friends. Every combination
+of upright, italic, bold and small caps can thus be assigned individual 
+features, as shown in the following ludicrous example.
+\begin{example}
+  \fontspec[        
+      UprightFeatures={Colour = 220022,
+            SmallCapsFeatures = {Colour=115511}},
+       ItalicFeatures={Colour = 2244FF,
+            SmallCapsFeatures = {Colour=112299}},
+         BoldFeatures={Colour = FF4422,
+            SmallCapsFeatures = {Colour=992211}},
+   BoldItalicFeatures={Colour = 888844,
+            SmallCapsFeatures = {Colour=444422}},
+           ]{Hoefler Text}
+  Upright {\scshape Small Caps}\\
+  \itshape Italic {\scshape Italic Small Caps}\\
+  \upshape\bfseries Bold {\scshape Bold Small Caps}\\
+  \itshape Bold Italic {\scshape Bold Italic Small Caps}
+\end{example}
+
+\subsection{Different features for different font sizes}
+\label{sec:sizefeature}
+
+The \feat{SizeFeature} feature \new{v1.13} is a little more complicated
+than the previous features discussed. It allows different fonts
+and different font features to be selected for a given font
+family as the point size varies. 
+
+It takes a comma separated list of braced, comma separated lists of features for each size range.
+Each sub-list must contain the \opt{Size} option
+to declare the size range, and optionally \opt{Font} to change the
+font based on size. Other (regular) fontspec features that are added
+are used on top of the font features that would be used anyway.
+
+\begin{example}
+  \fontspec[ SizeFeatures={
+      {Size={-8}, Font=Apple Chancery, Colour=AA0000},
+      {Size={8-14}, Colour=00AA00},
+      {Size={14-}, Colour=0000AA}} ]{Skia} 
+  {\scriptsize Small\par} Normal size\par {\Large Large\par}
+\end{example}
+A less trivial example is shown in the context of optical font sizes
+in \vref{sec:opticalsize}.
+
+To be precise, the \opt{Size} sub-feature accepts arguments in the form shown in \vref{tab:sizing}.
+Braces around the size range are optional. For an exact font size (|Size=X|)
+font sizes chosen near that size will `snap'. For example, for size definitions
+at exactly 11pt and 14pt, if a 12pt font is requested \emph{actually} the 
+11pt font will be selected. This is a remnant of the past when fonts were designed
+in metal (at obviously rigid sizes) and later when bitmap fonts were similarly
+designed for fixed sizes.
+
+If additional features are only required for a single size, the other sizes
+must still be specified.  As in:
+\begin{verbatim}
+  SizeFeatures={
+     {Size=-10,Numbers=Uppercase},
+     {Size=10-}}
+\end{verbatim}
+Otherwise, the font sizes greater than 10 won't be defined!
+
+\begin{table}
+\centering
+\begin{tabular}{@{}ll@{}}
+\toprule
+Input & Font size, $s$ \\
+\midrule
+ |Size = X-| & $s \geq \texttt{X}$ \\
+ |Size = -Y| & $s < \texttt{Y}$ \\
+ |Size = X-Y| & $\texttt{X} \leq s < \texttt{Y}$ \\
+ |Size = X| & $s = \texttt{X}$ \\
+\bottomrule
+\end{tabular}
+\caption{Syntax for specifying the size to apply custom font features.}\label{tab:sizing}
+\end{table}
+
+
+\section{Font independent options} \label{sec:font-ind-features}
+
+Features introduced in this section may be used with any font. 
+
+\subsection{Scale}
+
+In its explicit form, \feat{Scale} takes a single
+numeric argument for linearly scaling the font, as demonstrated
+in \vref{sec:setxxfont}. 
+Since version 0.99 of \XeTeX, however, it is now possible to
+measure the correct dimensions of the fonts loaded, and hence
+calculate values to scale them automatically.
+
+The \feat{Scale} feature now \warn{v1.9}{As of Dec.\,2005} 
+also takes the options \opt{MatchLowercase}
+and \opt{MatchUppercase}, which will scale the font being selected to match
+the current default roman font to either the height of the lowercase or
+uppercase letters, respectively.
+\begin{example}
+  \setmainfont{Georgia}
+  \newfontfamily\lc[Scale=MatchLowercase]{Verdana}
+   The perfect match {\lc is hard to find.}\\
+  \newfontfamily\uc[Scale=MatchUppercase]{Arial}
+   L O G O \uc F O N T
+\end{example}
+The amount of scaling used in each instance is reported in the \texttt{.log} file.
+Since there is some subjectivity about the exact scaling to be used, these values
+should be used to fine-tune the results.
+
+\subsection{Mapping}
+
+\feat{Mapping} enables a \XeTeX\ text-mapping scheme.
+\begin{example}
+  \fontspec[Mapping=tex-text]{Cochin}
+  ``!`A small amount of---text!''
+\end{example}
+
+\subsection{Colour}
+
+\feat{Colour} (or \feat{Color}), also shown in \vref{sec:defaults} and
+\vref{sec:features}, uses \XeTeX\ font specifications to set the colour of
+the text. The colour is defined as a triplet of two-digit Hex RGB
+values, with optionally another value for the transparency (where
+|00| is completely transparent and |FF| is opaque.)
+\begin{example}
+  \fontsize{48}{48}
+  \fontspec{Hoefler Text Black}
+  {\addfontfeature{Color=FF000099}W}\kern-1ex
+  {\addfontfeature{Color=0000FF99}S}\kern-0.8ex
+  {\addfontfeature{Color=DDBB2299}P}\kern-0.8ex
+  {\addfontfeature{Color=00BB3399}R}
+\end{example}
+
+\subsection{Interword space}
+
+While the space between words can be varied on an individual
+basis with the \TeX\ primitive \cmd\spaceskip\ command, it is
+more convenient to specify this information when the font is
+first defined.
+
+The space in between words in a paragraph will be chosen automatically
+by \XeTeX, and generally will not need to be adjusted. For those
+times when the precise details are important, the \feat{WordSpace}
+features is
+provided, which takes either a single scaling factor to scale the
+value that \XeTeX\ has already chosen, or a triplet of comma-separated
+values for the nominal value, the stretch, and the shrink of the
+interword space, respectively. \Ie, |WordSpace=0.8| is the same as
+|WordSpace={0.8,0.8,0.8}|.
+
+For example, I believe that the Cochin font, as distributed with \MacOSX,
+is too widely spaced. Now, this can be rectified, as shown below.
+\begingroup
+\let\centering\relax
+\def\fillertext{Some filler text for our example to take up some
+  space, and to demonstrate the large default interword space in \textit{Cochin}.}
+\begin{example}
+  \fontspec{Cochin} 
+  \fillertext
+  \vspace{1em}
+
+  \fontspec[ WordSpace = {0.7 , 0.8 , 0.9} ]{Cochin}
+  \fillertext
+\end{example}
+\endgroup
+Be careful with the unpredictable things that the AAT font renderer
+can do with the text! Unlike \TeX, \MacOSX\ will allow
+fonts to letterspace themselves, which can be seen above; OpenType fonts, however, will not
+show this tendency, as they do not support this arguably dubious feature.
+
+\subsection{Post-punctuation space}
+
+If \cmd\frenchspacing\ is \emph{not} in effect, \TeX\ will allow extra
+space after some punctuation in its goal of justifying the lines of text.
+Generally, this is considered old-fashioned, but occasionally in small amounts the
+effect can be justified, pardon the pun.
+
+The \feat{PunctuationSpace} feature takes a scaling factor by which to
+adjust the nominal value chosen for the font. Note that |PunctuationSpace=0|
+is \emph{not} equivalent to \cmd\frenchspacing, although the difference
+will only be apparent when a line of text is under-full.
+\begingroup
+\let\centering\relax
+\begin{example}
+  \nonfrenchspacing
+  \fontspec{Baskerville} 
+   Letters, Words. Sentences.          \par
+  \fontspec[PunctuationSpace=0.5]{Baskerville} 
+   Letters, Words. Sentences.          \par
+  \fontspec[PunctuationSpace=0]{Baskerville} 
+   Letters, Words. Sentences.
+\end{example}
+\endgroup
+
+Also be aware that the above caveat for interword space also applies here,
+so after the last line in the above example, the \feat{PunctuationSpace}
+for \emph{all} Baskerville instances will be |0|.
+
+\subsection{Letter spacing}
+Letter spacing, or tracking, is the term given to adding (or subtracting) a small amount of horizontal space in between adjacent characters. It is specified with the \feat{LetterSpace}, which takes a numeric argument. 
+
+The letter spacing parameter is a normalised additive factor (not a scaling factor); it is defined as a percentage of the font size. That is, for a 10\,pt font, a letter spacing parameter of `|1.0|' will add 0.1\,pt between each letter.
+\begin{example}
+  \fontspec{Didot}
+  \addfontfeature{LetterSpace=0.0}
+  USE TRACKING FOR DISPLAY CAPS TEXT \\
+  \addfontfeature{LetterSpace=2.0}
+  USE TRACKING FOR DISPLAY CAPS TEXT
+\end{example}
+This functionality \emph{should not be used for lowercase text}, which is spacing correctly to begin with, but it can be very useful, in small amounts, when setting small caps or all caps titles.
+Also see the OpenType \opt{Uppercase} 
+option of the \feat{Letters} feature (\vref*{sec:letters}).
+
+
+\subsection{The hyphenation character}
+
+The letter used for hyphenation may be chosen with the \feat{HyphenChar}
+feature. It takes three types of input, which are chosen according to some
+simple rules. If the input is the string \opt{None}, then hyphenation is
+suppressed for this font. If the input is a single character, then this
+character is used. Finally, if the input is longer than a single character
+it must be the UTF-8 slot number of the hyphen character you desire.
+
+Below, Adobe Garamond Pro's uppercase hyphenation character
+  \note{I found the character, and its number, in \MacOSX's Character Palette.}
+is used to demonstrate a possible use for this feature. 
+The second example redundantly demonstrates the default behaviour
+of using the hyphen as the hyphenation character.
+\begingroup
+\let\centering\relax
+\begin{example}
+  \def\text
+    {A MULTITUDE OF OBSTREPEROUSLY HYPHENATED ENTITIES
+                                       \par\vspace{1ex}}
+  \fontspec[HyphenChar=None]{Adobe Garamond Pro} \text
+  \fontspec[HyphenChar={-}]{Adobe Garamond Pro} \text
+  \fontspec[HyphenChar="F6BA]{Adobe Garamond Pro} \text
+\end{example}
+\endgroup
+Note that in an actual situation, the \opt{Uppercase} option of the \feat{Letters} feature
+would probably supply this for you (see \vref{sec:letters}).
+
+The \pkg{xltxtra} package redefines \LaTeX's \cmd\-\ macro
+such that it adjusts along with the above changes.
+
+
+\subsection{Font transformations}
+
+In rare situations users may want to mechanically distort the shapes of the glyphs in the current font. Please don't overuse these features; they can be extremely ugly if overused.
+
+\begin{example}
+  \fontspec{Charis SIL} \emph{ABCxyz} \quad
+  \fontspec[FakeSlant=0.2]{Charis SIL} ABCxyz
+\end{example}
+
+\begin{example}
+  \fontspec{Charis SIL}  ABCxyz \quad
+  \fontspec[FakeStretch=1.2]{Charis SIL} ABCxyz
+\end{example}
+
+\begin{example}
+  \fontspec{Charis SIL} \textbf{ABCxyz} \quad
+  \fontspec[FakeBold=1.5]{Charis SIL} ABCxyz
+\end{example}
+
+If values are omitted, their defaults are as shown above.
+
+\section{Font-dependent features}  \label{sec:features} 
+
+This section covers each and every font feature catered for by this
+package. Some, in fact, have already be seen in previous
+sections. There are too many to list in this introduction, but for a
+first taste of what is available, here is an example of the Apple
+Chancery typeface:
+\setexsize\Large
+\begin{aatexample}
+  \fontspec[
+    Colour=CC00CC,
+    Numbers=OldStyle,
+    VerticalPosition=Ordinal,
+    Variant=2]{Apple Chancery}
+  My 1st example of\\ Apple Chancery
+\end{aatexample}
+Multiple options may be given to
+any feature that accepts non-numerical input, although doing so will
+not always work. Some options will override others in generally
+obvious ways; \Verb|Numbers={OldStyle,Lining}| doesn't make much
+sense because the two options are mutually exclusive, and \XeTeX\
+will simply use the last option that is specified (in this case
+using \opt{Lining} over \opt{OldStyle}).
+
+If a feature or an option is requested that the font does not have,
+a warning is given in the console output. As mentioned in \vref{sec:quiet-warnings}
+these warnings can be suppressed by selecting the \texttt{[quiet]} package option.
+
+\subsection{Different font technologies: AAT and ICU}\label{sec:renderer}
+
+\XeTeX\ supports two rendering technologies for typesetting, selected with
+the \feat{Renderer} font feature. The first, \opt{AAT}, is
+that provided (only) by \MacOSX\ itself. The second, \opt{ICU},
+is an open source OpenType interpreter. It provides much greater support for
+OpenType features, notably contextual arrangement, over \opt{AAT}.
+
+In general, this feature will not need to be explicitly called: for OpenType
+fonts, the \opt{ICU} renderer is used automatically, and for AAT fonts,
+\opt{AAT} is chosen by default. Some fonts, however, will contain font tables
+for \emph{both} rendering technologies, such as the Hiragino Japanese fonts
+distributed with \MacOSX, and in these cases the choice may be required.
+
+Among some other font features only available through a specific renderer, 
+\opt{ICU} provides for the \feat{Script} and \feat{Language} features, which allow
+different font behaviour for different alphabets and languages; see \vref{sec:ot}
+for the description of these features. {\em Because these font features can
+change which features are able to be selected for the font instance, they are selected
+by \pkg{fontspec} before all others and will automatically and without warning 
+select the \opt{ICU} renderer.}
+
+
+\subsection{Optical font sizes} \label{sec:opticalsize}
+
+Optically scaled fonts thicken out as the font size decreases
+in order to make the glyph shapes more robust (less prone to losing
+detail), which improves legibility. Conversely, at large optical
+sizes the serifs and other small details may be more delicately
+rendered.
+
+Optically sized fonts can be seen in either OpenType or Multiple
+Master varieties. The differences when dealing with these two are
+quite significant. OpenType fonts with optical scaling will exist in
+several discrete sizes, and these will be selected by \XeTeX\
+\emph{automatically} determined by the current font size. The
+\opt{OpticalSize} option may be used to specify a different optical
+size.
+
+For the OpenType font Warnock Pro, we have three optically sized
+variants: caption, subhead, and display. With \opt{OpticalSize} set
+to zero, no optical size font substitution is performed:
+\begin{opentypeexample}
+  \fontspec[OpticalSize=0]{Warnock Pro Caption}
+   Warnock Pro optical sizes                \\
+  \fontspec[OpticalSize=0]{Warnock Pro}        
+   Warnock Pro optical sizes                \\
+  \fontspec[OpticalSize=0]{Warnock Pro Subhead}
+   Warnock Pro optical sizes                \\
+  \fontspec[OpticalSize=0]{Warnock Pro Display}
+   Warnock Pro optical sizes
+\end{opentypeexample}
+
+Automatic OpenType optical scaling is shown in the following
+example, in which we've scaled down some large text in order to be
+able to compare the difference for equivalent font sizes: (this
+gives the same output as we saw in the previous example for Warnock
+Pro Display)
+\begin{opentypeexample}
+  \fontspec{Warnock Pro}
+   Automatic optical size                  \\
+  \scalebox{0.4}{\Huge 
+   Automatic optical size}
+\end{opentypeexample}
+
+Multiple Master fonts, on the other hand, are parameterised over
+orthogonal font axes, allowing continuous selection along such
+features as weight, width, and optical size~(see \vref{sec:mm} for
+further details). Whereas an OpenType font will have only a few separate
+optical sizes, a Multiple Master font's optical size can be
+specified over a continuous range. Unfortunately, this flexibility makes
+it harder to create an automatic interface through \LaTeX, and the
+optical size for a Multiple Master font must always be specified
+explicitly.
+\begin{Verbatim}
+  \fontspec[OpticalSize=11]{Minion MM Roman} 
+   MM optical size test                    \\
+  \fontspec[OpticalSize=47]{Minion MM Roman} 
+   MM optical size test                    \\
+  \fontspec[OpticalSize=71]{Minion MM Roman} 
+   MM optical size test                    \\
+\end{Verbatim}
+
+The \feat{SizeFeatures} feature (\vref{sec:sizefeature}) can be
+used to specify exactly which optical sizes will be used for ranges
+of font size. For example, something like
+\begin{verbatim}
+  \fontspec[
+    SizeFeatures={
+      {Size=-10,     OpticalSize=8 },
+      {Size= 10-14,  OpticalSize=10},
+      {Size= 14-18,  OpticalSize=14},
+      {Size=    18-, OpticalSize=18}}
+           ]{Warnock Pro}
+\end{verbatim}
+
+\subsection{Ligatures}
+
+\feat{Ligatures} refer to the replacement of two separate characters
+with a specially drawn glyph for functional or \ae sthetic reasons.
+For AAT fonts, you may choose from any combination of \opt{Required},
+\opt{Common}, \opt{Rare} (or \opt{Discretionary}), \opt{Logos}, \opt{Rebus},
+\opt{Diphthong}, \opt{Squared}, \opt{AbbrevSquared}, and \opt{Icelandic}.
+
+The first three are also supported in OpenType fonts, which may also
+use \opt{Historical} and \opt{Contextual}. To turn a ligature option
+\emph{off}, prefix its name with \opt{No}: \eg, \opt{NoDiphthong}.
+\setexsize\Large
+\begin{opentypeexample}
+  \fontspec[Ligatures=Rare]{Adobe Garamond Pro}
+   \textit{strict firefly}                \\
+  \fontspec[Ligatures=NoCommon]{Adobe Garamond Pro}
+   \textit{strict firefly}
+\end{opentypeexample}
+Some other Apple AAT fonts have those `Rare' ligatures contained in
+the \opt{Icelandic} feature. Notice also that the old \TeX\ trick of
+splitting up a ligature with an empty brace pair does not work in
+\XeTeX; you must use a 0\,pt kern or \cs{hbox} (\eg, \cs{null}) to
+split the characters up.
+
+\subsection{Letters} \label{sec:letters}
+The \opt{Letters} feature~\warn{v1.6}{This feature has changed names
+  along with its options, \textbf{breaking} backwards
+  compatibility!}  specifies how the letters in the current font
+will look. For AAT fonts, you may choose from \opt{Normal},
+\opt{Uppercase}, \opt{Lowercase}, \opt{SmallCaps}, and
+\opt{InitialCaps}.
+
+OpenType fonts have some different options:
+\opt{Uppercase}, \opt{SmallCaps}, \opt{PetiteCaps}, 
+\opt{UppercaseSmallCaps}, \opt{UppercasePetiteCaps}, and
+\opt{Unicase}.
+  \warn{v1.9}{The \texttt{Uppercase...} variants have changed 
+    (\eg, from \opt{SMALLCAPS}) to allow for more flexible 
+    option handling in the future. The old forms still work, for now\dots}
+Petite caps are smaller than small caps. Mixed case
+commands turn lowercase letters into the smaller caps letters,
+whereas uppercase options turn the capital letters to the smaller
+caps (good, \eg, for applying to already uppercase acronyms like
+`NASA'). `Unicase' is a weird hybrid of upper and lower case
+letters.
+\begin{opentypeexample}
+  \fontspec[Letters=SmallCaps]{TeX Gyre Adventor}
+   THIS SENTENCE no verb                \\
+  \fontspec[Letters=UppercaseSmallCaps]{TeX Gyre Adventor}
+   THIS SENTENCE no verb
+\end{opentypeexample}
+The \opt{Uppercase} option is also provided \emph{but} it will (probably)
+not actually map letters to uppercase.
+ \note{If you want automatic uppercase letters, look to \LaTeX's
+      \cmd\MakeUppercase\ command.}
+It will, however, select various
+uppercase forms for glyphs such as accents and dashes.
+\begin{opentypeexample}
+  \fontspec{Warnock Pro}
+   UPPER-CASE EXAMPLE \\
+  \addfontfeature{Letters=Uppercase}
+   UPPER-CASE EXAMPLE
+\end{opentypeexample}
+The \feat{Kerning} feature also contains an \opt{Uppercase} option,
+which adds a small amount of spacing in between letters (see \vref{sec:kerning}).
+This feature was originally planned to be included with the one above (so \feat{Letters=}\opt{Uppercase} would do both punctuation \emph{and} tracking), but I decided
+that it would be a bad idea to break the one-to-one correspondence with \pkg{fontspec}
+and OpenType features. (Sorry TUGboat readers!)
+
+\subsection{Numbers} 
+The \feat{Numbers} feature defines how numbers will look in the
+selected font. For both AAT and OpenType fonts, they may be a
+combination of \opt{Lining} or \opt{OldStyle} and \opt{Proportional} or
+\opt{Monospaced} (the latter is good for tabular material). The synonyms
+\opt{Uppercase} and \opt{Lowercase} are equivalent to \opt{Lining} and
+\opt{OldStyle}, respectively. The differences have been shown previously
+in \vref{sec:addfontfeatures}.
+
+For OpenType fonts, there is also the \opt{SlashedZero} option which
+replaces the default zero with a slashed version to prevent
+confusion with an uppercase `O'.
+\begin{opentypeexample}
+  \fontspec[Numbers=Lining]{TeX Gyre Bonum}
+   0123456789
+  \fontspec[Numbers=SlashedZero]{TeX Gyre Bonum}
+   0123456789
+\end{opentypeexample}
+
+\subsection{Contextuals} \label{sec:contextuals}
+This feature refers to glyph substitution that vary by their position;
+things like contextual swashes are implemented here 
+ \warn{v1.9}{This feature used to be called \feat{Swashes}. This name still works, for now.}.
+The options for AAT fonts are
+\opt{WordInitial}, \opt{WordFinal}, \opt{LineInitial},
+\opt{LineFinal}, and \opt{Inner} (also called `non-final' sometimes). As
+non-exclusive selectors, like the ligatures, you can turn them off
+by prefixing their name with \opt{No}.
+\begin{aatexample}
+  \newfontface\fancy
+      [Contextuals={WordInitial,WordFinal}]
+                       {Hoefler Text Italic}
+  \fancy where is all the vegemite
+\end{aatexample}
+\begin{aatexample}
+  \fontspec[Contextuals=Inner]{Hoefler Text}
+  `Inner' swashes can \emph{sometimes}    \\
+   contain the archaic long~s.
+\end{aatexample} 
+For OpenType fonts, all feature options as above but the \opt{LineInitial} feature are supported, 
+and \opt{Swash} turns on contextual
+swashes \warn{v1.9}{Used to be \opt{Contextual}; still works.}.
+\begin{opentypeexample}
+  \fontspec{Warnock Pro} \itshape
+   Without Contextual Swashes             \\
+  \fontspec[Contextuals=Swash]{Warnock Pro}
+   With Contextual Swashes; cf. W C S
+\end{opentypeexample}
+Historic forms (\eg, long~s as shown above) are accessed in OpenType
+fonts via the feature \feat{Style=Historic}; this is generally \emph{not}
+contextual in OpenType, which is why it is not included here.
+
+New option \opt{Alternate} corresponds to the raw feature |calt| \new{v1.18}. It should usually be activated by default. 
+
+
+\subsection{Vertical position} 
+The \feat{VerticalPosition} feature is used to access things like
+subscript (\opt{Inferior}) and superscript (\opt{Superior}) numbers and
+letters (and a small amount of punctuation, sometimes). 
+The \opt{Ordinal} option is (supposed to be)
+contextually sensitive to only raise characters that appear directly
+after a number.
+\begin{aatexample}
+  \fontspec{Skia}
+   Normal
+  \fontspec[VerticalPosition=Superior]{Skia}
+   Superior
+  \fontspec[VerticalPosition=Inferior]{Skia}
+   Inferior                \\
+  \fontspec[VerticalPosition=Ordinal]{Skia}
+   1st 2nd 3rd 4th 0th 8abcde
+\end{aatexample}
+OpenType fonts also have the option \opt{ScientificInferior} which
+extends further below the baseline than \opt{Inferior}s, as well as
+\opt{Numerator} and \opt{Denominator} for creating arbitrary fractions (see
+next section). Beware, the \opt{Ordinal} feature will not work
+correctly for all OpenType fonts!
+\begin{opentypeexample}
+  \fontspec[VerticalPosition=Superior]{Warnock Pro}
+   Sup: abdehilmnorst (-\$12,345.67)                      \\
+  \fontspec[VerticalPosition=Numerator]{Warnock Pro}
+   Numerator: 12345                                       \\
+  \fontspec[VerticalPosition=Denominator]{Warnock Pro}
+   Denominator: 12345                                     \\
+  \fontspec[VerticalPosition=ScientificInferior]{Warnock Pro}
+   Scientific Inferior: 12345                             \\
+  \fontspec[VerticalPosition=Ordinal]{Warnock Pro}
+  `Ordinals': 1st 2nd 3rd 4th 0th
+\end{opentypeexample}
+
+The \pkg{xltxtra} package redefines the \cmd\textsubscript\ and
+\cmd\textsuperscript\ commands to use the above font features.
+
+\subsection{Fractions}
+Many fonts come with the capability to typeset various forms of
+fractional material. This is accessed in \pkg{fontspec} with the
+\feat{Fractions} feature, which may be turned \opt{On} or \opt{Off}
+in both AAT and OpenType fonts.~\warn{v1.7}{This feature has
+  changed: no backwards compatibility!}
+
+In AAT fonts, the `fraction slash' or solidus character, which may
+be obtained by typing `{\fontspec{Lucida Grande}⌥⇧\,1}', is
+to be used to create fractions. When \feat{Fractions} are turned
+\opt{On}, then only pre-drawn fractions will be used.
+\begingroup\setmonofont[Scale=0.8]{Monaco}
+\begin{aatexample}
+  \fontspec[Fractions=On]{Skia}
+   1⁄2 \quad 5⁄6 \\ % fraction slash
+   1/2 \quad 5/6    % regular  slash
+\end{aatexample}
+\endgroup
+Using the \opt{Diagonal} option (AAT only), the font will attempt
+to create the fraction from superscript and subscript
+characters. This is shown in the following example:
+\begingroup\setmonofont[Scale=0.8]{Monaco}
+\begin{aatexample}
+  \fontspec[Fractions=Diagonal]{Skia}
+         13579⁄24680 \\ % fraction slash
+   \quad 13579/24680    % regular  slash
+\end{aatexample}
+\endgroup
+OpenType fonts simply use a regular text slash to create fractions:
+\begin{opentypeexample}
+  \fontspec{Hiragino Maru Gothic Pro W4}
+   1/2 \quad 1/4 \quad 5/6 \quad 13579/24680 \\
+  \addfontfeature{Fractions=On}
+   1/2 \quad 1/4 \quad 5/6 \quad 13579/24680 \\
+\end{opentypeexample}
+Some (Asian fonts predominantly) also provide for the
+\opt{Alternate} feature:
+\begin{opentypeexample}
+  \fontspec{Hiragino Maru Gothic Pro W4}
+   1/2 \quad 1/4 \quad 5/6 \quad 13579/24680 \\
+  \addfontfeature{Fractions=Alternate}
+   1/2 \quad 1/4 \quad 5/6 \quad 13579/24680 \\
+\end{opentypeexample}
+The \pkg{xltxtra} package provides a \cmd\vfrac\ command
+for creating arbitrary so-called `vulgar' fractions:
+\begin{opentypeexample}
+  \fontspec{Warnock Pro}
+  \vfrac{13579}{24680}
+\end{opentypeexample}
+
+
+\subsection{Variants}
+The \feat{Variant} feature takes a single numerical input for
+choosing different alphabetic shapes. Don't mind my fancy example
+\texttt{:)} I'm just looping through the nine~(\,!\,) variants of
+Zapfino.
+\setexsize\Huge
+\def\firstline{2}\def\lastline{9}
+\begin{aatexample}
+  \rule{0pt}{2cm}%
+  \newcounter{var}\newcounter{trans}
+  \whiledo{\value{var}<9}{%
+    \stepcounter{trans}%
+    \fontspec[Variant=\thevar,
+      Colour=005599\thetrans\thetrans]{Zapfino}%
+    \makebox[0.75\width]{d}%
+    \stepcounter{var}}
+\end{aatexample}
+For OpenType fonts, \opt{Variant} selects a `Stylistic Set', again 
+specified numerically. I don't have a font to
+demonstrate this feature with, unfortunately.
+See \vref{sec:newfeatures} for a way to assign names to variants,
+which should be done on a per-font basis.
+
+\subsection{Alternates} 
+
+Selection of \feat{Alternate}s \emph{again}
+must be done numerically. Here's an example with an AAT font:
+\begin{aatexample}
+  \fontspec[Alternate=0]{Hoefler Text Italic}
+   Sphinx Of Black Quartz, {\scshape Judge My Vow} \\
+  \fontspec[Alternate=1]{Hoefler Text Italic}
+   Sphinx Of Black Quartz, {\scshape Judge My Vow}
+\end{aatexample}
+See \vref{sec:newfeatures} for a way to assign names to alternates,
+which should be done on a per-font basis.
+
+For OpenType fonts, this option is used to access numerical
+variations of the raw |salt| feature \new{v1.18}. I can't show an example,
+but here's how it would be used:
+\begin{verbatim}
+  \fontspec[Alternate=1]{Garamond Premier Pro}
+\end{verbatim}
+Numbering starts from |0| for the first stylistic alternate.
+Note that the \texttt{Style=Alternate} option is equivalent
+to \texttt{Alternate=0} to access the default case.
+
+\subsection{Style}
+The options of the \feat{Style} feature 
+are defined in AAT as one of the following: \opt{Display},
+\opt{Engraved}, \opt{IlluminatedCaps}, \opt{Italic}, 
+\opt{Ruby},\footnotemark\ \opt{TallCaps}, or \opt{TitlingCaps}.
+\footnotetext{`Ruby' refers to a small optical size, used in
+Japanese typography for annotations.}
+\let\savemark\@thefnmark
+
+ICU supported options are \opt{Alternate},
+\opt{Italic}, \opt{Historic},
+\opt{Ruby},\footnotemark[\savemark] 
+\opt{Swash}, \opt{TitlingCaps}, \opt{HorizontalKana}, and \opt{VerticalKana}.
+\setexsize\Large
+ \begin{opentypeexample}
+  \fontspec{Warnock Pro}
+   K Q R k v w y                      \\
+  \addfontfeature{Style=Alternate}
+   K Q R k v w y
+\end{opentypeexample}
+Note the occasional inconsistency with which font features are labelled; a long-tailed `Q' could turn up anywhere!
+\setexsize\Large
+\begin{opentypeexample}
+  \fontspec{Adobe Jenson Pro}
+   M Q Z                              \\
+  \addfontfeature{Style=Historic}
+   M Q Z
+\end{opentypeexample}
+\setexsize\Large
+\begin{example}
+  \fontspec{Adobe Garamond Pro}
+   TITLING CAPS                       \\
+  \addfontfeature{Style=TitlingCaps}
+   TITLING CAPS
+\end{example}
+Two features in one example; \opt{Italic} affects the Latin text and \opt{Ruby} the Japanese:
+\setexsize\Large
+\begin{opentypeexample}
+  \fontspec{Hiragino Mincho Pro W3}
+   Latin ようこそ ワカヨタレソ        \\
+  \addfontfeature{Style={Italic, Ruby}}
+   Latin ようこそ ワカヨタレソ
+\end{opentypeexample}
+Note the difference here between the default and the horizontal style kana:
+\setexsize\Large
+\begin{aatexample}
+   \fontspec{Hiragino Mincho Pro}
+    ようこそ ワカヨタレソ  \\
+  {\addfontfeature{Style=HorizontalKana}
+    ようこそ ワカヨタレソ} \\
+  {\addfontfeature{Style=VerticalKana}
+    ようこそ ワカヨタレソ}
+\end{aatexample}
+
+\subsection{Diacritics}
+Diacritics refer to characters that include extra marks that usually
+indicate pronunciation; \eg, accented letters. You may either choose
+to \opt{Show}, \opt{Hide} or \opt{Decompose} them in AAT fonts.
+
+Some fonts include |O/| \etc\ as diacritics for writing \O. You'll
+want to turn this feature off (imagine typing |hello/goodbye| and
+getting `hell\o goodbye' instead!) by decomposing the two characters
+in the diacritic into the ones you actually
+want. I would recommend using
+the proper \TeX\ input conventions for obtaining such characters
+instead.
+
+The \opt{Hide} option is for Arabic-like fonts which may be
+displayed either with or without vowel markings.
+
+No options for OpenType fonts.
+
+\subsection{Kerning}\label{sec:kerning}
+Well designed fonts contain kerning information that controls the spacing between 
+letter pairs, on an individual basis. The \feat{Kerning} feature provides
+options to control this, for OpenType fonts only.
+
+The options provided for now are \opt{On}, \opt{Off} (don't know why you'd want to), and \opt{Uppercase}.
+\begin{opentypeexample}
+  \fontspec{Warnock Pro}
+   Ta AV                \\
+  \fontspec[Kerning=Off]{Warnock Pro}
+   Ta AV
+\end{opentypeexample}
+
+As briefly mentioned previously at the end of \vref{sec:letters}, 
+the \opt{Uppercase} option will add a small amount of tracking between uppercase letters:
+\begin{opentypeexample}
+  \fontspec{Warnock Pro}
+   UPPER-CASE EXAMPLE \\
+  \addfontfeature{Kerning=Uppercase}
+   UPPER-CASE EXAMPLE
+\end{opentypeexample}
+
+\subsection{CJK shape}
+There have been many standards for how CJK ideographic
+glyphs are `supposed' to look. Some fonts will contain many alternate
+glyphs available in order to be able to display these gylphs
+correctly in whichever form is appropriate. Both AAT and OpenType
+fonts support the following \feat{CJKShape} options 
+  \warn{v1.9}{Was \feat{CharacterShape}, which wasn't very descriptive.
+    \textbf{No} backwards compatibility.}:
+\opt{Traditional}, \opt{Simplified}, \opt{JIS1978}, \opt{JIS1983},
+\opt{JIS1990}, and \opt{Expert}. OpenType also supports the \opt{NLC} option.
+\setexsize\LARGE
+\begin{opentypeexample}
+  \fontspec{Hiragino Mincho Pro}
+  {\addfontfeature{CJKShape=Traditional}
+   唖噛躯 妍并訝 }                          \\
+  {\addfontfeature{CJKShape=NLC}
+   唖噛躯 妍并訝 }                          \\
+  {\addfontfeature{CJKShape=Expert}
+   唖噛躯 妍并訝 }
+\end{opentypeexample}
+
+\subsection{Character width}\label{sec:CharacterWidth}
+Many Asian fonts are equipped with variously spaced characters for
+shoe-horning into their generally monospaced text. 
+These are
+accessed through the \feat{CharacterWidth} feature.
+  \note{Apple
+  seems to be adapting its AAT features in this regard (at least in
+  the fonts it distributes with \MacOSX) to have a one-to-one
+  correspondence with the equivalent OpenType features. Previously
+  AAT was more fine grained, but naturally they're not documenting
+  their AAT tables any more, so if the following features don't work
+  for a specific font let me know and I'll try and see if anything
+  can be salvaged from the situation.} 
+  \warn{v1.9}{Was \feat{TextSpacing}, which wasn't very descriptive.
+    \textbf{No} backwards compatibility.}
+For now, OpenType and AAT
+share the same six options for this feature: \opt{Proportional},
+\opt{Full}, \opt{Half}, \opt{Third},
+\opt{Quarter}, \opt{AlternateProportional}, and
+\opt{AlternateHalf}. AAT also allows \opt{Default} to return to
+whatever was originally specified.
+
+Japanese alphabetic glyphs (in Hiragana or Katakana) may be typeset
+proportionally, to better fit horizontal measures, or monospaced, to
+fit into the rigid grid imposed by ideographic typesetting. In this
+latter case, there are also half-width forms for squeezing more kana
+glyphs (which are less complex than the kanji they are amongst) into
+a given block of space. The same features are given to roman letters
+in Japanese fonts, for typesetting foreign words in the same style
+as the surrounding text.
+\begin{opentypeexample}
+  \def\test{\makebox[2cm][l]{ようこそ}%
+            \makebox[2.5cm][l]{ワカヨタレソ}%
+            \makebox[2.5cm][l]{abcdef}}
+  \fontspec{Hiragino Mincho Pro}
+  {\addfontfeature{CharacterWidth=Proportional}\test}\\
+  {\addfontfeature{CharacterWidth=Full}\test}\\
+  {\addfontfeature{CharacterWidth=Half}\test}
+\end{opentypeexample}
+The same situation occurs with numbers, which are provided in
+increasingly illegible compressed forms: 
+\setexsize\large
+\begin{aatexample}
+  \fontspec[Renderer=AAT]{Hiragino Mincho Pro}
+  {\addfontfeature{CharacterWidth=Full}
+   ---12321---}\\
+  {\addfontfeature{CharacterWidth=Half}
+   ---1234554321---}\\
+  {\addfontfeature{CharacterWidth=Third}
+   ---123456787654321---}\\
+  {\addfontfeature{CharacterWidth=Quarter}
+   ---12345678900987654321---}
+\end{aatexample}
+The option \opt{CharacterWidth=Full} doesn't work with the
+default OpenType font renderer (ICU) due to a bug in the Hiragino fonts.
+
+
+\subsection{Annotation}
+Various Asian fonts are equipped with a more extensive range of
+numbers and numerals in different forms. These are accessed through
+the \feat{Annotation} feature with the following options: \opt{Off},
+\opt{Box}, \opt{RoundedBox}, \opt{Circle}, \opt{BlackCircle},
+\opt{Parenthesis}, \opt{Period}, \opt{RomanNumerals}, \opt{Diamond},
+\opt{BlackSquare}, \opt{BlackRoundSquare}, and \opt{DoubleCircle}.
+\begin{aatexample}
+  \fontspec{Hei Regular}
+   1 2 3 4 5 6 7 8 9                         \\
+  \fontspec[Annotation=Circle]{Hei Regular}
+   1 2 3 4 5 6 7 8 9                         \\
+  \fontspec[Annotation=Parenthesis]{Hei Regular}
+   1 2 3 4 5 6 7 8 9                         \\
+  \fontspec[Annotation=Period]{Hei Regular}
+   1 2 3 4 5 6 7 8 9
+\end{aatexample}
+For OpenType fonts, the only option supported is \opt{On} and \opt{Off}:
+\begin{opentypeexample}
+  \fontspec{Hiragino Maru Gothic Pro}
+   1 2 3 4 5 6 7 8 9                         \\
+  \addfontfeature{Annotation=On}
+   1 2 3 4 5 6 7 8 9    
+\end{opentypeexample}
+I'm not sure if \XeTeX\ can access alternate annotation
+forms, even if they exist (as in this case) in the font.
+
+\subsection{Vertical typesetting}
+
+\XeTeX\ provides for vertical typesetting simply with the ability to rotate 
+the individual glyphs as a font is used for typesetting.
+
+\begin{aatexample}
+  \fontspec{Hiragino Mincho Pro}
+  共産主義者は
+
+  \fontspec[Renderer=AAT,Vertical=RotatedGlyphs]{Hiragino Mincho Pro}
+  \rotatebox{-90}{共産主義者は}% requires the graphicx package
+\end{aatexample}
+
+No actual provision is made for typesetting top-to-bottom
+languages; for an example of how to do this, see the vertical Chinese
+example provided in the \XeTeX\ documentation.
+
+\subsection{AAT \& Multiple Master font axes} \label{sec:mm}
+
+Multiple Master and AAT font specifications both provide continuous 
+variation along font parameters. For example, they don't have just
+regular and bold weights, they can have any bold weight you like between
+the two extremes.
+
+\opt{Weight}, \opt{Width}, and \opt{OpticalSize} are supported by this
+package. Skia, which is distributed with
+Mac~OS~X, has two of these variable parameters, allowing for a
+demonstration:
+\begin{aatexample}
+  \fontspec[Weight=0.5,Width=3]{Skia}
+   Really light and extended Skia         \\
+  \fontspec[Weight=2,Width=0.5]{Skia}
+   Really fat and condensed Skia
+\end{aatexample}
+Variations along a multiple master font's optical size axis has been
+shown previously in \vref{sec:opticalsize}.
+
+
+\subsection{OpenType scripts and languages}\label{sec:ot}
+
+When dealing with fonts that include glyphs for various languages,
+they may contain different font features for the different character
+sets and languages it supports. These may be selected with the
+\feat{Script} and \feat{Language} features. The possible options are
+tabulated in \vref{tab:ot-scpt} and \vref{tab:ot-lang},
+respectively. When a script or language is requested that is not
+supported by the current font, a warning is printed in the console output.
+
+Because these font features can
+change which features are able to be selected for the font, they are selected
+by \pkg{fontspec} before all others and will specifically select the \opt{ICU}
+renderer for this font, as described in \vref{sec:renderer}.
+
+\subsubsection{\feat{Script} examples}
+
+In the following examples, the same font is used to typeset the
+verbatim input and the \XeTeX\ output. Because the \opt{Script} is
+only specified for the output, the text is rendered incorrectly in
+the verbatim input. Many examples of incorrect diacritic spacing as
+well as a lack of contextual ligatures and rearrangement can be
+seen. Thanks to \name{Jonathan Kew}, \name{Yves Codet} and
+\name{Gildas Hamel} for their contributions towards these examples.
+
+\begingroup\setmonofont{Code2000}
+\setverbwidth{0.5\textwidth}
+\begin{opentypeexample}
+  \fontspec[Script=Arabic]{Code2000}
+   العربي   
+\end{opentypeexample}
+\begin{opentypeexample}
+  \fontspec[Script=Devanagari]{Code2000}
+   हिन्दी   
+\end{opentypeexample}
+\begin{opentypeexample}
+  \fontspec[Script=Bengali]{Code2000}
+   লেখ   
+\end{opentypeexample}
+\begin{opentypeexample}
+  \fontspec[Script=Gujarati]{Code2000}
+   મર્યાદા-સૂચક નિવેદન  
+\end{opentypeexample}
+\begin{opentypeexample}
+  \fontspec[Script=Malayalam]{Code2000}
+   നമ്മുടെ പാരബര്യ  
+\end{opentypeexample}
+\begin{opentypeexample}
+  \fontspec[Script=Gurmukhi]{Code2000}
+   ਆਦਿ ਸਚੁ ਜੁਗਾਦਿ ਸਚੁ  
+\end{opentypeexample}
+\begin{opentypeexample}
+  \fontspec[Script=Tamil]{Code2000}
+   தமிழ் தேடி  
+\end{opentypeexample}
+\begin{opentypeexample}
+  \fontspec[Script=Hebrew]{Code2000}
+   רִדְתָּֽהּ
+\end{opentypeexample}
+\endgroup
+
+\subsubsection{\feat{Language} examples}
+
+Vietnamese requires careful diacritic placement:
+\begingroup
+\setmonofont[Scale=MatchLowercase]{Monaco}
+\setexsize\Large
+\begin{opentypeexample}
+  \fontspec{Doulos SIL}
+   cấp số mỗi \\
+  \addfontfeature{Language=Vietnamese}
+   cấp số mỗi
+\end{opentypeexample}
+\noindent Moldavian, as a typical example from Ralf Stubner's FPL Neu font:
+\setexsize\Large
+\begin{opentypeexample}
+  \fontspec{FPL Neu}
+   Ş ş Ţ ţ  \\
+  \addfontfeature{Language=Moldavian}
+   Ş ş Ţ ţ 
+\end{opentypeexample}
+\endgroup
+
+\subsubsection{Defining new scripts and languages}
+
+\DescribeMacro{\newfontscript}
+\DescribeMacro{\newfontlanguage}
+Further scripts and languages may be added with the \cmd\newfontscript\
+and \cmd\newfontlanguage\ commands. For example,
+\begin{Verbatim}[gobble=2]
+  \newfontscript{Arabic}{arab}
+  \newfontlanguage{Turkish}{TUR}
+\end{Verbatim}
+The first argument is the \pkg{fontspec} name, the second the OpenType
+definition. The advantage to using these commands rather than \cmd\newfontfeature\
+(see \vref{sec:newfeatures}) is the error-checking that is performed when
+the script or language is requested.
+
+\begin{table}[!hbp]
+\def\dup{\makebox[0pt][r]{\textcolor{red}{\P}}}%
+\setlength\columnseprule{0pt}
+  \hrule
+  \begin{multicols}{4}\setlength\parindent{0pt}
+    \sffamily\scriptsize
+    Arabic \par Armenian \par Balinese \par Bengali \par Bopomofo \par Braille \par Buginese \par Buhid \par Byzantine Music \par Canadian Syllabics \par Cherokee \par \dup CJK \par \dup CJK Ideographic \par Coptic \par Cypriot Syllabary \par Cyrillic \par Default \par Deseret \par Devanagari \par Ethiopic \par Georgian \par Glagolitic \par Gothic \par Greek \par Gujarati \par Gurmukhi \par Hangul Jamo \par Hangul \par Hanunoo \par Hebrew \par \dup Hiragana and Katakana \par \dup Kana \par Javanese \par Kannada \par Kharosthi \par Khmer \par Lao \par Latin \par Limbu \par Linear B \par Malayalam \par \dup Math \par \dup Maths \par Mongolian \par Musical Symbols \par Myanmar \par N'ko \par Ogham \par Old Italic \par Old Persian Cuneiform \par Oriya \par Osmanya \par Phags-pa \par Phoenician \par Runic \par Shavian \par Sinhala \par Sumero-Akkadian Cuneiform \par Syloti Nagri \par Syriac \par Tagalog \par Tagbanwa \par Tai Le \par Tai Lu \par Tamil \par Telugu \par Thaana \par Thai \par Tibetan \par Tifinagh \par Ugaritic Cuneiform \par Yi
+  \end{multicols}
+  \hrule
+  \caption{Defined \opt{Script}s for OpenType fonts. Aliased names are shown in adjacent positions marked with red pilcrows ({\sffamily\textcolor{red}{\P}}), defined in \texttt{fontspec.cfg}.}
+  \label{tab:ot-scpt}
+\end{table}
+
+\begin{table}[p]
+  \vspace*{-3cm}
+  \hspace{-3cm}
+  \begin{minipage}{\linewidth+4cm}
+  \setlength\columnseprule{0pt}
+  \hrule
+  \begin{multicols}{6}
+    \everypar{\setlength\parindent{0pt}\setlength\hangindent{2em}}
+    \fontspec{Optima}\footnotesize\raggedright
+    Abaza \par Abkhazian \par Adyghe \par Afrikaans \par Afar \par Agaw \par Altai \par Amharic \par Arabic \par Aari \par Arakanese \par Assamese \par Athapaskan \par Avar \par Awadhi \par Aymara \par Azeri \par Badaga \par Baghelkhandi \par Balkar \par Baule \par Berber \par Bench \par Bible Cree \par Belarussian \par Bemba \par Bengali \par Bulgarian \par Bhili \par Bhojpuri \par Bikol \par Bilen \par Blackfoot \par Balochi \par Balante \par Balti \par Bambara \par Bamileke \par Breton \par Brahui \par Braj Bhasha \par Burmese \par Bashkir \par Beti \par Catalan \par Cebuano \par Chechen \par Chaha Gurage \par Chattisgarhi \par Chichewa \par Chukchi \par Chipewyan \par Cherokee \par Chuvash \par Comorian \par Coptic \par Cree \par Carrier \par Crimean Tatar \par Church Slavonic \par Czech \par Danish \par Dargwa \par Woods Cree \par German \par Default \par Dogri \par Divehi \par Djerma \par Dangme \par Dinka \par Dungan \par Dzongkha \par Ebira \par Eastern Cree \par Edo \par Efik \par Greek \par English \par Erzya \par Spanish \par Estonian \par Basque \par Evenki \par Even \par Ewe \par French Antillean \par Farsi \par Finnish \par Fijian \par Flemish \par Forest Nenets \par Fon \par Faroese \par French \par Frisian \par Friulian \par Futa \par Fulani \par Ga \par Gaelic \par Gagauz \par Galician \par Garshuni \par Garhwali \par Ge'ez \par Gilyak \par Gumuz \par Gondi \par Greenlandic \par Garo \par Guarani \par Gujarati \par Haitian \par Halam \par Harauti \par Hausa \par Hawaiin \par Hammer-Banna \par Hiligaynon \par Hindi \par High Mari \par Hindko \par Ho \par Harari \par Croatian \par Hungarian \par Armenian \par Igbo \par Ijo \par Ilokano \par Indonesian \par Ingush \par Inuktitut \par Irish \par Irish Traditional \par Icelandic \par Inari Sami \par Italian \par Hebrew \par Javanese \par Yiddish \par Japanese \par Judezmo \par Jula \par Kabardian \par Kachchi \par Kalenjin \par Kannada \par Karachay \par Georgian \par Kazakh \par Kebena \par Khutsuri Georgian \par Khakass \par Khanty-Kazim \par Khmer \par Khanty-Shurishkar \par Khanty-Vakhi \par Khowar \par Kikuyu \par Kirghiz \par Kisii \par Kokni \par Kalmyk \par Kamba \par Kumaoni \par Komo \par Komso \par Kanuri \par Kodagu \par Korean Old Hangul \par Konkani \par Kikongo \par Komi-Permyak \par Korean \par Komi-Zyrian \par Kpelle \par Krio \par Karakalpak \par Karelian \par Karaim \par Karen \par Koorete \par Kashmiri \par Khasi \par Kildin Sami \par Kui \par Kulvi \par Kumyk \par Kurdish \par Kurukh \par Kuy \par Koryak \par Ladin \par Lahuli \par Lak \par Lambani \par Lao \par Latin \par Laz \par L-Cree \par Ladakhi \par Lezgi \par Lingala \par Low Mari \par Limbu \par Lomwe \par Lower Sorbian \par Lule Sami \par Lithuanian \par Luba \par Luganda \par Luhya \par Luo \par Latvian \par Majang \par Makua \par Malayalam Traditional \par Mansi \par Marathi \par Marwari \par Mbundu \par Manchu \par Moose Cree \par Mende \par Me'en \par Mizo \par Macedonian \par Male \par Malagasy \par Malinke \par Malayalam Reformed \par Malay \par Mandinka \par Mongolian \par Manipuri \par Maninka \par Manx Gaelic \par Moksha \par Moldavian \par Mon \par Moroccan \par Maori \par Maithili \par Maltese \par Mundari \par Naga-Assamese \par Nanai \par Naskapi \par N-Cree \par Ndebele \par Ndonga \par Nepali \par Newari \par Nagari \par Norway House Cree \par Nisi \par Niuean \par Nkole \par N'ko \par Dutch \par Nogai \par Norwegian \par Northern Sami \par Northern Tai \par Esperanto \par Nynorsk \par Oji-Cree \par Ojibway \par Oriya \par Oromo \par Ossetian \par Palestinian Aramaic \par Pali \par Punjabi \par Palpa \par Pashto \par Polytonic Greek \par Pilipino \par Palaung \par Polish \par Provencal \par Portuguese \par Chin \par Rajasthani \par R-Cree \par Russian Buriat \par Riang \par Rhaeto-Romanic \par Romanian \par Romany \par Rusyn \par Ruanda \par Russian \par Sadri \par Sanskrit \par Santali \par Sayisi \par Sekota \par Selkup \par Sango \par Shan \par Sibe \par Sidamo \par Silte Gurage \par Skolt Sami \par Slovak \par Slavey \par Slovenian \par Somali \par Samoan \par Sena \par Sindhi \par Sinhalese \par Soninke \par Sodo Gurage \par Sotho \par Albanian \par Serbian \par Saraiki \par Serer \par South Slavey \par Southern Sami \par Suri \par Svan \par Swedish \par Swadaya Aramaic \par Swahili \par Swazi \par Sutu \par Syriac \par Tabasaran \par Tajiki \par Tamil \par Tatar \par TH-Cree \par Telugu \par Tongan \par Tigre \par Tigrinya \par Thai \par Tahitian \par Tibetan \par Turkmen \par Temne \par Tswana \par Tundra Nenets \par Tonga \par Todo \par Turkish \par Tsonga \par Turoyo Aramaic \par Tulu \par Tuvin \par Twi \par Udmurt \par Ukrainian \par Urdu \par Upper Sorbian \par Uyghur \par Uzbek \par Venda \par Vietnamese \par Wa \par Wagdi \par West-Cree \par Welsh \par Wolof \par Tai Lue \par Xhosa \par Yakut \par Yoruba \par Y-Cree \par Yi Classic \par Yi Modern \par Chinese Hong Kong \par Chinese Phonetic \par Chinese Simplified \par Chinese Traditional \par Zande \par Zulu 
+  \end{multicols}
+  \hspace{4pt}
+  \hrule
+  \caption{Defined \opt{Language}s for OpenType fonts. 
+    Note that they are sorted alphabetically \emph{not} 
+    by name but by OpenType tag, which is a little irritating, really.}
+  \label{tab:ot-lang}
+ \end{minipage}
+\end{table}
+
+\section{Defining new features} \label{sec:newfeatures}
+This package cannot hope to contain every possible font
+feature. Three commands are provided for selecting font features
+that are not provided for out of the box. If you are using
+them a lot, chances are I've left something out, so please let me
+know.
+
+\DescribeMacro{\newAATfeature}
+New AAT features may be created with this command:\par
+{\centering\cmd\newAATfeature\marg{feature}\marg{option}\marg{feature code}\marg{selector code}\par}\noindent
+Use the \XeTeX\ file \path{AAT-info.tex} to obtain the code numbers. For example:
+\begin{aatexample}
+  \newAATfeature{Alternate}{HoeflerSwash}{17}{1}
+  \fontspec[Alternate=HoeflerSwash]{Hoefler Text Italic}
+   This is XeTeX by Jonathan Kew.
+\end{aatexample}
+This command replaces \cmd\newfeaturecode, which is provided
+for backwards compatibility via \texttt{fontspec.cfg}.
+
+\DescribeMacro{\newICUfeature}
+New OpenType features may be created with this command:\par
+{\centering\cmd\newICUfeature\marg{feature}\marg{option}\marg{feature tag}\par}
+In the following example, the Moldavian language (see \vref{sec:ot}) must be activated to achieve the effect shown.
+\setexsize\Large
+\begingroup
+\setmonofont[Scale=MatchLowercase]{Monaco}
+\begin{opentypeexample}
+  \newICUfeature{Style}{NoLocalForms}{-locl}
+  \fontspec[Language=Moldavian]{FPL Neu}
+  Ş ş Ţ ţ  \\
+  \addfontfeature{Style=NoLocalForms}
+  Ş ş Ţ ţ 
+\end{opentypeexample}
+\endgroup
+
+\DescribeMacro{\newfontfeature}
+In case the above commands do not accommodate the desired font feature 
+(perhaps a new \XeTeX\ feature that \pkg{fontspec} hasn't been updated
+to support), a command is provided to pass arbitrary input into the
+font selection string:\par
+{\centering\cmd{\newfontfeature}\marg{name}\marg{input string}\par} 
+
+For example, Zapfino
+contains the feature `Avoid d-collisions'. To access it
+with this package, you could do the following:
+\begin{aatexample}
+  \newfontfeature{AvoidD}{Special=Avoid d-collisions}
+  \newfontfeature{NoAvoidD}{Special=!Avoid d-collisions}
+  \fontspec[AvoidD,Variant=1]{Zapfino} 
+   sockdolager rubdown               \\
+  \fontspec[NoAvoidD,Variant=1]{Zapfino} 
+   sockdolager rubdown
+\end{aatexample}
+
+The advantage to using the \cmd\newAATfeature\ and \cmd\newICUfeature\
+commands is that they check if the selected font actually contains the font
+feature. By contrast, \cmd\newfontfeature\ will not give a warning
+for improper input.
+
+\subsection{Renaming existing features \& options}\label{sec:aliasfontfeature}
+
+\DescribeMacro{\aliasfontfeature} 
+If you don't like the name of a particular font feature,
+it may be aliased to another with the
+\cs{aliasfontfeature}\marg{existing name}\marg{new name} command:
+\begin{aatexample}
+  \aliasfontfeature{ItalicFeatures}{IF}
+  \fontspec[IF = {Alternate=1}]{Hoefler Text}
+  Roman Letters \itshape And Swash
+\end{aatexample}
+
+Spaces in feature (and option names, see below) \emph{are} allowed. (You may have
+noticed this already in the lists of OpenType scripts and languages).
+
+\DescribeMacro{\aliasfontfeatureoption}
+If you wish to change the name of a font feature option, 
+it can be aliased to another with the command
+\cs{aliasfontfeatureoption}\marg{font feature}\marg{existing name}\marg{new name}:
+\begin{opentypeexample}
+  \aliasfontfeature{VerticalPosition}{Vert Pos}
+  \aliasfontfeatureoption{VerticalPosition}{ScientificInferior}{Sci Inf}
+  \fontspec[Vert Pos=Sci Inf]{Warnock Pro}
+   Scientific Inferior: 12345
+\end{opentypeexample}
+This example demonstrates an important point: when aliasing the feature
+options, the \emph{original} feature name must be used when declaring
+to which feature the option belongs.
+
+Only feature options that exist as sets of fixed strings may be altered in
+this way. That is, \opt{Proportional} can be aliased to \opt{Prop} in the
+\feat{Letters} feature, but \opt{550099BB} cannot be substituted for \opt{Purple}
+in a \feat{Colour} specification. For this type of thing, the \cmd\newfontfeature\
+command should be used to declare a new, \eg, \feat{PurpleColour} feature:
+\begin{Verbatim}[gobble=2]
+  \newfontfeature{PurpleColour}{color=550099BB}
+\end{Verbatim}
+
+\subsection{Going behind \pkg{fontspec}'s back}
+Expert users may wish not to use \pkg{fontspec}'s feature handling at all,
+while still taking advantage of its \LaTeX\ font selection conveniences. The
+\feat{RawFeature} \new{v1.13} font feature allows literal \XeTeX\ font feature selection
+when you happen to have the OpenType feature tag memorised.
+\begin{example}
+  \fontspec[RawFeature=+smcp]{FPL Neu}
+  FPL Neu small caps
+\end{example}
+Multiple features can either be included in a single declaration:\par
+{\centering|[RawFeature=+smcp;+onum]|\par}
+\noindent or with multiple declarations:\par
+{\centering|[RawFeature=+smcp, RawFeature=+onum]|\par}
+
+
+%\section{Programming interface}
+%This is the beginning of some work to provide some hooks that use
+%\pkg{fontspec} for various macro programming purposes.
+
+%In some cases, it is useful to know what the \LaTeX\ font family
+%of a specific \pkg{fontspec} font is. After a \cmd\fontspec-like
+%command, this is stored inside the \cmd\zf@family\ macro.
+%Otherwise, \LaTeX's own \cmd\f@family\ macro can be useful here,
+%too.
+
+\StopEventually{}
+
+\clearpage
+\part{fontspec.sty}
+
+\DocInput{fontspec.dtx}
+\end{document}
+%</driver>
+%
+%<*fontspec>
+\ProvidesPackage{fontspec}
+  [2008/08/09 v1.18 Advanced font selection for XeLaTeX]
+%</fontspec>
+%
+% \fi
+%
+% \section{Implementation}
+% Herein lie the implementation details of this package. Welcome!
+% It's my first.
+% 
+% For some reason, I decided to prefix all the package internal
+% command names and variables with |zf|. I don't know why I chose
+% those letters, but I guess I just liked the look/feel of them
+% together at the time. (Possibly inspired by Hermann \emph{Z}ap\emph{f}.)
+%
+% \iffalse
+%<*fontspec> 
+% \fi
+% Only proceed if it is \XeTeX\ that is doing the typesetting.
+%    \begin{macrocode}
+\RequirePackage{ifxetex}
+\RequireXeTeX
+%    \end{macrocode}
+% \subsection{Bits and pieces}
+% \paragraph{Conditionals}
+%    \begin{macrocode}
+\newif\ifzf@firsttime
+\newif\ifzf@nobf
+\newif\ifzf@noit
+\newif\ifzf@nosc
+\newif\ifzf@tfm
+\newif\ifzf@atsui
+\newif\ifzf@icu
+\newif\ifzf@mm
+\newif\ifzf@graphite
+%    \end{macrocode}
+% For dealing with legacy maths
+%    \begin{macrocode}
+\newif\ifzf@math@euler
+\newif\ifzf@math@lucida
+\newif\ifzf@package@euler@loaded
+%    \end{macrocode}
+% For package options:
+%    \begin{macrocode}
+\newif\if@zf@configfile
+\newif\if@zf@euenc
+\newif\if@zf@math
+%    \end{macrocode}
+% \paragraph{Counters}
+%    \begin{macrocode}
+\newcount\c@zf@newff
+\newcount\c@zf@index
+\newcount\c@zf@script
+\newcount\c@zf@language
+%    \end{macrocode}
+% \pkg{fontspec} shorthands:
+%    \begin{macrocode}
+\def\zf@nl{^^J\space\space\space\space}
+\newcommand\zf@PackageError[2]{%
+  \PackageError{fontspec}{{\zf@nl #1}^^J}{#2}}
+\newcommand\zf@PackageWarning[1]{%
+  \PackageWarning{fontspec}{\zf@nl #1^^JThis warning occured}}
+\newcommand\zf@PackageInfo[1]{\PackageInfo{fontspec}{#1}}
+%    \end{macrocode}
+%
+% \begin{macro}{\def@cx}
+% \begin{macro}{\gdef@cx}
+% \begin{macro}{\let@cc}
+% \LaTeX3--like syntax for various low level commands.
+% Makes life much easier; can't wait for the official interface |:)|
+%    \begin{macrocode}
+\providecommand\def@cx[2]{\expandafter\edef\csname#1\endcsname{#2}}
+\providecommand\gdef@cx[2]{\expandafter\xdef\csname#1\endcsname{#2}}
+\providecommand\let@cc[2]{%
+  \expandafter\let\csname#1\expandafter\endcsname\csname#2\endcsname}
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+%
+% \subsection{Option processing}
+%
+%    \begin{macrocode}
+\DeclareOption{cm-default}{\@zf@euencfalse}
+\DeclareOption{lm-default}{\@zf@euenctrue}
+\DeclareOption{math}{\@zf@mathtrue}
+\DeclareOption{no-math}{\@zf@mathfalse}
+\DeclareOption{config}{\@zf@configfiletrue}
+\DeclareOption{no-config}{\@zf@configfilefalse}
+\DeclareOption{noconfig}{\@zf@configfilefalse}
+\DeclareOption{quiet}{%
+  \let\zf@PackageWarning\zf@PackageInfo
+  \let\zf@PackageInfo\@gobble}
+\DeclareOption{silent}{%
+  \let\zf@PackageWarning\@gobble
+  \let\zf@PackageInfo\@gobble}
+\ExecuteOptions{config,lm-default,math}
+\ProcessOptions*
+%    \end{macrocode}
+% Only proceed if it is \XeTeX\ that is doing the typesetting:
+%    \begin{macrocode}
+\RequirePackage{ifxetex}
+\RequireXeTeX
+%    \end{macrocode}
+%
+% \subsection{Packages}
+% We require the \pkg{calc} package for autoscaling and a recent version of the 
+% \pkg{xkeyval} package for option processing.
+%    \begin{macrocode}
+\RequirePackage{calc}
+\RequirePackage{xkeyval}[2005/05/07]
+%    \end{macrocode}
+%
+% \subsection{Encodings}
+% Frank Mittelbach has recommended using the `\texttt{EU}$x$' family of font encodings
+% to experiment with unicode. 
+% Now that \XeTeX\ can find fonts in the |texmf| tree, the Latin Modern OpenType fonts
+% can be used as the defaults. See the |euenc| collection of files for how this is implemented.
+%    \begin{macrocode}
+\if@zf@euenc
+  \def\zf@enc{EU1}
+  \renewcommand{\rmdefault}{lmr}
+  \renewcommand{\sfdefault}{lmss}
+  \renewcommand{\ttdefault}{lmtt}
+  \RequirePackage[\zf@enc]{fontenc}
+\else
+  \def\zf@enc{U}
+  \let\encodingdefault\zf@enc
+\fi
+\let\UTFencname\zf@enc
+%    \end{macrocode}
+% Dealing with a couple of the problems introduced by \pkg{babel}:
+%    \begin{macrocode}
+\let\cyrillicencoding\zf@enc
+\let\latinencoding\zf@enc
+\g@addto@macro\document{%
+  \let\cyrillicencoding\zf@enc
+  \let\latinencoding\zf@enc}
+%    \end{macrocode}
+% That latin encoding definition is repeated to suppress font warnings.
+% Something to do with \cmd\select@language\ ending up in the \texttt{.aux}
+% file which is read at the beginning of the document.
+%
+%
+% \subsection{User commands}\label{sec:codeuser}
+% This section contains the definitions of the commands detailed in
+% the user documentation.  Only the `top level' definitions of the
+% commands are contained herein; they all use or define macros which
+% are defined or used later on in \vref{sec:codeinternal}.
+%
+% \subsubsection{Font selection}
+% \begin{macro}{\fontspec}
+%   This is the main command of the package that
+%   selects fonts with various features. It takes two arguments: the
+%   Mac OS X font name and the optional requested features of that
+%   font. It simply runs \cs{zf@fontspec}, which takes the same
+%   arguments as the top level macro and puts the new-fangled font
+%   family name into the global \cmd{\zf@family}. Then this new font
+%   family is selected.
+%    \begin{macrocode}
+\newcommand*\fontspec[2][]{%
+  \zf@fontspec{#1}{#2}%
+  \fontfamily\zf@family\selectfont
+  \ignorespaces}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\setmainfont}
+% \begin{macro}{\setsansfont} 
+% \begin{macro}{\setmonofont} 
+%     The following three macros perform equivalent operations setting
+%     the default font (using \cs{let} rather than \cs{renewcommand}
+%     because \cs{zf@family} will change in the future) for a
+%     particular family: `roman', sans serif, or typewriter
+%     (monospaced). I end them with |\normalfont| so that if they're
+%     used in the document, the change registers immediately.
+%    \begin{macrocode}
+\newcommand*\setmainfont[2][]{%
+  \zf@fontspec{#1}{#2}%
+  \let\rmdefault\zf@family
+  \normalfont}
+\let\setromanfont\setmainfont
+\newcommand*\setsansfont[2][]{%
+  \zf@fontspec{#1}{#2}%
+  \let\sfdefault\zf@family
+  \normalfont}
+\newcommand*\setmonofont[2][]{%
+  \zf@fontspec{#1}{#2}%
+  \let\ttdefault\zf@family
+  \normalfont}
+%    \end{macrocode}
+% \end{macro} \end{macro} \end{macro}
+%
+% \begin{macro}{\setmathrm}
+% \begin{macro}{\setmathsf} 
+% \begin{macro}{\setboldmathrm} 
+% \begin{macro}{\setmathtt} 
+% These commands are analogous to \cmd\setromanfont\ and others,
+% but for selecting the font used for \cmd\mathrm, \etc. They
+% can only be used in the preamble of the
+% document. \cmd\setboldmathrm\ is used for specifying which
+% fonts should be used in \cmd\boldmath.
+%    \begin{macrocode}
+\newcommand*\setmathrm[2][]{%
+  \zf@fontspec{#1}{#2}%
+  \let\zf@rmmaths\zf@family}
+\newcommand*\setboldmathrm[2][]{%
+  \zf@fontspec{#1}{#2}%
+  \let\zf@rmboldmaths\zf@family}
+\newcommand*\setmathsf[2][]{%
+  \zf@fontspec{#1}{#2}%
+  \let\zf@sfmaths\zf@family}
+\newcommand*\setmathtt[2][]{%
+  \zf@fontspec{#1}{#2}%
+  \let\zf@ttmaths\zf@family}
+\@onlypreamble\setmathrm
+\@onlypreamble\setboldmathrm
+\@onlypreamble\setmathsf
+\@onlypreamble\setmathtt
+%    \end{macrocode}
+% If the commands above are not executed, then \cmd\rmdefault\ (\etc)
+% will be used.
+%    \begin{macrocode}
+\def\zf@rmmaths{\rmdefault}
+\def\zf@sfmaths{\sfdefault}
+\def\zf@ttmaths{\ttdefault}
+%    \end{macrocode}
+% \end{macro} \end{macro} \end{macro} 
+% \end{macro}
+%
+% \begin{macro}{\newfontfamily}
+% \begin{macro}{\newfontface}
+%   This macro takes the arguments of \cs{fontspec} with a prepended
+%   \meta{instance cmd} (code for middle optional argument generated
+%   by \name{Scott Pakin}'s \textsf{newcommand.py}). This command is used
+%   when a specific font instance needs to be referred to repetitively
+%   (\eg, in a section heading) since continuously calling
+%   \cs{zf@fontspec} is inefficient because it must parse the
+%   option arguments every time.
+%
+%   \cs{zf@fontspec} defines a font family and saves its name in
+%   \cs{zf@family}. This family is then used in a typical NFSS \cmd\fontfamily\
+%   declaration, saved in the macro name specified.
+%    \begin{macrocode}
+\newcommand*\newfontfamily[1]{%
+  \@ifnextchar[{\newfontfamily@i#1}{\newfontfamily@i#1[]}}
+\def\newfontfamily@i#1[#2]#3{%
+  \zf@fontspec{#2}{#3}%
+  \edef\@tempa{%
+    \noexpand\DeclareRobustCommand\noexpand#1
+      {\noexpand\fontfamily{\zf@family}\noexpand\selectfont}}%
+  \@tempa}
+%    \end{macrocode}
+% \cmd\newfontface\ uses an undocumented feature of the \feat{BoldFont}
+% feature; if its argument is empty (\ie, |BoldFont={}|), then no bold
+% font is searched for.
+%    \begin{macrocode}
+\newcommand*\newfontface[1]{%
+  \@ifnextchar[{\newfontface@i#1}{\newfontface@i#1[]}}
+\def\newfontface@i#1[#2]#3{%
+  \zf@fontspec{BoldFont={},ItalicFont={},SmallCapsFont={},#2}{#3}%
+  \edef\@tempa{%
+    \noexpand\DeclareRobustCommand\noexpand#1
+      {\noexpand\fontfamily{\zf@family}\noexpand\selectfont}}%
+  \@tempa}
+%    \end{macrocode}
+% \end{macro} \end{macro}
+%
+% \subsubsection{Font feature selection}
+%
+% \begin{macro}{\defaultfontfeatures}
+%   This macro takes one argument that consists of all of feature
+%   options that will be applied by default to all subsequent
+%   \cs{fontspec}, et al., commands. It stores its value in
+%   \cs{zf@default@options} (initialised empty), which is
+%   concatenated with the individual macro choices in the
+%   \cs{zf@get@feature@requests} macro.
+%    \begin{macrocode}
+\newcommand*\defaultfontfeatures[1]{\def\zf@default@options{#1,}}
+\let\zf@default@options\@empty
+%    \end{macrocode}
+% \end{macro}
+%
+%
+%
+% \begin{macro}{\addfontfeatures}
+%   In order to be able to extend the feature selection of
+%   a given font, two things need to be known: the currently selected
+%   features, and the currently selected font. Every time a font
+%   family is created, this information is saved inside a control
+%   sequence with the name of the font family itself.
+%
+%   This macro extracts this information, then appends the requested
+%   font features to add to the already existing ones, and calls the
+%   font again with the top level \cs{fontspec} command.
+%
+%   The default options are \emph{not} applied (which is why
+%   \cs{zf@default@options} is emptied inside the group; this is allowed
+%   as \cmd\zf@family\ is globally defined in \cmd\zf@fontspec), so this
+%   means that the only added features to the font are strictly those
+%   specified by this command.
+%
+%   \cs{addfontfeature} is defined as an alias, as I found that I
+%   often typed this instead when adding only a single font feature.
+%    \begin{macrocode}
+\newcommand*\addfontfeatures[1]{%
+  \ifcsname zf@family@fontdef\f@family\endcsname
+    \begingroup
+      \let\zf@default@options\@empty
+      \edef\@tempa{%
+        \noexpand\zf@fontspec
+          {\csname zf@family@options\f@family\endcsname,#1}%
+          {\csname zf@family@fontname\f@family\endcsname}}%
+      \@tempa
+    \endgroup
+    \fontfamily\zf@family\selectfont
+  \else
+    \zf@PackageWarning{%
+      \protect\addfontfeature (s) ignored;\zf@nl
+      it cannot be used with a font that wasn't selected by fontspec.}%
+  \fi
+  \ignorespaces}
+\let\addfontfeature\addfontfeatures
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \subsubsection{Defining new font features} 
+%
+% \begin{macro}{\newfontfeature}
+%   \cs{newfontfeature} takes two arguments: the name of the feature
+%   tag by which to reference it, and the string that is used to
+%   select the font feature. It uses a counter to keep track of the
+%   number of new features introduced; every time a new feature is
+%   defined, a control sequence is defined made up of the
+%   concatenation of |+zf-| and the new feature tag. This long-winded
+%   control sequence is then called upon to update the font family
+%   string when a new instance is requested.
+%    \begin{macrocode}
+\newcommand*\newfontfeature[2]{%
+  \stepcounter{zf@newff}%
+  \def@cx{+zf-#1}{+zf-\the\c@zf@newff}%
+  \define@key[zf]{options}{#1}[]{%
+    \zf@update@family{\csname+zf-#1\endcsname}%
+    \zf@update@ff{#2}}}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\newAATfeature}
+% This command assigns a new AAT feature by its code (|#2|,|#3|) to a new name (|#1|).
+% Better than \cmd\newfontfeature\ because it checks if the feature exists in the
+% font it's being used for.
+%    \begin{macrocode}
+\newcommand*\newAATfeature[4]{%
+  \unless\ifcsname zf@options@#1\endcsname
+    \zf@define@font@feature{#1}%
+  \fi
+  \key@ifundefined[zf]{#1}{#2}{}{%
+    \zf@PackageWarning{Option '#2' of font feature '#1' overwritten.}}%
+  \zf@define@feature@option{#1}{#2}{#3}{#4}{}}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\newICUfeature}
+% This command assigns a new OpenType feature by its abbreviation (|#2|) to a new name (|#1|).
+% Better than \cmd\newfontfeature\ because it checks if the feature exists in the
+% font it's being used for.
+%    \begin{macrocode}
+\newcommand*\newICUfeature[3]{%
+  \unless\ifcsname zf@options@#1\endcsname
+    \zf@define@font@feature{#1}%
+  \fi
+  \key@ifundefined[zf]{#1}{#2}{}{%
+    \zf@PackageWarning{Option '#2' of font feature '#1' overwritten.}}%
+  \zf@define@feature@option{#1}{#2}{}{}{#3}}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\aliasfontfeature}
+% \begin{macro}{\aliasfontfeatureoption}
+% User commands for renaming font features and font feature options.
+% Provided I've been consistent, they should work for everything.
+%    \begin{macrocode}  
+\newcommand*\aliasfontfeature[2]{\multi@alias@key{#1}{#2}}
+\newcommand*\aliasfontfeatureoption[3]{%
+  \keyval@alias@key[zf@feat]{#1}{#2}{#3}}
+%    \end{macrocode}
+% \end{macro} \end{macro}
+%
+% \begin{macro}{\newfontscript}
+% Mostly used internally, but also possibly useful for users, to define new OpenType
+% `scripts', mapping logical names to OpenType script tags. 
+% Iterates though the scripts in the selected font to check that it's a valid 
+% feature choice, and then prepends the (\XeTeX) \cmd\font\ feature string with the appropriate
+% script selection tag.
+%    \begin{macrocode}
+\newcommand*\newfontscript[2]{%
+  \define@key[zf@feat]{Script}{#1}[]{%
+    \zf@check@ot@script{#2}%
+    \if@tempswa
+      \global\c@zf@script\@tempcnta\relax
+      \xdef\zf@script@name{#1}%
+      \xdef\zf@family@long{\zf@family@long+script=#1}%
+      \xdef\zf@pre@ff{script=#2,\zf@pre@ff}%
+    \else
+      \zf@PackageWarning{Font \fontname\zf@basefont\space does not contain script '#1'}%
+    \fi}}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\newfontlanguage}
+% Mostly used internally, but also possibly useful for users, to define new OpenType
+% `languages', mapping logical names to OpenType language tags. 
+% Iterates though the languages in the selected font to check that it's a valid 
+% feature choice, and then prepends the (\XeTeX) \cmd\font\ feature string with the appropriate
+% language selection tag.
+%    \begin{macrocode}
+\newcommand*\newfontlanguage[2]{%
+  \define@key[zf@feat]{Lang}{#1}[]{%
+    \zf@check@ot@lang{#2}%
+    \if@tempswa
+      \global\c@zf@language\@tempcnta\relax
+      \xdef\zf@language@name{#1}%
+      \xdef\zf@family@long{\zf@family@long+lang=#1}%
+      \xdef\zf@pre@ff{\zf@pre@ff language=#2,}%
+    \else
+      \zf@PackageWarning{%
+        Font \fontname\zf@basefont\space does not contain 
+        language '#1' for script '\zf@script@name'}%
+    \fi}}
+%    \end{macrocode}
+% \end{macro}
+%
+% \subsection{Internal macros}\label{sec:codeinternal}
+%
+% \begin{macro}{\zf@fontspec}
+% This is the command that defines font families for use, the underlying
+% procedure of all \cmd\fontspec-like commands. Given a
+% list of font features (|#1|) for a requested font (|#2|, stored
+% in \cs{zf@fontname} globally for the
+% \cs{zf@make@aat@feature@string} macro), it will define an NFSS
+% family for that font and put the family name into \cs{zf@family}.
+%
+% This macro does its processing inside a group, but it's a bit worthless coz
+% there's all sorts of \cmd\global\ action going on. Pity. Anyway, lots of things 
+% are branched out for the pure reason of splitting
+% the code up into logical chunks. Some of it is never even re-used, so it
+% all might be a bit obfuscating. (\Eg, \cmd\zf@init\ and \cmd\zf@set@font@type.)
+%
+% First off, initialise some bits and pieces and run the |preparse| feature
+% processing. This catches font features such as |Renderer| that can change
+% the way subsequent features are processed. All font features that `slip through'
+% this stage are saved in the \cmd\zf@font@feat\ macro for future processing.
+%    \begin{macrocode}
+\newcommand*\zf@fontspec[2]{%
+  \begingroup
+  \zf@init
+  \edef\zf@fontname{#2}%
+  \let\zf@family@long\zf@fontname
+  \setkeys*[zf]{prepreparse}{#1}%
+  \let\zf@up\zf@fontname
+  \edef\@tempa{\noexpand\setkeys*[zf]{preparse}{\XKV@rm}}\@tempa
+  \let\zf@fontname\zf@up
+  \let\zf@font@feat\XKV@rm
+%    \end{macrocode}
+% Now check if the font is to be rendered with ATSUI or ICU. This will either
+% be automatic (based on the font type), or specified by the user via a font feature.
+% If automatic, the \cmd\zf@suffix\ macro will still be empty (other suffices that could 
+% be added will be later in the feature processing), and if it is indeed still empty,
+% assign it a value so that the other weights of the font are specifically loaded with the
+% same renderer. This fixes a bug in v1.10 for a mishmash of Lucida fonts.
+%    \begin{macrocode}
+  \font\zf@basefont="\zf@font@wrap\zf@fontname\zf@suffix" at \f@size pt
+  \unless\ifzf@icu
+    \zf@set@font@type
+  \fi
+  \ifx\zf@suffix\@empty
+    \ifzf@atsui
+      \def\zf@suffix{/AAT}%
+    \else
+      \ifzf@icu
+        \def\zf@suffix{/ICU}%
+      \fi
+    \fi
+    \font\zf@basefont="\zf@font@wrap\zf@fontname\zf@suffix" at \f@size pt
+  \fi
+%    \end{macrocode}
+% Now convert the remaining requested features to font definition
+% strings. This is performed with \cs{zf@get@feature@requests}, in
+% which \cs{setkeys} retrieves the requested font features and
+% processes them. To build up the complex family name, it
+% concatenates each font feature with the family name of the
+% font. So since \cs{setkeys} is run more than once (since different
+% font faces may have different feature names), we only want the
+% complex family name to be built up once, hence the \cs{zf@firsttime}
+% conditionals.
+%
+% In the future, this will be replaced by a dedicated \texttt{makefamily}
+% \pkg{xkeyval} \cmd\setkeys\ declaration. Probably.
+%    \begin{macrocode}  
+  \zf@firsttimetrue
+    \zf@get@feature@requests{\zf@font@feat}%
+  \zf@firsttimefalse
+%    \end{macrocode}
+% Now we have a unique (in fact, too unique!) string that contains
+% the family name and every option in abbreviated form. This is used
+% with a counter to create a simple NFSS family name for the font we're
+% selecting.
+%
+% The font name is fully expanded, in case it's defined in terms of macros, before having its spaces zapped.
+%    \begin{macrocode}  
+  \unless\ifcsname zf@UID@\zf@family@long\endcsname
+    \edef\@tempa{#2}%
+    \ifcsname c@zf@famc@\@tempa\endcsname
+      \expandafter\stepcounter\else
+      \expandafter\newcounter\fi
+        {zf@famc@\@tempa}%
+    \gdef@cx{zf@UID@\zf@family@long}{%
+      \expandafter\expandafter\expandafter
+        \zap@space\expandafter\@tempa\space\@empty
+      (\expandafter\the\csname c@zf@famc@\@tempa\endcsname)}%
+  \fi
+  \xdef\zf@family{\@nameuse{zf@UID@\zf@family@long}}%  
+%    \end{macrocode}
+%
+% Now that we have the family name, we
+% can check to see if the family has already been defined, and if not,
+% do so. Once the family name is created, use it to create global
+% macros to save the user
+% string of the requested options and font name, primarily for use with
+% \cs{addfontfeatures}.
+%    \begin{macrocode}
+  \unless\ifcsname zf@family@fontname\zf@family\endcsname
+    \zf@PackageInfo{Defining font family for '#2'
+          with options [\zf@default@options #1]}%
+    \gdef@cx{zf@family@fontname\zf@family}{\zf@fontname}%
+    \gdef@cx{zf@family@options\zf@family}{\zf@default@options #1}%
+    \gdef@cx{zf@family@fontdef\zf@family}
+      {\zf@fontname\zf@suffix:\zf@pre@ff\zf@ff}%
+%    \end{macrocode}
+% Next the font family and its shapes are defined in the NFSS.
+%
+% All NFSS specifications take their default values, so if any of them
+% are redefined, the shapes will be selected to fit in with the
+% current state. For example, if \cmd\bfdefault\ is redefined to |b|, all
+% bold shapes defined by this package will also be assigned to |b|.
+%
+% The macros \cs{zf@bf}, et al., are used to store the name of the
+% custom bold, et al., font, if requested as user options. If they are
+% empty, the default fonts are used.
+%
+% First we define the font family and define the normal shape: (any shape-specific
+% features are appended to the generic font features requested in the last argument
+% of \cmd\zf@make@font@shapes.)
+%    \begin{macrocode}
+    \DeclareFontFamily{\zf@enc}{\zf@family}{}%
+    \zf@make@font@shapes{\zf@fontname}
+      {\mddefault}{\updefault}{\zf@font@feat\zf@up@feat}%
+%    \end{macrocode}
+% Secondly, bold. Again, the extra bold options defined with
+% \feat{BoldFeatures} are appended to the generic font features. 
+% Then, the bold font is defined either as the ATS
+% default (\cs{zf@make@font@shapes}' optional argument is to check if
+% there actually is one; if not, the bold NFSS series is left
+% undefined) or with the font specified with the \feat{BoldFont} feature.
+%    \begin{macrocode}
+    \unless\ifzf@nobf
+      \ifx\zf@bf\@empty
+        \zf@make@font@shapes[\zf@fontname]{/B}
+          {\bfdefault}{\updefault}{\zf@font@feat\zf@bf@feat}%
+      \else
+        \zf@make@font@shapes{\zf@bf}
+          {\bfdefault}{\updefault}{\zf@font@feat\zf@bf@feat}%
+      \fi
+    \fi
+%    \end{macrocode}
+% And italic in the same way:
+%    \begin{macrocode}
+    \unless\ifzf@noit
+      \ifx\zf@it\@empty
+        \zf@make@font@shapes[\zf@fontname]{/I}
+          {\mddefault}{\itdefault}{\zf@font@feat\zf@it@feat}%
+      \else
+        \zf@make@font@shapes{\zf@it}
+          {\mddefault}{\itdefault}{\zf@font@feat\zf@it@feat}%
+      \fi
+    \fi
+%    \end{macrocode}
+% If requested, the custom fonts take precedence when choosing the
+% bold italic font. When both italic and bold fonts are requested and
+% the bold italic font hasn't been explicitly specified (a rare
+% occurance, presumably), the new bold font is used to define the new
+% bold italic font.
+%    \begin{macrocode}
+    \@tempswatrue
+    \ifzf@nobf\@tempswafalse\fi
+    \ifzf@noit\@tempswafalse\fi
+    \if@tempswa
+      \ifx\zf@bfit\@empty
+        \ifx\zf@bf\@empty
+          \ifx\zf@it\@empty
+            \zf@make@font@shapes[\zf@fontname]{/BI}
+              {\bfdefault}{\itdefault}{\zf@font@feat\zf@bfit@feat}%
+          \else
+            \zf@make@font@shapes[\zf@it]{/B}
+              {\bfdefault}{\itdefault}{\zf@font@feat\zf@bfit@feat}%
+          \fi
+        \else
+          \zf@make@font@shapes[\zf@bf]{/I}
+            {\bfdefault}{\itdefault}{\zf@font@feat\zf@bfit@feat}%
+        \fi
+      \else
+        \zf@make@font@shapes{\zf@bfit}
+          {\bfdefault}{\itdefault}{\zf@font@feat\zf@bfit@feat}%
+      \fi
+    \fi
+  \fi
+  \endgroup}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \subsubsection{Fonts}
+%
+% \begin{macro}{\zf@set@font@type}
+% This macro sets \cs{zf@atsui} or \cs{zf@icu} or \cs{zf@mm} booleans
+% accordingly depending if the font in \cmd\zf@basefont\ is an AAT
+% font or an OpenType font or a font with feature axes (either AAT or 
+% Multiple Master), respectively.
+%    \begin{macrocode}
+\newcommand*\zf@set@font@type{%
+  \zf@tfmfalse \zf@atsuifalse \zf@icufalse \zf@mmfalse \zf@graphitefalse
+  \ifcase\XeTeXfonttype\zf@basefont
+    \zf@tfm
+  \or
+    \zf@atsuitrue
+    \ifnum\XeTeXcountvariations\zf@basefont > 0
+      \zf@mmtrue
+    \fi
+  \or
+    \zf@icutrue
+  \fi}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+%
+% \begin{macro}{\zf@make@font@shapes}
+%  \doarg{Font name prefix}
+%  \darg{Font name}
+%  \darg{Font series}
+%  \darg{Font shape}
+%  \darg{Font features}
+%   This macro eventually uses \cs{DeclareFontShape} to define the font shape in
+%   question.
+%
+%   The optional first
+%   argument is used when making the font shapes for bold, italic, and
+%   bold italic fonts using \XeTeX's auto-recognition with |#2| as |/B|, |/I|,
+%   and |/BI| font name suffixes. If no such font is found, it falls
+%   back to the original font name, in which case this macro doesn't
+%   proceed and the font shape is not created for the NFSS.
+%    \begin{macrocode}
+\newcommand*\zf@make@font@shapes[5][]{%
+  \begingroup
+    \edef\@tempa{#1}%
+    \unless\ifx\@tempa\@empty
+      \font\@tempfonta="\zf@font@wrap{#1}\zf@suffix" at \f@size pt
+      \edef\@tempa{\fontname\@tempfonta}%
+    \fi
+    \font\@tempfontb="\zf@font@wrap{#1#2}\zf@suffix" at \f@size pt
+    \edef\@tempb{\fontname\@tempfontb}%
+    \ifx\@tempa\@tempb
+      \zf@PackageInfo{Could not resolve font #1#2 (it might not exist)}%
+    \else
+      \edef\zf@fontname{#1#2}%
+      \let\zf@basefont\@tempfontb
+      \zf@DeclareFontShape{#3}{#4}{#5}%
+%    \end{macrocode}
+% Next, the small caps are defined. \cs{zf@make@smallcaps} is used to
+% define the appropriate string for activating small caps in the font,
+% if they exist. If we are defining small caps for the upright shape,
+% then the small caps shape default is used. For an \emph{italic}
+% font, however, the shape parameter is overloaded and we must call
+% italic small caps by their own identifier. See \vref{sec:sishape}
+% for the code that enables this usage.
+%    \begin{macrocode}
+      \ifx\zf@sc\@empty
+        \unless\ifzf@nosc
+          \zf@make@smallcaps
+          \unless\ifx\zf@smallcaps\@empty
+            \zf@DeclareFontShape[\zf@smallcaps]{#3}
+              {\ifx#4\itdefault\sidefault\else\scdefault\fi}{#5\zf@sc@feat}%
+          \fi
+        \fi
+      \else
+        \edef\zf@fontname{\zf@sc}%
+        \zf@DeclareFontShape{#3}
+          {\ifx#4\itdefault\sidefault\else\scdefault\fi}{#5\zf@sc@feat}%
+      \fi
+    \fi
+  \endgroup}
+%    \end{macrocode}
+% Note that the test for italics to choose the \cmd\sidefault\ shape
+% only works while \cmd\zf@fontspec\ passes single tokens to this macro\dots
+% \end{macro}
+%
+% \begin{macro}{\zf@DeclareFontShape}
+% \doarg{Raw appended font feature}
+% \darg{Font series}
+% \darg{Font shape}
+% \darg{Font features}
+% Wrapper for \cmd\DeclareFontShape.
+%    \begin{macrocode}
+\newcommand\zf@DeclareFontShape[4][]{%
+  \ifx\zf@size@feat\@empty
+    \zf@get@feature@requests{#4}%
+    \edef\zf@font@str{<->\zf@scale"\zf@font@wrap\zf@fontname\zf@suffix:%
+      \zf@pre@ff\zf@ff#1"}%
+  \else
+%    \end{macrocode}
+% Default code, above, sets things up for no optical size fonts or features.
+% On the other hand, loop through \feat{SizeFeatures} arguments, which
+% are of the form
+% {\par\centering |SizeFeatures={{<one>},{<two>},{<three>}}|.\par}
+%    \begin{macrocode}
+    \@for\zf@this@size:=\zf@size@feat\do{%
+      \let\zf@size\@empty
+      \let\zf@size@fnt\zf@fontname
+      \edef\@tempa{\noexpand
+        \setkeys*[zf]{sizing}{\expandafter\@firstofone\zf@this@size}}%
+      \@tempa
+      \ifx\zf@size\@empty\zf@PackageError
+          {Size information must be supplied}
+          {For example, SizeFeatures={Size={8-12},...},...}%
+      \fi
+      \zf@get@feature@requests{#4,\XKV@rm}%
+      \edef\zf@font@str{\zf@font@str <\zf@size>%
+        \zf@scale"\zf@size@fnt\zf@suffix:\zf@pre@ff\zf@ff#1"}}%
+  \fi
+%    \end{macrocode}
+% And finally the actual font shape declaration using \cmd\zf@font@str\ defined above.
+% \cmd\zf@adjust\ is defined in various places to deal with things like the hyphenation
+% character and interword spacing.
+%    \begin{macrocode}
+  \edef\@tempa{\noexpand
+    \DeclareFontShape{\zf@enc}{\zf@family}{#2}{#3}
+      {\zf@font@str}{\zf@adjust}}%
+  \@tempa
+%    \end{macrocode}
+% This extra stuff for the slanted shape substitution is a little bit awkward, 
+% but I'd rather have it here than break out yet another macro. Alternatively,
+% one day I might just redefine \cmd\slshape. Why not, eh?
+%    \begin{macrocode}
+  \edef\@tempa{#3}%
+  \edef\@tempb{\itdefault}%
+  \ifx\@tempa\@tempb
+    \edef\@tempa{\noexpand
+      \DeclareFontShape{\zf@enc}{\zf@family}{#2}{\sldefault}
+        {<->ssub*\zf@family/#2/\itdefault}{\zf@adjust}}%
+    \@tempa
+  \fi}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\zf@update@family}
+% This macro is used to build up a complex family name based on its
+% features.
+%
+% \cmd{\zf@firsttime} is set true in \cmd{\zf@fontspec} only the first
+% time \cmd{zf@get@feature@requests} is called, so that the family
+% name is only created once.
+%    \begin{macrocode}
+\newcommand*{\zf@update@family}[1]{%
+  \ifzf@firsttime
+    \xdef\zf@family@long{\zf@family@long#1}%
+  \fi}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \subsubsection{Features}
+%
+% \begin{macro}{\zf@get@feature@requests}
+%   This macro is a wrapper for |\setkeys| which expands and adds a
+%   default specification to the original passed options. It begins by
+%   initialising the commands used to hold font-feature specific
+%   strings.
+%    \begin{macrocode}
+\newcommand*\zf@get@feature@requests[1]{%
+  \let\zf@ff     \@empty
+  \let\zf@scale  \@empty
+  \let\zf@adjust \@empty
+  \edef\@tempa{\noexpand\setkeys[zf]{options}{\zf@default@options#1}}%
+  \@tempa}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\zf@init}
+% This functionality has been removed from \cmd\zf@get@feature@requests\
+% because it's no longer the first thing that can affect these things.
+%    \begin{macrocode}
+\newcommand*\zf@init{%
+  \zf@icufalse
+  \let\zf@pre@ff      \@empty
+  \let\zf@font@feat   \@empty
+  \let\zf@font@str    \@empty
+  \let\zf@font@wrap   \@firstofone
+  \let\zf@suffix      \@empty
+  \let\zf@bf          \@empty
+  \let\zf@it          \@empty
+  \let\zf@bfit        \@empty
+  \let\zf@sc          \@empty
+  \let\zf@up@feat     \@empty
+  \let\zf@bf@feat     \@empty
+  \let\zf@it@feat     \@empty
+  \let\zf@bfit@feat   \@empty
+  \let\zf@sc@feat     \@empty
+  \let\zf@size        \@empty
+  \let\zf@size@feat   \@empty
+  \let\zf@size@fnt    \@empty
+  \c@zf@script 1818326126\relax
+  \def\zf@script@name{Latin}%
+  \c@zf@language 0\relax
+  \def\zf@language@name{Default}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\zf@make@smallcaps}\label{mac:zf@make@smallcaps}
+% This macro checks if the font contains small caps, and if so
+% creates the string for accessing them in \cmd{\zf@smallcaps}.
+%    \begin{macrocode}
+\newcommand*\zf@make@smallcaps{%
+  \let\zf@smallcaps\@empty
+  \ifzf@atsui
+    \zf@make@aat@feature@string{3}{3}%
+    \unless\ifx\@tempa\@empty
+      \edef\zf@smallcaps{\@tempa;}%
+    \fi
+  \fi
+  \ifzf@icu
+    \zf@check@ot@feat{+smcp}%
+    \if@tempswa
+      \edef\zf@smallcaps{+smcp,}%
+    \fi
+  \fi}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+%
+% \begin{macro}{\zf@update@ff}
+% \cmd{\zf@ff} is the string used to define the list of specific
+% font features. Each time another font feature is requested, this
+% macro is used to add that feature to the list. AAT features are
+% separated by semicolons, OpenType features by commas.
+%    \begin{macrocode}
+\newcommand*\zf@update@ff[1]{%
+  \unless\ifzf@firsttime
+    \xdef\zf@ff{\zf@ff #1\ifzf@icu,\else;\fi}%
+  \fi}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+%
+% \begin{macro}{\zf@make@feature}
+%   This macro is called by each feature key selected, and runs
+%   according to which type of font is selected.
+%    \begin{macrocode}
+\newcommand*\zf@make@feature[3]{%
+%    \end{macrocode}
+% For AAT fonts:
+%    \begin{macrocode}
+  \ifzf@atsui
+    \def\@tempa{#1}%
+    \ifx\@tempa\@empty
+      \zf@PackageWarning{%
+        '\XKV@tfam=\XKV@tkey' feature not supported
+         for AAT font \fontname\zf@basefont}%
+    \else
+      \zf@make@aat@feature@string{#1}{#2}%
+      \ifx\@tempa\@empty
+        \zf@PackageWarning{%
+          AAT feature '\XKV@tfam=\XKV@tkey' (#1,#2) not available\zf@nl 
+          in font \fontname\zf@basefont}%
+      \else
+        \zf@update@family{+#1,#2}%
+        \zf@update@ff\@tempa
+      \fi
+    \fi
+  \fi
+%    \end{macrocode}
+% For OpenType fonts:
+%    \begin{macrocode}
+  \ifzf@icu
+    \edef\@tempa{#3}%
+    \ifx\@tempa\@empty
+      \zf@PackageWarning{%
+        '\XKV@tfam=\XKV@tkey' feature not supported 
+        for ICU font \fontname\zf@basefont}%
+    \else
+      \expandafter\zf@check@ot@feat\expandafter{\@tempa}%
+      \if@tempswa
+        \zf@update@family{#3}%
+        \zf@update@ff{#3}%
+      \else
+        \zf@PackageWarning{%
+          OpenType feature '\XKV@tfam=\XKV@tkey' (#3)
+          not available\zf@nl
+          for font \fontname\zf@basefont, \zf@nl 
+          with script '\zf@script@name',\zf@nl
+          and language '\zf@language@name'.}%
+      \fi
+    \fi
+  \fi}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\zf@define@font@feature}
+% \begin{macro}{\zf@define@feature@option}
+% These macros are used in order to simplify font feature definition later on.
+%    \begin{macrocode}
+\newcommand*\zf@define@font@feature[1]{%
+  \define@key[zf]{options}{#1}{{\setkeys[zf@feat]{#1}{##1}}}}
+\newcommand*\zf@define@feature@option[5]{%
+  \define@key[zf@feat]{#1}{#2}[]{\zf@make@feature{#3}{#4}{#5}}}
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+% 
+% \begin{macro}{\keyval@alias@key}
+% This macro maps one \pkg{xkeyval} key to another.
+%    \begin{macrocode}  
+\newcommand*\keyval@alias@key[4][KV]{%
+  \let@cc{#1@#2@#4}{#1@#2@#3}%
+  \let@cc{#1@#2@#4@default}{#1@#2@#3@default}}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\multi@alias@key}
+% This macro iterates through families to map one key to another, 
+% regardless of which family it's contained within.
+%    \begin{macrocode}
+\newcommand*\multi@alias@key[2]{%
+  \key@ifundefined[zf]{preparse}{#1}
+    {\key@ifundefined[zf]{options}{#1}
+       {\zf@PackageError{The feature #1 doesn't appear to be defined}
+          {It looks like you're trying to rename a feature that doesn't exist.}}
+       {\keyval@alias@key[zf]{options}{#1}{#2}}}
+    {\keyval@alias@key[zf]{preparse}{#1}{#2}}}
+%    \end{macrocode}
+% \end{macro}
+%    
+% \begin{macro}{\zf@make@aat@feature@string}
+%   This macro takes the numerical codes for a font feature and
+%   creates a specified macro containing the string required in the
+%   font definition to turn that feature on or off. Used primarily in
+%   \cmd\zf@make@aat@feature, but also used to check if small caps
+%   exists in the requested font (see page~\pageref{mac:zf@make@smallcaps}).
+%
+%    \begin{macrocode}
+\newcommand*\zf@make@aat@feature@string[2]{%
+  \edef\@tempa{\XeTeXfeaturename\zf@basefont #1}%
+  \unless\ifx\@tempa\@empty
+%    \end{macrocode}
+% For exclusive selectors, it's easy; just grab the string:
+%    \begin{macrocode}
+    \ifnum\XeTeXisexclusivefeature\zf@basefont #1>0
+      \edef\@tempb{\XeTeXselectorname\zf@basefont #1 #2}%
+%    \end{macrocode}
+% For \emph{non}-exclusive selectors, it's a little more complex.
+% If the selector is even, it corresponds to switching the feature on:
+%    \begin{macrocode}
+    \else
+      \unless\ifodd #2
+        \edef\@tempb{\XeTeXselectorname\zf@basefont #1 #2}%
+%    \end{macrocode}
+% If the selector is \emph{odd}, it corresponds to switching the feature off.
+% But \XeTeX\ doesn't return a selector string for this number, since the
+% feature is defined for the `switching on' value. So we need to check the
+% selector of the previous number, and then prefix the feature string with |!|
+% to denote the switch.
+%    \begin{macrocode}
+      \else
+        \edef\@tempb{\XeTeXselectorname\zf@basefont #1 \numexpr#2-1\relax}%  
+        \unless\ifx\@tempb\@empty
+          \edef\@tempb{!\@tempb}%
+        \fi
+      \fi
+    \fi
+%    \end{macrocode}
+% Finally, save out the complete feature string in \cmd\@tempa.
+% If the selector doesn't exist, re-initialise the feature string to empty.
+%    \begin{macrocode}
+    \unless\ifx\@tempb\@empty
+      \edef\@tempa{\@tempa=\@tempb}%
+    \else
+      \let\@tempa\@empty
+    \fi
+  \fi}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\zf@iv@strnum}
+% \begin{macro}{\zf@v@strnum}
+% This macro takes a four character string and converts it to the
+% numerical representation required for \XeTeX\ OpenType script/language/feature
+% purposes. The output is stored in \cmd\@tempcnta.
+%
+% The reason it's ugly is because the input can be of the form of any of these:
+% `|abcd|', `|abc|', `|abc |', `|ab|', `|ab  |', \etc.
+% (It is assumed the first two chars are \emph{always} not spaces.) So this macro
+% reads in the string, delimited by a space; this input is padded with \cmd\@empty s
+% and anything beyond four chars is snipped. The \cmd\@empty s then are used to reconstruct
+% the spaces in the string to number calculation.
+%
+% The variant \cmd\zf@v@strnum\ is used when looking at features, which are passed around
+% with prepended plus and minus signs (\eg, \texttt{+liga}, \texttt{-dlig}); it 
+% simply strips off the first char of the input before calling the normal \cmd\zf@iv@strnum.
+%
+% It's probable that all OpenType features \emph{are} in fact four characters long, but
+% not impossible that they aren't. So I'll leave the less efficient parsing stage in there
+% even though it's not strictly necessary for now.
+%    \begin{macrocode}
+\newcommand\zf@iv@strnum[1]{%
+  \zf@iv@strnum@i#1 \@nil}
+\def\zf@iv@strnum@i#1 \@nil{%
+  \zf@iv@strnum@ii#1\@empty\@empty\@nil}
+\def\zf@iv@strnum@ii#1#2#3#4#5\@nil{%
+  \@tempcnta\z@
+  \@tempcntb`#1\relax
+  \multiply\@tempcntb"1000000\advance\@tempcnta\@tempcntb
+  \@tempcntb`#2
+  \multiply\@tempcntb"10000\advance\@tempcnta\@tempcntb
+  \expandafter\@tempcntb\ifx\@empty#332\else`#3\fi
+  \multiply\@tempcntb"100\advance\@tempcnta\@tempcntb
+  \expandafter\@tempcntb\ifx\@empty#432\else`#4\fi
+  \advance\@tempcnta\@tempcntb}
+\newcommand\zf@v@strnum[1]{%
+  \expandafter\zf@iv@strnum@i\@gobble#1 \@nil}
+%    \end{macrocode}
+% TODO: convert to \cmd\numexpr
+% \end{macro}
+% \end{macro}
+%
+% \begin{macro}{\zf@check@ot@script}
+% This macro takes an OpenType script tag and checks if it exists in the current
+% font. The output boolean is \cmd\@tempswatrue. \cmd\@tempcnta\ is used to store
+% the number corresponding to the script tag string.
+%    \begin{macrocode}
+\newcommand\zf@check@ot@script[1]{%
+  \zf@iv@strnum{#1}%
+  \@tempcntb\XeTeXOTcountscripts\zf@basefont
+  \c@zf@index\z@ \@tempswafalse
+  \loop\ifnum\c@zf@index<\@tempcntb
+    \ifnum\XeTeXOTscripttag\zf@basefont\c@zf@index=\@tempcnta 
+      \@tempswatrue
+      \c@zf@index\@tempcntb
+    \else
+      \advance\c@zf@index\@ne
+    \fi
+  \repeat}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\zf@check@ot@lang}
+% This macro takes an OpenType language tag and checks if it exists in the current
+% font/script. The output boolean is \cmd\@tempswatrue. \cmd\@tempcnta\ is used to store
+% the number corresponding to the language tag string.
+% The script used is whatever's held in \cmd\c@zf@script. By default, that's the
+% number corresponding to `|latn|'.
+%    \begin{macrocode}
+\newcommand\zf@check@ot@lang[1]{%
+  \zf@iv@strnum{#1}%
+  \@tempcntb\XeTeXOTcountlanguages\zf@basefont\c@zf@script
+  \c@zf@index\z@ \@tempswafalse
+  \loop\ifnum\c@zf@index<\@tempcntb
+    \ifnum\XeTeXOTlanguagetag\zf@basefont\c@zf@script\c@zf@index=\@tempcnta 
+      \@tempswatrue
+      \c@zf@index\@tempcntb
+    \else
+      \advance\c@zf@index\@ne
+    \fi
+  \repeat}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\zf@check@ot@feat}
+% This macro takes an OpenType feature tag and checks if it exists in the current
+% font/script/language. 
+% The output boolean is \cmd\@tempswa. \cmd\@tempcnta\ is used to store
+% the number corresponding to the feature tag string.
+% The script used is whatever's held in \cmd\c@zf@script. By default, that's the
+% number corresponding to `|latn|'. The language used is \cmd\c@zf@language,
+% by default |0|, the `default language'. 
+%    \begin{macrocode}
+\newcommand*\zf@check@ot@feat[1]{%
+  \@tempcntb\XeTeXOTcountfeatures\zf@basefont\c@zf@script\c@zf@language
+  \zf@v@strnum{#1}%
+  \c@zf@index\z@ \@tempswafalse
+  \loop\ifnum\c@zf@index<\@tempcntb
+    \ifnum\XeTeXOTfeaturetag\zf@basefont\c@zf@script\c@zf@language
+          \c@zf@index=\@tempcnta 
+      \@tempswatrue
+      \c@zf@index\@tempcntb
+    \else
+      \advance\c@zf@index\@ne
+    \fi
+  \repeat}
+%    \end{macrocode}
+% \end{macro}
+%
+% \subsection{\pkg{keyval} definitions}
+%
+% This is the tedious section where we correlate all possible
+% (eventually) font feature requests with their \XeTeX\ representations.
+%
+% \subsubsection{Pre-parsed features}
+%
+% These features are extracted from the font feature list before all others, using
+% \pkg{xkeyval}'s \cmd\setkeys|*|.
+%
+% \paragraph{\feat{ExternalLocation}}
+% For fonts that aren't installed in the system. If no argument is given, the font is located
+% with |kpsewhich|; it's either in the current directory or the \TeX\ tree. Otherwise, the
+% argument given defines the file path of the font.
+%    \begin{macrocode}
+\define@key[zf]{prepreparse}{ExternalLocation}[]{%
+  \zf@icutrue
+  \zf@nobftrue\zf@noittrue
+  \gdef\zf@font@wrap##1{[#1##1]}}
+%    \end{macrocode}
+%
+% \paragraph{\feat{Renderer}}
+% This feature must be processed before all others (the other font shape and features options are also pre-parsed for convenience) because the renderer determines the format of the features and even whether certain features are available.
+%    \begin{macrocode}
+\define@choicekey[zf]{preparse}{Renderer}{AAT,ICU,GR}{%
+  \edef\zf@suffix{\zf@suffix/#1}%
+  \font\zf@basefont="\zf@font@wrap\zf@fontname\zf@suffix" at \f@size pt
+  \edef\zf@family@long{\zf@family@long +rend:#1}}
+%    \end{macrocode}
+%
+% \paragraph{OpenType script/language}
+% See later for the resolutions from \pkg{fontspec} features to OpenType definitions.
+%    \begin{macrocode}
+\define@key[zf]{preparse}{Script}{%
+  \zf@icutrue
+  \edef\zf@suffix{\zf@suffix/ICU}%
+  \font\zf@basefont="\zf@font@wrap\zf@fontname\zf@suffix" at \f@size pt
+  \edef\zf@family@long{\zf@family@long +script:#1}%
+  {\setkeys[zf@feat]{Script}{#1}}}
+%    \end{macrocode}
+% Exactly the same:
+%    \begin{macrocode}
+\define@key[zf]{preparse}{Language}{%
+  \zf@icutrue
+  \edef\zf@suffix{\zf@suffix/ICU}%
+  \font\zf@basefont="\zf@font@wrap\zf@fontname\zf@suffix" at \f@size pt
+  \edef\zf@family@long{\zf@family@long +language:#1}%
+  {\setkeys[zf@feat]{Lang}{#1}}}
+%    \end{macrocode}
+%
+% \subsubsection{Bold/italic choosing options}
+%
+% The \feat{Bold}, \feat{Italic}, and \feat{BoldItalic}
+% features are for defining explicitly the bold and italic fonts used
+% in a font family. \textsf{v1.6} introduced arbitrary font features
+% for these shapes (\feat{BoldFeatures}, etc.), so the names of the
+% shape-selecting options were appended with \opt{Font} for
+% consistency.
+%
+% \paragraph{Fonts}
+% Upright:
+%    \begin{macrocode}
+\define@key[zf]{preparse}{UprightFont}{%
+  \edef\@tempa{#1}%
+  \zf@partial@fontname#1\@nil=\zf@up
+  \edef\zf@family@long{\zf@family@long up:#1}}
+%    \end{macrocode}
+% Bold:
+%    \begin{macrocode}
+\define@key[zf]{preparse}{BoldFont}{%
+  \edef\@tempa{#1}%
+  \ifx\@tempa\@empty
+    \zf@nobftrue
+    \edef\zf@family@long{\zf@family@long nobf}%
+  \else
+    \zf@nobffalse
+    \zf@partial@fontname#1\@nil=\zf@bf
+    \edef\zf@family@long{\zf@family@long bf:#1}%
+  \fi}
+%    \end{macrocode}
+% Same for italic:
+%    \begin{macrocode}
+\define@key[zf]{preparse}{ItalicFont}{%
+  \edef\@tempa{#1}%
+  \ifx\@tempa\@empty
+    \zf@noittrue
+    \edef\zf@family@long{\zf@family@long noit}%
+  \else
+    \zf@noitfalse
+    \zf@partial@fontname#1\@nil=\zf@it
+    \edef\zf@family@long{\zf@family@long it:#1}%
+  \fi}
+%    \end{macrocode}
+% Simpler for bold+italic:
+%    \begin{macrocode}
+\define@key[zf]{preparse}{BoldItalicFont}{%
+  \zf@partial@fontname#1\@nil=\zf@bfit
+  \edef\zf@family@long{\zf@family@long bfit:#1}}
+%    \end{macrocode}
+% Small caps isn't pre-parsed because it can vary with others above:
+%    \begin{macrocode}
+\define@key[zf]{options}{SmallCapsFont}{%
+  \edef\@tempa{#1}%
+  \ifx\@tempa\@empty
+    \zf@nosctrue
+    \edef\zf@family@long{\zf@family@long nosc}%
+  \else
+    \zf@noscfalse
+    \zf@partial@fontname#1\@nil=\zf@sc
+    \zf@update@family{sc:\zap@space #1 \@empty}%
+  \fi}
+%    \end{macrocode}
+%
+% \begin{macro}{\zf@partial@fontname}
+% This macro takes the first token of its input and ends up defining |#3|
+% to the name of the font depending if it's been specified in full 
+% (``\texttt{Baskerville Semibold}'') or in abbreviation (``\texttt{* Semibold}'').
+%
+% This could be done more flexibly by making |*| active; I'll change it later if I need to.
+%    \begin{macrocode}
+\def\zf@partial@fontname#1#2\@nil=#3{%
+  \if#1*\relax
+    \edef#3{\zf@fontname#2}%
+  \else
+    \edef#3{#1#2}%
+  \fi}
+%    \end{macrocode}
+% \end{macro}
+%
+% \paragraph{Features}
+%    \begin{macrocode}  
+\define@key[zf]{preparse}{UprightFeatures}{%
+  \def\zf@up@feat{,#1}%
+  \edef\zf@family@long{\zf@family@long rmfeat:#1}}
+\define@key[zf]{preparse}{BoldFeatures}{%
+  \def\zf@bf@feat{,#1}%
+  \edef\zf@family@long{\zf@family@long bffeat:#1}}
+\define@key[zf]{preparse}{ItalicFeatures}{%
+  \def\zf@it@feat{,#1}%
+  \edef\zf@family@long{\zf@family@long itfeat:#1}}
+\define@key[zf]{preparse}{BoldItalicFeatures}{%
+  \def\zf@bfit@feat{,#1}%
+  \edef\zf@family@long{\zf@family@long bfitfeat:#1}}
+%    \end{macrocode}
+% Note that small caps features can vary by shape, so these in fact \emph{aren't} pre-parsed.
+%    \begin{macrocode}
+\define@key[zf]{options}{SmallCapsFeatures}{%
+  \unless\ifzf@firsttime\def\zf@sc@feat{,#1}\fi
+  \zf@update@family{scfeat:\zap@space #1 \@empty}}
+%    \end{macrocode}
+%
+% paragraph{Features varying by size}
+% TODO: sizezfeatures and italicfont (etc) don't play nice
+%    \begin{macrocode}
+\define@key[zf]{preparse}{SizeFeatures}{%
+  \unless\ifzf@firsttime\def\zf@size@feat{#1}\fi
+  \zf@update@family{sizefeat:\zap@space #1 \@empty}}
+%    \end{macrocode}
+% 
+%    \begin{macrocode}
+\define@key[zf]{sizing}{Size}{\def\zf@size{#1}}  
+\define@key[zf]{sizing}{Font}{\def\zf@size@fnt{#1}}  
+%    \end{macrocode}
+%
+% \subsubsection{Font-independent features}
+%
+% These features can be applied to any font. 
+%
+% \paragraph{Scale}
+% If the input isn't one of the pre-defined string options, then
+% it's gotta be numerical. \cmd\zf@calc@scale\ does all the work in
+% the auto-scaling cases.
+%    \begin{macrocode}
+\define@key[zf]{options}{Scale}{%
+  \edef\@tempa{#1}%
+  \edef\@tempb{MatchLowercase}%
+  \ifx\@tempa\@tempb
+    \zf@calc@scale{5}%
+  \else
+    \edef\@tempb{MatchUppercase}%
+    \ifx\@tempa\@tempb
+      \zf@calc@scale{8}%
+    \else
+      \edef\zf@scale{#1}%
+    \fi
+  \fi  
+  \zf@update@family{+scale:\zf@scale}%
+  \edef\zf@scale{s*[\zf@scale]}}  
+%    \end{macrocode}
+%
+% \begin{macro}{\zf@calc@scale}
+% This macro calculates the amount of scaling between the default
+% roman font and the (default shape of) the font being selected such
+% that the font dimension that is input is equal for both. The only
+% font dimensions that justify this are 5 (lowercase height)
+% and 8 (uppercase height in \XeTeX).
+%
+% This script is executed for every extra shape, which seems wasteful,
+% but allows alternate italic shapes from a separate font, say, to
+% be loaded and to be auto-scaled correctly. Even if this would be ugly.
+%    \begin{macrocode}
+\newcommand\zf@calc@scale[1]{%
+  \begingroup
+    \rmfamily
+    \setlength\@tempdima{\fontdimen#1\font}%
+    \setlength\@tempdimb{\fontdimen#1\zf@basefont}%
+    \setlength\@tempdimc{1pt*\ratio{\@tempdima}{\@tempdimb}}%
+    \xdef\zf@scale{\strip@pt\@tempdimc}%
+    \zf@PackageInfo{\zf@fontname\space scale = \zf@scale}%
+  \endgroup}
+%    \end{macrocode}
+% \end{macro}
+%
+% \paragraph{Inter-word space}
+% These options set the relevant \cmd\fontdimen s for the
+% font being loaded.
+%    \begin{macrocode}
+\define@key[zf]{options}{WordSpace}{%
+  \zf@update@family{+wordspace:#1}%
+  \unless\ifzf@firsttime
+    \zf@wordspace@parse#1,\zf@@ii,\zf@@iii,\zf@@
+  \fi}
+%    \end{macrocode}
+%
+% \begin{macro}{\zf@wordspace@parse}
+% This macro determines if the input to \feat{WordSpace} is
+% of the form |{X}| or |{X,Y,Z}| and executes the font scaling. 
+% If the former input, it executes |{X,X,X}|.
+%    \begin{macrocode}
+\def\zf@wordspace@parse#1,#2,#3,#4\zf@@{%
+  \def\@tempa{#4}%
+  \ifx\@tempa\@empty
+    \setlength\@tempdima{#1\fontdimen2\zf@basefont}%
+    \@tempdimb\@tempdima
+    \@tempdimc\@tempdima
+  \else
+    \setlength\@tempdima{#1\fontdimen2\zf@basefont}%
+    \setlength\@tempdimb{#2\fontdimen3\zf@basefont}%
+    \setlength\@tempdimc{#3\fontdimen4\zf@basefont}%
+  \fi
+  \edef\zf@adjust{\zf@adjust
+    \fontdimen2\font\the\@tempdima
+    \fontdimen3\font\the\@tempdimb
+    \fontdimen4\font\the\@tempdimc}}
+%    \end{macrocode}
+% \end{macro}
+%
+% \paragraph{Punctuation space}
+% Scaling factor for the nominal \cmd\fontdimen \#7.
+%    \begin{macrocode}
+\define@key[zf]{options}{PunctuationSpace}{%
+  \zf@update@family{+punctspace:#1}%
+  \setlength\@tempdima{#1\fontdimen7\zf@basefont}%
+  \edef\zf@adjust{\zf@adjust\fontdimen7\font\the\@tempdima}}
+%    \end{macrocode}
+%
+% \paragraph{Letterspacing}
+%    \begin{macrocode}
+\define@key[zf]{options}{LetterSpace}{%
+  \zf@update@family{+tracking:#1}%
+  \zf@update@ff{letterspace=#1}}
+%    \end{macrocode}
+%
+% \paragraph{Hyphenation character}
+% This feature takes one of three arguments: `\opt{None}',
+% \meta{glyph}, or \meta{slot}. If the input isn't the first,
+% and it's one character, then it's the second; otherwise, it's
+% the third. 
+%    \begin{macrocode}
+\define@key[zf]{options}{HyphenChar}{%
+  \zf@update@family{+hyphenchar:#1}%
+  \edef\@tempa{#1}%
+  \edef\@tempb{None}%
+  \ifx\@tempa\@tempb
+    \g@addto@macro\zf@adjust{\hyphenchar\font-1\relax}%
+  \else
+    \zf@check@one@char#1\zf@@
+    \ifx\@tempb\@empty
+      {\zf@basefont\expandafter\ifnum\expandafter\XeTeXcharglyph
+            \expandafter`#1 > \z@
+         \g@addto@macro\zf@adjust{%
+           {\expandafter\hyphenchar\expandafter
+            \font\expandafter`#1}}%
+      \else
+        \zf@PackageError
+          {\fontname\zf@basefont\space doesn't appear to have the glyph
+            corresponding to #1.}
+          {You can't hyphenate with a character that's not available!}%
+      \fi}%
+    \else
+      {\zf@basefont\ifnum\XeTeXcharglyph#1 > \z@
+        \g@addto@macro\zf@adjust{\hyphenchar\font#1\relax}%
+      \else
+        \zf@PackageError
+          {\fontname\zf@basefont\space doesn't appear to have the glyph
+            corresponding to #1.}
+          {You can't hyphenate with a character that's not available!}%
+      \fi}%
+    \fi
+  \fi}
+\def\zf@check@one@char#1#2\zf@@{\def\@tempb{#2}}
+%    \end{macrocode}
+%
+% \paragraph{Colour}
+%    \begin{macrocode}
+\define@key[zf]{options}{Colour}{%
+  \zf@update@family{+col:#1}%
+  \zf@update@ff{color=#1}}
+\keyval@alias@key[zf]{options}{Colour}{Color}  
+%    \end{macrocode}
+%
+% \paragraph{Mapping}
+%    \begin{macrocode}
+\define@key[zf]{options}{Mapping}{%
+  \zf@update@family{+map:#1}%
+  \zf@update@ff{mapping=#1}}
+%    \end{macrocode}
+%
+%
+% \subsubsection{Continuous font axes}
+%
+%    \begin{macrocode}
+\define@key[zf]{options}{Weight}{%
+  \zf@update@family{+weight:#1}%
+  \zf@update@ff{weight=#1}}
+\define@key[zf]{options}{Width}{%
+  \zf@update@family{+width:#1}%
+  \zf@update@ff{width=#1}}
+\define@key[zf]{options}{OpticalSize}{%
+  \ifzf@icu
+    \edef\zf@suffix{\zf@suffix/S=#1}%
+    \zf@update@family{+size:#1}%
+  \fi
+  \ifzf@mm
+    \zf@update@family{+size:#1}%
+    \zf@update@ff{optical size=#1}%
+  \fi
+  \ifzf@icu\else
+    \ifzf@mm\else
+      \ifzf@firsttime
+        \zf@PackageWarning
+          {\fontname\zf@basefont\space doesn't appear
+            to have an Optical Size axis}%
+      \fi
+    \fi
+  \fi}
+%    \end{macrocode}
+%
+% \subsubsection{Font transformations}
+%    \begin{macrocode}
+\define@key[zf]{options}{FakeSlant}{%
+  \zf@update@family{+slant:#1}%
+  \zf@update@ff{slant=#1}}
+\define@key[zf]{options}{FakeStretch}{%
+  \zf@update@family{+extend:#1}%
+  \zf@update@ff{extend=#1}}
+\define@key[zf]{options}{FakeBold}{%
+  \zf@update@family{+embolden:#1}%
+  \zf@update@ff{embolden=#1}}
+%    \end{macrocode}
+%
+%
+% \subsubsection{Ligatures}
+% The call to the nested keyval family must be wrapped in braces to
+% hide the parent list (this later requires the use of global
+% definitions (|\xdef|) in |\zf@update@...|). Both AAT and OpenType
+% names are offered to chose |Rare|/|Discretionary| ligatures.
+%    \begin{macrocode}
+\zf@define@font@feature{Ligatures}
+\zf@define@feature@option{Ligatures}{Required}       {1}{0}{+rlig}
+\zf@define@feature@option{Ligatures}{NoRequired}     {1}{1}{-rlig}
+\zf@define@feature@option{Ligatures}{Common}         {1}{2}{+liga}
+\zf@define@feature@option{Ligatures}{NoCommon}       {1}{3}{-liga}
+\zf@define@feature@option{Ligatures}{Rare}           {1}{4}{+dlig}
+\zf@define@feature@option{Ligatures}{NoRare}         {1}{5}{-dlig}
+\zf@define@feature@option{Ligatures}{Discretionary}  {1}{4}{+dlig}
+\zf@define@feature@option{Ligatures}{NoDiscretionary}{1}{5}{-dlig}
+\zf@define@feature@option{Ligatures}{Contextual}     {}{}  {+clig}
+\zf@define@feature@option{Ligatures}{NoContextual}   {}{}  {-clig}
+\zf@define@feature@option{Ligatures}{Historical}     {}{}  {+hlig}
+\zf@define@feature@option{Ligatures}{NoHistorical}   {}{}  {-hlig}
+\zf@define@feature@option{Ligatures}{Logos}          {1}{6} {}
+\zf@define@feature@option{Ligatures}{NoLogos}        {1}{7} {}
+\zf@define@feature@option{Ligatures}{Rebus}          {1}{8} {}
+\zf@define@feature@option{Ligatures}{NoRebus}        {1}{9} {}
+\zf@define@feature@option{Ligatures}{Diphthong}      {1}{10}{}
+\zf@define@feature@option{Ligatures}{NoDiphthong}    {1}{11}{}
+\zf@define@feature@option{Ligatures}{Squared}        {1}{12}{}
+\zf@define@feature@option{Ligatures}{NoSquared}      {1}{13}{}
+\zf@define@feature@option{Ligatures}{AbbrevSquared}  {1}{14}{}
+\zf@define@feature@option{Ligatures}{NoAbbrevSquared}{1}{15}{}
+\zf@define@feature@option{Ligatures}{Icelandic}      {1}{32}{}
+\zf@define@feature@option{Ligatures}{NoIcelandic}    {1}{33}{}
+%    \end{macrocode}
+%
+% \subsubsection{Letters}
+%    \begin{macrocode}
+\zf@define@font@feature{Letters}
+\zf@define@feature@option{Letters}{Normal}             {3}{0}{}
+\zf@define@feature@option{Letters}{Uppercase}          {3}{1}{+case}
+\zf@define@feature@option{Letters}{Lowercase}          {3}{2}{}
+\zf@define@feature@option{Letters}{SmallCaps}          {3}{3}{+smcp}
+\zf@define@feature@option{Letters}{PetiteCaps}         {} {} {+pcap}
+\zf@define@feature@option{Letters}{UppercaseSmallCaps} {} {} {+c2sc}
+\zf@define@feature@option{Letters}{UppercasePetiteCaps}{} {} {+c2pc}
+\zf@define@feature@option{Letters}{InitialCaps}        {3}{4}{}
+\zf@define@feature@option{Letters}{Unicase}            {} {} {+unic}
+%    \end{macrocode}
+%
+% \subsubsection{Numbers}
+%
+% These were originally separated into \feat{NumberCase} and
+% \feat{NumberSpacing} following AAT, but it makes more sense to
+% combine them.
+%
+% Both naming conventions are offered to select the number case.
+%
+%    \begin{macrocode}
+\zf@define@font@feature{Numbers}
+\zf@define@feature@option{Numbers}{Monospaced}   {6} {0}{+tnum}
+\zf@define@feature@option{Numbers}{Proportional} {6} {1}{+pnum}
+\zf@define@feature@option{Numbers}{Lowercase}    {21}{0}{+onum}
+\zf@define@feature@option{Numbers}{OldStyle}     {21}{0}{+onum}
+\zf@define@feature@option{Numbers}{Uppercase}    {21}{1}{+lnum}
+\zf@define@feature@option{Numbers}{Lining}       {21}{1}{+lnum}
+\zf@define@feature@option{Numbers}{SlashedZero}  {14}{5}{+zero}
+\zf@define@feature@option{Numbers}{NoSlashedZero}{14}{4}{-zero}
+%    \end{macrocode}
+%
+% \subsubsection{Contextuals}
+%    \begin{macrocode}
+\zf@define@font@feature  {Contextuals}
+\zf@define@feature@option{Contextuals}{Swash}        {} {} {+cswh}
+\zf@define@feature@option{Contextuals}{NoSwash}      {} {} {-cswh}
+\zf@define@feature@option{Contextuals}{Alternate}    {} {} {+calt}
+\zf@define@feature@option{Contextuals}{NoAlternate}  {} {} {-calt}
+\zf@define@feature@option{Contextuals}{WordInitial}  {8}{0}{+init}
+\zf@define@feature@option{Contextuals}{NoWordInitial}{8}{1}{-init}
+\zf@define@feature@option{Contextuals}{WordFinal}    {8}{2}{+fina}
+\zf@define@feature@option{Contextuals}{NoWordFinal}  {8}{3}{-fina}
+\zf@define@feature@option{Contextuals}{LineInitial}  {8}{4}{}
+\zf@define@feature@option{Contextuals}{NoLineInitial}{8}{5}{}
+\zf@define@feature@option{Contextuals}{LineFinal}    {8}{6}{+falt}
+\zf@define@feature@option{Contextuals}{NoLineFinal}  {8}{7}{-falt}
+\zf@define@feature@option{Contextuals}{Inner}        {8}{8}{+medi}
+\zf@define@feature@option{Contextuals}{NoInner}      {8}{9}{-medi}
+%    \end{macrocode}
+%
+% \subsubsection{Diacritics}
+%    \begin{macrocode}
+\zf@define@font@feature{Diacritics}
+\zf@define@feature@option{Diacritics}{Show}     {9}{0}{}
+\zf@define@feature@option{Diacritics}{Hide}     {9}{1}{}
+\zf@define@feature@option{Diacritics}{Decompose}{9}{2}{}
+%    \end{macrocode}
+%
+% \subsubsection{Kerning}
+%    \begin{macrocode}
+\zf@define@font@feature{Kerning}
+\zf@define@feature@option{Kerning}{Uppercase}{}{}{+cpsp}
+\zf@define@feature@option{Kerning}{On}       {}{}{+kern}
+\zf@define@feature@option{Kerning}{Off}      {}{}{-kern}
+%\zf@define@feature@option{Kerning}{Vertical}{}{}{+vkrn}
+%\zf@define@feature@option{Kerning}
+%    {VerticalAlternateProportional}{}{}{+vpal}
+%\zf@define@feature@option{Kerning}{VerticalAlternateHalfWidth}{}{}{+vhal}
+%    \end{macrocode}
+%
+% \subsubsection{Vertical position}
+%    \begin{macrocode}
+\zf@define@font@feature{VerticalPosition}
+\zf@define@feature@option{VerticalPosition}{Normal}     {10}{0}{}
+\zf@define@feature@option{VerticalPosition}{Superior}   {10}{1}{+sups}
+\zf@define@feature@option{VerticalPosition}{Inferior}   {10}{2}{+subs}
+\zf@define@feature@option{VerticalPosition}{Ordinal}    {10}{3}{+ordn}
+\zf@define@feature@option{VerticalPosition}{Numerator}  {}  {} {+numr}
+\zf@define@feature@option{VerticalPosition}{Denominator}{}  {} {+dnom}
+\zf@define@feature@option{VerticalPosition}{ScientificInferior}{}{}{+sinf}
+%    \end{macrocode}
+%
+% \subsubsection{Fractions}
+%    \begin{macrocode}
+\zf@define@font@feature{Fractions}
+\zf@define@feature@option{Fractions}{On}       {11}{1}{+frac}
+\zf@define@feature@option{Fractions}{Off}      {11}{0}{-frac}
+\zf@define@feature@option{Fractions}{Diagonal} {11}{2}{}
+\zf@define@feature@option{Fractions}{Alternate}{}  {} {+afrc}
+%    \end{macrocode}
+%
+% \subsubsection{Alternates and variants} 
+% Selected numerically because they don't have standard names. Very
+% easy to process, very annoying for the user!
+%
+%    \begin{macrocode}
+\define@key[zf]{options}{Alternate}[0]{%
+  \setkeys*[zf@feat]{Alternate}{#1}%
+  \unless\ifx\XKV@rm\@empty
+    \def\XKV@tfam{Alternate}%
+    \zf@make@feature{17}{#1}{+salt=#1}%
+  \fi}
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+\define@key[zf]{options}{Variant}{%
+  \setkeys*[zf@feat]{Variant}{#1}%
+  \unless\ifx\XKV@rm\@empty
+    \def\XKV@tfam{Variant}%
+    \zf@make@feature{18}{#1}{+ss\two@digits{#1}}%
+  \fi}
+%    \end{macrocode}
+%
+% \subsubsection{Style}
+%    \begin{macrocode}
+\zf@define@font@feature{Style}
+\zf@define@feature@option{Style}{Alternate}     {}  {} {+salt}
+\zf@define@feature@option{Style}{Italic}        {32}{2}{+ital}
+\zf@define@feature@option{Style}{Ruby}          {28}{2}{+ruby}
+\zf@define@feature@option{Style}{Swash}         {}  {} {+swsh}
+\zf@define@feature@option{Style}{Historic}      {}  {} {+hist}
+\zf@define@feature@option{Style}{Display}       {19}{1}{}
+\zf@define@feature@option{Style}{Engraved}      {19}{2}{}
+\zf@define@feature@option{Style}{TitlingCaps}   {19}{4}{+titl}
+\zf@define@feature@option{Style}{TallCaps}      {19}{5}{}
+\zf@define@feature@option{Style}{HorizontalKana}{}  {} {+hkna}  
+\zf@define@feature@option{Style}{VerticalKana}  {}  {} {+vkna}  
+%    \end{macrocode}
+%
+% \subsubsection{CJK shape}
+%    \begin{macrocode}
+\zf@define@font@feature{CJKShape}
+\zf@define@feature@option{CJKShape}{Traditional}{20}{0} {+trad}
+\zf@define@feature@option{CJKShape}{Simplified} {20}{1} {+smpl}
+\zf@define@feature@option{CJKShape}{JIS1978}    {20}{2} {+jp78}
+\zf@define@feature@option{CJKShape}{JIS1983}    {20}{3} {+jp83}
+\zf@define@feature@option{CJKShape}{JIS1990}    {20}{4} {+jp90}
+\zf@define@feature@option{CJKShape}{Expert}     {20}{10}{+expt}
+\zf@define@feature@option{CJKShape}{NLC}        {20}{13}{+nlck}
+%    \end{macrocode}
+%
+% \subsubsection{Character width}
+%    \begin{macrocode}
+\zf@define@font@feature{CharacterWidth}
+\zf@define@feature@option{CharacterWidth}{Proportional}{22}{0}{+pwid}
+\zf@define@feature@option{CharacterWidth}{Full}{22}{1}{+fwid}
+\zf@define@feature@option{CharacterWidth}{Half}{22}{2}{+hwid}
+\zf@define@feature@option{CharacterWidth}{Third}{22}{3}{+twid}
+\zf@define@feature@option{CharacterWidth}{Quarter}{22}{4}{+qwid}
+\zf@define@feature@option{CharacterWidth}{AlternateProportional}{22}{5}{+palt}
+\zf@define@feature@option{CharacterWidth}{AlternateHalf}{22}{6}{+halt}
+\zf@define@feature@option{CharacterWidth}{Default}{22}{7}{}
+%    \end{macrocode}
+%
+% \subsubsection{Annotation}
+%    \begin{macrocode}
+\zf@define@font@feature{Annotation}
+\zf@define@feature@option{Annotation}{Off}{24}{0}{-nalt}
+\zf@define@feature@option{Annotation}{On}{}{}{+nalt}
+\zf@define@feature@option{Annotation}{Box}{24}{1}{}
+\zf@define@feature@option{Annotation}{RoundedBox}{24}{2}{}
+\zf@define@feature@option{Annotation}{Circle}{24}{3}{}
+\zf@define@feature@option{Annotation}{BlackCircle}{24}{4}{}
+\zf@define@feature@option{Annotation}{Parenthesis}{24}{5}{}
+\zf@define@feature@option{Annotation}{Period}{24}{6}{}
+\zf@define@feature@option{Annotation}{RomanNumerals}{24}{7}{}
+\zf@define@feature@option{Annotation}{Diamond}{24}{8}{}
+\zf@define@feature@option{Annotation}{BlackSquare}{24}{9}{}
+\zf@define@feature@option{Annotation}{BlackRoundSquare}{24}{10}{}
+\zf@define@feature@option{Annotation}{DoubleCircle}{24}{11}{}
+%    \end{macrocode}
+%
+%
+% \subsubsection{Vertical}
+%    \begin{macrocode}
+\zf@define@font@feature{Vertical}
+\define@key[zf@feat]{Vertical}{RotatedGlyphs}[]{%
+  \ifzf@icu
+    \zf@make@feature{}{}{+vrt2}%
+    \zf@update@family{+vert}%
+    \zf@update@ff{vertical}%
+  \else
+    \zf@update@family{+vert}%
+    \zf@update@ff{vertical}%
+  \fi}
+%    \end{macrocode}
+%
+% \subsubsection{Script}
+%    \begin{macrocode}
+\newfontscript{Arabic}{arab}            \newfontscript{Armenian}{armn}
+\newfontscript{Balinese}{bali}          \newfontscript{Bengali}{beng}
+\newfontscript{Bopomofo}{bopo}          \newfontscript{Braille}{brai}
+\newfontscript{Buginese}{bugi}          \newfontscript{Buhid}{buhd}
+\newfontscript{Byzantine Music}{byzm} \newfontscript{Canadian Syllabics}{cans}
+\newfontscript{Cherokee}{cher}       
+\newfontscript{CJK Ideographic}{hani}   \newfontscript{Coptic}{copt}
+\newfontscript{Cypriot Syllabary}{cprt} \newfontscript{Cyrillic}{cyrl}
+\newfontscript{Default}{DFLT}           \newfontscript{Deseret}{dsrt}
+\newfontscript{Devanagari}{deva}        \newfontscript{Ethiopic}{ethi}
+\newfontscript{Georgian}{geor}          \newfontscript{Glagolitic}{glag}
+\newfontscript{Gothic}{goth}            \newfontscript{Greek}{grek}
+\newfontscript{Gujarati}{gujr}          \newfontscript{Gurmukhi}{guru}
+\newfontscript{Hangul Jamo}{jamo}       \newfontscript{Hangul}{hang}
+\newfontscript{Hanunoo}{hano}           \newfontscript{Hebrew}{hebr}
+\newfontscript{Hiragana and Katakana}{kana}
+\newfontscript{Javanese}{java}          \newfontscript{Kannada}{knda}
+\newfontscript{Kharosthi}{khar}         \newfontscript{Khmer}{khmr}
+\newfontscript{Lao}{lao }               \newfontscript{Latin}{latn}
+\newfontscript{Limbu}{limb}             \newfontscript{Linear B}{linb}
+\newfontscript{Malayalam}{mlym}         \newfontscript{Math}{math}
+\newfontscript{Mongolian}{mong}
+\newfontscript{Musical Symbols}{musc}   \newfontscript{Myanmar}{mymr}
+\newfontscript{N'ko}{nko }              \newfontscript{Ogham}{ogam}
+\newfontscript{Old Italic}{ital}        
+\newfontscript{Old Persian Cuneiform}{xpeo}
+\newfontscript{Oriya}{orya}             \newfontscript{Osmanya}{osma}
+\newfontscript{Phags-pa}{phag}          \newfontscript{Phoenician}{phnx}
+\newfontscript{Runic}{runr}             \newfontscript{Shavian}{shaw}
+\newfontscript{Sinhala}{sinh}           
+\newfontscript{Sumero-Akkadian Cuneiform}{xsux}
+\newfontscript{Syloti Nagri}{sylo}      \newfontscript{Syriac}{syrc}
+\newfontscript{Tagalog}{tglg}           \newfontscript{Tagbanwa}{tagb}
+\newfontscript{Tai Le}{tale}            \newfontscript{Tai Lu}{talu}
+\newfontscript{Tamil}{taml}             \newfontscript{Telugu}{telu}
+\newfontscript{Thaana}{thaa}            \newfontscript{Thai}{thai}
+\newfontscript{Tibetan}{tibt}           \newfontscript{Tifinagh}{tfng}
+\newfontscript{Ugaritic Cuneiform}{ugar}\newfontscript{Yi}{yi  }
+%    \end{macrocode}
+%
+% \subsubsection{Language}
+%    \begin{macrocode}
+\newfontlanguage{Abaza}{ABA}\newfontlanguage{Abkhazian}{ABK}
+\newfontlanguage{Adyghe}{ADY}\newfontlanguage{Afrikaans}{AFK}
+\newfontlanguage{Afar}{AFR}\newfontlanguage{Agaw}{AGW}
+\newfontlanguage{Altai}{ALT}\newfontlanguage{Amharic}{AMH}
+\newfontlanguage{Arabic}{ARA}\newfontlanguage{Aari}{ARI}
+\newfontlanguage{Arakanese}{ARK}\newfontlanguage{Assamese}{ASM}
+\newfontlanguage{Athapaskan}{ATH}\newfontlanguage{Avar}{AVR}
+\newfontlanguage{Awadhi}{AWA}\newfontlanguage{Aymara}{AYM}
+\newfontlanguage{Azeri}{AZE}\newfontlanguage{Badaga}{BAD}
+\newfontlanguage{Baghelkhandi}{BAG}\newfontlanguage{Balkar}{BAL}
+\newfontlanguage{Baule}{BAU}\newfontlanguage{Berber}{BBR}
+\newfontlanguage{Bench}{BCH}\newfontlanguage{Bible Cree}{BCR}
+\newfontlanguage{Belarussian}{BEL}\newfontlanguage{Bemba}{BEM}
+\newfontlanguage{Bengali}{BEN}\newfontlanguage{Bulgarian}{BGR}
+\newfontlanguage{Bhili}{BHI}\newfontlanguage{Bhojpuri}{BHO}
+\newfontlanguage{Bikol}{BIK}\newfontlanguage{Bilen}{BIL}
+\newfontlanguage{Blackfoot}{BKF}\newfontlanguage{Balochi}{BLI}
+\newfontlanguage{Balante}{BLN}\newfontlanguage{Balti}{BLT}
+\newfontlanguage{Bambara}{BMB}\newfontlanguage{Bamileke}{BML}
+\newfontlanguage{Breton}{BRE}\newfontlanguage{Brahui}{BRH}
+\newfontlanguage{Braj Bhasha}{BRI}\newfontlanguage{Burmese}{BRM}
+\newfontlanguage{Bashkir}{BSH}\newfontlanguage{Beti}{BTI}
+\newfontlanguage{Catalan}{CAT}\newfontlanguage{Cebuano}{CEB}
+\newfontlanguage{Chechen}{CHE}\newfontlanguage{Chaha Gurage}{CHG}
+\newfontlanguage{Chattisgarhi}{CHH}\newfontlanguage{Chichewa}{CHI}
+\newfontlanguage{Chukchi}{CHK}\newfontlanguage{Chipewyan}{CHP}
+\newfontlanguage{Cherokee}{CHR}\newfontlanguage{Chuvash}{CHU}
+\newfontlanguage{Comorian}{CMR}\newfontlanguage{Coptic}{COP}
+\newfontlanguage{Cree}{CRE}\newfontlanguage{Carrier}{CRR}
+\newfontlanguage{Crimean Tatar}{CRT}\newfontlanguage{Church Slavonic}{CSL}
+\newfontlanguage{Czech}{CSY}\newfontlanguage{Danish}{DAN}
+\newfontlanguage{Dargwa}{DAR}\newfontlanguage{Woods Cree}{DCR}
+\newfontlanguage{German}{DEU}\newfontlanguage{Default}{DFLT}
+\newfontlanguage{Dogri}{DGR}\newfontlanguage{Divehi}{DIV}
+\newfontlanguage{Djerma}{DJR}\newfontlanguage{Dangme}{DNG}
+\newfontlanguage{Dinka}{DNK}\newfontlanguage{Dungan}{DUN}
+\newfontlanguage{Dzongkha}{DZN}\newfontlanguage{Ebira}{EBI}
+\newfontlanguage{Eastern Cree}{ECR}\newfontlanguage{Edo}{EDO}
+\newfontlanguage{Efik}{EFI}\newfontlanguage{Greek}{ELL}
+\newfontlanguage{English}{ENG}\newfontlanguage{Erzya}{ERZ}
+\newfontlanguage{Spanish}{ESP}\newfontlanguage{Estonian}{ETI}
+\newfontlanguage{Basque}{EUQ}\newfontlanguage{Evenki}{EVK}
+\newfontlanguage{Even}{EVN}\newfontlanguage{Ewe}{EWE}
+\newfontlanguage{French Antillean}{FAN}\newfontlanguage{Farsi}{FAR}
+\newfontlanguage{Finnish}{FIN}\newfontlanguage{Fijian}{FJI}
+\newfontlanguage{Flemish}{FLE}\newfontlanguage{Forest Nenets}{FNE}
+\newfontlanguage{Fon}{FON}\newfontlanguage{Faroese}{FOS}
+\newfontlanguage{French}{FRA}\newfontlanguage{Frisian}{FRI}
+\newfontlanguage{Friulian}{FRL}\newfontlanguage{Futa}{FTA}
+\newfontlanguage{Fulani}{FUL}\newfontlanguage{Ga}{GAD}
+\newfontlanguage{Gaelic}{GAE}\newfontlanguage{Gagauz}{GAG}
+\newfontlanguage{Galician}{GAL}\newfontlanguage{Garshuni}{GAR}
+\newfontlanguage{Garhwali}{GAW}\newfontlanguage{Ge'ez}{GEZ}
+\newfontlanguage{Gilyak}{GIL}\newfontlanguage{Gumuz}{GMZ}
+\newfontlanguage{Gondi}{GON}\newfontlanguage{Greenlandic}{GRN}
+\newfontlanguage{Garo}{GRO}\newfontlanguage{Guarani}{GUA}
+\newfontlanguage{Gujarati}{GUJ}\newfontlanguage{Haitian}{HAI}
+\newfontlanguage{Halam}{HAL}\newfontlanguage{Harauti}{HAR}
+\newfontlanguage{Hausa}{HAU}\newfontlanguage{Hawaiin}{HAW}
+\newfontlanguage{Hammer-Banna}{HBN}\newfontlanguage{Hiligaynon}{HIL}
+\newfontlanguage{Hindi}{HIN}\newfontlanguage{High Mari}{HMA}
+\newfontlanguage{Hindko}{HND}\newfontlanguage{Ho}{HO}
+\newfontlanguage{Harari}{HRI}\newfontlanguage{Croatian}{HRV}
+\newfontlanguage{Hungarian}{HUN}\newfontlanguage{Armenian}{HYE}
+\newfontlanguage{Igbo}{IBO}\newfontlanguage{Ijo}{IJO}
+\newfontlanguage{Ilokano}{ILO}\newfontlanguage{Indonesian}{IND}
+\newfontlanguage{Ingush}{ING}\newfontlanguage{Inuktitut}{INU}
+\newfontlanguage{Irish}{IRI}\newfontlanguage{Irish Traditional}{IRT}
+\newfontlanguage{Icelandic}{ISL}\newfontlanguage{Inari Sami}{ISM}
+\newfontlanguage{Italian}{ITA}\newfontlanguage{Hebrew}{IWR}
+\newfontlanguage{Javanese}{JAV}\newfontlanguage{Yiddish}{JII}
+\newfontlanguage{Japanese}{JAN}\newfontlanguage{Judezmo}{JUD}
+\newfontlanguage{Jula}{JUL}\newfontlanguage{Kabardian}{KAB}
+\newfontlanguage{Kachchi}{KAC}\newfontlanguage{Kalenjin}{KAL}
+\newfontlanguage{Kannada}{KAN}\newfontlanguage{Karachay}{KAR}
+\newfontlanguage{Georgian}{KAT}\newfontlanguage{Kazakh}{KAZ}
+\newfontlanguage{Kebena}{KEB}\newfontlanguage{Khutsuri Georgian}{KGE}
+\newfontlanguage{Khakass}{KHA}\newfontlanguage{Khanty-Kazim}{KHK}
+\newfontlanguage{Khmer}{KHM}\newfontlanguage{Khanty-Shurishkar}{KHS}
+\newfontlanguage{Khanty-Vakhi}{KHV}\newfontlanguage{Khowar}{KHW}
+\newfontlanguage{Kikuyu}{KIK}\newfontlanguage{Kirghiz}{KIR}
+\newfontlanguage{Kisii}{KIS}\newfontlanguage{Kokni}{KKN}
+\newfontlanguage{Kalmyk}{KLM}\newfontlanguage{Kamba}{KMB}
+\newfontlanguage{Kumaoni}{KMN}\newfontlanguage{Komo}{KMO}
+\newfontlanguage{Komso}{KMS}\newfontlanguage{Kanuri}{KNR}
+\newfontlanguage{Kodagu}{KOD}\newfontlanguage{Korean Old Hangul}{KOH}
+\newfontlanguage{Konkani}{KOK}\newfontlanguage{Kikongo}{KON}
+\newfontlanguage{Komi-Permyak}{KOP}\newfontlanguage{Korean}{KOR}
+\newfontlanguage{Komi-Zyrian}{KOZ}\newfontlanguage{Kpelle}{KPL}
+\newfontlanguage{Krio}{KRI}\newfontlanguage{Karakalpak}{KRK}
+\newfontlanguage{Karelian}{KRL}\newfontlanguage{Karaim}{KRM}
+\newfontlanguage{Karen}{KRN}\newfontlanguage{Koorete}{KRT}
+\newfontlanguage{Kashmiri}{KSH}\newfontlanguage{Khasi}{KSI}
+\newfontlanguage{Kildin Sami}{KSM}\newfontlanguage{Kui}{KUI}
+\newfontlanguage{Kulvi}{KUL}\newfontlanguage{Kumyk}{KUM}
+\newfontlanguage{Kurdish}{KUR}\newfontlanguage{Kurukh}{KUU}
+\newfontlanguage{Kuy}{KUY}\newfontlanguage{Koryak}{KYK}
+\newfontlanguage{Ladin}{LAD}\newfontlanguage{Lahuli}{LAH}
+\newfontlanguage{Lak}{LAK}\newfontlanguage{Lambani}{LAM}
+\newfontlanguage{Lao}{LAO}\newfontlanguage{Latin}{LAT}
+\newfontlanguage{Laz}{LAZ}\newfontlanguage{L-Cree}{LCR}
+\newfontlanguage{Ladakhi}{LDK}\newfontlanguage{Lezgi}{LEZ}
+\newfontlanguage{Lingala}{LIN}\newfontlanguage{Low Mari}{LMA}
+\newfontlanguage{Limbu}{LMB}\newfontlanguage{Lomwe}{LMW}
+\newfontlanguage{Lower Sorbian}{LSB}\newfontlanguage{Lule Sami}{LSM}
+\newfontlanguage{Lithuanian}{LTH}\newfontlanguage{Luba}{LUB}
+\newfontlanguage{Luganda}{LUG}\newfontlanguage{Luhya}{LUH}
+\newfontlanguage{Luo}{LUO}\newfontlanguage{Latvian}{LVI}
+\newfontlanguage{Majang}{MAJ}\newfontlanguage{Makua}{MAK}
+\newfontlanguage{Malayalam Traditional}{MAL}\newfontlanguage{Mansi}{MAN}
+\newfontlanguage{Marathi}{MAR}\newfontlanguage{Marwari}{MAW}
+\newfontlanguage{Mbundu}{MBN}\newfontlanguage{Manchu}{MCH}
+\newfontlanguage{Moose Cree}{MCR}\newfontlanguage{Mende}{MDE}
+\newfontlanguage{Me'en}{MEN}\newfontlanguage{Mizo}{MIZ}
+\newfontlanguage{Macedonian}{MKD}\newfontlanguage{Male}{MLE}
+\newfontlanguage{Malagasy}{MLG}\newfontlanguage{Malinke}{MLN}
+\newfontlanguage{Malayalam Reformed}{MLR}\newfontlanguage{Malay}{MLY}
+\newfontlanguage{Mandinka}{MND}\newfontlanguage{Mongolian}{MNG}
+\newfontlanguage{Manipuri}{MNI}\newfontlanguage{Maninka}{MNK}
+\newfontlanguage{Manx Gaelic}{MNX}\newfontlanguage{Moksha}{MOK}
+\newfontlanguage{Moldavian}{MOL}\newfontlanguage{Mon}{MON}
+\newfontlanguage{Moroccan}{MOR}\newfontlanguage{Maori}{MRI}
+\newfontlanguage{Maithili}{MTH}\newfontlanguage{Maltese}{MTS}
+\newfontlanguage{Mundari}{MUN}\newfontlanguage{Naga-Assamese}{NAG} 
+\newfontlanguage{Nanai}{NAN}\newfontlanguage{Naskapi}{NAS} 
+\newfontlanguage{N-Cree}{NCR}\newfontlanguage{Ndebele}{NDB}
+\newfontlanguage{Ndonga}{NDG}\newfontlanguage{Nepali}{NEP} 
+\newfontlanguage{Newari}{NEW}\newfontlanguage{Nagari}{NGR} 
+\newfontlanguage{Norway House Cree}{NHC}\newfontlanguage{Nisi}{NIS}
+\newfontlanguage{Niuean}{NIU}\newfontlanguage{Nkole}{NKL} 
+\newfontlanguage{N'ko}{NKO}\newfontlanguage{Dutch}{NLD} 
+\newfontlanguage{Nogai}{NOG}\newfontlanguage{Norwegian}{NOR}
+\newfontlanguage{Northern Sami}{NSM}\newfontlanguage{Northern Tai}{NTA} 
+\newfontlanguage{Esperanto}{NTO}\newfontlanguage{Nynorsk}{NYN} 
+\newfontlanguage{Oji-Cree}{OCR}\newfontlanguage{Ojibway}{OJB}
+\newfontlanguage{Oriya}{ORI}\newfontlanguage{Oromo}{ORO} 
+\newfontlanguage{Ossetian}{OSS}\newfontlanguage{Palestinian Aramaic}{PAA} 
+\newfontlanguage{Pali}{PAL}\newfontlanguage{Punjabi}{PAN}
+\newfontlanguage{Palpa}{PAP}\newfontlanguage{Pashto}{PAS} 
+\newfontlanguage{Polytonic Greek}{PGR}\newfontlanguage{Pilipino}{PIL} 
+\newfontlanguage{Palaung}{PLG}\newfontlanguage{Polish}{PLK}
+\newfontlanguage{Provencal}{PRO}\newfontlanguage{Portuguese}{PTG} 
+\newfontlanguage{Chin}{QIN}\newfontlanguage{Rajasthani}{RAJ} 
+\newfontlanguage{R-Cree}{RCR}\newfontlanguage{Russian Buriat}{RBU}
+\newfontlanguage{Riang}{RIA}\newfontlanguage{Rhaeto-Romanic}{RMS} 
+\newfontlanguage{Romanian}{ROM}\newfontlanguage{Romany}{ROY} 
+\newfontlanguage{Rusyn}{RSY}\newfontlanguage{Ruanda}{RUA}
+\newfontlanguage{Russian}{RUS}\newfontlanguage{Sadri}{SAD} 
+\newfontlanguage{Sanskrit}{SAN}\newfontlanguage{Santali}{SAT} 
+\newfontlanguage{Sayisi}{SAY}\newfontlanguage{Sekota}{SEK}
+\newfontlanguage{Selkup}{SEL}\newfontlanguage{Sango}{SGO} 
+\newfontlanguage{Shan}{SHN}\newfontlanguage{Sibe}{SIB} 
+\newfontlanguage{Sidamo}{SID}\newfontlanguage{Silte Gurage}{SIG}
+\newfontlanguage{Skolt Sami}{SKS}\newfontlanguage{Slovak}{SKY} 
+\newfontlanguage{Slavey}{SLA}\newfontlanguage{Slovenian}{SLV} 
+\newfontlanguage{Somali}{SML}\newfontlanguage{Samoan}{SMO}
+\newfontlanguage{Sena}{SNA}\newfontlanguage{Sindhi}{SND} 
+\newfontlanguage{Sinhalese}{SNH}\newfontlanguage{Soninke}{SNK} 
+\newfontlanguage{Sodo Gurage}{SOG}\newfontlanguage{Sotho}{SOT}
+\newfontlanguage{Albanian}{SQI}\newfontlanguage{Serbian}{SRB} 
+\newfontlanguage{Saraiki}{SRK}\newfontlanguage{Serer}{SRR} 
+\newfontlanguage{South Slavey}{SSL}\newfontlanguage{Southern Sami}{SSM}
+\newfontlanguage{Suri}{SUR}\newfontlanguage{Svan}{SVA} 
+\newfontlanguage{Swedish}{SVE}\newfontlanguage{Swadaya Aramaic}{SWA} 
+\newfontlanguage{Swahili}{SWK}\newfontlanguage{Swazi}{SWZ}
+\newfontlanguage{Sutu}{SXT}\newfontlanguage{Syriac}{SYR} 
+\newfontlanguage{Tabasaran}{TAB}\newfontlanguage{Tajiki}{TAJ} 
+\newfontlanguage{Tamil}{TAM}\newfontlanguage{Tatar}{TAT}
+\newfontlanguage{TH-Cree}{TCR}\newfontlanguage{Telugu}{TEL} 
+\newfontlanguage{Tongan}{TGN}\newfontlanguage{Tigre}{TGR} 
+\newfontlanguage{Tigrinya}{TGY}\newfontlanguage{Thai}{THA}
+\newfontlanguage{Tahitian}{THT}\newfontlanguage{Tibetan}{TIB} 
+\newfontlanguage{Turkmen}{TKM}\newfontlanguage{Temne}{TMN} 
+\newfontlanguage{Tswana}{TNA}\newfontlanguage{Tundra Nenets}{TNE}
+\newfontlanguage{Tonga}{TNG}\newfontlanguage{Todo}{TOD}
+\newfontlanguage{Tsonga}{TSG}\newfontlanguage{Turoyo Aramaic}{TUA} 
+\newfontlanguage{Tulu}{TUL}\newfontlanguage{Tuvin}{TUV} 
+\newfontlanguage{Twi}{TWI}\newfontlanguage{Udmurt}{UDM}
+\newfontlanguage{Ukrainian}{UKR}\newfontlanguage{Urdu}{URD} 
+\newfontlanguage{Upper Sorbian}{USB}\newfontlanguage{Uyghur}{UYG} 
+\newfontlanguage{Uzbek}{UZB}\newfontlanguage{Venda}{VEN}
+\newfontlanguage{Vietnamese}{VIT}\newfontlanguage{Wa}{WA} 
+\newfontlanguage{Wagdi}{WAG}\newfontlanguage{West-Cree}{WCR} 
+\newfontlanguage{Welsh}{WEL}\newfontlanguage{Wolof}{WLF}
+\newfontlanguage{Tai Lue}{XBD}\newfontlanguage{Xhosa}{XHS} 
+\newfontlanguage{Yakut}{YAK}\newfontlanguage{Yoruba}{YBA} 
+\newfontlanguage{Y-Cree}{YCR}\newfontlanguage{Yi Classic}{YIC}
+\newfontlanguage{Yi Modern}{YIM}\newfontlanguage{Chinese Hong Kong}{ZHH} 
+\newfontlanguage{Chinese Phonetic}{ZHP}\newfontlanguage{Chinese Simplified}{ZHS}
+\newfontlanguage{Chinese Traditional}{ZHT}\newfontlanguage{Zande}{ZND} 
+\newfontlanguage{Zulu}{ZUL}
+%    \end{macrocode}
+%
+% \paragraph{Turkish} Turns out that many fonts use `TUR' as their Turkish language tag rather than the specified `TRK'. So we check for both:
+%    \begin{macrocode}
+\define@key[zf@feat]{Lang}{Turkish}[]{%
+  \zf@check@ot@lang{TRK}%
+  \if@tempswa
+    \c@zf@language\@tempcnta\relax
+    \xdef\zf@language@name{Turkish}%
+    \xdef\zf@family@long{\zf@family@long+lang=Turkish}%
+    \xdef\zf@pre@ff{\zf@pre@ff language=TRK,}%
+  \else
+    \zf@check@ot@lang{TUR}%
+    \if@tempswa
+      \c@zf@language\@tempcnta\relax
+      \xdef\zf@language@name{Turkish}%
+      \xdef\zf@family@long{\zf@family@long+lang=Turkish}%
+      \xdef\zf@pre@ff{\zf@pre@ff language=TUR,}%
+    \else
+      \zf@PackageWarning{Language '#1' not available\zf@nl 
+         for font \fontname\zf@basefont\zf@nl 
+         with script '\zf@script@name'.}%
+    \fi
+  \fi}
+%    \end{macrocode}
+%
+% \subsubsection{Raw feature string}
+% This allows savvy \XeTeX-ers to input font features manually if they have 
+% already memorised the OpenType abbreviations and don't mind not having error checking.
+%    \begin{macrocode}
+\define@key[zf]{options}{RawFeature}{%
+  \zf@update@family{+Raw:#1}%
+  \zf@update@ff{#1}}
+%    \end{macrocode}
+%
+% \subsection{Italic small caps} \label{sec:sishape} 
+% The following code for utilising italic small caps sensibly is
+% inspired from Philip Lehman's \textit{The Font Installation
+%   Guide}. Note that |\upshape| needs to be used \emph{twice} to get
+% from italic small caps to regular upright (it always goes to small
+% caps, then regular upright).
+% \begin{macro}{\sishape}
+% \begin{macro}{\textsi}
+%     First, the commands for actually selecting italic small caps are
+%     defined. I use |si| as the NFSS shape for italic small caps, but
+%     I have seen |itsc| and |slsc| also used. |\sidefault| may be
+%     redefined to one of these if required for compatibility.
+%    \begin{macrocode}
+\providecommand*{\sidefault}{si}
+\DeclareRobustCommand{\sishape}{%
+  \not@math@alphabet\sishape\relax
+  \fontshape\sidefault\selectfont}
+\DeclareTextFontCommand{\textsi}{\sishape}
+%    \end{macrocode}
+% \end{macro} \end{macro}
+% \begin{macro}{\zf@merge@shape}
+%   This is the macro which enables the overload on the |\..shape|
+%   commands. It takes three such arguments. In essence, the macro
+%   selects the first argument, unless the second argument is already
+%   selected, in which case it selects the third.
+%    \begin{macrocode}
+\newcommand*{\zf@merge@shape}[3]{%
+  \edef\@tempa{#1}%
+  \edef\@tempb{#2}%
+  \ifx\f@shape\@tempb
+    \ifcsname\f@encoding/\f@family/\f@series/#3\endcsname
+      \edef\@tempa{#3}%
+    \fi
+  \fi
+  \fontshape{\@tempa}\selectfont}
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\itshape} \begin{macro}{\scshape} \begin{macro}{\upshape}
+%       Here the original |\..shape| commands are redefined to use the
+%       merge shape macro.
+%    \begin{macrocode}
+\DeclareRobustCommand{\itshape}{% 
+  \not@math@alphabet\itshape\mathit
+  \zf@merge@shape\itdefault\scdefault\sidefault}
+\DeclareRobustCommand{\slshape}{%
+  \not@math@alphabet\slshape\relax
+  \zf@merge@shape\sldefault\scdefault\sidefault}
+\DeclareRobustCommand{\scshape}{%
+  \not@math@alphabet\scshape\relax
+  \zf@merge@shape\scdefault\itdefault\sidefault}
+\DeclareRobustCommand{\upshape}{%
+  \not@math@alphabet\upshape\relax
+  \zf@merge@shape\updefault\sidefault\scdefault} 
+%    \end{macrocode}
+% \end{macro} \end{macro} \end{macro}
+%
+% \subsection{Selecting maths fonts}
+% Here, the fonts used in math mode are redefined to correspond to the
+% default roman, sans serif and typewriter fonts. Unfortunately, you
+% can only define maths fonts in the preamble, otherwise I'd run this
+% code whenever \cs{setmainfont} and friends was run.
+%
+% \begin{macro}{\zf@math}
+% Everything here is performed \cs{AtBeginDocument} in order to
+% overwrite \pkg{euler}'s attempt. This means \pkg{fontspec} must be
+% loaded \emph{before} \pkg{euler}. We set up a conditional to return 
+% an error if this rule is violated.
+%
+% Since every maths setup is slightly different, we also take
+% different paths for defining various math glyphs depending which
+% maths font package has been loaded. As far as I am aware, the only
+% two options for \XeTeX\ are \pkg{euler} and \pkg{lucbmath}. Unless
+% I've got all confused and the mathtime fonts are not virtual fonts
+% either. But I'm pretty sure they are.
+% 
+%    \begin{macrocode}
+\@ifpackageloaded{euler}{\zf@package@euler@loadedtrue}
+                        {\zf@package@euler@loadedfalse}
+\def\zf@math{%
+  \let\zf@font@warning\@font@warning
+  \let\@font@warning\@font@info
+  \@ifpackageloaded{euler}{%
+    \ifzf@package@euler@loaded
+      \zf@math@eulertrue
+    \else
+      \zf@PackageError{The euler package must be loaded BEFORE fontspec}
+        {fontspec only overwrites euler's attempt to  ^^J
+         define the maths text fonts if fontspec is   ^^J
+         loaded after euler. Type <return> to proceed ^^J
+         with incorrect \protect\mathit, \protect\mathbf, etc}
+    \fi}{}
+  \@ifpackageloaded{lucbmath}{\zf@math@lucidatrue}{}
+  \@ifpackageloaded{lucidabr}{\zf@math@lucidatrue}{}
+  \@ifpackageloaded{lucimatx}{\zf@math@lucidatrue}{}
+%    \end{macrocode}
+% Knuth's CM fonts fonts are all squashed together, combining letters,
+% accents, text symbols and maths symbols all in the one font,
+% \texttt{cmr}, plus other things in other fonts. Because we are
+% changing the roman font in the document, we need to redefine all of
+% the maths glyphs in \LaTeX's \texttt{operators} maths font to still
+% go back to the legacy \texttt{cmr} font for all these random glyphs,
+% unless a separate maths font package has been loaded instead.
+%
+% In every case, the maths accents are always taken from the
+% \texttt{operators} font, which is generally the main text
+% font. (Actually, there is a \cmd\hat\ accent in
+% \texttt{EulerFractur}, but it's \emph{ugly}. So I ignore it. Sorry
+% if this causes inconvenience.)
+%    \begin{macrocode}
+  \DeclareSymbolFont{legacymaths}{OT1}{cmr}{m}{n}
+  \SetSymbolFont{legacymaths}{bold}{OT1}{cmr}{bx}{n}
+  \DeclareMathAccent{\acute}   {\mathalpha}{legacymaths}{19}
+  \DeclareMathAccent{\grave}   {\mathalpha}{legacymaths}{18}
+  \DeclareMathAccent{\ddot}    {\mathalpha}{legacymaths}{127}
+  \DeclareMathAccent{\tilde}   {\mathalpha}{legacymaths}{126}
+  \DeclareMathAccent{\bar}     {\mathalpha}{legacymaths}{22}
+  \DeclareMathAccent{\breve}   {\mathalpha}{legacymaths}{21}
+  \DeclareMathAccent{\check}   {\mathalpha}{legacymaths}{20}
+  \DeclareMathAccent{\hat}     {\mathalpha}{legacymaths}{94} % too bad, euler
+  \DeclareMathAccent{\dot}     {\mathalpha}{legacymaths}{95}
+  \DeclareMathAccent{\mathring}{\mathalpha}{legacymaths}{23}
+%    \end{macrocode}
+% \paragraph{\cmd\colon: what's going on?} Okay, so \verb":" and \cmd\colon\ in maths mode are defined in a few places, so I need to work out what does what. Respectively, we have:
+% \begin{Verbatim}[gobble=2]
+% % fontmath.ltx:
+% \DeclareMathSymbol{\colon}{\mathpunct}{operators}{"3A}
+% \DeclareMathSymbol{:}{\mathrel}{operators}{"3A} 
+%
+% % amsmath.sty:
+% \renewcommand{\colon}{\nobreak\mskip2mu\mathpunct{}\nonscript
+%  \mkern-\thinmuskip{:}\mskip6muplus1mu\relax}
+%
+% % euler.sty:
+% \DeclareMathSymbol{:}\mathrel  {EulerFraktur}{"3A}
+% 
+% % lucbmath.sty:
+% \DeclareMathSymbol{\@tempb}{\mathpunct}{operators}{58}
+% \ifx\colon\@tempb
+%   \DeclareMathSymbol{\colon}{\mathpunct}{operators}{58}
+% \fi
+% \DeclareMathSymbol{:}{\mathrel}{operators}{58}
+% \end{Verbatim}
+% ($\mathrm{3A_{16}}=\mathrm{58_{10}}$) So I think, based on this summary, that it is fair to tell \pkg{fontspec} to `replace' the operators font with legacymaths for this symbol, except when \pkg{amsmath} is loaded since we want to keep its definition.
+%
+%
+%    \begin{macrocode}
+  \begingroup
+    \mathchardef\@tempa="603A %
+    \let\next\egroup
+    \ifx\colon\@tempa
+      \DeclareMathSymbol{\colon}{\mathpunct}{legacymaths}{58}
+    \fi
+  \endgroup
+%    \end{macrocode}
+% The following symbols are only defined specifically in \pkg{euler}, so skip them
+% if that package is loaded.
+%    \begin{macrocode}
+  \ifzf@math@euler\else
+    \DeclareMathSymbol{!}{\mathclose}{legacymaths}{33}
+    \DeclareMathSymbol{:}{\mathrel}  {legacymaths}{58}
+    \DeclareMathSymbol{;}{\mathpunct}{legacymaths}{59}
+    \DeclareMathSymbol{?}{\mathclose}{legacymaths}{63}
+%    \end{macrocode}
+% And these ones are defined both in \pkg{euler} and \pkg{lucbmath},
+% so we only need to run this code if no extra maths package has been
+% loaded.
+%    \begin{macrocode}
+    \ifzf@math@lucida\else
+      \DeclareMathSymbol{0}{\mathalpha}{legacymaths}{`0}
+      \DeclareMathSymbol{1}{\mathalpha}{legacymaths}{`1}
+      \DeclareMathSymbol{2}{\mathalpha}{legacymaths}{`2}
+      \DeclareMathSymbol{3}{\mathalpha}{legacymaths}{`3}
+      \DeclareMathSymbol{4}{\mathalpha}{legacymaths}{`4}
+      \DeclareMathSymbol{5}{\mathalpha}{legacymaths}{`5}
+      \DeclareMathSymbol{6}{\mathalpha}{legacymaths}{`6}
+      \DeclareMathSymbol{7}{\mathalpha}{legacymaths}{`7}
+      \DeclareMathSymbol{8}{\mathalpha}{legacymaths}{`8}
+      \DeclareMathSymbol{9}{\mathalpha}{legacymaths}{`9}
+      \DeclareMathSymbol{\Gamma}{\mathalpha}{legacymaths}{0}
+      \DeclareMathSymbol{\Delta}{\mathalpha}{legacymaths}{1}
+      \DeclareMathSymbol{\Theta}{\mathalpha}{legacymaths}{2}
+      \DeclareMathSymbol{\Lambda}{\mathalpha}{legacymaths}{3}
+      \DeclareMathSymbol{\Xi}{\mathalpha}{legacymaths}{4}
+      \DeclareMathSymbol{\Pi}{\mathalpha}{legacymaths}{5}
+      \DeclareMathSymbol{\Sigma}{\mathalpha}{legacymaths}{6}
+      \DeclareMathSymbol{\Upsilon}{\mathalpha}{legacymaths}{7}
+      \DeclareMathSymbol{\Phi}{\mathalpha}{legacymaths}{8}
+      \DeclareMathSymbol{\Psi}{\mathalpha}{legacymaths}{9}
+      \DeclareMathSymbol{\Omega}{\mathalpha}{legacymaths}{10}
+      \DeclareMathSymbol{+}{\mathbin}{legacymaths}{43}
+      \DeclareMathSymbol{=}{\mathrel}{legacymaths}{61}
+      \DeclareMathDelimiter{(}{\mathopen} {legacymaths}{40}{largesymbols}{0}
+      \DeclareMathDelimiter{)}{\mathclose}{legacymaths}{41}{largesymbols}{1}
+      \DeclareMathDelimiter{[}{\mathopen} {legacymaths}{91}{largesymbols}{2}
+      \DeclareMathDelimiter{]}{\mathclose}{legacymaths}{93}{largesymbols}{3}
+      \DeclareMathDelimiter{/}{\mathord}{legacymaths}{47}{largesymbols}{14}
+      \DeclareMathSymbol{\mathdollar}{\mathord}{legacymaths}{36}
+    \fi
+  \fi
+%    \end{macrocode}
+% Finally, we change the font definitions for \cmd\mathrm\ and so
+% on. These are defined using the \cmd\zf@rmmaths\ (\dots) macros,
+% which default to \cmd\rmdefault\ but may be specified with the
+% \cmd\setmathrm\ (\dots) commands in the preamble.
+%
+% Since \LaTeX\ only generally defines one level of boldness, we omit
+% \cmd\mathbf\ in the \textsf{bold} maths series. It can be specified
+% as per usual with \cmd\setboldmathrm, which stores the appropriate
+% family name in \cmd\zf@rmboldmaths.
+%    \begin{macrocode}
+  \DeclareSymbolFont{operators}\zf@enc\zf@rmmaths\mddefault\updefault
+  \SetSymbolFont{operators}{normal}\zf@enc\zf@rmmaths\mddefault\updefault
+  \SetMathAlphabet\mathrm{normal}\zf@enc\zf@rmmaths\mddefault\updefault
+  \SetMathAlphabet\mathit{normal}\zf@enc\zf@rmmaths\mddefault\itdefault
+  \SetMathAlphabet\mathbf{normal}\zf@enc\zf@rmmaths\bfdefault\updefault
+  \SetMathAlphabet\mathsf{normal}\zf@enc\zf@sfmaths\mddefault\updefault
+  \SetMathAlphabet\mathtt{normal}\zf@enc\zf@ttmaths\mddefault\updefault
+  \SetSymbolFont{operators}{bold}\zf@enc\zf@rmmaths\bfdefault\updefault
+  \ifdefined\zf@rmboldmaths
+    \SetMathAlphabet\mathrm{bold}\zf@enc\zf@rmboldmaths\mddefault\updefault
+    \SetMathAlphabet\mathbf{bold}\zf@enc\zf@rmboldmaths\bfdefault\updefault
+    \SetMathAlphabet\mathit{bold}\zf@enc\zf@rmboldmaths\mddefault\itdefault
+  \else
+    \SetMathAlphabet\mathrm{bold}\zf@enc\zf@rmmaths\bfdefault\updefault
+    \SetMathAlphabet\mathit{bold}\zf@enc\zf@rmmaths\bfdefault\itdefault
+  \fi
+  \SetMathAlphabet\mathsf{bold}\zf@enc\zf@sfmaths\bfdefault\updefault
+  \SetMathAlphabet\mathtt{bold}\zf@enc\zf@ttmaths\bfdefault\updefault
+  \let\font@warning\zf@font@warning}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\zf@math@maybe}
+% We're a little less sophisticated about not executing the \cmd\zf@maths\ macro if various other maths font packages are loaded. This list is based on the wonderful `\LaTeX Font Catalogue': \url{http://www.tug.dk/FontCatalogue/mathfonts.html}. I'm sure there are more I've missed. Do the \TeX\ Gyre fonts have maths support yet?
+%
+% Untested: would |\unless\ifnum\Gamma=28672\relax\@zf@mathfalse\fi| be a better test? 
+% This needs more cooperation with euler and lucida, I think.
+%    \begin{macrocode}
+\def\zf@math@maybe{%
+  \@ifpackageloaded{anttor}{%
+    \ifx\define@antt@mathversions a\@zf@mathfalse\fi}{}
+  \@ifpackageloaded{arev}{\@zf@mathfalse}{}
+  \@ifpackageloaded{eulervm}{\@zf@mathfalse}{}
+  \@ifpackageloaded{mathdesign}{\@zf@mathfalse}{}
+  \@ifpackageloaded{concmath}{\@zf@mathfalse}{}
+  \@ifpackageloaded{cmbright}{\@zf@mathfalse}{}
+  \@ifpackageloaded{mathesf}{\@zf@mathfalse}{}
+  \@ifpackageloaded{gfsartemisia}{\@zf@mathfalse}{}
+  \@ifpackageloaded{gfsneohellenic}{\@zf@mathfalse}{}
+  \@ifpackageloaded{iwona}{%
+    \ifx\define@iwona@mathversions a\@zf@mathfalse\fi}{}
+  \@ifpackageloaded{kpfonts}{\@zf@mathfalse}{}
+  \@ifpackageloaded{kmath}{\@zf@mathfalse}{}
+  \@ifpackageloaded{kurier}{%
+    \ifx\define@kurier@mathversions a\@zf@mathfalse\fi}{}
+  \@ifpackageloaded{fouriernc}{\@zf@mathfalse}{}
+  \@ifpackageloaded{fourier}{\@zf@mathfalse}{}
+  \@ifpackageloaded{mathpazo}{\@zf@mathfalse}{}
+  \@ifpackageloaded{mathptmx}{\@zf@mathfalse}{}
+  \@ifpackageloaded{MinionPro}{\@zf@mathfalse}{}
+  \@ifpackageloaded{unicode-math}{\@zf@mathfalse}{}
+  \if@zf@math
+    \zf@PackageInfo{%
+      Adjusting the maths setup (use [no-math] to avoid this).}
+    \zf@math
+  \fi}
+\AtBeginDocument{\zf@math@maybe}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \subsection{Finishing up}
+% Now we just want to set up loading the \texttt{.cfg} file, if it exists.
+%    \begin{macrocode}
+\if@zf@configfile
+  \InputIfFileExists{fontspec.cfg}
+    {\typeout{fontspec.cfg loaded.}}
+    {\typeout{No fontspec.cfg file found; no configuration loaded.}}
+\fi    
+%    \end{macrocode}
+%
+% The end! Thanks for coming.
+%
+% \iffalse
+%</fontspec>
+%<*cfg>
+% \fi
+%
+% \clearpage
+% \part{fontspec.cfg}
+% As an example, and to avoid upsetting people as much as possible,
+% I'm populating the default \texttt{fontspec.cfg} file with
+% backwards compatibility feature aliases.
+%    \begin{macrocode}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% FOR BACKWARDS COMPATIBILITY WITH PREVIOUS VERSIONS %%%
+
+\let\newfontinstance\newfontfamily
+
+\newcommand\newfeaturecode[3]{%
+  \define@key{zf}{#1}[]{\zf@make@feature{#2}{#3}{}}}
+
+\aliasfontfeature{BoldFont}{Bold}  
+\aliasfontfeature{ItalicFont}{Italic}  
+\aliasfontfeature{BoldItalicFont}{BoldItalic}  
+\aliasfontfeature{SmallCapsFont}{SmallCaps}  
+\aliasfontfeature{Style}{StyleOptions}
+\aliasfontfeature{Contextuals}{Swashes}
+\aliasfontfeatureoption{Contextuals}{Swash}{Contextual}
+\aliasfontfeatureoption{Letters}{UppercaseSmallCaps}{SMALLCAPS}
+\aliasfontfeatureoption{Letters}{UppercasePetiteCaps}{PETITECAPS}
+
+%%%%%%%%%%%%%%%%%%%%%%%
+%%% FOR CONVENIENCE %%%
+
+\newfontscript{Kana}{kana}
+\newfontscript{Maths}{math}
+\newfontscript{CJK}{hani}
+
+%    \end{macrocode} 
+%
+% \iffalse
+%</cfg>
+%<*example>
+% \fi
+%
+% \part{fontspec-example.ltx}
+%
+%    \begin{macrocode}
+\documentclass{article}
+
+\usepackage{euler}
+\usepackage[cm-default]{fontspec}
+\usepackage{xltxtra}
+
+\defaultfontfeatures{Scale=MatchLowercase,Mapping=tex-text}
+\setmainfont[Numbers=Lowercase]{FPL Neu}
+\setsansfont{Lucida Sans}
+\setmonofont{Lucida Sans Typewriter}
+
+\frenchspacing % TeX's default is a little old-fashioned...
+
+\begin{document}
+\pagestyle{empty}
+
+\section*{The basics of the \textsf{fontspec} package}
+
+The \textsf{fontspec} package enables automatic font selection 
+for \LaTeX{} documents typeset with \XeTeX{}. The basic command is\\
+\indent \verb|\fontspec[font features]{font display name}|.\\
+As an example:
+
+\begin{center}
+  \Large
+  \fontspec[
+      Colour           = 0000CC,
+      Numbers          = OldStyle,
+      VerticalPosition = Ordinal,
+      Variant          = 2
+           ]{Apple Chancery}
+  My 1st example of Apple Chancery
+\end{center}
+
+The default, sans serif, and typewriter fonts may be set with the 
+\verb|\setmainfont|, \verb|\setsansfont| and \verb|\setmonofont| 
+commands, respectively, as shown in the preamble. They take the 
+same syntax as the \verb|\fontspec| package. All expected font 
+shapes are available:
+
+\begin{center}
+  {\itshape Italics and \scshape small caps\dots}\\
+  {\sffamily\bfseries Bold sans serif and \itshape bold italic sans serif\dots}
+\end{center}
+
+With the roman and sans serif fonts set in the preamble, text fonts 
+in math mode are also changed: $\cos(n\pi)=\pm 1$. The maths 
+typeface `Euler' has been used in this document (with the \textsf{euler} 
+package---or the \textsf{eulervm} package if the |xpdfdvimx| driver 
+is being used), since the default Computer Modern maths font is rather light.
+\[
+  \mathcal F(s) = \int^\infty_0 f(t) \exp(-st)\,\mathrm{d}t
+\]
+
+You'll also notice the \verb|\defaultfontfeatures| command in the preamble. 
+This command takes a single argument of font features that are then 
+applied to every subsequent instance of font selection. The first argument 
+in this case, \verb|Mapping=tex-text|, enables regular \TeX{} ligatures 
+like \verb|``---''| for ``---''. The second automatically scales the fonts 
+to the same x-height.
+
+Please see the documentation for font feature explanation and further 
+package niceties.
+
+\end{document}
+%    \end{macrocode}
+%
+% \iffalse
+%</example>
+% \fi
+%
+% \clearpage
+% \PrintChanges
+%
+% \clearpage
+% \setcounter{IndexColumns}{2}
+% \PrintIndex
+%
+% \Finale
+%
+% \iffalse
+%<*doc-style>
+%    \begin{macrocode}
+\ProvidesPackage{fontspec-doc-style}
+
+\RequirePackage{booktabs,calc,color,enumitem,fancyvrb,fontspec,
+            graphicx,ifthen,ifxetex,url,varioref,xltxtra,xunicode}
+
+%% Titlepage
+\renewcommand\maketitle{%
+  \begin{titlepage}%
+  \null\vfil
+  \vskip 60\p@
+  \begin{center}%
+    {\LARGE \@title \par}%
+    \vskip 3em%
+    {\large
+     \lineskip .75em%
+      \begin{tabular}[t]{c}%
+        \@author
+      \end{tabular}\par}%
+      \vskip 1.5em%
+    {\large \@date \par}%
+  \end{center}\par
+  \vfil\null
+  \end{titlepage}%
+  \setcounter{footnote}{0}%
+  \global\let\thanks\relax
+  \global\let\maketitle\relax
+  \global\let\@thanks\@empty
+  \global\let\@author\@empty
+  \global\let\@date\@empty
+  \global\let\@title\@empty
+  \global\let\title\relax
+  \global\let\author\relax
+  \global\let\date\relax
+  \global\let\and\relax}
+
+%% ToC
+\def\@dotsep{1000}
+\setcounter{tocdepth}{2}
+\setlength\columnseprule{0.4pt}
+\renewcommand\tableofcontents{%
+  \begin{multicols}{2}[\section*{\contentsname}]%
+    \small
+    \@starttoc{toc}%
+  \end{multicols}}
+
+%% Index
+\renewenvironment{theglossary}
+  {\small\list{}{}
+     \item\relax
+     \glossary@prologue\GlossaryParms 
+     \let\item\@idxitem \ignorespaces 
+     \def\pfill{\hspace*{\fill}}}
+  {\endlist}
+
+%% varioref definitions:
+\labelformat{table}{Table~#1}
+\labelformat{section}{Section~#1}
+\labelformat{subsection}{Section~#1}
+
+%% verbatim examples:
+\newlength\examplewidth\newlength\verbatimwidth
+\newlength\exoutdent   \newlength\exverbgap
+\setlength\exverbgap{1em}
+\setlength\exoutdent{-0.15\textwidth}
+\newsavebox\verbatimbox
+\edef\examplefilename{\jobname.example}
+
+\newenvironment{example}
+  {\VerbatimEnvironment
+   \begingroup
+   \begin{VerbatimOut}[gobble=2]{\examplefilename}}
+  {\end{VerbatimOut}
+   \defaultfontfeatures{Mapping=tex-text,Colour=228833}%
+   \typesetexample
+   \endgroup}
+\newenvironment{aatexample}
+  {\VerbatimEnvironment
+   \begingroup
+   \begin{VerbatimOut}[gobble=2]{\examplefilename}}
+  {\end{VerbatimOut}
+   \defaultfontfeatures{Mapping=tex-text,Colour=005599}%
+   \typesetexample
+   \endgroup}
+\newenvironment{opentypeexample}
+  {\VerbatimEnvironment
+   \begingroup
+   \begin{VerbatimOut}[gobble=2]{\examplefilename}}
+  {\end{VerbatimOut}
+   \defaultfontfeatures{Mapping=tex-text,Colour=AA0000}%
+   \typesetexample
+   \endgroup}
+
+\newcommand\typesetexample{%
+   \begin{lrbox}{\verbatimbox}%
+     \BVerbatimInput[fontsize=\small,firstline=\firstline,lastline=\lastline]{\examplefilename}\relax
+   \end{lrbox}
+   \begin{list}{}{\setlength\itemindent{0pt}
+                  \setlength\leftmargin\exoutdent
+                  \setlength\rightmargin{0pt}}\item
+   \ifx\auxwidth\relax
+     \setlength\verbatimwidth{\wd\verbatimbox}%
+   \else
+     \setlength\verbatimwidth{\auxwidth}%
+     \let\auxwidth\relax
+   \fi
+   \begin{minipage}[c]{\textwidth-\exoutdent-\verbatimwidth-\exverbgap}
+     \catcode`\%=14\centering\examplesize\input\examplefilename\relax
+   \end{minipage}\hfill
+   \begin{minipage}[c]{\verbatimwidth}
+     \usebox\verbatimbox
+   \end{minipage}
+   \end{list}
+   \global\let\examplesize\normalsize
+   \gdef\firstline{1}\gdef\lastline{}\par\noindent}
+   
+\let\examplesize\normalsize
+\let\auxwidth\relax
+\def\firstline{1}
+\def\lastline{}
+
+\newcommand*\setexsize[1]{\let\examplesize#1}
+\newcommand*\setverbwidth[1]{\def\auxwidth{#1}}
+
+%% Sidenotes:
+\newcommand\warn[2]{%
+  \edef\thisversion{#1}%
+  \leavevmode\unskip\null\marginpar{\raggedleft
+    \small%
+      {\ifx\thisversion\fileversion\color{red}\fi$\star$}%
+      \,{\notefont #1:~#2}}\ignorespaces}
+
+\newcommand\new[2][New!]{%
+  \edef\thisversion{#2}%
+  \leavevmode\unskip\null\marginpar{\raggedleft
+    \small\ifx\thisversion\fileversion\color{blue}\else\color[gray]{0.5}\fi
+    $\star$\,{\notefont #2:~#1}}\ignorespaces}
+
+%% Sidenote font
+\newfontfamily\notefont[Scale=MatchLowercase]{Optima}
+
+%% Various labelling commands:
+\newcommand*\name[1]{{#1}}
+\newcommand*\pkg[1]{\textsf{#1}}
+\newcommand*\opt[1]{\texttt{#1}}
+\newcommand*\feat[1]{\texttt{#1}}
+
+\let\latin\textit
+\def\eg{\latin{e.g.}}
+\def\ie{\latin{i.e.}}
+\def\Eg{\latin{E.g.}}
+\def\Ie{\latin{I.e.}}
+\def\etc{\@ifnextchar.{\latin{etc}}{\latin{etc.}\@}}
+
+\newcommand\note[1]{\unskip\footnote{#1}}
+
+%% LOGOS, tuned for Palatino:
+\TeX@logo@spacing{-0.12em}{-0.12em}%
+  {0.5ex}{-0.3em}{-0.12em}{-0.1em}
+
+\def\MacOSX{Mac~OS~X}
+
+%% fontspec declarations:
+\setmainfont[Mapping=tex-text,Numbers=OldStyle]{FPL Neu}
+\defaultfontfeatures{Scale=MatchLowercase}
+\setsansfont[Weight=1.2, Width=1.1,
+             Mapping=tex-text,
+             BoldFont={Skia},
+             BoldFeatures={Weight=1.7}]{Skia}
+\setmonofont{Osaka-Mono}
+\setmathrm{Optima Regular}
+\setboldmathrm[BoldFont=Optima ExtraBlack]{Optima Bold}
+\defaultfontfeatures{Mapping=tex-text}
+
+%% (La)TeX font-related declarations:
+\linespread{1.05}      % Palatino needs more space between lines
+\lineskiplimit=-5pt    % Osaka is really tall so this prevents ugly lines
+\frenchspacing         % Remove ugly extra space after punctuation
+
+\makeatletter
+\newcounter{argument}
+\g@addto@macro\endmacro{\setcounter{argument}{0}}
+\newcommand*\darg[1]{%
+  \stepcounter{argument}%
+  \noindent{\ttfamily\char`\#\theargument~:~}#1\par}
+\newcommand*\doarg[1]{%
+  \stepcounter{argument}%
+  \noindent{\ttfamily\makebox[0pt][r]{[}\char`\#\theargument]:~}#1\par}
+\makeatother
+
+%    \end{macrocode}
+%</doc-style>
+% \fi
+% \typeout{*************************************************************}
+% \typeout{*}
+% \typeout{* To finish the installation you have to move the following}
+% \typeout{* file into a directory searched by XeTeX:}
+% \typeout{*}
+% \typeout{* \space\space\space fontspec.sty}
+% \typeout{*}
+% \typeout{*************************************************************}
+\endinput

@@ -7,6 +7,7 @@ LuaTeX support here as well.
 
 Will Robertson  
 Manuel Pégourié-Gonnard  
+Arthur Reutenauer  
 Copyright 2009
 
 The fontspec package is distributed under the

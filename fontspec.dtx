@@ -2230,9 +2230,12 @@ Multiple features can either be included in a single declaration:\par
   \unless\ifcsname zf@UID@\zf@family@long\endcsname
     \edef\@tempa{#2}%
     \ifcsname c@zf@famc@\@tempa\endcsname
-      \expandafter\stepcounter\else
-      \expandafter\newcounter\fi
-        {zf@famc@\@tempa}%
+      \expandafter\global\expandafter\advance
+        \csname c@zf@famc@\@tempa\endcsname\@ne
+    \else
+      \expandafter\global\expandafter\newcount
+        \csname c@zf@famc@\@tempa\endcsname
+    \fi
     \gdef@cx{zf@UID@\zf@family@long}{%
       \expandafter\expandafter\expandafter
         \zap@space\expandafter\@tempa\space\@empty

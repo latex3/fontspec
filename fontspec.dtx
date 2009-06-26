@@ -2228,18 +2228,18 @@ Multiple features can either be included in a single declaration:\par
 % The font name is fully expanded, in case it's defined in terms of macros, before having its spaces zapped.
 %    \begin{macrocode}  
   \unless\ifcsname zf@UID@\zf@family@long\endcsname
-    \edef\@tempa{#2}%
-    \ifcsname c@zf@famc@\@tempa\endcsname
+    \ifcsname c@zf@famc@#2\endcsname
       \expandafter\global\expandafter\advance
-        \csname c@zf@famc@\@tempa\endcsname\@ne
+        \csname c@zf@famc@#2\endcsname\@ne
     \else
       \expandafter\global\expandafter\newcount
-        \csname c@zf@famc@\@tempa\endcsname
+        \csname c@zf@famc@#2\endcsname
     \fi
+    \edef\@tempa{#2}%
     \gdef@cx{zf@UID@\zf@family@long}{%
       \expandafter\expandafter\expandafter
         \zap@space\expandafter\@tempa\space\@empty
-      (\expandafter\the\csname c@zf@famc@\@tempa\endcsname)}%
+      (\expandafter\the\csname c@zf@famc@#2\endcsname)}%
   \fi
   \xdef\zf@family{\@nameuse{zf@UID@\zf@family@long}}%  
 %    \end{macrocode}

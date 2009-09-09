@@ -1186,8 +1186,25 @@ Zapfino.
     \stepcounter{var}}
 \end{aatexample}
 For OpenType fonts, \opt{Variant} selects a `Stylistic Set', again 
-specified numerically. I don't have a font to
-demonstrate this feature with, unfortunately.
+specified numerically. Here are two examples from the Junicode
+font\footnote{\url{http://junicode.sf.net}}; thanks to Adam
+Buchbinder for the suggestion.
+This example shows insular (ancient) letterforms:
+\begin{opentypeexample}
+  \fontspec{Junicode}
+   Insular forms. \\
+  \addfontfeature{Variant=2}
+   Insular forms. \\
+\end{opentypeexample}
+And here is shown enlarged minuscules: (capital letters remain
+unchanged)
+\begin{opentypeexample}
+  \fontspec{Junicode}
+   ENLARGED Minuscules. \\
+  \addfontfeature{Variant=6}
+   ENLARGED Minuscules. \\
+\end{opentypeexample}
+
 See \vref{sec:newfeatures} for a way to assign names to variants,
 which should be done on a per-font basis.
 

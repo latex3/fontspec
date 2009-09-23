@@ -3771,15 +3771,12 @@ Multiple features can either be included in a single declaration:\par
 % \begin{macro}{\zf@math}
 % Everything here is performed \cs{AtBeginDocument} in order to
 % overwrite \pkg{euler}'s attempt. This means \pkg{fontspec} must be
-% loaded \emph{before} \pkg{euler}. We set up a conditional to return 
+% loaded \emph{after} \pkg{euler}. We set up a conditional to return
 % an error if this rule is violated.
 %
 % Since every maths setup is slightly different, we also take
 % different paths for defining various math glyphs depending which
-% maths font package has been loaded. As far as I am aware, the only
-% two options for \XeTeX\ are \pkg{euler} and \pkg{lucbmath}. Unless
-% I've got all confused and the mathtime fonts are not virtual fonts
-% either. But I'm pretty sure they are.
+% maths font package has been loaded.
 % 
 %    \begin{macrocode}
 \@ifpackageloaded{euler}{\zf@package@euler@loadedtrue}

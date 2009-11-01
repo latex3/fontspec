@@ -4,25 +4,10 @@
 %</internal>
 %<*readme>
 --------------------------
-THE FONTSPEC PACKAGE v1.18
+THE FONTSPEC PACKAGE v2.0
 
-The fontspec package only works with XeTeX, 
-a unicode capable TeX-variant. It provides 
-an automatic and unified interface for loading 
-fonts in LaTeX. XeTeX allows a direct interface 
-to system-installed fonts, so no manual font 
-installation is required.
-
-This package also provides access to the large 
-number of font features available with AAT and 
-OpenType fonts, including upper and lower case 
-numbers, proportional and monospaced numbers, 
-swash letters, vulgar fractions, ligature 
-control, and many others.
-
-It also provides an interface to set the XeTeX 
-font mappings, font colour, relative font 
-scaling, inter-word space scaling, and more.
+Experimental version of fontspec to work with LuaTeX
+as well as XeTeX.
 
 ------------------------
 SUMMARY OF USER COMMANDS
@@ -63,7 +48,7 @@ Features can be renamed and feature options can be renamed with
 
 --------------
 Will Robertson
-2004--2008
+2004--2009
 %</readme>
 %<*internal>
 \fi
@@ -80,7 +65,7 @@ Will Robertson
 
   ________________________________
   The fontspec package for XeLaTeX
-  (C) 2004--2008    Will Robertson
+  (C) 2004--2009    Will Robertson
 
   License information appended.
 
@@ -88,7 +73,7 @@ Will Robertson
 \endpreamble
 \postamble
 
-Copyright 2004--2008 by Will Robertson <wspr81@gmail.com>
+Copyright 2004--2009 by Will Robertson <wspr81@gmail.com>
 
 Distributable under the LaTeX Project Public License,
 version 1.3c or higher (your choice). The latest version of
@@ -190,7 +175,7 @@ The rest of this section documents \pkg{fontspec}'s package options, which are (
 
 \subsubsection{Latin Modern defaults}
 \pkg{fontspec} defines a new \LaTeX\ font encoding for its purposes to allow
-the Latin Modern fonts to be used by default \new{v1.12}. This has three implications:
+the Latin Modern fonts to be used by default. This has three implications:
 \begin{enumerate}
 \item Unicode fonts are loaded by default; it didn't make sense to have the legacy Computer Modern fonts in the Unicode-enabled \XeTeX.
 \item If you don't have the Latin Modern OpenType fonts installed, you might want to consider doing so.
@@ -202,7 +187,6 @@ option if you don't have the Latin Modern fonts installed or you (Mac-specifical
 want to use the `default \TeX\ font' without using the |xdvipdfmx| driver.
 
 \subsubsection{Maths `fiddling'}
-\new{v1.14}
 By default, \pkg{fontspec} adjusts \LaTeX's default maths setup in order to maintain the correct Computer Modern symbols when the roman font changes. However, it will attempt to avoid doing this if another maths font package is loaded (such as \pkg{mathpazo} or my upcoming \pkg{unicode-math} package).
 
 If you find that it is incorrectly changing the maths font when it should be leaving well enough alone, apply the |[no-math]| package option to manually suppress its maths font.
@@ -335,7 +319,7 @@ the same way as \cmd\rmfamily, for example.
 \DescribeMacro{\newfontface}
 Sometimes only a specific font face is desired, without accompanying italic or bold variants.
 This is common when selecting a fancy italic font, say, that has swash features unavailable
-in the upright forms. \cmd\newfontface\ is used for this purpose: \new{v1.11}
+in the upright forms. \cmd\newfontface\ is used for this purpose:
 \begin{example}
   \newfontface\fancy
       [Contextuals={WordInitial,WordFinal}]
@@ -590,7 +574,7 @@ features, as shown in the following ludicrous example.
 \subsection{Different features for different font sizes}
 \label{sec:sizefeature}
 
-The \feat{SizeFeature} feature \new{v1.13} is a little more complicated
+The \feat{SizeFeature} feature is a little more complicated
 than the previous features discussed. It allows different fonts
 and different font features to be selected for a given font
 family as the point size varies. 
@@ -1076,7 +1060,7 @@ Historic forms (\eg, long~s as shown above) are accessed in OpenType
 fonts via the feature \feat{Style=Historic}; this is generally \emph{not}
 contextual in OpenType, which is why it is not included here.
 
-New option \opt{Alternate} corresponds to the raw feature |calt| \new{v1.18}. It should usually be activated by default. 
+New option \opt{Alternate} corresponds to the raw feature |calt|. It should usually be activated by default. 
 
 
 \subsection{Vertical position} 
@@ -1222,7 +1206,7 @@ See \vref{sec:newfeatures} for a way to assign names to alternates,
 which should be done on a per-font basis.
 
 For OpenType fonts, this option is used to access numerical
-variations of the raw |salt| feature \new{v1.18}. I can't show an example,
+variations of the raw |salt| feature. I can't show an example,
 but here's how it would be used:
 \begin{verbatim}
   \fontspec[Alternate=1]{Garamond Premier Pro}
@@ -1699,7 +1683,7 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 \subsection{Going behind \pkg{fontspec}'s back}
 Expert users may wish not to use \pkg{fontspec}'s feature handling at all,
 while still taking advantage of its \LaTeX\ font selection conveniences. The
-\feat{RawFeature} \new{v1.13} font feature allows literal \XeTeX\ font feature selection
+\feat{RawFeature} font feature allows literal \XeTeX\ font feature selection
 when you happen to have the OpenType feature tag memorised.
 \begin{example}
   \fontspec[RawFeature=+smcp]{FPL Neu}
@@ -1749,10 +1733,17 @@ Multiple features can either be included in a single declaration:\par
 % \iffalse
 %<*fontspec> 
 % \fi
-% Only proceed if it is \XeTeX\ that is doing the typesetting.
 %    \begin{macrocode}
-\RequirePackage{ifxetex}
-\RequireXeTeX
+\RequirePackage{ifxetex,ifluatex}
+\ifxetex\else
+  \ifluatex
+    \@input{luatex-fonts}
+  \else
+    \PackageError{fontspec}{fontspec require XeTeX or LuaTeX to function!}
+  \fi
+\fi
+\RequirePackage{expl3}
+\ExplSyntaxOn
 %    \end{macrocode}
 % \subsection{Bits and pieces}
 % \paragraph{Conditionals}
@@ -1796,21 +1787,6 @@ Multiple features can either be included in a single declaration:\par
 \newcommand\zf@PackageInfo[1]{\PackageInfo{fontspec}{#1}}
 %    \end{macrocode}
 %
-% \begin{macro}{\def@cx}
-% \begin{macro}{\gdef@cx}
-% \begin{macro}{\let@cc}
-% \LaTeX3--like syntax for various low level commands.
-% Makes life much easier; can't wait for the official interface |:)|
-%    \begin{macrocode}
-\providecommand\def@cx[2]{\expandafter\edef\csname#1\endcsname{#2}}
-\providecommand\gdef@cx[2]{\expandafter\xdef\csname#1\endcsname{#2}}
-\providecommand\let@cc[2]{%
-  \expandafter\let\csname#1\expandafter\endcsname\csname#2\endcsname}
-%    \end{macrocode}
-% \end{macro}
-% \end{macro}
-% \end{macro}
-%
 % \subsection{Option processing}
 %
 %    \begin{macrocode}
@@ -1829,11 +1805,6 @@ Multiple features can either be included in a single declaration:\par
   \let\zf@PackageInfo\@gobble}
 \ExecuteOptions{config,lm-default,math}
 \ProcessOptions*
-%    \end{macrocode}
-% Only proceed if it is \XeTeX\ that is doing the typesetting:
-%    \begin{macrocode}
-\RequirePackage{ifxetex}
-\RequireXeTeX
 %    \end{macrocode}
 %
 % \subsection{Packages}
@@ -2072,7 +2043,7 @@ Multiple features can either be included in a single declaration:\par
 %    \begin{macrocode}
 \newcommand*\newfontfeature[2]{%
   \stepcounter{zf@newff}%
-  \def@cx{+zf-#1}{+zf-\the\c@zf@newff}%
+  \cs_set:cpx{+zf-#1}{+zf-\the\c@zf@newff}%
   \define@key[zf]{options}{#1}[]{%
     \zf@update@family{\csname+zf-#1\endcsname}%
     \zf@update@ff{#2}}}
@@ -2205,7 +2176,8 @@ Multiple features can either be included in a single declaration:\par
 % assign it a value so that the other weights of the font are specifically loaded with the
 % same renderer. This fixes a bug in v1.10 for a mishmash of Lucida fonts.
 %    \begin{macrocode}
-  \font\zf@basefont="\zf@font@wrap\zf@fontname\zf@suffix" at \f@size pt
+  \font\zf@basefont="\zf@font@wrap\zf@fontname\zf@suffix"~at~\f@size pt
+  \ifxetex
   \unless\ifzf@icu
     \zf@set@font@type
   \fi
@@ -2217,7 +2189,8 @@ Multiple features can either be included in a single declaration:\par
         \def\zf@suffix{/ICU}%
       \fi
     \fi
-    \font\zf@basefont="\zf@font@wrap\zf@fontname\zf@suffix" at \f@size pt
+    \font\zf@basefont="\zf@font@wrap\zf@fontname\zf@suffix"~at~ \f@size pt
+  \fi
   \fi
 %    \end{macrocode}
 % Now convert the remaining requested features to font definition
@@ -2253,7 +2226,7 @@ Multiple features can either be included in a single declaration:\par
         \csname c@zf@famc@#2\endcsname
     \fi
     \edef\@tempa{#2}%
-    \gdef@cx{zf@UID@\zf@family@long}{%
+    \cs_gset:cpx{zf@UID@\zf@family@long}{%
       \expandafter\expandafter\expandafter
         \zap@space\expandafter\@tempa\space\@empty
       (\expandafter\the\csname c@zf@famc@#2\endcsname)}%
@@ -2271,10 +2244,13 @@ Multiple features can either be included in a single declaration:\par
   \unless\ifcsname zf@family@fontname\zf@family\endcsname
     \zf@PackageInfo{Defining font family for '#2'
           with options [\zf@default@options #1]}%
-    \gdef@cx{zf@family@fontname\zf@family}{\zf@fontname}%
-    \gdef@cx{zf@family@options\zf@family}{\zf@default@options #1}%
-    \gdef@cx{zf@family@fontdef\zf@family}
-      {\zf@fontname\zf@suffix:\zf@pre@ff\zf@ff}%
+    \cs_gset:cpx{zf@family@fontname\zf@family}{\zf@fontname}%
+    \cs_gset:cpx{zf@family@options\zf@family}{\zf@default@options #1}%
+    \cs_gset:cpx{zf@family@fontdef\zf@family}{%
+      \zf@fontname\zf@suffix
+      \ifx\zf@pre@ff\@empty\else\ifx\zf@ff\@empty\else:\fi\fi
+      \zf@pre@ff\zf@ff
+    }%
 %    \end{macrocode}
 % Next the font family and its shapes are defined in the NFSS.
 %
@@ -2403,10 +2379,10 @@ Multiple features can either be included in a single declaration:\par
   \begingroup
     \edef\@tempa{#1}%
     \unless\ifx\@tempa\@empty
-      \font\@tempfonta="\zf@font@wrap{#1}\zf@suffix" at \f@size pt
+      \font\@tempfonta="\zf@font@wrap{#1}\zf@suffix"~at~\f@size pt
       \edef\@tempa{\fontname\@tempfonta}%
     \fi
-    \font\@tempfontb="\zf@font@wrap{#1#2}\zf@suffix" at \f@size pt
+    \font\@tempfontb="\zf@font@wrap{#1#2}\zf@suffix"~at~\f@size pt
     \edef\@tempb{\fontname\@tempfontb}%
     \ifx\@tempa\@tempb
       \zf@PackageInfo{Could not resolve font #1#2 (it might not exist)}%
@@ -2453,7 +2429,7 @@ Multiple features can either be included in a single declaration:\par
 \newcommand\zf@DeclareFontShape[4][]{%
   \ifx\zf@size@feat\@empty
     \zf@get@feature@requests{#4}%
-    \edef\zf@font@str{<->\zf@scale"\zf@font@wrap\zf@fontname\zf@suffix:%
+    \edef\zf@font@str{<->\zf@scale"\zf@font@wrap\zf@fontname\zf@suffix :%
       \zf@pre@ff\zf@ff#1"}%
   \else
 %    \end{macrocode}
@@ -2474,7 +2450,7 @@ Multiple features can either be included in a single declaration:\par
       \fi
       \zf@get@feature@requests{#4,\XKV@rm}%
       \edef\zf@font@str{\zf@font@str <\zf@size>%
-        \zf@scale"\zf@size@fnt\zf@suffix:\zf@pre@ff\zf@ff#1"}}%
+        \zf@scale"\zf@size@fnt\zf@suffix :\zf@pre@ff\zf@ff#1"}}%
   \fi
 %    \end{macrocode}
 % And finally the actual font shape declaration using \cmd\zf@font@str\ defined above.
@@ -2673,8 +2649,8 @@ Multiple features can either be included in a single declaration:\par
 % This macro maps one \pkg{xkeyval} key to another.
 %    \begin{macrocode}  
 \newcommand*\keyval@alias@key[4][KV]{%
-  \let@cc{#1@#2@#4}{#1@#2@#3}%
-  \let@cc{#1@#2@#4@default}{#1@#2@#3@default}}
+  \cs_set_eq:cc{#1@#2@#4}{#1@#2@#3}%
+  \cs_set_eq:cc{#1@#2@#4@default}{#1@#2@#3@default}}
 %    \end{macrocode}
 % \end{macro}
 %
@@ -2770,13 +2746,17 @@ Multiple features can either be included in a single declaration:\par
 \def\zf@iv@strnum@ii#1#2#3#4#5\@nil{%
   \@tempcnta\z@
   \@tempcntb`#1\relax
-  \multiply\@tempcntb"1000000\advance\@tempcnta\@tempcntb
+  \multiply\@tempcntb"1000000
+  \advance\@tempcnta\@tempcntb
   \@tempcntb`#2
-  \multiply\@tempcntb"10000\advance\@tempcnta\@tempcntb
+  \multiply\@tempcntb"10000
+  \advance\@tempcnta\@tempcntb
   \expandafter\@tempcntb\ifx\@empty#332\else`#3\fi
-  \multiply\@tempcntb"100\advance\@tempcnta\@tempcntb
+  \multiply\@tempcntb"100
+  \advance\@tempcnta\@tempcntb
   \expandafter\@tempcntb\ifx\@empty#432\else`#4\fi
-  \advance\@tempcnta\@tempcntb}
+  \advance\@tempcnta\@tempcntb
+}
 \newcommand\zf@v@strnum[1]{%
   \expandafter\zf@iv@strnum@i\@gobble#1 \@nil}
 %    \end{macrocode}
@@ -2790,6 +2770,9 @@ Multiple features can either be included in a single declaration:\par
 % the number corresponding to the script tag string.
 %    \begin{macrocode}
 \newcommand\zf@check@ot@script[1]{%
+  \ifluatex
+    \@tempswatrue % fixme!
+  \else
   \zf@iv@strnum{#1}%
   \@tempcntb\XeTeXOTcountscripts\zf@basefont
   \c@zf@index\z@ \@tempswafalse
@@ -2800,7 +2783,8 @@ Multiple features can either be included in a single declaration:\par
     \else
       \advance\c@zf@index\@ne
     \fi
-  \repeat}
+  \repeat
+  \fi}
 %    \end{macrocode}
 % \end{macro}
 %
@@ -2812,6 +2796,9 @@ Multiple features can either be included in a single declaration:\par
 % number corresponding to `|latn|'.
 %    \begin{macrocode}
 \newcommand\zf@check@ot@lang[1]{%
+  \ifluatex
+    \@tempswatrue % fixme!
+  \else
   \zf@iv@strnum{#1}%
   \@tempcntb\XeTeXOTcountlanguages\zf@basefont\c@zf@script
   \c@zf@index\z@ \@tempswafalse
@@ -2822,7 +2809,9 @@ Multiple features can either be included in a single declaration:\par
     \else
       \advance\c@zf@index\@ne
     \fi
-  \repeat}
+  \repeat
+  \fi
+}
 %    \end{macrocode}
 % \end{macro}
 %
@@ -2836,6 +2825,9 @@ Multiple features can either be included in a single declaration:\par
 % by default |0|, the `default language'. 
 %    \begin{macrocode}
 \newcommand*\zf@check@ot@feat[1]{%
+  \ifluatex
+    \@tempswatrue % fixme!
+  \else
   \@tempcntb\XeTeXOTcountfeatures\zf@basefont\c@zf@script\c@zf@language
   \zf@v@strnum{#1}%
   \c@zf@index\z@ \@tempswafalse
@@ -2847,7 +2839,9 @@ Multiple features can either be included in a single declaration:\par
     \else
       \advance\c@zf@index\@ne
     \fi
-  \repeat}
+  \repeat
+  \fi
+}
 %    \end{macrocode}
 % \end{macro}
 %
@@ -2875,10 +2869,15 @@ Multiple features can either be included in a single declaration:\par
 % \paragraph{\feat{Renderer}}
 % This feature must be processed before all others (the other font shape and features options are also pre-parsed for convenience) because the renderer determines the format of the features and even whether certain features are available.
 %    \begin{macrocode}
-\define@choicekey[zf]{preparse}{Renderer}{AAT,ICU,GR}{%
-  \edef\zf@suffix{\zf@suffix/#1}%
-  \font\zf@basefont="\zf@font@wrap\zf@fontname\zf@suffix" at \f@size pt
-  \edef\zf@family@long{\zf@family@long +rend:#1}}
+\define@choicekey[zf]{preparse}{Renderer}{AAT,ICU,GR}{
+  \ifxetex
+    \edef\zf@suffix{\zf@suffix/#1}
+    \font\zf@basefont="\zf@font@wrap\zf@fontname\zf@suffix"~at~\f@size pt
+    \edef\zf@family@long{\zf@family@long +rend:#1}
+  \else
+    \zf_warning:nx {only-xetex-feature} {Renderer}
+  \fi
+}
 %    \end{macrocode}
 %
 % \paragraph{OpenType script/language}
@@ -2886,8 +2885,10 @@ Multiple features can either be included in a single declaration:\par
 %    \begin{macrocode}
 \define@key[zf]{preparse}{Script}{%
   \zf@icutrue
-  \edef\zf@suffix{\zf@suffix/ICU}%
-  \font\zf@basefont="\zf@font@wrap\zf@fontname\zf@suffix" at \f@size pt
+  \ifxetex
+    \edef\zf@suffix{\zf@suffix/ICU}
+  \fi
+  \font\zf@basefont="\zf@font@wrap\zf@fontname\zf@suffix"~at~\f@size pt
   \edef\zf@family@long{\zf@family@long +script:#1}%
   {\setkeys[zf@feat]{Script}{#1}}}
 %    \end{macrocode}
@@ -2895,8 +2896,10 @@ Multiple features can either be included in a single declaration:\par
 %    \begin{macrocode}
 \define@key[zf]{preparse}{Language}{%
   \zf@icutrue
-  \edef\zf@suffix{\zf@suffix/ICU}%
-  \font\zf@basefont="\zf@font@wrap\zf@fontname\zf@suffix" at \f@size pt
+  \ifxetex
+    \edef\zf@suffix{\zf@suffix/ICU}
+  \fi
+  \font\zf@basefont="\zf@font@wrap\zf@fontname\zf@suffix"~at~\f@size pt
   \edef\zf@family@long{\zf@family@long +language:#1}%
   {\setkeys[zf@feat]{Lang}{#1}}}
 %    \end{macrocode}

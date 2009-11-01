@@ -9,42 +9,53 @@ THE FONTSPEC PACKAGE v2.0
 Experimental version of fontspec to work with LuaTeX
 as well as XeTeX.
 
+This version is not yet on CTAN!
+It will have the version number 2.0 until that happens.
+Check the package date to ensure you have the latest version.
+
 ------------------------
 SUMMARY OF USER COMMANDS
 
 Font families may be selected individually with the command
-   \fontspec[<font options>]{<font name>}
+
+    \fontspec[<font options>]{<font name>}
 
 Commands for selecting fonts efficiently can be created with
-   \newfontfamily\myfamily[<font options>]{<font name>}
-   \newfontface\myfont[<font options>]{<font name>}
 
-Default document fonts are selected with 
-   \setmainfont[<font options>]{<font name>}
-   \setsansfont[<font options>]{<font name>}
-   \setmonofont[<font options>]{<font name>}
+    \newfontfamily\myfamily[<font options>]{<font name>}
+    \newfontface\myfont[<font options>]{<font name>}
 
-Fonts to be used in maths are defined with 
-   \setmathrm[<font options>]{<font name>}
-   \setmathsf[<font options>]{<font name>}
-   \setmathtt[<font options>]{<font name>}
-   \setboldmathrm[<font options>]{<font name>}
+Default document fonts are selected with
+
+    \setmainfont[<font options>]{<font name>}
+    \setsansfont[<font options>]{<font name>}
+    \setmonofont[<font options>]{<font name>}
+
+Fonts to be used in maths are defined with
+
+    \setmathrm[<font options>]{<font name>}
+    \setmathsf[<font options>]{<font name>}
+    \setmathtt[<font options>]{<font name>}
+    \setboldmathrm[<font options>]{<font name>}
 
 Features to be used for every subsequently defined font are specified with
-   \defaultfontfeatures{<default font options>}
+
+    \defaultfontfeatures{<default font options>}
 
 Features may be added to the font currently in use with
-   \addfontfeatures{<font options to add>}
-   \addfontfeature{<...>} does the same thing
+    \addfontfeatures{<font options to add>}
+    \addfontfeature{<...>} does the same thing
 
 Features not provided for out of the box may be defined with
-   \newAATfeature{<feature tag>}{<feature code>}{<selector code>}
-   \newICUfeature{<feature tag>}{[+|-]<4 letter feature string>}
-   \newfontfeature{<feature tag>}{<arbitrary XeTeX font options>}
+
+    \newAATfeature{<feature tag>}{<feature code>}{<selector code>}
+    \newICUfeature{<feature tag>}{[+|-]<4 letter feature string>}
+    \newfontfeature{<feature tag>}{<arbitrary XeTeX font options>}
 
 Features can be renamed and feature options can be renamed with
-   \aliasfontfeature{<current feature>}{<new feature>}
-   \aliasfontfeatureoption{<feature>}{<current option>}{<new option>}
+
+    \aliasfontfeature{<current feature>}{<new feature>}
+    \aliasfontfeatureoption{<feature>}{<current option>}{<new option>}
 
 --------------
 Will Robertson
@@ -1716,7 +1727,7 @@ Multiple features can either be included in a single declaration:\par
 %
 %<*fontspec>
 \ProvidesPackage{fontspec}
-  [2008/08/09 v1.18 Advanced font selection for XeLaTeX]
+  [2009/11/02 v2.0 Advanced font selection for XeLaTeX]
 %</fontspec>
 %
 % \fi

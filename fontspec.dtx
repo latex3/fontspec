@@ -179,7 +179,7 @@ the Latin Modern fonts to be used by default. This has three implications:
 \begin{enumerate}
 \item Unicode fonts are loaded by default; it didn't make sense to have the legacy Computer Modern fonts in the Unicode-enabled \XeTeX.
 \item If you don't have the Latin Modern OpenType fonts installed, you might want to consider doing so.
-\item \pkg{fontspec} also requires the \pkg{euenc} package\footnote{\url{http://tug.ctan.org/cgi-bin/ctanPackageInformation.py?id=euenc}} to be installed.
+\item \pkg{fontspec} also requires the \pkg{euenc} package\footnote{\url{http://tug.ctan.org/pkg/euenc}} to be installed.
 \end{enumerate}
 Another package option is provided for controlling this behaviour: |[cm-default]| 
 will ignore the Latin Modern fonts and go about things as it used to. Use this
@@ -198,7 +198,7 @@ this should be done by creating your own \texttt{fontspec.cfg} file,
  \note{An example is distributed with the package.} 
 which will be automatically loaded if it is found by \XeTeX. Either place it
 in the same folder as the main document for isolated cases, or in a location that
-\XeTeX\ searches by default, \eg, \url{~/Library/texmf/xelatex/}.
+\XeTeX\ searches by default, \eg, \path{~/Library/texmf/xelatex/}.
 The package option |[no-config]| will suppress this behaviour
 under all circumstances. 
 \warn{v1.14}{Used to be \texttt{[noconfig]}, which still works.}
@@ -1739,7 +1739,7 @@ Multiple features can either be included in a single declaration:\par
   \ifluatex
     \@input{luatex-fonts}
   \else
-    \PackageError{fontspec}{fontspec require XeTeX or LuaTeX to function!}
+    \fontspec_error:n {not-pdftex}
   \fi
 \fi
 \RequirePackage{expl3}
@@ -1777,15 +1777,6 @@ Multiple features can either be included in a single declaration:\par
 \newcount\c@zf@script
 \newcount\c@zf@language
 %    \end{macrocode}
-% \pkg{fontspec} shorthands:
-%    \begin{macrocode}
-\def\zf@nl{^^J\space\space\space\space}
-\newcommand\zf@PackageError[2]{%
-  \PackageError{fontspec}{{\zf@nl #1}^^J}{#2}}
-\newcommand\zf@PackageWarning[1]{%
-  \PackageWarning{fontspec}{\zf@nl #1^^JThis warning occured}}
-\newcommand\zf@PackageInfo[1]{\PackageInfo{fontspec}{#1}}
-%    \end{macrocode}
 %
 % \subsection{Option processing}
 %
@@ -1798,11 +1789,13 @@ Multiple features can either be included in a single declaration:\par
 \DeclareOption{no-config}{\@zf@configfilefalse}
 \DeclareOption{noconfig}{\@zf@configfilefalse}
 \DeclareOption{quiet}{%
-  \let\zf@PackageWarning\zf@PackageInfo
-  \let\zf@PackageInfo\@gobble}
+  \msg_redirect_module:nnn { fontspec } { warning } { info }
+  \msg_redirect_module:nnn { fontspec } { info } { none }
+}
 \DeclareOption{silent}{%
-  \let\zf@PackageWarning\@gobble
-  \let\zf@PackageInfo\@gobble}
+  \msg_redirect_module:nnn { fontspec } { warning } { none }
+  \msg_redirect_module:nnn { fontspec } { info } { none }
+}
 \ExecuteOptions{config,lm-default,math}
 \ProcessOptions*
 %    \end{macrocode}
@@ -2019,9 +2012,7 @@ Multiple features can either be included in a single declaration:\par
     \endgroup
     \fontfamily\zf@family\selectfont
   \else
-    \zf@PackageWarning{%
-      \protect\addfontfeature (s) ignored;\zf@nl
-      it cannot be used with a font that wasn't selected by fontspec.}%
+    \fontspec_warning:n {addfontfeatures-ignored}
   \fi
   \ignorespaces}
 \let\addfontfeature\addfontfeatures
@@ -2061,7 +2052,8 @@ Multiple features can either be included in a single declaration:\par
     \zf@define@font@feature{#1}%
   \fi
   \key@ifundefined[zf]{#1}{#2}{}{%
-    \zf@PackageWarning{Option '#2' of font feature '#1' overwritten.}}%
+    \fontspec_warning:nxx {feature-option-overwrite}{#1}{#2}
+  }%
   \zf@define@feature@option{#1}{#2}{#3}{#4}{}}
 %    \end{macrocode}
 % \end{macro}
@@ -2071,12 +2063,13 @@ Multiple features can either be included in a single declaration:\par
 % Better than \cmd\newfontfeature\ because it checks if the feature exists in the
 % font it's being used for.
 %    \begin{macrocode}
-\newcommand*\newICUfeature[3]{%
+\newcommand*\newICUfeature[3]{
   \unless\ifcsname zf@options@#1\endcsname
-    \zf@define@font@feature{#1}%
+    \zf@define@font@feature{#1}
   \fi
-  \key@ifundefined[zf]{#1}{#2}{}{%
-    \zf@PackageWarning{Option '#2' of font feature '#1' overwritten.}}%
+  \key@ifundefined[zf]{#1}{#2}{}{
+    \fontspec_warning:nxx {feature-option-overwrite}{#1}{#2}
+  }
   \zf@define@feature@option{#1}{#2}{}{}{#3}}
 %    \end{macrocode}
 % \end{macro}
@@ -2086,7 +2079,7 @@ Multiple features can either be included in a single declaration:\par
 % \begin{macro}{\aliasfontfeatureoption}
 % User commands for renaming font features and font feature options.
 % Provided I've been consistent, they should work for everything.
-%    \begin{macrocode}  
+%    \begin{macrocode}
 \newcommand*\aliasfontfeature[2]{\multi@alias@key{#1}{#2}}
 \newcommand*\aliasfontfeatureoption[3]{%
   \keyval@alias@key[zf@feat]{#1}{#2}{#3}}
@@ -2100,17 +2093,19 @@ Multiple features can either be included in a single declaration:\par
 % feature choice, and then prepends the (\XeTeX) \cmd\font\ feature string with the appropriate
 % script selection tag.
 %    \begin{macrocode}
-\newcommand*\newfontscript[2]{%
-  \define@key[zf@feat]{Script}{#1}[]{%
-    \zf@check@ot@script{#2}%
+\newcommand*\newfontscript[2]{
+  \define@key[zf@feat]{Script}{#1}[]{
+    \zf@check@ot@script{#2}
     \if@tempswa
       \global\c@zf@script\@tempcnta\relax
-      \xdef\zf@script@name{#1}%
-      \xdef\zf@family@long{\zf@family@long+script=#1}%
-      \xdef\zf@pre@ff{script=#2,\zf@pre@ff}%
+      \xdef\zf@script@name{#1}
+      \xdef\zf@family@long{\zf@family@long+script=#1}
+      \xdef\zf@pre@ff{script=#2,\zf@pre@ff}
     \else
-      \zf@PackageWarning{Font \fontname\zf@basefont\space does not contain script '#1'}%
-    \fi}}
+      \fontspec_warning:nx {script-not-exist} {#1}
+    \fi
+  }
+}
 %    \end{macrocode}
 % \end{macro}
 %
@@ -2121,19 +2116,19 @@ Multiple features can either be included in a single declaration:\par
 % feature choice, and then prepends the (\XeTeX) \cmd\font\ feature string with the appropriate
 % language selection tag.
 %    \begin{macrocode}
-\newcommand*\newfontlanguage[2]{%
-  \define@key[zf@feat]{Lang}{#1}[]{%
-    \zf@check@ot@lang{#2}%
+\newcommand*\newfontlanguage[2]{
+  \define@key[zf@feat]{Lang}{#1}[]{
+    \zf@check@ot@lang{#2}
     \if@tempswa
       \global\c@zf@language\@tempcnta\relax
-      \xdef\zf@language@name{#1}%
-      \xdef\zf@family@long{\zf@family@long+lang=#1}%
-      \xdef\zf@pre@ff{\zf@pre@ff language=#2,}%
+      \xdef\zf@language@name{#1}
+      \xdef\zf@family@long{\zf@family@long+lang=#1}
+      \xdef\zf@pre@ff{\zf@pre@ff language=#2,}
     \else
-      \zf@PackageWarning{%
-        Font \fontname\zf@basefont\space does not contain 
-        language '#1' for script '\zf@script@name'}%
-    \fi}}
+      \fontspec_warning:nx {lang-not-exist} {#1}
+    \fi
+  }
+}
 %    \end{macrocode}
 % \end{macro}
 %
@@ -2242,8 +2237,7 @@ Multiple features can either be included in a single declaration:\par
 % \cs{addfontfeatures}.
 %    \begin{macrocode}
   \unless\ifcsname zf@family@fontname\zf@family\endcsname
-    \zf@PackageInfo{Defining font family for '#2'
-          with options [\zf@default@options #1]}%
+    \fontspec_info:nxx {defining-font} {#1} {#2}
     \cs_gset:cpx{zf@family@fontname\zf@family}{\zf@fontname}%
     \cs_gset:cpx{zf@family@options\zf@family}{\zf@default@options #1}%
     \cs_gset:cpx{zf@family@fontdef\zf@family}{%
@@ -2385,7 +2379,7 @@ Multiple features can either be included in a single declaration:\par
     \font\@tempfontb="\zf@font@wrap{#1#2}\zf@suffix"~at~\f@size pt
     \edef\@tempb{\fontname\@tempfontb}%
     \ifx\@tempa\@tempb
-      \zf@PackageInfo{Could not resolve font #1#2 (it might not exist)}%
+      \fontspec_info:nx {no-font-shape} {#1#2}
     \else
       \edef\zf@fontname{#1#2}%
       \let\zf@basefont\@tempfontb
@@ -2429,7 +2423,7 @@ Multiple features can either be included in a single declaration:\par
 \newcommand\zf@DeclareFontShape[4][]{%
   \ifx\zf@size@feat\@empty
     \zf@get@feature@requests{#4}%
-    \edef\zf@font@str{<->\zf@scale"\zf@font@wrap\zf@fontname\zf@suffix :%
+    \edef\zf@font@str{<->\zf@scale"\zf@font@wrap\zf@fontname\zf@suffix :
       \zf@pre@ff\zf@ff#1"}%
   \else
 %    \end{macrocode}
@@ -2438,19 +2432,19 @@ Multiple features can either be included in a single declaration:\par
 % are of the form
 % {\par\centering |SizeFeatures={{<one>},{<two>},{<three>}}|.\par}
 %    \begin{macrocode}
-    \@for\zf@this@size:=\zf@size@feat\do{%
+    \clist_map_variable:NNn \zf@size@feat \zf@this@size {
       \let\zf@size\@empty
       \let\zf@size@fnt\zf@fontname
       \edef\@tempa{\noexpand
         \setkeys*[zf]{sizing}{\expandafter\@firstofone\zf@this@size}}%
       \@tempa
-      \ifx\zf@size\@empty\zf@PackageError
-          {Size information must be supplied}
-          {For example, SizeFeatures={Size={8-12},...},...}%
+      \ifx\zf@size\@empty
+        \fontspec_error:n {no-size-info}
       \fi
       \zf@get@feature@requests{#4,\XKV@rm}%
       \edef\zf@font@str{\zf@font@str <\zf@size>%
-        \zf@scale"\zf@size@fnt\zf@suffix :\zf@pre@ff\zf@ff#1"}}%
+        \zf@scale"\zf@size@fnt\zf@suffix :\zf@pre@ff\zf@ff#1"}
+    }
   \fi
 %    \end{macrocode}
 % And finally the actual font shape declaration using \cmd\zf@font@str\ defined above.
@@ -2462,7 +2456,7 @@ Multiple features can either be included in a single declaration:\par
       {\zf@font@str}{\zf@adjust}}%
   \@tempa
 %    \end{macrocode}
-% This extra stuff for the slanted shape substitution is a little bit awkward, 
+% This extra stuff for the slanted shape substitution is a little bit awkward,
 % but I'd rather have it here than break out yet another macro. Alternatively,
 % one day I might just redefine \cmd\slshape. Why not, eh?
 %    \begin{macrocode}
@@ -2546,20 +2540,27 @@ Multiple features can either be included in a single declaration:\par
 % This macro checks if the font contains small caps, and if so
 % creates the string for accessing them in \cmd{\zf@smallcaps}.
 %    \begin{macrocode}
-\newcommand*\zf@make@smallcaps{%
+\newcommand*\zf@make@smallcaps{
   \let\zf@smallcaps\@empty
-  \ifzf@atsui
-    \zf@make@aat@feature@string{3}{3}%
-    \unless\ifx\@tempa\@empty
-      \edef\zf@smallcaps{\@tempa;}%
+  \luatex_if_engine:TF
+  {
+    \edef\zf@smallcaps{+smcp,}
+  }
+  {
+    \ifzf@atsui
+      \zf@make@aat@feature@string{3}{3}
+      \unless\ifx\@tempa\@empty
+        \edef\zf@smallcaps{\@tempa;}
+      \fi
     \fi
-  \fi
-  \ifzf@icu
-    \zf@check@ot@feat{+smcp}%
-    \if@tempswa
-      \edef\zf@smallcaps{+smcp,}%
+    \ifzf@icu
+      \zf@check@ot@feat{+smcp}
+      \if@tempswa
+        \edef\zf@smallcaps{+smcp,}
+      \fi
     \fi
-  \fi}
+  }
+}
 %    \end{macrocode}
 % \end{macro}
 %
@@ -2585,51 +2586,51 @@ Multiple features can either be included in a single declaration:\par
 %   according to which type of font is selected.
 %    \begin{macrocode}
 \newcommand*\zf@make@feature[3]{%
-%    \end{macrocode}
-% For AAT fonts:
-%    \begin{macrocode}
-  \ifzf@atsui
-    \def\@tempa{#1}%
+  \luatex_if_engine:TF
+  {
+    \fontspec_make_LT_feature:n {#3}
+  }
+  {
+    \ifzf@atsui
+      \fontspec_make_AAT_feature:nn {#1} {#2}
+    \fi
+    \ifzf@icu
+      \fontspec_make_ICU_feature:n {#3}
+    \fi
+  }
+}
+\cs_new:Nn \fontspec_make_LT_feature:n {
+  \zf@update@family{#1}
+  \zf@update@ff{#1}
+}
+\cs_new:Nn \fontspec_make_AAT_feature:nn {
+  \def\@tempa{#1}%
+  \ifx\@tempa\@empty
+    \fontspec_warning:n {aat-feature-not-exist}
+  \else
+    \zf@make@aat@feature@string{#1}{#2}%
     \ifx\@tempa\@empty
-      \zf@PackageWarning{%
-        '\XKV@tfam=\XKV@tkey' feature not supported
-         for AAT font \fontname\zf@basefont}%
+      \fontspec_warning:nx {aat-feature-not-exist-in-font} {#1,#2}
     \else
-      \zf@make@aat@feature@string{#1}{#2}%
-      \ifx\@tempa\@empty
-        \zf@PackageWarning{%
-          AAT feature '\XKV@tfam=\XKV@tkey' (#1,#2) not available\zf@nl 
-          in font \fontname\zf@basefont}%
-      \else
-        \zf@update@family{+#1,#2}%
-        \zf@update@ff\@tempa
-      \fi
+      \zf@update@family{+#1,#2}%
+      \zf@update@ff\@tempa
     \fi
   \fi
-%    \end{macrocode}
-% For OpenType fonts:
-%    \begin{macrocode}
-  \ifzf@icu
-    \edef\@tempa{#3}%
-    \ifx\@tempa\@empty
-      \zf@PackageWarning{%
-        '\XKV@tfam=\XKV@tkey' feature not supported 
-        for ICU font \fontname\zf@basefont}%
+}
+\cs_new:Nn \fontspec_make_ICU_feature:n {
+  \edef\@tempa{#1}
+  \ifx\@tempa\@empty
+    \fontspec_warning:n {icu-feature-not-exist}
+  \else
+    \expandafter\zf@check@ot@feat\expandafter{\@tempa}%
+    \if@tempswa
+      \zf@update@family{#1}
+      \zf@update@ff{#1}
     \else
-      \expandafter\zf@check@ot@feat\expandafter{\@tempa}%
-      \if@tempswa
-        \zf@update@family{#3}%
-        \zf@update@ff{#3}%
-      \else
-        \zf@PackageWarning{%
-          OpenType feature '\XKV@tfam=\XKV@tkey' (#3)
-          not available\zf@nl
-          for font \fontname\zf@basefont, \zf@nl 
-          with script '\zf@script@name',\zf@nl
-          and language '\zf@language@name'.}%
-      \fi
+      \fontspec_warning:nx {icu-feature-not-exist-in-font} {#1}
     \fi
-  \fi}
+  \fi
+}
 %    \end{macrocode}
 % \end{macro}
 %
@@ -2661,8 +2662,9 @@ Multiple features can either be included in a single declaration:\par
 \newcommand*\multi@alias@key[2]{%
   \key@ifundefined[zf]{preparse}{#1}
     {\key@ifundefined[zf]{options}{#1}
-       {\zf@PackageError{The feature #1 doesn't appear to be defined}
-          {It looks like you're trying to rename a feature that doesn't exist.}}
+       {
+         \fontspec_warning:nx {rename-feature-not-exist} {#1}
+       }
        {\keyval@alias@key[zf]{options}{#1}{#2}}}
     {\keyval@alias@key[zf]{preparse}{#1}{#2}}}
 %    \end{macrocode}
@@ -3062,7 +3064,7 @@ Multiple features can either be included in a single declaration:\par
     \setlength\@tempdimb{\fontdimen#1\zf@basefont}%
     \setlength\@tempdimc{1pt*\ratio{\@tempdima}{\@tempdimb}}%
     \xdef\zf@scale{\strip@pt\@tempdimc}%
-    \zf@PackageInfo{\zf@fontname\space scale = \zf@scale}%
+    \fontspec_info:n {set-scale}
   \endgroup}
 %    \end{macrocode}
 % \end{macro}
@@ -3138,19 +3140,13 @@ Multiple features can either be included in a single declaration:\par
            {\expandafter\hyphenchar\expandafter
             \font\expandafter`#1}}%
       \else
-        \zf@PackageError
-          {\fontname\zf@basefont\space doesn't appear to have the glyph
-            corresponding to #1.}
-          {You can't hyphenate with a character that's not available!}%
+        \fontspec_error:nx {no-glyph}
       \fi}%
     \else
       {\zf@basefont\ifnum\XeTeXcharglyph#1 > \z@
         \g@addto@macro\zf@adjust{\hyphenchar\font#1\relax}%
       \else
-        \zf@PackageError
-          {\fontname\zf@basefont\space doesn't appear to have the glyph
-            corresponding to #1.}
-          {You can't hyphenate with a character that's not available!}%
+        \fontspec_error:nx {no-glyph}
       \fi}%
     \fi
   \fi}
@@ -3194,9 +3190,7 @@ Multiple features can either be included in a single declaration:\par
   \ifzf@icu\else
     \ifzf@mm\else
       \ifzf@firsttime
-        \zf@PackageWarning
-          {\fontname\zf@basefont\space doesn't appear
-            to have an Optical Size axis}%
+        \fontspec_warning:n {no-opticals}
       \fi
     \fi
   \fi}
@@ -3693,9 +3687,7 @@ Multiple features can either be included in a single declaration:\par
       \xdef\zf@family@long{\zf@family@long+lang=Turkish}%
       \xdef\zf@pre@ff{\zf@pre@ff language=TUR,}%
     \else
-      \zf@PackageWarning{Language '#1' not available\zf@nl 
-         for font \fontname\zf@basefont\zf@nl 
-         with script '\zf@script@name'.}%
+      \fontspec_warning:nx {language-not-exist} {#1}
     \fi
   \fi}
 %    \end{macrocode}
@@ -3791,12 +3783,9 @@ Multiple features can either be included in a single declaration:\par
     \ifzf@package@euler@loaded
       \zf@math@eulertrue
     \else
-      \zf@PackageError{The euler package must be loaded BEFORE fontspec}
-        {fontspec only overwrites euler's attempt to  ^^J
-         define the maths text fonts if fontspec is   ^^J
-         loaded after euler. Type <return> to proceed ^^J
-         with incorrect \protect\mathit, \protect\mathbf, etc}
-    \fi}{}
+      \fontspec_error:n {euler-too-late}
+    \fi
+  }{}
   \@ifpackageloaded{lucbmath}{\zf@math@lucidatrue}{}
   \@ifpackageloaded{lucidabr}{\zf@math@lucidatrue}{}
   \@ifpackageloaded{lucimatx}{\zf@math@lucidatrue}{}
@@ -3969,14 +3958,131 @@ Multiple features can either be included in a single declaration:\par
   \@ifpackageloaded{unicode-math}{\@zf@mathfalse}{}
   \@ifpackageloaded{breqn}{\@zf@mathfalse}{}
   \if@zf@math
-    \zf@PackageInfo{%
-      Adjusting the maths setup (use [no-math] to avoid this).}
+    \fontspec_info:n {setup-math}
     \zf@math
   \fi}
 \AtBeginDocument{\zf@math@maybe}
 %    \end{macrocode}
 % \end{macro}
 %
+% \subsection{Error/warning messages}
+%
+% \pkg{fontspec} shorthands:
+%    \begin{macrocode}
+\cs_new:Npn \fontspec_error:nn    { \msg_error:nnn  {fontspec} }
+\cs_new:Npn \fontspec_warning:n   { \msg_warning:nn   {fontspec} }
+\cs_new:Npn \fontspec_warning:nx  { \msg_warning:nnx  {fontspec} }
+\cs_new:Npn \fontspec_warning:nxx { \msg_warning:nnxx {fontspec} }
+\cs_new:Npn \fontspec_info:n      { \msg_info:nn   {fontspec} }
+\cs_new:Npn \fontspec_info:nx     { \msg_info:nnx  {fontspec} }
+\cs_new:Npn \fontspec_info:nxx    { \msg_info:nnxx {fontspec} }
+\cs_new:Npn \fontspec_trace:n     { \msg_trace:nn   {fontspec} }
+%    \end{macrocode}
+% Errors:
+%    \begin{macrocode}
+\msg_new:nnn {fontspec} {not-pdftex}
+{
+  fontspec require XeTeX or LuaTeX to function!
+}
+\msg_new:nnn {fontspec} {no-size-info}
+{
+  Size information must be supplied.\\
+  For example, SizeFeatures={Size={8-12},...}.
+}
+\msg_new:nnnn {fontspec} {rename-feature-not-exist}
+{
+  The feature #1 doesn't appear to be defined.
+}
+{
+  It looks like you're trying to rename a feature that doesn't exist.
+}
+\msg_new:nnn {fontpec} {no-glyph}
+{
+  \fontname\zf@basefont\ doesn't appear to have the glyph corresponding to #1.
+}
+\msg_new:nnnn {fontspec} {euler-too-late}
+{
+  The euler package must be loaded BEFORE fontspec.
+}
+{
+  fontspec only overwrites euler's attempt to\\
+  define the maths text fonts if fontspec is\\
+  loaded after euler. Type <return> to proceed\\
+  with incorrect \string\mathit, \string\mathbf, etc.
+}
+
+%    \end{macrocode}
+% Warnings:
+%    \begin{macrocode}
+\msg_new:nnn {fontspec} {addfontfeatures-ignored}
+{
+  \string\addfontfeature (s) ignored;\\
+  it cannot be used with a font that wasn't selected by fontspec.
+}
+\msg_new:nnn {fontspec} {feature-option-overwrite}
+{
+  Option '#2' of font feature '#1' overwritten.
+}
+\msg_new:nnn {fontspec} {script-not-exist}
+{
+  Font \fontname\zf@basefont\ does not contain script '#1'.
+}
+\msg_new:nnn {fontspec} {lang-not-exist}
+{
+  Font \fontname\zf@basefont\space does not contain\\
+  language '#1' for script '\zf@script@name'.
+}
+\msg_new:nnn {fontspec} {aat-feature-not-exist}
+{
+  '\XKV@tfam=\XKV@tkey' feature not supported\\
+  for AAT font \fontname\zf@basefont.
+}
+\msg_new:nnn {fontspec} {aat-feature-not-exist-in-font}
+{
+  AAT feature '\XKV@tfam=\XKV@tkey' (#1) not available\\
+  in font \fontname\zf@basefont.
+}
+\msg_new:nnn {fontspec} {icu-feature-not-exist}
+{
+  '\XKV@tfam=\XKV@tkey' feature not supported\\
+  for ICU font \fontname\zf@basefont
+}
+\msg_new:nnn {fontspec} {icu-feature-not-exist-in-font}
+{
+  OpenType feature '\XKV@tfam=\XKV@tkey' (#1) not available\\
+  for font \fontname\zf@basefont, \\
+  with script '\zf@script@name', and language '\zf@language@name'.
+}
+\msg_new:nnn {fontspec} {no-opticals}
+{
+  \fontname\zf@basefont\ doesn't appear to have an Optical Size axis.
+}
+\msg_new:nnn {fontspec} {language-not-exist}
+{
+  Language '#1' not available\\
+  for font \fontname\zf@basefont\\
+  with script '\zf@script@name'.
+}
+%    \end{macrocode}
+% Info messages:
+%    \begin{macrocode}
+\msg_new:nnn {fontspec} {defining-font}
+{
+  Defining font family for '#2' with options [\zf@default@options #1].
+}
+\msg_new:nnn {fontspec} {no-font-shape}
+{
+  Could not resolve font #1 (it probably doesn't exist).
+}
+\msg_new:nnn {fontspec} {set-scale}
+{
+  \zf@fontname\space scale = \zf@scale.
+}
+\msg_new:nnn {fontspec} {setup-math}
+{
+  Adjusting the maths setup (use [no-math] to avoid this).
+}
+%    \end{macrocode}
 %
 % \subsection{Finishing up}
 % Now we just want to set up loading the \texttt{.cfg} file, if it exists.
@@ -3985,7 +4091,7 @@ Multiple features can either be included in a single declaration:\par
   \InputIfFileExists{fontspec.cfg}
     {\typeout{fontspec.cfg loaded.}}
     {\typeout{No fontspec.cfg file found; no configuration loaded.}}
-\fi    
+\fi
 %    \end{macrocode}
 %
 % The end! Thanks for coming.

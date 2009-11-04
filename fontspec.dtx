@@ -2167,11 +2167,11 @@ Multiple features can either be included in a single declaration:\par
 \newcommand*\zf@fontspec[2]{%
   \begingroup
   \zf@init
-  \edef\zf@fontname{#2}%
+  \edef\zf@fontname{#2}
   \let\zf@family@long\zf@fontname
-  \setkeys*[zf]{prepreparse}{#1}%
+  \fontspec_parse_external_font:nn {#1} {#2}
   \let\zf@up\zf@fontname
-  \edef\@tempa{\noexpand\setkeys*[zf]{preparse}{\XKV@rm}}\@tempa
+  \edef\@tempa { \noexpand\setkeys*[zf]{preparse}{\XKV@rm} }\@tempa
   \let\zf@fontname\zf@up
   \let\zf@font@feat\XKV@rm
 %    \end{macrocode}
@@ -2334,9 +2334,39 @@ Multiple features can either be included in a single declaration:\par
       \fi
     \fi
   \fi
-  \endgroup}
+  \endgroup
+}
 %    \end{macrocode}
 % \end{macro}
+%
+%
+% \begin{macro}{\fontspec_parse_external_font:nn}
+% Check if either the fontname ends with |.otf| or |.ttf| or if the
+% |ExternalLocation| is used.
+%    \begin{macrocode}
+\cs_new:Nn \fontspec_parse_external_font:nn {
+  \fontspec_if_detect_external:nTF {#2}
+    { \setkeys[zf]{prepreparse}{ExternalLocation} }
+    { \setkeys*[zf]{prepreparse}{#1} }
+}
+\prg_new_conditional:Nnn \fontspec_if_detect_external:n {TF} {
+  \tl_if_in:nnTF {#1 <= end_of_string} {.otf <= end_of_string}
+    {
+      \prg_return_true:
+    }
+    {
+      \tl_if_in:nnTF {#1 <= end_of_string} {.ttf <= end_of_string}
+        {
+          \prg_return_true:
+        }
+        {
+          \prg_return_false:
+        }
+    }
+}
+%    \end{macrocode}
+% \end{macro}
+%
 %
 %
 % \subsubsection{Fonts}
@@ -2875,7 +2905,8 @@ Multiple features can either be included in a single declaration:\par
 %    \begin{macrocode}
 \define@key[zf]{prepreparse}{ExternalLocation}[]{%
   \zf@icutrue
-  \zf@nobftrue\zf@noittrue
+  \zf@nobftrue
+  \zf@noittrue
   \gdef\zf@font@wrap##1{[#1##1]}}
 %    \end{macrocode}
 %

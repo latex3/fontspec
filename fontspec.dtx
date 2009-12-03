@@ -2112,7 +2112,7 @@ Multiple features can either be included in a single declaration:\par
       \xdef\zf@script@name{#1}
       \xdef\zf@family@long{\zf@family@long+script=#1}
       \ifluatex
-        \xdef\zf@pre@ff{\zf@pre@ff script=#2,}
+        \xdef\zf@pre@ff{\zf@pre@ff script=#2;}
       \else
         \xdef\zf@pre@ff{script=#2,\zf@pre@ff}
       \fi
@@ -2138,7 +2138,7 @@ Multiple features can either be included in a single declaration:\par
       \global\c@zf@language\@tempcnta\relax
       \xdef\zf@language@name{#1}
       \xdef\zf@family@long{\zf@family@long+lang=#1}
-      \xdef\zf@pre@ff{\zf@pre@ff language=#2,}
+      \xdef\zf@pre@ff{\zf@pre@ff language=#2\ifluatex;\else,\fi}
     \else
       \fontspec_warning:nx {lang-not-exist} {#1}
     \fi
@@ -2619,7 +2619,7 @@ Multiple features can either be included in a single declaration:\par
 %    \begin{macrocode}
 \newcommand*\zf@update@ff[1]{%
   \unless\ifzf@firsttime
-    \xdef\zf@ff{\zf@ff #1\ifzf@icu,\else;\fi}%
+    \xdef\zf@ff{\zf@ff #1\ifluatex;\else\ifzf@icu,\else;\fi\fi}%
   \fi}
 %    \end{macrocode}
 % \end{macro}
@@ -3724,14 +3724,14 @@ Multiple features can either be included in a single declaration:\par
     \c@zf@language\@tempcnta\relax
     \xdef\zf@language@name{Turkish}%
     \xdef\zf@family@long{\zf@family@long+lang=Turkish}%
-    \xdef\zf@pre@ff{\zf@pre@ff language=TRK,}%
+    \xdef\zf@pre@ff{\zf@pre@ff language=TRK\ifluatex;\else,\fi}%
   \else
     \zf@check@ot@lang{TUR}%
     \if@tempswa
       \c@zf@language\@tempcnta\relax
       \xdef\zf@language@name{Turkish}%
       \xdef\zf@family@long{\zf@family@long+lang=Turkish}%
-      \xdef\zf@pre@ff{\zf@pre@ff language=TUR,}%
+      \xdef\zf@pre@ff{\zf@pre@ff language=TUR\ifluatex;\else,\fi}%
     \else
       \fontspec_warning:nx {language-not-exist} {#1}
     \fi
@@ -3755,7 +3755,7 @@ Multiple features can either be included in a single declaration:\par
 \define@key[zf]{preparse}{Mode}{
   \ifluatex
     \xdef\zf@family@long{\zf@family@long +mode:#1}
-    \xdef\zf@pre@ff{mode=#1,\zf@pre@ff}
+    \xdef\zf@pre@ff{mode=#1;\zf@pre@ff}
   \else
     \zf_warning:nx {only-luatex-feature} {Mode}
   \fi

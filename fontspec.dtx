@@ -1748,7 +1748,7 @@ Multiple features can either be included in a single declaration:\par
 \RequirePackage{ifxetex,ifluatex}
 \ifxetex\else
   \ifluatex
-    \@input{luatex-fonts}
+    \RequirePackage{luaotfload}
   \else
     \fontspec_error:n {not-pdftex}
   \fi

@@ -2111,7 +2111,11 @@ Multiple features can either be included in a single declaration:\par
       \global\c@zf@script\@tempcnta\relax
       \xdef\zf@script@name{#1}
       \xdef\zf@family@long{\zf@family@long+script=#1}
-      \xdef\zf@pre@ff{script=#2,\zf@pre@ff}
+      \ifluatex
+        \xdef\zf@pre@ff{\zf@pre@ff script=#2,}
+      \else
+        \xdef\zf@pre@ff{script=#2,\zf@pre@ff}
+      \fi
     \else
       \fontspec_warning:nx {script-not-exist} {#1}
     \fi
@@ -3742,6 +3746,22 @@ Multiple features can either be included in a single declaration:\par
   \zf@update@family{+Raw:#1}%
   \zf@update@ff{#1}}
 %    \end{macrocode}
+%
+% \subsubsection{Lua\TeX{} specific features}
+% This allows selecting |luaotfload|'s OpenType processing mode,
+% it must be the very first feature.
+% \paragraph{Mode}
+%    \begin{macrocode}
+\define@key[zf]{preparse}{Mode}{
+  \ifluatex
+    \xdef\zf@family@long{\zf@family@long +mode:#1}
+    \xdef\zf@pre@ff{mode=#1,\zf@pre@ff}
+  \else
+    \zf_warning:nx {only-luatex-feature} {Mode}
+  \fi
+}
+%    \end{macrocode}
+%
 %
 % \subsection{Italic small caps} \label{sec:sishape} 
 % The following code for utilising italic small caps sensibly is

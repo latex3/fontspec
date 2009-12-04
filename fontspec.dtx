@@ -4182,6 +4182,13 @@ Multiple features can either be included in a single declaration:\par
 %
 %<*lua>
 % \fi
+%
+% \clearpage
+% \part{fontspec.lua}
+% And here we take a break from \TeX{} macro insanity |;)| and do some
+% real programming for Lua\LaTeX{} support.
+%
+% First we define some metadata.
 %    \begin{macrocode}
 fontspec          = { }
 
@@ -4197,6 +4204,11 @@ fontspec.module   = {
 
 luatextra.provides_module(fontspec.module)
 
+%    \end{macrocode}
+% This table holds a dictionary of script to feature mapping. Many
+% scripts has exactly the same set of deafault features, however we
+% choosed to give each script his own entery for future fine tuning.
+%    \begin{macrocode}
 fontspec.default_features = {
     arab = {
         "ccmp", "locl", "isol", "fina", "medi",
@@ -4421,6 +4433,10 @@ fontspec.default_features = {
     hang = { },
 }
 
+%    \end{macrocode}
+% This function takes a script name as input and returns a list of font
+% features in a way suitable for use in |fontspec| macros.
+%    \begin{macrocode}
 function fontspec.get_script_features(script)
     if not fontspec.default_features[script] then
         luatextra.module_warning(fontspec.module.name,

@@ -72,6 +72,7 @@ Will Robertson
 \input docstrip.tex
 \keepsilent
 \usedir{tex/xelatex/fontspec}
+\let\MetaPrefix\relax
 \preamble
 
   ________________________________
@@ -102,19 +103,19 @@ This work consists of this file  fontspec.dtx
 
 \endpostamble
 \askforoverwritefalse
+\def\MetaPrefix{-- }
+\generate{\file{fontspec.lua}{\from{fontspec.dtx}{lua}}}
+\let\MetaPrefix\DoubleperCent
 \generate{\file{fontspec.sty}{\from{fontspec.dtx}{fontspec}}}
 \generate{\file{fontspec.cfg}{\from{fontspec.dtx}{cfg}}}
 \generate{\file{fontspec-example.ltx}{\from{fontspec.dtx}{example}}}
-%</batchfile>
-%<batchfile>\endbatchfile
-%<*internal>
-\generate{\file{fontspec.ins}{\from{fontspec.dtx}{batchfile}}}
+\generate{\file{fontspec.ins}{\from{fontspec.dtx}{driver}}}
 \nopreamble\nopostamble
 \generate{\file{README.txt}{\from{\jobname.dtx}{readme}}}
 \generate{\file{fontspec-doc-style.sty}{\from{fontspec.dtx}{doc-style}}}
-\generate{\file{fontspec.lua}{\from{fontspec.dtx}{lua}}}
+\endbatchfile
 \endgroup
-%</internal>
+%</batchfile>
 %
 %<*driver>
 \documentclass[a4paper]{ltxdoc}

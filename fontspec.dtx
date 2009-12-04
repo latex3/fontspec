@@ -112,6 +112,7 @@ This work consists of this file  fontspec.dtx
 \nopreamble\nopostamble
 \generate{\file{README.txt}{\from{\jobname.dtx}{readme}}}
 \generate{\file{fontspec-doc-style.sty}{\from{fontspec.dtx}{doc-style}}}
+\generate{\file{fontspec.lua}{\from{fontspec.dtx}{lua}}}
 \endgroup
 %</internal>
 %
@@ -1749,6 +1750,7 @@ Multiple features can either be included in a single declaration:\par
 \ifxetex\else
   \ifluatex
     \RequirePackage{luaotfload}
+    \luatexRequireModule{fontspec}
   \else
     \fontspec_error:n {not-pdftex}
   \fi
@@ -2113,6 +2115,7 @@ Multiple features can either be included in a single declaration:\par
       \xdef\zf@family@long{\zf@family@long+script=#1}
       \ifluatex
         \xdef\zf@pre@ff{\zf@pre@ff script=#2;}
+        \xdef\zf@pre@ff{\zf@pre@ff \luadirect{fontspec.get_script_features("#2")}}
       \else
         \xdef\zf@pre@ff{script=#2,\zf@pre@ff}
       \fi
@@ -4176,6 +4179,266 @@ Multiple features can either be included in a single declaration:\par
 %
 % \iffalse
 %</fontspec>
+%
+%<*lua>
+% \fi
+%    \begin{macrocode}
+fontspec          = { }
+
+fontspec.module   = {
+    name          = "fontspec",
+    version       = 2.0,
+    date          = "2009/12/04",
+    description   = "Advanced font selection for LuaLaTeX.",
+    author        = "Khaled Hosny",
+    copyright     = "Khaled Hosny",
+    license       = "LPPL"
+}
+
+luatextra.provides_module(fontspec.module)
+
+fontspec.default_features = {
+    arab = {
+        "ccmp", "locl", "isol", "fina", "medi",
+        "init", "rlig", "calt", "liga", "cswh",
+        "mset", "curs", "kern", "mark", "mkmk",
+    },
+    nko  = {
+        "ccmp", "locl", "isol", "fina", "medi",
+        "init", "rlig", "calt", "liga", "cswh",
+        "mset", "curs", "kern", "mark", "mkmk",
+    },
+    latn = {
+        "ccmp", "locl", "liga", "clig", "kern",
+        "mark", "mkmk",
+    },
+    cyrl = {
+        "ccmp", "locl", "liga", "clig", "kern",
+        "mark", "mkmk",
+    },
+    grek = {
+        "ccmp", "locl", "liga", "clig", "kern",
+        "mark", "mkmk",
+    },
+    armn = {
+        "ccmp", "locl", "liga", "clig", "kern",
+        "mark", "mkmk",
+    },
+    geor = {
+        "ccmp", "locl", "liga", "clig", "kern",
+        "mark", "mkmk",
+    },
+    runr = {
+        "ccmp", "locl", "liga", "clig", "kern",
+        "mark", "mkmk",
+    },
+    ogam = {
+        "ccmp", "locl", "liga", "clig", "kern",
+        "mark", "mkmk",
+    },
+    bopo = {
+        "ccmp", "locl", "liga", "clig", "kern",
+        "mark", "mkmk",
+    },
+    cher = {
+        "ccmp", "locl", "liga", "clig", "kern",
+        "mark", "mkmk",
+    },
+    copt = {
+        "ccmp", "locl", "liga", "clig", "kern",
+        "mark", "mkmk",
+    },
+    dsrt = {
+        "ccmp", "locl", "liga", "clig", "kern",
+        "mark", "mkmk",
+    },
+    ethi = {
+        "ccmp", "locl", "liga", "clig", "kern",
+        "mark", "mkmk",
+    },
+    goth = {
+        "ccmp", "locl", "liga", "clig", "kern",
+        "mark", "mkmk",
+    },
+    hani = {
+        "ccmp", "locl", "liga", "clig", "kern",
+        "mark", "mkmk",
+    },
+    kana = {
+        "ccmp", "locl", "liga", "clig", "kern",
+        "mark", "mkmk",
+    },
+    ital = {
+        "ccmp", "locl", "liga", "clig", "kern",
+        "mark", "mkmk",
+    },
+    cans = {
+        "ccmp", "locl", "liga", "clig", "kern",
+        "mark", "mkmk",
+    },
+    yi   = {
+        "ccmp", "locl", "liga", "clig", "kern",
+        "mark", "mkmk",
+    },
+    brai = {
+        "ccmp", "locl", "liga", "clig", "kern",
+        "mark", "mkmk",
+    },
+    cprt = {
+        "ccmp", "locl", "liga", "clig", "kern",
+        "mark", "mkmk",
+    },
+    limb = {
+        "ccmp", "locl", "liga", "clig", "kern",
+        "mark", "mkmk",
+    },
+    osma = {
+        "ccmp", "locl", "liga", "clig", "kern",
+        "mark", "mkmk",
+    },
+    shaw = {
+        "ccmp", "locl", "liga", "clig", "kern",
+        "mark", "mkmk",
+    },
+    linb = {
+        "ccmp", "locl", "liga", "clig", "kern",
+        "mark", "mkmk",
+    },
+    ugar = {
+        "ccmp", "locl", "liga", "clig", "kern",
+        "mark", "mkmk",
+    },
+    glag = {
+        "ccmp", "locl", "liga", "clig", "kern",
+        "mark", "mkmk",
+    },
+    xsux = {
+        "ccmp", "locl", "liga", "clig", "kern",
+        "mark", "mkmk",
+    },
+    phnx = {
+        "ccmp", "locl", "liga", "clig", "kern",
+        "mark", "mkmk",
+    },
+    hebr = {
+        "ccmp", "locl", "rlig", "kern", "mark",
+        "mkmk",
+    },
+    deva = {
+        "ccmp", "locl", "init", "nukt", "akhn",
+        "rphf", "blwf", "half", "pstf", "vatu",
+        "pres", "blws", "abvs", "psts", "haln",
+        "calt", "blwm", "abvm", "dist", "kern",
+        "mark", "mkmk",
+    },
+    beng = {
+        "ccmp", "locl", "init", "nukt", "akhn",
+        "rphf", "blwf", "half", "pstf", "vatu",
+        "pres", "blws", "abvs", "psts", "haln",
+        "calt", "blwm", "abvm", "dist", "kern",
+        "mark", "mkmk",
+    },
+    guru = {
+        "ccmp", "locl", "init", "nukt", "akhn",
+        "rphf", "blwf", "half", "pstf", "vatu",
+        "pres", "blws", "abvs", "psts", "haln",
+        "calt", "blwm", "abvm", "dist", "kern",
+        "mark", "mkmk",
+    },
+    gujr = {
+        "ccmp", "locl", "init", "nukt", "akhn",
+        "rphf", "blwf", "half", "pstf", "vatu",
+        "pres", "blws", "abvs", "psts", "haln",
+        "calt", "blwm", "abvm", "dist", "kern",
+        "mark", "mkmk",
+    },
+    orya = {
+        "ccmp", "locl", "init", "nukt", "akhn",
+        "rphf", "blwf", "half", "pstf", "vatu",
+        "pres", "blws", "abvs", "psts", "haln",
+        "calt", "blwm", "abvm", "dist", "kern",
+        "mark", "mkmk",
+    },
+    taml = {
+        "ccmp", "locl", "init", "nukt", "akhn",
+        "rphf", "blwf", "half", "pstf", "vatu",
+        "pres", "blws", "abvs", "psts", "haln",
+        "calt", "blwm", "abvm", "dist", "kern",
+        "mark", "mkmk",
+    },
+    telu = {
+        "ccmp", "locl", "init", "nukt", "akhn",
+        "rphf", "blwf", "half", "pstf", "vatu",
+        "pres", "blws", "abvs", "psts", "haln",
+        "calt", "blwm", "abvm", "dist", "kern",
+        "mark", "mkmk",
+    },
+    knda = {
+        "ccmp", "locl", "init", "nukt", "akhn",
+        "rphf", "blwf", "half", "pstf", "vatu",
+        "pres", "blws", "abvs", "psts", "haln",
+        "calt", "blwm", "abvm", "dist", "kern",
+        "mark", "mkmk",
+    },
+    mlym = {
+        "ccmp", "locl", "init", "nukt", "akhn",
+        "rphf", "blwf", "half", "pstf", "vatu",
+        "pres", "blws", "abvs", "psts", "haln",
+        "calt", "blwm", "abvm", "dist", "kern",
+        "mark", "mkmk",
+    },
+    sinh = {
+        "ccmp", "locl", "init", "nukt", "akhn",
+        "rphf", "blwf", "half", "pstf", "vatu",
+        "pres", "blws", "abvs", "psts", "haln",
+        "calt", "blwm", "abvm", "dist", "kern",
+        "mark", "mkmk",
+    },
+    khmr = {
+        "ccmp", "locl", "pref", "blwf", "abvf",
+        "pstf", "pres", "blws", "abvs", "psts",
+        "clig", "calt", "blwm", "abvm", "dist",
+        "kern",    "mark", "mkmk",
+    },
+    syrc = {
+        "ccmp", "locl", "isol", "fina", "fin1",
+        "fin2", "medi", "med2", "init", "rlig",
+        "calt", "liga", "kern", "mark", "mkmk",
+    },
+    thai = {
+        "ccmp", "locl", "liga", "kern", "mark",
+        "mkmk",
+    },
+    lao  = {
+        "ccmp", "locl", "liga", "kern", "mark",
+        "mkmk",
+    },
+    tibt = {
+        "ccmp", "locl", "pref", "blws", "abvs", 
+        "psts", "clig", "calt", "blwm", "abvm",
+        "dist", "kern",    "mark", "mkmk",
+    },
+    hang = { },
+}
+
+function fontspec.get_script_features(script)
+    if not fontspec.default_features[script] then
+        luatextra.module_warning(fontspec.module.name,
+                                 "Unknown scrpt: "..script..", using 'latn' instead.")
+        script = "latn"
+    end
+    features = fontspec.default_features[script]
+    for _,feature in pairs(features) do
+        tex.sprint("+"..feature..";")
+        luatextra.module_log(fontspec.module.name,
+                             "Enabing "..feature.." feature, for "..script.." script.")
+    end
+end
+%    \end{macrocode}
+%
+% \iffalse
+%</lua>
+%
 %<*cfg>
 % \fi
 %

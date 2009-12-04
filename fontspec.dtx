@@ -94,24 +94,25 @@ this license is at: http://www.latex-project.org/lppl.txt
 This work is "maintained" (as per LPPL maintenance status) 
 by Will Robertson.
 
-This work consists of this file  fontspec.dtx
-          and the derived files fontspec.sty, 
-                                fontspec.cfg, 
-                                fontspec.ins, 
+This work consists of this file fontspec.dtx
+          and the derived files fontspec.sty,
+                                fontspec.lua,
+                                fontspec.cfg,
+                                fontspec.ins,
                                 fontspec-example.ltx,
                             and fontspec.pdf.
 
 \endpostamble
 \askforoverwritefalse
 \def\MetaPrefix{-- }
-\generate{\file{fontspec.lua}{\from{fontspec.dtx}{lua}}}
+\generate{\file{fontspec.lua}          {\from{fontspec.dtx}{lua}}}
 \let\MetaPrefix\DoubleperCent
-\generate{\file{fontspec.sty}{\from{fontspec.dtx}{fontspec}}}
-\generate{\file{fontspec.cfg}{\from{fontspec.dtx}{cfg}}}
-\generate{\file{fontspec-example.ltx}{\from{fontspec.dtx}{example}}}
-\generate{\file{fontspec.ins}{\from{fontspec.dtx}{driver}}}
+\generate{\file{fontspec.sty}          {\from{fontspec.dtx}{fontspec}}}
+\generate{\file{fontspec.cfg}          {\from{fontspec.dtx}{cfg}}}
+\generate{\file{fontspec-example.ltx}  {\from{fontspec.dtx}{example}}}
+\generate{\file{fontspec.ins}          {\from{fontspec.dtx}{driver}}}
 \nopreamble\nopostamble
-\generate{\file{README.txt}{\from{\jobname.dtx}{readme}}}
+\generate{\file{README.txt}            {\from{fontspec.dtx}{readme}}}
 \generate{\file{fontspec-doc-style.sty}{\from{fontspec.dtx}{doc-style}}}
 \endbatchfile
 \endgroup

@@ -3749,14 +3749,29 @@ Multiple features can either be included in a single declaration:\par
 %    \end{macrocode}
 %
 % \subsubsection{Lua\TeX{} specific features}
+% Here we set Lua\TeX{} specific bits.
+%
+% \paragraph{Mode}
 % This allows selecting |luaotfload|'s OpenType processing mode,
 % it must be the very first feature.
-% \paragraph{Mode}
+%
+% Define a friendly key value name for |base| mode.
+%    \begin{macrocode}
+\define@key[zf@feat]{Mode}{Basic}[]{%
+  \xdef\zf@family@long{\zf@family@long +mode:base}%
+  \xdef\zf@pre@ff{mode=base;\zf@pre@ff}}
+%    \end{macrocode}
+% The same for |node| mode.
+%    \begin{macrocode}
+\define@key[zf@feat]{Mode}{Full}[]{%
+  \xdef\zf@family@long{\zf@family@long +mode:node}%
+  \xdef\zf@pre@ff{mode=node;\zf@pre@ff}}
+%    \end{macrocode}
+% Parse |Mode| key.
 %    \begin{macrocode}
 \define@key[zf]{preparse}{Mode}{
   \ifluatex
-    \xdef\zf@family@long{\zf@family@long +mode:#1}
-    \xdef\zf@pre@ff{mode=#1;\zf@pre@ff}
+    \setkeys[zf@feat]{Mode}{#1}
   \else
     \zf_warning:nx {only-luatex-feature} {Mode}
   \fi

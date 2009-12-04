@@ -3294,6 +3294,15 @@ Multiple features can either be included in a single declaration:\par
 \zf@define@feature@option{Ligatures}{NoIcelandic}    {1}{33}{}
 %    \end{macrocode}
 %
+% |luaotfload| specific ligatures that imitate some ligacy \TeX{}
+% ligature (em-dash etc.)
+%
+%    \begin{macrocode}
+\ifluatex
+\zf@define@feature@option{Ligatures}{TeX}     {}{}  {+tlig;+trep}
+\fi
+%    \end{macrocode}
+%
 % \subsubsection{Letters}
 %    \begin{macrocode}
 \zf@define@font@feature{Letters}
@@ -3326,6 +3335,17 @@ Multiple features can either be included in a single declaration:\par
 \zf@define@feature@option{Numbers}{Lining}       {21}{1}{+lnum}
 \zf@define@feature@option{Numbers}{SlashedZero}  {14}{5}{+zero}
 \zf@define@feature@option{Numbers}{NoSlashedZero}{14}{4}{-zero}
+%    \end{macrocode}
+%
+% |luaotload| provides a custom |anum| feature for replacing Latin
+% (AKA Arabic) numbers with Arabic (AKA Indic-Arabic). The same feature
+% maps to Farsi (Persian) numbers if font language is Frasi.
+%
+%    \begin{macrocode}
+\ifluatex
+  \zf@define@feature@option{Numbers}{Arabic}{}{}{+anum}
+  \zf@define@feature@option{Numbers}{Farsi} {}{}{+anum}
+\fi
 %    \end{macrocode}
 %
 % \subsubsection{Contextuals}
@@ -3760,17 +3780,22 @@ Multiple features can either be included in a single declaration:\par
 % it must be the very first feature.
 %
 % Define a friendly key value name for |base| mode.
+%
 %    \begin{macrocode}
 \define@key[zf@feat]{Mode}{Basic}[]{%
   \xdef\zf@family@long{\zf@family@long +mode:base}%
   \xdef\zf@pre@ff{\zf@pre@ff mode=base;}}
 %    \end{macrocode}
+%
 % Define a |Full| key value for the sake of completeness;
 % |mode=node| is the default.
+%
 %    \begin{macrocode}
 \define@key[zf@feat]{Mode}{Full}[]{}
 %    \end{macrocode}
+%
 % Parse |Mode| key.
+%
 %    \begin{macrocode}
 \define@key[zf]{preparse}{Mode}{
   \ifluatex

@@ -3370,9 +3370,17 @@ Multiple features can either be included in a single declaration:\par
 % \subsubsection{Diacritics}
 %    \begin{macrocode}
 \zf@define@font@feature{Diacritics}
-\zf@define@feature@option{Diacritics}{Show}     {9}{0}{}
-\zf@define@feature@option{Diacritics}{Hide}     {9}{1}{}
-\zf@define@feature@option{Diacritics}{Decompose}{9}{2}{}
+\zf@define@feature@option{Diacritics}{Show}        {9}{0}{}
+\zf@define@feature@option{Diacritics}{Hide}        {9}{1}{}
+\zf@define@feature@option{Diacritics}{Decompose}   {9}{2}{}
+\zf@define@feature@option{Diacritics}{MarkToBase}  {}{}{+mark}
+\zf@define@feature@option{Diacritics}{NoMarkToBase}{}{}{-mark}
+\zf@define@feature@option{Diacritics}{MarkToMark}  {}{}{+mkmk}
+\zf@define@feature@option{Diacritics}{NoMarkToMark}{}{}{-mkmk}
+\zf@define@feature@option{Diacritics}{AboveBase}   {}{}{+abvm}
+\zf@define@feature@option{Diacritics}{NoAboveBase} {}{}{-abvm}
+\zf@define@feature@option{Diacritics}{BelowBase}   {}{}{+blwm}
+\zf@define@feature@option{Diacritics}{NoBelowBase} {}{}{-blwm}
 %    \end{macrocode}
 %
 % \subsubsection{Kerning}

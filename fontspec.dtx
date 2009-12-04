@@ -2578,6 +2578,7 @@ Multiple features can either be included in a single declaration:\par
   \c@zf@language 0\relax
   \def\zf@language@name{Default}%
   \def\zf@feat@sepa{\ifluatex;\else\ifzf@icu,\else;\fi\fi}%
+  \ifluatex\xdef\zf@pre@ff{mode=node;}\fi%
 }
 %    \end{macrocode}
 % \end{macro}
@@ -3759,13 +3760,12 @@ Multiple features can either be included in a single declaration:\par
 %    \begin{macrocode}
 \define@key[zf@feat]{Mode}{Basic}[]{%
   \xdef\zf@family@long{\zf@family@long +mode:base}%
-  \xdef\zf@pre@ff{mode=base;\zf@pre@ff}}
+  \xdef\zf@pre@ff{\zf@pre@ff mode=base;}}
 %    \end{macrocode}
-% The same for |node| mode.
+% Define a |Full| key value for the sake of completeness;
+% |mode=node| is the default.
 %    \begin{macrocode}
-\define@key[zf@feat]{Mode}{Full}[]{%
-  \xdef\zf@family@long{\zf@family@long +mode:node}%
-  \xdef\zf@pre@ff{mode=node;\zf@pre@ff}}
+\define@key[zf@feat]{Mode}{Full}[]{}
 %    \end{macrocode}
 % Parse |Mode| key.
 %    \begin{macrocode}

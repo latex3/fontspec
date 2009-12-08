@@ -4240,130 +4240,16 @@ fontspec.module   = {
 luatextra.provides_module(fontspec.module)
 
 %    \end{macrocode}
-% This table holds a dictionary of script to feature mapping. Many
-% scripts has exactly the same set of deafault features, however we
-% choosed to give each script his own entery for future fine tuning.
+% This table holds a dictionary of script to deafult features mapping.
 %    \begin{macrocode}
+
 fontspec.default_features = {
     arab = {
         "ccmp", "locl", "isol", "fina", "medi",
         "init", "rlig", "calt", "liga", "cswh",
         "mset", "curs", "kern", "mark", "mkmk",
     },
-    nko  = {
-        "ccmp", "locl", "isol", "fina", "medi",
-        "init", "rlig", "calt", "liga", "cswh",
-        "mset", "curs", "kern", "mark", "mkmk",
-    },
     latn = {
-        "ccmp", "locl", "liga", "clig", "kern",
-        "mark", "mkmk",
-    },
-    cyrl = {
-        "ccmp", "locl", "liga", "clig", "kern",
-        "mark", "mkmk",
-    },
-    grek = {
-        "ccmp", "locl", "liga", "clig", "kern",
-        "mark", "mkmk",
-    },
-    armn = {
-        "ccmp", "locl", "liga", "clig", "kern",
-        "mark", "mkmk",
-    },
-    geor = {
-        "ccmp", "locl", "liga", "clig", "kern",
-        "mark", "mkmk",
-    },
-    runr = {
-        "ccmp", "locl", "liga", "clig", "kern",
-        "mark", "mkmk",
-    },
-    ogam = {
-        "ccmp", "locl", "liga", "clig", "kern",
-        "mark", "mkmk",
-    },
-    bopo = {
-        "ccmp", "locl", "liga", "clig", "kern",
-        "mark", "mkmk",
-    },
-    cher = {
-        "ccmp", "locl", "liga", "clig", "kern",
-        "mark", "mkmk",
-    },
-    copt = {
-        "ccmp", "locl", "liga", "clig", "kern",
-        "mark", "mkmk",
-    },
-    dsrt = {
-        "ccmp", "locl", "liga", "clig", "kern",
-        "mark", "mkmk",
-    },
-    ethi = {
-        "ccmp", "locl", "liga", "clig", "kern",
-        "mark", "mkmk",
-    },
-    goth = {
-        "ccmp", "locl", "liga", "clig", "kern",
-        "mark", "mkmk",
-    },
-    hani = {
-        "ccmp", "locl", "liga", "clig", "kern",
-        "mark", "mkmk",
-    },
-    kana = {
-        "ccmp", "locl", "liga", "clig", "kern",
-        "mark", "mkmk",
-    },
-    ital = {
-        "ccmp", "locl", "liga", "clig", "kern",
-        "mark", "mkmk",
-    },
-    cans = {
-        "ccmp", "locl", "liga", "clig", "kern",
-        "mark", "mkmk",
-    },
-    yi   = {
-        "ccmp", "locl", "liga", "clig", "kern",
-        "mark", "mkmk",
-    },
-    brai = {
-        "ccmp", "locl", "liga", "clig", "kern",
-        "mark", "mkmk",
-    },
-    cprt = {
-        "ccmp", "locl", "liga", "clig", "kern",
-        "mark", "mkmk",
-    },
-    limb = {
-        "ccmp", "locl", "liga", "clig", "kern",
-        "mark", "mkmk",
-    },
-    osma = {
-        "ccmp", "locl", "liga", "clig", "kern",
-        "mark", "mkmk",
-    },
-    shaw = {
-        "ccmp", "locl", "liga", "clig", "kern",
-        "mark", "mkmk",
-    },
-    linb = {
-        "ccmp", "locl", "liga", "clig", "kern",
-        "mark", "mkmk",
-    },
-    ugar = {
-        "ccmp", "locl", "liga", "clig", "kern",
-        "mark", "mkmk",
-    },
-    glag = {
-        "ccmp", "locl", "liga", "clig", "kern",
-        "mark", "mkmk",
-    },
-    xsux = {
-        "ccmp", "locl", "liga", "clig", "kern",
-        "mark", "mkmk",
-    },
-    phnx = {
         "ccmp", "locl", "liga", "clig", "kern",
         "mark", "mkmk",
     },
@@ -4378,74 +4264,11 @@ fontspec.default_features = {
         "calt", "blwm", "abvm", "dist", "kern",
         "mark", "mkmk",
     },
-    beng = {
-        "ccmp", "locl", "init", "nukt", "akhn",
-        "rphf", "blwf", "half", "pstf", "vatu",
-        "pres", "blws", "abvs", "psts", "haln",
-        "calt", "blwm", "abvm", "dist", "kern",
-        "mark", "mkmk",
-    },
-    guru = {
-        "ccmp", "locl", "init", "nukt", "akhn",
-        "rphf", "blwf", "half", "pstf", "vatu",
-        "pres", "blws", "abvs", "psts", "haln",
-        "calt", "blwm", "abvm", "dist", "kern",
-        "mark", "mkmk",
-    },
-    gujr = {
-        "ccmp", "locl", "init", "nukt", "akhn",
-        "rphf", "blwf", "half", "pstf", "vatu",
-        "pres", "blws", "abvs", "psts", "haln",
-        "calt", "blwm", "abvm", "dist", "kern",
-        "mark", "mkmk",
-    },
-    orya = {
-        "ccmp", "locl", "init", "nukt", "akhn",
-        "rphf", "blwf", "half", "pstf", "vatu",
-        "pres", "blws", "abvs", "psts", "haln",
-        "calt", "blwm", "abvm", "dist", "kern",
-        "mark", "mkmk",
-    },
-    taml = {
-        "ccmp", "locl", "init", "nukt", "akhn",
-        "rphf", "blwf", "half", "pstf", "vatu",
-        "pres", "blws", "abvs", "psts", "haln",
-        "calt", "blwm", "abvm", "dist", "kern",
-        "mark", "mkmk",
-    },
-    telu = {
-        "ccmp", "locl", "init", "nukt", "akhn",
-        "rphf", "blwf", "half", "pstf", "vatu",
-        "pres", "blws", "abvs", "psts", "haln",
-        "calt", "blwm", "abvm", "dist", "kern",
-        "mark", "mkmk",
-    },
-    knda = {
-        "ccmp", "locl", "init", "nukt", "akhn",
-        "rphf", "blwf", "half", "pstf", "vatu",
-        "pres", "blws", "abvs", "psts", "haln",
-        "calt", "blwm", "abvm", "dist", "kern",
-        "mark", "mkmk",
-    },
-    mlym = {
-        "ccmp", "locl", "init", "nukt", "akhn",
-        "rphf", "blwf", "half", "pstf", "vatu",
-        "pres", "blws", "abvs", "psts", "haln",
-        "calt", "blwm", "abvm", "dist", "kern",
-        "mark", "mkmk",
-    },
-    sinh = {
-        "ccmp", "locl", "init", "nukt", "akhn",
-        "rphf", "blwf", "half", "pstf", "vatu",
-        "pres", "blws", "abvs", "psts", "haln",
-        "calt", "blwm", "abvm", "dist", "kern",
-        "mark", "mkmk",
-    },
     khmr = {
         "ccmp", "locl", "pref", "blwf", "abvf",
         "pstf", "pres", "blws", "abvs", "psts",
         "clig", "calt", "blwm", "abvm", "dist",
-        "kern",    "mark", "mkmk",
+        "kern", "mark", "mkmk",
     },
     syrc = {
         "ccmp", "locl", "isol", "fina", "fin1",
@@ -4456,22 +4279,56 @@ fontspec.default_features = {
         "ccmp", "locl", "liga", "kern", "mark",
         "mkmk",
     },
-    lao  = {
-        "ccmp", "locl", "liga", "kern", "mark",
-        "mkmk",
-    },
     tibt = {
         "ccmp", "locl", "pref", "blws", "abvs", 
         "psts", "clig", "calt", "blwm", "abvm",
-        "dist", "kern",    "mark", "mkmk",
+        "dist", "kern", "mark", "mkmk",
     },
     hang = { },
 }
 
 %    \end{macrocode}
+% Many scripts have identical set of deafult features, so we define features
+% for one script above, then assign it to other scripts here.
+%    \begin{macrocode}
+
+function fontspec.feat_assign(table, deafult)
+    local features = fontspec.default_features
+    for _,script in pairs(table) do
+        features[script] = features[default]
+    end
+end
+
+local basic_features = {
+    "cyrl", "grek", "armn", "geor",
+    "runr", "ogam", "bopo", "cher",
+    "copt", "dsrt", "ethi", "goth",
+    "hani", "kana", "ital", "cans",
+    "yi",   "brai", "cprt", "limb",
+    "osma", "shaw", "linb", "ugar",
+    "glag", "xsux", "phnx",
+}
+
+local indic_features = {
+    "deva", "beng", "guru", "gujr",
+    "orya", "taml", "telu", "knda",
+    "mlym", "sinh",
+}
+
+local arabic_features = {"nko",}
+
+local thai_features   = {"lao",}
+
+fontspec.feat_assign(basic_features,  "latn")
+fontspec.feat_assign(indic_features,  "deva")
+fontspec.feat_assign(arabic_features, "arab")
+fontspec.feat_assign(thai_features,   "thai")
+
+%    \end{macrocode}
 % This function takes a script name as input and returns a list of font
 % features in a way suitable for use in |fontspec| macros.
 %    \begin{macrocode}
+
 function fontspec.get_script_features(script)
     if not fontspec.default_features[script] then
         luatextra.module_warning(fontspec.module.name,

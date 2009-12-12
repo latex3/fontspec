@@ -2653,10 +2653,7 @@ Multiple features can either be included in a single declaration:\par
 %   according to which type of font is selected.
 %    \begin{macrocode}
 \newcommand*\zf@make@feature[3]{%
-  \luatex_if_engine:TF
-  {
-    \fontspec_make_LT_feature:n {#3}
-  }
+  \xetex_or_luatex:nn
   {
     \ifzf@atsui
       \fontspec_make_AAT_feature:nn {#1} {#2}
@@ -2665,21 +2662,24 @@ Multiple features can either be included in a single declaration:\par
       \fontspec_make_ICU_feature:n {#3}
     \fi
   }
+  {
+    \fontspec_make_LT_feature:n {#3}
+  }
 }
 \cs_new:Nn \fontspec_make_LT_feature:n {
   \zf@update@family{#1}
   \zf@update@ff{#1}
 }
 \cs_new:Nn \fontspec_make_AAT_feature:nn {
-  \def\@tempa{#1}%
+  \def\@tempa{#1}
   \ifx\@tempa\@empty
     \fontspec_warning:n {aat-feature-not-exist}
   \else
-    \zf@make@aat@feature@string{#1}{#2}%
+    \zf@make@aat@feature@string{#1}{#2}
     \ifx\@tempa\@empty
       \fontspec_warning:nx {aat-feature-not-exist-in-font} {#1,#2}
     \else
-      \zf@update@family{+#1,#2}%
+      \zf@update@family{+#1,#2}
       \zf@update@ff\@tempa
     \fi
   \fi
@@ -2745,21 +2745,21 @@ Multiple features can either be included in a single declaration:\par
 %   exists in the requested font (see page~\pageref{mac:zf@make@smallcaps}).
 %
 %    \begin{macrocode}
-\newcommand*\zf@make@aat@feature@string[2]{%
-  \edef\@tempa{\XeTeXfeaturename\zf@basefont #1}%
+\newcommand*\zf@make@aat@feature@string[2]{
+  \edef\@tempa{\XeTeXfeaturename\zf@basefont #1}
   \unless\ifx\@tempa\@empty
 %    \end{macrocode}
 % For exclusive selectors, it's easy; just grab the string:
 %    \begin{macrocode}
     \ifnum\XeTeXisexclusivefeature\zf@basefont #1>0
-      \edef\@tempb{\XeTeXselectorname\zf@basefont #1 #2}%
+      \edef\@tempb{\XeTeXselectorname\zf@basefont #1\space #2}
 %    \end{macrocode}
 % For \emph{non}-exclusive selectors, it's a little more complex.
 % If the selector is even, it corresponds to switching the feature on:
 %    \begin{macrocode}
     \else
       \unless\ifodd #2
-        \edef\@tempb{\XeTeXselectorname\zf@basefont #1 #2}%
+        \edef\@tempb{\XeTeXselectorname\zf@basefont #1\space #2}
 %    \end{macrocode}
 % If the selector is \emph{odd}, it corresponds to switching the feature off.
 % But \XeTeX\ doesn't return a selector string for this number, since the
@@ -2768,9 +2768,9 @@ Multiple features can either be included in a single declaration:\par
 % to denote the switch.
 %    \begin{macrocode}
       \else
-        \edef\@tempb{\XeTeXselectorname\zf@basefont #1 \numexpr#2-1\relax}%  
+        \edef\@tempb{\XeTeXselectorname\zf@basefont #1\space \numexpr#2-1\relax}
         \unless\ifx\@tempb\@empty
-          \edef\@tempb{!\@tempb}%
+          \edef\@tempb{!\@tempb}
         \fi
       \fi
     \fi
@@ -2779,11 +2779,12 @@ Multiple features can either be included in a single declaration:\par
 % If the selector doesn't exist, re-initialise the feature string to empty.
 %    \begin{macrocode}
     \unless\ifx\@tempb\@empty
-      \edef\@tempa{\@tempa=\@tempb}%
+      \edef\@tempa{\@tempa=\@tempb}
     \else
       \let\@tempa\@empty
     \fi
-  \fi}
+  \fi
+}
 %    \end{macrocode}
 % \end{macro}
 %

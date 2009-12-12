@@ -57,27 +57,21 @@ Features can be renamed and feature options can be renamed with
     \aliasfontfeature{<current feature>}{<new feature>}
     \aliasfontfeatureoption{<feature>}{<current option>}{<new option>}
 
---------------
-Will Robertson
-2004--2009
 %</readme>
 %<*internal>
 \fi
-%</internal>
-%
-%<*internal>
 \begingroup
 %</internal>
 %<*batchfile>
 \input docstrip.tex
 \keepsilent
-\usedir{tex/xelatex/fontspec}
+\usedir{tex/latex/fontspec}
 \let\MetaPrefix\relax
 \preamble
 
-  ________________________________
-  The fontspec package for XeLaTeX
-  (C) 2004--2009    Will Robertson
+  _________________________________________
+  The fontspec package for XeLaTeX/LuaLaTeX
+  (C) 2004--2009    Will Robertson and Khaled Hosny
 
   License information appended.
 
@@ -85,14 +79,14 @@ Will Robertson
 \endpreamble
 \postamble
 
-Copyright 2004--2009 by Will Robertson <wspr81@gmail.com>
+Copyright 2004--2009 Will Robertson <wspr81@gmail.com>
+Copyright 2009 Khaled Hosny
 
 Distributable under the LaTeX Project Public License,
 version 1.3c or higher (your choice). The latest version of
 this license is at: http://www.latex-project.org/lppl.txt
 
-This work is "maintained" (as per LPPL maintenance status) 
-by Will Robertson.
+This work is "author-maintained" by Will Robertson.
 
 This work consists of this file fontspec.dtx
           and the derived files fontspec.sty,
@@ -110,13 +104,15 @@ This work consists of this file fontspec.dtx
 \generate{\file{fontspec.sty}          {\from{fontspec.dtx}{fontspec}}}
 \generate{\file{fontspec.cfg}          {\from{fontspec.dtx}{cfg}}}
 \generate{\file{fontspec-example.ltx}  {\from{fontspec.dtx}{example}}}
-\generate{\file{fontspec.ins}          {\from{fontspec.dtx}{driver}}}
+%</batchfile>
+%<batchfile>\endbatchfile
+%<*internal>
+\generate{\file{fontspec.ins}          {\from{fontspec.dtx}{batchfile}}}
 \nopreamble\nopostamble
 \generate{\file{README.txt}            {\from{fontspec.dtx}{readme}}}
 \generate{\file{fontspec-doc-style.sty}{\from{fontspec.dtx}{doc-style}}}
-\endbatchfile
 \endgroup
-%</batchfile>
+%</internal>
 %
 %<*driver>
 \documentclass[a4paper]{ltxdoc}
@@ -131,8 +127,8 @@ This work consists of this file fontspec.dtx
 
 \GetFileInfo{fontspec.sty}
 
-\title{The {\fontspec[Scale=0.82,Variant=3]{Zapfino}{\addfontfeature{Variant=4}f}ontspec} package}
-\author{\scshape Will Robertson}
+\title{The \textsf{fontspec} package}
+\author{\textsc{Will Robertson} and \textsc{Khaled Hosny}}
 \date{\filedate \qquad \fileversion}
 
 \maketitle
@@ -4495,8 +4491,13 @@ package niceties.
 %    \begin{macrocode}
 \ProvidesPackage{fontspec-doc-style}
 
+\RequirePackage{ifxetex}
+\ifxetex\else
+  \PackageError{fontspec}{The fontspec documentation can only be compiled with XeTeX}{}
+\fi
+
 \RequirePackage{booktabs,calc,color,enumitem,fancyvrb,fontspec,
-            graphicx,ifthen,ifxetex,url,varioref,xltxtra,xunicode}
+            graphicx,ifthen,url,varioref,xltxtra,xunicode}
 
 %% Titlepage
 \renewcommand\maketitle{%

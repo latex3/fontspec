@@ -1730,36 +1730,54 @@ Multiple features can either be included in a single declaration:\par
 %
 %<*fontspec>
 \ProvidesPackage{fontspec}
-  [2009/12/04 v2.0 Advanced font selection for XeLaTeX/LuaLaTeX]
+  [2009/12/12 v2.0 Advanced font selection for XeLaTeX/LuaLaTeX]
 %</fontspec>
 %
 % \fi
 %
 % \section{Implementation}
 % Herein lie the implementation details of this package. Welcome!
-% It's my first.
-% 
+% It was my first.
+%
 % For some reason, I decided to prefix all the package internal
 % command names and variables with |zf|. I don't know why I chose
 % those letters, but I guess I just liked the look/feel of them
 % together at the time. (Possibly inspired by Hermann \emph{Z}ap\emph{f}.)
 %
 % \iffalse
-%<*fontspec> 
+%<*fontspec>
 % \fi
 %    \begin{macrocode}
-\RequirePackage{ifxetex,ifluatex}
-\ifxetex\else
-  \ifluatex
-    \RequirePackage{luaotfload}
-    \luatexRequireModule{fontspec}
-  \else
-    \fontspec_error:n {not-pdftex}
-  \fi
-\fi
 \RequirePackage{expl3}
 \ExplSyntaxOn
 %    \end{macrocode}
+%
+%    \begin{macrocode}
+\msg_new:nnn {fontspec} {not-pdftex}
+{
+  Requires XeTeX or LuaTeX to function!
+}
+\xetex_if_engine:F {
+  \luatex_if_engine:TF {
+    \RequirePackage{luaotfload}
+    \luatexRequireModule{fontspec}
+  }{
+    \msg_error:nn {fontspec} {not-pdftex}
+  }
+}
+%    \end{macrocode}
+%
+% \begin{macro}{\xetex_or_luatex:nn}
+% Use |#1| if \XeTeX\ or |#2| if Lua\TeX.
+%    \begin{macrocode}
+\xetex_if_engine:TF
+  { \cs_new_eq:NN \xetex_or_luatex:nn \use_i:nn }
+  { \luatex_if_engine:T
+    { \cs_new_eq:NN \xetex_or_luatex:nn \use_ii:nn }
+  }
+%    \end{macrocode}
+% \end{macro}
+%
 % \subsection{Bits and pieces}
 % \paragraph{Conditionals}
 %    \begin{macrocode}
@@ -2115,12 +2133,12 @@ Multiple features can either be included in a single declaration:\par
       \global\c@zf@script\@tempcnta\relax
       \xdef\zf@script@name{#1}
       \xdef\zf@family@long{\zf@family@long+script=#1}
-      \ifluatex
+      \xetex_or_luatex:nn {
+        \xdef\zf@pre@ff{script=#2,\zf@pre@ff}
+      }{
         \xdef\zf@pre@ff{\zf@pre@ff script=#2;}
         \xdef\zf@pre@ff{\zf@pre@ff \luadirect{fontspec.get_script_features("#2")}}
-      \else
-        \xdef\zf@pre@ff{script=#2,\zf@pre@ff}
-      \fi
+      }
     \else
       \fontspec_warning:nx {script-not-exist} {#1}
     \fi
@@ -2192,21 +2210,22 @@ Multiple features can either be included in a single declaration:\par
 % same renderer. This fixes a bug in v1.10 for a mishmash of Lucida fonts.
 %    \begin{macrocode}
   \font\zf@basefont="\zf@font@wrap\zf@fontname\zf@suffix"~at~\f@size pt
-  \ifxetex
-  \unless\ifzf@icu
-    \zf@set@font@type
-  \fi
-  \ifx\zf@suffix\@empty
-    \ifzf@atsui
-      \def\zf@suffix{/AAT}%
-    \else
-      \ifzf@icu
-        \def\zf@suffix{/ICU}%
-      \fi
+  \xetex_if_engine:T
+  {
+    \unless\ifzf@icu
+      \zf@set@font@type
     \fi
-    \font\zf@basefont="\zf@font@wrap\zf@fontname\zf@suffix"~at~ \f@size pt
-  \fi
-  \fi
+    \ifx\zf@suffix\@empty
+      \ifzf@atsui
+        \def\zf@suffix{/AAT}%
+      \else
+        \ifzf@icu
+          \def\zf@suffix{/ICU}%
+        \fi
+      \fi
+      \font\zf@basefont="\zf@font@wrap\zf@fontname\zf@suffix"~at~ \f@size pt
+    \fi
+  }
 %    \end{macrocode}
 % Now convert the remaining requested features to font definition
 % strings. This is performed with \cs{zf@get@feature@requests}, in
@@ -2579,11 +2598,15 @@ Multiple features can either be included in a single declaration:\par
   \let\zf@size@feat   \@empty
   \let\zf@size@fnt    \@empty
   \c@zf@script 1818326126\relax
-  \def\zf@script@name{Latin}%
+  \def\zf@script@name{Latin}
   \c@zf@language 0\relax
-  \def\zf@language@name{Default}%
-  \def\zf@feat@sepa{\ifluatex;\else\ifzf@icu,\else;\fi\fi}%
-  \ifluatex\xdef\zf@pre@ff{mode=node;}\fi%
+  \def\zf@language@name{Default}
+  \xetex_or_luatex:nn {
+    \def\zf@feat@sepa{\ifzf@icu,\else;\fi}
+  }{
+    \def\zf@feat@sepa{;}
+    \xdef\zf@pre@ff{mode=node;}
+  }
 }
 %    \end{macrocode}
 % \end{macro}
@@ -2824,21 +2847,24 @@ Multiple features can either be included in a single declaration:\par
 % the number corresponding to the script tag string.
 %    \begin{macrocode}
 \newcommand\zf@check@ot@script[1]{%
-  \ifluatex
+  \xetex_or_luatex:nn
+  {
+    \zf@iv@strnum{#1}%
+    \@tempcntb\XeTeXOTcountscripts\zf@basefont
+    \c@zf@index\z@ \@tempswafalse
+    \loop\ifnum\c@zf@index<\@tempcntb
+      \ifnum\XeTeXOTscripttag\zf@basefont\c@zf@index=\@tempcnta 
+        \@tempswatrue
+        \c@zf@index\@tempcntb
+      \else
+        \advance\c@zf@index\@ne
+      \fi
+    \repeat
+  }
+  {
     \@tempswatrue % fixme!
-  \else
-  \zf@iv@strnum{#1}%
-  \@tempcntb\XeTeXOTcountscripts\zf@basefont
-  \c@zf@index\z@ \@tempswafalse
-  \loop\ifnum\c@zf@index<\@tempcntb
-    \ifnum\XeTeXOTscripttag\zf@basefont\c@zf@index=\@tempcnta 
-      \@tempswatrue
-      \c@zf@index\@tempcntb
-    \else
-      \advance\c@zf@index\@ne
-    \fi
-  \repeat
-  \fi}
+  }
+}
 %    \end{macrocode}
 % \end{macro}
 %
@@ -2850,21 +2876,23 @@ Multiple features can either be included in a single declaration:\par
 % number corresponding to `|latn|'.
 %    \begin{macrocode}
 \newcommand\zf@check@ot@lang[1]{%
-  \ifluatex
+  \xetex_or_luatex:nn
+  {
+    \zf@iv@strnum{#1}%
+    \@tempcntb\XeTeXOTcountlanguages\zf@basefont\c@zf@script
+    \c@zf@index\z@ \@tempswafalse
+    \loop\ifnum\c@zf@index<\@tempcntb
+      \ifnum\XeTeXOTlanguagetag\zf@basefont\c@zf@script\c@zf@index=\@tempcnta
+        \@tempswatrue
+        \c@zf@index\@tempcntb
+      \else
+        \advance\c@zf@index\@ne
+      \fi
+    \repeat
+  }
+  {
     \@tempswatrue % fixme!
-  \else
-  \zf@iv@strnum{#1}%
-  \@tempcntb\XeTeXOTcountlanguages\zf@basefont\c@zf@script
-  \c@zf@index\z@ \@tempswafalse
-  \loop\ifnum\c@zf@index<\@tempcntb
-    \ifnum\XeTeXOTlanguagetag\zf@basefont\c@zf@script\c@zf@index=\@tempcnta 
-      \@tempswatrue
-      \c@zf@index\@tempcntb
-    \else
-      \advance\c@zf@index\@ne
-    \fi
-  \repeat
-  \fi
+  }
 }
 %    \end{macrocode}
 % \end{macro}
@@ -2879,22 +2907,24 @@ Multiple features can either be included in a single declaration:\par
 % by default |0|, the `default language'. 
 %    \begin{macrocode}
 \newcommand*\zf@check@ot@feat[1]{%
-  \ifluatex
+  \xetex_or_luatex:nn
+  {
+    \@tempcntb\XeTeXOTcountfeatures\zf@basefont\c@zf@script\c@zf@language
+    \zf@v@strnum{#1}%
+    \c@zf@index\z@ \@tempswafalse
+    \loop\ifnum\c@zf@index<\@tempcntb
+      \ifnum\XeTeXOTfeaturetag\zf@basefont\c@zf@script\c@zf@language
+            \c@zf@index=\@tempcnta
+        \@tempswatrue
+        \c@zf@index\@tempcntb
+      \else
+        \advance\c@zf@index\@ne
+      \fi
+    \repeat
+  }
+  {
     \@tempswatrue % fixme!
-  \else
-  \@tempcntb\XeTeXOTcountfeatures\zf@basefont\c@zf@script\c@zf@language
-  \zf@v@strnum{#1}%
-  \c@zf@index\z@ \@tempswafalse
-  \loop\ifnum\c@zf@index<\@tempcntb
-    \ifnum\XeTeXOTfeaturetag\zf@basefont\c@zf@script\c@zf@language
-          \c@zf@index=\@tempcnta 
-      \@tempswatrue
-      \c@zf@index\@tempcntb
-    \else
-      \advance\c@zf@index\@ne
-    \fi
-  \repeat
-  \fi
+  }
 }
 %    \end{macrocode}
 % \end{macro}
@@ -2925,13 +2955,15 @@ Multiple features can either be included in a single declaration:\par
 % This feature must be processed before all others (the other font shape and features options are also pre-parsed for convenience) because the renderer determines the format of the features and even whether certain features are available.
 %    \begin{macrocode}
 \define@choicekey[zf]{preparse}{Renderer}{AAT,ICU,GR}{
-  \ifxetex
+  \xetex_or_luatex:nn
+  {
     \edef\zf@suffix{\zf@suffix/#1}
     \font\zf@basefont="\zf@font@wrap\zf@fontname\zf@suffix"~at~\f@size pt
     \edef\zf@family@long{\zf@family@long +rend:#1}
-  \else
+  }
+  {
     \zf_warning:nx {only-xetex-feature} {Renderer}
-  \fi
+  }
 }
 %    \end{macrocode}
 %
@@ -2940,9 +2972,7 @@ Multiple features can either be included in a single declaration:\par
 %    \begin{macrocode}
 \define@key[zf]{preparse}{Script}{%
   \zf@icutrue
-  \ifxetex
-    \edef\zf@suffix{\zf@suffix/ICU}
-  \fi
+  \xetex_if_engine:T { \edef\zf@suffix{\zf@suffix/ICU} }
   \font\zf@basefont="\zf@font@wrap\zf@fontname\zf@suffix"~at~\f@size pt
   \edef\zf@family@long{\zf@family@long +script:#1}%
   {\setkeys[zf@feat]{Script}{#1}}}
@@ -2951,9 +2981,7 @@ Multiple features can either be included in a single declaration:\par
 %    \begin{macrocode}
 \define@key[zf]{preparse}{Language}{%
   \zf@icutrue
-  \ifxetex
-    \edef\zf@suffix{\zf@suffix/ICU}
-  \fi
+  \xetex_if_engine:T { \edef\zf@suffix{\zf@suffix/ICU} }
   \font\zf@basefont="\zf@font@wrap\zf@fontname\zf@suffix"~at~\f@size pt
   \edef\zf@family@long{\zf@family@long +language:#1}%
   {\setkeys[zf@feat]{Lang}{#1}}}
@@ -3300,9 +3328,9 @@ Multiple features can either be included in a single declaration:\par
 % ligature (em-dash etc.)
 %
 %    \begin{macrocode}
-\ifluatex
-\zf@define@feature@option{Ligatures}{TeX}     {}{}  {+tlig;+trep}
-\fi
+\luatex_if_engine:T {
+  \zf@define@feature@option{Ligatures}{TeX}     {}{}  {+tlig;+trep}
+}
 %    \end{macrocode}
 %
 % \subsubsection{Letters}
@@ -3344,10 +3372,10 @@ Multiple features can either be included in a single declaration:\par
 % maps to Farsi (Persian) numbers if font language is Frasi.
 %
 %    \begin{macrocode}
-\ifluatex
+\luatex_if_engine:T {
   \zf@define@feature@option{Numbers}{Arabic}{}{}{+anum}
   \zf@define@feature@option{Numbers}{Farsi} {}{}{+anum}
-\fi
+}
 %    \end{macrocode}
 %
 % \subsubsection{Contextuals}
@@ -3808,11 +3836,9 @@ Multiple features can either be included in a single declaration:\par
 %
 %    \begin{macrocode}
 \define@key[zf]{preparse}{Mode}{
-  \ifluatex
-    \setkeys[zf@feat]{Mode}{#1}
-  \else
-    \zf_warning:nx {only-luatex-feature} {Mode}
-  \fi
+  \xetex_or_luatex:nn
+  { \zf_warning:nx {only-luatex-feature} {Mode} }
+  { \setkeys[zf@feat]{Mode}{#1} }
 }
 %    \end{macrocode}
 %
@@ -4085,7 +4111,7 @@ Multiple features can either be included in a single declaration:\par
 %
 % \pkg{fontspec} shorthands:
 %    \begin{macrocode}
-\cs_new:Npn \fontspec_error:nn    { \msg_error:nnn  {fontspec} }
+\cs_new:Npn \fontspec_error:n     { \msg_error:nn     {fontspec} }
 \cs_new:Npn \fontspec_warning:n   { \msg_warning:nn   {fontspec} }
 \cs_new:Npn \fontspec_warning:nx  { \msg_warning:nnx  {fontspec} }
 \cs_new:Npn \fontspec_warning:nxx { \msg_warning:nnxx {fontspec} }
@@ -4096,10 +4122,6 @@ Multiple features can either be included in a single declaration:\par
 %    \end{macrocode}
 % Errors:
 %    \begin{macrocode}
-\msg_new:nnn {fontspec} {not-pdftex}
-{
-  fontspec require XeTeX or LuaTeX to function!
-}
 \msg_new:nnn {fontspec} {no-size-info}
 {
   Size information must be supplied.\\

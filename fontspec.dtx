@@ -2379,18 +2379,14 @@ Multiple features can either be included in a single declaration:\par
 }
 \prg_new_conditional:Nnn \fontspec_if_detect_external:n {TF} {
   \tl_if_in:nnTF {#1 <= end_of_string} {.otf <= end_of_string}
-    {
-      \prg_return_true:
-    }
-    {
-      \tl_if_in:nnTF {#1 <= end_of_string} {.ttf <= end_of_string}
-        {
-          \prg_return_true:
-        }
-        {
-          \prg_return_false:
-        }
-    }
+    { \prg_return_true: } {
+  \tl_if_in:nnTF {#1 <= end_of_string} {.ttf <= end_of_string}
+    { \prg_return_true: } {
+  \tl_if_in:nnTF {#1 <= end_of_string} {.OTF <= end_of_string}
+    { \prg_return_true: } {
+  \tl_if_in:nnTF {#1 <= end_of_string} {.TTF <= end_of_string}
+    { \prg_return_true: }
+    {\prg_return_false: } }}}
 }
 %    \end{macrocode}
 % \end{macro}

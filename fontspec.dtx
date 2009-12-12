@@ -2237,7 +2237,7 @@ Multiple features can either be included in a single declaration:\par
 % \pkg{xkeyval} \cmd\setkeys\ declaration. Probably.
 %    \begin{macrocode}  
   \zf@firsttimetrue
-    \zf@get@feature@requests{\zf@font@feat}%
+    \zf@get@feature@requests{\zf@font@feat}
   \zf@firsttimefalse
 %    \end{macrocode}
 % Now we have a unique (in fact, too unique!) string that contains
@@ -2370,7 +2370,7 @@ Multiple features can either be included in a single declaration:\par
 %    \begin{macrocode}
 \cs_new:Nn \fontspec_parse_external_font:nn {
   \fontspec_if_detect_external:nTF {#2}
-    { \setkeys[zf]{prepreparse}{ExternalLocation} }
+    { \setkeys*[zf]{prepreparse}{ExternalLocation,#1} }
     { \setkeys*[zf]{prepreparse}{#1} }
 }
 \prg_new_conditional:Nnn \fontspec_if_detect_external:n {TF} {
@@ -2562,7 +2562,8 @@ Multiple features can either be included in a single declaration:\par
   \let\zf@scale  \@empty
   \let\zf@adjust \@empty
   \edef\@tempa{\noexpand\setkeys[zf]{options}{\zf@default@options#1}}%
-  \@tempa}
+  \@tempa
+  \PackageInfo{fontspec}{Raw~ font~ features~ "\zf@ff"}}
 %    \end{macrocode}
 % \end{macro}
 %

@@ -2128,6 +2128,7 @@ Multiple features can either be included in a single declaration:\par
     \if@tempswa
       \global\c@zf@script\@tempcnta\relax
       \xdef\zf@script@name{#1}
+      \xdef\zf@script@tag{#2}
       \xdef\zf@family@long{\zf@family@long+script=#1}
       \xetex_or_luatex:nn {
         \xdef\zf@pre@ff{script=#2,\zf@pre@ff}
@@ -2156,6 +2157,7 @@ Multiple features can either be included in a single declaration:\par
     \if@tempswa
       \global\c@zf@language\@tempcnta\relax
       \xdef\zf@language@name{#1}
+      \xdef\zf@language@tag{#2}
       \xdef\zf@family@long{\zf@family@long+lang=#1}
       \xdef\zf@pre@ff{\zf@pre@ff language=#2\zf@feat@sepa}
     \else
@@ -2592,8 +2594,10 @@ Multiple features can either be included in a single declaration:\par
   \let\zf@size@fnt    \@empty
   \c@zf@script 1818326126\relax
   \def\zf@script@name{Latin}
+  \def\zf@script@tag{latn}
   \c@zf@language 0\relax
   \def\zf@language@name{Default}
+  \def\zf@language@tag{dflt}
   \xetex_or_luatex:nn {
     \def\zf@feat@sepa{\ifzf@icu,\else;\fi}
   }{
@@ -2856,7 +2860,8 @@ Multiple features can either be included in a single declaration:\par
     \repeat
   }
   {
-    \@tempswatrue % fixme!
+    \@tempswafalse
+    \luadirect{fontspec.check_ot_script("zf@basefont", "#1")}
   }
 }
 %    \end{macrocode}
@@ -2885,7 +2890,8 @@ Multiple features can either be included in a single declaration:\par
     \repeat
   }
   {
-    \@tempswatrue % fixme!
+    \@tempswafalse
+    \luadirect{fontspec.check_ot_lang("zf@basefont", "#1", "\zf@script@tag")}
   }
 }
 %    \end{macrocode}
@@ -2917,7 +2923,8 @@ Multiple features can either be included in a single declaration:\par
     \repeat
   }
   {
-    \@tempswatrue % fixme!
+    \@tempswafalse
+    \luadirect{fontspec.check_ot_feat("zf@basefont", "#1", "\zf@language@tag", "\zf@script@tag")}
   }
 }
 %    \end{macrocode}
@@ -4358,6 +4365,88 @@ function fontspec.get_script_features(script)
                              "Enabing "..feature.." feature, for "..script.." script.")
     end
 end
+
+%    \end{macrocode}
+% The following functions check for exsitence of certain script, language or
+% feature in a given font.
+%    \begin{macrocode}
+
+local function check_script(id, script)
+    local s = string.lower(script)
+    if id and id ~= 0 then
+        local otfdata = fonts.ids[id].shared.otfdata
+        if otfdata then
+            local features = otfdata.luatex.features
+            for i,_ in pairs(features) do
+                for j,_ in pairs(features[i]) do
+                    if features[i][j][s] then
+                        return true
+                    end
+                end
+            end
+        end
+    end
+end
+
+local function check_language(id, language, script)
+    local s = string.lower(script)
+    local l = string.lower(language)
+    if id and id ~= 0 then
+        local otfdata = fonts.ids[id].shared.otfdata
+        if otfdata then
+            local features = otfdata.luatex.features
+            for i,_ in pairs(features) do
+                for j,_ in pairs(features[i]) do
+                    if features[i][j][s] and features[i][j][s][l] then
+                        return true
+                    end
+                end
+            end
+        end
+    end
+end
+
+local function check_feature(id, feature, language, script)
+    local s = string.lower(script)
+    local l = string.lower(language)
+    local f = string.lower(feature:gsub("^+", ""))
+    if id and id ~= 0 then
+        local otfdata = fonts.ids[id].shared.otfdata
+        if otfdata then
+            local features = otfdata.luatex.features
+            for i,_ in pairs(features) do
+                if features[i][f] and features[i][f][s] then
+                    if features[i][f][s][l] == true then
+                        return true
+                    end
+                end
+            end
+        end
+    end
+end
+
+local function font_id(str)
+    return token.create(str)[2]
+end
+
+function fontspec.check_ot_script(fnt, script)
+    if check_script(font_id(fnt), script) then
+        tex.sprint([[\makeatletter\@tempswatrue]])
+    end
+end
+
+function fontspec.check_ot_lang(fnt, lang, script)
+    if check_language(font_id(fnt), lang, script) then
+        tex.sprint([[\makeatletter\@tempswatrue]])
+    end
+end
+
+function fontspec.check_ot_feat(fnt, feat, lang, script)
+    if check_feature(font_id(fnt), feat, lang, script) then
+        tex.sprint([[\makeatletter\@tempswatrue]])
+    end
+end
+
 %    \end{macrocode}
 %
 % \iffalse

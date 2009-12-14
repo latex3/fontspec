@@ -2672,8 +2672,13 @@ Multiple features can either be included in a single declaration:\par
   }
 }
 \cs_new:Nn \fontspec_make_LT_feature:n {
-  \zf@update@family{#1}
-  \zf@update@ff{#1}
+  \zf@check@ot@feat{#1}
+  \if@tempswa
+    \zf@update@family{#1}
+    \zf@update@ff{#1}
+  \else
+    \fontspec_warning:nx {icu-feature-not-exist-in-font} {#1}
+  \fi
 }
 \cs_new:Nn \fontspec_make_AAT_feature:nn {
   \def\@tempa{#1}

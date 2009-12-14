@@ -2138,6 +2138,10 @@ Multiple features can either be included in a single declaration:\par
       }
     \else
       \fontspec_warning:nx {script-not-exist} {#1}
+      \luatex_if_engine:T {
+        \xdef\zf@pre@ff{\zf@pre@ff script=latn;}
+        \xdef\zf@pre@ff{\zf@pre@ff \luadirect{fontspec.get_script_features("latn")}}
+      }
     \fi
   }
 }

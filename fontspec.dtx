@@ -4142,7 +4142,7 @@ Multiple features can either be included in a single declaration:\par
 }
 \msg_new:nnn {fontpec} {no-glyph}
 {
-  \fontname\zf@basefont\ doesn't appear to have the glyph corresponding to #1.
+  '\zf@fontname' doesn't appear to have the glyph corresponding to #1.
 }
 \msg_new:nnnn {fontspec} {euler-too-late}
 {
@@ -4169,42 +4169,42 @@ Multiple features can either be included in a single declaration:\par
 }
 \msg_new:nnn {fontspec} {script-not-exist}
 {
-  Font \fontname\zf@basefont\ does not contain script '#1'.
+  Font '\zf@fontname' does not contain script '#1'.
 }
 \msg_new:nnn {fontspec} {lang-not-exist}
 {
-  Font \fontname\zf@basefont\space does not contain\\
+  Font '\zf@fontname' does not contain\\
   language '#1' for script '\zf@script@name'.
 }
 \msg_new:nnn {fontspec} {aat-feature-not-exist}
 {
   '\XKV@tfam=\XKV@tkey' feature not supported\\
-  for AAT font \fontname\zf@basefont.
+  for AAT font '\zf@fontname'.
 }
 \msg_new:nnn {fontspec} {aat-feature-not-exist-in-font}
 {
   AAT feature '\XKV@tfam=\XKV@tkey' (#1) not available\\
-  in font \fontname\zf@basefont.
+  in font '\zf@fontname'.
 }
 \msg_new:nnn {fontspec} {icu-feature-not-exist}
 {
   '\XKV@tfam=\XKV@tkey' feature not supported\\
-  for ICU font \fontname\zf@basefont
+  for ICU font '\zf@fontname'
 }
 \msg_new:nnn {fontspec} {icu-feature-not-exist-in-font}
 {
   OpenType feature '\XKV@tfam=\XKV@tkey' (#1) not available\\
-  for font \fontname\zf@basefont, \\
+  for font '\zf@fontname', \\
   with script '\zf@script@name', and language '\zf@language@name'.
 }
 \msg_new:nnn {fontspec} {no-opticals}
 {
-  \fontname\zf@basefont\ doesn't appear to have an Optical Size axis.
+  '\zf@fontname' doesn't appear to have an Optical Size axis.
 }
 \msg_new:nnn {fontspec} {language-not-exist}
 {
   Language '#1' not available\\
-  for font \fontname\zf@basefont\\
+  for font '\zf@fontname'\\
   with script '\zf@script@name'.
 }
 %    \end{macrocode}

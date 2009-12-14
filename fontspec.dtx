@@ -4272,6 +4272,14 @@ fontspec.module   = {
 luatextra.provides_module(fontspec.module)
 
 %    \end{macrocode}
+% Some utility functions
+%    \begin{macrocode}
+
+function fontspec.log    (...) luatextra.module_log    (fontspec.module.name, string.format(...)) end
+function fontspec.warning(...) luatextra.module_warning(fontspec.module.name, string.format(...)) end
+function fontspec.error  (...) luatextra.module_error  (fontspec.module.name, string.format(...)) end
+
+%    \end{macrocode}
 % This table holds a dictionary of script to deafult features mapping.
 %    \begin{macrocode}
 
@@ -4363,15 +4371,14 @@ fontspec.feat_assign(thai_features,   "thai")
 
 function fontspec.get_script_features(script)
     if not fontspec.default_features[script] then
-        luatextra.module_warning(fontspec.module.name,
-                                 "Unknown scrpt: "..script..", using 'latn' instead.")
+        fontspec.warning("Unknown script: '%s', using 'latn' instead.", script)
+
         script = "latn"
     end
     features = fontspec.default_features[script]
     for _,feature in pairs(features) do
+        fontspec.log("Enabling '%s' feature, for '%s' script.", feature, script)
         tex.sprint("+"..feature..";")
-        luatextra.module_log(fontspec.module.name,
-                             "Enabing "..feature.." feature, for "..script.." script.")
     end
 end
 
@@ -4389,6 +4396,8 @@ local function check_script(id, script)
             for i,_ in pairs(features) do
                 for j,_ in pairs(features[i]) do
                     if features[i][j][s] then
+                        fontspec.log("script '%s' exists in font '%s'",
+                                      script, fonts.ids[id].fullname)
                         return true
                     end
                 end
@@ -4407,6 +4416,8 @@ local function check_language(id, language, script)
             for i,_ in pairs(features) do
                 for j,_ in pairs(features[i]) do
                     if features[i][j][s] and features[i][j][s][l] then
+                        fontspec.log("language '%s' for script '%s' exists in font '%s'",
+                                      language, script, fonts.ids[id].fullname)
                         return true
                     end
                 end
@@ -4426,6 +4437,8 @@ local function check_feature(id, feature, language, script)
             for i,_ in pairs(features) do
                 if features[i][f] and features[i][f][s] then
                     if features[i][f][s][l] == true then
+                        fontspec.log("feature '%s' for language '%s' and script '%s' exists in font '%s'",
+                                      feature, language, script, fonts.ids[id].fullname)
                         return true
                     end
                 end

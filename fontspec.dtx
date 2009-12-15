@@ -2620,7 +2620,10 @@ Multiple features can either be included in a single declaration:\par
   \let\zf@smallcaps\@empty
   \luatex_if_engine:TF
   {
-    \edef\zf@smallcaps{+smcp,}
+    \zf@check@ot@feat{+smcp}
+    \if@tempswa
+      \edef\zf@smallcaps{+smcp;}
+    \fi
   }
   {
     \ifzf@atsui

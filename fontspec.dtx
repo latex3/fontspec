@@ -2972,7 +2972,7 @@ Multiple features can either be included in a single declaration:\par
     \edef\zf@family@long{\zf@family@long +rend:#1}
   }
   {
-    \zf_warning:nx {only-xetex-feature} {Renderer}
+    \fontspec_warning:nx {only-xetex-feature} {Renderer}
   }
 }
 %    \end{macrocode}
@@ -3847,7 +3847,7 @@ Multiple features can either be included in a single declaration:\par
 %    \begin{macrocode}
 \define@key[zf]{preparse}{Mode}{
   \xetex_or_luatex:nn
-  { \zf_warning:nx {only-luatex-feature} {Mode} }
+  { \fontspec_warning:nx {only-luatex-feature} {Mode} }
   { \setkeys[zf@feat]{Mode}{#1} }
 }
 %    \end{macrocode}
@@ -4210,6 +4210,14 @@ Multiple features can either be included in a single declaration:\par
   Language '#1' not available\\
   for font '\zf@fontname'\\
   with script '\zf@script@name'.
+}
+\msg_new:nnn {fontspec} {only-xetex-feature}
+{
+  Ignored XeTeX only feature: '#1'.
+}
+\msg_new:nnn {fontspec} {only-luatex-feature}
+{
+  Ignored LuaTeX only feature: '#1'.
 }
 %    \end{macrocode}
 % Info messages:

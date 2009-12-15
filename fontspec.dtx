@@ -4447,6 +4447,12 @@ local function check_feature(id, feature, language, script)
     end
 end
 
+%    \end{macrocode}
+% This function takes a font csname (without the leading slash) and returns its
+% internal font id. Since Lua\TeX~0.47, there is a built in \texttt{font.id()}
+% function.
+%    \begin{macrocode}
+
 local function font_id(str)
     local id
     if tex.luatexversion >= 47 then
@@ -4456,6 +4462,10 @@ local function font_id(str)
     end
     return id
 end
+
+%    \end{macrocode}
+% The following are the function that get called from \TeX\ end.
+%    \begin{macrocode}
 
 function fontspec.check_ot_script(fnt, script)
     if check_script(font_id(fnt), script) then

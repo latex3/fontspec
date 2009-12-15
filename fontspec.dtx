@@ -4448,7 +4448,13 @@ local function check_feature(id, feature, language, script)
 end
 
 local function font_id(str)
-    return token.create(str)[2]
+    local id
+    if tex.luatexversion >= 47 then
+        id = font.id(str)
+    else
+        id = token.create(str)[2]
+    end
+    return id
 end
 
 function fontspec.check_ot_script(fnt, script)

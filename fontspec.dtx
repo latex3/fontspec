@@ -4459,19 +4459,19 @@ end
 
 function fontspec.check_ot_script(fnt, script)
     if check_script(font_id(fnt), script) then
-        tex.sprint([[\makeatletter\@tempswatrue]])
+        tex.sprint([[\makeatletter\@tempswatrue]]) --FIXME
     end
 end
 
 function fontspec.check_ot_lang(fnt, lang, script)
     if check_language(font_id(fnt), lang, script) then
-        tex.sprint([[\makeatletter\@tempswatrue]])
+        tex.sprint([[\makeatletter\@tempswatrue]]) --FIXME
     end
 end
 
 function fontspec.check_ot_feat(fnt, feat, lang, script)
     if check_feature(font_id(fnt), feat, lang, script) then
-        tex.sprint([[\makeatletter\@tempswatrue]])
+        tex.sprint([[\makeatletter\@tempswatrue]]) --FIXME
     end
 end
 

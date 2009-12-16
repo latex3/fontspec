@@ -4288,6 +4288,8 @@ luatextra.provides_module(fontspec.module)
 % Some utility functions
 %    \begin{macrocode}
 
+fontspec.catcode = tex.catcodetablenumber["latex-package"]
+
 function fontspec.log    (...) luatextra.module_log    (fontspec.module.name, string.format(...)) end
 function fontspec.warning(...) luatextra.module_warning(fontspec.module.name, string.format(...)) end
 function fontspec.error  (...) luatextra.module_error  (fontspec.module.name, string.format(...)) end
@@ -4482,8 +4484,8 @@ end
 % The following are the function that get called from \TeX\ end.
 %    \begin{macrocode}
 
-local function tempswatrue()  tex.sprint([[\makeatletter\@tempswatrue]])  end --FIXME
-local function tempswafalse() tex.sprint([[\makeatletter\@tempswafalse]]) end --FIXME
+local function tempswatrue()  tex.sprint(fontspec.catcode,  [[\@tempswatrue]]) end
+local function tempswafalse() tex.sprint(fontspec.catcode, [[\@tempswafalse]]) end
 
 function fontspec.check_ot_script(fnt, script)
     if check_script(font_id(fnt), script) then

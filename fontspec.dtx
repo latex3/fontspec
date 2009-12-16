@@ -2133,15 +2133,10 @@ Multiple features can either be included in a single declaration:\par
       \xetex_or_luatex:nn {
         \xdef\zf@pre@ff{script=#2,\zf@pre@ff}
       }{
-        \xdef\zf@pre@ff{\zf@pre@ff script=#2;}
-        \xdef\zf@pre@ff{\zf@pre@ff \luadirect{fontspec.get_script_features("#2")}}
+        \luadirect{fontspec.pre_ff.script = "#2"}
       }
     \else
       \fontspec_warning:nx {script-not-exist} {#1}
-      \luatex_if_engine:T {
-        \xdef\zf@pre@ff{\zf@pre@ff script=latn;}
-        \xdef\zf@pre@ff{\zf@pre@ff \luadirect{fontspec.get_script_features("latn")}}
-      }
     \fi
   }
 }
@@ -2163,7 +2158,11 @@ Multiple features can either be included in a single declaration:\par
       \xdef\zf@language@name{#1}
       \xdef\zf@language@tag{#2}
       \xdef\zf@family@long{\zf@family@long+lang=#1}
-      \xdef\zf@pre@ff{\zf@pre@ff language=#2\zf@feat@sepa}
+      \xetex_or_luatex:nn {
+        \xdef\zf@pre@ff{\zf@pre@ff language=#2\zf@feat@sepa}
+      }{
+        \luadirect{fontspec.pre_ff.language = "#2"}
+      }
     \else
       \fontspec_warning:nx {lang-not-exist} {#1}
     \fi
@@ -2606,7 +2605,7 @@ Multiple features can either be included in a single declaration:\par
     \def\zf@feat@sepa{\ifzf@icu,\else;\fi}
   }{
     \def\zf@feat@sepa{;}
-    \xdef\zf@pre@ff{mode=node;}
+    \def\zf@pre@ff{\luadirect{fontspec.get_pre_ff()}}
   }
 }
 %    \end{macrocode}
@@ -3800,14 +3799,22 @@ Multiple features can either be included in a single declaration:\par
     \c@zf@language\@tempcnta\relax
     \xdef\zf@language@name{Turkish}%
     \xdef\zf@family@long{\zf@family@long+lang=Turkish}%
-    \xdef\zf@pre@ff{\zf@pre@ff language=TRK\zf@feat@sepa}%
+    \xetex_or_luatex:nn {
+      \xdef\zf@pre@ff{\zf@pre@ff language=TRK\zf@feat@sepa}
+    }{
+      \luadirect{fontspec.pre_ff.language = "TRK"}
+    }
   \else
     \zf@check@ot@lang{TUR}%
     \if@tempswa
       \c@zf@language\@tempcnta\relax
       \xdef\zf@language@name{Turkish}%
       \xdef\zf@family@long{\zf@family@long+lang=Turkish}%
-      \xdef\zf@pre@ff{\zf@pre@ff language=TUR\zf@feat@sepa}%
+      \xetex_or_luatex:nn {
+        \xdef\zf@pre@ff{\zf@pre@ff language=TUR\zf@feat@sepa}
+      }{
+        \luadirect{fontspec.pre_ff.language = "TUR"}
+      }
     \else
       \fontspec_warning:nx {language-not-exist} {#1}
     \fi
@@ -3835,14 +3842,16 @@ Multiple features can either be included in a single declaration:\par
 %    \begin{macrocode}
 \define@key[zf@feat]{Mode}{Basic}[]{%
   \xdef\zf@family@long{\zf@family@long +mode:base}%
-  \xdef\zf@pre@ff{\zf@pre@ff mode=base;}}
+  \luadirect{fontspec.pre_ff.mode = "base"}}
 %    \end{macrocode}
 %
 % Define a |Full| key value for the sake of completeness;
 % |mode=node| is the default.
 %
 %    \begin{macrocode}
-\define@key[zf@feat]{Mode}{Full}[]{}
+\define@key[zf@feat]{Mode}{Full}[]{%
+  \xdef\zf@family@long{\zf@family@long +mode:node}%
+  \luadirect{fontspec.pre_ff.mode = "node"}}
 %    \end{macrocode}
 %
 % Parse |Mode| key.
@@ -4294,7 +4303,7 @@ function fontspec.error  (...) luatextra.module_error  (fontspec.module.name, st
 % This table holds a dictionary of script to deafult features mapping.
 %    \begin{macrocode}
 
-fontspec.default_features = {
+fontspec.features = {
     arab = {
         "ccmp", "locl", "isol", "fina", "medi",
         "init", "rlig", "calt", "liga", "cswh",
@@ -4344,7 +4353,7 @@ fontspec.default_features = {
 %    \begin{macrocode}
 
 function fontspec.feat_assign(table, deafult)
-    local features = fontspec.default_features
+    local features = fontspec.features
     for _,script in pairs(table) do
         features[script] = features[default]
     end
@@ -4380,17 +4389,19 @@ fontspec.feat_assign(thai_features,   "thai")
 % features in a way suitable for use in |fontspec| macros.
 %    \begin{macrocode}
 
-function fontspec.get_script_features(script)
-    if not fontspec.default_features[script] then
+function fontspec.get_features(script)
+    local f = ""
+    if not fontspec.features[script] then
         fontspec.warning("Unknown script: '%s', using 'latn' instead.", script)
 
         script = "latn"
     end
-    features = fontspec.default_features[script]
+    features = fontspec.features[script]
     for _,feature in pairs(features) do
         fontspec.log("Enabling '%s' feature, for '%s' script.", feature, script)
-        tex.sprint("+"..feature..";")
+        f = f.."+"..feature..";"
     end
+    return f
 end
 
 %    \end{macrocode}
@@ -4494,6 +4505,24 @@ function fontspec.check_ot_feat(fnt, feat, lang, script)
     if check_feature(font_id(fnt), feat, lang, script) then
         tex.sprint([[\makeatletter\@tempswatrue]]) --FIXME
     end
+end
+
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+
+fontspec.pre_ff = {
+    mode     = "node",
+    script   = "latn",
+    language = "dflt",
+}
+
+function fontspec.get_pre_ff()
+    tex.sprint(string.format("mode=%s;script=%s;language=%s;%s",
+                              fontspec.pre_ff.mode,
+                              fontspec.pre_ff.script,
+                              fontspec.pre_ff.language,
+                              fontspec.get_features(fontspec.pre_ff.script)))
 end
 
 %    \end{macrocode}

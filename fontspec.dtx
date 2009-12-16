@@ -2867,7 +2867,6 @@ Multiple features can either be included in a single declaration:\par
     \repeat
   }
   {
-    \@tempswafalse
     \luadirect{fontspec.check_ot_script("zf@basefont", "#1")}
   }
 }
@@ -2897,7 +2896,6 @@ Multiple features can either be included in a single declaration:\par
     \repeat
   }
   {
-    \@tempswafalse
     \luadirect{fontspec.check_ot_lang("zf@basefont", "#1", fontspec.specs.script)}
   }
 }
@@ -2930,7 +2928,6 @@ Multiple features can either be included in a single declaration:\par
     \repeat
   }
   {
-    \@tempswafalse
     \luadirect{fontspec.check_ot_feat("zf@basefont", "#1", fontspec.specs.language, fontspec.specs.script)}
   }
 }
@@ -4485,21 +4482,30 @@ end
 % The following are the function that get called from \TeX\ end.
 %    \begin{macrocode}
 
+local function tempswatrue()  tex.sprint([[\makeatletter\@tempswatrue]])  end --FIXME
+local function tempswafalse() tex.sprint([[\makeatletter\@tempswafalse]]) end --FIXME
+
 function fontspec.check_ot_script(fnt, script)
     if check_script(font_id(fnt), script) then
-        tex.sprint([[\makeatletter\@tempswatrue]]) --FIXME
+        tempswatrue()
+    else
+        tempswafalse()
     end
 end
 
 function fontspec.check_ot_lang(fnt, lang, script)
     if check_language(font_id(fnt), lang, script) then
-        tex.sprint([[\makeatletter\@tempswatrue]]) --FIXME
+        tempswatrue()
+    else
+        tempswafalse()
     end
 end
 
 function fontspec.check_ot_feat(fnt, feat, lang, script)
     if check_feature(font_id(fnt), feat, lang, script) then
-        tex.sprint([[\makeatletter\@tempswatrue]]) --FIXME
+        tempswatrue()
+    else
+        tempswafalse()
     end
 end
 

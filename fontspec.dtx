@@ -1764,7 +1764,7 @@ Multiple features can either be included in a single declaration:\par
 %    \end{macrocode}
 %
 % \begin{macro}{\xetex_or_luatex:nn}
-% Use |#1| if \XeTeX\ or |#2| if Lua\TeX.
+% Use |#1| if \XeTeX\ or |#2| if \LuaTeX.
 %    \begin{macrocode}
 \xetex_if_engine:TF
   { \cs_new_eq:NN \xetex_or_luatex:nn \use_i:nn }
@@ -3823,8 +3823,8 @@ Multiple features can either be included in a single declaration:\par
   \zf@update@ff{#1}}
 %    \end{macrocode}
 %
-% \subsubsection{Lua\TeX{} specific features}
-% Here we set Lua\TeX{} specific bits.
+% \subsubsection{\LuaTeX\ specific features}
+% Here we set \LuaTeX\ specific bits.
 %
 % \paragraph{Mode}
 % This allows selecting |luaotfload|'s OpenType processing mode,
@@ -4265,8 +4265,6 @@ Multiple features can either be included in a single declaration:\par
 %
 % \clearpage
 % \part{fontspec.lua}
-% And here we take a break from \TeX{} macro insanity |;)| and do some
-% real programming for Lua\LaTeX{} support.
 %
 % First we define some metadata.
 %    \begin{macrocode}
@@ -4466,7 +4464,7 @@ end
 
 %    \end{macrocode}
 % This function takes a font csname (without the leading slash) and returns its
-% internal font id. Since Lua\TeX~0.47, there is a built in \texttt{font.id()}
+% internal font id. Since \LuaTeX~0.47, there is a built in \texttt{font.id()}
 % function.
 %    \begin{macrocode}
 

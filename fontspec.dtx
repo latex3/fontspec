@@ -2128,7 +2128,6 @@ Multiple features can either be included in a single declaration:\par
     \if@tempswa
       \global\c@zf@script\@tempcnta\relax
       \xdef\zf@script@name{#1}
-      \xdef\zf@script@tag{#2}
       \xdef\zf@family@long{\zf@family@long+script=#1}
       \xetex_or_luatex:nn {
         \xdef\zf@pre@ff{script=#2,\zf@pre@ff}
@@ -2156,7 +2155,6 @@ Multiple features can either be included in a single declaration:\par
     \if@tempswa
       \global\c@zf@language\@tempcnta\relax
       \xdef\zf@language@name{#1}
-      \xdef\zf@language@tag{#2}
       \xdef\zf@family@long{\zf@family@long+lang=#1}
       \xetex_or_luatex:nn {
         \xdef\zf@pre@ff{\zf@pre@ff language=#2\zf@feat@sepa}
@@ -2597,10 +2595,8 @@ Multiple features can either be included in a single declaration:\par
   \let\zf@size@fnt    \@empty
   \c@zf@script 1818326126\relax
   \def\zf@script@name{Latin}
-  \def\zf@script@tag{latn}
   \c@zf@language 0\relax
   \def\zf@language@name{Default}
-  \def\zf@language@tag{dflt}
   \xetex_or_luatex:nn {
     \def\zf@feat@sepa{\ifzf@icu,\else;\fi}
   }{
@@ -2902,7 +2898,7 @@ Multiple features can either be included in a single declaration:\par
   }
   {
     \@tempswafalse
-    \luadirect{fontspec.check_ot_lang("zf@basefont", "#1", "\zf@script@tag")}
+    \luadirect{fontspec.check_ot_lang("zf@basefont", "#1", fontspec.pre_ff.script)}
   }
 }
 %    \end{macrocode}
@@ -2935,7 +2931,7 @@ Multiple features can either be included in a single declaration:\par
   }
   {
     \@tempswafalse
-    \luadirect{fontspec.check_ot_feat("zf@basefont", "#1", "\zf@language@tag", "\zf@script@tag")}
+    \luadirect{fontspec.check_ot_feat("zf@basefont", "#1", fontspec.pre_ff.language, fontspec.pre_ff.script)}
   }
 }
 %    \end{macrocode}

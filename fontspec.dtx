@@ -2132,7 +2132,7 @@ Multiple features can either be included in a single declaration:\par
       \xetex_or_luatex:nn {
         \xdef\zf@pre@ff{script=#2,\zf@pre@ff}
       }{
-        \luadirect{fontspec.pre_ff.script = "#2"}
+        \luadirect{fontspec.specs.script = "#2"}
       }
     \else
       \fontspec_warning:nx {script-not-exist} {#1}
@@ -2159,7 +2159,7 @@ Multiple features can either be included in a single declaration:\par
       \xetex_or_luatex:nn {
         \xdef\zf@pre@ff{\zf@pre@ff language=#2\zf@feat@sepa}
       }{
-        \luadirect{fontspec.pre_ff.language = "#2"}
+        \luadirect{fontspec.specs.language = "#2"}
       }
     \else
       \fontspec_warning:nx {lang-not-exist} {#1}
@@ -2601,7 +2601,7 @@ Multiple features can either be included in a single declaration:\par
     \def\zf@feat@sepa{\ifzf@icu,\else;\fi}
   }{
     \def\zf@feat@sepa{;}
-    \def\zf@pre@ff{\luadirect{fontspec.get_pre_ff()}}
+    \def\zf@pre@ff{\luadirect{fontspec.get_specs()}}
   }
 }
 %    \end{macrocode}
@@ -2898,7 +2898,7 @@ Multiple features can either be included in a single declaration:\par
   }
   {
     \@tempswafalse
-    \luadirect{fontspec.check_ot_lang("zf@basefont", "#1", fontspec.pre_ff.script)}
+    \luadirect{fontspec.check_ot_lang("zf@basefont", "#1", fontspec.specs.script)}
   }
 }
 %    \end{macrocode}
@@ -2931,7 +2931,7 @@ Multiple features can either be included in a single declaration:\par
   }
   {
     \@tempswafalse
-    \luadirect{fontspec.check_ot_feat("zf@basefont", "#1", fontspec.pre_ff.language, fontspec.pre_ff.script)}
+    \luadirect{fontspec.check_ot_feat("zf@basefont", "#1", fontspec.specs.language, fontspec.specs.script)}
   }
 }
 %    \end{macrocode}
@@ -3798,7 +3798,7 @@ Multiple features can either be included in a single declaration:\par
     \xetex_or_luatex:nn {
       \xdef\zf@pre@ff{\zf@pre@ff language=TRK\zf@feat@sepa}
     }{
-      \luadirect{fontspec.pre_ff.language = "TRK"}
+      \luadirect{fontspec.specs.language = "TRK"}
     }
   \else
     \zf@check@ot@lang{TUR}%
@@ -3809,7 +3809,7 @@ Multiple features can either be included in a single declaration:\par
       \xetex_or_luatex:nn {
         \xdef\zf@pre@ff{\zf@pre@ff language=TUR\zf@feat@sepa}
       }{
-        \luadirect{fontspec.pre_ff.language = "TUR"}
+        \luadirect{fontspec.specs.language = "TUR"}
       }
     \else
       \fontspec_warning:nx {language-not-exist} {#1}
@@ -3838,7 +3838,7 @@ Multiple features can either be included in a single declaration:\par
 %    \begin{macrocode}
 \define@key[zf@feat]{Mode}{Basic}[]{%
   \xdef\zf@family@long{\zf@family@long +mode:base}%
-  \luadirect{fontspec.pre_ff.mode = "base"}}
+  \luadirect{fontspec.specs.mode = "base"}}
 %    \end{macrocode}
 %
 % Define a |Full| key value for the sake of completeness;
@@ -3847,7 +3847,7 @@ Multiple features can either be included in a single declaration:\par
 %    \begin{macrocode}
 \define@key[zf@feat]{Mode}{Full}[]{%
   \xdef\zf@family@long{\zf@family@long +mode:node}%
-  \luadirect{fontspec.pre_ff.mode = "node"}}
+  \luadirect{fontspec.specs.mode = "node"}}
 %    \end{macrocode}
 %
 % Parse |Mode| key.
@@ -4504,21 +4504,25 @@ function fontspec.check_ot_feat(fnt, feat, lang, script)
 end
 
 %    \end{macrocode}
-%
+% Here we store font specifications, the predefined values are our defaults.
 %    \begin{macrocode}
 
-fontspec.pre_ff = {
+fontspec.specs = {
     mode     = "node",
     script   = "latn",
     language = "dflt",
 }
 
-function fontspec.get_pre_ff()
+%    \end{macrocode}
+% This function returns font specifications in proper order and format.
+%    \begin{macrocode}
+
+function fontspec.get_specs()
     tex.sprint(string.format("mode=%s;script=%s;language=%s;%s",
-                              fontspec.pre_ff.mode,
-                              fontspec.pre_ff.script,
-                              fontspec.pre_ff.language,
-                              fontspec.get_features(fontspec.pre_ff.script)))
+                              fontspec.specs.mode,
+                              fontspec.specs.script,
+                              fontspec.specs.language,
+                              fontspec.get_features(fontspec.specs.script)))
 end
 
 %    \end{macrocode}

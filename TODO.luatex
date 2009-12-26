@@ -1,0 +1,28 @@
+Not tested:
+==========
+	* Latin Modern as default font
+	* Math
+	* Scale
+	* OpticalSize
+	* CharacterWidth
+	* Annotation
+	
+Broken features:
+===============
+	* Auto selecting font variants (bold, italic etc.)
+	* LetterSpace
+	* HyphenChar
+	* Font transformations
+	* Colour; do we really need it?
+	* Setting script in \setmainfont{} etc. breaks \fontspec{} etc.
+
+XeTeX limitations:
+=================
+	* Loading fonts by name with ExternalLocation
+	* Hide option for diacritics in OpenType fonts
+
+LuaTeX goodies:
+===============
+	* Script based automatic font selection
+	  (implementing http://www.unicode.org/reports/tr24/)
+	* Font fallback mechanism

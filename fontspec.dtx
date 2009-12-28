@@ -2279,7 +2279,7 @@ Multiple features can either be included in a single declaration:\par
     \cs_gset:cpx{zf@family@fontname\zf@family}{\zf@fontname}%
     \cs_gset:cpx{zf@family@options\zf@family}{\zf@default@options #1}%
     \cs_gset:cpx{zf@family@fontdef\zf@family}{%
-      \zf@fontname\zf@suffix
+      \zf@font@wrap{\zf@fontname}\zf@suffix
       \ifx\zf@pre@ff\@empty\else\ifx\zf@ff\@empty\else:\fi\fi
       \zf@pre@ff\zf@ff
     }%

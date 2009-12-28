@@ -2238,7 +2238,7 @@ Multiple features can either be included in a single declaration:\par
 %
 % In the future, this will be replaced by a dedicated \texttt{makefamily}
 % \pkg{xkeyval} \cmd\setkeys\ declaration. Probably.
-%    \begin{macrocode}  
+%    \begin{macrocode}
   \zf@firsttimetrue
     \zf@get@feature@requests{\zf@font@feat}
   \zf@firsttimefalse
@@ -2249,7 +2249,7 @@ Multiple features can either be included in a single declaration:\par
 % selecting.
 %
 % The font name is fully expanded, in case it's defined in terms of macros, before having its spaces zapped.
-%    \begin{macrocode}  
+%    \begin{macrocode}
   \unless\ifcsname zf@UID@\zf@family@long\endcsname
     \ifcsname c@zf@famc@#2\endcsname
       \expandafter\global\expandafter\advance
@@ -2258,13 +2258,13 @@ Multiple features can either be included in a single declaration:\par
       \expandafter\global\expandafter\newcount
         \csname c@zf@famc@#2\endcsname
     \fi
-    \edef\@tempa{#2}%
-    \cs_gset:cpx{zf@UID@\zf@family@long}{%
-      \expandafter\expandafter\expandafter
-        \zap@space\expandafter\@tempa\space\@empty
-      (\expandafter\the\csname c@zf@famc@#2\endcsname)}%
+    \edef\@tempa{#2~}
+    \cs_gset:cpx{zf@UID@\zf@family@long}{
+      \expandafter\zap@space\@tempa\@empty
+      (\expandafter\the\csname c@zf@famc@#2\endcsname)
+    }
   \fi
-  \xdef\zf@family{\@nameuse{zf@UID@\zf@family@long}}%  
+  \xdef\zf@family{\@nameuse{zf@UID@\zf@family@long}}
 %    \end{macrocode}
 %
 % Now that we have the family name, we
@@ -3051,7 +3051,7 @@ Multiple features can either be included in a single declaration:\par
   \else
     \zf@noscfalse
     \zf@partial@fontname#1\@nil=\zf@sc
-    \zf@update@family{sc:\zap@space #1 \@empty}%
+    \zf@update@family{sc:\zap@space #1~\@empty}%
   \fi}
 %    \end{macrocode}
 %
@@ -3090,7 +3090,7 @@ Multiple features can either be included in a single declaration:\par
 %    \begin{macrocode}
 \define@key[zf]{options}{SmallCapsFeatures}{%
   \unless\ifzf@firsttime\def\zf@sc@feat{,#1}\fi
-  \zf@update@family{scfeat:\zap@space #1 \@empty}}
+  \zf@update@family{scfeat:\zap@space #1~\@empty}}
 %    \end{macrocode}
 %
 % paragraph{Features varying by size}
@@ -3098,7 +3098,7 @@ Multiple features can either be included in a single declaration:\par
 %    \begin{macrocode}
 \define@key[zf]{preparse}{SizeFeatures}{%
   \unless\ifzf@firsttime\def\zf@size@feat{#1}\fi
-  \zf@update@family{sizefeat:\zap@space #1 \@empty}}
+  \zf@update@family{sizefeat:\zap@space #1~\@empty}}
 %    \end{macrocode}
 % 
 %    \begin{macrocode}

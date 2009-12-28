@@ -134,25 +134,23 @@ This work consists of this file fontspec.dtx
 \maketitle
 \tableofcontents
 
-\newpage
 \section{Introduction}
+
 With the introduction of \name{Jonathan Kew}'s
-\XeTeX,\footnote{\texttt{http://scripts.sil.org/xetex}} users can
-now easily access system-wide fonts directly in a \TeX\
-variant, providing a best of both worlds environment. \XeTeX\
-eliminates the need for all those files required for installing
-fonts (|.tfm|, |.vf|, |.map|, \dots) and provides an easy
-way to select fonts in Plain \TeX: |\font\tenrm="Times New Roman" at 10pt|.
+\XeTeX,\footnote{\texttt{http://scripts.sil.org/xetex}} users can now easily
+access system-wide fonts directly in a \TeX\ variant, providing a best of both
+worlds environment. \XeTeX\ eliminates the need for all those files required
+for installing fonts (|.tfm|, |.vf|, |.map|, \dots) and provides an easy way
+to select fonts in Plain \TeX: |\font\tenrm="Times New Roman" at 10pt|.
 
 Before \pkg{fontspec}, it was still necessary to write cumbersome font definition
 files for \LaTeX, since the NFSS had a lot more going on behind the
 scenes to allow easy commands like \cmd\emph\ or \cmd\bfseries.
 
-This package provides a
-completely automatic way to select font families in \LaTeX\ for
-arbitrary fonts. Furthermore, it allows very flexible
-control over the selection of advanced font features such as number case
-and fancy ligatures (and many more!) present in most modern fonts.
+This package provides a completely automatic way to select font families in
+\LaTeX\ for arbitrary fonts. Furthermore, it allows very flexible control over
+the selection of advanced font features such as number case and fancy
+ligatures (and many more!) present in most modern fonts.
 
 \subsection{Usage}
 For basic use, no package options are required:
@@ -171,9 +169,9 @@ The \pkg{xltxtra} package adds a couple of general improvements to \LaTeX\ under
 
 \emph{The \pkg{babel} package is not really supported!} Especially Vietnamese,
 Greek, and Hebrew at least might not work correctly, as far as I can tell.
-There's a better chance with Cyrillic and Latin-based languages, however---\pkg{fontspec} ensures
-at least that fonts should load correctly, but hyphenation and other matters
-aren't guaranteed.
+There's a better chance with Cyrillic and Latin-based languages,
+however---\pkg{fontspec} ensures at least that fonts should load correctly,
+but hyphenation and other matters aren't guaranteed.
 
 The rest of this section documents \pkg{fontspec}'s package options, which are (briefly):
 \begin{description}[nolistsep,font=\ttfamily]
@@ -197,54 +195,63 @@ option if you don't have the Latin Modern fonts installed or you (Mac-specifical
 want to use the `default \TeX\ font' without using the |xdvipdfmx| driver.
 
 \subsubsection{Maths `fiddling'}
-By default, \pkg{fontspec} adjusts \LaTeX's default maths setup in order to maintain the correct Computer Modern symbols when the roman font changes. However, it will attempt to avoid doing this if another maths font package is loaded (such as \pkg{mathpazo} or my upcoming \pkg{unicode-math} package).
+By default, \pkg{fontspec} adjusts \LaTeX's
+default maths setup in order to maintain the correct Computer Modern symbols
+when the roman font changes. However, it will attempt to avoid doing this if
+another maths font package is loaded (such as \pkg{mathpazo} or my upcoming
+\pkg{unicode-math} package).
 
-If you find that it is incorrectly changing the maths font when it should be leaving well enough alone, apply the |[no-math]| package option to manually suppress its maths font.
+If you find that it is incorrectly changing the maths font when it should be
+leaving well enough alone, apply the |[no-math]| package option to manually
+suppress its maths font.
 
-\subsubsection{Configuration}
-If you wish to customise any part of the \pkg{fontspec} interface (see later 
-in this manual, \vref{sec:newfeatures} and~\ref{sec:aliasfontfeature}),
-this should be done by creating your own \texttt{fontspec.cfg} file,
- \note{An example is distributed with the package.} 
+\subsubsection{Configuration} If you wish to customise any part of the
+\pkg{fontspec} interface (see later in this manual, \vref{sec:newfeatures}
+and~\ref{sec:aliasfontfeature}), this should be done by creating your own
+\texttt{fontspec.cfg} file, \note{An example is distributed with the package.}
 which will be automatically loaded if it is found by \XeTeX. Either place it
-in the same folder as the main document for isolated cases, or in a location that
-\XeTeX\ searches by default, \eg, \path{~/Library/texmf/xelatex/}.
-The package option |[no-config]| will suppress this behaviour
-under all circumstances. 
-\warn{v1.14}{Used to be \texttt{[noconfig]}, which still works.}
+in the same folder as the main document for isolated cases, or in a location
+that \XeTeX\ searches by default, \eg, \path{~/Library/texmf/xelatex/}. The
+package option |[no-config]| will suppress this behaviour under all
+circumstances. \warn{v1.14}{Used to be \texttt{[noconfig]}, which still
+works.}
 
-\subsubsection{Warnings}\label{sec:quiet-warnings}
-This package can give many warnings that can be 
-harmless if you know what you're doing.
-Use the |[quiet]| package option to write 
-these warnings to the transcript (\texttt{.log}) file instead.
+\subsubsection{Warnings}
+\label{sec:quiet-warnings}
 
-Use the |[silent]| package option to completely suppress these warnings if you don't even want the |.log| file cluttered up.
+This package can give many warnings that can be harmless if you know what
+you're doing. Use the |[quiet]| package option to write these warnings to the
+transcript (\texttt{.log}) file instead.
+
+Use the |[silent]| package option to completely suppress these warnings if you
+don't even want the |.log| file cluttered up.
 
 \subsection{About this manual}
 \warn{v1.6}{An example warning!}
-In the unfortunate case that I need to make backwards incompatible changes (you're probably pretty safe these days), such things, and some other comments, are noted in the margin of this document as shown here, with a red star if the
-change is relevant to the current release of the package. (New features
-are denoted similarly in blue.)
 
-This document has been typeset with \XeTeX\ using a variety of fonts
-to display various features that the package supports. You will not
-be able to typeset the documentation if you do not have all of these
-fonts, many of which are distributed with \MacOSX\ or are otherwise 
-commercial.
+In the unfortunate case that I need to make backwards incompatible changes
+(you're probably pretty safe these days), such things, and some other
+comments, are noted in the margin of this document as shown here, with a red
+star if the change is relevant to the current release of the package. (New
+features are denoted similarly in blue.)
 
-Many examples are shown in this manual. These are typeset
-side-by-side with their verbatim source code, although various
-size-altering commands (\cs{large}, \cs{Huge}, \etc) are omitted for
-clarity. Since the package supports font features for both AAT and
-OpenType fonts (whose feature sets only overlap to some extent),
-examples are distinguished by colour: blue and red, respectively.
-Examples whose font type is irrelevant are typeset in green.
+This document has been typeset with \XeTeX\ using a variety of fonts to
+display various features that the package supports. You will not be able to
+typeset the documentation if you do not have all of these fonts, many of which
+are distributed with \MacOSX\ or are otherwise commercial.
+
+Many examples are shown in this manual. These are typeset side-by-side with
+their verbatim source code, although various size-altering commands
+(\cs{large}, \cs{Huge}, \etc) are omitted for clarity. Since the package
+supports font features for both AAT and OpenType fonts (whose feature sets
+only overlap to some extent), examples are distinguished by colour: blue and
+red, respectively. Examples whose font type is irrelevant are typeset in
+green.
 
 \section{Brief overview}
 This manual can get rather in-depth, as there are a lot of font features
 to cover. A basic preamble set-up is shown below, to simply select some default
-document fonts. See the file \url{fontspec-example.tex} for a more detailed
+document fonts. See the file \path{fontspec-example.tex} for a more detailed
 example.
 \begin{Verbatim}[gobble=2]
   \usepackage{fontspec}
@@ -254,15 +261,15 @@ example.
   \setmonofont{Courier}
 \end{Verbatim}
 
+\part{General font selection}
+
 \section{Font selection}
 
-\DescribeMacro{\fontspec} 
-\cmd{\fontspec}\oarg{font features}\marg{font name} 
-is the base command of the package, used
-for selecting the specified \meta{font name} in a \LaTeX\ family. 
-The font features argument 
-accepts comma separated \meta{font feature}=\meta{option} lists; these will
-not be fully described until \vref{sec:features}. 
+\DescribeMacro{\fontspec} \cmd{\fontspec}\oarg{font features}\marg{font name}
+is the base command of the package, used for selecting the specified
+\meta{font name} in a \LaTeX\ family. The font features argument accepts comma
+separated \meta{font feature}=\meta{option} lists; these will not be fully
+described until \vref{sec:features}.
 
 As our first example, look how easy it is to select the
 Hoefler Text typeface with the \pkg{fontspec} package:
@@ -307,12 +314,12 @@ further in \vref{sec:font-ind-features}, including methods for automatic
 scaling.
 
 \subsection{Font instances for efficiency}
-\DescribeMacro{\newfontfamily} 
-For cases when a specific font with a specific feature set is going
-to be re-used many times in a document, it is inefficient to keep
-calling \cs{fontspec} for every use. While the command does not
-define a new font instance after the first call, the feature options
-must still be parsed and processed.
+
+\DescribeMacro{\newfontfamily} For cases when a specific font with a specific
+feature set is going to be re-used many times in a document, it is inefficient
+to keep calling \cs{fontspec} for every use. While the command does not define
+a new font instance after the first call, the feature options must still be
+parsed and processed.
 
 For this reason, \emph{instances}
 of a font may be created with the \cmd\newfontfamily\ command,
@@ -323,7 +330,7 @@ as shown in the following example:
   \newfontfamily\notefont{Didot}
   \notefont This is a \emph{note}.
 \end{example}
-This macro should be used to create commands that would be used in 
+This macro should be used to create commands that would be used in
 the same way as \cmd\rmfamily, for example.
 
 \DescribeMacro{\newfontface}
@@ -338,7 +345,7 @@ in the upright forms. \cmd\newfontface\ is used for this purpose:
 \end{example}
 \noindent This example is repeated in \vref{sec:contextuals}.
 
-\subsection{Arbitrary bold/italic/small caps fonts} \label{sec:bfitfonts} 
+\subsection{Arbitrary bold/italic/small caps fonts} \label{sec:bfitfonts}
 The automatic bold, italic, and bold italic font selections will not be
 adequate for the needs of every font: while some fonts mayn't even
 have bold or italic shapes, in which case a skilled (or lucky)
@@ -393,16 +400,24 @@ by declaring the \feat{SmallCapsFont} of the family you are specifying:
 
 \subsection{Math(s) fonts}
 
-When \cmd\setmainfont, \cmd\setsansfont\ and \cmd\setmonofont\ are
-used in the preamble, they also define the fonts to be used in maths
-mode inside the \cmd\mathrm-type commands. This only occurs in the
-preamble because \LaTeX\ freezes the maths fonts after this stage of
-the processing. The \pkg{fontspec} package must also be loaded after
-any maths font packages (\eg, \pkg{euler}) to be
-successful. (Actually, it is \emph{only} \pkg{euler} that is the
-problem.\footnote{Speaking of \pkg{euler}, if you want to use its \texttt{[mathbf]} option, it won't work, and you'll need to put this after \pkg{fontspec} is loaded instead:\ttfamily\cmd\AtBeginDocument\char`\{\cmd\DeclareMathAlphabet\cmd\mathbf\char`\{U\char`\}\char`\{eur\char`\}\char`\{b\char`\}\char`\{n\char`\}})
+When \cmd\setmainfont, \cmd\setsansfont\ and \cmd\setmonofont\ are used in the
+preamble, they also define the fonts to be used in maths mode inside the
+\cmd\mathrm-type commands. This only occurs in the preamble because \LaTeX\
+freezes the maths fonts after this stage of the processing. The \pkg{fontspec}
+package must also be loaded after any maths font packages (\eg, \pkg{euler})
+to be successful. (Actually, it is \emph{only} \pkg{euler} that is the
+problem.\footnote{Speaking of \pkg{euler}, if you want to use its
+\texttt{[mathbf]} option, it won't work, and you'll need to put this after
+\pkg{fontspec} is loaded
+instead:\ttfamily\cmd\AtBeginDocument\char`\{\cmd\DeclareMathAlphabet\cmd\mathbf\char`\{U\char`\}\char`\{eur\char`\}\char`\{b\char`\}\char`\{n\char`\}})
 
-Note that you may find that loading some maths packages won't be as smooth as you expect since \pkg{fontspec} (and \XeTeX\ in general) breaks many of the assumptions of \TeX\ as to where maths characters and accents can be found. Contact me if you have troubles, but I can't guarantee to be able to fix any incompatibilities. The Lucida and Euler maths fonts (the latter loaded with \pkg{euler} rather than \pkg{eulervm}) should be fine; for all others keep an eye out for problems.
+Note that you may find that loading some maths packages won't be as smooth as
+you expect since \pkg{fontspec} (and \XeTeX\ in general) breaks many of the
+assumptions of \TeX\ as to where maths characters and accents can be found.
+Contact me if you have troubles, but I can't guarantee to be able to fix any
+incompatibilities. The Lucida and Euler maths fonts (the latter loaded with
+\pkg{euler} rather than \pkg{eulervm}) should be fine; for all others keep an
+eye out for problems.
 
 \DescribeMacro{\setmathrm} \DescribeMacro{\setboldmathrm}
 \DescribeMacro{\setmathsf} \DescribeMacro{\setmathtt} 
@@ -463,10 +478,9 @@ described in \vref{sec:bfitfonts}.
 
 \subsection{Miscellaneous font selecting details}
 
-By the way, from v1.9, \cmd\fontspec\ and \cmd\addfontfeatures\ 
-will now ignore following spaces as if it were a `naked' control 
-sequence; \eg, `|M. \fontspec{...} N|' and `|M. \fontspec{...}N|' 
-are the same.
+\cmd\fontspec\ and \cmd\addfontfeatures\ will now ignore following spaces as
+if it were a `naked' control sequence; \eg, `|M. \fontspec{...} N|' and `|M.
+\fontspec{...}N|' are the same.
 
 Note that this package redefines the \cs{itshape} and \cs{scshape}
 commands in order to allow them to select italic small caps in
@@ -474,7 +488,9 @@ conjunction. (This was implicitly shown in the first example,
 but it's worth mentioning now, too.)
 
 
-\section{Selecting font features} \label{sec:selectingfeature} 
+
+\section{Selecting font features}
+\label{sec:selectingfeature}
 
 The commands discussed so far each take an optional argument for
 accessing the font features of the requested font. These features
@@ -499,13 +515,13 @@ New calls of \cs{defaultfontfeatures} overwrite previous ones.
 
 \subsection{Changing the currently selected features}
 \label{sec:addfontfeatures}
-\DescribeMacro{\addfontfeatures} 
-The \cs{addfontfeatures}\marg{font features} 
-command allows font features to be changed without
-knowing what features are currently selected or even what font is
-being used. A good example of this could be to add a hook to all
-tabular material to use monospaced numbers, as shown in the
-following example:
+
+\DescribeMacro{\addfontfeatures}
+The \cs{addfontfeatures}\marg{font features} command allows font features to
+be changed without knowing what features are currently selected or even what
+font is being used. A good example of this could be to add a hook to all
+tabular material to use monospaced numbers, as shown in the following example:
+
 \begin{example}
   \fontspec[Numbers=OldStyle]{Skia}
   `In 1842, 999 people sailed 97 miles in 
@@ -667,29 +683,8 @@ The amount of scaling used in each instance is reported in the \texttt{.log} fil
 Since there is some subjectivity about the exact scaling to be used, these values
 should be used to fine-tune the results.
 
-\subsection{Mapping}
 
-\feat{Mapping} enables a \XeTeX\ text-mapping scheme.
-\begin{example}
-  \fontspec[Mapping=tex-text]{Cochin}
-  ``!`A small amount of---text!''
-\end{example}
 
-\subsection{Colour}
-
-\feat{Colour} (or \feat{Color}), also shown in \vref{sec:defaults} and
-\vref{sec:features}, uses \XeTeX\ font specifications to set the colour of
-the text. The colour is defined as a triplet of two-digit Hex RGB
-values, with optionally another value for the transparency (where
-|00| is completely transparent and |FF| is opaque.)
-\begin{example}
-  \fontsize{48}{48}
-  \fontspec{Hoefler Text Black}
-  {\addfontfeature{Color=FF000099}W}\kern-1ex
-  {\addfontfeature{Color=0000FF99}S}\kern-0.8ex
-  {\addfontfeature{Color=DDBB2299}P}\kern-0.8ex
-  {\addfontfeature{Color=00BB3399}R}
-\end{example}
 
 \subsection{Interword space}
 
@@ -756,20 +751,7 @@ Also be aware that the above caveat for interword space also applies here,
 so after the last line in the above example, the \feat{PunctuationSpace}
 for \emph{all} Baskerville instances will be |0|.
 
-\subsection{Letter spacing}
-Letter spacing, or tracking, is the term given to adding (or subtracting) a small amount of horizontal space in between adjacent characters. It is specified with the \feat{LetterSpace}, which takes a numeric argument. 
 
-The letter spacing parameter is a normalised additive factor (not a scaling factor); it is defined as a percentage of the font size. That is, for a 10\,pt font, a letter spacing parameter of `|1.0|' will add 0.1\,pt between each letter.
-\begin{example}
-  \fontspec{Didot}
-  \addfontfeature{LetterSpace=0.0}
-  USE TRACKING FOR DISPLAY CAPS TEXT \\
-  \addfontfeature{LetterSpace=2.0}
-  USE TRACKING FOR DISPLAY CAPS TEXT
-\end{example}
-This functionality \emph{should not be used for lowercase text}, which is spacing correctly to begin with, but it can be very useful, in small amounts, when setting small caps or all caps titles.
-Also see the OpenType \opt{Uppercase} 
-option of the \feat{Letters} feature (\vref*{sec:letters}).
 
 
 \subsection{The hyphenation character}
@@ -803,6 +785,51 @@ would probably supply this for you (see \vref{sec:letters}).
 The \pkg{xltxtra} package redefines \LaTeX's \cmd\-\ macro
 such that it adjusts along with the above changes.
 
+
+
+\part{Lua\TeX}
+
+\part{\XeTeX: Cross-platform use with OpenType fonts}
+
+\subsection{Mapping}
+
+\feat{Mapping} enables a \XeTeX\ text-mapping scheme.
+\begin{example}
+  \fontspec[Mapping=tex-text]{Cochin}
+  ``!`A small amount of---text!''
+\end{example}
+
+
+\subsection{Colour}
+
+\feat{Colour} (or \feat{Color}), also shown in \vref{sec:defaults} and
+\vref{sec:features}, uses \XeTeX\ font specifications to set the colour of
+the text. The colour is defined as a triplet of two-digit Hex RGB
+values, with optionally another value for the transparency (where
+|00| is completely transparent and |FF| is opaque.)
+\begin{example}
+  \fontsize{48}{48}
+  \fontspec{Hoefler Text Black}
+  {\addfontfeature{Color=FF000099}W}\kern-1ex
+  {\addfontfeature{Color=0000FF99}S}\kern-0.8ex
+  {\addfontfeature{Color=DDBB2299}P}\kern-0.8ex
+  {\addfontfeature{Color=00BB3399}R}
+\end{example}
+
+\subsection{Letter spacing}
+Letter spacing, or tracking, is the term given to adding (or subtracting) a small amount of horizontal space in between adjacent characters. It is specified with the \feat{LetterSpace}, which takes a numeric argument. 
+
+The letter spacing parameter is a normalised additive factor (not a scaling factor); it is defined as a percentage of the font size. That is, for a 10\,pt font, a letter spacing parameter of `|1.0|' will add 0.1\,pt between each letter.
+\begin{example}
+  \fontspec{Didot}
+  \addfontfeature{LetterSpace=0.0}
+  USE TRACKING FOR DISPLAY CAPS TEXT \\
+  \addfontfeature{LetterSpace=2.0}
+  USE TRACKING FOR DISPLAY CAPS TEXT
+\end{example}
+This functionality \emph{should not be used for lowercase text}, which is spacing correctly to begin with, but it can be very useful, in small amounts, when setting small caps or all caps titles.
+Also see the OpenType \opt{Uppercase} 
+option of the \feat{Letters} feature (\vref*{sec:letters}).
 
 \subsection{Font transformations}
 
@@ -1279,23 +1306,7 @@ Note the difference here between the default and the horizontal style kana:
     ようこそ ワカヨタレソ}
 \end{aatexample}
 
-\subsection{Diacritics}
-Diacritics refer to characters that include extra marks that usually
-indicate pronunciation; \eg, accented letters. You may either choose
-to \opt{Show}, \opt{Hide} or \opt{Decompose} them in AAT fonts.
 
-Some fonts include |O/| \etc\ as diacritics for writing \O. You'll
-want to turn this feature off (imagine typing |hello/goodbye| and
-getting `hell\o goodbye' instead!) by decomposing the two characters
-in the diacritic into the ones you actually
-want. I would recommend using
-the proper \TeX\ input conventions for obtaining such characters
-instead.
-
-The \opt{Hide} option is for Arabic-like fonts which may be
-displayed either with or without vowel markings.
-
-No options for OpenType fonts.
 
 \subsection{Kerning}\label{sec:kerning}
 Well designed fonts contain kerning information that controls the spacing between 
@@ -1399,21 +1410,7 @@ default OpenType font renderer (ICU) due to a bug in the Hiragino fonts.
 
 \subsection{Annotation}
 Various Asian fonts are equipped with a more extensive range of
-numbers and numerals in different forms. These are accessed through
-the \feat{Annotation} feature with the following options: \opt{Off},
-\opt{Box}, \opt{RoundedBox}, \opt{Circle}, \opt{BlackCircle},
-\opt{Parenthesis}, \opt{Period}, \opt{RomanNumerals}, \opt{Diamond},
-\opt{BlackSquare}, \opt{BlackRoundSquare}, and \opt{DoubleCircle}.
-\begin{aatexample}
-  \fontspec{Hei Regular}
-   1 2 3 4 5 6 7 8 9                         \\
-  \fontspec[Annotation=Circle]{Hei Regular}
-   1 2 3 4 5 6 7 8 9                         \\
-  \fontspec[Annotation=Parenthesis]{Hei Regular}
-   1 2 3 4 5 6 7 8 9                         \\
-  \fontspec[Annotation=Period]{Hei Regular}
-   1 2 3 4 5 6 7 8 9
-\end{aatexample}
+numbers and numerals in different forms.
 For OpenType fonts, the only option supported is \opt{On} and \opt{Off}:
 \begin{opentypeexample}
   \fontspec{Hiragino Maru Gothic Pro}
@@ -1423,6 +1420,7 @@ For OpenType fonts, the only option supported is \opt{On} and \opt{Off}:
 \end{opentypeexample}
 I'm not sure if \XeTeX\ can access alternate annotation
 forms, even if they exist (as in this case) in the font.
+
 
 \subsection{Vertical typesetting}
 
@@ -1441,25 +1439,6 @@ No actual provision is made for typesetting top-to-bottom
 languages; for an example of how to do this, see the vertical Chinese
 example provided in the \XeTeX\ documentation.
 
-\subsection{AAT \& Multiple Master font axes} \label{sec:mm}
-
-Multiple Master and AAT font specifications both provide continuous 
-variation along font parameters. For example, they don't have just
-regular and bold weights, they can have any bold weight you like between
-the two extremes.
-
-\opt{Weight}, \opt{Width}, and \opt{OpticalSize} are supported by this
-package. Skia, which is distributed with
-Mac~OS~X, has two of these variable parameters, allowing for a
-demonstration:
-\begin{aatexample}
-  \fontspec[Weight=0.5,Width=3]{Skia}
-   Really light and extended Skia         \\
-  \fontspec[Weight=2,Width=0.5]{Skia}
-   Really fat and condensed Skia
-\end{aatexample}
-Variations along a multiple master font's optical size axis has been
-shown previously in \vref{sec:opticalsize}.
 
 
 \subsection{OpenType scripts and languages}\label{sec:ot}
@@ -1652,6 +1631,107 @@ commands is that they check if the selected font actually contains the font
 feature. By contrast, \cmd\newfontfeature\ will not give a warning
 for improper input.
 
+
+\subsection{Going behind \pkg{fontspec}'s back}
+Expert users may wish not to use \pkg{fontspec}'s feature handling at all,
+while still taking advantage of its \LaTeX\ font selection conveniences. The
+\feat{RawFeature} font feature allows literal \XeTeX\ font feature selection
+when you happen to have the OpenType feature tag memorised.
+\begin{example}
+  \fontspec[RawFeature=+smcp]{FPL Neu}
+  FPL Neu small caps
+\end{example}
+Multiple features can either be included in a single declaration:\par
+{\centering|[RawFeature=+smcp;+onum]|\par}
+\noindent or with multiple declarations:\par
+{\centering|[RawFeature=+smcp, RawFeature=+onum]|\par}
+
+\part{\XeTeX: Mac\,OS\,X's \textsc{aat} fonts}
+
+Mac\,OS\,X's font technology began life before the ubiquitous-OpenType era
+and revolved around the Apple-invented `\textsc{aat}' font format. This format
+had some advantages (and other disadvantages) but it never became widely
+popular in the font world.
+
+Nonetheless, this is the font format that was first supported by \XeTeX\
+(due to its pedigree on Mac\,OS\,X in the first place) and was the first
+font format supported by \pkg{fontspec}. A number of fonts distributed with
+Mac\,OS\,X are still in the \textsc{aat} format, such as `Skia'. Documents
+that use these fonts should be compiled with \XeLaTeX\ using the
+\texttt{xdv2pdf} driver, as opposed to the default \texttt{xdvipdfmx}. E.g.,
+\begin{verbatim}
+  xelatex -output-driver="xdv2pdf" filename.tex
+\end{verbatim}
+
+\subsection{Diacritics}
+Diacritics refer to characters that include extra marks that usually
+indicate pronunciation; \eg, accented letters. You may either choose
+to \opt{Show}, \opt{Hide} or \opt{Decompose} them in AAT fonts.
+
+Some fonts include |O/| \etc\ as diacritics for writing \O. You'll
+want to turn this feature off (imagine typing |hello/goodbye| and
+getting `hell\o goodbye' instead!) by decomposing the two characters
+in the diacritic into the ones you actually
+want. I would recommend using
+the proper \TeX\ input conventions for obtaining such characters
+instead.
+
+The \opt{Hide} option is for Arabic-like fonts which may be
+displayed either with or without vowel markings.
+
+No options for OpenType fonts.
+
+\subsection{Annotation}
+Various Asian fonts are equipped with a more extensive range of
+numbers and numerals in different forms. These are accessed through
+the \feat{Annotation} feature with the following options: \opt{Off},
+\opt{Box}, \opt{RoundedBox}, \opt{Circle}, \opt{BlackCircle},
+\opt{Parenthesis}, \opt{Period}, \opt{RomanNumerals}, \opt{Diamond},
+\opt{BlackSquare}, \opt{BlackRoundSquare}, and \opt{DoubleCircle}.
+\begin{aatexample}
+  \fontspec{Hei Regular}
+   1 2 3 4 5 6 7 8 9                         \\
+  \fontspec[Annotation=Circle]{Hei Regular}
+   1 2 3 4 5 6 7 8 9                         \\
+  \fontspec[Annotation=Parenthesis]{Hei Regular}
+   1 2 3 4 5 6 7 8 9                         \\
+  \fontspec[Annotation=Period]{Hei Regular}
+   1 2 3 4 5 6 7 8 9
+\end{aatexample}
+
+\subsection{AAT \& Multiple Master font axes} \label{sec:mm}
+
+Multiple Master and AAT font specifications both provide continuous
+variation along font parameters. For example, they don't have just
+regular and bold weights, they can have any bold weight you like between
+the two extremes.
+
+\opt{Weight}, \opt{Width}, and \opt{OpticalSize} are supported by this
+package. Skia, which is distributed with
+Mac~OS~X, has two of these variable parameters, allowing for a
+demonstration:
+\begin{aatexample}
+  \fontspec[Weight=0.5,Width=3]{Skia}
+   Really light and extended Skia         \\
+  \fontspec[Weight=2,Width=0.5]{Skia}
+   Really fat and condensed Skia
+\end{aatexample}
+Variations along a multiple master font's optical size axis has been
+shown previously in \vref{sec:opticalsize}.
+
+
+
+\part{Programming interface}
+
+This is the beginning of some work to provide some hooks that use
+\pkg{fontspec} for various macro programming purposes.
+
+In some cases, it is useful to know what the \LaTeX\ font family
+of a specific \pkg{fontspec} font is. After a \cmd\fontspec-like
+command, this is stored inside the \cmd\zf@family\ macro.
+Otherwise, \LaTeX's own \cmd\f@family\ macro can be useful here,
+too.
+
 \subsection{Renaming existing features \& options}\label{sec:aliasfontfeature}
 
 \DescribeMacro{\aliasfontfeature} 
@@ -1689,31 +1769,6 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 \begin{Verbatim}[gobble=2]
   \newfontfeature{PurpleColour}{color=550099BB}
 \end{Verbatim}
-
-\subsection{Going behind \pkg{fontspec}'s back}
-Expert users may wish not to use \pkg{fontspec}'s feature handling at all,
-while still taking advantage of its \LaTeX\ font selection conveniences. The
-\feat{RawFeature} font feature allows literal \XeTeX\ font feature selection
-when you happen to have the OpenType feature tag memorised.
-\begin{example}
-  \fontspec[RawFeature=+smcp]{FPL Neu}
-  FPL Neu small caps
-\end{example}
-Multiple features can either be included in a single declaration:\par
-{\centering|[RawFeature=+smcp;+onum]|\par}
-\noindent or with multiple declarations:\par
-{\centering|[RawFeature=+smcp, RawFeature=+onum]|\par}
-
-
-%\section{Programming interface}
-%This is the beginning of some work to provide some hooks that use
-%\pkg{fontspec} for various macro programming purposes.
-
-%In some cases, it is useful to know what the \LaTeX\ font family
-%of a specific \pkg{fontspec} font is. After a \cmd\fontspec-like
-%command, this is stored inside the \cmd\zf@family\ macro.
-%Otherwise, \LaTeX's own \cmd\f@family\ macro can be useful here,
-%too.
 
 \StopEventually{}
 

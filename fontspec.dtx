@@ -4342,11 +4342,11 @@ luatextra.provides_module(fontspec.module)
 % Some utility functions
 %    \begin{macrocode}
 
-fontspec.catcode = tex.catcodetablenumber["latex-package"]
-
 function fontspec.log    (...) luatextra.module_log    (fontspec.module.name, string.format(...)) end
 function fontspec.warning(...) luatextra.module_warning(fontspec.module.name, string.format(...)) end
 function fontspec.error  (...) luatextra.module_error  (fontspec.module.name, string.format(...)) end
+
+function fontspec.sprint (...) tex.sprint(tex.catcodetablenumber["latex-package"], ...) end
 
 %    \end{macrocode}
 % This table holds a dictionary of script to deafult features mapping.
@@ -4538,8 +4538,8 @@ end
 % The following are the function that get called from \TeX\ end.
 %    \begin{macrocode}
 
-local function tempswatrue()  tex.sprint(fontspec.catcode,  [[\@tempswatrue]]) end
-local function tempswafalse() tex.sprint(fontspec.catcode, [[\@tempswafalse]]) end
+local function tempswatrue()  fontspec.sprint([[\@tempswatrue]])  end
+local function tempswafalse() fontspec.sprint([[\@tempswafalse]]) end
 
 function fontspec.check_ot_script(fnt, script)
     if check_script(font_id(fnt), script) then

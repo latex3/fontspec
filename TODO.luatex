@@ -13,7 +13,6 @@ Broken features:
 	* LetterSpace
 	* HyphenChar
 	* Colour; do we really need it?
-	* Setting script in \setmainfont{} etc. breaks \fontspec{} etc.
 
 XeTeX limitations:
 =================

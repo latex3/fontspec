@@ -2727,7 +2727,8 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
     \def\zf@feat@sepa{\ifzf@icu,\else;\fi}
   }{
     \def\zf@feat@sepa{;}
-    \def\zf@pre@ff{\luadirect{fontspec.get_specs()}}
+    \luadirect{fontspec.specs.init()}
+    \def\zf@pre@ff{\luadirect{fontspec.specs.get()}}
   }
 }
 %    \end{macrocode}
@@ -4706,17 +4707,19 @@ end
 % Here we store font specifications, the predefined values are our defaults.
 %    \begin{macrocode}
 
-fontspec.specs = {
-    mode     = "node",
-    script   = "latn",
-    language = "dflt",
-}
+fontspec.specs = { }
+
+function fontspec.specs.init()
+    fontspec.specs.mode     = "node"
+    fontspec.specs.script   = "latn"
+    fontspec.specs.language = "dflt"
+end
 
 %    \end{macrocode}
 % This function returns font specifications in proper order and format.
 %    \begin{macrocode}
 
-function fontspec.get_specs()
+function fontspec.specs.get()
     tex.sprint(string.format("mode=%s;script=%s;language=%s;%s",
                               fontspec.specs.mode,
                               fontspec.specs.script,

@@ -12,7 +12,6 @@ Broken features:
 	* Auto selecting font variants (bold, italic etc.)
 	* LetterSpace
 	* HyphenChar
-	* Font transformations
 	* Colour; do we really need it?
 	* Setting script in \setmainfont{} etc. breaks \fontspec{} etc.
 

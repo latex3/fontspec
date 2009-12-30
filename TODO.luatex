@@ -12,7 +12,6 @@ Broken features:
 	* Auto selecting font variants (bold, italic etc.)
 	* LetterSpace
 	* HyphenChar
-	* Colour; do we really need it?
 
 XeTeX limitations:
 =================

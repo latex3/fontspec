@@ -2251,7 +2251,20 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 %    \end{macrocode}
 % \end{macro}
 %
-% \subsection{Internal macros}\label{sec:codeinternal}
+%
+% \begin{macro}{\DeclareFontsExtensions}
+%    \begin{macrocode}
+\DeclareDocumentCommand \DeclareFontsExtensions {m}
+  {
+    \tl_set:Nx \l_fontspec_extensions_clist { \zap@space #1~\@empty }
+  }
+\DeclareFontsExtensions{.otf,.ttf,.OTF,.TTF}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \subsection{Internal macros}
+% \label{sec:codeinternal}
 %
 % \begin{macro}{\zf@fontspec}
 % This is the command that defines font families for use, the underlying
@@ -2456,25 +2469,23 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 %
 %
 % \begin{macro}{\fontspec_parse_external_font:nn}
-% Check if either the fontname ends with |.otf| or |.ttf| or if the
+% Check if either the fontname ends with a known font extension or if the
 % |ExternalLocation| is used.
 %    \begin{macrocode}
-\cs_new:Nn \fontspec_parse_external_font:nn {
+\cs_new:Nn \fontspec_parse_external_font:nn
+ {
   \fontspec_if_detect_external:nTF {#2}
-    { \setkeys*[zf]{prepreparse}{ExternalLocation,#1} }
-    { \setkeys*[zf]{prepreparse}{#1} }
-}
-\prg_new_conditional:Nnn \fontspec_if_detect_external:n {TF} {
-  \tl_if_in:nnTF {#1 <= end_of_string} {.otf <= end_of_string}
-    { \prg_return_true: } {
-  \tl_if_in:nnTF {#1 <= end_of_string} {.ttf <= end_of_string}
-    { \prg_return_true: } {
-  \tl_if_in:nnTF {#1 <= end_of_string} {.OTF <= end_of_string}
-    { \prg_return_true: } {
-  \tl_if_in:nnTF {#1 <= end_of_string} {.TTF <= end_of_string}
-    { \prg_return_true: }
-    {\prg_return_false: } }}}
-}
+    { \setkeys*[zf]{preparse-external}{ExternalLocation,#1} }
+    { \setkeys*[zf]{preparse-external}{#1} }
+ }
+\prg_new_conditional:Nnn \fontspec_if_detect_external:n {TF}
+ {
+  \clist_map_inline:Nn \l_fontspec_extensions_clist {
+    \tl_if_in:nnT {#1 <= end_of_string} {##1 <= end_of_string}
+      { \clist_map_break: \prg_return_true: }
+  }
+  \prg_return_false:
+ }
 %    \end{macrocode}
 % \end{macro}
 %
@@ -3085,10 +3096,7 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 %
 % The \feat{Bold}, \feat{Italic}, and \feat{BoldItalic}
 % features are for defining explicitly the bold and italic fonts used
-% in a font family. \textsf{v1.6} introduced arbitrary font features
-% for these shapes (\feat{BoldFeatures}, etc.), so the names of the
-% shape-selecting options were appended with \opt{Font} for
-% consistency.
+% in a font family.
 %
 % \paragraph{Fonts}
 % Upright:

@@ -1827,7 +1827,7 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 %<*fontspec>
 % \fi
 %    \begin{macrocode}
-\RequirePackage{expl3}
+\RequirePackage{expl3,xparse}
 \ExplSyntaxOn
 %    \end{macrocode}
 %
@@ -1977,10 +1977,11 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 %   family name into the global \cmd{\zf@family}. Then this new font
 %   family is selected.
 %    \begin{macrocode}
-\newcommand*\fontspec[2][]{
+\DeclareDocumentCommand \fontspec { O{} m } {
   \zf@fontspec{#1}{#2}
   \fontfamily\zf@family\selectfont
-  \ignorespaces}
+  \ignorespaces
+}
 %    \end{macrocode}
 % \end{macro}
 %
@@ -1994,19 +1995,21 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 %     (monospaced). I end them with |\normalfont| so that if they're
 %     used in the document, the change registers immediately.
 %    \begin{macrocode}
-\newcommand*\setmainfont[2][]{
+\DeclareDocumentCommand \setmainfont { O{} m } {
   \zf@fontspec{#1}{#2}
   \let\rmdefault\zf@family
-  \normalfont}
-\let\setromanfont\setmainfont
-\newcommand*\setsansfont[2][]{
+  \normalfont
+}
+\DeclareDocumentCommand \setsansfont { O{} m } {
   \zf@fontspec{#1}{#2}
   \let\sfdefault\zf@family
-  \normalfont}
-\newcommand*\setmonofont[2][]{
+  \normalfont
+}
+\DeclareDocumentCommand \setmonofont { O{} m } {
   \zf@fontspec{#1}{#2}
   \let\ttdefault\zf@family
-  \normalfont}
+  \normalfont
+}
 %    \end{macrocode}
 % \end{macro} \end{macro} \end{macro}
 %
@@ -2020,18 +2023,22 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 % document. \cmd\setboldmathrm\ is used for specifying which
 % fonts should be used in \cmd\boldmath.
 %    \begin{macrocode}
-\newcommand*\setmathrm[2][]{
+\DeclareDocumentCommand \setmathrm { O{} m } {
   \zf@fontspec{#1}{#2}
-  \let\zf@rmmaths\zf@family}
-\newcommand*\setboldmathrm[2][]{
+  \let\zf@rmmaths\zf@family
+}
+\DeclareDocumentCommand \setboldmathrm { O{} m } {
   \zf@fontspec{#1}{#2}
-  \let\zf@rmboldmaths\zf@family}
-\newcommand*\setmathsf[2][]{
+  \let\zf@rmboldmaths\zf@family
+}
+\DeclareDocumentCommand \setmathsf { O{} m } {
   \zf@fontspec{#1}{#2}
-  \let\zf@sfmaths\zf@family}
-\newcommand*\setmathtt[2][]{
+  \let\zf@sfmaths\zf@family
+}
+\DeclareDocumentCommand \setmathtt { O{} m } {
   \zf@fontspec{#1}{#2}
-  \let\zf@ttmaths\zf@family}
+  \let\zf@ttmaths\zf@family
+}
 \@onlypreamble\setmathrm
 \@onlypreamble\setboldmathrm
 \@onlypreamble\setmathsf
@@ -2061,30 +2068,21 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 %   \cs{zf@family}. This family is then used in a typical NFSS \cmd\fontfamily\
 %   declaration, saved in the macro name specified.
 %    \begin{macrocode}
-\newcommand*\newfontfamily[1]{
-  \@ifnextchar[{\newfontfamily@i#1}{\newfontfamily@i#1[]}
-}
-\def\newfontfamily@i#1[#2]#3{
+\DeclareDocumentCommand \newfontfamily { m O{} m } {
   \zf@fontspec{#2}{#3}
-  \edef\@tempa{
-    \noexpand\DeclareRobustCommand\noexpand#1
-      {\noexpand\fontfamily{\zf@family}\noexpand\selectfont}}
-  \@tempa
+  \exp_arg:x {
+    \noexpand \DeclareRobustCommand \noexpand #1 {
+      \noexpand \fontfamily {\zf@family} \noexpand \selectfont
+    }
+  }
 }
 %    \end{macrocode}
 % \cmd\newfontface\ uses an undocumented feature of the \feat{BoldFont}
 % feature; if its argument is empty (\ie, |BoldFont={}|), then no bold
 % font is searched for.
 %    \begin{macrocode}
-\newcommand*\newfontface[1]{
-  \@ifnextchar[{\newfontface@i#1}{\newfontface@i#1[]}
-}
-\def\newfontface@i#1[#2]#3{
-  \zf@fontspec{BoldFont={},ItalicFont={},SmallCapsFont={},#2}{#3}
-  \edef\@tempa{
-    \noexpand\DeclareRobustCommand\noexpand#1
-      {\noexpand\fontfamily{\zf@family}\noexpand\selectfont}}
-  \@tempa
+\DeclareDocumentCommand \newfontface { m O{} m } {
+  \newfontfamily #1 {BoldFont={},ItalicFont={},SmallCapsFont={},#2} {#3}
 }
 %    \end{macrocode}
 % \end{macro} \end{macro}
@@ -2099,7 +2097,7 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 %   concatenated with the individual macro choices in the
 %   \cs{zf@get@feature@requests} macro.
 %    \begin{macrocode}
-\newcommand*\defaultfontfeatures[1]{\def\zf@default@options{#1,}}
+\DeclareDocumentCommand \defaultfontfeatures {m} {\def\zf@default@options{#1,}}
 \let\zf@default@options\@empty
 %    \end{macrocode}
 % \end{macro}
@@ -2126,7 +2124,7 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 %   \cs{addfontfeature} is defined as an alias, as I found that I
 %   often typed this instead when adding only a single font feature.
 %    \begin{macrocode}
-\newcommand*\addfontfeatures[1]{
+\DeclareDocumentCommand \addfontfeatures {m} {
   \ifcsname zf@family@fontdef\f@family\endcsname
     \begingroup
       \let\zf@default@options\@empty
@@ -2159,7 +2157,7 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 %   control sequence is then called upon to update the font family
 %   string when a new instance is requested.
 %    \begin{macrocode}
-\newcommand*\newfontfeature[2]{
+\DeclareDocumentCommand \newfontfeature {mm} {
   \stepcounter{zf@newff}
   \cs_set:cpx{+zf-#1}{+zf-\the\c@zf@newff}
   \define@key[zf]{options}{#1}[]{
@@ -2176,7 +2174,7 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 % Better than \cmd\newfontfeature\ because it checks if the feature exists in the
 % font it's being used for.
 %    \begin{macrocode}
-\newcommand*\newAATfeature[4]{
+\DeclareDocumentCommand \newAATfeature {mmmm} {
   \unless\ifcsname zf@options@#1\endcsname
     \zf@define@font@feature{#1}
   \fi
@@ -2193,7 +2191,7 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 % Better than \cmd\newfontfeature\ because it checks if the feature exists in the
 % font it's being used for.
 %    \begin{macrocode}
-\newcommand*\newICUfeature[3]{
+\DeclareDocumentCommand \newICUfeature {mmm} {
   \unless\ifcsname zf@options@#1\endcsname
     \zf@define@font@feature{#1}
   \fi
@@ -2211,8 +2209,8 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 % User commands for renaming font features and font feature options.
 % Provided I've been consistent, they should work for everything.
 %    \begin{macrocode}
-\newcommand*\aliasfontfeature[2]{\multi@alias@key{#1}{#2}}
-\newcommand*\aliasfontfeatureoption[3]{
+\DeclareDocumentCommand \aliasfontfeature {mm} {\multi@alias@key{#1}{#2}}
+\DeclareDocumentCommand \aliasfontfeatureoption {mmm} {
   \keyval@alias@key[zf@feat]{#1}{#2}{#3}
 }
 %    \end{macrocode}
@@ -2225,7 +2223,7 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 % feature choice, and then prepends the (\XeTeX) \cmd\font\ feature string with the appropriate
 % script selection tag.
 %    \begin{macrocode}
-\newcommand*\newfontscript[2]{
+\DeclareDocumentCommand \newfontscript {mm} {
   \define@key[zf@feat]{Script}{#1}[]{
     \zf@check@ot@script{#2}
     \if@tempswa
@@ -2252,7 +2250,7 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 % feature choice, and then prepends the (\XeTeX) \cmd\font\ feature string with the appropriate
 % language selection tag.
 %    \begin{macrocode}
-\newcommand*\newfontlanguage[2]{
+\DeclareDocumentCommand \newfontlanguage {mm} {
   \define@key[zf@feat]{Lang}{#1}[]{
     \zf@check@ot@lang{#2}
     \if@tempswa
@@ -2306,8 +2304,7 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 % the way subsequent features are processed. All font features that `slip through'
 % this stage are saved in the \cmd\zf@font@feat\ macro for future processing.
 %    \begin{macrocode}
-
-\newcommand*\zf@fontspec[2]{
+\cs_set:Npn \zf@fontspec #1#2 {
   \begingroup
   \zf@init
   \edef\zf@fontname{#2}

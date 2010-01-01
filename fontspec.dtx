@@ -2128,11 +2128,11 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
   \ifcsname zf@family@fontdef\f@family\endcsname
     \begingroup
       \let\zf@default@options\@empty
-      \edef\@tempa{
+      \exp_arg:x {
         \noexpand\zf@fontspec
           {\csname zf@family@options\f@family\endcsname,#1}
-          {\csname zf@family@fontname\f@family\endcsname}}
-      \@tempa
+          {\csname zf@family@fontname\f@family\endcsname}
+      }
     \endgroup
     \fontfamily\zf@family\selectfont
   \else
@@ -2636,10 +2636,10 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 % \cmd\zf@adjust\ is defined in various places to deal with things like the hyphenation
 % character and interword spacing.
 %    \begin{macrocode}
-  \edef\@tempa{\noexpand
-    \DeclareFontShape{\zf@enc}{\zf@family}{#2}{#3}
-      {\zf@font@str}{\zf@adjust}}
-  \@tempa
+  \exp_arg:x{
+    \noexpand\DeclareFontShape{\zf@enc}{\zf@family}{#2}{#3}
+      {\zf@font@str}{\zf@adjust}
+  }
 %    \end{macrocode}
 % This extra stuff for the slanted shape substitution is a little bit awkward,
 % but I'd rather have it here than break out yet another macro. Alternatively,
@@ -2648,10 +2648,10 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
   \edef\@tempa{#3}
   \edef\@tempb{\itdefault}
   \ifx\@tempa\@tempb
-    \edef\@tempa{\noexpand
-      \DeclareFontShape{\zf@enc}{\zf@family}{#2}{\sldefault}
-        {<->ssub*\zf@family/#2/\itdefault}{\zf@adjust}}
-    \@tempa
+    \exp_arg:x{
+      \noexpand\DeclareFontShape{\zf@enc}{\zf@family}{#2}{\sldefault}
+        {<->ssub*\zf@family/#2/\itdefault}{\zf@adjust}
+    }
   \fi
 }
 %    \end{macrocode}

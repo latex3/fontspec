@@ -2487,17 +2487,23 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 %    \begin{macrocode}
 \cs_new:Nn \fontspec_parse_external_font:nn
  {
-  \fontspec_if_detect_external:nTF {#2}
-    { \setkeys*[zf]{preparse-external}{ExternalLocation,#1} }
-    { \setkeys*[zf]{preparse-external}{#1} }
+  \bool_set_false:N \l_fontspec_external_bool
+  \setkeys*[zf]{preparse-external}{#1}
+  \bool_if:NF \l_fontspec_external_bool
+   {
+    \fontspec_if_detect_external:nT {#2}
+     { \setkeys*[zf]{preparse-external}{ExternalLocation} }
+   }
  }
-\prg_new_conditional:Nnn \fontspec_if_detect_external:n {TF}
+\prg_new_conditional:Nnn \fontspec_if_detect_external:n {T}
  {
-  \clist_map_inline:Nn \l_fontspec_extensions_clist {
+  \clist_map_inline:Nn \l_fontspec_extensions_clist
+   {
+    \bool_set_false:N \l_tmpa_bool
     \tl_if_in:nnT {#1 <= end_of_string} {##1 <= end_of_string}
-      { \clist_map_break: \prg_return_true: }
-  }
-  \prg_return_false:
+      { \bool_set_true:N \l_tmpa_bool \clist_map_break: }
+   }
+  \bool_if:NTF \l_tmpa_bool \prg_return_true: \prg_return_false:
  }
 %    \end{macrocode}
 % \end{macro}
@@ -3071,7 +3077,9 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 % with |kpsewhich|; it's either in the current directory or the \TeX\ tree. Otherwise, the
 % argument given defines the file path of the font.
 %    \begin{macrocode}
+\bool_new:N \l_fontspec_external_bool
 \define@key[zf]{preparse-external}{ExternalLocation}[]{
+  \bool_set_true:N \l_fontspec_external_bool
   \zf@icutrue
   \zf@nobftrue
   \zf@noittrue

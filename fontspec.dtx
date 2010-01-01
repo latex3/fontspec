@@ -1889,6 +1889,17 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 \newcount\c@zf@script
 \newcount\c@zf@language
 %    \end{macrocode}
+% Used to save some headspace later on:
+%    \begin{macrocode}
+\cs_if_free:NT \exp_arg:x
+ {
+  \cs_set:Nn \exp_arg:x { \edef\@tempa{#1}\@tempa }
+ }
+\cs_new:Nn \setkeys:xxx
+ {
+  \exp_arg:x { \noexpand\setkeys*[#1]{#2}{#3} }
+ }
+%    \end{macrocode}
 %
 % \subsection{Option processing}
 %
@@ -2296,11 +2307,6 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 % this stage are saved in the \cmd\zf@font@feat\ macro for future processing.
 %    \begin{macrocode}
 
-\cs_new:Nn \setkeys:nnx {
-  \edef\@tempa { \noexpand\setkeys*[#1]{#2}{#3} }
-  \@tempa
-}
-
 \newcommand*\zf@fontspec[2]{
   \begingroup
   \zf@init
@@ -2308,7 +2314,7 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
   \let\zf@family@long\zf@fontname
   \fontspec_parse_external_font:nn {#1} {#2}
   \let\zf@up\zf@fontname
-  \setkeys:nnx {zf} {preparse} {\XKV@rm}
+  \setkeys:xxx {zf} {preparse} {\XKV@rm}
   \let\zf@fontname\zf@up
   \let\zf@font@feat\XKV@rm
 %    \end{macrocode}
@@ -2610,7 +2616,7 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
     \clist_map_variable:NNn \zf@size@feat \zf@this@size {
       \let\zf@size\@empty
       \let\zf@size@fnt\zf@fontname
-      \setkeys:nnx {zf} {sizing} {\expandafter\@firstofone\zf@this@size}
+      \setkeys:xxx {zf} {sizing} {\expandafter\@firstofone\zf@this@size}
       \ifx\zf@size\@empty
         \fontspec_error:n {no-size-info}
       \fi
@@ -2678,7 +2684,7 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
   \let\zf@ff     \@empty
   \let\zf@scale  \@empty
   \let\zf@adjust \@empty
-  \setkeys:nnx {zf} {options} { \zf@default@options #1 }
+  \setkeys:xxx {zf} {options} { \zf@default@options #1 }
   \ifx \XKV@rm \@empty \else
     \fontspec_error:nx {unknown-options} { \exp_not:V \XKV@rm }
   \fi

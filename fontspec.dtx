@@ -2272,6 +2272,12 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 % the way subsequent features are processed. All font features that `slip through'
 % this stage are saved in the \cmd\zf@font@feat\ macro for future processing.
 %    \begin{macrocode}
+
+\cs_new:Nn \setkeys:nnx {
+  \edef\@tempa { \noexpand\setkeys*[#1]{#2}{#3} }
+  \@tempa
+}
+
 \newcommand*\zf@fontspec[2]{%
   \begingroup
   \zf@init
@@ -2279,7 +2285,7 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
   \let\zf@family@long\zf@fontname
   \fontspec_parse_external_font:nn {#1} {#2}
   \let\zf@up\zf@fontname
-  \edef\@tempa { \noexpand\setkeys*[zf]{preparse}{\XKV@rm} }\@tempa
+  \setkeys:nnx {zf} {preparse} {\XKV@rm}
   \let\zf@fontname\zf@up
   \let\zf@font@feat\XKV@rm
 %    \end{macrocode}
@@ -2581,9 +2587,7 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
     \clist_map_variable:NNn \zf@size@feat \zf@this@size {
       \let\zf@size\@empty
       \let\zf@size@fnt\zf@fontname
-      \edef\@tempa{\noexpand
-        \setkeys*[zf]{sizing}{\expandafter\@firstofone\zf@this@size}}%
-      \@tempa
+      \setkeys:nnx {zf} {sizing} {\expandafter\@firstofone\zf@this@size}
       \ifx\zf@size\@empty
         \fontspec_error:n {no-size-info}
       \fi
@@ -2642,13 +2646,16 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 %   initialising the commands used to hold font-feature specific
 %   strings.
 %    \begin{macrocode}
-\newcommand*\zf@get@feature@requests[1]{%
+\newcommand*\zf@get@feature@requests[1]{
   \let\zf@ff     \@empty
   \let\zf@scale  \@empty
   \let\zf@adjust \@empty
-  \edef\@tempa{\noexpand\setkeys[zf]{options}{\zf@default@options#1}}%
-  \@tempa
-  \PackageInfo{fontspec}{Raw~ font~ features~ "\zf@ff"}}
+  \setkeys:nnx {zf} {options} { \zf@default@options #1 }
+  \ifx \XKV@rm \@empty \else
+    \fontspec_error:nx {unknown-options} { \exp_not:V \XKV@rm }
+  \fi
+  \PackageInfo{fontspec}{Raw~ font~ features~ "\zf@ff"}
+}
 %    \end{macrocode}
 % \end{macro}
 %
@@ -3308,13 +3315,13 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
            {\expandafter\hyphenchar\expandafter
             \font\expandafter`#1}}%
       \else
-        \fontspec_error:nx {no-glyph}
+        \fontspec_error:nx {no-glyph} {#1}
       \fi}%
     \else
       {\zf@basefont\ifnum\XeTeXcharglyph#1 > \z@
         \g@addto@macro\zf@adjust{\hyphenchar\font#1\relax}%
       \else
-        \fontspec_error:nx {no-glyph}
+        \fontspec_error:nx {no-glyph} {#1}
       \fi}%
     \fi
   \fi}
@@ -4234,6 +4241,11 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 \msg_new:nnn {fontpec} {no-glyph}
 {
   '\zf@fontname' doesn't appear to have the glyph corresponding to #1.
+}
+\msg_new:nnn {fontpec} {unknown-options}
+{
+  The following font options are not recognised:\\
+  \msg_four_spaces: #1
 }
 \msg_new:nnnn {fontspec} {euler-too-late}
 {

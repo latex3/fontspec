@@ -1899,7 +1899,6 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 \DeclareOption{no-math}{\@zf@mathfalse}
 \DeclareOption{config}{\@zf@configfiletrue}
 \DeclareOption{no-config}{\@zf@configfilefalse}
-\DeclareOption{noconfig}{\@zf@configfilefalse}
 \DeclareOption{quiet}{%
   \msg_redirect_module:nnn { fontspec } { warning } { info }
   \msg_redirect_module:nnn { fontspec } { info } { none }
@@ -4632,15 +4631,14 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% FOR BACKWARDS COMPATIBILITY WITH PREVIOUS VERSIONS %%%
 
-\let\newfontinstance\newfontfamily
-
 \newcommand\newfeaturecode[3]{%
   \define@key{zf}{#1}[]{\zf@make@feature{#2}{#3}{}}}
 
-\aliasfontfeature{BoldFont}{Bold}  
-\aliasfontfeature{ItalicFont}{Italic}  
-\aliasfontfeature{BoldItalicFont}{BoldItalic}  
-\aliasfontfeature{SmallCapsFont}{SmallCaps}  
+\aliasfontfeature{BoldFont}{Bold}
+\aliasfontfeature{ItalicFont}{Italic}
+\aliasfontfeature{BoldItalicFont}{BoldItalic}
+\aliasfontfeature{SmallCapsFont}{SmallCaps}
+
 \aliasfontfeature{Style}{StyleOptions}
 \aliasfontfeature{Contextuals}{Swashes}
 \aliasfontfeatureoption{Contextuals}{Swash}{Contextual}

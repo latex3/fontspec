@@ -2390,7 +2390,7 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 %    \begin{macrocode}
   \unless\ifcsname zf@family@fontname\zf@family\endcsname
     \fontspec_info:nxx {defining-font} {#1} {#2}
-    \cs_gset:cpx{zf@family@fontname\zf@family}{\zf@fontname}
+    \cs_gset:cpx{zf@family@fontname\zf@family}{#2}
     \cs_gset:cpx{zf@family@options\zf@family}{\zf@default@options #1}
     \cs_gset:cpx{zf@family@fontdef\zf@family}{
       \zf@font@wrap{\zf@fontname\l_fontspec_extension_tl}\zf@suffix
@@ -3146,7 +3146,6 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 % Upright:
 %    \begin{macrocode}
 \define@key[zf]{preparse}{UprightFont}{
-  \edef\@tempa{#1}
   \zf@partial@fontname#1\@nil=\zf@up
   \edef\zf@family@long{\zf@family@long up:#1}
 }

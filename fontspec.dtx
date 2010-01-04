@@ -3300,10 +3300,15 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 \newcommand\zf@calc@scale[1]{
   \begingroup
     \rmfamily
-    \setlength\@tempdima{\fontdimen#1\font}
-    \setlength\@tempdimb{\fontdimen#1\zf@basefont}
-    \setlength\@tempdimc{1pt*\ratio{\@tempdima}{\@tempdimb}}
-    \xdef\zf@scale{\strip@pt\@tempdimc}
+    \xetex_or_luatex:nn {
+      \setlength\@tempdima{\fontdimen#1\font}%
+      \setlength\@tempdimb{\fontdimen#1\zf@basefont}%
+    }{
+      \setlength\@tempdima{\luadirect{fontspec.get_dimen(#1, "font")}}
+      \setlength\@tempdimb{\luadirect{fontspec.get_dimen(#1, "zf@basefont")}}
+    }
+    \setlength\@tempdimc{1pt*\ratio{\@tempdima}{\@tempdimb}}%
+    \xdef\zf@scale{\strip@pt\@tempdimc}%
     \fontspec_info:n {set-scale}
   \endgroup
 }
@@ -4725,6 +4730,28 @@ function fontspec.specs.get()
                               fontspec.specs.script,
                               fontspec.specs.language,
                               fontspec.get_features(fontspec.specs.script)))
+end
+
+%    \end{macrocode}
+% Get font dimens for \cmd\zf@calc@scale\ (despite the name of this function,
+% it doesn't return any arbitrary font dimen, only \cmd\dimen5 and \cmd\dimen8.)
+%    \begin{macrocode}
+
+function fontspec.get_dimen(fontdimen, csname)
+    local id, h, em, pt
+    if csname == "font" then
+        id = font.current()
+    else
+        id = font_id(csname)
+    end
+    if fontdimen == 8 then
+        h = fonts.ids[id].shared.otfdata.pfminfo.os2_capheight
+    elseif fontdimen == 5 then
+        h = fonts.ids[id].shared.otfdata.pfminfo.os2_xheight
+    end
+    em = fonts.ids[id].shared.otfdata.metadata.units_per_em
+    pt = fonts.ids[id].size / 65536
+    tex.sprint(string.format("%spt", (h/em)*pt))
 end
 
 %    \end{macrocode}

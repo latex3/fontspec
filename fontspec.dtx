@@ -3277,10 +3277,15 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
   \edef\@tempa{#1}%
   \edef\@tempb{None}%
   \ifx\@tempa\@tempb
+    \xetex_or_luatex:nn {
     \g@addto@macro\zf@adjust{\hyphenchar\font-1\relax}%
+    }{ % fixme
+    \g@addto@macro\zf@adjust{\luatexprehyphenchar=-1\relax}
+    }
   \else
     \zf@check@one@char#1\zf@@
     \ifx\@tempb\@empty
+      \xetex_or_luatex:nn {
       {\zf@basefont\expandafter\ifnum\expandafter\XeTeXcharglyph
             \expandafter`#1 > \z@
          \g@addto@macro\zf@adjust{%
@@ -3289,12 +3294,19 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
       \else
         \fontspec_error:nx {no-glyph}
       \fi}%
+      }{ % fixme
+      \g@addto@macro\zf@adjust{\luatexprehyphenchar=`#1\relax}
+      }
     \else
+      \xetex_or_luatex:nn {
       {\zf@basefont\ifnum\XeTeXcharglyph#1 > \z@
         \g@addto@macro\zf@adjust{\hyphenchar\font#1\relax}%
       \else
         \fontspec_error:nx {no-glyph}
       \fi}%
+      }{ % fixme
+      \g@addto@macro\zf@adjust{\luatexprehyphenchar=#1\relax}
+      }
     \fi
   \fi}
 \def\zf@check@one@char#1#2\zf@@{\def\@tempb{#2}}

@@ -9,6 +9,7 @@ Broken features:
 ===============
 	* Auto selecting font variants (bold, italic etc.)
 	* LetterSpace
+	* Default features not activated with default LM fonts
 
 XeTeX limitations:
 =================

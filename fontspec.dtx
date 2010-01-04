@@ -3296,7 +3296,7 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
              {\expandafter\hyphenchar\expandafter
               \font\expandafter`#1}}%
         \else
-          \fontspec_error:nx {no-glyph}
+          \fontspec_error:nx {no-glyph}{#1}
         \fi}%
       }{ % fixme
         \g@addto@macro\zf@adjust{\luatexprehyphenchar=`#1\relax}
@@ -3306,7 +3306,7 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
         {\zf@basefont\ifnum\XeTeXcharglyph#1 > \z@
           \g@addto@macro\zf@adjust{\hyphenchar\font#1\relax}%
         \else
-          \fontspec_error:nx {no-glyph}
+          \fontspec_error:nx {no-glyph}{#1}
         \fi}%
       }{ % fixme
         \g@addto@macro\zf@adjust{\luatexprehyphenchar=#1\relax}
@@ -4204,6 +4204,7 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 % \pkg{fontspec} shorthands:
 %    \begin{macrocode}
 \cs_new:Npn \fontspec_error:n     { \msg_error:nn     {fontspec} }
+\cs_new:Npn \fontspec_error:nx    { \msg_error:nnx    {fontspec} }
 \cs_new:Npn \fontspec_warning:n   { \msg_warning:nn   {fontspec} }
 \cs_new:Npn \fontspec_warning:nx  { \msg_warning:nnx  {fontspec} }
 \cs_new:Npn \fontspec_warning:nxx { \msg_warning:nnxx {fontspec} }
@@ -4226,7 +4227,7 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 {
   It looks like you're trying to rename a feature that doesn't exist.
 }
-\msg_new:nnn {fontpec} {no-glyph}
+\msg_new:nnn {fontspec} {no-glyph}
 {
   '\zf@fontname' doesn't appear to have the glyph corresponding to #1.
 }

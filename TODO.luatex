@@ -10,7 +10,6 @@ Broken features:
 ===============
 	* Auto selecting font variants (bold, italic etc.)
 	* LetterSpace
-	* HyphenChar
 
 XeTeX limitations:
 =================
@@ -22,3 +21,4 @@ LuaTeX goodies:
 	* Script based automatic font selection
 	  (implementing http://www.unicode.org/reports/tr24/)
 	* Font fallback mechanism
+	* HyphenChar: language specific hyphens, posthyphenchar etc.

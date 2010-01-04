@@ -2658,6 +2658,10 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
     \def\zf@feat@sepa{;}
     \luadirect{fontspec.specs.init()}
     \def\zf@pre@ff{\luadirect{fontspec.specs.get()}}
+    \luatexprehyphenchar   =`\-  % fixme
+    \luatexposthyphenchar  = 0   % fixme
+    \luatexpreexhyphenchar = 0   % fixme
+    \luatexpostexhyphenchar= 0   % fixme
   }
 }
 %    \end{macrocode}

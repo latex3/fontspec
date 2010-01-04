@@ -3401,7 +3401,7 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
              {\expandafter\hyphenchar\expandafter
               \font\expandafter`#1}}%
         \else
-          \fontspec_error:nx {no-glyph}
+          \fontspec_error:nx {no-glyph}{#1}
         \fi}%
       }{ % fixme
         \g@addto@macro\zf@adjust{\luatexprehyphenchar=`#1\relax}
@@ -3411,7 +3411,7 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
         {\zf@basefont\ifnum\XeTeXcharglyph#1 > \z@
           \g@addto@macro\zf@adjust{\hyphenchar\font#1\relax}%
         \else
-          \fontspec_error:nx {no-glyph}
+          \fontspec_error:nx {no-glyph}{#1}
         \fi}%
       }{ % fixme
         \g@addto@macro\zf@adjust{\luatexprehyphenchar=#1\relax}

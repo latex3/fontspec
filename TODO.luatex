@@ -2,7 +2,6 @@ Not tested:
 ==========
 	* Latin Modern as default font
 	* Math
-	* Scale
 	* OpticalSize
 	* CharacterWidth
 	* Annotation
@@ -12,6 +11,7 @@ Broken features:
 	* Auto selecting font variants (bold, italic etc.)
 	* LetterSpace
 	* HyphenChar
+	* Scale=MatchUppercase
 
 XeTeX limitations:
 =================

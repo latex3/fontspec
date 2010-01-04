@@ -3525,7 +3525,10 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 %
 %    \begin{macrocode}
 \luatex_if_engine:T {
-  \zf@define@feature@option{Ligatures}{TeX}     {}{}  {+tlig;+trep}
+  \zf@define@feature@option{Ligatures}    {TeX} {}{}  {+tlig}
+
+  \zf@define@font@feature{Substitutions}
+  \zf@define@feature@option{Substitutions}{TeX} {}{}  {+trep}
 }
 %    \end{macrocode}
 %
@@ -4713,7 +4716,11 @@ function fontspec.check_ot_lang(fnt, lang, script)
 end
 
 function fontspec.check_ot_feat(fnt, feat, lang, script)
-    if check_feature(font_id(fnt), feat, lang, script) then
+    local lfeatures = {}
+    lfeatures["+trep"] = true
+    lfeatures["+tlig"] = true
+    lfeatures["+anum"] = true
+    if check_feature(font_id(fnt), feat, lang, script) or lfeatures[feat] then
         tempswatrue()
     else
         tempswafalse()

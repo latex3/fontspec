@@ -8,7 +8,6 @@ Not tested:
 Broken features:
 ===============
 	* Auto selecting font variants (bold, italic etc.)
-	* No features activated with lm-default # euenc?
 
 XeTeX limitations:
 =================

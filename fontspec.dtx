@@ -1937,7 +1937,11 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 % can be used as the defaults. See the |euenc| collection of files for how this is implemented.
 %    \begin{macrocode}
 \if@zf@euenc
-  \def\zf@enc{EU1}
+  \xetex_or_luatex:nn {
+    \def\zf@enc{EU1}
+  }{
+    \def\zf@enc{EU2}
+  }
   \renewcommand{\rmdefault}{lmr}
   \renewcommand{\sfdefault}{lmss}
   \renewcommand{\ttdefault}{lmtt}

@@ -1,15 +1,14 @@
 Not tested:
 ==========
 	* Math
-	* OpticalSize
-	* CharacterWidth
+	* OpticalSize # I don't have fonts to test this
+	* CharacterWidth # I don't have fonts to test this
 	* Annotation
 	
 Broken features:
 ===============
 	* Auto selecting font variants (bold, italic etc.)
-	* LetterSpace
-	* Default features not activated with default LM fonts
+	* No features activated with lm-default # euenc?
 
 XeTeX limitations:
 =================
@@ -21,4 +20,10 @@ LuaTeX goodies:
 	* Script based automatic font selection
 	  (implementing http://www.unicode.org/reports/tr24/)
 	* Font fallback mechanism
-	* HyphenChar: language specific hyphens, posthyphenchar etc.
+	* HyphenChar: language specific hyphens etc.
+		- Support optional posthyphenchar; Hyphenchar={pre, post} # how?
+
+Unlikely to be supported:
+========================
+	* LetterSpace # needs engine level support; letterspace
+	* FakeBold # needs engine level support; embolden

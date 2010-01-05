@@ -3283,7 +3283,7 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
   \ifx\@tempa\@tempb
     \xetex_or_luatex:nn {
       \g@addto@macro\zf@adjust{\hyphenchar\font-1\relax}%
-    }{ % fixme
+    }{
       \g@addto@macro\zf@adjust{\luatexprehyphenchar=-1\relax}
     }
   \else
@@ -3298,8 +3298,12 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
         \else
           \fontspec_error:nx {no-glyph}{#1}
         \fi}%
-      }{ % fixme
-        \g@addto@macro\zf@adjust{\luatexprehyphenchar=`#1\relax}
+      }{
+        \ifnum\luadirect{fontspec.sprint(fontspec.charglyph('#1', 'zf@basefont'))} > \z@
+          \g@addto@macro\zf@adjust{\luatexprehyphenchar=`#1\relax}
+        \else
+          \fontspec_error:nx {no-glyph}{#1}
+        \fi
       }
     \else
       \xetex_or_luatex:nn {
@@ -3308,8 +3312,12 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
         \else
           \fontspec_error:nx {no-glyph}{#1}
         \fi}%
-      }{ % fixme
-        \g@addto@macro\zf@adjust{\luatexprehyphenchar=#1\relax}
+      }{
+        \ifnum\luadirect{fontspec.sprint(fontspec.charglyph('#1', 'zf@basefont'))} > \z@
+          \g@addto@macro\zf@adjust{\luatexprehyphenchar=#1\relax}
+        \else
+          \fontspec_error:nx {no-glyph}{#1}
+        \fi
       }
     \fi
   \fi}
@@ -4232,7 +4240,7 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 }
 \msg_new:nnn {fontspec} {no-glyph}
 {
-  '\zf@fontname' doesn't appear to have the glyph corresponding to #1.
+  '\zf@fontname' doesn't appear to have the glyph corresponding to '#1'.
 }
 \msg_new:nnnn {fontspec} {euler-too-late}
 {
@@ -4366,6 +4374,8 @@ luatextra.provides_module(fontspec.module)
 %    \end{macrocode}
 % Some utility functions
 %    \begin{macrocode}
+
+utf = unicode.utf8
 
 function fontspec.log    (...) luatextra.module_log    (fontspec.module.name, string.format(...)) end
 function fontspec.warning(...) luatextra.module_warning(fontspec.module.name, string.format(...)) end
@@ -4638,6 +4648,31 @@ function fontspec.get_dimen(fontdimen, csname)
     em = fonts.ids[id].shared.otfdata.metadata.units_per_em
     pt = fonts.ids[id].size / 65536
     tex.sprint(string.format("%spt", (h/em)*pt))
+end
+
+function fontspec.charglyph(char, csname)
+    local id, c
+    if char then
+        if utf.len(char) > 1 then
+            c = utf.byte(utf.char(char:gsub('"', '0x')))
+        else
+            c = utf.byte(char)
+        end
+
+        if csname then
+            id = font_id(csname)
+        else
+            id = font.current()
+        end
+
+        if font.fonts[id]["characters"][c] then
+            return font.fonts[id]["characters"][c].index
+        else
+            return 0
+        end
+    else
+        return 0
+    end
 end
 
 %    \end{macrocode}

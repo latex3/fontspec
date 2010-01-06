@@ -134,44 +134,86 @@ This work consists of this file fontspec.dtx
 \maketitle
 \tableofcontents
 
+\section{History}
+
+This package began life as a \LaTeX\ interface to select system-installed
+Mac\,OS\,X fonts in \name{Jonathan Kew}'s \XeTeX, the first widely-used
+unicode extension to \TeX. Over time, \XeTeX\ was extended to support OpenType
+fonts and then was ported into a cross-platform program to run also on Windows
+and Linux.
+
+More recently, Lua\TeX\ is fast becoming the \TeX\ engine of the day; it
+supports unicode encodings and OpenType fonts and opens up the internals of
+\TeX\ via the Lua programming language. Hans Hagen's Con\TeX t Mk.\,IV is a
+re-write of his powerful typesetting system, taking full advantage of
+Lua\TeX's features including font support; a kernel of his work in this area
+has been extracted to be useful for other \TeX\ macro systems as well, and
+this has enabled \pkg{fontspec} to be adapted for \LaTeX\ when run with the
+Lua\TeX\ engine. Elie Roux and Khaled Hosny have been instrumental and
+invaluable with all of this.
+
 \section{Introduction}
 
-With the introduction of \name{Jonathan Kew}'s
-\XeTeX,\footnote{\texttt{http://scripts.sil.org/xetex}} users can now easily
-access system-wide fonts directly in a \TeX\ variant, providing a best of both
-worlds environment. \XeTeX\ eliminates the need for all those files required
-for installing fonts (|.tfm|, |.vf|, |.map|, \dots) and provides an easy way
-to select fonts in Plain \TeX: |\font\tenrm="Times New Roman" at 10pt|.
+The \pkg{fontspec} package allows users of either \XeTeX\ or Lua\TeX\ to
+load OpenType fonts in a \LaTeX\ document. No font installation is necessary,
+and font features can be selected and used as desired throughout the document.
 
-Before \pkg{fontspec}, it was still necessary to write cumbersome font definition
-files for \LaTeX, since the NFSS had a lot more going on behind the
-scenes to allow easy commands like \cmd\emph\ or \cmd\bfseries.
+Without \pkg{fontspec}, it is necessary to write cumbersome font definition
+files for \LaTeX, since \LaTeX's font selection scheme (known as the
+`\textsc{nfss}') has a lot going on behind the scenes to allow easy
+commands like \cmd\emph\ or \cmd\bfseries. With an uncountable number of
+fonts now available for use, however, it becomes less desirable to have to
+write these font definition (|.fd|) files for every font one wishes to use.
 
 This package provides a completely automatic way to select font families in
 \LaTeX\ for arbitrary fonts. Furthermore, it allows very flexible control over
 the selection of advanced font features such as number case and fancy
 ligatures (and many more!) present in most modern fonts.
 
-\subsection{Usage}
+Because \pkg{fontspec} is designed to work in a variety of modes, this
+user documentation is split into separate sections that are designed to be
+completely independent. Nonetheless, the basic functionality all behaves in
+the same way, so previous users of \pkg{fontspec} under \XeTeX\ should have
+little or no difficulty switching over to Lua\TeX.
+
+This manual can get rather in-depth, as there are a lot of details
+to cover. See the example documents \path{fontspec-xetex.tex} and
+\path{fontspec-luatex.tex} for a complete minimal example with each engine.
+
+\subsection{About this manual}
+
+This document has been typeset with \XeTeX\ using a variety of fonts to
+display various features that the package supports. You will not be able to
+typeset the documentation if you do not have all of these fonts, many of which
+are distributed with \MacOSX\ or are otherwise commercial.
+
+Many examples are shown in this manual. These are typeset side-by-side with
+their verbatim source code, although various size-altering commands
+(\cs{large}, \cs{Huge}, \etc) are omitted for clarity.
+
+\section{Package loading and options}
+
 For basic use, no package options are required:
 \begin{Verbatim}[gobble=2]
-  \usepackage{fontspec}% provides font selecting commands
-  \usepackage{xunicode}% provides unicode character macros
-  \usepackage{xltxtra} % provides some fixes/extras
+  \usepackage{fontspec}
 \end{Verbatim}
+
 \name{Ross Moore}'s \pkg{xunicode} package is highly recommended, as it
 provides access \LaTeX's various methods for accessing extra
 characters and accents (for example, |\%|, |\$|, |\textbullet|, |\"u|, and
 so on), plus many more unicode characters.
 
-The \pkg{xltxtra} package adds a couple of general improvements to \LaTeX\ under
-\XeTeX; it also provides the \cmd\XeTeX\ macro to typeset the \XeTeX\ logo.
+The \pkg{xltxtra} package adds a couple of general improvements to \LaTeX\
+under \XeTeX; it also provides the \cmd\XeTeX\ macro to typeset the \XeTeX\
+logo.
 
 \emph{The \pkg{babel} package is not really supported!} Especially Vietnamese,
 Greek, and Hebrew at least might not work correctly, as far as I can tell.
 There's a better chance with Cyrillic and Latin-based languages,
 however---\pkg{fontspec} ensures at least that fonts should load correctly,
-but hyphenation and other matters aren't guaranteed.
+but hyphenation and other matters aren't guaranteed. Under \XeTeX, the
+\pkg{polyglossia} package is recommended instead as a modern replacement for
+\pkg{babel}.
 
 The rest of this section documents \pkg{fontspec}'s package options, which are (briefly):
 \begin{description}[nolistsep,font=\ttfamily]
@@ -180,8 +222,9 @@ The rest of this section documents \pkg{fontspec}'s package options, which are (
 \item [no-config] Don't load \pkg{fontspec.cfg}; and,
 \item [quiet] Output \pkg{fontspec} warnings in the log file rather than the console output.
 \end{description}
+These are described in more detail following.
 
-\subsubsection{Latin Modern defaults}
+\subsection{Latin Modern defaults}
 \pkg{fontspec} defines a new \LaTeX\ font encoding for its purposes to allow
 the Latin Modern fonts to be used by default. This has three implications:
 \begin{enumerate}
@@ -189,12 +232,12 @@ the Latin Modern fonts to be used by default. This has three implications:
 \item If you don't have the Latin Modern OpenType fonts installed, you might want to consider doing so.
 \item \pkg{fontspec} also requires the \pkg{euenc} package\footnote{\url{http://tug.ctan.org/pkg/euenc}} to be installed.
 \end{enumerate}
-Another package option is provided for controlling this behaviour: |[cm-default]| 
+Another package option is provided for controlling this behaviour: |[cm-default]|
 will ignore the Latin Modern fonts and go about things as it used to. Use this
-option if you don't have the Latin Modern fonts installed or you (Mac-specifically) 
+option if you don't have the Latin Modern fonts installed or you (Mac-specifically)
 want to use the `default \TeX\ font' without using the |xdvipdfmx| driver.
 
-\subsubsection{Maths `fiddling'}
+\subsection{Maths fonts adjustments}
 By default, \pkg{fontspec} adjusts \LaTeX's
 default maths setup in order to maintain the correct Computer Modern symbols
 when the roman font changes. However, it will attempt to avoid doing this if
@@ -205,18 +248,16 @@ If you find that it is incorrectly changing the maths font when it should be
 leaving well enough alone, apply the |[no-math]| package option to manually
 suppress its maths font.
 
-\subsubsection{Configuration} If you wish to customise any part of the
+\subsection{Configuration} If you wish to customise any part of the
 \pkg{fontspec} interface (see later in this manual, \vref{sec:newfeatures}
 and~\ref{sec:aliasfontfeature}), this should be done by creating your own
 \texttt{fontspec.cfg} file, \note{An example is distributed with the package.}
 which will be automatically loaded if it is found by \XeTeX. Either place it
 in the same folder as the main document for isolated cases, or in a location
-that \XeTeX\ searches by default, \eg, \path{~/Library/texmf/xelatex/}. The
-package option |[no-config]| will suppress this behaviour under all
-circumstances. \warn{v1.14}{Used to be \texttt{[noconfig]}, which still
-works.}
+that \XeTeX\ or Lua\TeX\ searches by default; \eg\ in Mac\TeX: \path{~/Library/texmf/tex/latex/}.
+The package option |[no-config]| will suppress this behaviour under all circumstances.
 
-\subsubsection{Warnings}
+\subsection{Warnings}
 \label{sec:quiet-warnings}
 
 This package can give many warnings that can be harmless if you know what
@@ -226,79 +267,59 @@ transcript (\texttt{.log}) file instead.
 Use the |[silent]| package option to completely suppress these warnings if you
 don't even want the |.log| file cluttered up.
 
-\subsection{About this manual}
-\warn{v1.6}{An example warning!}
 
-In the unfortunate case that I need to make backwards incompatible changes
-(you're probably pretty safe these days), such things, and some other
-comments, are noted in the margin of this document as shown here, with a red
-star if the change is relevant to the current release of the package. (New
-features are denoted similarly in blue.)
 
-This document has been typeset with \XeTeX\ using a variety of fonts to
-display various features that the package supports. You will not be able to
-typeset the documentation if you do not have all of these fonts, many of which
-are distributed with \MacOSX\ or are otherwise commercial.
 
-Many examples are shown in this manual. These are typeset side-by-side with
-their verbatim source code, although various size-altering commands
-(\cs{large}, \cs{Huge}, \etc) are omitted for clarity. Since the package
-supports font features for both AAT and OpenType fonts (whose feature sets
-only overlap to some extent), examples are distinguished by colour: blue and
-red, respectively. Examples whose font type is irrelevant are typeset in
-green.
 
-\section{Brief overview}
-This manual can get rather in-depth, as there are a lot of font features
-to cover. A basic preamble set-up is shown below, to simply select some default
-document fonts. See the file \path{fontspec-example.tex} for a more detailed
-example.
-\begin{Verbatim}[gobble=2]
-  \usepackage{fontspec}
-  \defaultfontfeatures{Scale=MatchLowercase}
-  \setmainfont[Mapping=tex-text]{Baskerville}
-  \setsansfont[Mapping=tex-text]{Skia}
-  \setmonofont{Courier}
-\end{Verbatim}
 
 \part{General font selection}
 
-\section{Font selection}
+This section concerns the variety of commands that can be used to select
+fonts.
 
 \DescribeMacro{\fontspec} \cmd{\fontspec}\oarg{font features}\marg{font name}
-is the base command of the package, used for selecting the specified
-\meta{font name} in a \LaTeX\ family. The font features argument accepts comma
-separated \meta{font feature}=\meta{option} lists; these will not be fully
-described until \vref{sec:features}.
+is the base command of the package, used for once-off selection of the
+specified \meta{font name}. The font features argument accepts comma separated
+\meta{font feature}=\meta{option} lists; these will not be fully described
+until \vref{sec:features}.
 
-As our first example, look how easy it is to select the
-Hoefler Text typeface with the \pkg{fontspec} package:
-\begin{example}
-  \def\pangram{The five boxing 
-             wizards jump quickly.\\}
-  \fontspec{Hoefler Text} \pangram
-    {\itshape             \pangram}
-    {\scshape             \pangram}
-    {\scshape\itshape     \pangram}
-  \bfseries               \pangram
-    {\itshape             \pangram}
-    {\scshape             \pangram}
-    {\itshape\scshape     \pangram}
-\end{example}
-The \pkg{fontspec} package takes care of the necessary font
-definitions for those shapes as shown above
-\emph{automatically}. Furthermore, it is not necessary to install
-the font for \XeTeX\ in any way whatsoever: every font that is
-installed in the operating system may be accessed.
+\section{Font selection in \LuaTeX}
 
-\subsection{Default font families}\label{sec:setxxfont}
-\DescribeMacro{\setmainfont} \DescribeMacro{\setsansfont}
-\DescribeMacro{\setmonofont} The \cs{setmainfont},
-\note{Or \cmd\setromanfont, a historical name that doesn't make much sense when you're, say, typesetting Greek.}
+\LuaTeX\ may access any font that can be found in the default search paths,
+and fonts can only be chosen by file name. Bold and italic variations, if
+desired, must be explicitly selected when a font is loaded. An example is:
+\begin{Verbatim}
+    \fontspec
+      [
+        BoldFont       = cambriab.ttf ,
+        ItalicFont     = cambriai.ttf ,
+        BoldItalicFont = cambriaz.ttf ,
+      ]
+      {cambria.ttf}
+\end{Verbatim}
+
+\section{Font selection in \XeTeX}
+
+As well as loading fonts by filename as in \LuaTeX, fonts may be loaded in
+\XeTeX\ also by font name; furthermore, bold and italic shapes are automatically
+detected. The analogous example to the above is:
+\begin{Verbatim}
+    \fontspec{Cambria}
+\end{Verbatim}
+
+TODO: add explanation for how to find out what the `font name' is.
+
+\section{Default font families}
+\label{sec:setxxfont}
+
+\DescribeMacro{\setmainfont}
+\DescribeMacro{\setsansfont}
+\DescribeMacro{\setmonofont}
+The \cs{setmainfont},
 \cs{setsansfont}, and \cs{setmonofont} commands are used to select
 the default font families for the entire document. They take the
-same arguments as \cmd{\fontspec}. For example:
-  \def\pangram{Pack my box with five 
+same arguments as \cmd{\fontspec}. For example (with \XeTeX):
+  \def\pangram{Pack my box with five
                      dozen liquor jugs.}
 \begin{example}
   \setmainfont{Baskerville}
@@ -313,7 +334,9 @@ lowercase letter heights. The \feat{Scale} font feature will be discussed
 further in \vref{sec:font-ind-features}, including methods for automatic
 scaling.
 
-\subsection{Font instances for efficiency}
+
+
+\section{New commands to select font families}
 
 \DescribeMacro{\newfontfamily} For cases when a specific font with a specific
 feature set is going to be re-used many times in a document, it is inefficient
@@ -321,11 +344,8 @@ to keep calling \cs{fontspec} for every use. While the command does not define
 a new font instance after the first call, the feature options must still be
 parsed and processed.
 
-For this reason, \emph{instances}
-of a font may be created with the \cmd\newfontfamily\ command,
-\warn{v1.11}{This macro used to be called \cmd\newfontinstance.
-  Backwards compatibility is preserved via \texttt{fontspec.cfg}.}
-as shown in the following example:
+For this reason, new commands can be created for loading a particular font
+family with the \cmd\newfontfamily\ command:
 \begin{example}
   \newfontfamily\notefont{Didot}
   \notefont This is a \emph{note}.
@@ -333,8 +353,10 @@ as shown in the following example:
 This macro should be used to create commands that would be used in
 the same way as \cmd\rmfamily, for example.
 
+(\XeTeX\ only:)
 \DescribeMacro{\newfontface}
-Sometimes only a specific font face is desired, without accompanying italic or bold variants.
+Sometimes only a specific font face is desired, without accompanying italic or bold variants
+begin automatically selected.
 This is common when selecting a fancy italic font, say, that has swash features unavailable
 in the upright forms. \cmd\newfontface\ is used for this purpose:
 \begin{example}
@@ -345,7 +367,11 @@ in the upright forms. \cmd\newfontface\ is used for this purpose:
 \end{example}
 \noindent This example is repeated in \vref{sec:contextuals}.
 
-\subsection{Arbitrary bold/italic/small caps fonts} \label{sec:bfitfonts}
+\subsection{Arbitrary bold/italic/small caps fonts}
+\label{sec:bfitfonts}
+
+TODO: lead in with a \LuaTeX\ slant.
+
 The automatic bold, italic, and bold italic font selections will not be
 adequate for the needs of every font: while some fonts mayn't even
 have bold or italic shapes, in which case a skilled (or lucky)
@@ -397,6 +423,8 @@ by declaring the \feat{SmallCapsFont} of the family you are specifying:
   Roman 123 \\ \textsc{Small caps 456}
 \end{Verbatim}
 
+All of the bold, italic, and small caps fonts can be loaded with different
+font features from the main font. See \secref{bfit-feat} for details.
 
 \subsection{Math(s) fonts}
 
@@ -420,7 +448,7 @@ incompatibilities. The Lucida and Euler maths fonts (the latter loaded with
 eye out for problems.
 
 \DescribeMacro{\setmathrm} \DescribeMacro{\setboldmathrm}
-\DescribeMacro{\setmathsf} \DescribeMacro{\setmathtt} 
+\DescribeMacro{\setmathsf} \DescribeMacro{\setmathtt}
 However, the default text fonts may not necessarily be the ones you
 wish to use when typesetting maths (especially with the use of fancy
 ligatures and so on). For this reason, you may optionally use those
@@ -453,8 +481,7 @@ and this would allow you to typeset something like this:
 \subsection{External fonts}
 \XeTeX\ v0.995 introduced the feature of loading
 fonts not installed through the operating system (`external' fonts). This feature is currently
-only available through the |xdvipdfmx| driver, which is notably \emph{not}
-the default on \MacOSX.
+only available through the |xdvipdfmx| driver.
 
 This feature is handled in \pkg{fontspec} with the font feature \feat{ExternalLocation}.
 When this feature is used, the main argument to \cmd\fontspec\ is the \emph{file name} of the
@@ -466,7 +493,7 @@ to the feature is the (absolute) path to the font. For example:
 
 If no path is given, then the font will be found in a location normally searched by
 \XeTeX, including the current directory. For example, the following declaration
-could load either the Latin Modern roman font in the current directory or, say, 
+could load either the Latin Modern roman font in the current directory or, say,
 in \path{$TEXMF/fonts/opentype/public/lm/}:
 \begin{verbatim}
     \fontspec[ExternalLocation]{lmroman10-regular}
@@ -503,10 +530,10 @@ font features, it is necessary to discuss how they can  be applied.
 \DescribeMacro{\defaultfontfeatures} It is desirable to define
 options that are applied to every subsequent font selection command:
 a default feature set, so to speak. This may be defined with the
-\cmd{\defaultfontfeatures}\marg{font features} command. 
+\cmd{\defaultfontfeatures}\marg{font features} command.
 New calls of \cs{defaultfontfeatures} overwrite previous ones.
 \begin{example}
-  \fontspec{Didot} 
+  \fontspec{Didot}
    Some `default' Didot 0123456789             \\
   \defaultfontfeatures{Numbers=OldStyle, Colour=888888}
   \fontspec{Didot}
@@ -524,14 +551,14 @@ tabular material to use monospaced numbers, as shown in the following example:
 
 \begin{example}
   \fontspec[Numbers=OldStyle]{Skia}
-  `In 1842, 999 people sailed 97 miles in 
+  `In 1842, 999 people sailed 97 miles in
    13 boats. In 1923, 111 people sailed 54
    miles in 56 boats.'            \bigskip
 
   {\addfontfeatures{Numbers={Monospaced,Lining}}
   \begin{tabular}{@{} cccc @{}}
-    \toprule  Year & People & Miles & Boats \\ 
-    \midrule  1842 &  999   &  75   &  13   \\ 
+    \toprule  Year & People & Miles & Boats \\
+    \midrule  1842 &  999   &  75   &  13   \\
               1923 &  111   &  54   &  56   \\
     \bottomrule
   \end{tabular}}
@@ -548,6 +575,7 @@ transcript (\texttt{.log}) file displaying the font name and the
 features requested.
 
 \subsection{Different features for different font shapes}
+\seclabel{bfit-feat}
 
 It is entirely possible that separate fonts in a family will require
 separate options; \eg, Hoefler Text Italic contains various swash
@@ -555,8 +583,8 @@ feature options that are completely unavailable in the upright shapes.
 
 The font features defined at the top level of the optional \cmd\fontspec\
 argument are applied to \emph{all} shapes of the family.
-Using \feat{Upright-}, \feat{SmallCaps-}, \feat{Bold-}, 
-\feat{Italic-}, and \feat{BoldItalicFeatures}, 
+Using \feat{Upright-}, \feat{SmallCaps-}, \feat{Bold-},
+\feat{Italic-}, and \feat{BoldItalicFeatures},
 separate font features may be defined to their respective shapes
 \emph{in addition} to, and with precedence over, the `global' font features.
 \begin{aatexample}
@@ -578,10 +606,10 @@ Note that because most fonts include their small caps glyphs
 within the main font, these features are applied \emph{in addition} to
 any other shape-specific features as defined above, and hence \feat{SmallCapsFeatures}
 can be nested within \feat{ItalicFeatures} and friends. Every combination
-of upright, italic, bold and small caps can thus be assigned individual 
+of upright, italic, bold and small caps can thus be assigned individual
 features, as shown in the following ludicrous example.
 \begin{example}
-  \fontspec[        
+  \fontspec[
       UprightFeatures={Colour = 220022,
             SmallCapsFeatures = {Colour=115511}},
        ItalicFeatures={Colour = 2244FF,
@@ -603,7 +631,7 @@ features, as shown in the following ludicrous example.
 The \feat{SizeFeature} feature is a little more complicated
 than the previous features discussed. It allows different fonts
 and different font features to be selected for a given font
-family as the point size varies. 
+family as the point size varies.
 
 It takes a comma separated list of braced, comma separated lists of features for each size range.
 Each sub-list must contain the \opt{Size} option
@@ -615,7 +643,7 @@ are used on top of the font features that would be used anyway.
   \fontspec[ SizeFeatures={
       {Size={-8}, Font=Apple Chancery, Colour=AA0000},
       {Size={8-14}, Colour=00AA00},
-      {Size={14-}, Colour=0000AA}} ]{Skia} 
+      {Size={14-}, Colour=0000AA}} ]{Skia}
   {\scriptsize Small\par} Normal size\par {\Large Large\par}
 \end{example}
 A less trivial example is shown in the context of optical font sizes
@@ -624,7 +652,7 @@ in \vref{sec:opticalsize}.
 To be precise, the \opt{Size} sub-feature accepts arguments in the form shown in \vref{tab:sizing}.
 Braces around the size range are optional. For an exact font size (|Size=X|)
 font sizes chosen near that size will `snap'. For example, for size definitions
-at exactly 11pt and 14pt, if a 12pt font is requested \emph{actually} the 
+at exactly 11pt and 14pt, if a 12pt font is requested \emph{actually} the
 11pt font will be selected. This is a remnant of the past when fonts were designed
 in metal (at obviously rigid sizes) and later when bitmap fonts were similarly
 designed for fixed sizes.
@@ -656,18 +684,18 @@ Input & Font size, $s$ \\
 
 \section{Font independent options} \label{sec:font-ind-features}
 
-Features introduced in this section may be used with any font. 
+Features introduced in this section may be used with any font.
 
 \subsection{Scale}
 
 In its explicit form, \feat{Scale} takes a single
 numeric argument for linearly scaling the font, as demonstrated
-in \vref{sec:setxxfont}. 
+in \vref{sec:setxxfont}.
 Since version 0.99 of \XeTeX, however, it is now possible to
 measure the correct dimensions of the fonts loaded, and hence
 calculate values to scale them automatically.
 
-The \feat{Scale} feature now \warn{v1.9}{As of Dec.\,2005} 
+The \feat{Scale} feature now \warn{v1.9}{As of Dec.\,2005}
 also takes the options \opt{MatchLowercase}
 and \opt{MatchUppercase}, which will scale the font being selected to match
 the current default roman font to either the height of the lowercase or
@@ -710,7 +738,7 @@ is too widely spaced. Now, this can be rectified, as shown below.
 \def\fillertext{Some filler text for our example to take up some
   space, and to demonstrate the large default interword space in \textit{Cochin}.}
 \begin{example}
-  \fontspec{Cochin} 
+  \fontspec{Cochin}
   \fillertext
   \vspace{1em}
 
@@ -738,11 +766,11 @@ will only be apparent when a line of text is under-full.
 \let\centering\relax
 \begin{example}
   \nonfrenchspacing
-  \fontspec{Baskerville} 
+  \fontspec{Baskerville}
    Letters, Words. Sentences.          \par
-  \fontspec[PunctuationSpace=0.5]{Baskerville} 
+  \fontspec[PunctuationSpace=0.5]{Baskerville}
    Letters, Words. Sentences.          \par
-  \fontspec[PunctuationSpace=0]{Baskerville} 
+  \fontspec[PunctuationSpace=0]{Baskerville}
    Letters, Words. Sentences.
 \end{example}
 \endgroup
@@ -765,7 +793,7 @@ it must be the UTF-8 slot number of the hyphen character you desire.
 
 Below, Adobe Garamond Pro's uppercase hyphenation character
   \note{I found the character, and its number, in \MacOSX's Character Palette.}
-is used to demonstrate a possible use for this feature. 
+is used to demonstrate a possible use for this feature.
 The second example redundantly demonstrates the default behaviour
 of using the hyphen as the hyphenation character.
 \begingroup
@@ -817,7 +845,7 @@ values, with optionally another value for the transparency (where
 \end{example}
 
 \subsection{Letter spacing}
-Letter spacing, or tracking, is the term given to adding (or subtracting) a small amount of horizontal space in between adjacent characters. It is specified with the \feat{LetterSpace}, which takes a numeric argument. 
+Letter spacing, or tracking, is the term given to adding (or subtracting) a small amount of horizontal space in between adjacent characters. It is specified with the \feat{LetterSpace}, which takes a numeric argument.
 
 The letter spacing parameter is a normalised additive factor (not a scaling factor); it is defined as a percentage of the font size. That is, for a 10\,pt font, a letter spacing parameter of `|1.0|' will add 0.1\,pt between each letter.
 \begin{example}
@@ -828,7 +856,7 @@ The letter spacing parameter is a normalised additive factor (not a scaling fact
   USE TRACKING FOR DISPLAY CAPS TEXT
 \end{example}
 This functionality \emph{should not be used for lowercase text}, which is spacing correctly to begin with, but it can be very useful, in small amounts, when setting small caps or all caps titles.
-Also see the OpenType \opt{Uppercase} 
+Also see the OpenType \opt{Uppercase}
 option of the \feat{Letters} feature (\vref*{sec:letters}).
 
 \subsection{Font transformations}
@@ -852,7 +880,7 @@ In rare situations users may want to mechanically distort the shapes of the glyp
 
 If values are omitted, their defaults are as shown above.
 
-\section{Font-dependent features}  \label{sec:features} 
+\section{Font-dependent features}  \label{sec:features}
 
 This section covers each and every font feature catered for by this
 package. Some, in fact, have already be seen in previous
@@ -894,12 +922,12 @@ fonts, the \opt{ICU} renderer is used automatically, and for AAT fonts,
 for \emph{both} rendering technologies, such as the Hiragino Japanese fonts
 distributed with \MacOSX, and in these cases the choice may be required.
 
-Among some other font features only available through a specific renderer, 
+Among some other font features only available through a specific renderer,
 \opt{ICU} provides for the \feat{Script} and \feat{Language} features, which allow
 different font behaviour for different alphabets and languages; see \vref{sec:ot}
 for the description of these features. {\em Because these font features can
 change which features are able to be selected for the font instance, they are selected
-by \pkg{fontspec} before all others and will automatically and without warning 
+by \pkg{fontspec} before all others and will automatically and without warning
 select the \opt{ICU} renderer.}
 
 
@@ -925,7 +953,7 @@ to zero, no optical size font substitution is performed:
 \begin{opentypeexample}
   \fontspec[OpticalSize=0]{Warnock Pro Caption}
    Warnock Pro optical sizes                \\
-  \fontspec[OpticalSize=0]{Warnock Pro}        
+  \fontspec[OpticalSize=0]{Warnock Pro}
    Warnock Pro optical sizes                \\
   \fontspec[OpticalSize=0]{Warnock Pro Subhead}
    Warnock Pro optical sizes                \\
@@ -941,7 +969,7 @@ Pro Display)
 \begin{opentypeexample}
   \fontspec{Warnock Pro}
    Automatic optical size                  \\
-  \scalebox{0.4}{\Huge 
+  \scalebox{0.4}{\Huge
    Automatic optical size}
 \end{opentypeexample}
 
@@ -955,11 +983,11 @@ it harder to create an automatic interface through \LaTeX, and the
 optical size for a Multiple Master font must always be specified
 explicitly.
 \begin{Verbatim}
-  \fontspec[OpticalSize=11]{Minion MM Roman} 
+  \fontspec[OpticalSize=11]{Minion MM Roman}
    MM optical size test                    \\
-  \fontspec[OpticalSize=47]{Minion MM Roman} 
+  \fontspec[OpticalSize=47]{Minion MM Roman}
    MM optical size test                    \\
-  \fontspec[OpticalSize=71]{Minion MM Roman} 
+  \fontspec[OpticalSize=71]{Minion MM Roman}
    MM optical size test                    \\
 \end{Verbatim}
 
@@ -1009,11 +1037,11 @@ will look. For AAT fonts, you may choose from \opt{Normal},
 \opt{InitialCaps}.
 
 OpenType fonts have some different options:
-\opt{Uppercase}, \opt{SmallCaps}, \opt{PetiteCaps}, 
+\opt{Uppercase}, \opt{SmallCaps}, \opt{PetiteCaps},
 \opt{UppercaseSmallCaps}, \opt{UppercasePetiteCaps}, and
 \opt{Unicase}.
-  \warn{v1.9}{The \texttt{Uppercase...} variants have changed 
-    (\eg, from \opt{SMALLCAPS}) to allow for more flexible 
+  \warn{v1.9}{The \texttt{Uppercase...} variants have changed
+    (\eg, from \opt{SMALLCAPS}) to allow for more flexible
     option handling in the future. The old forms still work, for now\dots}
 Petite caps are smaller than small caps. Mixed case
 commands turn lowercase letters into the smaller caps letters,
@@ -1045,7 +1073,7 @@ This feature was originally planned to be included with the one above (so \feat{
 that it would be a bad idea to break the one-to-one correspondence with \pkg{fontspec}
 and OpenType features. (Sorry TUGboat readers!)
 
-\subsection{Numbers} 
+\subsection{Numbers}
 The \feat{Numbers} feature defines how numbers will look in the
 selected font. For both AAT and OpenType fonts, they may be a
 combination of \opt{Lining} or \opt{OldStyle} and \opt{Proportional} or
@@ -1066,7 +1094,7 @@ confusion with an uppercase `O'.
 
 \subsection{Contextuals} \label{sec:contextuals}
 This feature refers to glyph substitution that vary by their position;
-things like contextual swashes are implemented here 
+things like contextual swashes are implemented here
  \warn{v1.9}{This feature used to be called \feat{Swashes}. This name still works, for now.}.
 The options for AAT fonts are
 \opt{WordInitial}, \opt{WordFinal}, \opt{LineInitial},
@@ -1083,8 +1111,8 @@ by prefixing their name with \opt{No}.
   \fontspec[Contextuals=Inner]{Hoefler Text}
   `Inner' swashes can \emph{sometimes}    \\
    contain the archaic long~s.
-\end{aatexample} 
-For OpenType fonts, all feature options as above but the \opt{LineInitial} feature are supported, 
+\end{aatexample}
+For OpenType fonts, all feature options as above but the \opt{LineInitial} feature are supported,
 and \opt{Swash} turns on contextual
 swashes \warn{v1.9}{Used to be \opt{Contextual}; still works.}.
 \begin{opentypeexample}
@@ -1097,13 +1125,13 @@ Historic forms (\eg, long~s as shown above) are accessed in OpenType
 fonts via the feature \feat{Style=Historic}; this is generally \emph{not}
 contextual in OpenType, which is why it is not included here.
 
-New option \opt{Alternate} corresponds to the raw feature |calt|. It should usually be activated by default. 
+New option \opt{Alternate} corresponds to the raw feature |calt|. It should usually be activated by default.
 
 
-\subsection{Vertical position} 
+\subsection{Vertical position}
 The \feat{VerticalPosition} feature is used to access things like
 subscript (\opt{Inferior}) and superscript (\opt{Superior}) numbers and
-letters (and a small amount of punctuation, sometimes). 
+letters (and a small amount of punctuation, sometimes).
 The \opt{Ordinal} option is (supposed to be)
 contextually sensitive to only raise characters that appear directly
 after a number.
@@ -1206,7 +1234,7 @@ Zapfino.
     \makebox[0.75\width]{d}%
     \stepcounter{var}}
 \end{aatexample}
-For OpenType fonts, \opt{Variant} selects a `Stylistic Set', again 
+For OpenType fonts, \opt{Variant} selects a `Stylistic Set', again
 specified numerically. Here are two examples from the Junicode
 font\footnote{\url{http://junicode.sf.net}}; thanks to Adam
 Buchbinder for the suggestion.
@@ -1229,7 +1257,7 @@ unchanged)
 See \vref{sec:newfeatures} for a way to assign names to variants,
 which should be done on a per-font basis.
 
-\subsection{Alternates} 
+\subsection{Alternates}
 
 Selection of \feat{Alternate}s \emph{again}
 must be done numerically. Here's an example with an AAT font:
@@ -1253,9 +1281,9 @@ Note that the \texttt{Style=Alternate} option is equivalent
 to \texttt{Alternate=0} to access the default case.
 
 \subsection{Style}
-The options of the \feat{Style} feature 
+The options of the \feat{Style} feature
 are defined in AAT as one of the following: \opt{Display},
-\opt{Engraved}, \opt{IlluminatedCaps}, \opt{Italic}, 
+\opt{Engraved}, \opt{IlluminatedCaps}, \opt{Italic},
 \opt{Ruby},\footnotemark\ \opt{TallCaps}, or \opt{TitlingCaps}.
 \footnotetext{`Ruby' refers to a small optical size, used in
 Japanese typography for annotations.}
@@ -1263,7 +1291,7 @@ Japanese typography for annotations.}
 
 ICU supported options are \opt{Alternate},
 \opt{Italic}, \opt{Historic},
-\opt{Ruby},\footnotemark[\savemark] 
+\opt{Ruby},\footnotemark[\savemark]
 \opt{Swash}, \opt{TitlingCaps}, \opt{HorizontalKana}, and \opt{VerticalKana}.
 \setexsize\Large
  \begin{opentypeexample}
@@ -1309,7 +1337,7 @@ Note the difference here between the default and the horizontal style kana:
 
 
 \subsection{Kerning}\label{sec:kerning}
-Well designed fonts contain kerning information that controls the spacing between 
+Well designed fonts contain kerning information that controls the spacing between
 letter pairs, on an individual basis. The \feat{Kerning} feature provides
 options to control this, for OpenType fonts only.
 
@@ -1321,7 +1349,7 @@ The options provided for now are \opt{On}, \opt{Off} (don't know why you'd want 
    Ta AV
 \end{opentypeexample}
 
-As briefly mentioned previously at the end of \vref{sec:letters}, 
+As briefly mentioned previously at the end of \vref{sec:letters},
 the \opt{Uppercase} option will add a small amount of tracking between uppercase letters:
 \begin{opentypeexample}
   \fontspec{Warnock Pro}
@@ -1335,7 +1363,7 @@ There have been many standards for how CJK ideographic
 glyphs are `supposed' to look. Some fonts will contain many alternate
 glyphs available in order to be able to display these gylphs
 correctly in whichever form is appropriate. Both AAT and OpenType
-fonts support the following \feat{CJKShape} options 
+fonts support the following \feat{CJKShape} options
   \warn{v1.9}{Was \feat{CharacterShape}, which wasn't very descriptive.
     \textbf{No} backwards compatibility.}:
 \opt{Traditional}, \opt{Simplified}, \opt{JIS1978}, \opt{JIS1983},
@@ -1353,7 +1381,7 @@ fonts support the following \feat{CJKShape} options
 
 \subsection{Character width}\label{sec:CharacterWidth}
 Many Asian fonts are equipped with variously spaced characters for
-shoe-horning into their generally monospaced text. 
+shoe-horning into their generally monospaced text.
 These are
 accessed through the \feat{CharacterWidth} feature.
   \note{Apple
@@ -1363,7 +1391,7 @@ accessed through the \feat{CharacterWidth} feature.
   AAT was more fine grained, but naturally they're not documenting
   their AAT tables any more, so if the following features don't work
   for a specific font let me know and I'll try and see if anything
-  can be salvaged from the situation.} 
+  can be salvaged from the situation.}
   \warn{v1.9}{Was \feat{TextSpacing}, which wasn't very descriptive.
     \textbf{No} backwards compatibility.}
 For now, OpenType and AAT
@@ -1391,7 +1419,7 @@ as the surrounding text.
   {\addfontfeature{CharacterWidth=Half}\test}
 \end{opentypeexample}
 The same situation occurs with numbers, which are provided in
-increasingly illegible compressed forms: 
+increasingly illegible compressed forms:
 \setexsize\large
 \begin{aatexample}
   \fontspec[Renderer=AAT]{Hiragino Mincho Pro}
@@ -1416,7 +1444,7 @@ For OpenType fonts, the only option supported is \opt{On} and \opt{Off}:
   \fontspec{Hiragino Maru Gothic Pro}
    1 2 3 4 5 6 7 8 9                         \\
   \addfontfeature{Annotation=On}
-   1 2 3 4 5 6 7 8 9    
+   1 2 3 4 5 6 7 8 9
 \end{opentypeexample}
 I'm not sure if \XeTeX\ can access alternate annotation
 forms, even if they exist (as in this case) in the font.
@@ -1424,7 +1452,7 @@ forms, even if they exist (as in this case) in the font.
 
 \subsection{Vertical typesetting}
 
-\XeTeX\ provides for vertical typesetting simply with the ability to rotate 
+\XeTeX\ provides for vertical typesetting simply with the ability to rotate
 the individual glyphs as a font is used for typesetting.
 
 \begin{aatexample}
@@ -1470,31 +1498,31 @@ seen. Thanks to \name{Jonathan Kew}, \name{Yves Codet} and
 \setverbwidth{0.5\textwidth}
 \begin{opentypeexample}
   \fontspec[Script=Arabic]{Code2000}
-   العربي   
+   العربي
 \end{opentypeexample}
 \begin{opentypeexample}
   \fontspec[Script=Devanagari]{Code2000}
-   हिन्दी   
+   हिन्दी
 \end{opentypeexample}
 \begin{opentypeexample}
   \fontspec[Script=Bengali]{Code2000}
-   লেখ   
+   লেখ
 \end{opentypeexample}
 \begin{opentypeexample}
   \fontspec[Script=Gujarati]{Code2000}
-   મર્યાદા-સૂચક નિવેદન  
+   મર્યાદા-સૂચક નિવેદન
 \end{opentypeexample}
 \begin{opentypeexample}
   \fontspec[Script=Malayalam]{Code2000}
-   നമ്മുടെ പാരബര്യ  
+   നമ്മുടെ പാരബര്യ
 \end{opentypeexample}
 \begin{opentypeexample}
   \fontspec[Script=Gurmukhi]{Code2000}
-   ਆਦਿ ਸਚੁ ਜੁਗਾਦਿ ਸਚੁ  
+   ਆਦਿ ਸਚੁ ਜੁਗਾਦਿ ਸਚੁ
 \end{opentypeexample}
 \begin{opentypeexample}
   \fontspec[Script=Tamil]{Code2000}
-   தமிழ் தேடி  
+   தமிழ் தேடி
 \end{opentypeexample}
 \begin{opentypeexample}
   \fontspec[Script=Hebrew]{Code2000}
@@ -1520,7 +1548,7 @@ Vietnamese requires careful diacritic placement:
   \fontspec{FPL Neu}
    Ş ş Ţ ţ  \\
   \addfontfeature{Language=Moldavian}
-   Ş ş Ţ ţ 
+   Ş ş Ţ ţ
 \end{opentypeexample}
 \endgroup
 
@@ -1561,12 +1589,12 @@ the script or language is requested.
   \begin{multicols}{6}
     \everypar{\setlength\parindent{0pt}\setlength\hangindent{2em}}
     \fontspec{Optima}\footnotesize\raggedright
-    Abaza \par Abkhazian \par Adyghe \par Afrikaans \par Afar \par Agaw \par Altai \par Amharic \par Arabic \par Aari \par Arakanese \par Assamese \par Athapaskan \par Avar \par Awadhi \par Aymara \par Azeri \par Badaga \par Baghelkhandi \par Balkar \par Baule \par Berber \par Bench \par Bible Cree \par Belarussian \par Bemba \par Bengali \par Bulgarian \par Bhili \par Bhojpuri \par Bikol \par Bilen \par Blackfoot \par Balochi \par Balante \par Balti \par Bambara \par Bamileke \par Breton \par Brahui \par Braj Bhasha \par Burmese \par Bashkir \par Beti \par Catalan \par Cebuano \par Chechen \par Chaha Gurage \par Chattisgarhi \par Chichewa \par Chukchi \par Chipewyan \par Cherokee \par Chuvash \par Comorian \par Coptic \par Cree \par Carrier \par Crimean Tatar \par Church Slavonic \par Czech \par Danish \par Dargwa \par Woods Cree \par German \par Default \par Dogri \par Divehi \par Djerma \par Dangme \par Dinka \par Dungan \par Dzongkha \par Ebira \par Eastern Cree \par Edo \par Efik \par Greek \par English \par Erzya \par Spanish \par Estonian \par Basque \par Evenki \par Even \par Ewe \par French Antillean \par Farsi \par Finnish \par Fijian \par Flemish \par Forest Nenets \par Fon \par Faroese \par French \par Frisian \par Friulian \par Futa \par Fulani \par Ga \par Gaelic \par Gagauz \par Galician \par Garshuni \par Garhwali \par Ge'ez \par Gilyak \par Gumuz \par Gondi \par Greenlandic \par Garo \par Guarani \par Gujarati \par Haitian \par Halam \par Harauti \par Hausa \par Hawaiin \par Hammer-Banna \par Hiligaynon \par Hindi \par High Mari \par Hindko \par Ho \par Harari \par Croatian \par Hungarian \par Armenian \par Igbo \par Ijo \par Ilokano \par Indonesian \par Ingush \par Inuktitut \par Irish \par Irish Traditional \par Icelandic \par Inari Sami \par Italian \par Hebrew \par Javanese \par Yiddish \par Japanese \par Judezmo \par Jula \par Kabardian \par Kachchi \par Kalenjin \par Kannada \par Karachay \par Georgian \par Kazakh \par Kebena \par Khutsuri Georgian \par Khakass \par Khanty-Kazim \par Khmer \par Khanty-Shurishkar \par Khanty-Vakhi \par Khowar \par Kikuyu \par Kirghiz \par Kisii \par Kokni \par Kalmyk \par Kamba \par Kumaoni \par Komo \par Komso \par Kanuri \par Kodagu \par Korean Old Hangul \par Konkani \par Kikongo \par Komi-Permyak \par Korean \par Komi-Zyrian \par Kpelle \par Krio \par Karakalpak \par Karelian \par Karaim \par Karen \par Koorete \par Kashmiri \par Khasi \par Kildin Sami \par Kui \par Kulvi \par Kumyk \par Kurdish \par Kurukh \par Kuy \par Koryak \par Ladin \par Lahuli \par Lak \par Lambani \par Lao \par Latin \par Laz \par L-Cree \par Ladakhi \par Lezgi \par Lingala \par Low Mari \par Limbu \par Lomwe \par Lower Sorbian \par Lule Sami \par Lithuanian \par Luba \par Luganda \par Luhya \par Luo \par Latvian \par Majang \par Makua \par Malayalam Traditional \par Mansi \par Marathi \par Marwari \par Mbundu \par Manchu \par Moose Cree \par Mende \par Me'en \par Mizo \par Macedonian \par Male \par Malagasy \par Malinke \par Malayalam Reformed \par Malay \par Mandinka \par Mongolian \par Manipuri \par Maninka \par Manx Gaelic \par Moksha \par Moldavian \par Mon \par Moroccan \par Maori \par Maithili \par Maltese \par Mundari \par Naga-Assamese \par Nanai \par Naskapi \par N-Cree \par Ndebele \par Ndonga \par Nepali \par Newari \par Nagari \par Norway House Cree \par Nisi \par Niuean \par Nkole \par N'ko \par Dutch \par Nogai \par Norwegian \par Northern Sami \par Northern Tai \par Esperanto \par Nynorsk \par Oji-Cree \par Ojibway \par Oriya \par Oromo \par Ossetian \par Palestinian Aramaic \par Pali \par Punjabi \par Palpa \par Pashto \par Polytonic Greek \par Pilipino \par Palaung \par Polish \par Provencal \par Portuguese \par Chin \par Rajasthani \par R-Cree \par Russian Buriat \par Riang \par Rhaeto-Romanic \par Romanian \par Romany \par Rusyn \par Ruanda \par Russian \par Sadri \par Sanskrit \par Santali \par Sayisi \par Sekota \par Selkup \par Sango \par Shan \par Sibe \par Sidamo \par Silte Gurage \par Skolt Sami \par Slovak \par Slavey \par Slovenian \par Somali \par Samoan \par Sena \par Sindhi \par Sinhalese \par Soninke \par Sodo Gurage \par Sotho \par Albanian \par Serbian \par Saraiki \par Serer \par South Slavey \par Southern Sami \par Suri \par Svan \par Swedish \par Swadaya Aramaic \par Swahili \par Swazi \par Sutu \par Syriac \par Tabasaran \par Tajiki \par Tamil \par Tatar \par TH-Cree \par Telugu \par Tongan \par Tigre \par Tigrinya \par Thai \par Tahitian \par Tibetan \par Turkmen \par Temne \par Tswana \par Tundra Nenets \par Tonga \par Todo \par Turkish \par Tsonga \par Turoyo Aramaic \par Tulu \par Tuvin \par Twi \par Udmurt \par Ukrainian \par Urdu \par Upper Sorbian \par Uyghur \par Uzbek \par Venda \par Vietnamese \par Wa \par Wagdi \par West-Cree \par Welsh \par Wolof \par Tai Lue \par Xhosa \par Yakut \par Yoruba \par Y-Cree \par Yi Classic \par Yi Modern \par Chinese Hong Kong \par Chinese Phonetic \par Chinese Simplified \par Chinese Traditional \par Zande \par Zulu 
+    Abaza \par Abkhazian \par Adyghe \par Afrikaans \par Afar \par Agaw \par Altai \par Amharic \par Arabic \par Aari \par Arakanese \par Assamese \par Athapaskan \par Avar \par Awadhi \par Aymara \par Azeri \par Badaga \par Baghelkhandi \par Balkar \par Baule \par Berber \par Bench \par Bible Cree \par Belarussian \par Bemba \par Bengali \par Bulgarian \par Bhili \par Bhojpuri \par Bikol \par Bilen \par Blackfoot \par Balochi \par Balante \par Balti \par Bambara \par Bamileke \par Breton \par Brahui \par Braj Bhasha \par Burmese \par Bashkir \par Beti \par Catalan \par Cebuano \par Chechen \par Chaha Gurage \par Chattisgarhi \par Chichewa \par Chukchi \par Chipewyan \par Cherokee \par Chuvash \par Comorian \par Coptic \par Cree \par Carrier \par Crimean Tatar \par Church Slavonic \par Czech \par Danish \par Dargwa \par Woods Cree \par German \par Default \par Dogri \par Divehi \par Djerma \par Dangme \par Dinka \par Dungan \par Dzongkha \par Ebira \par Eastern Cree \par Edo \par Efik \par Greek \par English \par Erzya \par Spanish \par Estonian \par Basque \par Evenki \par Even \par Ewe \par French Antillean \par Farsi \par Finnish \par Fijian \par Flemish \par Forest Nenets \par Fon \par Faroese \par French \par Frisian \par Friulian \par Futa \par Fulani \par Ga \par Gaelic \par Gagauz \par Galician \par Garshuni \par Garhwali \par Ge'ez \par Gilyak \par Gumuz \par Gondi \par Greenlandic \par Garo \par Guarani \par Gujarati \par Haitian \par Halam \par Harauti \par Hausa \par Hawaiin \par Hammer-Banna \par Hiligaynon \par Hindi \par High Mari \par Hindko \par Ho \par Harari \par Croatian \par Hungarian \par Armenian \par Igbo \par Ijo \par Ilokano \par Indonesian \par Ingush \par Inuktitut \par Irish \par Irish Traditional \par Icelandic \par Inari Sami \par Italian \par Hebrew \par Javanese \par Yiddish \par Japanese \par Judezmo \par Jula \par Kabardian \par Kachchi \par Kalenjin \par Kannada \par Karachay \par Georgian \par Kazakh \par Kebena \par Khutsuri Georgian \par Khakass \par Khanty-Kazim \par Khmer \par Khanty-Shurishkar \par Khanty-Vakhi \par Khowar \par Kikuyu \par Kirghiz \par Kisii \par Kokni \par Kalmyk \par Kamba \par Kumaoni \par Komo \par Komso \par Kanuri \par Kodagu \par Korean Old Hangul \par Konkani \par Kikongo \par Komi-Permyak \par Korean \par Komi-Zyrian \par Kpelle \par Krio \par Karakalpak \par Karelian \par Karaim \par Karen \par Koorete \par Kashmiri \par Khasi \par Kildin Sami \par Kui \par Kulvi \par Kumyk \par Kurdish \par Kurukh \par Kuy \par Koryak \par Ladin \par Lahuli \par Lak \par Lambani \par Lao \par Latin \par Laz \par L-Cree \par Ladakhi \par Lezgi \par Lingala \par Low Mari \par Limbu \par Lomwe \par Lower Sorbian \par Lule Sami \par Lithuanian \par Luba \par Luganda \par Luhya \par Luo \par Latvian \par Majang \par Makua \par Malayalam Traditional \par Mansi \par Marathi \par Marwari \par Mbundu \par Manchu \par Moose Cree \par Mende \par Me'en \par Mizo \par Macedonian \par Male \par Malagasy \par Malinke \par Malayalam Reformed \par Malay \par Mandinka \par Mongolian \par Manipuri \par Maninka \par Manx Gaelic \par Moksha \par Moldavian \par Mon \par Moroccan \par Maori \par Maithili \par Maltese \par Mundari \par Naga-Assamese \par Nanai \par Naskapi \par N-Cree \par Ndebele \par Ndonga \par Nepali \par Newari \par Nagari \par Norway House Cree \par Nisi \par Niuean \par Nkole \par N'ko \par Dutch \par Nogai \par Norwegian \par Northern Sami \par Northern Tai \par Esperanto \par Nynorsk \par Oji-Cree \par Ojibway \par Oriya \par Oromo \par Ossetian \par Palestinian Aramaic \par Pali \par Punjabi \par Palpa \par Pashto \par Polytonic Greek \par Pilipino \par Palaung \par Polish \par Provencal \par Portuguese \par Chin \par Rajasthani \par R-Cree \par Russian Buriat \par Riang \par Rhaeto-Romanic \par Romanian \par Romany \par Rusyn \par Ruanda \par Russian \par Sadri \par Sanskrit \par Santali \par Sayisi \par Sekota \par Selkup \par Sango \par Shan \par Sibe \par Sidamo \par Silte Gurage \par Skolt Sami \par Slovak \par Slavey \par Slovenian \par Somali \par Samoan \par Sena \par Sindhi \par Sinhalese \par Soninke \par Sodo Gurage \par Sotho \par Albanian \par Serbian \par Saraiki \par Serer \par South Slavey \par Southern Sami \par Suri \par Svan \par Swedish \par Swadaya Aramaic \par Swahili \par Swazi \par Sutu \par Syriac \par Tabasaran \par Tajiki \par Tamil \par Tatar \par TH-Cree \par Telugu \par Tongan \par Tigre \par Tigrinya \par Thai \par Tahitian \par Tibetan \par Turkmen \par Temne \par Tswana \par Tundra Nenets \par Tonga \par Todo \par Turkish \par Tsonga \par Turoyo Aramaic \par Tulu \par Tuvin \par Twi \par Udmurt \par Ukrainian \par Urdu \par Upper Sorbian \par Uyghur \par Uzbek \par Venda \par Vietnamese \par Wa \par Wagdi \par West-Cree \par Welsh \par Wolof \par Tai Lue \par Xhosa \par Yakut \par Yoruba \par Y-Cree \par Yi Classic \par Yi Modern \par Chinese Hong Kong \par Chinese Phonetic \par Chinese Simplified \par Chinese Traditional \par Zande \par Zulu
   \end{multicols}
   \hspace{4pt}
   \hrule
-  \caption{Defined \opt{Language}s for OpenType fonts. 
-    Note that they are sorted alphabetically \emph{not} 
+  \caption{Defined \opt{Language}s for OpenType fonts.
+    Note that they are sorted alphabetically \emph{not}
     by name but by OpenType tag, which is a little irritating, really.}
   \label{tab:ot-lang}
  \end{minipage}
@@ -1603,16 +1631,16 @@ In the following example, the Moldavian language (see \vref{sec:ot}) must be act
   \fontspec[Language=Moldavian]{FPL Neu}
   Ş ş Ţ ţ  \\
   \addfontfeature{Style=NoLocalForms}
-  Ş ş Ţ ţ 
+  Ş ş Ţ ţ
 \end{opentypeexample}
 \endgroup
 
 \DescribeMacro{\newfontfeature}
-In case the above commands do not accommodate the desired font feature 
+In case the above commands do not accommodate the desired font feature
 (perhaps a new \XeTeX\ feature that \pkg{fontspec} hasn't been updated
 to support), a command is provided to pass arbitrary input into the
 font selection string:\par
-{\centering\cmd{\newfontfeature}\marg{name}\marg{input string}\par} 
+{\centering\cmd{\newfontfeature}\marg{name}\marg{input string}\par}
 
 For example, Zapfino
 contains the feature `Avoid d-collisions'. To access it
@@ -1620,9 +1648,9 @@ with this package, you could do the following:
 \begin{aatexample}
   \newfontfeature{AvoidD}{Special=Avoid d-collisions}
   \newfontfeature{NoAvoidD}{Special=!Avoid d-collisions}
-  \fontspec[AvoidD,Variant=1]{Zapfino} 
+  \fontspec[AvoidD,Variant=1]{Zapfino}
    sockdolager rubdown               \\
-  \fontspec[NoAvoidD,Variant=1]{Zapfino} 
+  \fontspec[NoAvoidD,Variant=1]{Zapfino}
    sockdolager rubdown
 \end{aatexample}
 
@@ -1734,7 +1762,7 @@ too.
 
 \subsection{Renaming existing features \& options}\label{sec:aliasfontfeature}
 
-\DescribeMacro{\aliasfontfeature} 
+\DescribeMacro{\aliasfontfeature}
 If you don't like the name of a particular font feature,
 it may be aliased to another with the
 \cs{aliasfontfeature}\marg{existing name}\marg{new name} command:
@@ -1748,7 +1776,7 @@ Spaces in feature (and option names, see below) \emph{are} allowed. (You may hav
 noticed this already in the lists of OpenType scripts and languages).
 
 \DescribeMacro{\aliasfontfeatureoption}
-If you wish to change the name of a font feature option, 
+If you wish to change the name of a font feature option,
 it can be aliased to another with the command
 \cs{aliasfontfeatureoption}\marg{font feature}\marg{existing name}\marg{new name}:
 \begin{opentypeexample}
@@ -1799,7 +1827,7 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 %<*fontspec>
 % \fi
 %    \begin{macrocode}
-\RequirePackage{expl3}
+\RequirePackage{expl3,xparse}
 \ExplSyntaxOn
 %    \end{macrocode}
 %
@@ -1861,6 +1889,17 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 \newcount\c@zf@script
 \newcount\c@zf@language
 %    \end{macrocode}
+% Used to save some headspace later on:
+%    \begin{macrocode}
+\cs_if_free:NT \exp_arg:x
+ {
+  \cs_set:Nn \exp_arg:x { \edef\@tempa{#1}\@tempa }
+ }
+\cs_new:Nn \setkeys:xxx
+ {
+  \exp_arg:x { \noexpand\setkeys*[#1]{#2}{#3} }
+ }
+%    \end{macrocode}
 %
 % \subsection{Option processing}
 %
@@ -1871,12 +1910,11 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 \DeclareOption{no-math}{\@zf@mathfalse}
 \DeclareOption{config}{\@zf@configfiletrue}
 \DeclareOption{no-config}{\@zf@configfilefalse}
-\DeclareOption{noconfig}{\@zf@configfilefalse}
-\DeclareOption{quiet}{%
+\DeclareOption{quiet}{
   \msg_redirect_module:nnn { fontspec } { warning } { info }
   \msg_redirect_module:nnn { fontspec } { info } { none }
 }
-\DeclareOption{silent}{%
+\DeclareOption{silent}{
   \msg_redirect_module:nnn { fontspec } { warning } { none }
   \msg_redirect_module:nnn { fontspec } { info } { none }
 }
@@ -1885,7 +1923,7 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 %    \end{macrocode}
 %
 % \subsection{Packages}
-% We require the \pkg{calc} package for autoscaling and a recent version of the 
+% We require the \pkg{calc} package for autoscaling and a recent version of the
 % \pkg{xkeyval} package for option processing.
 %    \begin{macrocode}
 \RequirePackage{calc}
@@ -1894,7 +1932,7 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 %
 % \subsection{Encodings}
 % Frank Mittelbach has recommended using the `\texttt{EU}$x$' family of font encodings
-% to experiment with unicode. 
+% to experiment with unicode.
 % Now that \XeTeX\ can find fonts in the |texmf| tree, the Latin Modern OpenType fonts
 % can be used as the defaults. See the |euenc| collection of files for how this is implemented.
 %    \begin{macrocode}
@@ -1918,7 +1956,7 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 %    \begin{macrocode}
 \let\cyrillicencoding\zf@enc
 \let\latinencoding\zf@enc
-\g@addto@macro\document{%
+\g@addto@macro\document{
   \let\cyrillicencoding\zf@enc
   \let\latinencoding\zf@enc}
 %    \end{macrocode}
@@ -1943,16 +1981,17 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 %   family name into the global \cmd{\zf@family}. Then this new font
 %   family is selected.
 %    \begin{macrocode}
-\newcommand*\fontspec[2][]{%
-  \zf@fontspec{#1}{#2}%
+\DeclareDocumentCommand \fontspec { O{} m } {
+  \zf@fontspec{#1}{#2}
   \fontfamily\zf@family\selectfont
-  \ignorespaces}
+  \ignorespaces
+}
 %    \end{macrocode}
 % \end{macro}
 %
 % \begin{macro}{\setmainfont}
-% \begin{macro}{\setsansfont} 
-% \begin{macro}{\setmonofont} 
+% \begin{macro}{\setsansfont}
+% \begin{macro}{\setmonofont}
 %     The following three macros perform equivalent operations setting
 %     the default font (using \cs{let} rather than \cs{renewcommand}
 %     because \cs{zf@family} will change in the future) for a
@@ -1960,44 +1999,50 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 %     (monospaced). I end them with |\normalfont| so that if they're
 %     used in the document, the change registers immediately.
 %    \begin{macrocode}
-\newcommand*\setmainfont[2][]{%
-  \zf@fontspec{#1}{#2}%
+\DeclareDocumentCommand \setmainfont { O{} m } {
+  \zf@fontspec{#1}{#2}
   \let\rmdefault\zf@family
-  \normalfont}
-\let\setromanfont\setmainfont
-\newcommand*\setsansfont[2][]{%
-  \zf@fontspec{#1}{#2}%
+  \normalfont
+}
+\DeclareDocumentCommand \setsansfont { O{} m } {
+  \zf@fontspec{#1}{#2}
   \let\sfdefault\zf@family
-  \normalfont}
-\newcommand*\setmonofont[2][]{%
-  \zf@fontspec{#1}{#2}%
+  \normalfont
+}
+\DeclareDocumentCommand \setmonofont { O{} m } {
+  \zf@fontspec{#1}{#2}
   \let\ttdefault\zf@family
-  \normalfont}
+  \normalfont
+}
 %    \end{macrocode}
 % \end{macro} \end{macro} \end{macro}
 %
 % \begin{macro}{\setmathrm}
-% \begin{macro}{\setmathsf} 
-% \begin{macro}{\setboldmathrm} 
-% \begin{macro}{\setmathtt} 
+% \begin{macro}{\setmathsf}
+% \begin{macro}{\setboldmathrm}
+% \begin{macro}{\setmathtt}
 % These commands are analogous to \cmd\setromanfont\ and others,
 % but for selecting the font used for \cmd\mathrm, \etc. They
 % can only be used in the preamble of the
 % document. \cmd\setboldmathrm\ is used for specifying which
 % fonts should be used in \cmd\boldmath.
 %    \begin{macrocode}
-\newcommand*\setmathrm[2][]{%
-  \zf@fontspec{#1}{#2}%
-  \let\zf@rmmaths\zf@family}
-\newcommand*\setboldmathrm[2][]{%
-  \zf@fontspec{#1}{#2}%
-  \let\zf@rmboldmaths\zf@family}
-\newcommand*\setmathsf[2][]{%
-  \zf@fontspec{#1}{#2}%
-  \let\zf@sfmaths\zf@family}
-\newcommand*\setmathtt[2][]{%
-  \zf@fontspec{#1}{#2}%
-  \let\zf@ttmaths\zf@family}
+\DeclareDocumentCommand \setmathrm { O{} m } {
+  \zf@fontspec{#1}{#2}
+  \let\zf@rmmaths\zf@family
+}
+\DeclareDocumentCommand \setboldmathrm { O{} m } {
+  \zf@fontspec{#1}{#2}
+  \let\zf@rmboldmaths\zf@family
+}
+\DeclareDocumentCommand \setmathsf { O{} m } {
+  \zf@fontspec{#1}{#2}
+  \let\zf@sfmaths\zf@family
+}
+\DeclareDocumentCommand \setmathtt { O{} m } {
+  \zf@fontspec{#1}{#2}
+  \let\zf@ttmaths\zf@family
+}
 \@onlypreamble\setmathrm
 \@onlypreamble\setboldmathrm
 \@onlypreamble\setmathsf
@@ -2010,7 +2055,7 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 \def\zf@sfmaths{\sfdefault}
 \def\zf@ttmaths{\ttdefault}
 %    \end{macrocode}
-% \end{macro} \end{macro} \end{macro} 
+% \end{macro} \end{macro} \end{macro}
 % \end{macro}
 %
 % \begin{macro}{\newfontfamily}
@@ -2027,27 +2072,22 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 %   \cs{zf@family}. This family is then used in a typical NFSS \cmd\fontfamily\
 %   declaration, saved in the macro name specified.
 %    \begin{macrocode}
-\newcommand*\newfontfamily[1]{%
-  \@ifnextchar[{\newfontfamily@i#1}{\newfontfamily@i#1[]}}
-\def\newfontfamily@i#1[#2]#3{%
-  \zf@fontspec{#2}{#3}%
-  \edef\@tempa{%
-    \noexpand\DeclareRobustCommand\noexpand#1
-      {\noexpand\fontfamily{\zf@family}\noexpand\selectfont}}%
-  \@tempa}
+\DeclareDocumentCommand \newfontfamily { m O{} m } {
+  \zf@fontspec{#2}{#3}
+  \exp_arg:x {
+    \noexpand \DeclareRobustCommand \noexpand #1 {
+      \noexpand \fontfamily {\zf@family} \noexpand \selectfont
+    }
+  }
+}
 %    \end{macrocode}
 % \cmd\newfontface\ uses an undocumented feature of the \feat{BoldFont}
 % feature; if its argument is empty (\ie, |BoldFont={}|), then no bold
 % font is searched for.
 %    \begin{macrocode}
-\newcommand*\newfontface[1]{%
-  \@ifnextchar[{\newfontface@i#1}{\newfontface@i#1[]}}
-\def\newfontface@i#1[#2]#3{%
-  \zf@fontspec{BoldFont={},ItalicFont={},SmallCapsFont={},#2}{#3}%
-  \edef\@tempa{%
-    \noexpand\DeclareRobustCommand\noexpand#1
-      {\noexpand\fontfamily{\zf@family}\noexpand\selectfont}}%
-  \@tempa}
+\DeclareDocumentCommand \newfontface { m O{} m } {
+  \newfontfamily #1 {BoldFont={},ItalicFont={},SmallCapsFont={},#2} {#3}
+}
 %    \end{macrocode}
 % \end{macro} \end{macro}
 %
@@ -2061,7 +2101,7 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 %   concatenated with the individual macro choices in the
 %   \cs{zf@get@feature@requests} macro.
 %    \begin{macrocode}
-\newcommand*\defaultfontfeatures[1]{\def\zf@default@options{#1,}}
+\DeclareDocumentCommand \defaultfontfeatures {m} {\def\zf@default@options{#1,}}
 \let\zf@default@options\@empty
 %    \end{macrocode}
 % \end{macro}
@@ -2088,27 +2128,28 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 %   \cs{addfontfeature} is defined as an alias, as I found that I
 %   often typed this instead when adding only a single font feature.
 %    \begin{macrocode}
-\newcommand*\addfontfeatures[1]{%
+\DeclareDocumentCommand \addfontfeatures {m} {
   \ifcsname zf@family@fontdef\f@family\endcsname
     \begingroup
       \let\zf@default@options\@empty
-      \edef\@tempa{%
+      \exp_arg:x {
         \noexpand\zf@fontspec
-          {\csname zf@family@options\f@family\endcsname,#1}%
-          {\csname zf@family@fontname\f@family\endcsname}}%
-      \@tempa
+          {\csname zf@family@options\f@family\endcsname,#1}
+          {\csname zf@family@fontname\f@family\endcsname}
+      }
     \endgroup
     \fontfamily\zf@family\selectfont
   \else
     \fontspec_warning:n {addfontfeatures-ignored}
   \fi
-  \ignorespaces}
+  \ignorespaces
+}
 \let\addfontfeature\addfontfeatures
 %    \end{macrocode}
 % \end{macro}
 %
 %
-% \subsubsection{Defining new font features} 
+% \subsubsection{Defining new font features}
 %
 % \begin{macro}{\newfontfeature}
 %   \cs{newfontfeature} takes two arguments: the name of the feature
@@ -2120,12 +2161,14 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 %   control sequence is then called upon to update the font family
 %   string when a new instance is requested.
 %    \begin{macrocode}
-\newcommand*\newfontfeature[2]{%
-  \stepcounter{zf@newff}%
-  \cs_set:cpx{+zf-#1}{+zf-\the\c@zf@newff}%
-  \define@key[zf]{options}{#1}[]{%
-    \zf@update@family{\csname+zf-#1\endcsname}%
-    \zf@update@ff{#2}}}
+\DeclareDocumentCommand \newfontfeature {mm} {
+  \stepcounter{zf@newff}
+  \cs_set:cpx{+zf-#1}{+zf-\the\c@zf@newff}
+  \define@key[zf]{options}{#1}[]{
+    \zf@update@family{\csname+zf-#1\endcsname}
+    \zf@update@ff{#2}
+  }
+}
 %    \end{macrocode}
 % \end{macro}
 %
@@ -2135,14 +2178,15 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 % Better than \cmd\newfontfeature\ because it checks if the feature exists in the
 % font it's being used for.
 %    \begin{macrocode}
-\newcommand*\newAATfeature[4]{%
+\DeclareDocumentCommand \newAATfeature {mmmm} {
   \unless\ifcsname zf@options@#1\endcsname
-    \zf@define@font@feature{#1}%
+    \zf@define@font@feature{#1}
   \fi
-  \key@ifundefined[zf]{#1}{#2}{}{%
+  \key@ifundefined[zf]{#1}{#2}{}{
     \fontspec_warning:nxx {feature-option-overwrite}{#1}{#2}
-  }%
-  \zf@define@feature@option{#1}{#2}{#3}{#4}{}}
+  }
+  \zf@define@feature@option{#1}{#2}{#3}{#4}{}
+}
 %    \end{macrocode}
 % \end{macro}
 %
@@ -2151,14 +2195,15 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 % Better than \cmd\newfontfeature\ because it checks if the feature exists in the
 % font it's being used for.
 %    \begin{macrocode}
-\newcommand*\newICUfeature[3]{
+\DeclareDocumentCommand \newICUfeature {mmm} {
   \unless\ifcsname zf@options@#1\endcsname
     \zf@define@font@feature{#1}
   \fi
   \key@ifundefined[zf]{#1}{#2}{}{
     \fontspec_warning:nxx {feature-option-overwrite}{#1}{#2}
   }
-  \zf@define@feature@option{#1}{#2}{}{}{#3}}
+  \zf@define@feature@option{#1}{#2}{}{}{#3}
+}
 %    \end{macrocode}
 % \end{macro}
 %
@@ -2168,20 +2213,21 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 % User commands for renaming font features and font feature options.
 % Provided I've been consistent, they should work for everything.
 %    \begin{macrocode}
-\newcommand*\aliasfontfeature[2]{\multi@alias@key{#1}{#2}}
-\newcommand*\aliasfontfeatureoption[3]{%
-  \keyval@alias@key[zf@feat]{#1}{#2}{#3}}
+\DeclareDocumentCommand \aliasfontfeature {mm} {\multi@alias@key{#1}{#2}}
+\DeclareDocumentCommand \aliasfontfeatureoption {mmm} {
+  \keyval@alias@key[zf@feat]{#1}{#2}{#3}
+}
 %    \end{macrocode}
 % \end{macro} \end{macro}
 %
 % \begin{macro}{\newfontscript}
 % Mostly used internally, but also possibly useful for users, to define new OpenType
-% `scripts', mapping logical names to OpenType script tags. 
-% Iterates though the scripts in the selected font to check that it's a valid 
+% `scripts', mapping logical names to OpenType script tags.
+% Iterates though the scripts in the selected font to check that it's a valid
 % feature choice, and then prepends the (\XeTeX) \cmd\font\ feature string with the appropriate
 % script selection tag.
 %    \begin{macrocode}
-\newcommand*\newfontscript[2]{
+\DeclareDocumentCommand \newfontscript {mm} {
   \define@key[zf@feat]{Script}{#1}[]{
     \zf@check@ot@script{#2}
     \if@tempswa
@@ -2203,12 +2249,12 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 %
 % \begin{macro}{\newfontlanguage}
 % Mostly used internally, but also possibly useful for users, to define new OpenType
-% `languages', mapping logical names to OpenType language tags. 
-% Iterates though the languages in the selected font to check that it's a valid 
+% `languages', mapping logical names to OpenType language tags.
+% Iterates though the languages in the selected font to check that it's a valid
 % feature choice, and then prepends the (\XeTeX) \cmd\font\ feature string with the appropriate
 % language selection tag.
 %    \begin{macrocode}
-\newcommand*\newfontlanguage[2]{
+\DeclareDocumentCommand \newfontlanguage {mm} {
   \define@key[zf@feat]{Lang}{#1}[]{
     \zf@check@ot@lang{#2}
     \if@tempswa
@@ -2228,7 +2274,20 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 %    \end{macrocode}
 % \end{macro}
 %
-% \subsection{Internal macros}\label{sec:codeinternal}
+%
+% \begin{macro}{\DeclareFontsExtensions}
+%    \begin{macrocode}
+\DeclareDocumentCommand \DeclareFontsExtensions {m}
+  {
+    \tl_set:Nx \l_fontspec_extensions_clist { \zap@space #1~\@empty }
+  }
+\DeclareFontsExtensions{.otf,.ttf,.OTF,.TTF}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \subsection{Internal macros}
+% \label{sec:codeinternal}
 %
 % \begin{macro}{\zf@fontspec}
 % This is the command that defines font families for use, the underlying
@@ -2239,7 +2298,7 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 % family for that font and put the family name into \cs{zf@family}.
 %
 % This macro does its processing inside a group, but it's a bit worthless coz
-% there's all sorts of \cmd\global\ action going on. Pity. Anyway, lots of things 
+% there's all sorts of \cmd\global\ action going on. Pity. Anyway, lots of things
 % are branched out for the pure reason of splitting
 % the code up into logical chunks. Some of it is never even re-used, so it
 % all might be a bit obfuscating. (\Eg, \cmd\zf@init\ and \cmd\zf@set@font@type.)
@@ -2249,25 +2308,25 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 % the way subsequent features are processed. All font features that `slip through'
 % this stage are saved in the \cmd\zf@font@feat\ macro for future processing.
 %    \begin{macrocode}
-\newcommand*\zf@fontspec[2]{%
+\cs_set:Npn \zf@fontspec #1#2 {
   \begingroup
   \zf@init
   \edef\zf@fontname{#2}
   \let\zf@family@long\zf@fontname
   \fontspec_parse_external_font:nn {#1} {#2}
   \let\zf@up\zf@fontname
-  \edef\@tempa { \noexpand\setkeys*[zf]{preparse}{\XKV@rm} }\@tempa
+  \setkeys:xxx {zf} {preparse} {\XKV@rm}
   \let\zf@fontname\zf@up
   \let\zf@font@feat\XKV@rm
 %    \end{macrocode}
 % Now check if the font is to be rendered with ATSUI or ICU. This will either
 % be automatic (based on the font type), or specified by the user via a font feature.
-% If automatic, the \cmd\zf@suffix\ macro will still be empty (other suffices that could 
+% If automatic, the \cmd\zf@suffix\ macro will still be empty (other suffices that could
 % be added will be later in the feature processing), and if it is indeed still empty,
 % assign it a value so that the other weights of the font are specifically loaded with the
 % same renderer. This fixes a bug in v1.10 for a mishmash of Lucida fonts.
 %    \begin{macrocode}
-  \font\zf@basefont="\zf@font@wrap\zf@fontname\zf@suffix"~at~\f@size pt
+  \font\zf@basefont="\zf@font@wrap{\zf@fontname\l_fontspec_extension_tl}\zf@suffix"~at~\f@size pt
   \xetex_if_engine:T
   {
     \unless\ifzf@icu
@@ -2275,13 +2334,13 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
     \fi
     \ifx\zf@suffix\@empty
       \ifzf@atsui
-        \def\zf@suffix{/AAT}%
+        \def\zf@suffix{/AAT}
       \else
         \ifzf@icu
-          \def\zf@suffix{/ICU}%
+          \def\zf@suffix{/ICU}
         \fi
       \fi
-      \font\zf@basefont="\zf@font@wrap\zf@fontname\zf@suffix"~at~ \f@size pt
+      \font\zf@basefont="\zf@font@wrap{\zf@fontname\l_fontspec_extension_tl}\zf@suffix"~at~ \f@size pt
     \fi
   }
 %    \end{macrocode}
@@ -2335,13 +2394,13 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 %    \begin{macrocode}
   \unless\ifcsname zf@family@fontname\zf@family\endcsname
     \fontspec_info:nxx {defining-font} {#1} {#2}
-    \cs_gset:cpx{zf@family@fontname\zf@family}{\zf@fontname}%
-    \cs_gset:cpx{zf@family@options\zf@family}{\zf@default@options #1}%
-    \cs_gset:cpx{zf@family@fontdef\zf@family}{%
-      \zf@font@wrap{\zf@fontname}\zf@suffix
+    \cs_gset:cpx{zf@family@fontname\zf@family}{#2}
+    \cs_gset:cpx{zf@family@options\zf@family}{\zf@default@options #1}
+    \cs_gset:cpx{zf@family@fontdef\zf@family}{
+      \zf@font@wrap{\zf@fontname\l_fontspec_extension_tl}\zf@suffix
       \ifx\zf@pre@ff\@empty\else\ifx\zf@ff\@empty\else:\fi\fi
       \zf@pre@ff\zf@ff
-    }%
+    }
 %    \end{macrocode}
 % Next the font family and its shapes are defined in the NFSS.
 %
@@ -2358,12 +2417,12 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 % features are appended to the generic font features requested in the last argument
 % of \cmd\zf@make@font@shapes.)
 %    \begin{macrocode}
-    \DeclareFontFamily{\zf@enc}{\zf@family}{}%
+    \DeclareFontFamily{\zf@enc}{\zf@family}{}
     \zf@make@font@shapes{\zf@fontname}
-      {\mddefault}{\updefault}{\zf@font@feat\zf@up@feat}%
+      {\mddefault}{\updefault}{\zf@font@feat\zf@up@feat}
 %    \end{macrocode}
 % Secondly, bold. Again, the extra bold options defined with
-% \feat{BoldFeatures} are appended to the generic font features. 
+% \feat{BoldFeatures} are appended to the generic font features.
 % Then, the bold font is defined either as the ATS
 % default (\cs{zf@make@font@shapes}' optional argument is to check if
 % there actually is one; if not, the bold NFSS series is left
@@ -2372,10 +2431,10 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
     \unless\ifzf@nobf
       \ifx\zf@bf\@empty
         \zf@make@font@shapes[\zf@fontname]{/B}
-          {\bfdefault}{\updefault}{\zf@font@feat\zf@bf@feat}%
+          {\bfdefault}{\updefault}{\zf@font@feat\zf@bf@feat}
       \else
         \zf@make@font@shapes{\zf@bf}
-          {\bfdefault}{\updefault}{\zf@font@feat\zf@bf@feat}%
+          {\bfdefault}{\updefault}{\zf@font@feat\zf@bf@feat}
       \fi
     \fi
 %    \end{macrocode}
@@ -2384,10 +2443,10 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
     \unless\ifzf@noit
       \ifx\zf@it\@empty
         \zf@make@font@shapes[\zf@fontname]{/I}
-          {\mddefault}{\itdefault}{\zf@font@feat\zf@it@feat}%
+          {\mddefault}{\itdefault}{\zf@font@feat\zf@it@feat}
       \else
         \zf@make@font@shapes{\zf@it}
-          {\mddefault}{\itdefault}{\zf@font@feat\zf@it@feat}%
+          {\mddefault}{\itdefault}{\zf@font@feat\zf@it@feat}
       \fi
     \fi
 %    \end{macrocode}
@@ -2405,18 +2464,18 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
         \ifx\zf@bf\@empty
           \ifx\zf@it\@empty
             \zf@make@font@shapes[\zf@fontname]{/BI}
-              {\bfdefault}{\itdefault}{\zf@font@feat\zf@bfit@feat}%
+              {\bfdefault}{\itdefault}{\zf@font@feat\zf@bfit@feat}
           \else
             \zf@make@font@shapes[\zf@it]{/B}
-              {\bfdefault}{\itdefault}{\zf@font@feat\zf@bfit@feat}%
+              {\bfdefault}{\itdefault}{\zf@font@feat\zf@bfit@feat}
           \fi
         \else
           \zf@make@font@shapes[\zf@bf]{/I}
-            {\bfdefault}{\itdefault}{\zf@font@feat\zf@bfit@feat}%
+            {\bfdefault}{\itdefault}{\zf@font@feat\zf@bfit@feat}
         \fi
       \else
         \zf@make@font@shapes{\zf@bfit}
-          {\bfdefault}{\itdefault}{\zf@font@feat\zf@bfit@feat}%
+          {\bfdefault}{\itdefault}{\zf@font@feat\zf@bfit@feat}
       \fi
     \fi
   \fi
@@ -2427,25 +2486,29 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 %
 %
 % \begin{macro}{\fontspec_parse_external_font:nn}
-% Check if either the fontname ends with |.otf| or |.ttf| or if the
+% Check if either the fontname ends with a known font extension or if the
 % |ExternalLocation| is used.
 %    \begin{macrocode}
-\cs_new:Nn \fontspec_parse_external_font:nn {
-  \fontspec_if_detect_external:nTF {#2}
-    { \setkeys*[zf]{prepreparse}{ExternalLocation,#1} }
-    { \setkeys*[zf]{prepreparse}{#1} }
-}
-\prg_new_conditional:Nnn \fontspec_if_detect_external:n {TF} {
-  \tl_if_in:nnTF {#1 <= end_of_string} {.otf <= end_of_string}
-    { \prg_return_true: } {
-  \tl_if_in:nnTF {#1 <= end_of_string} {.ttf <= end_of_string}
-    { \prg_return_true: } {
-  \tl_if_in:nnTF {#1 <= end_of_string} {.OTF <= end_of_string}
-    { \prg_return_true: } {
-  \tl_if_in:nnTF {#1 <= end_of_string} {.TTF <= end_of_string}
-    { \prg_return_true: }
-    {\prg_return_false: } }}}
-}
+\cs_new:Nn \fontspec_parse_external_font:nn
+ {
+  \bool_set_false:N \l_fontspec_external_bool
+  \setkeys*[zf]{preparse-external}{#1}
+  \bool_if:NF \l_fontspec_external_bool
+   {
+    \fontspec_if_detect_external:nT {#2}
+     { \setkeys*[zf]{preparse-external}{ExternalLocation} }
+   }
+ }
+\prg_new_conditional:Nnn \fontspec_if_detect_external:n {T}
+ {
+  \clist_map_inline:Nn \l_fontspec_extensions_clist
+   {
+    \bool_set_false:N \l_tmpa_bool
+    \tl_if_in:nnT {#1 <= end_of_string} {##1 <= end_of_string}
+      { \bool_set_true:N \l_tmpa_bool \clist_map_break: }
+   }
+  \bool_if:NTF \l_tmpa_bool \prg_return_true: \prg_return_false:
+ }
 %    \end{macrocode}
 % \end{macro}
 %
@@ -2456,10 +2519,10 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 % \begin{macro}{\zf@set@font@type}
 % This macro sets \cs{zf@atsui} or \cs{zf@icu} or \cs{zf@mm} booleans
 % accordingly depending if the font in \cmd\zf@basefont\ is an AAT
-% font or an OpenType font or a font with feature axes (either AAT or 
+% font or an OpenType font or a font with feature axes (either AAT or
 % Multiple Master), respectively.
 %    \begin{macrocode}
-\newcommand*\zf@set@font@type{%
+\newcommand*\zf@set@font@type{
   \zf@tfmfalse \zf@atsuifalse \zf@icufalse \zf@mmfalse \zf@graphitefalse
   \ifcase\XeTeXfonttype\zf@basefont
     \zf@tfmtrue
@@ -2470,7 +2533,8 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
     \fi
   \or
     \zf@icutrue
-  \fi}
+  \fi
+}
 %    \end{macrocode}
 % \end{macro}
 %
@@ -2492,21 +2556,21 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 %   back to the original font name, in which case this macro doesn't
 %   proceed and the font shape is not created for the NFSS.
 %    \begin{macrocode}
-\newcommand*\zf@make@font@shapes[5][]{%
+\newcommand*\zf@make@font@shapes[5][]{
   \begingroup
-    \edef\@tempa{#1}%
+    \edef\@tempa{#1}
     \unless\ifx\@tempa\@empty
-      \font\@tempfonta="\zf@font@wrap{#1}\zf@suffix"~at~\f@size pt
-      \edef\@tempa{\fontname\@tempfonta}%
+      \font\@tempfonta="\zf@font@wrap{#1\l_fontspec_extension_tl}\zf@suffix"~at~\f@size pt
+      \edef\@tempa{\fontname\@tempfonta}
     \fi
-    \font\@tempfontb="\zf@font@wrap{#1#2}\zf@suffix"~at~\f@size pt
-    \edef\@tempb{\fontname\@tempfontb}%
+    \font\@tempfontb="\zf@font@wrap{#1#2\l_fontspec_extension_tl}\zf@suffix"~at~\f@size pt
+    \edef\@tempb{\fontname\@tempfontb}
     \ifx\@tempa\@tempb
       \fontspec_info:nx {no-font-shape} {#1#2}
     \else
-      \edef\zf@fontname{#1#2}%
+      \edef\zf@fontname{#1#2}
       \let\zf@basefont\@tempfontb
-      \zf@DeclareFontShape{#3}{#4}{#5}%
+      \zf@DeclareFontShape{#3}{#4}{#5}
 %    \end{macrocode}
 % Next, the small caps are defined. \cs{zf@make@smallcaps} is used to
 % define the appropriate string for activating small caps in the font,
@@ -2521,16 +2585,17 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
           \zf@make@smallcaps
           \unless\ifx\zf@smallcaps\@empty
             \zf@DeclareFontShape[\zf@smallcaps]{#3}
-              {\ifx#4\itdefault\sidefault\else\scdefault\fi}{#5\zf@sc@feat}%
+              {\ifx#4\itdefault\sidefault\else\scdefault\fi}{#5\zf@sc@feat}
           \fi
         \fi
       \else
-        \edef\zf@fontname{\zf@sc}%
+        \edef\zf@fontname{\zf@sc}
         \zf@DeclareFontShape{#3}
-          {\ifx#4\itdefault\sidefault\else\scdefault\fi}{#5\zf@sc@feat}%
+          {\ifx#4\itdefault\sidefault\else\scdefault\fi}{#5\zf@sc@feat}
       \fi
     \fi
-  \endgroup}
+  \endgroup
+}
 %    \end{macrocode}
 % Note that the test for italics to choose the \cmd\sidefault\ shape
 % only works while \cmd\zf@fontspec\ passes single tokens to this macro\dots
@@ -2543,11 +2608,11 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 % \darg{Font features}
 % Wrapper for \cmd\DeclareFontShape.
 %    \begin{macrocode}
-\newcommand\zf@DeclareFontShape[4][]{%
+\newcommand\zf@DeclareFontShape[4][]{
   \ifx\zf@size@feat\@empty
-    \zf@get@feature@requests{#4}%
-    \edef\zf@font@str{<->\zf@scale"\zf@font@wrap\zf@fontname\zf@suffix :
-      \zf@pre@ff\zf@ff#1"}%
+    \zf@get@feature@requests{#4}
+    \edef\zf@font@str{<->\zf@scale"\zf@font@wrap{\zf@fontname\l_fontspec_extension_tl}\zf@suffix :
+      \zf@pre@ff\zf@ff#1"}
   \else
 %    \end{macrocode}
 % Default code, above, sets things up for no optical size fonts or features.
@@ -2558,15 +2623,16 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
     \clist_map_variable:NNn \zf@size@feat \zf@this@size {
       \let\zf@size\@empty
       \let\zf@size@fnt\zf@fontname
-      \edef\@tempa{\noexpand
-        \setkeys*[zf]{sizing}{\expandafter\@firstofone\zf@this@size}}%
-      \@tempa
+      \setkeys:xxx {zf} {sizing} {\expandafter\@firstofone\zf@this@size}
       \ifx\zf@size\@empty
         \fontspec_error:n {no-size-info}
       \fi
-      \zf@get@feature@requests{#4,\XKV@rm}%
-      \edef\zf@font@str{\zf@font@str <\zf@size>%
-        \zf@scale"\zf@size@fnt\zf@suffix :\zf@pre@ff\zf@ff#1"}
+      \zf@get@feature@requests{#4,\XKV@rm}
+      \edef\zf@font@str{
+        \zf@font@str <\zf@size> \zf@scale "
+        \zf@font@wrap { \zf@size@fnt \l_fontspec_extension_tl }
+        \zf@suffix : \zf@pre@ff \zf@ff #1 "
+      }
     }
   \fi
 %    \end{macrocode}
@@ -2574,23 +2640,24 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 % \cmd\zf@adjust\ is defined in various places to deal with things like the hyphenation
 % character and interword spacing.
 %    \begin{macrocode}
-  \edef\@tempa{\noexpand
-    \DeclareFontShape{\zf@enc}{\zf@family}{#2}{#3}
-      {\zf@font@str}{\zf@adjust}}%
-  \@tempa
+  \exp_arg:x{
+    \noexpand\DeclareFontShape{\zf@enc}{\zf@family}{#2}{#3}
+      {\zf@font@str}{\zf@adjust}
+  }
 %    \end{macrocode}
 % This extra stuff for the slanted shape substitution is a little bit awkward,
 % but I'd rather have it here than break out yet another macro. Alternatively,
 % one day I might just redefine \cmd\slshape. Why not, eh?
 %    \begin{macrocode}
-  \edef\@tempa{#3}%
-  \edef\@tempb{\itdefault}%
+  \edef\@tempa{#3}
+  \edef\@tempb{\itdefault}
   \ifx\@tempa\@tempb
-    \edef\@tempa{\noexpand
-      \DeclareFontShape{\zf@enc}{\zf@family}{#2}{\sldefault}
-        {<->ssub*\zf@family/#2/\itdefault}{\zf@adjust}}%
-    \@tempa
-  \fi}
+    \exp_arg:x{
+      \noexpand\DeclareFontShape{\zf@enc}{\zf@family}{#2}{\sldefault}
+        {<->ssub*\zf@family/#2/\itdefault}{\zf@adjust}
+    }
+  \fi
+}
 %    \end{macrocode}
 % \end{macro}
 %
@@ -2603,10 +2670,11 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 % time \cmd{zf@get@feature@requests} is called, so that the family
 % name is only created once.
 %    \begin{macrocode}
-\newcommand*{\zf@update@family}[1]{%
+\newcommand*{\zf@update@family}[1]{
   \ifzf@firsttime
-    \xdef\zf@family@long{\zf@family@long#1}%
-  \fi}
+    \xdef\zf@family@long{\zf@family@long#1}
+  \fi
+}
 %    \end{macrocode}
 % \end{macro}
 %
@@ -2619,13 +2687,16 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 %   initialising the commands used to hold font-feature specific
 %   strings.
 %    \begin{macrocode}
-\newcommand*\zf@get@feature@requests[1]{%
+\newcommand*\zf@get@feature@requests[1]{
   \let\zf@ff     \@empty
   \let\zf@scale  \@empty
   \let\zf@adjust \@empty
-  \edef\@tempa{\noexpand\setkeys[zf]{options}{\zf@default@options#1}}%
-  \@tempa
-  \PackageInfo{fontspec}{Raw~ font~ features~ "\zf@ff"}}
+  \setkeys:xxx {zf} {options} { \zf@default@options #1 }
+  \ifx \XKV@rm \@empty \else
+    \fontspec_error:nx {unknown-options} { \exp_not:V \XKV@rm }
+  \fi
+  \PackageInfo{fontspec}{Raw~ font~ features~ "\zf@ff"}
+}
 %    \end{macrocode}
 % \end{macro}
 %
@@ -2633,7 +2704,7 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 % This functionality has been removed from \cmd\zf@get@feature@requests\
 % because it's no longer the first thing that can affect these things.
 %    \begin{macrocode}
-\newcommand*\zf@init{%
+\newcommand*\zf@init{
   \zf@icufalse
   \let\zf@pre@ff      \@empty
   \let\zf@font@feat   \@empty
@@ -2710,10 +2781,11 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 % macro is used to add that feature to the list. AAT features are
 % separated by semicolons, OpenType features by commas.
 %    \begin{macrocode}
-\newcommand*\zf@update@ff[1]{%
+\newcommand*\zf@update@ff[1]{
   \unless\ifzf@firsttime
-    \xdef\zf@ff{\zf@ff #1\zf@feat@sepa}%
-  \fi}
+    \xdef\zf@ff{\zf@ff #1\zf@feat@sepa}
+  \fi
+}
 %    \end{macrocode}
 % \end{macro}
 %
@@ -2723,7 +2795,7 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 %   This macro is called by each feature key selected, and runs
 %   according to which type of font is selected.
 %    \begin{macrocode}
-\newcommand*\zf@make@feature[3]{%
+\newcommand*\zf@make@feature[3]{
   \xetex_or_luatex:nn
   {
     \ifzf@atsui
@@ -2765,7 +2837,7 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
   \ifx\@tempa\@empty
     \fontspec_warning:n {icu-feature-not-exist}
   \else
-    \expandafter\zf@check@ot@feat\expandafter{\@tempa}%
+    \expandafter\zf@check@ot@feat\expandafter{\@tempa}
     \if@tempswa
       \zf@update@family{#1}
       \zf@update@ff{#1}
@@ -2781,38 +2853,42 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 % \begin{macro}{\zf@define@feature@option}
 % These macros are used in order to simplify font feature definition later on.
 %    \begin{macrocode}
-\newcommand*\zf@define@font@feature[1]{%
-  \define@key[zf]{options}{#1}{{\setkeys[zf@feat]{#1}{##1}}}}
-\newcommand*\zf@define@feature@option[5]{%
-  \define@key[zf@feat]{#1}{#2}[]{\zf@make@feature{#3}{#4}{#5}}}
+\newcommand*\zf@define@font@feature[1]{
+  \define@key[zf]{options}{#1}{{\setkeys[zf@feat]{#1}{##1}}}
+}
+\newcommand*\zf@define@feature@option[5]{
+  \define@key[zf@feat]{#1}{#2}[]{\zf@make@feature{#3}{#4}{#5}}
+}
 %    \end{macrocode}
 % \end{macro}
 % \end{macro}
-% 
+%
 % \begin{macro}{\keyval@alias@key}
 % This macro maps one \pkg{xkeyval} key to another.
-%    \begin{macrocode}  
-\newcommand*\keyval@alias@key[4][KV]{%
-  \cs_set_eq:cc{#1@#2@#4}{#1@#2@#3}%
-  \cs_set_eq:cc{#1@#2@#4@default}{#1@#2@#3@default}}
+%    \begin{macrocode}
+\newcommand*\keyval@alias@key[4][KV]{
+  \cs_set_eq:cc{#1@#2@#4}{#1@#2@#3}
+  \cs_set_eq:cc{#1@#2@#4@default}{#1@#2@#3@default}
+}
 %    \end{macrocode}
 % \end{macro}
 %
 % \begin{macro}{\multi@alias@key}
-% This macro iterates through families to map one key to another, 
+% This macro iterates through families to map one key to another,
 % regardless of which family it's contained within.
 %    \begin{macrocode}
-\newcommand*\multi@alias@key[2]{%
+\newcommand*\multi@alias@key[2]{
   \key@ifundefined[zf]{preparse}{#1}
     {\key@ifundefined[zf]{options}{#1}
        {
          \fontspec_warning:nx {rename-feature-not-exist} {#1}
        }
        {\keyval@alias@key[zf]{options}{#1}{#2}}}
-    {\keyval@alias@key[zf]{preparse}{#1}{#2}}}
+    {\keyval@alias@key[zf]{preparse}{#1}{#2}}
+}
 %    \end{macrocode}
 % \end{macro}
-%    
+%
 % \begin{macro}{\zf@make@aat@feature@string}
 %   This macro takes the numerical codes for a font feature and
 %   creates a specified macro containing the string required in the
@@ -2878,18 +2954,16 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 % the spaces in the string to number calculation.
 %
 % The variant \cmd\zf@v@strnum\ is used when looking at features, which are passed around
-% with prepended plus and minus signs (\eg, \texttt{+liga}, \texttt{-dlig}); it 
+% with prepended plus and minus signs (\eg, \texttt{+liga}, \texttt{-dlig}); it
 % simply strips off the first char of the input before calling the normal \cmd\zf@iv@strnum.
 %
 % It's probable that all OpenType features \emph{are} in fact four characters long, but
 % not impossible that they aren't. So I'll leave the less efficient parsing stage in there
 % even though it's not strictly necessary for now.
 %    \begin{macrocode}
-\newcommand\zf@iv@strnum[1]{%
-  \zf@iv@strnum@i#1 \@nil}
-\def\zf@iv@strnum@i#1 \@nil{%
-  \zf@iv@strnum@ii#1\@empty\@empty\@nil}
-\def\zf@iv@strnum@ii#1#2#3#4#5\@nil{%
+\newcommand\zf@iv@strnum[1]{\zf@iv@strnum@i#1 \@nil}
+\def\zf@iv@strnum@i#1 \@nil{\zf@iv@strnum@ii#1\@empty\@empty\@nil}
+\def\zf@iv@strnum@ii#1#2#3#4#5\@nil{
   \@tempcnta\z@
   \@tempcntb`#1\relax
   \multiply\@tempcntb"1000000
@@ -2903,8 +2977,7 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
   \expandafter\@tempcntb\ifx\@empty#432\else`#4\fi
   \advance\@tempcnta\@tempcntb
 }
-\newcommand\zf@v@strnum[1]{%
-  \expandafter\zf@iv@strnum@i\@gobble#1 \@nil}
+\newcommand\zf@v@strnum[1]{\expandafter\zf@iv@strnum@i\@gobble#1 \@nil}
 %    \end{macrocode}
 % TODO: convert to \cmd\numexpr
 % \end{macro}
@@ -2915,14 +2988,14 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 % font. The output boolean is \cmd\@tempswatrue. \cmd\@tempcnta\ is used to store
 % the number corresponding to the script tag string.
 %    \begin{macrocode}
-\newcommand\zf@check@ot@script[1]{%
+\newcommand\zf@check@ot@script[1]{
   \xetex_or_luatex:nn
   {
-    \zf@iv@strnum{#1}%
+    \zf@iv@strnum{#1}
     \@tempcntb\XeTeXOTcountscripts\zf@basefont
     \c@zf@index\z@ \@tempswafalse
     \loop\ifnum\c@zf@index<\@tempcntb
-      \ifnum\XeTeXOTscripttag\zf@basefont\c@zf@index=\@tempcnta 
+      \ifnum\XeTeXOTscripttag\zf@basefont\c@zf@index=\@tempcnta
         \@tempswatrue
         \c@zf@index\@tempcntb
       \else
@@ -2944,10 +3017,10 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 % The script used is whatever's held in \cmd\c@zf@script. By default, that's the
 % number corresponding to `|latn|'.
 %    \begin{macrocode}
-\newcommand\zf@check@ot@lang[1]{%
+\newcommand\zf@check@ot@lang[1]{
   \xetex_or_luatex:nn
   {
-    \zf@iv@strnum{#1}%
+    \zf@iv@strnum{#1}
     \@tempcntb\XeTeXOTcountlanguages\zf@basefont\c@zf@script
     \c@zf@index\z@ \@tempswafalse
     \loop\ifnum\c@zf@index<\@tempcntb
@@ -2968,18 +3041,18 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 %
 % \begin{macro}{\zf@check@ot@feat}
 % This macro takes an OpenType feature tag and checks if it exists in the current
-% font/script/language. 
+% font/script/language.
 % The output boolean is \cmd\@tempswa. \cmd\@tempcnta\ is used to store
 % the number corresponding to the feature tag string.
 % The script used is whatever's held in \cmd\c@zf@script. By default, that's the
 % number corresponding to `|latn|'. The language used is \cmd\c@zf@language,
-% by default |0|, the `default language'. 
+% by default |0|, the `default language'.
 %    \begin{macrocode}
-\newcommand*\zf@check@ot@feat[1]{%
+\newcommand*\zf@check@ot@feat[1]{
   \xetex_or_luatex:nn
   {
     \@tempcntb\XeTeXOTcountfeatures\zf@basefont\c@zf@script\c@zf@language
-    \zf@v@strnum{#1}%
+    \zf@v@strnum{#1}
     \c@zf@index\z@ \@tempswafalse
     \loop\ifnum\c@zf@index<\@tempcntb
       \ifnum\XeTeXOTfeaturetag\zf@basefont\c@zf@script\c@zf@language
@@ -3013,11 +3086,25 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 % with |kpsewhich|; it's either in the current directory or the \TeX\ tree. Otherwise, the
 % argument given defines the file path of the font.
 %    \begin{macrocode}
-\define@key[zf]{prepreparse}{ExternalLocation}[]{%
+\bool_new:N \l_fontspec_external_bool
+\define@key[zf]{preparse-external}{ExternalLocation}[]{
+  \bool_set_true:N \l_fontspec_external_bool
   \zf@icutrue
   \zf@nobftrue
   \zf@noittrue
-  \gdef\zf@font@wrap##1{[#1##1]}}
+  \gdef\zf@font@wrap##1{[#1##1]}
+}
+%    \end{macrocode}
+%
+% \paragraph{\feat{Extension}}
+% For fonts that aren't installed in the system. Specifies the font extension
+% to use.
+%    \begin{macrocode}
+\define@key[zf]{preparse-external}{Extension}{
+  \tl_set:Nn \l_fontspec_extension_tl {#1}
+  \setkeys*[zf]{preparse-external}{ExternalLocation}
+}
+\tl_clear:N \l_fontspec_extension_tl
 %    \end{macrocode}
 %
 % \paragraph{\feat{Renderer}}
@@ -3027,7 +3114,7 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
   \xetex_or_luatex:nn
   {
     \edef\zf@suffix{\zf@suffix/#1}
-    \font\zf@basefont="\zf@font@wrap\zf@fontname\zf@suffix"~at~\f@size pt
+    \font\zf@basefont="\zf@font@wrap {\zf@fontname\l_fontspec_extension_tl} \zf@suffix"~at~\f@size pt
     \edef\zf@family@long{\zf@family@long +rend:#1}
   }
   {
@@ -3039,161 +3126,172 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 % \paragraph{OpenType script/language}
 % See later for the resolutions from \pkg{fontspec} features to OpenType definitions.
 %    \begin{macrocode}
-\define@key[zf]{preparse}{Script}{%
+\define@key[zf]{preparse}{Script}{
   \zf@icutrue
   \xetex_if_engine:T { \edef\zf@suffix{\zf@suffix/ICU} }
-  \font\zf@basefont="\zf@font@wrap\zf@fontname\zf@suffix"~at~\f@size pt
-  \edef\zf@family@long{\zf@family@long +script:#1}%
-  {\setkeys[zf@feat]{Script}{#1}}}
+  \font\zf@basefont="\zf@font@wrap {\zf@fontname\l_fontspec_extension_tl} \zf@suffix"~at~\f@size pt
+  \edef\zf@family@long{\zf@family@long +script:#1}
+  {\setkeys[zf@feat]{Script}{#1}}
+}
 %    \end{macrocode}
 % Exactly the same:
 %    \begin{macrocode}
-\define@key[zf]{preparse}{Language}{%
+\define@key[zf]{preparse}{Language}{
   \zf@icutrue
   \xetex_if_engine:T { \edef\zf@suffix{\zf@suffix/ICU} }
-  \font\zf@basefont="\zf@font@wrap\zf@fontname\zf@suffix"~at~\f@size pt
-  \edef\zf@family@long{\zf@family@long +language:#1}%
-  {\setkeys[zf@feat]{Lang}{#1}}}
+  \font\zf@basefont="\zf@font@wrap {\zf@fontname\l_fontspec_extension_tl} \zf@suffix"~at~\f@size pt
+  \edef\zf@family@long{\zf@family@long +language:#1}
+  {\setkeys[zf@feat]{Lang}{#1}}
+}
 %    \end{macrocode}
 %
 % \subsubsection{Bold/italic choosing options}
 %
 % The \feat{Bold}, \feat{Italic}, and \feat{BoldItalic}
 % features are for defining explicitly the bold and italic fonts used
-% in a font family. \textsf{v1.6} introduced arbitrary font features
-% for these shapes (\feat{BoldFeatures}, etc.), so the names of the
-% shape-selecting options were appended with \opt{Font} for
-% consistency.
+% in a font family.
 %
 % \paragraph{Fonts}
 % Upright:
 %    \begin{macrocode}
-\define@key[zf]{preparse}{UprightFont}{%
-  \edef\@tempa{#1}%
+\define@key[zf]{preparse}{UprightFont}{
   \zf@partial@fontname#1\@nil=\zf@up
-  \edef\zf@family@long{\zf@family@long up:#1}}
+  \edef\zf@family@long{\zf@family@long up:#1}
+}
 %    \end{macrocode}
 % Bold:
 %    \begin{macrocode}
-\define@key[zf]{preparse}{BoldFont}{%
-  \edef\@tempa{#1}%
+\define@key[zf]{preparse}{BoldFont}{
+  \edef\@tempa{#1}
   \ifx\@tempa\@empty
     \zf@nobftrue
-    \edef\zf@family@long{\zf@family@long nobf}%
+    \edef\zf@family@long{\zf@family@long nobf}
   \else
     \zf@nobffalse
     \zf@partial@fontname#1\@nil=\zf@bf
-    \edef\zf@family@long{\zf@family@long bf:#1}%
-  \fi}
+    \edef\zf@family@long{\zf@family@long bf:#1}
+  \fi
+}
 %    \end{macrocode}
 % Same for italic:
 %    \begin{macrocode}
-\define@key[zf]{preparse}{ItalicFont}{%
-  \edef\@tempa{#1}%
+\define@key[zf]{preparse}{ItalicFont}{
+  \edef\@tempa{#1}
   \ifx\@tempa\@empty
     \zf@noittrue
-    \edef\zf@family@long{\zf@family@long noit}%
+    \edef\zf@family@long{\zf@family@long noit}
   \else
     \zf@noitfalse
     \zf@partial@fontname#1\@nil=\zf@it
-    \edef\zf@family@long{\zf@family@long it:#1}%
-  \fi}
+    \edef\zf@family@long{\zf@family@long it:#1}
+  \fi
+}
 %    \end{macrocode}
 % Simpler for bold+italic:
 %    \begin{macrocode}
-\define@key[zf]{preparse}{BoldItalicFont}{%
+\define@key[zf]{preparse}{BoldItalicFont}{
   \zf@partial@fontname#1\@nil=\zf@bfit
-  \edef\zf@family@long{\zf@family@long bfit:#1}}
+  \edef\zf@family@long{\zf@family@long bfit:#1}
+}
 %    \end{macrocode}
 % Small caps isn't pre-parsed because it can vary with others above:
 %    \begin{macrocode}
-\define@key[zf]{options}{SmallCapsFont}{%
-  \edef\@tempa{#1}%
+\define@key[zf]{options}{SmallCapsFont}{
+  \edef\@tempa{#1}
   \ifx\@tempa\@empty
     \zf@nosctrue
-    \edef\zf@family@long{\zf@family@long nosc}%
+    \edef\zf@family@long{\zf@family@long nosc}
   \else
     \zf@noscfalse
     \zf@partial@fontname#1\@nil=\zf@sc
-    \zf@update@family{sc:\zap@space #1~\@empty}%
-  \fi}
+    \zf@update@family{sc:\zap@space #1~\@empty}
+  \fi
+}
 %    \end{macrocode}
 %
 % \begin{macro}{\zf@partial@fontname}
 % This macro takes the first token of its input and ends up defining |#3|
-% to the name of the font depending if it's been specified in full 
+% to the name of the font depending if it's been specified in full
 % (``\texttt{Baskerville Semibold}'') or in abbreviation (``\texttt{* Semibold}'').
 %
 % This could be done more flexibly by making |*| active; I'll change it later if I need to.
 %    \begin{macrocode}
-\def\zf@partial@fontname#1#2\@nil=#3{%
+\def \zf@partial@fontname #1#2 \@nil = #3 {
   \if#1*\relax
-    \edef#3{\zf@fontname#2}%
+    \edef#3{\zf@fontname#2}
   \else
-    \edef#3{#1#2}%
-  \fi}
+    \edef#3{#1#2}
+  \fi
+}
 %    \end{macrocode}
 % \end{macro}
 %
 % \paragraph{Features}
-%    \begin{macrocode}  
-\define@key[zf]{preparse}{UprightFeatures}{%
-  \def\zf@up@feat{,#1}%
-  \edef\zf@family@long{\zf@family@long rmfeat:#1}}
-\define@key[zf]{preparse}{BoldFeatures}{%
-  \def\zf@bf@feat{,#1}%
-  \edef\zf@family@long{\zf@family@long bffeat:#1}}
-\define@key[zf]{preparse}{ItalicFeatures}{%
-  \def\zf@it@feat{,#1}%
-  \edef\zf@family@long{\zf@family@long itfeat:#1}}
-\define@key[zf]{preparse}{BoldItalicFeatures}{%
-  \def\zf@bfit@feat{,#1}%
-  \edef\zf@family@long{\zf@family@long bfitfeat:#1}}
+%    \begin{macrocode}
+\define@key[zf]{preparse}{UprightFeatures}{
+  \def\zf@up@feat{,#1}
+  \edef\zf@family@long{\zf@family@long rmfeat:#1}
+}
+\define@key[zf]{preparse}{BoldFeatures}{
+  \def\zf@bf@feat{,#1}
+  \edef\zf@family@long{\zf@family@long bffeat:#1}
+}
+\define@key[zf]{preparse}{ItalicFeatures}{
+  \def\zf@it@feat{,#1}
+  \edef\zf@family@long{\zf@family@long itfeat:#1}
+}
+\define@key[zf]{preparse}{BoldItalicFeatures}{
+  \def\zf@bfit@feat{,#1}
+  \edef\zf@family@long{\zf@family@long bfitfeat:#1}
+}
 %    \end{macrocode}
 % Note that small caps features can vary by shape, so these in fact \emph{aren't} pre-parsed.
 %    \begin{macrocode}
-\define@key[zf]{options}{SmallCapsFeatures}{%
+\define@key[zf]{options}{SmallCapsFeatures}{
   \unless\ifzf@firsttime\def\zf@sc@feat{,#1}\fi
-  \zf@update@family{scfeat:\zap@space #1~\@empty}}
+  \zf@update@family{scfeat:\zap@space #1~\@empty}
+}
 %    \end{macrocode}
 %
 % paragraph{Features varying by size}
 % TODO: sizezfeatures and italicfont (etc) don't play nice
 %    \begin{macrocode}
-\define@key[zf]{preparse}{SizeFeatures}{%
+\define@key[zf]{preparse}{SizeFeatures}{
   \unless\ifzf@firsttime\def\zf@size@feat{#1}\fi
-  \zf@update@family{sizefeat:\zap@space #1~\@empty}}
+  \zf@update@family{sizefeat:\zap@space #1~\@empty}
+}
 %    \end{macrocode}
-% 
+%
 %    \begin{macrocode}
-\define@key[zf]{sizing}{Size}{\def\zf@size{#1}}  
-\define@key[zf]{sizing}{Font}{\def\zf@size@fnt{#1}}  
+\define@key[zf]{sizing}{Size}{\def\zf@size{#1}}
+\define@key[zf]{sizing}{Font}{\def\zf@size@fnt{#1}}
 %    \end{macrocode}
 %
 % \subsubsection{Font-independent features}
 %
-% These features can be applied to any font. 
+% These features can be applied to any font.
 %
 % \paragraph{Scale}
 % If the input isn't one of the pre-defined string options, then
 % it's gotta be numerical. \cmd\zf@calc@scale\ does all the work in
 % the auto-scaling cases.
 %    \begin{macrocode}
-\define@key[zf]{options}{Scale}{%
-  \edef\@tempa{#1}%
-  \edef\@tempb{MatchLowercase}%
+\define@key[zf]{options}{Scale}{
+  \edef\@tempa{#1}
+  \edef\@tempb{MatchLowercase}
   \ifx\@tempa\@tempb
-    \zf@calc@scale{5}%
+    \zf@calc@scale{5}
   \else
-    \edef\@tempb{MatchUppercase}%
+    \edef\@tempb{MatchUppercase}
     \ifx\@tempa\@tempb
-      \zf@calc@scale{8}%
+      \zf@calc@scale{8}
     \else
-      \edef\zf@scale{#1}%
+      \edef\zf@scale{#1}
     \fi
-  \fi  
-  \zf@update@family{+scale:\zf@scale}%
-  \edef\zf@scale{s*[\zf@scale]}}  
+  \fi
+  \zf@update@family{+scale:\zf@scale}
+  \edef\zf@scale{s*[\zf@scale]}
+}
 %    \end{macrocode}
 %
 % \begin{macro}{\zf@calc@scale}
@@ -3207,7 +3305,7 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 % but allows alternate italic shapes from a separate font, say, to
 % be loaded and to be auto-scaled correctly. Even if this would be ugly.
 %    \begin{macrocode}
-\newcommand\zf@calc@scale[1]{%
+\newcommand\zf@calc@scale[1]{
   \begingroup
     \rmfamily
     \xetex_or_luatex:nn {
@@ -3220,7 +3318,8 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
     \setlength\@tempdimc{1pt*\ratio{\@tempdima}{\@tempdimb}}%
     \xdef\zf@scale{\strip@pt\@tempdimc}%
     \fontspec_info:n {set-scale}
-  \endgroup}
+  \endgroup
+}
 %    \end{macrocode}
 % \end{macro}
 %
@@ -3228,62 +3327,68 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 % These options set the relevant \cmd\fontdimen s for the
 % font being loaded.
 %    \begin{macrocode}
-\define@key[zf]{options}{WordSpace}{%
-  \zf@update@family{+wordspace:#1}%
+\define@key[zf]{options}{WordSpace}{
+  \zf@update@family{+wordspace:#1}
   \unless\ifzf@firsttime
     \zf@wordspace@parse#1,\zf@@ii,\zf@@iii,\zf@@
-  \fi}
+  \fi
+}
 %    \end{macrocode}
 %
 % \begin{macro}{\zf@wordspace@parse}
 % This macro determines if the input to \feat{WordSpace} is
-% of the form |{X}| or |{X,Y,Z}| and executes the font scaling. 
+% of the form |{X}| or |{X,Y,Z}| and executes the font scaling.
 % If the former input, it executes |{X,X,X}|.
 %    \begin{macrocode}
-\def\zf@wordspace@parse#1,#2,#3,#4\zf@@{%
-  \def\@tempa{#4}%
+\def\zf@wordspace@parse#1,#2,#3,#4\zf@@{
+  \def\@tempa{#4}
   \ifx\@tempa\@empty
-    \setlength\@tempdima{#1\fontdimen2\zf@basefont}%
+    \setlength\@tempdima{#1\fontdimen2\zf@basefont}
     \@tempdimb\@tempdima
     \@tempdimc\@tempdima
   \else
-    \setlength\@tempdima{#1\fontdimen2\zf@basefont}%
-    \setlength\@tempdimb{#2\fontdimen3\zf@basefont}%
-    \setlength\@tempdimc{#3\fontdimen4\zf@basefont}%
+    \setlength\@tempdima{#1\fontdimen2\zf@basefont}
+    \setlength\@tempdimb{#2\fontdimen3\zf@basefont}
+    \setlength\@tempdimc{#3\fontdimen4\zf@basefont}
   \fi
-  \edef\zf@adjust{\zf@adjust
+  \edef\zf@adjust{
+    \zf@adjust
     \fontdimen2\font\the\@tempdima
     \fontdimen3\font\the\@tempdimb
-    \fontdimen4\font\the\@tempdimc}}
+    \fontdimen4\font\the\@tempdimc
+  }
+}
 %    \end{macrocode}
 % \end{macro}
 %
 % \paragraph{Punctuation space}
 % Scaling factor for the nominal \cmd\fontdimen \#7.
 %    \begin{macrocode}
-\define@key[zf]{options}{PunctuationSpace}{%
-  \zf@update@family{+punctspace:#1}%
-  \setlength\@tempdima{#1\fontdimen7\zf@basefont}%
-  \edef\zf@adjust{\zf@adjust\fontdimen7\font\the\@tempdima}}
+\define@key[zf]{options}{PunctuationSpace}{
+  \zf@update@family{+punctspace:#1}
+  \setlength\@tempdima{#1\fontdimen7\zf@basefont}
+  \edef\zf@adjust{\zf@adjust\fontdimen7\font\the\@tempdima}
+}
 %    \end{macrocode}
 %
 % \paragraph{Letterspacing}
 %    \begin{macrocode}
-\define@key[zf]{options}{LetterSpace}{%
-  \zf@update@family{+tracking:#1}%
-  \zf@update@ff{letterspace=#1}}
+\define@key[zf]{options}{LetterSpace}{
+  \zf@update@family{+tracking:#1}
+  \zf@update@ff{letterspace=#1}
+}
 %    \end{macrocode}
 %
 % \paragraph{Hyphenation character}
 % This feature takes one of three arguments: `\opt{None}',
 % \meta{glyph}, or \meta{slot}. If the input isn't the first,
 % and it's one character, then it's the second; otherwise, it's
-% the third. 
+% the third.
 %    \begin{macrocode}
-\define@key[zf]{options}{HyphenChar}{%
-  \zf@update@family{+hyphenchar:#1}%
-  \edef\@tempa{#1}%
-  \edef\@tempb{None}%
+\define@key[zf]{options}{HyphenChar}{
+  \zf@update@family{+hyphenchar:#1}
+  \edef\@tempa{#1}
+  \edef\@tempb{None}
   \ifx\@tempa\@tempb
     \xetex_or_luatex:nn {
       \g@addto@macro\zf@adjust{\hyphenchar\font-1\relax}%
@@ -3324,43 +3429,48 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
         \fi
       }
     \fi
-  \fi}
+  \fi
+}
 \def\zf@check@one@char#1#2\zf@@{\def\@tempb{#2}}
 %    \end{macrocode}
 %
 % \paragraph{Colour}
 %    \begin{macrocode}
-\define@key[zf]{options}{Colour}{%
-  \zf@update@family{+col:#1}%
-  \zf@update@ff{color=#1}}
-\keyval@alias@key[zf]{options}{Colour}{Color}  
+\define@key[zf]{options}{Colour}{
+  \zf@update@family{+col:#1}
+  \zf@update@ff{color=#1}
+}
+\keyval@alias@key[zf]{options}{Colour}{Color}
 %    \end{macrocode}
 %
 % \paragraph{Mapping}
 %    \begin{macrocode}
-\define@key[zf]{options}{Mapping}{%
-  \zf@update@family{+map:#1}%
-  \zf@update@ff{mapping=#1}}
+\define@key[zf]{options}{Mapping}{
+  \zf@update@family{+map:#1}
+  \zf@update@ff{mapping=#1}
+}
 %    \end{macrocode}
 %
 %
 % \subsubsection{Continuous font axes}
 %
 %    \begin{macrocode}
-\define@key[zf]{options}{Weight}{%
-  \zf@update@family{+weight:#1}%
-  \zf@update@ff{weight=#1}}
-\define@key[zf]{options}{Width}{%
-  \zf@update@family{+width:#1}%
-  \zf@update@ff{width=#1}}
-\define@key[zf]{options}{OpticalSize}{%
+\define@key[zf]{options}{Weight}{
+  \zf@update@family{+weight:#1}
+  \zf@update@ff{weight=#1}
+}
+\define@key[zf]{options}{Width}{
+  \zf@update@family{+width:#1}
+  \zf@update@ff{width=#1}
+}
+\define@key[zf]{options}{OpticalSize}{
   \ifzf@icu
-    \edef\zf@suffix{\zf@suffix/S=#1}%
-    \zf@update@family{+size:#1}%
+    \edef\zf@suffix{\zf@suffix/S=#1}
+    \zf@update@family{+size:#1}
   \fi
   \ifzf@mm
-    \zf@update@family{+size:#1}%
-    \zf@update@ff{optical size=#1}%
+    \zf@update@family{+size:#1}
+    \zf@update@ff{optical size=#1}
   \fi
   \ifzf@icu\else
     \ifzf@mm\else
@@ -3368,20 +3478,24 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
         \fontspec_warning:n {no-opticals}
       \fi
     \fi
-  \fi}
+  \fi
+}
 %    \end{macrocode}
 %
 % \subsubsection{Font transformations}
 %    \begin{macrocode}
-\define@key[zf]{options}{FakeSlant}{%
-  \zf@update@family{+slant:#1}%
-  \zf@update@ff{slant=#1}}
-\define@key[zf]{options}{FakeStretch}{%
-  \zf@update@family{+extend:#1}%
-  \zf@update@ff{extend=#1}}
-\define@key[zf]{options}{FakeBold}{%
-  \zf@update@family{+embolden:#1}%
-  \zf@update@ff{embolden=#1}}
+\define@key[zf]{options}{FakeSlant}{
+  \zf@update@family{+slant:#1}
+  \zf@update@ff{slant=#1}
+}
+\define@key[zf]{options}{FakeStretch}{
+  \zf@update@family{+extend:#1}
+  \zf@update@ff{extend=#1}
+}
+\define@key[zf]{options}{FakeBold}{
+  \zf@update@family{+embolden:#1}
+  \zf@update@ff{embolden=#1}
+}
 %    \end{macrocode}
 %
 %
@@ -3543,26 +3657,28 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 \zf@define@feature@option{Fractions}{Alternate}{}  {} {+afrc}
 %    \end{macrocode}
 %
-% \subsubsection{Alternates and variants} 
+% \subsubsection{Alternates and variants}
 % Selected numerically because they don't have standard names. Very
 % easy to process, very annoying for the user!
 %
 %    \begin{macrocode}
-\define@key[zf]{options}{Alternate}[0]{%
-  \setkeys*[zf@feat]{Alternate}{#1}%
+\define@key[zf]{options}{Alternate}[0]{
+  \setkeys*[zf@feat]{Alternate}{#1}
   \unless\ifx\XKV@rm\@empty
-    \def\XKV@tfam{Alternate}%
-    \zf@make@feature{17}{#1}{+salt=#1}%
-  \fi}
+    \def\XKV@tfam{Alternate}
+    \zf@make@feature{17}{#1}{+salt=#1}
+  \fi
+}
 %    \end{macrocode}
 %
 %    \begin{macrocode}
-\define@key[zf]{options}{Variant}{%
-  \setkeys*[zf@feat]{Variant}{#1}%
+\define@key[zf]{options}{Variant}{
+  \setkeys*[zf@feat]{Variant}{#1}
   \unless\ifx\XKV@rm\@empty
-    \def\XKV@tfam{Variant}%
-    \zf@make@feature{18}{#1}{+ss\two@digits{#1}}%
-  \fi}
+    \def\XKV@tfam{Variant}
+    \zf@make@feature{18}{#1}{+ss\two@digits{#1}}
+  \fi
+}
 %    \end{macrocode}
 %
 % \subsubsection{Style}
@@ -3577,8 +3693,8 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 \zf@define@feature@option{Style}{Engraved}      {19}{2}{}
 \zf@define@feature@option{Style}{TitlingCaps}   {19}{4}{+titl}
 \zf@define@feature@option{Style}{TallCaps}      {19}{5}{}
-\zf@define@feature@option{Style}{HorizontalKana}{}  {} {+hkna}  
-\zf@define@feature@option{Style}{VerticalKana}  {}  {} {+vkna}  
+\zf@define@feature@option{Style}{HorizontalKana}{}  {} {+hkna}
+\zf@define@feature@option{Style}{VerticalKana}  {}  {} {+vkna}
 %    \end{macrocode}
 %
 % \subsubsection{CJK shape}
@@ -3628,15 +3744,16 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 % \subsubsection{Vertical}
 %    \begin{macrocode}
 \zf@define@font@feature{Vertical}
-\define@key[zf@feat]{Vertical}{RotatedGlyphs}[]{%
+\define@key[zf@feat]{Vertical}{RotatedGlyphs}[]{
   \ifzf@icu
-    \zf@make@feature{}{}{+vrt2}%
-    \zf@update@family{+vert}%
-    \zf@update@ff{vertical}%
+    \zf@make@feature{}{}{+vrt2}
+    \zf@update@family{+vert}
+    \zf@update@ff{vertical}
   \else
-    \zf@update@family{+vert}%
-    \zf@update@ff{vertical}%
-  \fi}
+    \zf@update@family{+vert}
+    \zf@update@ff{vertical}
+  \fi
+}
 %    \end{macrocode}
 %
 % \subsubsection{Script}
@@ -3878,23 +3995,23 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 %
 % \paragraph{Turkish} Turns out that many fonts use `TUR' as their Turkish language tag rather than the specified `TRK'. So we check for both:
 %    \begin{macrocode}
-\define@key[zf@feat]{Lang}{Turkish}[]{%
-  \zf@check@ot@lang{TRK}%
+\define@key[zf@feat]{Lang}{Turkish}[]{
+  \zf@check@ot@lang{TRK}
   \if@tempswa
     \c@zf@language\@tempcnta\relax
-    \xdef\zf@language@name{Turkish}%
-    \xdef\zf@family@long{\zf@family@long+lang=Turkish}%
+    \xdef\zf@language@name{Turkish}
+    \xdef\zf@family@long{\zf@family@long+lang=Turkish}
     \xetex_or_luatex:nn {
       \xdef\zf@pre@ff{\zf@pre@ff language=TRK\zf@feat@sepa}
     }{
       \luadirect{fontspec.specs.language = "TRK"}
     }
   \else
-    \zf@check@ot@lang{TUR}%
+    \zf@check@ot@lang{TUR}
     \if@tempswa
       \c@zf@language\@tempcnta\relax
-      \xdef\zf@language@name{Turkish}%
-      \xdef\zf@family@long{\zf@family@long+lang=Turkish}%
+      \xdef\zf@language@name{Turkish}
+      \xdef\zf@family@long{\zf@family@long+lang=Turkish}
       \xetex_or_luatex:nn {
         \xdef\zf@pre@ff{\zf@pre@ff language=TUR\zf@feat@sepa}
       }{
@@ -3903,16 +4020,18 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
     \else
       \fontspec_warning:nx {language-not-exist} {#1}
     \fi
-  \fi}
+  \fi
+}
 %    \end{macrocode}
 %
 % \subsubsection{Raw feature string}
-% This allows savvy \XeTeX-ers to input font features manually if they have 
+% This allows savvy \XeTeX-ers to input font features manually if they have
 % already memorised the OpenType abbreviations and don't mind not having error checking.
 %    \begin{macrocode}
-\define@key[zf]{options}{RawFeature}{%
-  \zf@update@family{+Raw:#1}%
-  \zf@update@ff{#1}}
+\define@key[zf]{options}{RawFeature}{
+  \zf@update@family{+Raw:#1}
+  \zf@update@ff{#1}
+}
 %    \end{macrocode}
 %
 % \subsubsection{\LuaTeX\ specific features}
@@ -3925,18 +4044,20 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 % Define a friendly key value name for |base| mode.
 %
 %    \begin{macrocode}
-\define@key[zf@feat]{Mode}{Basic}[]{%
-  \xdef\zf@family@long{\zf@family@long +mode:base}%
-  \luadirect{fontspec.specs.mode = "base"}}
+\define@key[zf@feat]{Mode}{Basic}[]{
+  \xdef\zf@family@long{\zf@family@long +mode:base}
+  \luadirect{fontspec.specs.mode = "base"}
+}
 %    \end{macrocode}
 %
 % Define a |Full| key value for the sake of completeness;
 % |mode=node| is the default.
 %
 %    \begin{macrocode}
-\define@key[zf@feat]{Mode}{Full}[]{%
-  \xdef\zf@family@long{\zf@family@long +mode:node}%
-  \luadirect{fontspec.specs.mode = "node"}}
+\define@key[zf@feat]{Mode}{Full}[]{
+  \xdef\zf@family@long{\zf@family@long +mode:node}
+  \luadirect{fontspec.specs.mode = "node"}
+}
 %    \end{macrocode}
 %
 % Parse |Mode| key.
@@ -3950,7 +4071,7 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 %    \end{macrocode}
 %
 %
-% \subsection{Italic small caps} \label{sec:sishape} 
+% \subsection{Italic small caps} \label{sec:sishape}
 % The following code for utilising italic small caps sensibly is
 % inspired from Philip Lehman's \textit{The Font Installation
 %   Guide}. Note that |\upshape| needs to be used \emph{twice} to get
@@ -3964,9 +4085,10 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 %     redefined to one of these if required for compatibility.
 %    \begin{macrocode}
 \providecommand*{\sidefault}{si}
-\DeclareRobustCommand{\sishape}{%
+\DeclareRobustCommand{\sishape}{
   \not@math@alphabet\sishape\relax
-  \fontshape\sidefault\selectfont}
+  \fontshape\sidefault\selectfont
+}
 \DeclareTextFontCommand{\textsi}{\sishape}
 %    \end{macrocode}
 % \end{macro} \end{macro}
@@ -3976,33 +4098,38 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 %   selects the first argument, unless the second argument is already
 %   selected, in which case it selects the third.
 %    \begin{macrocode}
-\newcommand*{\zf@merge@shape}[3]{%
-  \edef\@tempa{#1}%
-  \edef\@tempb{#2}%
+\newcommand*{\zf@merge@shape}[3]{
+  \edef\@tempa{#1}
+  \edef\@tempb{#2}
   \ifx\f@shape\@tempb
     \ifcsname\f@encoding/\f@family/\f@series/#3\endcsname
-      \edef\@tempa{#3}%
+      \edef\@tempa{#3}
     \fi
   \fi
-  \fontshape{\@tempa}\selectfont}
+  \fontshape{\@tempa}\selectfont
+}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\itshape} \begin{macro}{\scshape} \begin{macro}{\upshape}
 %       Here the original |\..shape| commands are redefined to use the
 %       merge shape macro.
 %    \begin{macrocode}
-\DeclareRobustCommand{\itshape}{% 
+\DeclareRobustCommand \itshape {
   \not@math@alphabet\itshape\mathit
-  \zf@merge@shape\itdefault\scdefault\sidefault}
-\DeclareRobustCommand{\slshape}{%
+  \zf@merge@shape\itdefault\scdefault\sidefault
+}
+\DeclareRobustCommand \slshape {
   \not@math@alphabet\slshape\relax
-  \zf@merge@shape\sldefault\scdefault\sidefault}
-\DeclareRobustCommand{\scshape}{%
+  \zf@merge@shape\sldefault\scdefault\sidefault
+}
+\DeclareRobustCommand \scshape {
   \not@math@alphabet\scshape\relax
-  \zf@merge@shape\scdefault\itdefault\sidefault}
-\DeclareRobustCommand{\upshape}{%
+  \zf@merge@shape\scdefault\itdefault\sidefault
+}
+\DeclareRobustCommand \upshape {
   \not@math@alphabet\upshape\relax
-  \zf@merge@shape\updefault\sidefault\scdefault} 
+  \zf@merge@shape\updefault\sidefault\scdefault
+}
 %    \end{macrocode}
 % \end{macro} \end{macro} \end{macro}
 %
@@ -4021,14 +4148,14 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 % Since every maths setup is slightly different, we also take
 % different paths for defining various math glyphs depending which
 % maths font package has been loaded.
-% 
+%
 %    \begin{macrocode}
 \@ifpackageloaded{euler}{\zf@package@euler@loadedtrue}
                         {\zf@package@euler@loadedfalse}
-\def\zf@math{%
+\def\zf@math{
   \let\zf@font@warning\@font@warning
   \let\@font@warning\@font@info
-  \@ifpackageloaded{euler}{%
+  \@ifpackageloaded{euler}{
     \ifzf@package@euler@loaded
       \zf@math@eulertrue
     \else
@@ -4070,7 +4197,7 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 % \begin{Verbatim}[gobble=2]
 % % fontmath.ltx:
 % \DeclareMathSymbol{\colon}{\mathpunct}{operators}{"3A}
-% \DeclareMathSymbol{:}{\mathrel}{operators}{"3A} 
+% \DeclareMathSymbol{:}{\mathrel}{operators}{"3A}
 %
 % % amsmath.sty:
 % \renewcommand{\colon}{\nobreak\mskip2mu\mathpunct{}\nonscript
@@ -4078,7 +4205,7 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 %
 % % euler.sty:
 % \DeclareMathSymbol{:}\mathrel  {EulerFraktur}{"3A}
-% 
+%
 % % lucbmath.sty:
 % \DeclareMathSymbol{\@tempb}{\mathpunct}{operators}{58}
 % \ifx\colon\@tempb
@@ -4091,7 +4218,7 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 %
 %    \begin{macrocode}
   \begingroup
-    \mathchardef\@tempa="603A %
+    \mathchardef\@tempa="603A \relax
     \let\next\egroup
     \ifx\colon\@tempa
       \DeclareMathSymbol{\colon}{\mathpunct}{legacymaths}{58}
@@ -4179,11 +4306,11 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 % \begin{macro}{\zf@math@maybe}
 % We're a little less sophisticated about not executing the \cmd\zf@maths\ macro if various other maths font packages are loaded. This list is based on the wonderful `\LaTeX Font Catalogue': \url{http://www.tug.dk/FontCatalogue/mathfonts.html}. I'm sure there are more I've missed. Do the \TeX\ Gyre fonts have maths support yet?
 %
-% Untested: would |\unless\ifnum\Gamma=28672\relax\@zf@mathfalse\fi| be a better test? 
+% Untested: would |\unless\ifnum\Gamma=28672\relax\@zf@mathfalse\fi| be a better test?
 % This needs more cooperation with euler and lucida, I think.
 %    \begin{macrocode}
-\def\zf@math@maybe{%
-  \@ifpackageloaded{anttor}{%
+\def\zf@math@maybe{
+  \@ifpackageloaded{anttor}{
     \ifx\define@antt@mathversions a\@zf@mathfalse\fi}{}
   \@ifpackageloaded{arev}{\@zf@mathfalse}{}
   \@ifpackageloaded{eulervm}{\@zf@mathfalse}{}
@@ -4193,11 +4320,11 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
   \@ifpackageloaded{mathesf}{\@zf@mathfalse}{}
   \@ifpackageloaded{gfsartemisia}{\@zf@mathfalse}{}
   \@ifpackageloaded{gfsneohellenic}{\@zf@mathfalse}{}
-  \@ifpackageloaded{iwona}{%
+  \@ifpackageloaded{iwona}{
     \ifx\define@iwona@mathversions a\@zf@mathfalse\fi}{}
   \@ifpackageloaded{kpfonts}{\@zf@mathfalse}{}
   \@ifpackageloaded{kmath}{\@zf@mathfalse}{}
-  \@ifpackageloaded{kurier}{%
+  \@ifpackageloaded{kurier}{
     \ifx\define@kurier@mathversions a\@zf@mathfalse\fi}{}
   \@ifpackageloaded{fouriernc}{\@zf@mathfalse}{}
   \@ifpackageloaded{fourier}{\@zf@mathfalse}{}
@@ -4209,7 +4336,8 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
   \if@zf@math
     \fontspec_info:n {setup-math}
     \zf@math
-  \fi}
+  \fi
+}
 \AtBeginDocument{\zf@math@maybe}
 %    \end{macrocode}
 % \end{macro}
@@ -4223,10 +4351,10 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 \cs_new:Npn \fontspec_warning:n   { \msg_warning:nn   {fontspec} }
 \cs_new:Npn \fontspec_warning:nx  { \msg_warning:nnx  {fontspec} }
 \cs_new:Npn \fontspec_warning:nxx { \msg_warning:nnxx {fontspec} }
-\cs_new:Npn \fontspec_info:n      { \msg_info:nn   {fontspec} }
-\cs_new:Npn \fontspec_info:nx     { \msg_info:nnx  {fontspec} }
-\cs_new:Npn \fontspec_info:nxx    { \msg_info:nnxx {fontspec} }
-\cs_new:Npn \fontspec_trace:n     { \msg_trace:nn   {fontspec} }
+\cs_new:Npn \fontspec_info:n      { \msg_info:nn      {fontspec} }
+\cs_new:Npn \fontspec_info:nx     { \msg_info:nnx     {fontspec} }
+\cs_new:Npn \fontspec_info:nxx    { \msg_info:nnxx    {fontspec} }
+\cs_new:Npn \fontspec_trace:n     { \msg_trace:nn     {fontspec} }
 %    \end{macrocode}
 % Errors:
 %    \begin{macrocode}
@@ -4245,6 +4373,11 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 \msg_new:nnn {fontspec} {no-glyph}
 {
   '\zf@fontname' doesn't appear to have the glyph corresponding to '#1'.
+}
+\msg_new:nnn {fontspec} {unknown-options}
+{
+  The following font options are not recognised:\\
+  \msg_four_spaces: #1
 }
 \msg_new:nnnn {fontspec} {euler-too-late}
 {
@@ -4428,7 +4561,7 @@ fontspec.features = {
         "mkmk",
     },
     tibt = {
-        "ccmp", "locl", "pref", "blws", "abvs", 
+        "ccmp", "locl", "pref", "blws", "abvs",
         "psts", "clig", "calt", "blwm", "abvm",
         "dist", "kern", "mark", "mkmk",
     },
@@ -4697,15 +4830,14 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% FOR BACKWARDS COMPATIBILITY WITH PREVIOUS VERSIONS %%%
 
-\let\newfontinstance\newfontfamily
-
 \newcommand\newfeaturecode[3]{%
   \define@key{zf}{#1}[]{\zf@make@feature{#2}{#3}{}}}
 
-\aliasfontfeature{BoldFont}{Bold}  
-\aliasfontfeature{ItalicFont}{Italic}  
-\aliasfontfeature{BoldItalicFont}{BoldItalic}  
-\aliasfontfeature{SmallCapsFont}{SmallCaps}  
+\aliasfontfeature{BoldFont}{Bold}
+\aliasfontfeature{ItalicFont}{Italic}
+\aliasfontfeature{BoldItalicFont}{BoldItalic}
+\aliasfontfeature{SmallCapsFont}{SmallCaps}
+
 \aliasfontfeature{Style}{StyleOptions}
 \aliasfontfeature{Contextuals}{Swashes}
 \aliasfontfeatureoption{Contextuals}{Swash}{Contextual}
@@ -4719,7 +4851,7 @@ end
 \newfontscript{Maths}{math}
 \newfontscript{CJK}{hani}
 
-%    \end{macrocode} 
+%    \end{macrocode}
 %
 % \iffalse
 %</cfg>
@@ -4747,7 +4879,7 @@ end
 
 \section*{The basics of the \textsf{fontspec} package}
 
-The \textsf{fontspec} package enables automatic font selection 
+The \textsf{fontspec} package enables automatic font selection
 for \LaTeX{} documents typeset with \XeTeX{}. The basic command is\\
 \indent \verb|\fontspec[font features]{font display name}|.\\
 As an example:
@@ -4763,10 +4895,10 @@ As an example:
   My 1st example of Apple Chancery
 \end{center}
 
-The default, sans serif, and typewriter fonts may be set with the 
-\verb|\setmainfont|, \verb|\setsansfont| and \verb|\setmonofont| 
-commands, respectively, as shown in the preamble. They take the 
-same syntax as the \verb|\fontspec| package. All expected font 
+The default, sans serif, and typewriter fonts may be set with the
+\verb|\setmainfont|, \verb|\setsansfont| and \verb|\setmonofont|
+commands, respectively, as shown in the preamble. They take the
+same syntax as the \verb|\fontspec| package. All expected font
 shapes are available:
 
 \begin{center}
@@ -4774,23 +4906,23 @@ shapes are available:
   {\sffamily\bfseries Bold sans serif and \itshape bold italic sans serif\dots}
 \end{center}
 
-With the roman and sans serif fonts set in the preamble, text fonts 
-in math mode are also changed: $\cos(n\pi)=\pm 1$. The maths 
-typeface `Euler' has been used in this document (with the \textsf{euler} 
-package---or the \textsf{eulervm} package if the |xpdfdvimx| driver 
+With the roman and sans serif fonts set in the preamble, text fonts
+in math mode are also changed: $\cos(n\pi)=\pm 1$. The maths
+typeface `Euler' has been used in this document (with the \textsf{euler}
+package---or the \textsf{eulervm} package if the |xpdfdvimx| driver
 is being used), since the default Computer Modern maths font is rather light.
 \[
   \mathcal F(s) = \int^\infty_0 f(t) \exp(-st)\,\mathrm{d}t
 \]
 
-You'll also notice the \verb|\defaultfontfeatures| command in the preamble. 
-This command takes a single argument of font features that are then 
-applied to every subsequent instance of font selection. The first argument 
-in this case, \verb|Mapping=tex-text|, enables regular \TeX{} ligatures 
-like \verb|``---''| for ``---''. The second automatically scales the fonts 
+You'll also notice the \verb|\defaultfontfeatures| command in the preamble.
+This command takes a single argument of font features that are then
+applied to every subsequent instance of font selection. The first argument
+in this case, \verb|Mapping=tex-text|, enables regular \TeX{} ligatures
+like \verb|``---''| for ``---''. The second automatically scales the fonts
 to the same x-height.
 
-Please see the documentation for font feature explanation and further 
+Please see the documentation for font feature explanation and further
 package niceties.
 
 \end{document}
@@ -4866,8 +4998,8 @@ package niceties.
 \renewenvironment{theglossary}
   {\small\list{}{}
      \item\relax
-     \glossary@prologue\GlossaryParms 
-     \let\item\@idxitem \ignorespaces 
+     \glossary@prologue\GlossaryParms
+     \let\item\@idxitem \ignorespaces
      \def\pfill{\hspace*{\fill}}}
   {\endlist}
 
@@ -4931,7 +5063,7 @@ package niceties.
    \end{list}
    \global\let\examplesize\normalsize
    \gdef\firstline{1}\gdef\lastline{}\par\noindent}
-   
+
 \let\examplesize\normalsize
 \let\auxwidth\relax
 \def\firstline{1}

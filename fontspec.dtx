@@ -3196,7 +3196,7 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 % Upright:
 %    \begin{macrocode}
 \define@key[zf]{preparse}{UprightFont}{
-  \zf@partial@fontname#1\@nil=\zf@up
+  \fontspec_complete_fontname:Nn \zf@up {#1}
   \zf@update@family{up:#1}
 }
 %    \end{macrocode}
@@ -3209,7 +3209,7 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
     \zf@update@family{nobf}
   \else
     \zf@nobffalse
-    \zf@partial@fontname#1\@nil=\zf@bf
+    \fontspec_complete_fontname:Nn \zf@bf {#1}
     \zf@update@family{bf:#1}
   \fi
 }
@@ -3223,7 +3223,7 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
     \zf@update@family{noit}
   \else
     \zf@noitfalse
-    \zf@partial@fontname#1\@nil=\zf@it
+    \fontspec_complete_fontname:Nn \zf@it {#1}
     \zf@update@family{it:#1}
   \fi
 }
@@ -3231,7 +3231,7 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 % Simpler for bold+italic:
 %    \begin{macrocode}
 \define@key[zf]{preparse}{BoldItalicFont}{
-  \zf@partial@fontname#1\@nil=\zf@bfit
+  \fontspec_complete_fontname:Nn \zf@bfit {#1}
   \zf@update@family{bfit:#1}
 }
 %    \end{macrocode}
@@ -3244,26 +3244,22 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
     \zf@update@family{nosc}
   \else
     \zf@noscfalse
-    \zf@partial@fontname#1\@nil=\zf@sc
+    \fontspec_complete_fontname:Nn \zf@sc {#1}
     \zf@update@family{sc:\zap@space #1~\@empty}
   \fi
 }
 %    \end{macrocode}
 %
-% \begin{macro}{\zf@partial@fontname}
-% This macro takes the first token of its input and ends up defining |#3|
-% to the name of the font depending if it's been specified in full
+% \begin{macro}{\fontspec_complete_fontname:Nn}
+% This macro defines |#1| as the input with any |*| tokens of its input
+% replaced by the font name. This lets us define supplementary fonts in full
 % (``\texttt{Baskerville Semibold}'') or in abbreviation (``\texttt{* Semibold}'').
-%
-% This could be done more flexibly by making |*| active; I'll change it later if I need to.
 %    \begin{macrocode}
-\def \zf@partial@fontname #1#2 \@nil = #3 {
-  \if#1*\relax
-    \edef#3{\zf@fontname#2}
-  \else
-    \edef#3{#1#2}
-  \fi
+\cs_set:Nn \fontspec_complete_fontname:Nn {
+  \tl_set:Nn #1 {#2}
+  \tl_replace_all_in:Nnx #1 {*} {\zf@fontname}
 }
+\cs_generate_variant:Nn \tl_replace_all_in:Nnn {Nnx}
 %    \end{macrocode}
 % \end{macro}
 %

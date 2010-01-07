@@ -469,14 +469,13 @@ might have this in your preamble:
   \setboldmathrm[BoldFont=Optima ExtraBlack]{Optima Bold}
 \end{Verbatim}
 and this would allow you to typeset something like this:
-\begingroup
-\setmainfont{Optima Regular}
 \begin{example}
+  \setmainfont{Optima Regular}
   $ X \rightarrow \mathrm{X} \rightarrow \mathbf{X} $
   \\\boldmath
   $ X \rightarrow \mathrm{X} \rightarrow \mathbf{X} $
 \end{example}
-\endgroup
+(TODO: this example obviously doesn't work without the graphic.)
 
 \subsection{External fonts}
 \XeTeX\ v0.995 introduced the feature of loading
@@ -506,8 +505,8 @@ described in \vref{sec:bfitfonts}.
 \subsection{Miscellaneous font selecting details}
 
 \cmd\fontspec\ and \cmd\addfontfeatures\ will now ignore following spaces as
-if it were a `naked' control sequence; \eg, `|M. \fontspec{...} N|' and `|M.
-\fontspec{...}N|' are the same.
+if it were a `naked' control sequence; \eg, `|M. \fontspec{...} N|' and
+`|M. \fontspec{...}N|' are the same.
 
 Note that this package redefines the \cs{itshape} and \cs{scshape}
 commands in order to allow them to select italic small caps in
@@ -1173,27 +1172,22 @@ fractional material. This is accessed in \pkg{fontspec} with the
 in both AAT and OpenType fonts.~\warn{v1.7}{This feature has
   changed: no backwards compatibility!}
 
-In AAT fonts, the `fraction slash' or solidus character, which may
-be obtained by typing `{\fontspec{Lucida Grande}⌥⇧\,1}', is
+In AAT fonts, the `fraction slash' or solidus character, is
 to be used to create fractions. When \feat{Fractions} are turned
 \opt{On}, then only pre-drawn fractions will be used.
-\begingroup\setmonofont[Scale=0.8]{Monaco}
 \begin{aatexample}
   \fontspec[Fractions=On]{Skia}
    1⁄2 \quad 5⁄6 \\ % fraction slash
    1/2 \quad 5/6    % regular  slash
 \end{aatexample}
-\endgroup
 Using the \opt{Diagonal} option (AAT only), the font will attempt
 to create the fraction from superscript and subscript
 characters. This is shown in the following example:
-\begingroup\setmonofont[Scale=0.8]{Monaco}
 \begin{aatexample}
   \fontspec[Fractions=Diagonal]{Skia}
          13579⁄24680 \\ % fraction slash
    \quad 13579/24680    % regular  slash
 \end{aatexample}
-\endgroup
 OpenType fonts simply use a regular text slash to create fractions:
 \begin{opentypeexample}
   \fontspec{Hiragino Maru Gothic Pro W4}
@@ -1494,7 +1488,7 @@ well as a lack of contextual ligatures and rearrangement can be
 seen. Thanks to \name{Jonathan Kew}, \name{Yves Codet} and
 \name{Gildas Hamel} for their contributions towards these examples.
 
-\begingroup\setmonofont{Code2000}
+\begingroup
 \setverbwidth{0.5\textwidth}
 \begin{opentypeexample}
   \fontspec[Script=Arabic]{Code2000}
@@ -1534,7 +1528,6 @@ seen. Thanks to \name{Jonathan Kew}, \name{Yves Codet} and
 
 Vietnamese requires careful diacritic placement:
 \begingroup
-\setmonofont[Scale=MatchLowercase]{Monaco}
 \setexsize\Large
 \begin{opentypeexample}
   \fontspec{Doulos SIL}
@@ -1588,7 +1581,7 @@ the script or language is requested.
   \hrule
   \begin{multicols}{6}
     \everypar{\setlength\parindent{0pt}\setlength\hangindent{2em}}
-    \fontspec{Optima}\footnotesize\raggedright
+    \sffamily\footnotesize\raggedright
     Abaza \par Abkhazian \par Adyghe \par Afrikaans \par Afar \par Agaw \par Altai \par Amharic \par Arabic \par Aari \par Arakanese \par Assamese \par Athapaskan \par Avar \par Awadhi \par Aymara \par Azeri \par Badaga \par Baghelkhandi \par Balkar \par Baule \par Berber \par Bench \par Bible Cree \par Belarussian \par Bemba \par Bengali \par Bulgarian \par Bhili \par Bhojpuri \par Bikol \par Bilen \par Blackfoot \par Balochi \par Balante \par Balti \par Bambara \par Bamileke \par Breton \par Brahui \par Braj Bhasha \par Burmese \par Bashkir \par Beti \par Catalan \par Cebuano \par Chechen \par Chaha Gurage \par Chattisgarhi \par Chichewa \par Chukchi \par Chipewyan \par Cherokee \par Chuvash \par Comorian \par Coptic \par Cree \par Carrier \par Crimean Tatar \par Church Slavonic \par Czech \par Danish \par Dargwa \par Woods Cree \par German \par Default \par Dogri \par Divehi \par Djerma \par Dangme \par Dinka \par Dungan \par Dzongkha \par Ebira \par Eastern Cree \par Edo \par Efik \par Greek \par English \par Erzya \par Spanish \par Estonian \par Basque \par Evenki \par Even \par Ewe \par French Antillean \par Farsi \par Finnish \par Fijian \par Flemish \par Forest Nenets \par Fon \par Faroese \par French \par Frisian \par Friulian \par Futa \par Fulani \par Ga \par Gaelic \par Gagauz \par Galician \par Garshuni \par Garhwali \par Ge'ez \par Gilyak \par Gumuz \par Gondi \par Greenlandic \par Garo \par Guarani \par Gujarati \par Haitian \par Halam \par Harauti \par Hausa \par Hawaiin \par Hammer-Banna \par Hiligaynon \par Hindi \par High Mari \par Hindko \par Ho \par Harari \par Croatian \par Hungarian \par Armenian \par Igbo \par Ijo \par Ilokano \par Indonesian \par Ingush \par Inuktitut \par Irish \par Irish Traditional \par Icelandic \par Inari Sami \par Italian \par Hebrew \par Javanese \par Yiddish \par Japanese \par Judezmo \par Jula \par Kabardian \par Kachchi \par Kalenjin \par Kannada \par Karachay \par Georgian \par Kazakh \par Kebena \par Khutsuri Georgian \par Khakass \par Khanty-Kazim \par Khmer \par Khanty-Shurishkar \par Khanty-Vakhi \par Khowar \par Kikuyu \par Kirghiz \par Kisii \par Kokni \par Kalmyk \par Kamba \par Kumaoni \par Komo \par Komso \par Kanuri \par Kodagu \par Korean Old Hangul \par Konkani \par Kikongo \par Komi-Permyak \par Korean \par Komi-Zyrian \par Kpelle \par Krio \par Karakalpak \par Karelian \par Karaim \par Karen \par Koorete \par Kashmiri \par Khasi \par Kildin Sami \par Kui \par Kulvi \par Kumyk \par Kurdish \par Kurukh \par Kuy \par Koryak \par Ladin \par Lahuli \par Lak \par Lambani \par Lao \par Latin \par Laz \par L-Cree \par Ladakhi \par Lezgi \par Lingala \par Low Mari \par Limbu \par Lomwe \par Lower Sorbian \par Lule Sami \par Lithuanian \par Luba \par Luganda \par Luhya \par Luo \par Latvian \par Majang \par Makua \par Malayalam Traditional \par Mansi \par Marathi \par Marwari \par Mbundu \par Manchu \par Moose Cree \par Mende \par Me'en \par Mizo \par Macedonian \par Male \par Malagasy \par Malinke \par Malayalam Reformed \par Malay \par Mandinka \par Mongolian \par Manipuri \par Maninka \par Manx Gaelic \par Moksha \par Moldavian \par Mon \par Moroccan \par Maori \par Maithili \par Maltese \par Mundari \par Naga-Assamese \par Nanai \par Naskapi \par N-Cree \par Ndebele \par Ndonga \par Nepali \par Newari \par Nagari \par Norway House Cree \par Nisi \par Niuean \par Nkole \par N'ko \par Dutch \par Nogai \par Norwegian \par Northern Sami \par Northern Tai \par Esperanto \par Nynorsk \par Oji-Cree \par Ojibway \par Oriya \par Oromo \par Ossetian \par Palestinian Aramaic \par Pali \par Punjabi \par Palpa \par Pashto \par Polytonic Greek \par Pilipino \par Palaung \par Polish \par Provencal \par Portuguese \par Chin \par Rajasthani \par R-Cree \par Russian Buriat \par Riang \par Rhaeto-Romanic \par Romanian \par Romany \par Rusyn \par Ruanda \par Russian \par Sadri \par Sanskrit \par Santali \par Sayisi \par Sekota \par Selkup \par Sango \par Shan \par Sibe \par Sidamo \par Silte Gurage \par Skolt Sami \par Slovak \par Slavey \par Slovenian \par Somali \par Samoan \par Sena \par Sindhi \par Sinhalese \par Soninke \par Sodo Gurage \par Sotho \par Albanian \par Serbian \par Saraiki \par Serer \par South Slavey \par Southern Sami \par Suri \par Svan \par Swedish \par Swadaya Aramaic \par Swahili \par Swazi \par Sutu \par Syriac \par Tabasaran \par Tajiki \par Tamil \par Tatar \par TH-Cree \par Telugu \par Tongan \par Tigre \par Tigrinya \par Thai \par Tahitian \par Tibetan \par Turkmen \par Temne \par Tswana \par Tundra Nenets \par Tonga \par Todo \par Turkish \par Tsonga \par Turoyo Aramaic \par Tulu \par Tuvin \par Twi \par Udmurt \par Ukrainian \par Urdu \par Upper Sorbian \par Uyghur \par Uzbek \par Venda \par Vietnamese \par Wa \par Wagdi \par West-Cree \par Welsh \par Wolof \par Tai Lue \par Xhosa \par Yakut \par Yoruba \par Y-Cree \par Yi Classic \par Yi Modern \par Chinese Hong Kong \par Chinese Phonetic \par Chinese Simplified \par Chinese Traditional \par Zande \par Zulu
   \end{multicols}
   \hspace{4pt}
@@ -1625,7 +1618,6 @@ New OpenType features may be created with this command:\par
 In the following example, the Moldavian language (see \vref{sec:ot}) must be activated to achieve the effect shown.
 \setexsize\Large
 \begingroup
-\setmonofont[Scale=MatchLowercase]{Monaco}
 \begin{opentypeexample}
   \newICUfeature{Style}{NoLocalForms}{-locl}
   \fontspec[Language=Moldavian]{FPL Neu}
@@ -4948,13 +4940,12 @@ package niceties.
 %    \begin{macrocode}
 \ProvidesPackage{fontspec-doc-style}
 
-\RequirePackage{ifxetex}
-\ifxetex\else
-  \PackageError{fontspec}{The fontspec documentation can only be compiled with XeTeX}{}
-\fi
+\RequirePackage{booktabs,calc,color,enumitem,fancyvrb,
+            graphicx,ifthen,metalogo,url,varioref,refstyle}
+            
+\RequirePackage{bookmark}
 
-\RequirePackage{booktabs,calc,color,enumitem,fancyvrb,fontspec,
-            graphicx,ifthen,url,varioref,xltxtra,xunicode}
+\newcommand\LuaTeX{Lua\TeX}
 
 %% Titlepage
 \renewcommand\maketitle{%
@@ -5023,23 +5014,6 @@ package niceties.
    \begingroup
    \begin{VerbatimOut}[gobble=2]{\examplefilename}}
   {\end{VerbatimOut}
-   \defaultfontfeatures{Mapping=tex-text,Colour=228833}%
-   \typesetexample
-   \endgroup}
-\newenvironment{aatexample}
-  {\VerbatimEnvironment
-   \begingroup
-   \begin{VerbatimOut}[gobble=2]{\examplefilename}}
-  {\end{VerbatimOut}
-   \defaultfontfeatures{Mapping=tex-text,Colour=005599}%
-   \typesetexample
-   \endgroup}
-\newenvironment{opentypeexample}
-  {\VerbatimEnvironment
-   \begingroup
-   \begin{VerbatimOut}[gobble=2]{\examplefilename}}
-  {\end{VerbatimOut}
-   \defaultfontfeatures{Mapping=tex-text,Colour=AA0000}%
    \typesetexample
    \endgroup}
 
@@ -5056,9 +5030,10 @@ package niceties.
      \setlength\verbatimwidth{\auxwidth}%
      \let\auxwidth\relax
    \fi
-   \begin{minipage}[c]{\textwidth-\exoutdent-\verbatimwidth-\exverbgap}
-     \catcode`\%=14\centering\examplesize\input\examplefilename\relax
-   \end{minipage}\hfill
+%   \begin{minipage}[c]{\textwidth-\exoutdent-\verbatimwidth-\exverbgap}
+%     \catcode`\%=14\centering\examplesize\input\examplefilename\relax
+%   \end{minipage}\hfill
+   \centering
    \begin{minipage}[c]{\verbatimwidth}
      \usebox\verbatimbox
    \end{minipage}
@@ -5070,6 +5045,11 @@ package niceties.
 \let\auxwidth\relax
 \def\firstline{1}
 \def\lastline{}
+
+\let\aatexample\example
+\let\endaatexample\endexample
+\let\opentypeexample\example
+\let\endopentypeexample\endexample
 
 \newcommand*\setexsize[1]{\let\examplesize#1}
 \newcommand*\setverbwidth[1]{\def\auxwidth{#1}}
@@ -5089,7 +5069,7 @@ package niceties.
     $\star$\,{\notefont #2:~#1}}\ignorespaces}
 
 %% Sidenote font
-\newfontfamily\notefont[Scale=MatchLowercase]{Optima}
+\let\notefont\sffamily
 
 %% Various labelling commands:
 \newcommand*\name[1]{{#1}}
@@ -5106,27 +5086,7 @@ package niceties.
 
 \newcommand\note[1]{\unskip\footnote{#1}}
 
-%% LOGOS, tuned for Palatino:
-\TeX@logo@spacing{-0.12em}{-0.12em}%
-  {0.5ex}{-0.3em}{-0.12em}{-0.1em}
-
 \def\MacOSX{Mac~OS~X}
-
-%% fontspec declarations:
-\setmainfont[Mapping=tex-text,Numbers=OldStyle]{FPL Neu}
-\defaultfontfeatures{Scale=MatchLowercase}
-\setsansfont[Weight=1.2, Width=1.1,
-             Mapping=tex-text,
-             BoldFont={Skia},
-             BoldFeatures={Weight=1.7}]{Skia}
-\setmonofont{Osaka-Mono}
-\setmathrm{Optima Regular}
-\setboldmathrm[BoldFont=Optima ExtraBlack]{Optima Bold}
-\defaultfontfeatures{Mapping=tex-text}
-
-%% (La)TeX font-related declarations:
-\linespread{1.05}      % Palatino needs more space between lines
-\lineskiplimit=-5pt    % Osaka is really tall so this prevents ugly lines
 \frenchspacing         % Remove ugly extra space after punctuation
 
 \makeatletter
@@ -5139,6 +5099,17 @@ package niceties.
   \stepcounter{argument}%
   \noindent{\ttfamily\makebox[0pt][r]{[}\char`\#\theargument]:~}#1\par}
 \makeatother
+
+%%%%%%%%%%%
+
+\def \MakePrivateLetters {%
+  \catcode `\@ = 11
+  \catcode `\_ = 11
+  \catcode `\: = 11
+}
+
+\renewcommand\partname{Part}
+
 
 %    \end{macrocode}
 %</doc-style>

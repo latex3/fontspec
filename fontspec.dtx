@@ -436,8 +436,8 @@ package must also be loaded after any maths font packages (\eg, \pkg{euler})
 to be successful. (Actually, it is \emph{only} \pkg{euler} that is the
 problem.\footnote{Speaking of \pkg{euler}, if you want to use its
 \texttt{[mathbf]} option, it won't work, and you'll need to put this after
-\pkg{fontspec} is loaded
-instead:\ttfamily\cmd\AtBeginDocument\char`\{\cmd\DeclareMathAlphabet\cmd\mathbf\char`\{U\char`\}\char`\{eur\char`\}\char`\{b\char`\}\char`\{n\char`\}})
+\pkg{fontspec} is loaded instead:
+\ttfamily\cmd\AtBeginDocument\char`\{\cmd\DeclareMathAlphabet\cmd\mathbf\char`\{U\char`\}\char`\{eur\char`\}\char`\{b\char`\}\char`\{n\char`\}})
 
 Note that you may find that loading some maths packages won't be as smooth as
 you expect since \pkg{fontspec} (and \XeTeX\ in general) breaks many of the
@@ -3098,7 +3098,7 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 % This is the tedious section where we correlate all possible
 % (eventually) font feature requests with their \XeTeX\ representations.
 %
-% \subsubsection{Pre-parsed features}
+% \subsubsection{Pre-parsing naming information}
 %
 % These features are extracted from the font feature list before all others, using
 % \pkg{xkeyval}'s \cmd\setkeys|*|.
@@ -3128,6 +3128,12 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 }
 \tl_clear:N \l_fontspec_extension_tl
 %    \end{macrocode}
+%
+% \subsubsection{Pre-parsed features}
+%
+% After the font name(s) have been sorted out, now need to extract any
+% renderer/font configuration features that need to be processed before
+% all other font features.
 %
 % \paragraph{\feat{Renderer}}
 % This feature must be processed before all others (the other font shape and features options are also pre-parsed for convenience) because the renderer determines the format of the features and even whether certain features are available.
@@ -4944,6 +4950,7 @@ package niceties.
             graphicx,ifthen,metalogo,url,varioref,refstyle}
             
 \RequirePackage{bookmark}
+\hypersetup{colorlinks,linktocpage}
 
 \newcommand\LuaTeX{Lua\TeX}
 

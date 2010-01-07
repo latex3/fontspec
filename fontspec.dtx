@@ -2305,10 +2305,10 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
   \zf@init
   \edef\zf@fontname{#2}
   \let\zf@family@long\zf@fontname
-  \fontspec_parse_external_font:nn {#1} {#2}
   \let\zf@up\zf@fontname
-  \setkeys:xxx {zf} {preparse} {\XKV@rm}
+  \fontspec_parse_external_font:nn {#1} {#2}
   \let\zf@fontname\zf@up
+  \setkeys:xxx {zf} {preparse} {\XKV@rm}
   \let\zf@font@feat\XKV@rm
 %    \end{macrocode}
 % Now check if the font is to be rendered with ATSUI or ICU. This will either
@@ -2318,7 +2318,8 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 % assign it a value so that the other weights of the font are specifically loaded with the
 % same renderer. This fixes a bug in v1.10 for a mishmash of Lucida fonts.
 %    \begin{macrocode}
-  \font\zf@basefont="\zf@font@wrap{\zf@fontname\l_fontspec_extension_tl}\zf@suffix"~at~\f@size pt
+  \font\zf@basefont=
+    "\zf@font@wrap{\zf@up\l_fontspec_extension_tl}\zf@suffix"~at~\f@size pt
   \xetex_if_engine:T
   {
     \unless\ifzf@icu
@@ -2332,7 +2333,8 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
           \tl_set:Nn \l_fontspec_renderer_tl {ICU}
         \fi
       \fi
-      \font\zf@basefont="\zf@font@wrap{\zf@fontname\l_fontspec_extension_tl}\zf@suffix"~at~ \f@size pt
+      \font\zf@basefont=
+        "\zf@font@wrap{\zf@up\l_fontspec_extension_tl}\zf@suffix"~at~ \f@size pt
     \fi
   }
 %    \end{macrocode}
@@ -2483,7 +2485,7 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 \cs_new:Nn \fontspec_parse_external_font:nn
  {
   \bool_set_false:N \l_fontspec_external_bool
-  \setkeys*[zf]{preparse-external}{#1}
+  \setkeys:xxx {zf} {preparse-external} {\zf@default@options #1}
   \bool_if:NF \l_fontspec_external_bool
    {
     \fontspec_if_detect_external:nT {#2}
@@ -2712,9 +2714,9 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
   \let\zf@ff     \@empty
   \let\zf@scale  \@empty
   \let\zf@adjust \@empty
-  \setkeys:xxx {zf} {options} { \zf@default@options #1 }
+  \setkeys:xxx {zf} {options} { #1 }
   \ifx \XKV@rm \@empty \else
-    \fontspec_error:nx {unknown-options} { \exp_not:V \XKV@rm }
+%    \fontspec_error:nx {unknown-options} { \exp_not:V \XKV@rm }
   \fi
   \PackageInfo{fontspec}{Raw~ font~ features~ "\zf@ff"}
 }
@@ -2900,13 +2902,17 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 % regardless of which family it's contained within.
 %    \begin{macrocode}
 \newcommand*\multi@alias@key[2]{
-  \key@ifundefined[zf]{preparse}{#1}
-    {\key@ifundefined[zf]{options}{#1}
-       {
-         \fontspec_warning:nx {rename-feature-not-exist} {#1}
-       }
-       {\keyval@alias@key[zf]{options}{#1}{#2}}}
-    {\keyval@alias@key[zf]{preparse}{#1}{#2}}
+  \key@ifundefined[zf]{options}{#1}
+    {
+      \key@ifundefined[zf]{preparse}{#1}
+      {
+        \key@ifundefined[zf]{preparse-external}{#1}
+          { \fontspec_warning:nx {rename-feature-not-exist} {#1} }
+          { \keyval@alias@key[zf]{preparse-external}{#1}{#2} }
+      }
+      { \keyval@alias@key[zf]{preparse}{#1}{#2} }
+    }
+    { \keyval@alias@key[zf]{options}{#1}{#2} }
 }
 %    \end{macrocode}
 % \end{macro}
@@ -3155,7 +3161,7 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
         \luadirect{fontspec.specs.mode = "\tl_use:c{g_fontspec_renderer_tag_\l_tmpa_tl}"}
       }
   }
-  \font\zf@basefont="\zf@font@wrap {\zf@fontname\l_fontspec_extension_tl} \zf@suffix"~at~\f@size pt
+  \font\zf@basefont="\zf@font@wrap {\zf@up \l_fontspec_extension_tl} \zf@suffix"~at~\f@size pt
 }
 \tl_set:cn {g_fontspec_renderer_tag_AAT} {AAT}
 \tl_set:cn {g_fontspec_renderer_tag_ICU} {ICU}
@@ -3193,14 +3199,14 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 % \paragraph{Fonts}
 % Upright:
 %    \begin{macrocode}
-\define@key[zf]{preparse}{UprightFont}{
+\define@key[zf]{preparse-external}{UprightFont}{
   \fontspec_complete_fontname:Nn \zf@up {#1}
   \zf@update@family{up:#1}
 }
 %    \end{macrocode}
 % Bold:
 %    \begin{macrocode}
-\define@key[zf]{preparse}{BoldFont}{
+\define@key[zf]{preparse-external}{BoldFont}{
   \edef\@tempa{#1}
   \ifx\@tempa\@empty
     \zf@nobftrue
@@ -3214,7 +3220,7 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 %    \end{macrocode}
 % Same for italic:
 %    \begin{macrocode}
-\define@key[zf]{preparse}{ItalicFont}{
+\define@key[zf]{preparse-external}{ItalicFont}{
   \edef\@tempa{#1}
   \ifx\@tempa\@empty
     \zf@noittrue
@@ -3228,7 +3234,7 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 %    \end{macrocode}
 % Simpler for bold+italic:
 %    \begin{macrocode}
-\define@key[zf]{preparse}{BoldItalicFont}{
+\define@key[zf]{preparse-external}{BoldItalicFont}{
   \fontspec_complete_fontname:Nn \zf@bfit {#1}
   \zf@update@family{bfit:#1}
 }
@@ -3299,7 +3305,9 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 %
 %    \begin{macrocode}
 \define@key[zf]{sizing}{Size}{\def\zf@size{#1}}
-\define@key[zf]{sizing}{Font}{\def\zf@size@fnt{#1}}
+\define@key[zf]{sizing}{Font}{
+  \fontspec_complete_fontname:Nn \zf@size@fnt {#1}
+}
 %    \end{macrocode}
 %
 % \subsubsection{Font-independent features}

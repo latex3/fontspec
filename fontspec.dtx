@@ -2658,7 +2658,7 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 %    \begin{macrocode}
 \cs_set:Npn \zf@suffix {
   / \l_fontspec_renderer_tl
-  / S = \l_fontspec_optical_size_tl
+  \l_fontspec_optical_size_tl
 }
 %    \end{macrocode}
 % \end{macro}
@@ -3494,7 +3494,7 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 }
 \define@key[zf]{options}{OpticalSize}{
   \ifzf@icu
-    \tl_set:Nn \l_fontspec_optical_size_tl {#1}
+    \tl_set:Nn \l_fontspec_optical_size_tl {/ S = #1}
     \zf@update@family{+size:#1}
   \fi
   \ifzf@mm

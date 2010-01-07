@@ -3568,16 +3568,16 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 \zf@define@feature@option{Ligatures}{Icelandic}      {1}{32}{}
 \zf@define@feature@option{Ligatures}{NoIcelandic}    {1}{33}{}
 %    \end{macrocode}
-%
-% |luaotfload| specific ligatures that imitate some ligacy \TeX{}
-% ligature (em-dash etc.)
-%
+% Emulate CM extra ligatures.
 %    \begin{macrocode}
-\luatex_if_engine:T {
-  \zf@define@feature@option{Ligatures}    {TeX} {}{}  {+tlig}
-
-  \zf@define@font@feature{Substitutions}
-  \zf@define@feature@option{Substitutions}{TeX} {}{}  {+trep}
+\define@key[zf@feat]{Ligatures}{TeX}[]{
+  \xetex_or_luatex:nn {
+    \zf@update@family{+map:tex-text}
+    \zf@update@ff{mapping=tex-text}
+  }{
+    \zf@update@family{+tlig+trep}
+    \zf@update@ff{+tlig;+trep}
+  }
 }
 %    \end{macrocode}
 %

@@ -4738,11 +4738,13 @@ function fontspec.check_ot_lang(fnt, lang, script)
 end
 
 function fontspec.check_ot_feat(fnt, feat, lang, script)
-    local lfeatures = {}
-    lfeatures["+trep"] = true
-    lfeatures["+tlig"] = true
-    lfeatures["+anum"] = true
-    if check_feature(font_id(fnt), feat, lang, script) or lfeatures[feat] then
+    for _, f in ipairs { "+trep", "+tlig", "+anum" } do
+        if feat == f then
+            tempswatrue()
+            return
+        end
+    end
+    if check_feature(font_id(fnt), feat, lang, script) then
         tempswatrue()
     else
         tempswafalse()

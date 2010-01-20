@@ -1801,7 +1801,7 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 %
 %<*fontspec>
 \ProvidesPackage{fontspec}
-  [2010/01/07 v2.0 Advanced font selection for XeLaTeX/LuaLaTeX]
+  [2010/01/20 v2.0 Advanced font selection for XeLaTeX/LuaLaTeX]
 %</fontspec>
 %
 % \fi
@@ -2517,16 +2517,20 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 %    \begin{macrocode}
 \newcommand*\zf@set@font@type{
   \zf@tfmfalse \zf@atsuifalse \zf@icufalse \zf@mmfalse \zf@graphitefalse
-  \ifcase\XeTeXfonttype\zf@basefont
-    \zf@tfmtrue
-  \or
-    \zf@atsuitrue
-    \ifnum\XeTeXcountvariations\zf@basefont > 0
-      \zf@mmtrue
+  \xetex_or_luatex:nn {
+    \ifcase\XeTeXfonttype\zf@basefont
+      \zf@tfmtrue
+    \or
+      \zf@atsuitrue
+      \ifnum\XeTeXcountvariations\zf@basefont > 0
+        \zf@mmtrue
+      \fi
+    \or
+      \zf@icutrue
     \fi
-  \or
-    \zf@icutrue
-  \fi
+  }{
+    \zf@icutrue % fixme
+  }
 }
 %    \end{macrocode}
 % \end{macro}

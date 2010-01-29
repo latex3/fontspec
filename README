@@ -1,0 +1,109 @@
+                        The fontspec package
+
+
+The fontspec package allows users of either XeTeX or LuaTeX to
+load OpenType fonts in a LaTeX document. No font installation is necessary,
+and font features can be selected and used as desired throughout the document.
+
+This package is developped on <http://github.com/wspr/fontspec>.
+
+
+Installation
+------------
+
+Here are the recommended installation methods (preferred first).
+
+1. If you are using TeX Live 2008 or later, use 'tlmgr install euenc'.
+Alternatively, try your (TeX or Linux) distribution's package management system.
+
+2. a. Grab euenc.tds.zip on the CTAN.
+   b. Unzip it at the root of one or your TDS trees.
+   c. You may need to update some filename database after, see your TeX
+distribution's manual for details.
+
+3. a. Grab the sources from CTAN or github.
+   b. Run 'make install TEXMFROOT=/path/to/texmf'.
+   c. See 2c.
+
+4. Try to figure it out by looking at the Makefile and comments in the sources.
+Note that you need non-free fonts to generate the documentation.
+
+
+Manifest
+--------
+
+Source files:
+        fontspec.dtx               single file source & doc for the package
+
+Derived files:
+        fontspec.pdf.              documentation
+        fontspec.sty               LaTeX style file
+        fontspec.lua               Lua functions for LuaTeX
+        fontspec.cfg               default configuration file
+        fontspec-example.ltx       LaTeX example document
+
+
+
+License
+-------
+
+This work is distributed under the LPPL license. The legal notice of all the
+files is:
+
+"
+Copyright 2004--2009 Will Robertson <wspr81@gmail.com>
+Copyright 2009 Khaled Hosny <khaledhosny@eglug.org>
+
+Distributable under the LaTeX Project Public License,
+version 1.3c or higher (your choice). The latest version of
+this license is at: http://www.latex-project.org/lppl.txt
+
+This work is "maintained" (as per LPPL maintenance status)
+by Will Robertson.
+"
+
+
+Summary of user commands
+------------------------
+
+Font families may be selected individually with the command
+
+    \fontspec[<font options>]{<font name>}
+
+Commands for selecting fonts efficiently can be created with
+
+    \newfontfamily\myfamily[<font options>]{<font name>}
+    \newfontface\myfont[<font options>]{<font name>}
+
+Default document fonts are selected with
+
+    \setmainfont[<font options>]{<font name>}
+    \setsansfont[<font options>]{<font name>}
+    \setmonofont[<font options>]{<font name>}
+
+Fonts to be used in maths are defined with
+
+    \setmathrm[<font options>]{<font name>}
+    \setmathsf[<font options>]{<font name>}
+    \setmathtt[<font options>]{<font name>}
+    \setboldmathrm[<font options>]{<font name>}
+
+Features to be used for every subsequently defined font are specified with
+
+    \defaultfontfeatures{<default font options>}
+
+Features may be added to the font currently in use with
+
+    \addfontfeatures{<font options to add>}
+    \addfontfeature{<...>} does the same thing
+
+Features not provided for out of the box may be defined with
+
+    \newAATfeature{<feature tag>}{<feature code>}{<selector code>}
+    \newICUfeature{<feature tag>}{[+|-]<4 letter feature string>}
+    \newfontfeature{<feature tag>}{<arbitrary XeTeX font options>}
+
+Features can be renamed and feature options can be renamed with
+
+    \aliasfontfeature{<current feature>}{<new feature>}
+    \aliasfontfeatureoption{<feature>}{<current option>}{<new option>}

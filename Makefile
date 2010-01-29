@@ -6,14 +6,14 @@ DTX = $(NAME).dtx
 
 # Files grouped by generation mode
 COMPILED = $(DOC)
-UNPACKED = fontspec.sty fontspec.lua fontspec.cfg README.txt fontspec-example.ltx
+UNPACKED = fontspec.sty fontspec.lua fontspec.cfg fontspec-example.ltx
 SOURCE = $(DTX) Makefile
 GENERATED = $(COMPILED) $(UNPACKED)
 
 # Files grouped by installation location
-UNPACKED_DOC = README.txt fontspec-example.ltx
+UNPACKED_DOC = fontspec-example.ltx
 RUNFILES = $(filter-out $(UNPACKED_DOC), $(UNPACKED))
-DOCFILES = $(DOC) $(UNPACKED_DOC)
+DOCFILES = $(DOC) README $(UNPACKED_DOC)
 SRCFILES = $(DTX) Makefile
 
 # The following definitions should be equivalent

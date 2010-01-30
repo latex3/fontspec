@@ -472,7 +472,7 @@ New calls of \cs{defaultfontfeatures} overwrite previous ones.
 \begin{example}
   \fontspec{Didot}
    Some `default' Didot 0123456789             \\
-  \defaultfontfeatures{Numbers=OldStyle, Colour=888888}
+  \defaultfontfeatures{Numbers=OldStyle, Color=888888}
   \fontspec{Didot}
    Now grey, with old-style figures: 0123456789
 \end{example}
@@ -547,14 +547,14 @@ of upright, italic, bold and small caps can thus be assigned individual
 features, as shown in the following ludicrous example.
 \begin{example}
   \fontspec[
-      UprightFeatures={Colour = 220022,
-            SmallCapsFeatures = {Colour=115511}},
-       ItalicFeatures={Colour = 2244FF,
-            SmallCapsFeatures = {Colour=112299}},
-         BoldFeatures={Colour = FF4422,
-            SmallCapsFeatures = {Colour=992211}},
-   BoldItalicFeatures={Colour = 888844,
-            SmallCapsFeatures = {Colour=444422}},
+      UprightFeatures={Color = 220022,
+           SmallCapsFeatures = {Color=115511}},
+       ItalicFeatures={Color = 2244FF,
+           SmallCapsFeatures = {Color=112299}},
+         BoldFeatures={Color = FF4422,
+           SmallCapsFeatures = {Color=992211}},
+   BoldItalicFeatures={Color = 888844,
+           SmallCapsFeatures = {Color=444422}},
            ]{Hoefler Text}
   Upright {\scshape Small Caps}\\
   \itshape Italic {\scshape Italic Small Caps}\\
@@ -578,9 +578,9 @@ are used on top of the font features that would be used anyway.
 
 \begin{example}
   \fontspec[ SizeFeatures={
-      {Size={-8}, Font=Apple Chancery, Colour=AA0000},
-      {Size={8-14}, Colour=00AA00},
-      {Size={14-}, Colour=0000AA}} ]{Skia}
+      {Size={-8}, Font=Apple Chancery, Color=AA0000},
+      {Size={8-14}, Color=00AA00},
+      {Size={14-}, Color=0000AA}} ]{Skia}
   {\scriptsize Small\par} Normal size\par {\Large Large\par}
 \end{example}
 A less trivial example is shown in the context of optical font sizes
@@ -623,11 +623,11 @@ Input & Font size, $s$ \\
 
 Features introduced in this section may be used with any font.
 
-\subsection{Colour}
+\subsection{Color}
 
-\feat{Colour} (or \feat{Color}), also shown in \vref{sec:defaults} and
-\vref{sec:features}, uses \XeTeX\ font specifications to set the colour of
-the text. The colour is defined as a triplet of two-digit Hex RGB
+\feat{Color} (or \feat{Colour}), also shown in \vref{sec:defaults} and
+\vref{sec:features}, uses \XeTeX\ font specifications to set the color of
+the text. The color is defined as a triplet of two-digit Hex RGB
 values, with optionally another value for the transparency (where
 |00| is completely transparent and |FF| is opaque.)
 \begin{example}
@@ -827,7 +827,7 @@ Chancery typeface:
 \setexsize\Large
 \begin{aatexample}
   \fontspec[
-    Colour=CC00CC,
+    Color=CC00CC,
     Numbers=OldStyle,
     VerticalPosition=Ordinal,
     Variant=2]{Apple Chancery}
@@ -1162,7 +1162,7 @@ Zapfino.
   \whiledo{\value{var}<9}{%
     \stepcounter{trans}%
     \fontspec[Variant=\thevar,
-      Colour=005599\thetrans\thetrans]{Zapfino}%
+      Color=005599\thetrans\thetrans]{Zapfino}%
     \makebox[0.75\width]{d}%
     \stepcounter{var}}
 \end{aatexample}
@@ -1722,10 +1722,10 @@ to which feature the option belongs.
 Only feature options that exist as sets of fixed strings may be altered in
 this way. That is, \opt{Proportional} can be aliased to \opt{Prop} in the
 \feat{Letters} feature, but \opt{550099BB} cannot be substituted for \opt{Purple}
-in a \feat{Colour} specification. For this type of thing, the \cmd\newfontfeature\
-command should be used to declare a new, \eg, \feat{PurpleColour} feature:
+in a \feat{Color} specification. For this type of thing, the \cmd\newfontfeature\
+command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 \begin{Verbatim}[gobble=2]
-  \newfontfeature{PurpleColour}{color=550099BB}
+  \newfontfeature{PurpleColor}{color=550099BB}
 \end{Verbatim}
 
 \StopEventually{}
@@ -3419,13 +3419,13 @@ command should be used to declare a new, \eg, \feat{PurpleColour} feature:
 \def\zf@check@one@char#1#2\zf@@{\def\@tempb{#2}}
 %    \end{macrocode}
 %
-% \paragraph{Colour}
+% \paragraph{Color}
 %    \begin{macrocode}
-\define@key[zf]{options}{Colour}{
+\define@key[zf]{options}{Color}{
   \zf@update@family{+col:#1}
   \zf@update@ff{color=#1}
 }
-\keyval@alias@key[zf]{options}{Colour}{Color}
+\keyval@alias@key[zf]{options}{Color}{Colour}
 %    \end{macrocode}
 %
 % \paragraph{Mapping}
@@ -4733,7 +4733,7 @@ As an example:
 \begin{center}
   \Large
   \fontspec[
-      Colour           = 0000CC,
+      Color            = 0000CC,
       Numbers          = OldStyle,
       VerticalPosition = Ordinal,
       Variant          = 2

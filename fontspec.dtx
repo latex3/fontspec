@@ -623,6 +623,22 @@ Input & Font size, $s$ \\
 
 Features introduced in this section may be used with any font.
 
+\subsection{Colour}
+
+\feat{Colour} (or \feat{Color}), also shown in \vref{sec:defaults} and
+\vref{sec:features}, uses \XeTeX\ font specifications to set the colour of
+the text. The colour is defined as a triplet of two-digit Hex RGB
+values, with optionally another value for the transparency (where
+|00| is completely transparent and |FF| is opaque.)
+\begin{example}
+  \fontsize{48}{48}
+  \fontspec{Hoefler Text Black}
+  {\addfontfeature{Color=FF000099}W}\kern-1ex
+  {\addfontfeature{Color=0000FF99}S}\kern-0.8ex
+  {\addfontfeature{Color=DDBB2299}P}\kern-0.8ex
+  {\addfontfeature{Color=00BB3399}R}
+\end{example}
+
 \subsection{Scale}
 
 In its explicit form, \feat{Scale} takes a single
@@ -764,22 +780,6 @@ such that it adjusts along with the above changes.
   ``!`A small amount of---text!''
 \end{example}
 
-
-\subsection{Colour}
-
-\feat{Colour} (or \feat{Color}), also shown in \vref{sec:defaults} and
-\vref{sec:features}, uses \XeTeX\ font specifications to set the colour of
-the text. The colour is defined as a triplet of two-digit Hex RGB
-values, with optionally another value for the transparency (where
-|00| is completely transparent and |FF| is opaque.)
-\begin{example}
-  \fontsize{48}{48}
-  \fontspec{Hoefler Text Black}
-  {\addfontfeature{Color=FF000099}W}\kern-1ex
-  {\addfontfeature{Color=0000FF99}S}\kern-0.8ex
-  {\addfontfeature{Color=DDBB2299}P}\kern-0.8ex
-  {\addfontfeature{Color=00BB3399}R}
-\end{example}
 
 \subsection{Letter spacing}
 Letter spacing, or tracking, is the term given to adding (or subtracting) a small amount of horizontal space in between adjacent characters. It is specified with the \feat{LetterSpace}, which takes a numeric argument.

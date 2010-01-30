@@ -4471,111 +4471,6 @@ function fontspec.error  (...) luatextra.module_error  (fontspec.module.name, st
 function fontspec.sprint (...) tex.sprint(tex.catcodetablenumber["latex-package"], ...) end
 
 %    \end{macrocode}
-% This table holds a dictionary of script to deafult features mapping.
-%    \begin{macrocode}
-
-fontspec.features = {
-    arab = {
-        "ccmp", "locl", "isol", "fina", "medi",
-        "init", "rlig", "calt", "liga", "cswh",
-        "mset", "curs", "kern", "mark", "mkmk",
-    },
-    latn = {
-        "ccmp", "locl", "liga", "clig", "kern",
-        "mark", "mkmk",
-    },
-    hebr = {
-        "ccmp", "locl", "rlig", "kern", "mark",
-        "mkmk",
-    },
-    deva = {
-        "ccmp", "locl", "init", "nukt", "akhn",
-        "rphf", "blwf", "half", "pstf", "vatu",
-        "pres", "blws", "abvs", "psts", "haln",
-        "calt", "blwm", "abvm", "dist", "kern",
-        "mark", "mkmk",
-    },
-    khmr = {
-        "ccmp", "locl", "pref", "blwf", "abvf",
-        "pstf", "pres", "blws", "abvs", "psts",
-        "clig", "calt", "blwm", "abvm", "dist",
-        "kern", "mark", "mkmk",
-    },
-    syrc = {
-        "ccmp", "locl", "isol", "fina", "fin1",
-        "fin2", "medi", "med2", "init", "rlig",
-        "calt", "liga", "kern", "mark", "mkmk",
-    },
-    thai = {
-        "ccmp", "locl", "liga", "kern", "mark",
-        "mkmk",
-    },
-    tibt = {
-        "ccmp", "locl", "pref", "blws", "abvs",
-        "psts", "clig", "calt", "blwm", "abvm",
-        "dist", "kern", "mark", "mkmk",
-    },
-    hang = { },
-}
-
-%    \end{macrocode}
-% Many scripts have identical set of deafult features, so we define features
-% for one script above, then assign it to other scripts here.
-%    \begin{macrocode}
-
-function fontspec.feat_assign(table, deafult)
-    local features = fontspec.features
-    for _,script in pairs(table) do
-        features[script] = features[default]
-    end
-end
-
-local basic_features = {
-    "cyrl", "grek", "armn", "geor",
-    "runr", "ogam", "bopo", "cher",
-    "copt", "dsrt", "ethi", "goth",
-    "hani", "kana", "ital", "cans",
-    "yi",   "brai", "cprt", "limb",
-    "osma", "shaw", "linb", "ugar",
-    "glag", "xsux", "phnx",
-}
-
-local indic_features = {
-    "deva", "beng", "guru", "gujr",
-    "orya", "taml", "telu", "knda",
-    "mlym", "sinh",
-}
-
-local arabic_features = {"nko",}
-
-local thai_features   = {"lao",}
-
-fontspec.feat_assign(basic_features,  "latn")
-fontspec.feat_assign(indic_features,  "deva")
-fontspec.feat_assign(arabic_features, "arab")
-fontspec.feat_assign(thai_features,   "thai")
-
-%    \end{macrocode}
-% This function takes a script name as input and returns a list of font
-% features in a way suitable for use in |fontspec| macros.
-%    \begin{macrocode}
-
-function fontspec.get_features(script)
-    local f = ""
-    if not fontspec.features[script] then
-        fontspec.warning("Unknown script: '%s', using 'latn' instead.", script)
-
-        script = "latn"
-    end
-    features = fontspec.features[script]
-    for _,feature in pairs(features) do
-        fontspec.log("Enabling '%s' feature, for '%s' script.", feature, script)
-        f = f.."+"..feature..";"
-    end
-    return f
-end
-
-%    \end{macrocode}
 % The following functions check for exsitence of certain script, language or
 % feature in a given font.
 %    \begin{macrocode}
@@ -4710,11 +4605,10 @@ end
 %    \begin{macrocode}
 
 function fontspec.specs.get()
-    tex.sprint(string.format("mode=%s;script=%s;language=%s;%s",
+    tex.sprint(string.format("mode=%s;script=%s;language=%s;",
                               fontspec.specs.mode,
                               fontspec.specs.script,
-                              fontspec.specs.language,
-                              fontspec.get_features(fontspec.specs.script)))
+                              fontspec.specs.language))
 end
 
 %    \end{macrocode}

@@ -1,7 +1,6 @@
 Not tested:
 ==========
 	* Math
-	* OpticalSize # I don't have fonts to test this
 	* CharacterWidth # I don't have fonts to test this
 	* Annotation
 	

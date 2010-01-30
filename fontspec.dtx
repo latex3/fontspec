@@ -3449,21 +3449,26 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
   \zf@update@ff{width=#1}
 }
 \define@key[zf]{options}{OpticalSize}{
-  \ifzf@icu
-    \tl_set:Nn \l_fontspec_optical_size_tl {/ S = #1}
-    \zf@update@family{+size:#1}
-  \fi
-  \ifzf@mm
-    \zf@update@family{+size:#1}
-    \zf@update@ff{optical size=#1}
-  \fi
-  \ifzf@icu\else
-    \ifzf@mm\else
-      \ifzf@firsttime
-        \fontspec_warning:n {no-opticals}
+  \xetex_or_luatex:nn {
+    \ifzf@icu
+      \tl_set:Nn \l_fontspec_optical_size_tl {/ S = #1}
+      \zf@update@family{+size:#1}
+    \fi
+    \ifzf@mm
+      \zf@update@family{+size:#1}
+      \zf@update@ff{optical size=#1}
+    \fi
+    \ifzf@icu\else
+      \ifzf@mm\else
+        \ifzf@firsttime
+          \fontspec_warning:n {no-opticals}
+        \fi
       \fi
     \fi
-  \fi
+  }{
+    \tl_set:Nn \l_fontspec_optical_size_tl {/ S = #1}
+    \zf@update@family{+size:#1}
+  }
 }
 %    \end{macrocode}
 %

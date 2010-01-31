@@ -31,7 +31,6 @@ CTAN_ZIP = $(NAME).zip
 TDS_ZIP = $(NAME).tds.zip
 ZIPS = $(CTAN_ZIP) $(TDS_ZIP)
 
-DO_TEX = tex --interaction=batchmode $< >/dev/null
 DO_PDFLATEX = pdflatex --interaction=batchmode $< >/dev/null
 DO_MAKEINDEX = makeindex -s gind.ist $(subst .dtx,,$<) >/dev/null 2>&1
 
@@ -49,7 +48,7 @@ $(COMPILED): $(DTX)
 	$(DO_PDFLATEX)
 
 $(UNPACKED): $(DTX)
-	$(DO_TEX)
+	$(DO_PDFLATEX)
 
 $(CTAN_ZIP): $(SOURCE) $(COMPILED) $(TDS_ZIP)
 	@echo "Making $@ for CTAN upload."
@@ -83,8 +82,8 @@ manifest:
 	@echo "Derived files:"
 	@for f in $(GENERATED); do echo $$f; done
 
-clean: 
-	@$(RM) -- *.log *.aux *.toc *.idx *.ind *.ilg
+clean:
+	@$(RM) -- *.log *.aux *.toc *.idx *.ind *.ilg *.glo *.example
 
 mrproper: clean
 	@$(RM) -- $(GENERATED) $(ZIPS)

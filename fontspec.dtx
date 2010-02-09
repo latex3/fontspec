@@ -1884,11 +1884,11 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 %    \end{macrocode}
 % Dealing with a couple of the problems introduced by \pkg{babel}:
 %    \begin{macrocode}
-\let\cyrillicencoding\zf@enc
-\let\latinencoding\zf@enc
+\cs_set_eq:NwN\cyrillicencoding\zf@enc
+\cs_set_eq:NwN\latinencoding\zf@enc
 \g@addto@macro\document{
-  \let\cyrillicencoding\zf@enc
-  \let\latinencoding\zf@enc}
+  \cs_set_eq:NwN\cyrillicencoding\zf@enc
+  \cs_set_eq:NwN\latinencoding\zf@enc}
 %    \end{macrocode}
 % That latin encoding definition is repeated to suppress font warnings.
 % Something to do with \cmd\select@language\ ending up in the \texttt{.aux}
@@ -1931,17 +1931,17 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 %    \begin{macrocode}
 \DeclareDocumentCommand \setmainfont { O{} m } {
   \zf@fontspec{#1}{#2}
-  \let\rmdefault\zf@family
+  \cs_set_eq:NwN\rmdefault\zf@family
   \normalfont
 }
 \DeclareDocumentCommand \setsansfont { O{} m } {
   \zf@fontspec{#1}{#2}
-  \let\sfdefault\zf@family
+  \cs_set_eq:NwN\sfdefault\zf@family
   \normalfont
 }
 \DeclareDocumentCommand \setmonofont { O{} m } {
   \zf@fontspec{#1}{#2}
-  \let\ttdefault\zf@family
+  \cs_set_eq:NwN\ttdefault\zf@family
   \normalfont
 }
 %    \end{macrocode}

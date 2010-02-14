@@ -2430,8 +2430,10 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
   \setkeys:xxx {zf} {preparse-external} {\zf@default@options #1}
   \bool_if:NF \l_fontspec_external_bool
    {
+    \clist_set_eq:NN \l_tmpa_clist \XKV@rm
     \fontspec_if_detect_external:nT {#2}
-     { \setkeys*[zf]{preparse-external}{ExternalLocation} }
+     { \setkeys[zf]{preparse-external}{ExternalLocation} }
+    \clist_set_eq:NN \XKV@rm \l_tmpa_clist
    }
  }
 \prg_new_conditional:Nnn \fontspec_if_detect_external:n {T}

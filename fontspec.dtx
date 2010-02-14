@@ -2348,65 +2348,118 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
     \zf@make@font@shapes{\zf@fontname}
       {\mddefault}{\updefault}{\zf@font@feat\zf@up@feat}
 %    \end{macrocode}
-% Secondly, bold. Again, the extra bold options defined with
+% And the different shapes are set accordingly.
+%    \begin{macrocode}
+    \fontspec_set_bold:
+    \fontspec_set_italic:
+    \fontspec_set_slanted:
+    \fontspec_set_bold_italic:
+    \fontspec_set_bold_slanted:
+  \fi
+  \endgroup
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\fontspec_set_bold:}
+% Again, the extra bold options defined with
 % \feat{BoldFeatures} are appended to the generic font features.
 % Then, the bold font is defined either as the ATS
 % default (\cs{zf@make@font@shapes}' optional argument is to check if
 % there actually is one; if not, the bold NFSS series is left
 % undefined) or with the font specified with the \feat{BoldFont} feature.
 %    \begin{macrocode}
-    \unless\ifzf@nobf
-      \ifx\zf@bf\@empty
-        \zf@make@font@shapes[\zf@fontname]{/B}
-          {\bfdefault}{\updefault}{\zf@font@feat\zf@bf@feat}
-      \else
-        \zf@make@font@shapes{\zf@bf}
-          {\bfdefault}{\updefault}{\zf@font@feat\zf@bf@feat}
-      \fi
+\cs_new:Nn \fontspec_set_bold: {
+  \unless\ifzf@nobf
+    \ifx\zf@bf\@empty
+      \zf@make@font@shapes[\zf@fontname]{/B}
+        {\bfdefault}{\updefault}{\zf@font@feat\zf@bf@feat}
+    \else
+      \zf@make@font@shapes{\zf@bf}
+        {\bfdefault}{\updefault}{\zf@font@feat\zf@bf@feat}
     \fi
+  \fi
+}
 %    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\fontspec_set_italic:}
 % And italic in the same way:
 %    \begin{macrocode}
-    \unless\ifzf@noit
-      \ifx\zf@it\@empty
-        \zf@make@font@shapes[\zf@fontname]{/I}
-          {\mddefault}{\itdefault}{\zf@font@feat\zf@it@feat}
-      \else
-        \zf@make@font@shapes{\zf@it}
-          {\mddefault}{\itdefault}{\zf@font@feat\zf@it@feat}
-      \fi
+\cs_new:Nn \fontspec_set_italic: {
+  \unless\ifzf@noit
+    \ifx\zf@it\@empty
+      \zf@make@font@shapes[\zf@fontname]{/I}
+        {\mddefault}{\itdefault}{\zf@font@feat\zf@it@feat}
+    \else
+      \zf@make@font@shapes{\zf@it}
+        {\mddefault}{\itdefault}{\zf@font@feat\zf@it@feat}
     \fi
+  \fi
+}
 %    \end{macrocode}
-% If requested, the custom fonts take precedence when choosing the
+% \end{macro}
+%
+% \begin{macro}{\fontspec_set_slanted:}
+% And slanted but only if requested:
+%    \begin{macrocode}
+\cs_new:Nn \fontspec_set_slanted: {
+  \ifx\zf@it\@empty\else
+    \zf@make@font@shapes{\zf@sl}
+      {\mddefault}{\sldefault}{\zf@font@feat\zf@sl@feat}
+  \fi
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\fontspec_set_bold_italic:}
+% % If requested, the custom fonts take precedence when choosing the
 % bold italic font. When both italic and bold fonts are requested and
 % the bold italic font hasn't been explicitly specified (a rare
 % occurance, presumably), the new bold font is used to define the new
 % bold italic font.
 %    \begin{macrocode}
-    \@tempswatrue
-    \ifzf@nobf\@tempswafalse\fi
-    \ifzf@noit\@tempswafalse\fi
-    \if@tempswa
-      \ifx\zf@bfit\@empty
-        \ifx\zf@bf\@empty
-          \ifx\zf@it\@empty
-            \zf@make@font@shapes[\zf@fontname]{/BI}
-              {\bfdefault}{\itdefault}{\zf@font@feat\zf@bfit@feat}
-          \else
-            \zf@make@font@shapes[\zf@it]{/B}
-              {\bfdefault}{\itdefault}{\zf@font@feat\zf@bfit@feat}
-          \fi
+\cs_new:Nn \fontspec_set_bold_italic: {
+  \@tempswatrue
+  \ifzf@nobf\@tempswafalse\fi
+  \ifzf@noit\@tempswafalse\fi
+  \if@tempswa
+    \ifx\zf@bfit\@empty
+      \ifx\zf@bf\@empty
+        \ifx\zf@it\@empty
+          \zf@make@font@shapes[\zf@fontname]{/BI}
+            {\bfdefault}{\itdefault}{\zf@font@feat\zf@bfit@feat}
         \else
-          \zf@make@font@shapes[\zf@bf]{/I}
+          \zf@make@font@shapes[\zf@it]{/B}
             {\bfdefault}{\itdefault}{\zf@font@feat\zf@bfit@feat}
         \fi
       \else
-        \zf@make@font@shapes{\zf@bfit}
+        \zf@make@font@shapes[\zf@bf]{/I}
           {\bfdefault}{\itdefault}{\zf@font@feat\zf@bfit@feat}
       \fi
+    \else
+      \zf@make@font@shapes{\zf@bfit}
+        {\bfdefault}{\itdefault}{\zf@font@feat\zf@bfit@feat}
     \fi
   \fi
-  \endgroup
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\fontspec_set_bold_slanted:}
+% And bold slanted, again, only if requested:
+%    \begin{macrocode}
+\cs_new:Nn \fontspec_set_bold_slanted: {
+  \ifx\zf@bfsl\@empty
+    \ifx\zf@sl\@empty\else
+      \zf@make@font@shapes[\zf@sl]{/B}
+        {\bfdefault}{\sldefault}{\zf@font@feat\zf@bfsl@feat}
+    \fi
+  \else
+    \zf@make@font@shapes{\zf@bfsl}
+      {\bfdefault}{\sldefault}{\zf@font@feat\zf@bfsl@feat}
+  \fi
 }
 %    \end{macrocode}
 % \end{macro}
@@ -2687,11 +2740,15 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
   \let\zf@bf          \@empty
   \let\zf@it          \@empty
   \let\zf@bfit        \@empty
+  \let\zf@sl          \@empty
+  \let\zf@bfsl        \@empty
   \let\zf@sc          \@empty
   \let\zf@up@feat     \@empty
   \let\zf@bf@feat     \@empty
   \let\zf@it@feat     \@empty
   \let\zf@bfit@feat   \@empty
+  \let\zf@sl@feat     \@empty
+  \let\zf@bfsl@feat   \@empty
   \let\zf@sc@feat     \@empty
   \let\zf@size        \@empty
   \let\zf@size@feat   \@empty
@@ -3174,11 +3231,19 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
   \fi
 }
 %    \end{macrocode}
-% Simpler for bold+italic:
+% Simpler for bold+italic \& slanted:
 %    \begin{macrocode}
 \define@key[zf]{preparse-external}{BoldItalicFont}{
   \fontspec_complete_fontname:Nn \zf@bfit {#1}
   \zf@update@family{bfit:#1}
+}
+\define@key[zf]{preparse-external}{SlantedFont}{
+  \fontspec_complete_fontname:Nn \zf@sl {#1}
+  \zf@update@family{sl:#1}
+}
+\define@key[zf]{preparse-external}{BoldSlantedFont}{
+  \fontspec_complete_fontname:Nn \zf@bfsl {#1}
+  \zf@update@family{bfsl:#1}
 }
 %    \end{macrocode}
 % Small caps isn't pre-parsed because it can vary with others above:
@@ -3212,26 +3277,34 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 % \paragraph{Features}
 %    \begin{macrocode}
 \define@key[zf]{preparse}{UprightFeatures}{
-  \def\zf@up@feat{,#1}
+  \def\zf@up@feat{, #1}
   \zf@update@family{rmfeat:#1}
 }
 \define@key[zf]{preparse}{BoldFeatures}{
-  \def\zf@bf@feat{,#1}
+  \def\zf@bf@feat{, #1}
   \zf@update@family{bffeat:#1}
 }
 \define@key[zf]{preparse}{ItalicFeatures}{
-  \def\zf@it@feat{,#1}
+  \def\zf@it@feat{, #1}
   \zf@update@family{itfeat:#1}
 }
 \define@key[zf]{preparse}{BoldItalicFeatures}{
-  \def\zf@bfit@feat{,#1}
+  \def\zf@bfit@feat{, #1}
   \zf@update@family{bfitfeat:#1}
+}
+\define@key[zf]{preparse}{SlantedFeatures}{
+  \def\zf@sl@feat{, #1}
+  \zf@update@family{slfeat:#1}
+}
+\define@key[zf]{preparse}{BoldSlantedFeatures}{
+  \def\zf@bfsl@feat{, #1}
+  \zf@update@family{bfslfeat:#1}
 }
 %    \end{macrocode}
 % Note that small caps features can vary by shape, so these in fact \emph{aren't} pre-parsed.
 %    \begin{macrocode}
 \define@key[zf]{options}{SmallCapsFeatures}{
-  \unless\ifzf@firsttime\def\zf@sc@feat{,#1}\fi
+  \unless\ifzf@firsttime\def\zf@sc@feat{, #1}\fi
   \zf@update@family{scfeat:\zap@space #1~\@empty}
 }
 %    \end{macrocode}

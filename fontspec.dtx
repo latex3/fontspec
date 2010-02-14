@@ -1819,15 +1819,18 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 \newcount\c@zf@script
 \newcount\c@zf@language
 %    \end{macrocode}
-% Used to save some headspace later on:
+% Temporary definition until expl3 has been updated to include this:
 %    \begin{macrocode}
-\cs_if_free:NT \exp_arg:x
+\cs_if_free:NT \use:x
  {
-  \cs_set:Nn \exp_arg:x { \edef\@tempa{#1}\@tempa }
+  \cs_set:Nn \use:x { \edef\@tempa{#1}\@tempa }
  }
+%    \end{macrocode}
+% 
+%    \begin{macrocode}
 \cs_new:Nn \setkeys:xxx
  {
-  \exp_arg:x { \noexpand\setkeys*[#1]{#2}{#3} }
+  \use:x { \noexpand\setkeys*[#1]{#2}{#3} }
  }
 %    \end{macrocode}
 %
@@ -1868,19 +1871,19 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 %    \begin{macrocode}
 \if@zf@euenc
   \xetex_or_luatex:nn {
-    \def\zf@enc{EU1}
+    \tl_set:Nn \zf@enc {EU1}
   }{
-    \def\zf@enc{EU2}
+    \tl_set:Nn \zf@enc {EU2}
   }
-  \renewcommand{\rmdefault}{lmr}
-  \renewcommand{\sfdefault}{lmss}
-  \renewcommand{\ttdefault}{lmtt}
+  \tl_set:Nn \rmdefault {lmr}
+  \tl_set:Nn \sfdefault {lmss}
+  \tl_set:Nn \ttdefault {lmtt}
   \RequirePackage[\zf@enc]{fontenc}
 \else
-  \def\zf@enc{U}
-  \let\encodingdefault\zf@enc
+  \tl_set:Nn \zf@enc {U}
+  \tl_set_eq:NN \encodingdefault \zf@enc
 \fi
-\let\UTFencname\zf@enc
+\tl_set_eq:NN \UTFencname \zf@enc % for xunicode
 %    \end{macrocode}
 % Dealing with a couple of the problems introduced by \pkg{babel}:
 %    \begin{macrocode}
@@ -2005,7 +2008,7 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 %    \begin{macrocode}
 \DeclareDocumentCommand \newfontfamily { m O{} m } {
   \zf@fontspec{#2}{#3}
-  \exp_arg:x {
+  \use:x {
     \noexpand \DeclareRobustCommand \noexpand #1 {
       \noexpand \fontfamily {\zf@family} \noexpand \selectfont
     }
@@ -2063,7 +2066,7 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
   \ifcsname zf@family@fontdef\f@family\endcsname
     \begingroup
       \let\zf@default@options\@empty
-      \exp_arg:x {
+      \use:x {
         \noexpand\zf@fontspec
           {\csname zf@family@options\f@family\endcsname,#1}
           {\csname zf@family@fontname\f@family\endcsname}
@@ -2232,7 +2235,7 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 % there's all sorts of \cmd\global\ action going on. Pity. Anyway, lots of things
 % are branched out for the pure reason of splitting
 % the code up into logical chunks. Some of it is never even re-used, so it
-% all might be a bit obfuscating. (\Eg, \cmd\zf@init\ and \cmd\zf@set@font@type.)
+% all might be a bit obfuscating. (\Eg, \cmd\fontspec_init:\ and \cmd\zf@set@font@type.)
 %
 % First off, initialise some bits and pieces and run the |preparse| feature
 % processing. This catches font features such as |Renderer| that can change
@@ -2241,7 +2244,7 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 %    \begin{macrocode}
 \cs_set:Npn \zf@fontspec #1#2 {
   \begingroup
-  \zf@init
+  \fontspec_init:
   \edef\zf@fontname{#2}
   \let\zf@family@long\zf@fontname
   \let\zf@up\zf@fontname
@@ -2576,7 +2579,7 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 % \cmd\zf@adjust\ is defined in various places to deal with things like the hyphenation
 % character and interword spacing.
 %    \begin{macrocode}
-  \exp_arg:x{
+  \use:x{
     \noexpand\DeclareFontShape{\zf@enc}{\zf@family}{#2}{#3}
       {\zf@font@str}{\zf@adjust}
   }
@@ -2588,7 +2591,7 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
   \edef\@tempa{#3}
   \edef\@tempb{\itdefault}
   \ifx\@tempa\@tempb
-    \exp_arg:x{
+    \use:x{
       \noexpand\DeclareFontShape{\zf@enc}{\zf@family}{#2}{\sldefault}
         {<->ssub*\zf@family/#2/\itdefault}{\zf@adjust}
     }
@@ -2666,11 +2669,11 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\zf@init}
+% \begin{macro}{\fontspec_init:}
 % This functionality has been removed from \cmd\zf@get@feature@requests\
 % because it's no longer the first thing that can affect these things.
 %    \begin{macrocode}
-\newcommand*\zf@init{
+\newcommand*\fontspec_init:{
   \zf@icufalse
   \let\zf@font@feat   \@empty
   \let\zf@font@str    \@empty

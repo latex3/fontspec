@@ -2266,10 +2266,10 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
     \fi
     \ifx \l_fontspec_renderer_tl \@empty
       \ifzf@atsui
-        \tl_set:Nn \l_fontspec_renderer_tl {AAT}
+        \tl_set:Nn \l_fontspec_renderer_tl {/AAT}
       \else
         \ifzf@icu
-          \tl_set:Nn \l_fontspec_renderer_tl {ICU}
+          \tl_set:Nn \l_fontspec_renderer_tl {/ICU}
         \fi
       \fi
       \font\zf@basefont=
@@ -2602,7 +2602,7 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 % \XeTeX\ fontname suffix to denote, e.g., renderer and so on.
 %    \begin{macrocode}
 \cs_set:Npn \zf@suffix {
-  / \l_fontspec_renderer_tl
+  \l_fontspec_renderer_tl
   \l_fontspec_optical_size_tl
 }
 %    \end{macrocode}
@@ -3106,9 +3106,9 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
   }
   \font\zf@basefont="\zf@font@wrap {\zf@up \l_fontspec_extension_tl} \zf@suffix"~at~\f@size pt
 }
-\tl_set:cn {g_fontspec_renderer_tag_AAT} {AAT}
-\tl_set:cn {g_fontspec_renderer_tag_ICU} {ICU}
-\tl_set:cn {g_fontspec_renderer_tag_Graphite} {GR}
+\tl_set:cn {g_fontspec_renderer_tag_AAT} {/AAT}
+\tl_set:cn {g_fontspec_renderer_tag_ICU} {/ICU}
+\tl_set:cn {g_fontspec_renderer_tag_Graphite} {/GR}
 \tl_set:cn {g_fontspec_renderer_tag_Full}  {node}
 \tl_set:cn {g_fontspec_renderer_tag_Basic} {base}
 %    \end{macrocode}

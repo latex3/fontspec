@@ -2168,11 +2168,7 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
       \global\c@zf@script\@tempcnta\relax
       \xdef\zf@script@name{#1}
       \zf@update@family{+script=#1}
-      \xetex_or_luatex:nn {
-        \tl_set:Nn \l_fontspec_script_tl {#2}
-      }{
-        \luadirect{fontspec.specs.script = "#2"}
-      }
+      \tl_set:Nn \l_fontspec_script_tl {#2}
     \else
       \fontspec_warning:nx {script-not-exist} {#1}
     \fi
@@ -2195,11 +2191,7 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
       \global\c@zf@language\@tempcnta\relax
       \xdef\zf@language@name{#1}
       \zf@update@family{+lang=#1}
-      \xetex_or_luatex:nn {
-        \tl_set:Nn \l_fontspec_lang_tl {#2}
-      }{
-        \luadirect{fontspec.specs.language = "#2"}
-      }
+      \tl_set:Nn \l_fontspec_lang_tl {#2}
     \else
       \fontspec_warning:nx {lang-not-exist} {#1}
     \fi
@@ -2334,7 +2326,7 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
     \cs_gset:cpx{zf@family@options\zf@family}{\zf@default@options #1}
     \cs_gset:cpx{zf@family@fontdef\zf@family}{
       \zf@font@wrap{\zf@fontname\l_fontspec_extension_tl}\zf@suffix
-      :\zf@pre@ff\zf@ff
+      :\l_fontspec_pre_feat_tl\zf@ff
     }
 %    \end{macrocode}
 % Next the font family and its shapes are defined in the NFSS.
@@ -2552,8 +2544,11 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 \newcommand\zf@DeclareFontShape[4][]{
   \ifx\zf@size@feat\@empty
     \zf@get@feature@requests{#4}
-    \edef\zf@font@str{<->\zf@scale"\zf@font@wrap{\zf@fontname\l_fontspec_extension_tl}\zf@suffix :
-      \zf@pre@ff\zf@ff#1"}
+    \edef \zf@font@str {
+      <-> \zf@scale "
+      \zf@font@wrap{\zf@fontname\l_fontspec_extension_tl}
+      \zf@suffix : \l_fontspec_pre_feat_tl \zf@ff #1 "
+    }
   \else
 %    \end{macrocode}
 % Default code, above, sets things up for no optical size fonts or features.
@@ -2572,7 +2567,7 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
       \edef\zf@font@str{
         \zf@font@str <\zf@size> \zf@scale "
         \zf@font@wrap { \zf@size@fnt \l_fontspec_extension_tl }
-        \zf@suffix : \zf@pre@ff \zf@ff #1 "
+        \zf@suffix : \l_fontspec_pre_feat_tl \zf@ff #1 "
       }
     }
   \fi
@@ -2614,19 +2609,26 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 % \end{macro}
 %
 %
-% \begin{macro}{\zf@pre@ff}
+% \begin{macro}{\l_fontspec_pre_feat_tl}
 % These are the features always applied to a font selection before other
 % features.
 %    \begin{macrocode}
 \xetex_or_luatex:nn{
-  \cs_set:Npn \zf@pre@ff {
+  \tl_set:Nn \l_fontspec_pre_feat_tl {
     script=\l_fontspec_script_tl
     \zf@feat@sepa
     language=\l_fontspec_lang_tl
     \zf@feat@sepa
   }
 }{
-  \def\zf@pre@ff{\luadirect{fontspec.specs.get()}}
+  \tl_set:Nn \l_fontspec_pre_feat_tl {
+    mode=\l_fontspec_mode_tl
+    \zf@feat@sepa
+    script=\l_fontspec_script_tl
+    \zf@feat@sepa
+    language=\l_fontspec_lang_tl
+    \zf@feat@sepa
+  }
 }
 %    \end{macrocode}
 % \end{macro}
@@ -2697,14 +2699,15 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
   \c@zf@script 1818326126\relax
   \def\zf@script@name{Latin}
   \tl_set:Nn \l_fontspec_script_tl {latn}
-  \tl_set:Nn \l_fontspec_lang_tl {DFLT}
   \c@zf@language 0\relax
   \def\zf@language@name{Default}
   \xetex_or_luatex:nn {
+    \tl_set:Nn \l_fontspec_lang_tl {DFLT}
     \def\zf@feat@sepa{\ifzf@icu,\else;\fi}
   }{
     \def\zf@feat@sepa{;}
-    \luadirect{fontspec.specs.init()}
+    \tl_set:Nn \l_fontspec_lang_tl {dflt}
+    \tl_set:Nn \l_fontspec_mode_tl {node}
     \luatexprehyphenchar   =`\-  % fixme
     \luatexposthyphenchar  = 0   % fixme
     \luatexpreexhyphenchar = 0   % fixme
@@ -2778,17 +2781,8 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
     \fi
   }
   {
-    \fontspec_make_LT_feature:n {#3}
+    \fontspec_make_ICU_feature:n {#3}
   }
-}
-\cs_new:Nn \fontspec_make_LT_feature:n {
-  \zf@check@ot@feat{#1}
-  \if@tempswa
-    \zf@update@family{#1}
-    \zf@update@ff{#1}
-  \else
-    \fontspec_warning:nx {icu-feature-not-exist-in-font} {#1}
-  \fi
 }
 \cs_new:Nn \fontspec_make_AAT_feature:nn {
   \def\@tempa{#1}
@@ -3009,7 +3003,7 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
     \repeat
   }
   {
-    \luadirect{fontspec.check_ot_lang("zf@basefont", "#1", fontspec.specs.script)}
+    \luadirect{fontspec.check_ot_lang("zf@basefont", "#1", "\l_fontspec_script_tl")}
   }
 }
 %    \end{macrocode}
@@ -3041,7 +3035,7 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
     \repeat
   }
   {
-    \luadirect{fontspec.check_ot_feat("zf@basefont", "#1", fontspec.specs.language, fontspec.specs.script)}
+    \luadirect{fontspec.check_ot_feat("zf@basefont", "#1", "\l_fontspec_lang_tl", "\l_fontspec_script_tl")}
   }
 }
 %    \end{macrocode}
@@ -3104,18 +3098,18 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
     }
   }{
     \xetex_or_luatex:nn
-      { \fontspec_warning:nx {only-luatex-feature} {Renderer=Full/Basic} }
-      {
-        \luadirect{fontspec.specs.mode = "\tl_use:c{g_fontspec_renderer_tag_\l_tmpa_tl}"}
-      }
+    { \fontspec_warning:nx {only-luatex-feature} {Renderer=Full/Basic} }
+    {
+      \tl_set:Nv \l_fontspec_mode_tl {g_fontspec_mode_tag_\l_tmpa_tl}
+    }
   }
   \font\zf@basefont="\zf@font@wrap {\zf@up \l_fontspec_extension_tl} \zf@suffix"~at~\f@size pt
 }
 \tl_set:cn {g_fontspec_renderer_tag_AAT} {/AAT}
 \tl_set:cn {g_fontspec_renderer_tag_ICU} {/ICU}
 \tl_set:cn {g_fontspec_renderer_tag_Graphite} {/GR}
-\tl_set:cn {g_fontspec_renderer_tag_Full}  {node}
-\tl_set:cn {g_fontspec_renderer_tag_Basic} {base}
+\tl_set:cn {g_fontspec_mode_tag_Full}  {node}
+\tl_set:cn {g_fontspec_mode_tag_Basic} {base}
 %    \end{macrocode}
 %
 % \paragraph{OpenType script/language}
@@ -3997,22 +3991,14 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
     \c@zf@language\@tempcnta\relax
     \xdef\zf@language@name{Turkish}
     \zf@update@family{+lang=Turkish}
-    \xetex_or_luatex:nn {
-      \tl_set:Nn \l_fontspec_lang_tl {TRK}
-    }{
-      \luadirect{fontspec.specs.language = "TRK"}
-    }
+    \tl_set:Nn \l_fontspec_lang_tl {TRK}
   \else
     \zf@check@ot@lang{TUR}
     \if@tempswa
       \c@zf@language\@tempcnta\relax
       \xdef\zf@language@name{Turkish}
       \zf@update@family{+lang=Turkish}
-      \xetex_or_luatex:nn {
-        \tl_set:Nn \l_fontspec_lang_tl {TUR}
-      }{
-        \luadirect{fontspec.specs.language = "TUR"}
-      }
+      \tl_set:Nn \l_fontspec_lang_tl {TUR}
     \else
       \fontspec_warning:nx {language-not-exist} {#1}
     \fi
@@ -4597,29 +4583,6 @@ function fontspec.check_ot_feat(fnt, feat, lang, script)
     else
         tempswafalse()
     end
-end
-
-%    \end{macrocode}
-% Here we store font specifications, the predefined values are our defaults.
-%    \begin{macrocode}
-
-fontspec.specs = { }
-
-function fontspec.specs.init()
-    fontspec.specs.mode     = "node"
-    fontspec.specs.script   = "latn"
-    fontspec.specs.language = "dflt"
-end
-
-%    \end{macrocode}
-% This function returns font specifications in proper order and format.
-%    \begin{macrocode}
-
-function fontspec.specs.get()
-    tex.sprint(string.format("mode=%s;script=%s;language=%s;",
-                              fontspec.specs.mode,
-                              fontspec.specs.script,
-                              fontspec.specs.language))
 end
 
 %    \end{macrocode}

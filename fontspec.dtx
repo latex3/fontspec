@@ -2237,10 +2237,27 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 \cs_set:Npn \zf@fontspec #1#2 {
   \begingroup
   \fontspec_init:
+%    \end{macrocode}
+% \cmd{\zf@fontname} is used as the generic name of the font being defined.
+% \cmd{\zf@family@long} is the unique identifier of the font with all its
+% features.
+% \cmd{\zf@up} is the font specifically to be used as the upright font.
+%    \begin{macrocode}
   \edef\zf@fontname{#2}
   \let\zf@family@long\zf@fontname
   \let\zf@up\zf@fontname
-  \fontspec_parse_external_font:nn {#1} {#2}
+%    \end{macrocode}
+% Detect if external fonts are to be used, possibly automatically, and
+% parse fontspec features for bold/italic fonts and their features.
+%    \begin{macrocode}
+  \fontspec_if_detect_external:nT {#2}
+   { \setkeys[zf]{preparse-external}{ExternalLocation} }
+  \fontspec_setkeys:xx {preparse-external} {\zf@default@options #1}
+%    \end{macrocode}
+% When \cmd{\zf@fontname} is augmented with a prefix or whatever to create
+% the name of the upright font (\cmd{\zf@up}), this latter is the new `general
+% font name' to use.
+%    \begin{macrocode}
   \let\zf@fontname\zf@up
   \fontspec_setkeys:xx {preparse} {\XKV@rm}
   \let\zf@font@feat\XKV@rm
@@ -2357,6 +2374,23 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 % \end{macro}
 %
 %
+% \begin{macro}{\fontspec_if_detect_external:nT}
+% Check if either the fontname ends with a known font extension or if the
+% |ExternalLocation| is used.
+%    \begin{macrocode}
+\prg_new_conditional:Nnn \fontspec_if_detect_external:n {T}
+ {
+  \clist_map_inline:Nn \l_fontspec_extensions_clist
+   {
+    \bool_set_false:N \l_tmpa_bool
+    \tl_if_in:nnT {#1 <= end_of_string} {##1 <= end_of_string}
+      { \bool_set_true:N \l_tmpa_bool \clist_map_break: }
+   }
+  \bool_if:NTF \l_tmpa_bool \prg_return_true: \prg_return_false:
+ }
+%    \end{macrocode}
+% \end{macro}
+%
 % \begin{macro}{\fontspec_fullname:n}
 % Constructs the complete font name based on a common piece of info.
 %    \begin{macrocode}
@@ -2471,34 +2505,6 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 % \end{macro}
 %
 %
-% \begin{macro}{\fontspec_parse_external_font:nn}
-% Check if either the fontname ends with a known font extension or if the
-% |ExternalLocation| is used.
-%    \begin{macrocode}
-\cs_new:Nn \fontspec_parse_external_font:nn
- {
-  \bool_set_false:N \l_fontspec_external_bool
-  \fontspec_setkeys:xx {preparse-external} {\zf@default@options #1}
-  \bool_if:NF \l_fontspec_external_bool
-   {
-    \clist_set_eq:NN \l_tmpa_clist \XKV@rm
-    \fontspec_if_detect_external:nT {#2}
-     { \setkeys[zf]{preparse-external}{ExternalLocation} }
-    \clist_set_eq:NN \XKV@rm \l_tmpa_clist
-   }
- }
-\prg_new_conditional:Nnn \fontspec_if_detect_external:n {T}
- {
-  \clist_map_inline:Nn \l_fontspec_extensions_clist
-   {
-    \bool_set_false:N \l_tmpa_bool
-    \tl_if_in:nnT {#1 <= end_of_string} {##1 <= end_of_string}
-      { \bool_set_true:N \l_tmpa_bool \clist_map_break: }
-   }
-  \bool_if:NTF \l_tmpa_bool \prg_return_true: \prg_return_false:
- }
-%    \end{macrocode}
-% \end{macro}
 %
 %
 %

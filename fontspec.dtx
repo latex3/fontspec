@@ -2728,32 +2728,33 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 % \end{macro}
 %
 % \begin{macro}{\fontspec_init:}
-% This functionality has been removed from \cmd\zf@get@feature@requests\
-% because it's no longer the first thing that can affect these things.
+% Initialisations that either need to occur globally:
+% (all setting of these variables is done locally inside a group)
+%    \begin{macrocode}
+\tl_clear:N \zf@bf
+\tl_clear:N \zf@it
+\tl_clear:N \zf@bfit
+\tl_clear:N \zf@sl
+\tl_clear:N \zf@bfsl
+\tl_clear:N \zf@sc
+\tl_clear:N \zf@up@feat
+\tl_clear:N \zf@bf@feat
+\tl_clear:N \zf@it@feat
+\tl_clear:N \zf@bfit@feat
+\tl_clear:N \zf@sl@feat
+\tl_clear:N \zf@bfsl@feat
+\tl_clear:N \zf@sc@feat
+\tl_clear:N \zf@size@feat
+%    \end{macrocode}
+% Or once per fontspec font invocation:
+% (Some of these may be redundant.
+% Check whether they're assigned to globally or not.)
 %    \begin{macrocode}
 \newcommand*\fontspec_init:{
   \zf@icufalse
-  \let\zf@font@feat   \@empty
-  \let\zf@font@str    \@empty
   \let\zf@font@wrap   \@firstofone
   \tl_clear:N \l_fontspec_optical_size_tl
   \tl_clear:N \l_fontspec_renderer_tl
-  \let\zf@bf          \@empty
-  \let\zf@it          \@empty
-  \let\zf@bfit        \@empty
-  \let\zf@sl          \@empty
-  \let\zf@bfsl        \@empty
-  \let\zf@sc          \@empty
-  \let\zf@up@feat     \@empty
-  \let\zf@bf@feat     \@empty
-  \let\zf@it@feat     \@empty
-  \let\zf@bfit@feat   \@empty
-  \let\zf@sl@feat     \@empty
-  \let\zf@bfsl@feat   \@empty
-  \let\zf@sc@feat     \@empty
-  \let\zf@size        \@empty
-  \let\zf@size@feat   \@empty
-  \let\zf@size@fnt    \@empty
   \c@zf@script 1818326126\relax
   \def\zf@script@name{Latin}
   \tl_set:Nn \l_fontspec_script_tl {latn}

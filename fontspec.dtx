@@ -2405,7 +2405,7 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 % And slanted but only if requested:
 %    \begin{macrocode}
 \cs_new:Nn \fontspec_set_slanted: {
-  \ifx\zf@it\@empty\else
+  \ifx\zf@sl\@empty\else
     \zf@make@font@shapes{\zf@sl}
       {\mddefault}{\sldefault}{\zf@font@feat\zf@sl@feat}
   \fi

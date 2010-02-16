@@ -2227,7 +2227,7 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 % there's all sorts of \cmd\global\ action going on. Pity. Anyway, lots of things
 % are branched out for the pure reason of splitting
 % the code up into logical chunks. Some of it is never even re-used, so it
-% all might be a bit obfuscating. (\Eg, \cmd\fontspec_init:\ and \cmd\zf@set@font@type.)
+% all might be a bit obfuscating. (\Eg, \cmd\fontspec_init:\ and \cmd\fontspec_set_font_type:.)
 %
 % First off, initialise some bits and pieces and run the |preparse| feature
 % processing. This catches font features such as |Renderer| that can change
@@ -2262,28 +2262,9 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
   \fontspec_setkeys:xx {preparse} {\XKV@rm}
   \let\zf@font@feat\XKV@rm
 %    \end{macrocode}
-% Now check if the font is to be rendered with ATSUI or ICU. This will either
-% be automatic (based on the font type), or specified by the user via a font feature.
-% If automatic, the \cmd\zf@suffix\ macro will still be empty (other suffices that could
-% be added will be later in the feature processing), and if it is indeed still empty,
-% assign it a value so that the other weights of the font are specifically loaded with the
-% same renderer. This fixes a bug in v1.10 for a mishmash of Lucida fonts.
 %    \begin{macrocode}
   \font\zf@basefont="\fontspec_fullname:n {\zf@up}"~at~\f@size pt
-  \xetex_if_engine:T
-  {
-    \unless\ifzf@icu
-      \zf@set@font@type
-    \fi
-    \ifx \l_fontspec_renderer_tl \@empty
-      \ifzf@atsui
-        \tl_set:Nn \l_fontspec_renderer_tl {/AAT}
-      \else\ifzf@icu
-        \tl_set:Nn \l_fontspec_renderer_tl {/ICU}
-      \fi\fi
-      \font\zf@basefont="\fontspec_fullname:n {\zf@up}"~at~\f@size pt
-    \fi
-  }
+  \xetex_if_engine:T { \fontspec_set_font_type: }
 %    \end{macrocode}
 % Now convert the remaining requested features to font definition
 % strings. This is performed with \cs{zf@get@feature@requests}, in
@@ -2510,28 +2491,41 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 %
 % \subsubsection{Fonts}
 %
-% \begin{macro}{\zf@set@font@type}
+% \begin{macro}{\fontspec_set_font_type:}
+% Now check if the font is to be rendered with ATSUI or ICU. This will either
+% be automatic (based on the font type), or specified by the user via a font feature.
+%
 % This macro sets \cs{zf@atsui} or \cs{zf@icu} or \cs{zf@mm} booleans
 % accordingly depending if the font in \cmd\zf@basefont\ is an AAT
 % font or an OpenType font or a font with feature axes (either AAT or
 % Multiple Master), respectively.
 %    \begin{macrocode}
-\newcommand*\zf@set@font@type{
+\cs_new:Nn \fontspec_set_font_type: {
   \zf@tfmfalse \zf@atsuifalse \zf@icufalse \zf@mmfalse \zf@graphitefalse
-  \xetex_or_luatex:nn {
-    \ifcase\XeTeXfonttype\zf@basefont
-      \zf@tfmtrue
-    \or
-      \zf@atsuitrue
-      \ifnum\XeTeXcountvariations\zf@basefont > 0
-        \zf@mmtrue
-      \fi
-    \or
-      \zf@icutrue
+  \ifcase\XeTeXfonttype\zf@basefont
+    \zf@tfmtrue
+  \or
+    \zf@atsuitrue
+    \ifnum\XeTeXcountvariations\zf@basefont > 0
+      \zf@mmtrue
     \fi
-  }{
-    \zf@icutrue % fixme
-  }
+  \or
+    \zf@icutrue
+  \fi
+%    \end{macrocode}
+% If automatic, the \cmd{\l_fontspec_renderer_tl} token list will still be
+% empty (other suffices that could be added will be later in the feature
+% processing), and if it is indeed still empty, assign it a value so that the
+% other weights of the font are specifically loaded with the same renderer.
+%    \begin{macrocode}
+  \ifx \l_fontspec_renderer_tl \@empty
+    \ifzf@atsui
+      \tl_set:Nn \l_fontspec_renderer_tl {/AAT}
+    \else\ifzf@icu
+      \tl_set:Nn \l_fontspec_renderer_tl {/ICU}
+    \fi\fi
+    \font\zf@basefont="\fontspec_fullname:n {\zf@up}"~at~\f@size pt
+  \fi
 }
 %    \end{macrocode}
 % \end{macro}
@@ -3119,13 +3113,11 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 % with |kpsewhich|; it's either in the current directory or the \TeX\ tree. Otherwise, the
 % argument given defines the file path of the font.
 %    \begin{macrocode}
-\bool_new:N \l_fontspec_external_bool
 \define@key[zf]{preparse-external}{ExternalLocation}[]{
-  \bool_set_true:N \l_fontspec_external_bool
-  \zf@icutrue
   \zf@nobftrue
   \zf@noittrue
   \gdef\zf@font@wrap##1{[#1##1]}
+  \xetex_if_engine:T { \setkeys[zf]{preparse}{Renderer=ICU} }
 }
 %    \end{macrocode}
 %
@@ -3149,7 +3141,8 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 % \paragraph{\feat{Renderer}}
 % This feature must be processed before all others (the other font shape and features options are also pre-parsed for convenience) because the renderer determines the format of the features and even whether certain features are available.
 %    \begin{macrocode}
-\define@choicekey[zf]{preparse}{Renderer}[\l_tmpa_tl\l_tmpa_num]{AAT,ICU,Graphite,Full,Basic}{
+\define@choicekey[zf]{preparse}{Renderer}[\l_tmpa_tl\l_tmpa_num]
+    {AAT,ICU,Graphite,Full,Basic}{
   \zf@update@family{+rend:#1}
   \intexpr_compare:nTF {\l_tmpa_num < 3} {
     \xetex_or_luatex:nn
@@ -3179,7 +3172,6 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 % See later for the resolutions from \pkg{fontspec} features to OpenType definitions.
 %    \begin{macrocode}
 \define@key[zf]{preparse}{Script}{
-  \zf@icutrue
   \xetex_if_engine:T { \setkeys[zf]{preparse}{Renderer=ICU} }
   \zf@update@family{+script:#1}
   {\setkeys[zf@feat]{Script}{#1}}
@@ -3188,7 +3180,6 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 % Exactly the same:
 %    \begin{macrocode}
 \define@key[zf]{preparse}{Language}{
-  \zf@icutrue
   \xetex_if_engine:T { \setkeys[zf]{preparse}{Renderer=ICU} }
   \zf@update@family{+language:#1}
   {\setkeys[zf@feat]{Lang}{#1}}

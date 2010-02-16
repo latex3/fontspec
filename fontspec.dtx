@@ -1828,9 +1828,9 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 %    \end{macrocode}
 % 
 %    \begin{macrocode}
-\cs_new:Nn \setkeys:xxx
+\cs_new:Nn \fontspec_setkeys:xx
  {
-  \use:x { \noexpand\setkeys*[#1]{#2}{#3} }
+  \use:x { \noexpand\setkeys*[zf]{#1}{#2} }
  }
 %    \end{macrocode}
 %
@@ -2242,7 +2242,7 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
   \let\zf@up\zf@fontname
   \fontspec_parse_external_font:nn {#1} {#2}
   \let\zf@fontname\zf@up
-  \setkeys:xxx {zf} {preparse} {\XKV@rm}
+  \fontspec_setkeys:xx {preparse} {\XKV@rm}
   \let\zf@font@feat\XKV@rm
 %    \end{macrocode}
 % Now check if the font is to be rendered with ATSUI or ICU. This will either
@@ -2472,7 +2472,7 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 \cs_new:Nn \fontspec_parse_external_font:nn
  {
   \bool_set_false:N \l_fontspec_external_bool
-  \setkeys:xxx {zf} {preparse-external} {\zf@default@options #1}
+  \fontspec_setkeys:xx {preparse-external} {\zf@default@options #1}
   \bool_if:NF \l_fontspec_external_bool
    {
     \clist_set_eq:NN \l_tmpa_clist \XKV@rm
@@ -2612,7 +2612,7 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
     \clist_map_variable:NNn \zf@size@feat \zf@this@size {
       \let\zf@size\@empty
       \let\zf@size@fnt\zf@fontname
-      \setkeys:xxx {zf} {sizing} {\expandafter\@firstofone\zf@this@size}
+      \fontspec_setkeys:xx {sizing} {\expandafter\@firstofone\zf@this@size}
       \ifx\zf@size\@empty
         \fontspec_error:n {no-size-info}
       \fi
@@ -2717,7 +2717,7 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
   \let\zf@ff     \@empty
   \let\zf@scale  \@empty
   \let\zf@adjust \@empty
-  \setkeys:xxx {zf} {options} { #1 }
+  \fontspec_setkeys:xx {options} { #1 }
   \ifx \XKV@rm \@empty \else
 %    \fontspec_error:nx {unknown-options} { \exp_not:V \XKV@rm }
   \fi

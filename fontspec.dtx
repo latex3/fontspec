@@ -2668,19 +2668,14 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 %    \begin{macrocode}
 \xetex_or_luatex:nn{
   \tl_set:Nn \l_fontspec_pre_feat_tl {
-    script=\l_fontspec_script_tl
-    \zf@feat@sepa
-    language=\l_fontspec_lang_tl
-    \zf@feat@sepa
+    script   = \l_fontspec_script_tl ;
+    language = \l_fontspec_lang_tl   ;
   }
 }{
   \tl_set:Nn \l_fontspec_pre_feat_tl {
-    mode=\l_fontspec_mode_tl
-    \zf@feat@sepa
-    script=\l_fontspec_script_tl
-    \zf@feat@sepa
-    language=\l_fontspec_lang_tl
-    \zf@feat@sepa
+    mode     = \l_fontspec_mode_tl   ;
+    script   = \l_fontspec_script_tl ;
+    language = \l_fontspec_lang_tl   ;
   }
 }
 %    \end{macrocode}
@@ -2760,9 +2755,7 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
   \def\zf@language@name{Default}
   \xetex_or_luatex:nn {
     \tl_set:Nn \l_fontspec_lang_tl {DFLT}
-    \def\zf@feat@sepa{\ifzf@icu,\else;\fi}
   }{
-    \def\zf@feat@sepa{;}
     \tl_set:Nn \l_fontspec_lang_tl {dflt}
     \tl_set:Nn \l_fontspec_mode_tl {node}
     \luatexprehyphenchar   =`\-  % fixme
@@ -2797,7 +2790,7 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
     \ifzf@icu
       \zf@check@ot@feat{+smcp}
       \if@tempswa
-        \edef\zf@smallcaps{+smcp,}
+        \edef\zf@smallcaps{+smcp;}
       \fi
     \fi
   }
@@ -2815,7 +2808,7 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 %    \begin{macrocode}
 \newcommand*\zf@update@ff[1]{
   \unless\ifzf@firsttime
-    \xdef\zf@ff{\zf@ff #1\zf@feat@sepa}
+    \xdef\zf@ff{\zf@ff #1;}
   \fi
 }
 %    \end{macrocode}

@@ -2252,8 +2252,7 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 % assign it a value so that the other weights of the font are specifically loaded with the
 % same renderer. This fixes a bug in v1.10 for a mishmash of Lucida fonts.
 %    \begin{macrocode}
-  \font\zf@basefont=
-    "\zf@font@wrap{\zf@up\l_fontspec_extension_tl}\zf@suffix"~at~\f@size pt
+  \font\zf@basefont="\fontspec_fullname:n {\zf@up}"~at~\f@size pt
   \xetex_if_engine:T
   {
     \unless\ifzf@icu
@@ -2262,13 +2261,10 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
     \ifx \l_fontspec_renderer_tl \@empty
       \ifzf@atsui
         \tl_set:Nn \l_fontspec_renderer_tl {/AAT}
-      \else
-        \ifzf@icu
-          \tl_set:Nn \l_fontspec_renderer_tl {/ICU}
-        \fi
-      \fi
-      \font\zf@basefont=
-        "\zf@font@wrap{\zf@up\l_fontspec_extension_tl}\zf@suffix"~at~ \f@size pt
+      \else\ifzf@icu
+        \tl_set:Nn \l_fontspec_renderer_tl {/ICU}
+      \fi\fi
+      \font\zf@basefont="\fontspec_fullname:n {\zf@up}"~at~\f@size pt
     \fi
   }
 %    \end{macrocode}
@@ -2322,11 +2318,10 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 %    \begin{macrocode}
   \unless\ifcsname zf@family@fontname\zf@family\endcsname
     \fontspec_info:nxx {defining-font} {#1} {#2}
-    \cs_gset:cpx{zf@family@fontname\zf@family}{#2}
-    \cs_gset:cpx{zf@family@options\zf@family}{\zf@default@options #1}
-    \cs_gset:cpx{zf@family@fontdef\zf@family}{
-      \zf@font@wrap{\zf@fontname\l_fontspec_extension_tl}\zf@suffix
-      :\l_fontspec_pre_feat_tl\zf@ff
+    \cs_gset:cpx {zf@family@fontname\zf@family} {#2}
+    \cs_gset:cpx {zf@family@options\zf@family} {\zf@default@options #1}
+    \cs_gset:cpx {zf@family@fontdef\zf@family} {
+      \fontspec_fullname:n {\zf@fontname} : \l_fontspec_pre_feat_tl \zf@ff
     }
 %    \end{macrocode}
 % Next the font family and its shapes are defined in the NFSS.
@@ -2360,6 +2355,17 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 }
 %    \end{macrocode}
 % \end{macro}
+%
+%
+% \begin{macro}{\fontspec_fullname:n}
+% Constructs the complete font name based on a common piece of info.
+%    \begin{macrocode}
+\cs_set:Nn \fontspec_fullname:n {
+  \zf@font@wrap { #1 \l_fontspec_extension_tl } \zf@suffix
+}
+%    \end{macrocode}
+% \end{macro}
+%
 %
 %
 % \begin{macro}{\fontspec_set_bold:}
@@ -2546,10 +2552,10 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
   \begingroup
     \edef\@tempa{#1}
     \unless\ifx\@tempa\@empty
-      \font\@tempfonta="\zf@font@wrap{#1\l_fontspec_extension_tl}\zf@suffix"~at~\f@size pt
+      \font\@tempfonta="\fontspec_fullname:n {#1}"~at~\f@size pt
       \edef\@tempa{\fontname\@tempfonta}
     \fi
-    \font\@tempfontb="\zf@font@wrap{#1#2\l_fontspec_extension_tl}\zf@suffix"~at~\f@size pt
+    \font\@tempfontb="\fontspec_fullname:n {#1#2}"~at~\f@size pt
     \edef\@tempb{\fontname\@tempfontb}
     \ifx\@tempa\@tempb
       \fontspec_info:nx {no-font-shape} {#1#2}
@@ -2599,8 +2605,8 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
     \zf@get@feature@requests{#4}
     \edef \zf@font@str {
       <-> \zf@scale "
-      \zf@font@wrap{\zf@fontname\l_fontspec_extension_tl}
-      \zf@suffix : \l_fontspec_pre_feat_tl \zf@ff #1 "
+      \fontspec_fullname:n {\zf@fontname} :
+        \l_fontspec_pre_feat_tl \zf@ff #1 "
     }
   \else
 %    \end{macrocode}
@@ -2619,8 +2625,8 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
       \zf@get@feature@requests{#4,\XKV@rm}
       \edef\zf@font@str{
         \zf@font@str <\zf@size> \zf@scale "
-        \zf@font@wrap { \zf@size@fnt \l_fontspec_extension_tl }
-        \zf@suffix : \l_fontspec_pre_feat_tl \zf@ff #1 "
+        \fontspec_fullname:n { \zf@size@fnt }
+          : \l_fontspec_pre_feat_tl \zf@ff #1 "
       }
     }
   \fi
@@ -3153,7 +3159,7 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
       \tl_set:Nv \l_fontspec_mode_tl {g_fontspec_mode_tag_\l_tmpa_tl}
     }
   }
-  \font\zf@basefont="\zf@font@wrap {\zf@up \l_fontspec_extension_tl} \zf@suffix"~at~\f@size pt
+  \font\zf@basefont="\fontspec_fullname:n {\zf@up}"~at~\f@size pt
 }
 \tl_set:cn {g_fontspec_renderer_tag_AAT} {/AAT}
 \tl_set:cn {g_fontspec_renderer_tag_ICU} {/ICU}

@@ -3506,6 +3506,14 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 }
 %    \end{macrocode}
 %
+% \paragraph{FeatureFile}
+%    \begin{macrocode}
+\define@key[zf]{options}{FeatureFile}{
+  \zf@update@family{+fea:#1}
+  \zf@update@ff{featurefile=#1}
+}
+%    \end{macrocode}
+%
 %
 % \subsubsection{Continuous font axes}
 %

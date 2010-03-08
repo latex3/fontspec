@@ -3031,10 +3031,8 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
   \tl_set:Nn \l_fontspec_script_name_tl {Latin}
   \tl_set:Nn \l_fontspec_script_tl      {latn}
   \tl_set:Nn \l_fontspec_lang_name_tl {Default}
-  \xetex_or_luatex:nn {
-    \tl_set:Nn \l_fontspec_lang_tl {DFLT}
-  }{
-    \tl_set:Nn \l_fontspec_lang_tl {dflt}
+  \tl_set:Nn \l_fontspec_lang_tl      {DFLT}
+  \luatex_if_engine:T {
     \tl_set:Nn \l_fontspec_mode_tl {node}
     \luatexprehyphenchar   =`\-  % fixme
     \luatexposthyphenchar  = 0   % fixme

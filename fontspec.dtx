@@ -1830,7 +1830,11 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 %    \begin{macrocode}
 \cs_new:Nn \fontspec_setkeys:xx
  {
-  \use:x { \noexpand\setkeys*[zf]{#1}{#2} }
+  \use:x { \exp_not:N \setkeys*[zf]{#1}{#2} }
+ }
+\cs_new:Nn \fontspec_setkeys:xxx
+ {
+  \use:x { \exp_not:N \setkeys*[zf@#1]{#2}{#3} }
  }
 %    \end{macrocode}
 %
@@ -2161,14 +2165,22 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 % feature choice, and then prepends the (\XeTeX) \cmd\font\ feature string with the appropriate
 % script selection tag.
 %    \begin{macrocode}
-\DeclareDocumentCommand \newfontscript {mm} {
+\DeclareDocumentCommand \newfontscript {mm}
+{
+  \fontspec_new_script:nn {#1} {#2}
+  \fontspec_new_script:nn {#2} {#2}
+}
+%    \end{macrocode}
+% 
+%    \begin{macrocode}
+\cs_new:Nn \fontspec_new_script:nn
+{
   \define@key[zf@feat]{Script}{#1}[]{
-    \zf@check@ot@script{#2}
+    \fontspec_check_script:n {#2}
     \if@tempswa
-      \global\c@zf@script\@tempcnta\relax
-      \xdef\zf@script@name{#1}
       \zf@update@family{+script=#1}
       \tl_set:Nn \l_fontspec_script_tl {#2}
+      \c@zf@script=\@tempcnta\relax
     \else
       \fontspec_warning:nx {script-not-exist} {#1}
     \fi
@@ -2184,16 +2196,24 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 % feature choice, and then prepends the (\XeTeX) \cmd\font\ feature string with the appropriate
 % language selection tag.
 %    \begin{macrocode}
-\DeclareDocumentCommand \newfontlanguage {mm} {
+\DeclareDocumentCommand \newfontlanguage {mm}
+{
+  \fontspec_new_lang:nn {#1} {#2}
+  \fontspec_new_lang:nn {#2} {#2}
+}
+%    \end{macrocode}
+% 
+%    \begin{macrocode}
+\cs_new:Nn \fontspec_new_lang:nn
+{
   \define@key[zf@feat]{Lang}{#1}[]{
-    \zf@check@ot@lang{#2}
+    \fontspec_check_lang:n {#2}
     \if@tempswa
-      \global\c@zf@language\@tempcnta\relax
-      \xdef\zf@language@name{#1}
       \zf@update@family{+lang=#1}
       \tl_set:Nn \l_fontspec_lang_tl {#2}
+      \c@zf@language=\@tempcnta\relax
     \else
-      \fontspec_warning:nx {lang-not-exist} {#1}
+      \fontspec_warning:nx {language-not-exist} {#1}
     \fi
   }
 }
@@ -2204,9 +2224,9 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 % \begin{macro}{\DeclareFontsExtensions}
 %    \begin{macrocode}
 \DeclareDocumentCommand \DeclareFontsExtensions {m}
-  {
-    \tl_set:Nx \l_fontspec_extensions_clist { \zap@space #1~\@empty }
-  }
+{
+  \tl_set:Nx \l_fontspec_extensions_clist { \zap@space #1~\@empty }
+}
 \DeclareFontsExtensions{.otf,.ttf,.OTF,.TTF}
 %    \end{macrocode}
 % \end{macro}
@@ -2264,7 +2284,8 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 %    \end{macrocode}
 %    \begin{macrocode}
   \font\zf@basefont="\fontspec_fullname:n {\zf@up}"~at~\f@size pt
-  \xetex_if_engine:T { \fontspec_set_font_type: }
+  \fontspec_set_font_type:
+  \font\zf@basefont="\fontspec_fullname:n {\zf@up}"~at~\f@size pt
 %    \end{macrocode}
 % Now convert the remaining requested features to font definition
 % strings. This is performed with \cs{zf@get@feature@requests}, in
@@ -2275,11 +2296,10 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 % font faces may have different feature names), we only want the
 % complex family name to be built up once, hence the \cs{zf@firsttime}
 % conditionals.
-%
-% In the future, this will be replaced by a dedicated \texttt{makefamily}
-% \pkg{xkeyval} \cmd\setkeys\ declaration. Probably.
 %    \begin{macrocode}
   \zf@firsttimetrue
+    \fontspec_setkeys:xxx {feat} {Script} {\l_fontspec_script_name_tl}
+    \fontspec_setkeys:xxx {feat} {Lang}   {\l_fontspec_lang_name_tl}
     \zf@get@feature@requests{\zf@font@feat}
   \zf@firsttimefalse
 %    \end{macrocode}
@@ -2321,6 +2341,10 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
     \cs_gset:cpx {zf@family@fontdef\zf@family} {
       \fontspec_fullname:n {\zf@fontname} : \l_fontspec_pre_feat_tl \zf@ff
     }
+    \tl_gset:cx {g_fontspec_script_num_(\zf@family)_tl}
+      { \int_use:N \c@zf@script   }
+    \tl_gset:cx {g_fontspec_lang_num_(\zf@family)_tl}
+      { \int_use:N \c@zf@language }
 %    \end{macrocode}
 % Next the font family and its shapes are defined in the NFSS.
 %
@@ -2356,8 +2380,7 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 %
 %
 % \begin{macro}{\fontspec_if_detect_external:nT}
-% Check if either the fontname ends with a known font extension or if the
-% |ExternalLocation| is used.
+% Check if either the fontname ends with a known font extension.
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \fontspec_if_detect_external:n {T}
  {
@@ -2500,32 +2523,37 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 % font or an OpenType font or a font with feature axes (either AAT or
 % Multiple Master), respectively.
 %    \begin{macrocode}
-\cs_new:Nn \fontspec_set_font_type: {
-  \zf@tfmfalse \zf@atsuifalse \zf@icufalse \zf@mmfalse \zf@graphitefalse
-  \ifcase\XeTeXfonttype\zf@basefont
-    \zf@tfmtrue
-  \or
-    \zf@atsuitrue
-    \ifnum\XeTeXcountvariations\zf@basefont > 0
-      \zf@mmtrue
+\xetex_or_luatex:nn {
+  \cs_new:Nn \fontspec_set_font_type: {
+    \zf@tfmfalse \zf@atsuifalse \zf@icufalse \zf@mmfalse \zf@graphitefalse
+    \ifcase\XeTeXfonttype\zf@basefont
+      \zf@tfmtrue
+    \or
+      \zf@atsuitrue
+      \ifnum\XeTeXcountvariations\zf@basefont > 0
+        \zf@mmtrue
+      \fi
+    \or
+      \zf@icutrue
     \fi
-  \or
-    \zf@icutrue
-  \fi
 %    \end{macrocode}
 % If automatic, the \cmd{\l_fontspec_renderer_tl} token list will still be
 % empty (other suffices that could be added will be later in the feature
 % processing), and if it is indeed still empty, assign it a value so that the
 % other weights of the font are specifically loaded with the same renderer.
 %    \begin{macrocode}
-  \ifx \l_fontspec_renderer_tl \@empty
-    \ifzf@atsui
-      \tl_set:Nn \l_fontspec_renderer_tl {/AAT}
-    \else\ifzf@icu
-      \tl_set:Nn \l_fontspec_renderer_tl {/ICU}
-    \fi\fi
-    \font\zf@basefont="\fontspec_fullname:n {\zf@up}"~at~\f@size pt
-  \fi
+    \ifx \l_fontspec_renderer_tl \@empty
+      \ifzf@atsui
+        \tl_set:Nn \l_fontspec_renderer_tl {/AAT}
+      \else\ifzf@icu
+        \tl_set:Nn \l_fontspec_renderer_tl {/ICU}
+      \fi\fi
+    \fi
+  }
+}{
+  \cs_new:Nn \fontspec_set_font_type: {
+    \zf@icutrue
+  }
 }
 %    \end{macrocode}
 % \end{macro}
@@ -2718,7 +2746,7 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
   \let\zf@ff     \@empty
   \let\zf@scale  \@empty
   \let\zf@adjust \@empty
-  \fontspec_setkeys:xx {options} { #1 }
+  \fontspec_setkeys:xx {options} {#1}
   \ifx \XKV@rm \@empty \else
 %    \fontspec_error:nx {unknown-options} { \exp_not:V \XKV@rm }
   \fi
@@ -2745,6 +2773,7 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 \tl_clear:N \zf@bfsl@feat
 \tl_clear:N \zf@sc@feat
 \tl_clear:N \zf@size@feat
+\tl_clear:N \zf@font@str
 %    \end{macrocode}
 % Or once per fontspec font invocation:
 % (Some of these may be redundant.
@@ -2755,11 +2784,9 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
   \let\zf@font@wrap   \@firstofone
   \tl_clear:N \l_fontspec_optical_size_tl
   \tl_clear:N \l_fontspec_renderer_tl
-  \c@zf@script 1818326126\relax
-  \def\zf@script@name{Latin}
-  \tl_set:Nn \l_fontspec_script_tl {latn}
-  \c@zf@language 0\relax
-  \def\zf@language@name{Default}
+  \tl_set:Nn \l_fontspec_script_name_tl {Latin}
+  \tl_set:Nn \l_fontspec_script_tl      {latn}
+  \tl_set:Nn \l_fontspec_lang_name_tl {Default}
   \xetex_or_luatex:nn {
     \tl_set:Nn \l_fontspec_lang_tl {DFLT}
   }{
@@ -2782,7 +2809,7 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
   \let\zf@smallcaps\@empty
   \luatex_if_engine:TF
   {
-    \zf@check@ot@feat{+smcp}
+    \fontspec_check_ot_feat:n{+smcp}
     \if@tempswa
       \edef\zf@smallcaps{+smcp;}
     \fi
@@ -2795,7 +2822,7 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
       \fi
     \fi
     \ifzf@icu
-      \zf@check@ot@feat{+smcp}
+      \fontspec_check_ot_feat:n{+smcp}
       \if@tempswa
         \edef\zf@smallcaps{+smcp;}
       \fi
@@ -2860,7 +2887,7 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
   \ifx\@tempa\@empty
     \fontspec_warning:n {icu-feature-not-exist}
   \else
-    \expandafter\zf@check@ot@feat\expandafter{\@tempa}
+    \expandafter\fontspec_check_ot_feat:n\expandafter{\@tempa}
     \if@tempswa
       \zf@update@family{#1}
       \zf@update@ff{#1}
@@ -3010,14 +3037,13 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 % \end{macro}
 % \end{macro}
 %
-% \begin{macro}{\zf@check@ot@script}
+% \begin{macro}{\fontspec_check_script:n}
 % This macro takes an OpenType script tag and checks if it exists in the current
 % font. The output boolean is \cmd\@tempswatrue. \cmd\@tempcnta\ is used to store
 % the number corresponding to the script tag string.
 %    \begin{macrocode}
-\newcommand\zf@check@ot@script[1]{
-  \xetex_or_luatex:nn
-  {
+\xetex_or_luatex:nn {
+  \cs_new:Nn \fontspec_check_script:n {
     \zf@iv@strnum{#1}
     \@tempcntb\XeTeXOTcountscripts\zf@basefont
     \c@zf@index\z@ \@tempswafalse
@@ -3030,23 +3056,23 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
       \fi
     \repeat
   }
-  {
+}{
+  \cs_new:Nn \fontspec_check_script:n {
     \luadirect{fontspec.check_ot_script("zf@basefont", "#1")}
   }
 }
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\zf@check@ot@lang}
+% \begin{macro}{\fontspec_check_lang:n}
 % This macro takes an OpenType language tag and checks if it exists in the current
 % font/script. The output boolean is \cmd\@tempswatrue. \cmd\@tempcnta\ is used to store
 % the number corresponding to the language tag string.
 % The script used is whatever's held in \cmd\c@zf@script. By default, that's the
 % number corresponding to `|latn|'.
 %    \begin{macrocode}
-\newcommand\zf@check@ot@lang[1]{
-  \xetex_or_luatex:nn
-  {
+\xetex_or_luatex:nn {
+  \cs_new:Nn \fontspec_check_lang:n {
     \zf@iv@strnum{#1}
     \@tempcntb\XeTeXOTcountlanguages\zf@basefont\c@zf@script
     \c@zf@index\z@ \@tempswafalse
@@ -3059,14 +3085,21 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
       \fi
     \repeat
   }
-  {
-    \luadirect{fontspec.check_ot_lang("zf@basefont", "#1", "\l_fontspec_script_tl")}
+}{
+  \cs_new:Nn \fontspec_check_lang:n {
+    \luadirect{
+      fontspec.check_ot_lang(
+                              "zf@basefont",
+                              "#1",
+                              "\l_fontspec_script_tl"
+                            )
+    }
   }
 }
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\zf@check@ot@feat}
+% \begin{macro}{\fontspec_check_ot_feat:n}
 % This macro takes an OpenType feature tag and checks if it exists in the current
 % font/script/language.
 % The output boolean is \cmd\@tempswa. \cmd\@tempcnta\ is used to store
@@ -3075,12 +3108,12 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 % number corresponding to `|latn|'. The language used is \cmd\c@zf@language,
 % by default |0|, the `default language'.
 %    \begin{macrocode}
-\newcommand*\zf@check@ot@feat[1]{
-  \xetex_or_luatex:nn
-  {
+\xetex_or_luatex:nn {
+  \cs_new:Nn \fontspec_check_ot_feat:n {
     \@tempcntb\XeTeXOTcountfeatures\zf@basefont\c@zf@script\c@zf@language
-    \zf@v@strnum{#1}
-    \c@zf@index\z@ \@tempswafalse
+    \zf@v@strnum {#1}
+    \c@zf@index\z@
+    \@tempswafalse
     \loop\ifnum\c@zf@index<\@tempcntb
       \ifnum\XeTeXOTfeaturetag\zf@basefont\c@zf@script\c@zf@language
             \c@zf@index=\@tempcnta
@@ -3091,8 +3124,16 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
       \fi
     \repeat
   }
-  {
-    \luadirect{fontspec.check_ot_feat("zf@basefont", "#1", "\l_fontspec_lang_tl", "\l_fontspec_script_tl")}
+}{
+  \cs_new:Nn \fontspec_check_ot_feat:n {
+    \luadirect{
+      fontspec.check_ot_feat(
+                              "zf@basefont",
+                              "#1",
+                              "\l_fontspec_lang_tl",
+                              "\l_fontspec_script_tl"
+                            )
+    }
   }
 }
 %    \end{macrocode}
@@ -3113,9 +3154,11 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 % with |kpsewhich|; it's either in the current directory or the \TeX\ tree. Otherwise, the
 % argument given defines the file path of the font.
 %    \begin{macrocode}
+\bool_new:N \l_fontspec_external_bool
 \define@key[zf]{preparse-external}{ExternalLocation}[]{
   \zf@nobftrue
   \zf@noittrue
+  \bool_set_true:N \l_fontspec_external_bool
   \gdef\zf@font@wrap##1{[#1##1]}
   \xetex_if_engine:T { \setkeys[zf]{preparse}{Renderer=ICU} }
 }
@@ -3127,7 +3170,9 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 %    \begin{macrocode}
 \define@key[zf]{preparse-external}{Extension}{
   \tl_set:Nn \l_fontspec_extension_tl {#1}
-  \setkeys*[zf]{preparse-external}{ExternalLocation}
+  \bool_if:NF \l_fontspec_external_bool {
+    \setkeys*[zf]{preparse-external}{ExternalLocation}
+  }
 }
 \tl_clear:N \l_fontspec_extension_tl
 %    \end{macrocode}
@@ -3159,7 +3204,6 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
       \tl_set:Nv \l_fontspec_mode_tl {g_fontspec_mode_tag_\l_tmpa_tl}
     }
   }
-  \font\zf@basefont="\fontspec_fullname:n {\zf@up}"~at~\f@size pt
 }
 \tl_set:cn {g_fontspec_renderer_tag_AAT} {/AAT}
 \tl_set:cn {g_fontspec_renderer_tag_ICU} {/ICU}
@@ -3173,16 +3217,16 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 %    \begin{macrocode}
 \define@key[zf]{preparse}{Script}{
   \xetex_if_engine:T { \setkeys[zf]{preparse}{Renderer=ICU} }
+  \tl_set:Nn \l_fontspec_script_name_tl {#1}
   \zf@update@family{+script:#1}
-  {\setkeys[zf@feat]{Script}{#1}}
 }
 %    \end{macrocode}
 % Exactly the same:
 %    \begin{macrocode}
 \define@key[zf]{preparse}{Language}{
   \xetex_if_engine:T { \setkeys[zf]{preparse}{Renderer=ICU} }
+  \tl_set:Nn \l_fontspec_lang_name_tl {#1}
   \zf@update@family{+language:#1}
-  {\setkeys[zf@feat]{Lang}{#1}}
 }
 %    \end{macrocode}
 %
@@ -3892,7 +3936,7 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 \newfontlanguage{Crimean~Tatar}{CRT}\newfontlanguage{Church~Slavonic}{CSL}
 \newfontlanguage{Czech}{CSY}\newfontlanguage{Danish}{DAN}
 \newfontlanguage{Dargwa}{DAR}\newfontlanguage{Woods~Cree}{DCR}
-\newfontlanguage{German}{DEU}\newfontlanguage{Default}{DFLT}
+\newfontlanguage{German}{DEU}
 \newfontlanguage{Dogri}{DGR}\newfontlanguage{Divehi}{DIV}
 \newfontlanguage{Djerma}{DJR}\newfontlanguage{Dangme}{DNG}
 \newfontlanguage{Dinka}{DNK}\newfontlanguage{Dungan}{DUN}
@@ -4056,23 +4100,31 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 % \paragraph{Turkish} Turns out that many fonts use `TUR' as their Turkish language tag rather than the specified `TRK'. So we check for both:
 %    \begin{macrocode}
 \define@key[zf@feat]{Lang}{Turkish}[]{
-  \zf@check@ot@lang{TRK}
+  \fontspec_check_lang:n{TRK}
   \if@tempswa
     \c@zf@language\@tempcnta\relax
-    \xdef\zf@language@name{Turkish}
     \zf@update@family{+lang=Turkish}
     \tl_set:Nn \l_fontspec_lang_tl {TRK}
   \else
-    \zf@check@ot@lang{TUR}
+    \fontspec_check_lang:n{TUR}
     \if@tempswa
       \c@zf@language\@tempcnta\relax
-      \xdef\zf@language@name{Turkish}
       \zf@update@family{+lang=Turkish}
       \tl_set:Nn \l_fontspec_lang_tl {TUR}
     \else
       \fontspec_warning:nx {language-not-exist} {#1}
     \fi
   \fi
+}
+%    \end{macrocode}
+%
+% \paragraph{Default}
+%
+%    \begin{macrocode}
+\define@key[zf@feat]{Lang}{Default}[]{
+  \zf@update@family{+lang=dflt}
+  \tl_set:Nn \l_fontspec_lang_tl {DFLT}
+  \c@zf@language=0\relax
 }
 %    \end{macrocode}
 %
@@ -4423,11 +4475,6 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 {
   Font '\zf@fontname' does not contain script '#1'.
 }
-\msg_new:nnn {fontspec} {lang-not-exist}
-{
-  Font '\zf@fontname' does not contain\\
-  language '#1' for script '\zf@script@name'.
-}
 \msg_new:nnn {fontspec} {aat-feature-not-exist}
 {
   '\XKV@tfam=\XKV@tkey' feature not supported\\
@@ -4447,7 +4494,7 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 {
   OpenType feature '\XKV@tfam=\XKV@tkey' (#1) not available\\
   for font '\zf@fontname', \\
-  with script '\zf@script@name', and language '\zf@language@name'.
+  with script '\l_fontspec_script_name_tl', and language '\l_fontspec_lang_name_tl'.
 }
 \msg_new:nnn {fontspec} {no-opticals}
 {
@@ -4457,7 +4504,7 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 {
   Language '#1' not available\\
   for font '\zf@fontname'\\
-  with script '\zf@script@name'.
+  with script '\l_fontspec_script_name_tl'.
 }
 \msg_new:nnn {fontspec} {only-xetex-feature}
 {

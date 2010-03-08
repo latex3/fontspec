@@ -3049,13 +3049,7 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 %    \begin{macrocode}
 \newcommand*\zf@make@smallcaps{
   \let\zf@smallcaps\@empty
-  \luatex_if_engine:TF
-  {
-    \fontspec_check_ot_feat:n{+smcp}
-    \if@tempswa
-      \edef\zf@smallcaps{+smcp;}
-    \fi
-  }
+  \xetex_or_luatex:nn
   {
     \ifzf@atsui
       \zf@make@aat@feature@string{3}{3}
@@ -3068,6 +3062,12 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
       \if@tempswa
         \edef\zf@smallcaps{+smcp;}
       \fi
+    \fi
+  }
+  {
+    \fontspec_check_ot_feat:n{+smcp}
+    \if@tempswa
+      \edef\zf@smallcaps{+smcp;}
     \fi
   }
 }

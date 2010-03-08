@@ -2231,9 +2231,253 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 %    \end{macrocode}
 % \end{macro}
 %
+% \subsection{Programmer's interface}
+%
+% These functions are not used directly by fontspec when defining fonts;
+% they are designed to be used by other packages who wish to do font-related
+% things on top of fontspec itself.
+%
+% Because I haven't fully explored how these functions will behave in
+% practise, I am not giving them user-level names. As it becomes more clear
+% which of these should be accessible by document writers, I'll open them up
+% a little more.
+%
+% All functions are defined assuming that the font to be queried is
+% currently selected as a fontspec font. (I.e., via \verb|\fontspec| or
+% from a \verb|\newfontfamily| macro or from \verb|\setmainfont| and so on.) 
+%
+% \begin{macro}{\fontspec_if_fontspec_font:TF}
+% Returns whether the currently selected font has been loaded by fontspec.
+%    \begin{macrocode}
+\prg_new_conditional:Nnn \fontspec_if_fontspec_font: {TF,T,F} {
+  \ifcsname zf@family@fontdef\f@family\endcsname
+    \prg_return_true:
+  \else
+    \prg_return_false:
+  \fi
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\fontspec_if_opentype:TF}
+% Returns whether the currently selected font is an OpenType font.
+% Always true for LuaTeX fonts.
+%    \begin{macrocode}
+\prg_new_conditional:Nnn \fontspec_if_opentype: {TF,T,F} {
+  \ifcsname zf@family@fontdef\f@family\endcsname
+    \font\zf@basefont="\csname zf@family@fontdef\f@family\endcsname" at \f@size pt
+    \fontspec_set_font_type:
+    \ifzf@icu
+      \prg_return_true:
+    \else
+      \prg_return_false:
+    \fi
+  \else
+    \prg_return_false:
+  \fi
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\fontspec_if_feature:nTF}
+% Returns whether the currently selected font contains the raw OpenType
+% feature |#1|. E.g.: |\fontspec_if_feature:nTF {+pnum} {True} {False}|
+% Returns false if the font is not loaded by fontspec or is not an OpenType
+% font.
+%    \begin{macrocode}
+\prg_new_conditional:Nnn \fontspec_if_feature:n {TF,T,F} {
+  \ifcsname zf@family@fontdef\f@family\endcsname
+    \font\zf@basefont="\csname zf@family@fontdef\f@family\endcsname" at \f@size pt
+    \fontspec_set_font_type:
+    \ifzf@icu
+      \int_set:Nn \c@zf@script
+        {\use:c {g_fontspec_script_num_(\zf@family)_tl}}
+      \int_set:Nn \c@zf@language
+        {\use:c {g_fontspec_lang_num_(\zf@family)_tl}}
+      \fontspec_check_ot_feat:n {#1}
+      \if@tempswa
+        \prg_return_true:
+      \else
+        \prg_return_false:
+      \fi
+    \else
+      \prg_return_false:
+    \fi
+  \else
+    \prg_return_false:
+  \fi
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\fontspec_if_feature:nnnTF}
+% Returns whether the currently selected font with raw OpenType script tag |#1| and raw OpenType language tag |#2| contains the raw OpenType feature tag |#3|. E.g.: |\fontspec_if_feature:nTF {latn} {ROM} {+pnum} {True} {False}|
+% Returns false if the font is not loaded by fontspec or is not an OpenType
+% font.
+%    \begin{macrocode}
+\prg_new_conditional:Nnn \fontspec_if_feature:nnn {TF,T,F} {
+  \ifcsname zf@family@fontdef\f@family\endcsname
+    \font\zf@basefont="\csname zf@family@fontdef\f@family\endcsname" at \f@size pt
+    \fontspec_set_font_type:
+    \ifzf@icu
+      \zf@iv@strnum{#1} \c@zf@script   = \@tempcnta \relax
+      \zf@iv@strnum{#2} \c@zf@language = \@tempcnta \relax
+      \fontspec_check_ot_feat:n {#3}
+      \if@tempswa
+        \prg_return_true:
+      \else
+        \prg_return_false:
+      \fi
+    \else
+      \prg_return_false:
+    \fi
+  \else
+    \prg_return_false:
+  \fi
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\fontspec_if_script:nTF}
+% Returns whether the currently selected font contains the raw OpenType
+% script |#1|. E.g.: |\fontspec_if_script:nTF {latn} {True} {False}|
+% Returns false if the font is not loaded by fontspec or is not an OpenType
+% font.
+%    \begin{macrocode}
+\prg_new_conditional:Nnn \fontspec_if_script:n {TF,T,F} {
+  \ifcsname zf@family@fontdef\f@family\endcsname
+    \font\zf@basefont="\csname zf@family@fontdef\f@family\endcsname" at \f@size pt
+    \fontspec_set_font_type:
+    \ifzf@icu
+      \fontspec_check_script:n {#1}
+      \if@tempswa
+        \prg_return_true:
+      \else
+        \prg_return_false:
+      \fi
+    \else
+      \prg_return_false:
+    \fi
+  \else
+    \prg_return_false:
+  \fi
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\fontspec_if_language:nTF}
+% Returns whether the currently selected font contains the raw OpenType
+% feature |#1|. E.g.: |\fontspec_if_feature:nTF {+pnum} {True} {False}|
+% Returns false if the font is not loaded by fontspec or is not an OpenType
+% font.
+%    \begin{macrocode}
+\prg_new_conditional:Nnn \fontspec_if_language:n {TF,T,F} {
+  \ifcsname zf@family@fontdef\f@family\endcsname
+    \font\zf@basefont="\csname zf@family@fontdef\f@family\endcsname" at \f@size pt
+    \fontspec_set_font_type:
+    \ifzf@icu
+      \int_set:Nn \c@zf@script
+        {\use:c {g_fontspec_script_num_(\zf@family)_tl}}
+      \fontspec_check_lang:n {#1}
+      \if@tempswa
+        \prg_return_true:
+      \else
+        \prg_return_false:
+      \fi
+    \else
+      \prg_return_false:
+    \fi
+  \else
+    \prg_return_false:
+  \fi
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\fontspec_if_language:nnTF}
+% Returns whether the currently selected font contains the raw OpenType
+% feature |#2| in script |#1|. E.g.: |\fontspec_if_feature:nTF {+pnum} {True} {False}|
+% Returns false if the font is not loaded by fontspec or is not an OpenType
+% font.
+%    \begin{macrocode}
+\prg_new_conditional:Nnn \fontspec_if_language:nn {TF,T,F} {
+  \ifcsname zf@family@fontdef\f@family\endcsname
+    \font\zf@basefont="\csname zf@family@fontdef\f@family\endcsname" at \f@size pt
+    \fontspec_set_font_type:
+    \ifzf@icu
+      \zf@iv@strnum{#1} \c@zf@script   = \@tempcnta \relax
+      \fontspec_check_lang:n {#2}
+      \if@tempswa
+        \prg_return_true:
+      \else
+        \prg_return_false:
+      \fi
+    \else
+      \prg_return_false:
+    \fi
+  \else
+    \prg_return_false:
+  \fi
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\fontspec_if_current_script:nTF}
+% Returns whether the currently loaded font is using the specified raw
+% OpenType script tag |#1|.
+%    \begin{macrocode}
+\prg_new_conditional:Nnn \fontspec_if_current_script:n {TF,T,F} {
+  \ifcsname zf@family@fontdef\f@family\endcsname
+    \font\zf@basefont="\csname zf@family@fontdef\f@family\endcsname" at \f@size pt
+    \fontspec_set_font_type:
+    \ifzf@icu
+      \int_set:Nn \c@zf@script
+        {\use:c {g_fontspec_script_num_(\zf@family)_tl}}
+      \zf@iv@strnum{#1}
+      \intexpr_compare:nTF { \c@zf@script = \@tempcnta }
+        {\prg_return_true:} {\prg_return_false:}
+    \else
+      \prg_return_false:
+    \fi
+  \else
+    \prg_return_false:
+  \fi
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\fontspec_if_current_language:nTF}
+% Returns whether the currently loaded font is using the specified raw
+% OpenType language tag |#1|.
+%    \begin{macrocode}
+\prg_new_conditional:Nnn \fontspec_if_current_language:n {TF,T,F} {
+  \ifcsname zf@family@fontdef\f@family\endcsname
+    \font\zf@basefont="\csname zf@family@fontdef\f@family\endcsname" at \f@size pt
+    \fontspec_set_font_type:
+    \ifzf@icu
+      \int_set:Nn \c@zf@language
+        {\use:c {g_fontspec_lang_num_(\zf@family)_tl}}
+      \zf@iv@strnum{#1}
+      \intexpr_compare:nTF { \c@zf@language = \@tempcnta }
+        {\prg_return_true:} {\prg_return_false:}
+    \else
+      \prg_return_false:
+    \fi
+  \else
+    \prg_return_false:
+  \fi
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
 %
 % \subsection{Internal macros}
 % \label{sec:codeinternal}
+%
+% The macros from here in are used internally by all those defined above.
+% They are not designed to remain consistent between versions.
 %
 % \begin{macro}{\zf@fontspec}
 % This is the command that defines font families for use, the underlying

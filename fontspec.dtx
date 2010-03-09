@@ -2294,6 +2294,8 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
         {\use:c {g_fontspec_script_num_(\zf@family)_tl}}
       \int_set:Nn \c@zf@language
         {\use:c {g_fontspec_lang_num_(\zf@family)_tl}}
+      \tl_set:Nv \l_fontspec_script_tl {g_fontspec_script_(\zf@family)_tl}
+      \tl_set:Nv \l_fontspec_lang_tl   {g_fontspec_lang_(\zf@family)_tl}
       \fontspec_check_ot_feat:n {#1}
       \if@tempswa
         \prg_return_true:
@@ -2376,6 +2378,7 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
     \font\zf@basefont="\csname zf@family@fontdef\f@family\endcsname" at \f@size pt
     \fontspec_set_font_type:
     \ifzf@icu
+      \tl_set:Nv \l_fontspec_script_tl {g_fontspec_script_(\zf@family)_tl}
       \int_set:Nn \c@zf@script
         {\use:c {g_fontspec_script_num_(\zf@family)_tl}}
       \fontspec_check_lang:n {#1}
@@ -2405,6 +2408,7 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
     \font\zf@basefont="\csname zf@family@fontdef\f@family\endcsname" at \f@size pt
     \fontspec_set_font_type:
     \ifzf@icu
+      \tl_set:Nn \l_fontspec_script_tl {#1}
       \zf@iv@strnum{#1} \c@zf@script   = \@tempcnta \relax
       \fontspec_check_lang:n {#2}
       \if@tempswa
@@ -2432,10 +2436,7 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
     \font\zf@basefont="\csname zf@family@fontdef\f@family\endcsname" at \f@size pt
     \fontspec_set_font_type:
     \ifzf@icu
-      \int_set:Nn \c@zf@script
-        {\use:c {g_fontspec_script_num_(\zf@family)_tl}}
-      \zf@iv@strnum{#1}
-      \intexpr_compare:nTF { \c@zf@script = \@tempcnta }
+      \tl_if_eq:nvTF {#1} {g_fontspec_script_(\zf@family)_tl}
         {\prg_return_true:} {\prg_return_false:}
     \else
       \prg_return_false:
@@ -2456,10 +2457,7 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
     \font\zf@basefont="\csname zf@family@fontdef\f@family\endcsname" at \f@size pt
     \fontspec_set_font_type:
     \ifzf@icu
-      \int_set:Nn \c@zf@language
-        {\use:c {g_fontspec_lang_num_(\zf@family)_tl}}
-      \zf@iv@strnum{#1}
-      \intexpr_compare:nTF { \c@zf@language = \@tempcnta }
+      \tl_if_eq:nvTF {#1} {g_fontspec_lang_(\zf@family)_tl}
         {\prg_return_true:} {\prg_return_false:}
     \else
       \prg_return_false:
@@ -2471,6 +2469,10 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 %    \end{macrocode}
 % \end{macro}
 %
+% Need this:
+%    \begin{macrocode}
+\cs_generate_variant:Nn \tl_if_eq:nnTF {nv}
+%    \end{macrocode}
 %
 %
 % \subsection{Internal macros}
@@ -2580,15 +2582,17 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 %    \begin{macrocode}
   \unless\ifcsname zf@family@fontname\zf@family\endcsname
     \fontspec_info:nxx {defining-font} {#1} {#2}
-    \cs_gset:cpx {zf@family@fontname\zf@family} {#2}
-    \cs_gset:cpx {zf@family@options\zf@family} {\zf@default@options #1}
-    \cs_gset:cpx {zf@family@fontdef\zf@family} {
+    \tl_gset:cx {zf@family@fontname\zf@family} {#2}
+    \tl_gset:cx {zf@family@options\zf@family} {\zf@default@options #1}
+    \tl_gset:cx {zf@family@fontdef\zf@family} {
       \fontspec_fullname:n {\zf@fontname} : \l_fontspec_pre_feat_tl \zf@ff
     }
     \tl_gset:cx {g_fontspec_script_num_(\zf@family)_tl}
       { \int_use:N \c@zf@script   }
     \tl_gset:cx {g_fontspec_lang_num_(\zf@family)_tl}
       { \int_use:N \c@zf@language }
+    \tl_gset_eq:cN {g_fontspec_script_(\zf@family)_tl} \l_fontspec_script_tl
+    \tl_gset_eq:cN {g_fontspec_lang_(\zf@family)_tl}   \l_fontspec_lang_tl
 %    \end{macrocode}
 % Next the font family and its shapes are defined in the NFSS.
 %

@@ -1780,6 +1780,18 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 %    \end{macrocode}
 % \end{macro}
 %
+% \begin{macro}{\xetex_or_luatex:nnn}
+% Use |#1| and (|{#2}| if \XeTeX) or (|{#3}| if \LuaTeX).
+%    \begin{macrocode}
+\xetex_if_engine:TF
+  { \cs_new:Npn \xetex_or_luatex:nnn #1#2#3 {#1{#2}} }
+  {
+    \luatex_if_engine:T
+     { \cs_new:Npn \xetex_or_luatex:nnn #1#2#3 {#1{#3}} }
+  }
+%    \end{macrocode}
+% \end{macro}
+%
 % \subsection{Bits and pieces}
 % \paragraph{Conditionals}
 %    \begin{macrocode}
@@ -1867,11 +1879,7 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 % can be used as the defaults. See the |euenc| collection of files for how this is implemented.
 %    \begin{macrocode}
 \if@zf@euenc
-  \xetex_or_luatex:nn {
-    \tl_set:Nn \zf@enc {EU1}
-  }{
-    \tl_set:Nn \zf@enc {EU2}
-  }
+  \xetex_or_luatex:nnn {\tl_set:Nn \zf@enc} {EU1} {EU2}
   \tl_set:Nn \rmdefault {lmr}
   \tl_set:Nn \sfdefault {lmss}
   \tl_set:Nn \ttdefault {lmtt}
@@ -2737,8 +2745,8 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 % font or an OpenType font or a font with feature axes (either AAT or
 % Multiple Master), respectively.
 %    \begin{macrocode}
-\xetex_or_luatex:nn {
-  \cs_new:Nn \fontspec_set_font_type: {
+\xetex_or_luatex:nnn { \cs_new:Nn \fontspec_set_font_type: }
+   {
     \zf@tfmfalse \zf@atsuifalse \zf@icufalse \zf@mmfalse \zf@graphitefalse
     \ifcase\XeTeXfonttype\zf@basefont
       \zf@tfmtrue
@@ -2764,11 +2772,9 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
       \fi\fi
     \fi
   }
-}{
-  \cs_new:Nn \fontspec_set_font_type: {
+  {
     \zf@icutrue
   }
-}
 %    \end{macrocode}
 % \end{macro}
 %
@@ -2914,18 +2920,16 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 % These are the features always applied to a font selection before other
 % features.
 %    \begin{macrocode}
-\xetex_or_luatex:nn{
-  \tl_set:Nn \l_fontspec_pre_feat_tl {
+\xetex_or_luatex:nnn { \tl_set:Nn \l_fontspec_pre_feat_tl }
+  {
     script   = \l_fontspec_script_tl ;
     language = \l_fontspec_lang_tl   ;
   }
-}{
-  \tl_set:Nn \l_fontspec_pre_feat_tl {
+  {
     mode     = \l_fontspec_mode_tl   ;
     script   = \l_fontspec_script_tl ;
     language = \l_fontspec_lang_tl   ;
   }
-}
 %    \end{macrocode}
 % \end{macro}
 %
@@ -3247,8 +3251,8 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 % font. The output boolean is \cmd\@tempswatrue. \cmd\@tempcnta\ is used to store
 % the number corresponding to the script tag string.
 %    \begin{macrocode}
-\xetex_or_luatex:nn {
-  \prg_new_conditional:Nnn \fontspec_check_script:n {TF} {
+\xetex_or_luatex:nnn {\prg_new_conditional:Nnn \fontspec_check_script:n {TF}}
+  {
     \zf@iv@strnum{#1}
     \@tempcntb\XeTeXOTcountscripts\zf@basefont
     \c@zf@index\z@ \@tempswafalse
@@ -3262,12 +3266,10 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
     \repeat
     \if@tempswa \prg_return_true: \else: \prg_return_false: \fi:
   }
-}{
-  \prg_new_conditional:Nnn \fontspec_check_script:n {TF} {
+  {
     \luadirect{fontspec.check_ot_script("zf@basefont", "#1")}
     \if@tempswa \prg_return_true: \else: \prg_return_false: \fi:
   }
-}
 %    \end{macrocode}
 % \end{macro}
 %
@@ -3278,8 +3280,8 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 % The script used is whatever's held in \cmd\c@zf@script. By default, that's the
 % number corresponding to `|latn|'.
 %    \begin{macrocode}
-\xetex_or_luatex:nn {
-  \prg_new_conditional:Nnn \fontspec_check_lang:n {TF} {
+\xetex_or_luatex:nnn {\prg_new_conditional:Nnn \fontspec_check_lang:n {TF}}
+  {
     \zf@iv@strnum{#1}
     \@tempcntb\XeTeXOTcountlanguages\zf@basefont\c@zf@script
     \c@zf@index\z@
@@ -3294,8 +3296,7 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
     \repeat
     \if@tempswa \prg_return_true: \else: \prg_return_false: \fi:
   }
-}{
-  \prg_new_conditional:Nnn \fontspec_check_lang:n {TF} {
+  {
     \luadirect{
       fontspec.check_ot_lang(
                               "zf@basefont",
@@ -3305,7 +3306,6 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
     }
     \if@tempswa \prg_return_true: \else: \prg_return_false: \fi:
   }
-}
 %    \end{macrocode}
 % \end{macro}
 %
@@ -3321,8 +3321,9 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 % number corresponding to `|latn|'. The language used is \cmd\c@zf@language,
 % by default |0|, the `default language'.
 %    \begin{macrocode}
-\xetex_or_luatex:nn {
-  \prg_new_conditional:Nnn \fontspec_check_ot_feat:n {TF,T} {
+\xetex_or_luatex:nnn
+   { \prg_new_conditional:Nnn \fontspec_check_ot_feat:n {TF,T} }
+   {
     \@tempcntb\XeTeXOTcountfeatures\zf@basefont\c@zf@script\c@zf@language
     \zf@v@strnum {#1}
     \c@zf@index\z@
@@ -3338,8 +3339,7 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
     \repeat
     \if@tempswa \prg_return_true: \else: \prg_return_false: \fi:
   }
-}{
-  \prg_new_conditional:Nnn \fontspec_check_ot_feat:n {TF,T} {
+  {
     \luadirect{
       fontspec.check_ot_feat(
                               "zf@basefont",
@@ -3350,7 +3350,6 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
     }
     \if@tempswa \prg_return_true: \else: \prg_return_false: \fi:
   }
-}
 \cs_generate_variant:Nn \fontspec_check_ot_feat:nTF {V}
 \cs_generate_variant:Nn \fontspec_check_ot_feat:nT  {V}
 %    \end{macrocode}
@@ -3420,9 +3419,7 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
   }{
     \xetex_or_luatex:nn
     { \fontspec_warning:nx {only-luatex-feature} {Renderer=Full/Basic} }
-    {
-      \tl_set:Nv \l_fontspec_mode_tl {g_fontspec_mode_tag_\l_tmpa_tl}
-    }
+    { \tl_set:Nv \l_fontspec_mode_tl {g_fontspec_mode_tag_\l_tmpa_tl}  }
   }
 }
 \tl_set:cn {g_fontspec_renderer_tag_AAT} {/AAT}
@@ -3709,11 +3706,9 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
   \edef\@tempa{#1}
   \edef\@tempb{None}
   \ifx\@tempa\@tempb
-    \xetex_or_luatex:nn {
-      \g@addto@macro\zf@adjust{\hyphenchar\font-1\relax}%
-    }{
-      \g@addto@macro\zf@adjust{\luatexprehyphenchar=-1\relax}
-    }
+    \xetex_or_luatex:nnn { \g@addto@macro\zf@adjust }
+      { \hyphenchar\font-1\relax }
+      { \luatexprehyphenchar=-1\relax }
   \else
     \zf@check@one@char#1\zf@@
     \ifx\@tempb\@empty

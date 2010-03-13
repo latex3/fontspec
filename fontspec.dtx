@@ -4845,7 +4845,7 @@ function fontspec.sprint (...) tex.sprint(tex.catcodetablenumber["latex-package"
 
 local function check_script(id, script)
     local s = string.lower(script)
-    if id and id ~= 0 then
+    if id and id > 0 then
         local otfdata = fonts.ids[id].shared.otfdata
         if otfdata then
             local features = otfdata.luatex.features
@@ -4865,7 +4865,7 @@ end
 local function check_language(id, language, script)
     local s = string.lower(script)
     local l = string.lower(language)
-    if id and id ~= 0 then
+    if id and id > 0 then
         local otfdata = fonts.ids[id].shared.otfdata
         if otfdata then
             local features = otfdata.luatex.features
@@ -4886,7 +4886,7 @@ local function check_feature(id, feature, language, script)
     local s = string.lower(script)
     local l = string.lower(language)
     local f = string.lower(feature:gsub("^[+-]", ""))
-    if id and id ~= 0 then
+    if id and id > 0 then
         local otfdata = fonts.ids[id].shared.otfdata
         if otfdata then
             local features = otfdata.luatex.features

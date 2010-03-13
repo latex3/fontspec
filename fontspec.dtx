@@ -221,31 +221,27 @@ specified \meta{font name}. The font features argument accepts comma separated
 \meta{font feature}=\meta{option} lists; these will not be fully described
 until \vref{sec:features}.
 
-\section{Font selection in \LuaTeX}
+\section{Font selection}
 
-%% \LuaTeX\ may access any font that can be found in the default search paths,
-%% and fonts can only be chosen by file name. Bold and italic variations, if
-%% desired, must be explicitly selected when a font is loaded. An example is:
-%% \begin{Verbatim}
-%%    \fontspec
-%%       [
-%%         BoldFont       = cambriab.ttf ,
-%%         ItalicFont     = cambriai.ttf ,
-%%         BoldItalicFont = cambriaz.ttf ,
-%%       ]
-%%       {cambria.ttf}
-%% \end{Verbatim}
-
-\section{Font selection in \XeTeX}
-
-As well as loading fonts by filename as in \LuaTeX, fonts may be loaded in
-\XeTeX\ also by font name; furthermore, bold and italic shapes are automatically
-detected. The analogous example to the above is:
+Fonts can be loaded by either font name or file name. When fonts are loaded by
+font name, bold and italic shapes are automatically detected. An example is:
 \begin{Verbatim}
     \fontspec{Cambria}
 \end{Verbatim}
 
 TODO: add explanation for how to find out what the `font name' is.
+
+When fonts are loaded by file name, bold and italic variations, if desired, must
+be explicitly selected when a font is loaded. The analogous example to the above is:
+\begin{Verbatim}
+   \fontspec
+      [
+        BoldFont       = cambriab.ttf ,
+        ItalicFont     = cambriai.ttf ,
+        BoldItalicFont = cambriaz.ttf ,
+      ]
+      {cambria.ttf}
+\end{Verbatim}
 
 \section{Default font families}
 \label{sec:setxxfont}
@@ -256,7 +252,7 @@ TODO: add explanation for how to find out what the `font name' is.
 The \cs{setmainfont},
 \cs{setsansfont}, and \cs{setmonofont} commands are used to select
 the default font families for the entire document. They take the
-same arguments as \cmd{\fontspec}. For example (with \XeTeX):
+same arguments as \cmd{\fontspec}. For example:
   \def\pangram{Pack my box with five
                      dozen liquor jugs.}
 \begin{example}
@@ -291,7 +287,6 @@ family with the \cmd\newfontfamily\ command:
 This macro should be used to create commands that would be used in
 the same way as \cmd\rmfamily, for example.
 
-(\XeTeX\ only:)
 \DescribeMacro{\newfontface}
 Sometimes only a specific font face is desired, without accompanying italic or bold variants
 begin automatically selected.
@@ -307,8 +302,6 @@ in the upright forms. \cmd\newfontface\ is used for this purpose:
 
 \subsection{Arbitrary bold/italic/small caps fonts}
 \label{sec:bfitfonts}
-
-TODO: lead in with a \LuaTeX\ slant.
 
 The automatic bold, italic, and bold italic font selections will not be
 adequate for the needs of every font: while some fonts mayn't even

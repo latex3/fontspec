@@ -223,25 +223,95 @@ until \vref{sec:features}.
 
 \section{Font selection}
 
-Fonts can be loaded by either font name or file name. When fonts are loaded by
-font name, bold and italic shapes are automatically detected. An example is:
+In both \LuaTeX\ and \XeTeX, fonts can be selected either by `font name' or
+by file name.
+
+\subsection{By font name}
+
+Fonts known to \LuaTeX\ or \XeTeX\ may be loaded by their names.
+`Known to' in this case generally means `exists in a standard fonts location'
+such as |~/Library/Fonts| on \MacOSX, or |C://WINNT/Fonts| on Windows.
+TODO: check that path.
+
+Commands for loading fonts
+
 \begin{Verbatim}
-    \fontspec{Cambria}
+  \fontspec[ ... ]{Cambria}
 \end{Verbatim}
+
 
 TODO: add explanation for how to find out what the `font name' is.
 
-When fonts are loaded by file name, bold and italic variations, if desired, must
-be explicitly selected when a font is loaded. The analogous example to the above is:
+
+\subsection{By file name}
+
+When selecting fonts by file name, any font that can be found in the default
+search paths may be used directly (including in the current directory)
+without having to explicitly define the location of the font file on disk.
+
+Note that \XeTeX\ with the |xdvipdfmx| driver and \LuaTeX can both select
+fonts in this way, but \XeTeX\ with the |xdv2pdf| driver can only select fonts
+by name and not by file name. The |xdvipdfmx| driver is default for \XeTeX;
+the |xdv2pdf| driver is only available on \MacOSX.
+
+Fonts selected by filename must include bold and italic variants explicitly.
 \begin{Verbatim}
-   \fontspec
-      [
-        BoldFont       = cambriab.ttf ,
-        ItalicFont     = cambriai.ttf ,
-        BoldItalicFont = cambriaz.ttf ,
-      ]
-      {cambria.ttf}
+  \fontspec
+     [ BoldFont       = texgyrepagella-bold.otf ,
+       ItalicFont     = texgyrepagella-italic.otf ,
+       BoldItalicFont = texgyrepagella-bolditalic.otf ]
+     {texgyrepagella-regular.otf}
 \end{Verbatim}
+\pkg{fontspec} knows that the font is to be selected by file name by the
+presence of the `|.otf|' extension.
+An alternative is to specify the extension separately, as shown following:
+\begin{Verbatim}
+  \fontspec
+     [ Extension      = .otf ,
+       BoldFont       = texgyrepagella-bold ,
+       ... ]
+     {texgyrepagella-regular}
+\end{Verbatim}
+If desired, an abbreviation can be applied to the font names based on the
+mandatory `font name' argument:
+\begin{Verbatim}
+  \fontspec
+     [ Extension      = .otf ,
+       UprightFont    = *-regular ,
+       BoldFont       = *-bold ,
+       ... ]
+     {texgyrepagella}
+\end{Verbatim}
+In this case `texgyrepagella' is no longer the name of an actual font,
+but is used to construct the font names for each shape;
+the |*| is replaced by `texgyrepagella'.
+Note in this case that |UprightFont| is required for constructing the font
+name of the normal font to use.
+
+To load a font that is not in one of the default search paths, its location
+in the filesystem must be specified with the |Path| feature:
+\begin{Verbatim}
+  \fontspec
+     [ Path           = /Users/will/Fonts/ ,
+       UprightFont    = *-regular ,
+       BoldFont       = *-bold ,
+       ... ]
+     {texgyrepagella}
+\end{Verbatim}
+Note that \XeTeX\ and \LuaTeX\ are able to load the font without giving an
+extension, but \pkg{fontspec} must know to search for the file; this can can
+be indicated by declaring the font exists in an `|ExternalLocation|':
+\begin{Verbatim}
+  \fontspec
+     [ ExternalLocation ,
+       BoldFont       = texgyrepagella-bold ,
+       ... ]
+     {texgyrepagella-regular}
+\end{Verbatim}
+To be honest, |Path| and |ExternalLocation| are actually the same feature
+with different names. The former can be given without an argument and the
+latter can be given with one; the different names are just for clarity.
+
 
 \section{Default font families}
 \label{sec:setxxfont}
@@ -327,7 +397,7 @@ If a bold italic shape is not defined, or you want to specify
 feature is provided~\warn{v1.6}{\opt{BoldItalic} also works}.
 
 For those cases that the base font name is repeated, you can
-replace it with an asterisk (first character only). For example,
+replace it with an asterisk. For example,
 some space can be saved instead of writing `\texttt{Baskerville SemiBold}':
 \begin{example}
   \fontspec[BoldFont={* SemiBold}]{Baskerville}
@@ -409,9 +479,6 @@ and this would allow you to typeset something like this:
 (TODO: this example obviously doesn't work without the graphic.)
 
 \subsection{External fonts}
-\XeTeX\ v0.995 introduced the feature of loading
-fonts not installed through the operating system (`external' fonts). This feature is currently
-only available through the |xdvipdfmx| driver.
 
 This feature is handled in \pkg{fontspec} with the font feature \feat{ExternalLocation}.
 When this feature is used, the main argument to \cmd\fontspec\ is the \emph{file name} of the
@@ -3381,6 +3448,7 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
   \gdef\zf@font@wrap##1{[#1##1]}
   \xetex_if_engine:T { \setkeys[zf]{preparse}{Renderer=ICU} }
 }
+\aliasfontfeature{ExternalLocation}{Path}
 %    \end{macrocode}
 %
 % \paragraph{\feat{Extension}}

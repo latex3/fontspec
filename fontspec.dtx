@@ -48,13 +48,13 @@ This work consists of this file fontspec.dtx
 %<batchfile>\endbatchfile
 %<*internal>
 \generate{\file{fontspec.ins}          {\from{fontspec.dtx}{batchfile}}}
-\generate{\file{fontspec-doc-style.sty}{\from{fontspec.dtx}{doc-style}}}
+\generate{\file{fontspec-style.sty}    {\from{fontspec.dtx}{doc-style}}}
 \endgroup
 %</internal>
 %
 %<*driver>
 \documentclass[a4paper]{ltxdoc}
-\usepackage{fontspec-doc-style}
+\usepackage{fontspec-style}
 \EnableCrossrefs
 \CodelineIndex
 \RecordChanges
@@ -5170,57 +5170,35 @@ package niceties.
 % \iffalse
 %<*doc-style>
 %    \begin{macrocode}
-\ProvidesPackage{fontspec-doc-style}
+\ProvidesPackage{fontspec-style}
 
-\RequirePackage{booktabs,calc,color,enumitem,fancyvrb,
-            graphicx,ifthen,metalogo,url,varioref,refstyle}
-            
-\RequirePackage{bookmark}
-\hypersetup{colorlinks,linktocpage}
-
-\newcommand\LuaTeX{Lua\TeX}
-
-%% Titlepage
-\renewcommand\maketitle{%
-  \begin{titlepage}%
-  \null\vfil
-  \vskip 60\p@
-  \begin{center}%
-    {\LARGE \@title \par}%
-    \vskip 3em%
-    {\large
-     \lineskip .75em%
-      \begin{tabular}[t]{c}%
-        \@author
-      \end{tabular}\par}%
-      \vskip 1.5em%
-    {\large \@date \par}%
-  \end{center}\par
-  \vfil\null
-  \end{titlepage}%
-  \setcounter{footnote}{0}%
-  \global\let\thanks\relax
-  \global\let\maketitle\relax
-  \global\let\@thanks\@empty
-  \global\let\@author\@empty
-  \global\let\@date\@empty
-  \global\let\@title\@empty
-  \global\let\title\relax
-  \global\let\author\relax
-  \global\let\date\relax
-  \global\let\and\relax}
+\usepackage{booktabs,calc,color,enumitem,fancyvrb,graphicx,ifthen,refstyle,url,varioref}
+\usepackage{metalogo}
+\usepackage{tgpagella,eulervm}
+\usepackage[scaled=1.1]{inconsolata}
+\usepackage[
+  bookmarks=true,
+  colorlinks=true,
+  linkcolor=niceblue,
+  urlcolor=niceblue,
+  citecolor=niceblue,
+  pdftitle={The fontspec package},
+  pdfsubject={Advanced font selection for XeLaTeX/LuaLaTeX},
+  pdfauthor={Will Robertson},
+  pdfkeywords={xetex, xelatex, luatex, lualatex, unicode, opentype, aat}
+  ]{hyperref}
 
 %% ToC
 \def\@dotsep{1000}
 \setcounter{tocdepth}{2}
 \setlength\columnseprule{0.4pt}
-\renewcommand\tableofcontents{%
-  \begin{multicols}{2}[\section*{\contentsname}]%
-    \small
-    \@starttoc{toc}%
+\renewcommand\tableofcontents{\relax
+  \begin{multicols}{2}[\section*{\contentsname}]\relax
+    \@starttoc{toc}\relax
   \end{multicols}}
 
 %% Index
+\setcounter{IndexColumns}{2}
 \renewenvironment{theglossary}
   {\small\list{}{}
      \item\relax
@@ -5235,6 +5213,16 @@ package niceties.
 \labelformat{subsection}{Section~#1}
 
 %% verbatim examples:
+\definecolor{niceblue}{rgb}{0.4,0.6,1.000}
+\newenvironment{example}
+  {\VerbatimEnvironment
+   \begin{VerbatimOut}[gobble=2]{\examplefilename}}
+  {\end{VerbatimOut}\relax
+   \begingroup
+     \color{niceblue}
+     \typesetexample
+   \endgroup}
+
 \newlength\examplewidth\newlength\verbatimwidth
 \newlength\exoutdent   \newlength\exverbgap
 \setlength\exverbgap{1em}
@@ -5242,25 +5230,17 @@ package niceties.
 \newsavebox\verbatimbox
 \edef\examplefilename{\jobname.example}
 
-\newenvironment{example}
-  {\VerbatimEnvironment
-   \begingroup
-   \begin{VerbatimOut}[gobble=2]{\examplefilename}}
-  {\end{VerbatimOut}
-   \typesetexample
-   \endgroup}
-
-\newcommand\typesetexample{%
-   \begin{lrbox}{\verbatimbox}%
+\newcommand\typesetexample{\relax
+   \begin{lrbox}{\verbatimbox}\relax
      \BVerbatimInput[fontsize=\small,firstline=\firstline,lastline=\lastline]{\examplefilename}\relax
    \end{lrbox}
    \begin{list}{}{\setlength\itemindent{0pt}
                   \setlength\leftmargin\exoutdent
                   \setlength\rightmargin{0pt}}\item
    \ifx\auxwidth\relax
-     \setlength\verbatimwidth{\wd\verbatimbox}%
+     \setlength\verbatimwidth{\wd\verbatimbox}\relax
    \else
-     \setlength\verbatimwidth{\auxwidth}%
+     \setlength\verbatimwidth{\auxwidth}\relax
      \let\auxwidth\relax
    \fi
 %   \begin{minipage}[c]{\textwidth-\exoutdent-\verbatimwidth-\exverbgap}
@@ -5319,7 +5299,20 @@ package niceties.
 
 \newcommand\note[1]{\unskip\footnote{#1}}
 
+%% LOGOS, tuned for Pagella:
+\setlogokern{Te}{-0.12em}%
+\setlogokern{eT}{-0.12em}%
+\setlogokern{eX}{-0.12em}%
+\setlogokern{Xe}{-0.12em}%
+\setlogokern{La}{-0.3em}%
+\setlogokern{aT}{-0.12em}%
+\setlogokern{eL}{-0.1em}
+
 \def\MacOSX{Mac~OS~X}
+\def\LuaTeX{L\kern-0.08emu\kern-0.03ema\kern-0.12em\TeX}
+
+%% (La)TeX font-related declarations:
+\linespread{1.05}      % Pagella needs more space between lines
 \frenchspacing         % Remove ugly extra space after punctuation
 
 \makeatletter

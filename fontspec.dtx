@@ -3033,7 +3033,7 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
   \let\zf@adjust \@empty
   \fontspec_setkeys:xx {options} {#1}
   \ifx \XKV@rm \@empty \else
-%    \fontspec_error:nx {unknown-options} { \exp_not:V \XKV@rm }
+    \fontspec_error:nx {unknown-options} { \exp_not:V \XKV@rm }
   \fi
   \PackageInfo{fontspec}{Raw~ font~ features~ "\zf@ff"}
 }
@@ -4732,10 +4732,13 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 {
   '\zf@fontname' doesn't appear to have the glyph corresponding to '#1'.
 }
-\msg_new:nnn {fontspec} {unknown-options}
+\msg_new:nnnn {fontspec} {unknown-options}
 {
-  The following font options are not recognised:\\
-  \msg_four_spaces: #1
+  The~ following~ font~ options~ are~ not~ recognised:\\
+  \space\space\space\space #1
+}
+{
+  There~ is~ probably~ a~ typo~ in~ the~ font~ feature~ selection.
 }
 \msg_new:nnnn {fontspec} {euler-too-late}
 {

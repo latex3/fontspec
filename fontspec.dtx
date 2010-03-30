@@ -4718,19 +4718,19 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 %    \begin{macrocode}
 \msg_new:nnn {fontspec} {no-size-info}
 {
-  Size information must be supplied.\\
-  For example, SizeFeatures={Size={8-12},...}.
+  Size~ information~ must~ be~ supplied.\\
+  For~ example,~ SizeFeatures={Size={8-12},...}.
 }
 \msg_new:nnnn {fontspec} {rename-feature-not-exist}
 {
-  The feature #1 doesn't appear to be defined.
+  The~ feature~ #1~ doesn't~ appear~ to~ be~ defined.
 }
 {
-  It looks like you're trying to rename a feature that doesn't exist.
+  It~ looks~ like~ you're~ trying~ to~ rename~ a~ feature~ that~ doesn't~ exist.
 }
 \msg_new:nnn {fontspec} {no-glyph}
 {
-  '\zf@fontname' doesn't appear to have the glyph corresponding to '#1'.
+  '\zf@fontname'~ doesn't~ appear~ to~ have~ the~ glyph~ corresponding~ to~ '#1'.
 }
 \msg_new:nnnn {fontspec} {unknown-options}
 {
@@ -4742,13 +4742,13 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 }
 \msg_new:nnnn {fontspec} {euler-too-late}
 {
-  The euler package must be loaded BEFORE fontspec.
+  The~ euler~ package~ must~ be~ loaded~ BEFORE~ fontspec.
 }
 {
-  fontspec only overwrites euler's attempt to\\
-  define the maths text fonts if fontspec is\\
-  loaded after euler. Type <return> to proceed\\
-  with incorrect \string\mathit, \string\mathbf, etc.
+  fontspec~ only~ overwrites~ euler's~ attempt~ to\\
+  define~ the~ maths~ text~ fonts~ if~ fontspec~ is\\
+  loaded~ after~ euler.~ Type~ <return>~ to~ proceed\\
+  with~ incorrect~ \string\mathit,~ \string\mathbf,~ etc.
 }
 
 %    \end{macrocode}
@@ -4756,74 +4756,74 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 %    \begin{macrocode}
 \msg_new:nnn {fontspec} {addfontfeatures-ignored}
 {
-  \string\addfontfeature (s) ignored;\\
-  it cannot be used with a font that wasn't selected by fontspec.
+  \string\addfontfeature (s)~ ignored;\\
+  it~ cannot~ be~ used~ with~ a~ font~ that~ wasn't~ selected~ by~ fontspec.
 }
 \msg_new:nnn {fontspec} {feature-option-overwrite}
 {
-  Option '#2' of font feature '#1' overwritten.
+  Option~ '#2'~ of~ font~ feature~ '#1'~ overwritten.
 }
 \msg_new:nnn {fontspec} {script-not-exist}
 {
-  Font '\zf@fontname' does not contain script '#1'.
+  Font~ '\zf@fontname'~ does~ not~ contain~ script~ '#1'.
 }
 \msg_new:nnn {fontspec} {aat-feature-not-exist}
 {
-  '\XKV@tfam=\XKV@tkey' feature not supported\\
-  for AAT font '\zf@fontname'.
+  '\XKV@tfam=\XKV@tkey'~ feature~ not~ supported\\
+  for~ AAT~ font~ '\zf@fontname'.
 }
 \msg_new:nnn {fontspec} {aat-feature-not-exist-in-font}
 {
-  AAT feature '\XKV@tfam=\XKV@tkey' (#1) not available\\
-  in font '\zf@fontname'.
+  AAT~ feature~ '\XKV@tfam=\XKV@tkey'~ (#1)~ not~ available\\
+  in~ font~ '\zf@fontname'.
 }
 \msg_new:nnn {fontspec} {icu-feature-not-exist}
 {
-  '\XKV@tfam=\XKV@tkey' feature not supported\\
-  for ICU font '\zf@fontname'
+  '\XKV@tfam=\XKV@tkey'~ feature~ not~ supported\\
+  for~ ICU~ font~ '\zf@fontname'
 }
 \msg_new:nnn {fontspec} {icu-feature-not-exist-in-font}
 {
-  OpenType feature '\XKV@tfam=\XKV@tkey' (#1) not available\\
-  for font '\zf@fontname', \\
-  with script '\l_fontspec_script_name_tl', and language '\l_fontspec_lang_name_tl'.
+  OpenType~ feature~ '\XKV@tfam=\XKV@tkey'~ (#1)~ not~ available\\
+  for~ font~ '\zf@fontname', \\
+  with~ script~ '\l_fontspec_script_name_tl',~ and~ language~ '\l_fontspec_lang_name_tl'.
 }
 \msg_new:nnn {fontspec} {no-opticals}
 {
-  '\zf@fontname' doesn't appear to have an Optical Size axis.
+  '\zf@fontname'~ doesn't~ appear~ to~ have~ an~ Optical~ Size~ axis.
 }
 \msg_new:nnn {fontspec} {language-not-exist}
 {
-  Language '#1' not available\\
-  for font '\zf@fontname'\\
-  with script '\l_fontspec_script_name_tl'.
+  Language~ '#1'~ not~ available\\
+  for~ font~ '\zf@fontname'\\
+  with~ script~ '\l_fontspec_script_name_tl'.
 }
 \msg_new:nnn {fontspec} {only-xetex-feature}
 {
-  Ignored XeTeX only feature: '#1'.
+  Ignored~ XeTeX~ only~ feature:~ '#1'.
 }
 \msg_new:nnn {fontspec} {only-luatex-feature}
 {
-  Ignored LuaTeX only feature: '#1'.
+  Ignored~ LuaTeX~ only~ feature:~ '#1'.
 }
 %    \end{macrocode}
 % Info messages:
 %    \begin{macrocode}
 \msg_new:nnn {fontspec} {defining-font}
 {
-  Defining font family for '#2' with options [\zf@default@options #1].
+  Defining~ font~ family~ for~ '#2'~ with~ options~ [\zf@default@options #1].
 }
 \msg_new:nnn {fontspec} {no-font-shape}
 {
-  Could not resolve font #1 (it probably doesn't exist).
+  Could~ not~ resolve~ font~ #1~ (it~ probably~ doesn't~ exist).
 }
 \msg_new:nnn {fontspec} {set-scale}
 {
-  \zf@fontname\space scale = \zf@scale.
+  \zf@fontname\space scale ~=~ \zf@scale.
 }
 \msg_new:nnn {fontspec} {setup-math}
 {
-  Adjusting the maths setup (use [no-math] to avoid this).
+  Adjusting~ the~ maths~ setup~ (use~ [no-math]~ to~ avoid~ this).
 }
 %    \end{macrocode}
 %

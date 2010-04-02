@@ -1893,10 +1893,7 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 %    \end{macrocode}
 % Temporary definition until expl3 has been updated to include this:
 %    \begin{macrocode}
-\cs_if_free:NT \use:x
- {
   \cs_set:Nn \use:x { \edef\@tempa{#1}\@tempa }
- }
 %    \end{macrocode}
 % 
 %    \begin{macrocode}

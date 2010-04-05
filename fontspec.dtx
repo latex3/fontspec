@@ -2089,7 +2089,7 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 % font is searched for.
 %    \begin{macrocode}
 \DeclareDocumentCommand \newfontface { m O{} m } {
-  \newfontfamily #1 {BoldFont={},ItalicFont={},SmallCapsFont={},#2} {#3}
+  \newfontfamily #1 [ BoldFont={},ItalicFont={},SmallCapsFont={},#2 ] {#3}
 }
 %    \end{macrocode}
 % \end{macro} \end{macro}

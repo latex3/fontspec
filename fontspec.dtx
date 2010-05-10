@@ -1828,7 +1828,7 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 }
 \xetex_if_engine:F {
   \luatex_if_engine:TF {
-    \RequirePackage{luatextra}[2009/12/16]
+    \RequirePackage{luatextra}[2010/05/10]
     \luatexRequireModule{fontspec}
   }{
     \msg_error:nn {fontspec} {not-pdftex}
@@ -4859,7 +4859,7 @@ fontspec.module   = {
     license       = "LPPL"
 }
 
-luatextra.provides_module(fontspec.module)
+luatexbase.provides_module(fontspec.module)
 
 %    \end{macrocode}
 % Some utility functions
@@ -4867,9 +4867,9 @@ luatextra.provides_module(fontspec.module)
 
 utf = unicode.utf8
 
-function fontspec.log    (...) luatextra.module_log    (fontspec.module.name, string.format(...)) end
-function fontspec.warning(...) luatextra.module_warning(fontspec.module.name, string.format(...)) end
-function fontspec.error  (...) luatextra.module_error  (fontspec.module.name, string.format(...)) end
+function fontspec.log    (...) luatexbase.module_log    (fontspec.module.name, string.format(...)) end
+function fontspec.warning(...) luatexbase.module_warning(fontspec.module.name, string.format(...)) end
+function fontspec.error  (...) luatexbase.module_error  (fontspec.module.name, string.format(...)) end
 
 function fontspec.sprint (...) tex.sprint(tex.catcodetablenumber["latex-package"], ...) end
 

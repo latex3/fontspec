@@ -3331,7 +3331,7 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
     \if@tempswa \prg_return_true: \else: \prg_return_false: \fi:
   }
   {
-    \luadirect{fontspec.check_ot_script("zf@basefont", "#1")}
+    \directlua{fontspec.check_ot_script("zf@basefont", "#1")}
     \if@tempswa \prg_return_true: \else: \prg_return_false: \fi:
   }
 %    \end{macrocode}
@@ -3361,7 +3361,7 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
     \if@tempswa \prg_return_true: \else: \prg_return_false: \fi:
   }
   {
-    \luadirect{
+    \directlua{
       fontspec.check_ot_lang(
                               "zf@basefont",
                               "#1",
@@ -3404,7 +3404,7 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
     \if@tempswa \prg_return_true: \else: \prg_return_false: \fi:
   }
   {
-    \luadirect{
+    \directlua{
       fontspec.check_ot_feat(
                               "zf@basefont",
                               "#1",
@@ -3693,8 +3693,8 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
       \setlength\@tempdima{\fontdimen#1\font}%
       \setlength\@tempdimb{\fontdimen#1\zf@basefont}%
     }{
-      \setlength\@tempdima{\luadirect{fontspec.get_dimen(#1, "font")}}
-      \setlength\@tempdimb{\luadirect{fontspec.get_dimen(#1, "zf@basefont")}}
+      \setlength\@tempdima{\directlua{fontspec.get_dimen(#1, "font")}}
+      \setlength\@tempdimb{\directlua{fontspec.get_dimen(#1, "zf@basefont")}}
     }
     \setlength\@tempdimc{1pt*\ratio{\@tempdima}{\@tempdimb}}%
     \xdef\zf@scale{\strip@pt\@tempdimc}%
@@ -3787,7 +3787,7 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
           \fontspec_error:nx {no-glyph}{#1}
         \fi}%
       }{
-        \ifnum\luadirect{fontspec.sprint(fontspec.charglyph('#1', 'zf@basefont'))} > \z@
+        \ifnum\directlua{fontspec.sprint(fontspec.charglyph('#1', 'zf@basefont'))} > \z@
           \g@addto@macro\zf@adjust{\luatexprehyphenchar=`#1\relax}
         \else
           \fontspec_error:nx {no-glyph}{#1}
@@ -3801,7 +3801,7 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
           \fontspec_error:nx {no-glyph}{#1}
         \fi}%
       }{
-        \ifnum\luadirect{fontspec.sprint(fontspec.charglyph('#1', 'zf@basefont'))} > \z@
+        \ifnum\directlua{fontspec.sprint(fontspec.charglyph('#1', 'zf@basefont'))} > \z@
           \g@addto@macro\zf@adjust{\luatexprehyphenchar=#1\relax}
         \else
           \fontspec_error:nx {no-glyph}{#1}

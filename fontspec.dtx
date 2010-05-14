@@ -2322,6 +2322,32 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 %    \end{macrocode}
 % \end{macro}
 %
+%
+% \begin{macro}{\fontspec_if_aat_feature:nnTF}
+% Conditional to test if the currently selected font contains the AAT
+% feature (|#1|,|#2|).
+%    \begin{macrocode}
+\prg_new_conditional:Nnn \fontspec_if_aat_feature:nn {TF,T,F} {
+  \ifcsname zf@family@fontdef\f@family\endcsname
+    \font\zf@basefont="\use:c{zf@family@fontdef\f@family}" at \f@size pt
+    \ifzf@atsui
+      \zf@make@aat@feature@string{#1}{#2}
+      \ifx\@tempa\@empty
+        \prg_return_false:
+      \else
+        \prg_return_true:
+      \fi
+    \else
+      \prg_return_false:
+    \fi
+  \else
+    \prg_return_false:
+  \fi
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
 % \begin{macro}{\fontspec_if_opentype:TF}
 % Returns whether the currently selected font is an OpenType font.
 % Always true for LuaTeX fonts.

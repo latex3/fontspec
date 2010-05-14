@@ -2329,7 +2329,7 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \fontspec_if_aat_feature:nn {TF,T,F} {
   \ifcsname zf@family@fontdef\f@family\endcsname
-    \font\zf@basefont="\use:c{zf@family@fontdef\f@family}" at \f@size pt
+    \font\zf@basefont="\use:c{zf@family@fontdef\f@family}"~at~\f@size pt
     \ifzf@atsui
       \zf@make@aat@feature@string{#1}{#2}
       \ifx\@tempa\@empty
@@ -2354,7 +2354,7 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \fontspec_if_opentype: {TF,T,F} {
   \ifcsname zf@family@fontdef\f@family\endcsname
-    \font\zf@basefont="\csname zf@family@fontdef\f@family\endcsname" at \f@size pt
+    \font\zf@basefont="\csname zf@family@fontdef\f@family\endcsname"~at~\f@size pt
     \fontspec_set_font_type:
     \ifzf@icu
       \prg_return_true:
@@ -2376,7 +2376,7 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \fontspec_if_feature:n {TF,T,F} {
   \ifcsname zf@family@fontdef\f@family\endcsname
-    \font\zf@basefont="\csname zf@family@fontdef\f@family\endcsname" at \f@size pt
+    \font\zf@basefont="\csname zf@family@fontdef\f@family\endcsname"~at~\f@size pt
     \fontspec_set_font_type:
     \ifzf@icu
       \int_set:Nn \c@zf@script
@@ -2403,7 +2403,7 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \fontspec_if_feature:nnn {TF,T,F} {
   \ifcsname zf@family@fontdef\f@family\endcsname
-    \font\zf@basefont="\csname zf@family@fontdef\f@family\endcsname" at \f@size pt
+    \font\zf@basefont="\csname zf@family@fontdef\f@family\endcsname"~at~\f@size pt
     \fontspec_set_font_type:
     \ifzf@icu
       \zf@iv@strnum{#1} \c@zf@script   = \@tempcnta \relax
@@ -2427,7 +2427,7 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \fontspec_if_script:n {TF,T,F} {
   \ifcsname zf@family@fontdef\f@family\endcsname
-    \font\zf@basefont="\csname zf@family@fontdef\f@family\endcsname" at \f@size pt
+    \font\zf@basefont="\csname zf@family@fontdef\f@family\endcsname"~at~\f@size pt
     \fontspec_set_font_type:
     \ifzf@icu
       \fontspec_check_script:nTF {#1} \prg_return_true: \prg_return_false:
@@ -2449,7 +2449,7 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \fontspec_if_language:n {TF,T,F} {
   \ifcsname zf@family@fontdef\f@family\endcsname
-    \font\zf@basefont="\csname zf@family@fontdef\f@family\endcsname" at \f@size pt
+    \font\zf@basefont="\csname zf@family@fontdef\f@family\endcsname"~at~\f@size pt
     \fontspec_set_font_type:
     \ifzf@icu
       \tl_set:Nv \l_fontspec_script_tl {g_fontspec_script_(\zf@family)_tl}
@@ -2474,7 +2474,7 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \fontspec_if_language:nn {TF,T,F} {
   \ifcsname zf@family@fontdef\f@family\endcsname
-    \font\zf@basefont="\csname zf@family@fontdef\f@family\endcsname" at \f@size pt
+    \font\zf@basefont="\csname zf@family@fontdef\f@family\endcsname"~at~\f@size pt
     \fontspec_set_font_type:
     \ifzf@icu
       \tl_set:Nn \l_fontspec_script_tl {#1}
@@ -2497,7 +2497,7 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \fontspec_if_current_script:n {TF,T,F} {
   \ifcsname zf@family@fontdef\f@family\endcsname
-    \font\zf@basefont="\csname zf@family@fontdef\f@family\endcsname" at \f@size pt
+    \font\zf@basefont="\csname zf@family@fontdef\f@family\endcsname"~at~\f@size pt
     \fontspec_set_font_type:
     \ifzf@icu
       \tl_if_eq:nvTF {#1} {g_fontspec_script_(\zf@family)_tl}
@@ -2518,7 +2518,7 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \fontspec_if_current_language:n {TF,T,F} {
   \ifcsname zf@family@fontdef\f@family\endcsname
-    \font\zf@basefont="\csname zf@family@fontdef\f@family\endcsname" at \f@size pt
+    \font\zf@basefont="\csname zf@family@fontdef\f@family\endcsname"~at~\f@size pt
     \fontspec_set_font_type:
     \ifzf@icu
       \tl_if_eq:nvTF {#1} {g_fontspec_lang_(\zf@family)_tl}
@@ -2608,8 +2608,10 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 % conditionals.
 %    \begin{macrocode}
   \zf@firsttimetrue
-    \fontspec_setkeys:xxx {feat} {Script} {\l_fontspec_script_name_tl}
-    \fontspec_setkeys:xxx {feat} {Lang}   {\l_fontspec_lang_name_tl}
+    \ifzf@icu
+      \fontspec_setkeys:xxx {feat} {Script} {\l_fontspec_script_name_tl}
+      \fontspec_setkeys:xxx {feat} {Lang}   {\l_fontspec_lang_name_tl}
+    \fi
     \zf@get@feature@requests{\zf@font@feat}
   \zf@firsttimefalse
 %    \end{macrocode}
@@ -3012,8 +3014,10 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 %    \begin{macrocode}
 \xetex_or_luatex:nnn { \tl_set:Nn \l_fontspec_pre_feat_tl }
   {
-    script   = \l_fontspec_script_tl ;
-    language = \l_fontspec_lang_tl   ;
+    \ifzf@icu
+      script   = \l_fontspec_script_tl ;
+      language = \l_fontspec_lang_tl   ;
+    \fi
   }
   {
     mode     = \l_fontspec_mode_tl   ;

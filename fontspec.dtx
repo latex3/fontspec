@@ -4901,7 +4901,7 @@ function fontspec.log    (...) luatexbase.module_log    (fontspec.module.name, s
 function fontspec.warning(...) luatexbase.module_warning(fontspec.module.name, string.format(...)) end
 function fontspec.error  (...) luatexbase.module_error  (fontspec.module.name, string.format(...)) end
 
-function fontspec.sprint (...) tex.sprint(tex.catcodetablenumber["latex-package"], ...) end
+function fontspec.sprint (...) tex.sprint(luatexbase.catcodetables['latex-package'], ...) end
 
 %    \end{macrocode}
 % The following functions check for exsitence of certain script, language or

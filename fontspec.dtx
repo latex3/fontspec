@@ -42,6 +42,7 @@ This work consists of this file fontspec.dtx
 \generate{\file{fontspec.lua}          {\from{fontspec.dtx}{lua}}}
 \let\MetaPrefix\DoubleperCent
 \generate{\file{fontspec.sty}          {\from{fontspec.dtx}{fontspec}}}
+\generate{\file{fontspec-patches.sty}  {\from{fontspec.dtx}{patches}}}
 \generate{\file{fontspec.cfg}          {\from{fontspec.dtx}{cfg}}}
 \generate{\file{fontspec-example.ltx}  {\from{fontspec.dtx}{example}}}
 %</batchfile>
@@ -136,15 +137,25 @@ For basic use, no package options are required:
   \usepackage{fontspec}
 \end{Verbatim}
 
+In brief, \pkg{fontspec}'s package options are
+\begin{description}[nolistsep,font=\ttfamily]
+\item [cm-default] Don't load the Latin Modern fonts;
+\item [no-math] Don't change any maths fonts;
+\item [no-config] Don't load \pkg{fontspec.cfg}; and,
+\item [quiet] Output \pkg{fontspec} warnings in the log file rather than the console output.
+\end{description}
+These are described in more detail below.
+
+\paragraph{\XeTeX\ users only}
 \name{Ross Moore}'s \pkg{xunicode} package is highly recommended, as it
 provides access \LaTeX's various methods for accessing extra
 characters and accents (for example, |\%|, |\$|, |\textbullet|, |\"u|, and
-so on), plus many more unicode characters.
+so on), plus many more unicode characters. The \pkg{xltxtra} package adds a couple of general improvements to \LaTeX\ under \XeTeX; it also provides the \cmd\XeTeX\ macro to typeset the \XeTeX\ logo.
 
-The \pkg{xltxtra} package adds a couple of general improvements to \LaTeX\
-under \XeTeX; it also provides the \cmd\XeTeX\ macro to typeset the \XeTeX\
-logo.
+\paragraph{\LuaTeX\ users only}
+In order to load fonts by their name rather than by their filename (\eg, `Latin Modern Roman' instead of `ec-lmr10'), you may need to run the script \texttt{mkluatexfontdb.lua}, which is distributed with the \pkg{luaotfload} package. Please see its documentation for more information.
 
+\paragraph{\pkg{babel}}
 \emph{The \pkg{babel} package is not really supported!} Especially Vietnamese,
 Greek, and Hebrew at least might not work correctly, as far as I can tell.
 There's a better chance with Cyrillic and Latin-based languages,
@@ -153,14 +164,6 @@ but hyphenation and other matters aren't guaranteed. Under \XeTeX, the
 \pkg{polyglossia} package is recommended instead as a modern replacement for
 \pkg{babel}.
 
-The rest of this section documents \pkg{fontspec}'s package options, which are (briefly):
-\begin{description}[nolistsep,font=\ttfamily]
-\item [cm-default] Don't load the Latin Modern fonts;
-\item [no-math] Don't change any maths fonts;
-\item [no-config] Don't load \pkg{fontspec.cfg}; and,
-\item [quiet] Output \pkg{fontspec} warnings in the log file rather than the console output.
-\end{description}
-These are described in more detail following.
 
 \subsection{Latin Modern defaults}
 \pkg{fontspec} defines a new \LaTeX\ font encoding for its purposes to allow
@@ -1788,6 +1791,47 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
   \newfontfeature{PurpleColor}{color=550099BB}
 \end{Verbatim}
 
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\part{The patching/improvement of \LaTeXe\ and other packages}
+\seclabel{patching}
+
+Derived originally from xltxtra, this package contains patches to various
+\LaTeX\ components and third-party packages to improve the default
+behaviour.
+
+\subsection{Inner emphasis}
+\seclabel{emph}
+
+\pkg{fixltx2e}'s method for checking for ``inner'' emphasis is a little fragile in \XeTeX, because
+font slant information might be missing from the font. Therefore, we use \LaTeX's \acro{NFSS}
+information, which is more likely to be correct.
+
+\subsection{Unicode footnote symbols}
+By default \LaTeX\ defines symbolic footnote characters in terms of commands 
+that don't resolve well; better results can be achieved by using specific unicode characters or proper LICRs with the \pkg{xunicode} package.
+
+This problem has been solved by loading the 
+\pkg{fixltx2e} and \pkg{xunicode} packages in \pkg{xltxtra}.
+
+\subsection{Verbatim}
+\seclabel{verb}
+
+Many verbatim mechanisms assume the existence of a `visible space' character that exists in the \textsc{ascii} space slot of the typewriter font. This character is known in unicode as \unichar{2434}{box open}, which looks like this: `\verb*| |'.
+
+When a unicode typewriter font is used, \LaTeX\ no longer prints visible spaces for the |verbatim*| environment and |\verb*| command. \pkg{xltxtra} fixes this problem by using the correct unicode glyph, and patches the following packages to do the same:
+\pkg{listings}, \pkg{fancyvrb}, \pkg{moreverb}, and \pkg{verbatim}.
+
+In the case that the typewriter font does not contain `\verb*| |', the Latin Modern Mono font is used as a fallback. 
+
+\subsection{Discrectionary hyphenation: \cmd\-}
+\seclabel{hyphen}
+
+\LaTeX\ defines the macro \cmd\-\ to insert discretionary hyphenation points.
+However, it is hard-coded in \LaTeX\ to use the hyphen |-| character. Since \pkg{fontspec}
+makes it easy to change the hyphenation character on a per font basis, it would
+be nice if \cmd\-\ adjusted automatically — and now it does.
+
 \StopEventually{}
 
 \clearpage
@@ -1935,6 +1979,14 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 \RequirePackage{calc}
 \RequirePackage{xkeyval}[2005/05/07]
 %    \end{macrocode}
+%
+% New for Lua\TeX, we load a new package called `\pkg{fontspec-patches}'
+% designed to incorporate the hidden but useful parts of the old \pkg{xltxtra}
+% package.
+%    \begin{macrocode}
+\luatex_if_engine:T { \RequirePackage{fontspec-patches} }
+%    \end{macrocode}
+%
 %
 % \subsection{Encodings}
 % Frank Mittelbach has recommended using the `\texttt{EU}$x$' family of font encodings
@@ -5079,12 +5131,169 @@ end
 %
 % \iffalse
 %</lua>
+% \fi
 %
-%<*cfg>
+% \clearpage
+% \part{fontspec-patches.sty}
+%
+% \iffalse
+%<*patches>
+% \fi
+%
+% \subsection{Unicode footnote symbols}
+%    \begin{macrocode}
+\RequirePackage{fixltx2e}[2006/03/24]
+%    \end{macrocode}
+% \subsection{Emph}
+%
+% \begin{macro}{\em}
+% \begin{macro}{\emph}
+% \begin{macro}{\emshape}
+% \begin{macro}{\eminnershape}
+% Redefinition of |{\em ...}| and |\emph{...}| to use \textsc{nfss} info to detect when the inner shape should be used.
+%    \begin{macrocode}
+\DeclareRobustCommand \em {
+  \@nomath\em
+  \tl_if_eq:xxTF \f@shape \itdefault \eminnershape \emshape
+}
+\DeclareTextFontCommand{\emph}{\em}
+\let\emshape\itshape
+\let\eminnershape\upshape
+%    \end{macrocode}
+% \end{macro} \end{macro}
+% \end{macro} \end{macro}
+%
+% \subsection{\cmd\-}
+%
+% \begin{macro}{\-}
+% This macro is courtesy of Frank Mittelbach and the \LaTeXe\ source code.
+%    \begin{macrocode}
+\DeclareRobustCommand{\-}{%
+  \discretionary{%
+    \char\ifnum\hyphenchar\font<\z@
+           \xlx@defaulthyphenchar
+         \else
+           \hyphenchar\font
+         \fi}{}{}}
+\def\xlx@defaulthyphenchar{`\-}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \subsection{Verbatims}
+%
+% Many thanks to Apostolos Syropoulos for discovering this problem and writing the  redefinion of \LaTeX's |verbatim| environment and \cs{verb*} command.
+%
+% \begin{macro}{\xxt@visiblespace}
+% Print \unichar{2434}{Open box}, which is used to visibly display a space character.
+%    \begin{macrocode}
+\def\xxt@visiblespace{%
+  \iffontchar\font"2423
+    \expandafter\textvisiblespace
+  \else
+    \expandafter\xxt@visiblespace@fallback
+  \fi}
+%    \end{macrocode}
+% \end{macro}
+% 
+% \begin{macro}{\xxt@visiblespace@fallback}
+% If the current font doesn't have u2434, use Latin Modern Mono instead.
+%    \begin{macrocode}
+\def\xxt@visiblespace@fallback{{%
+  \usefont{EU1}{lmtt}{\f@series}{\f@shape}%
+  \textvisiblespace}}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\xxt@vprintspaces}
+% Helper macro to turn spaces active and print visible space instead.
+%    \begin{macrocode}
+\begingroup
+  \catcode`\~=\active%
+  \gdef\xxt@vprintspaces{\catcode`\~\active\let \xxt@visiblespace}%
+\endgroup
+%    \end{macrocode}
+% \end{macro}
+% 
+% \begin{macro}{\verb}
+% \begin{macro}{\verb*}
+% Redefine \cmd\verb\ to use \cmd\xxt@vprintspaces.
+%    \begin{macrocode}
+\def\verb{\relax\ifmmode\hbox\else\leavevmode\null\fi
+  \bgroup
+    \verb@eol@error \let\do\@makeother \dospecials
+    \verbatim@font\@noligs
+    \@ifstar\@@sverb\@verb}
+\def\@@sverb{\xxt@vprintspaces\@sverb}
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+% 
+% It's better to put small things into \cmd\AtBeginDocument, so here we go:
+%    \begin{macrocode}
+\AtBeginDocument{%
+  \xxt@patch@verbatim
+  \xxt@patch@moreverb
+  \xxt@patch@fancyvrb
+  \xxt@patch@listings}
+%    \end{macrocode}
+%
+% \begin{environment}{verbatim*}
+% With the \pkg{verbatim} package.
+%    \begin{macrocode}
+\def\xxt@patch@verbatim{%
+  \@ifpackageloaded{verbatim}{%
+    \@namedef{verbatim*}{\begingroup\@verbatim\xxt@vprintspaces\verbatim@start}%
+  }{%
+%    \end{macrocode}
+% This is for vanilla LaTeX.
+%    \begin{macrocode}
+    \@namedef{verbatim*}{\@verbatim\xxt@vprintspaces\@sxverbatim}%
+  }}
+%    \end{macrocode}
+% \end{environment}
+% 
+% \begin{environment}{listingcont*}
+% This is for \pkg{moreverb}. 
+% The main |listing*| environment inherits this definition.
+%    \begin{macrocode}
+\def\xxt@patch@moreverb{%
+  \@ifpackageloaded{moreverb}{%
+    \@namedef{listingcont*}{%
+      \def\verbatim@processline{%
+        \thelisting@line \global\advance\listing@line1
+        \the\verbatim@line\par}%
+      \@verbatim\xxt@vprintspaces\verbatim@start}%
+  }{}}
+%    \end{macrocode}
+% \end{environment}
+% 
+% \pkg{listings} and \pkg{fancvrb} make things nice and easy:
+%    \begin{macrocode}
+\def\xxt@patch@fancyvrb{%
+  \@ifpackageloaded{fancyvrb}{%
+    \let\FancyVerbSpace\xxt@visiblespace
+  }{}}
+%    \end{macrocode}
+% 
+%    \begin{macrocode}
+\def\xxt@patch@listings{%
+  \@ifpackageloaded{listings}{%
+    \let\lst@visiblespace\xxt@visiblespace
+  }{}}
+%    \end{macrocode}
+%
+% \iffalse
+%</patches>
 % \fi
 %
 % \clearpage
 % \part{fontspec.cfg}
+%
+% \iffalse
+%<*cfg>
+% \fi
+%
 % As an example, and to avoid upsetting people as much as possible,
 % I'm populating the default \texttt{fontspec.cfg} file with
 % backwards compatibility feature aliases.

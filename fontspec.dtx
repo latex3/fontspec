@@ -1804,7 +1804,7 @@ behaviour.
 \seclabel{emph}
 
 \pkg{fixltx2e}'s method for checking for ``inner'' emphasis is a little fragile in \XeTeX, because
-font slant information might be missing from the font. Therefore, we use \LaTeX's \acro{NFSS}
+font slant information might be missing from the font. Therefore, we use \LaTeX's NFSS
 information, which is more likely to be correct.
 
 \subsection{Unicode footnote symbols}
@@ -5571,6 +5571,10 @@ package niceties.
   \stepcounter{argument}%
   \noindent{\ttfamily\makebox[0pt][r]{[}\char`\#\theargument]:~}#1\par}
 \makeatother
+
+\newcommand\unichar[2]{\textsc{\MakeLowercase{u+#1: #2}}}
+
+
 
 %%%%%%%%%%%
 

@@ -2370,7 +2370,7 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 %
 % \begin{macro}{\fontspec_if_feature:nTF}
 % Returns whether the currently selected font contains the raw OpenType
-% feature |#1|. E.g.: |\fontspec_if_feature:nTF {+pnum} {True} {False}|
+% feature |#1|. E.g.: |\fontspec_if_feature:nTF {pnum} {True} {False}|
 % Returns false if the font is not loaded by fontspec or is not an OpenType
 % font.
 %    \begin{macrocode}
@@ -2397,7 +2397,7 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 % \end{macro}
 %
 % \begin{macro}{\fontspec_if_feature:nnnTF}
-% Returns whether the currently selected font with raw OpenType script tag |#1| and raw OpenType language tag |#2| contains the raw OpenType feature tag |#3|. E.g.: |\fontspec_if_feature:nTF {latn} {ROM} {+pnum} {True} {False}|
+% Returns whether the currently selected font with raw OpenType script tag |#1| and raw OpenType language tag |#2| contains the raw OpenType feature tag |#3|. E.g.: |\fontspec_if_feature:nTF {latn} {ROM} {pnum} {True} {False}|
 % Returns false if the font is not loaded by fontspec or is not an OpenType
 % font.
 %    \begin{macrocode}
@@ -3334,7 +3334,14 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
   \expandafter\@tempcntb\ifx\@empty#432\else`#4\fi
   \advance\@tempcnta\@tempcntb
 }
-\newcommand\zf@v@strnum[1]{\expandafter\zf@iv@strnum@i\@gobble#1 \@nil}
+\newcommand\zf@v@strnum[1]{
+  \bool_if:nTF {
+    \tl_if_head_eq_charcode_p:nN {#1} {+} ||
+    \tl_if_head_eq_charcode_p:nN {#1} {-}
+  }
+  { \exp_after:wN \zf@iv@strnum@i \use_none:n #1 \@nil }
+  { \zf@iv@strnum@i #1 \@nil }
+}
 %    \end{macrocode}
 % TODO: convert to \cmd\numexpr
 % \end{macro}

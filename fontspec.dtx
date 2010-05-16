@@ -43,8 +43,10 @@ This work consists of this file fontspec.dtx
 \let\MetaPrefix\DoubleperCent
 \generate{\file{fontspec.sty}          {\from{fontspec.dtx}{fontspec}}}
 \generate{\file{fontspec-patches.sty}  {\from{fontspec.dtx}{patches}}}
+\nopreamble\nopostamble
 \generate{\file{fontspec.cfg}          {\from{fontspec.dtx}{cfg}}}
-\generate{\file{fontspec-example.ltx}  {\from{fontspec.dtx}{example}}}
+\generate{\file{fontspec-xetex.tex}    {\from{fontspec.dtx}{example,xetex}}}
+\generate{\file{fontspec-luatex.tex}   {\from{fontspec.dtx}{example,luatex}}}
 %</batchfile>
 %<batchfile>\endbatchfile
 %<*internal>
@@ -5343,19 +5345,20 @@ end
 %<*example>
 % \fi
 %
-% \part{fontspec-example.ltx}
+% \part{Example documents}
 %
 %    \begin{macrocode}
+%<luatex>% !TEX TS-program = LuaLaTeX
+%<xetex>% !TEX TS-program = XeLaTeX
+
 \documentclass{article}
 
-\usepackage{euler}
-\usepackage[cm-default]{fontspec}
-\usepackage{xltxtra}
+%<luatex>\usepackage{fontspec}
+%<xetex>\usepackage{xltxtra}
 
-\defaultfontfeatures{Scale=MatchLowercase,Mapping=tex-text}
-\setmainfont[Numbers=Lowercase]{FPL Neu}
-\setsansfont{Lucida Sans}
-\setmonofont{Lucida Sans Typewriter}
+\setmainfont[Ligatures=TeX]{TeX Gyre Pagella}
+\setsansfont[Ligatures=TeX,Scale=MatchLowercase]{TeX Gyre Heros}
+\setmonofont[Scale=MatchLowercase]{Inconsolata}
 
 \frenchspacing % TeX's default is a little old-fashioned...
 
@@ -5365,20 +5368,10 @@ end
 \section*{The basics of the \textsf{fontspec} package}
 
 The \textsf{fontspec} package enables automatic font selection
-for \LaTeX{} documents typeset with \XeTeX{}. The basic command is\\
-\indent \verb|\fontspec[font features]{font display name}|.\\
-As an example:
+for \LaTeX{} documents typeset with Xe\TeX{} or Lua\TeX.
+The basic command is
 
-\begin{center}
-  \Large
-  \fontspec[
-      Color            = 0000CC,
-      Numbers          = OldStyle,
-      VerticalPosition = Ordinal,
-      Variant          = 2
-           ]{Apple Chancery}
-  My 1st example of Apple Chancery
-\end{center}
+{\centering \verb|\fontspec[font features]{font display name}|.\par}
 
 The default, sans serif, and typewriter fonts may be set with the
 \verb|\setmainfont|, \verb|\setsansfont| and \verb|\setmonofont|
@@ -5391,24 +5384,20 @@ shapes are available:
   {\sffamily\bfseries Bold sans serif and \itshape bold italic sans serif\dots}
 \end{center}
 
-With the roman and sans serif fonts set in the preamble, text fonts
-in math mode are also changed: $\cos(n\pi)=\pm 1$. The maths
-typeface `Euler' has been used in this document (with the \textsf{euler}
-package---or the \textsf{eulervm} package if the |xpdfdvimx| driver
-is being used), since the default Computer Modern maths font is rather light.
-\[
-  \mathcal F(s) = \int^\infty_0 f(t) \exp(-st)\,\mathrm{d}t
-\]
+Text fonts in maths mode are also changed (e.g., notice the cosine function in
+`$\cos(n\pi)=\pm 1$') but only if the roman and sans serif fonts are set in
+the preamble; \verb|\setmainfont| will not affect these maths mode fonts when
+called mid-document.
+Maths symbols themselves are not affected.
 
-You'll also notice the \verb|\defaultfontfeatures| command in the preamble.
-This command takes a single argument of font features that are then
-applied to every subsequent instance of font selection. The first argument
-in this case, \verb|Mapping=tex-text|, enables regular \TeX{} ligatures
-like \verb|``---''| for ``---''. The second automatically scales the fonts
-to the same x-height.
+Notice the font features used to load the default fonts in the preamble.
+The first, \verb|Ligatures=TeX|, enables regular \TeX{} ligatures like
+\verb|``---''| for ``---''.
+The second, \verb|Scale=MatchLowercase|, automatically scales the fonts to
+the same x-height.
 
-Please see the documentation for font feature explanation and further
-package niceties.
+Please see the complete \textsf{fontspec} documentation for further
+information.
 
 \end{document}
 %    \end{macrocode}

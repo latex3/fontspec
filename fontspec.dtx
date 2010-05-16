@@ -97,19 +97,19 @@ This work consists of this file fontspec.dtx
 % fonts and then was ported into a cross-platform program to run also on Windows
 % and Linux.
 %
-% More recently, Lua\TeX\ is fast becoming the \TeX\ engine of the day; it
+% More recently, \LuaTeX\ is fast becoming the \TeX\ engine of the day; it
 % supports unicode encodings and OpenType fonts and opens up the internals of
 % \TeX\ via the Lua programming language. Hans Hagen's Con\TeX t Mk.\,IV is a
 % re-write of his powerful typesetting system, taking full advantage of
-% Lua\TeX's features including font support; a kernel of his work in this area
+% \LuaTeX's features including font support; a kernel of his work in this area
 % has been extracted to be useful for other \TeX\ macro systems as well, and
 % this has enabled \pkg{fontspec} to be adapted for \LaTeX\ when run with the
-% Lua\TeX\ engine. Elie Roux and Khaled Hosny have been instrumental and
+% \LuaTeX\ engine. Elie Roux and Khaled Hosny have been instrumental and
 % invaluable with all of this.
 %
 % \section{Introduction}
 %
-% The \pkg{fontspec} package allows users of either \XeTeX\ or Lua\TeX\ to
+% The \pkg{fontspec} package allows users of either \XeTeX\ or \LuaTeX\ to
 % load OpenType fonts in a \LaTeX\ document. No font installation is necessary,
 % and font features can be selected and used as desired throughout the document.
 %
@@ -129,7 +129,7 @@ This work consists of this file fontspec.dtx
 % user documentation is split into separate sections that are designed to be
 % completely independent. Nonetheless, the basic functionality all behaves in
 % the same way, so previous users of \pkg{fontspec} under \XeTeX\ should have
-% little or no difficulty switching over to Lua\TeX.
+% little or no difficulty switching over to \LuaTeX.
 %
 % This manual can get rather in-depth, as there are a lot of details
 % to cover. See the example documents \path{fontspec-xetex.tex} and
@@ -137,7 +137,7 @@ This work consists of this file fontspec.dtx
 %
 % \subsection{About this manual}
 %
-% As of version 2.0 with the addition of Lua\TeX\ support, this manual
+% As of version 2.0 with the addition of \LuaTeX\ support, this manual
 % is still in the process of being re-written.
 % It currently contains no typeset examples.
 % Your patience and feedback is appreciated!
@@ -194,7 +194,7 @@ This work consists of this file fontspec.dtx
 % \texttt{fontspec.cfg} file, \note{An example is distributed with the package.}
 % which will be automatically loaded if it is found by \XeTeX. Either place it
 % in the same folder as the main document for isolated cases, or in a location
-% that \XeTeX\ or Lua\TeX\ searches by default; \eg\ in Mac\TeX: \path{~/Library/texmf/tex/latex/}.
+% that \XeTeX\ or \LuaTeX\ searches by default; \eg\ in Mac\TeX: \path{~/Library/texmf/tex/latex/}.
 % The package option |[no-config]| will suppress this behaviour under all circumstances.
 %
 % \subsection{Warnings}
@@ -830,7 +830,7 @@ This work consists of this file fontspec.dtx
 %
 %
 %
-% \part{Lua\TeX}
+% \part{\LuaTeX}
 %
 % \part{\XeTeX: Cross-platform use with OpenType fonts}
 %
@@ -1959,7 +1959,7 @@ This work consists of this file fontspec.dtx
 \RequirePackage{xkeyval}[2005/05/07]
 %    \end{macrocode}
 %
-% New for Lua\TeX, we load a new package called `\pkg{fontspec-patches}'
+% New for \LuaTeX, we load a new package called `\pkg{fontspec-patches}'
 % designed to incorporate the hidden but useful parts of the old \pkg{xltxtra}
 % package.
 %    \begin{macrocode}
@@ -5368,7 +5368,7 @@ end
 \section*{The basics of the \textsf{fontspec} package}
 
 The \textsf{fontspec} package enables automatic font selection
-for \LaTeX{} documents typeset with Xe\TeX{} or Lua\TeX.
+for \LaTeX{} documents typeset with Xe\TeX{} or \LuaTeX.
 The basic command is
 
 {\centering \verb|\fontspec[font features]{font display name}|.\par}
@@ -5422,7 +5422,10 @@ information.
 
 \usepackage{booktabs,calc,color,enumitem,fancyvrb,graphicx,ifthen,refstyle,url,varioref}
 \fvset{gobble=2}
-\usepackage{metalogo}
+\usepackage{hologo}
+\newcommand\XeTeX{\hologo{XeTeX}}
+\newcommand\XeLaTeX{\hologo{XeLaTeX}}
+\newcommand\LuaTeX{\hologo{LuaTeX}}
 \usepackage{tgpagella,eulervm}
 \usepackage[scaled=1.1]{inconsolata}
 \usepackage[
@@ -5547,15 +5550,6 @@ information.
 \def\etc{\@ifnextchar.{\latin{etc}}{\latin{etc.}\@}}
 
 \newcommand\note[1]{\unskip\footnote{#1}}
-
-%% LOGOS, tuned for Pagella:
-\setlogokern{Te}{-0.12em}%
-\setlogokern{eT}{-0.12em}%
-\setlogokern{eX}{-0.12em}%
-\setlogokern{Xe}{-0.12em}%
-\setlogokern{La}{-0.3em}%
-\setlogokern{aT}{-0.12em}%
-\setlogokern{eL}{-0.1em}
 
 \def\MacOSX{Mac~OS~X}
 \def\LuaTeX{L\kern-0.08emu\kern-0.03ema\kern-0.12em\TeX}

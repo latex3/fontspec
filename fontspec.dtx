@@ -5137,6 +5137,10 @@ end
 %<*patches>
 % \fi
 %
+%    \begin{macrocode}
+\ExplSyntaxOn
+%    \end{macrocode}
+%
 % \subsection{Unicode footnote symbols}
 %    \begin{macrocode}
 \RequirePackage{fixltx2e}[2006/03/24]
@@ -5184,21 +5188,25 @@ end
 % \begin{macro}{\xxt@visiblespace}
 % Print \unichar{2434}{Open box}, which is used to visibly display a space character.
 %    \begin{macrocode}
-\def\xxt@visiblespace{%
+\def\xxt@visiblespace{
   \iffontchar\font"2423
     \expandafter\textvisiblespace
   \else
     \expandafter\xxt@visiblespace@fallback
-  \fi}
+  \fi
+}
 %    \end{macrocode}
 % \end{macro}
 %
 % \begin{macro}{\xxt@visiblespace@fallback}
 % If the current font doesn't have u2434, use Latin Modern Mono instead.
 %    \begin{macrocode}
-\def\xxt@visiblespace@fallback{{%
-  \usefont{EU1}{lmtt}{\f@series}{\f@shape}%
-  \textvisiblespace}}
+\def\xxt@visiblespace@fallback{
+  {
+    \usefont{EU1}{lmtt}{\f@series}{\f@shape}
+    \textvisiblespace
+  }
+}
 %    \end{macrocode}
 % \end{macro}
 %
@@ -5206,8 +5214,8 @@ end
 % Helper macro to turn spaces active and print visible space instead.
 %    \begin{macrocode}
 \begingroup
-  \catcode`\~=\active%
-  \gdef\xxt@vprintspaces{\catcode`\~\active\let \xxt@visiblespace}%
+  \catcode`\~=\active
+  \gdef\xxt@vprintspaces{\catcode`\~\active\let \xxt@visiblespace}
 \endgroup
 %    \end{macrocode}
 % \end{macro}
@@ -5216,11 +5224,13 @@ end
 % \begin{macro}{\verb*}
 % Redefine \cmd\verb\ to use \cmd\xxt@vprintspaces.
 %    \begin{macrocode}
-\def\verb{\relax\ifmmode\hbox\else\leavevmode\null\fi
+\def\verb{
+  \relax\ifmmode\hbox\else\leavevmode\null\fi
   \bgroup
     \verb@eol@error \let\do\@makeother \dospecials
     \verbatim@font\@noligs
-    \@ifstar\@@sverb\@verb}
+    \@ifstar\@@sverb\@verb
+}
 \def\@@sverb{\xxt@vprintspaces\@sverb}
 %    \end{macrocode}
 % \end{macro}
@@ -5228,25 +5238,29 @@ end
 %
 % It's better to put small things into \cmd\AtBeginDocument, so here we go:
 %    \begin{macrocode}
-\AtBeginDocument{%
-  \xxt@patch@verbatim
-  \xxt@patch@moreverb
-  \xxt@patch@fancyvrb
-  \xxt@patch@listings}
+\AtBeginDocument{
+  \fontspec_patch_verbatim:
+  \fontspec_patch_moreverb:
+  \fontspec_patch_fancyvrb:
+  \fontspec_patch_listings:
+}
 %    \end{macrocode}
 %
 % \begin{environment}{verbatim*}
 % With the \pkg{verbatim} package.
 %    \begin{macrocode}
-\def\xxt@patch@verbatim{%
-  \@ifpackageloaded{verbatim}{%
-    \@namedef{verbatim*}{\begingroup\@verbatim\xxt@vprintspaces\verbatim@start}%
-  }{%
+\cs_set:Npn \fontspec_patch_verbatim: {
+  \@ifpackageloaded{verbatim}{
+    \@namedef{verbatim*}{
+      \begingroup\@verbatim\xxt@vprintspaces\verbatim@start
+    }
+  }{
 %    \end{macrocode}
 % This is for vanilla LaTeX.
 %    \begin{macrocode}
-    \@namedef{verbatim*}{\@verbatim\xxt@vprintspaces\@sxverbatim}%
-  }}
+    \@namedef{verbatim*}{\@verbatim\xxt@vprintspaces\@sxverbatim}
+  }
+}
 %    \end{macrocode}
 % \end{environment}
 %
@@ -5254,30 +5268,34 @@ end
 % This is for \pkg{moreverb}.
 % The main |listing*| environment inherits this definition.
 %    \begin{macrocode}
-\def\xxt@patch@moreverb{%
-  \@ifpackageloaded{moreverb}{%
-    \@namedef{listingcont*}{%
-      \def\verbatim@processline{%
-        \thelisting@line \global\advance\listing@line1
-        \the\verbatim@line\par}%
-      \@verbatim\xxt@vprintspaces\verbatim@start}%
+\cs_set:Npn \fontspec_patch_moreverb: {
+  \@ifpackageloaded{moreverb}{
+    \@namedef{listingcont*}{
+      \def\verbatim@processline{
+        \thelisting@line \global\advance\listing@line\c_one
+        \the\verbatim@line\par
+      }
+      \@verbatim\xxt@vprintspaces\verbatim@start
+    }
   }{}}
 %    \end{macrocode}
 % \end{environment}
 %
 % \pkg{listings} and \pkg{fancvrb} make things nice and easy:
 %    \begin{macrocode}
-\def\xxt@patch@fancyvrb{%
-  \@ifpackageloaded{fancyvrb}{%
+\cs_set:Npn \fontspec_patch_fancyvrb: {
+  \@ifpackageloaded{fancyvrb}{
     \let\FancyVerbSpace\xxt@visiblespace
-  }{}}
+  }{}
+}
 %    \end{macrocode}
 %
 %    \begin{macrocode}
-\def\xxt@patch@listings{%
-  \@ifpackageloaded{listings}{%
+\cs_set:Npn \fontspec_patch_listings: {
+  \@ifpackageloaded{listings}{
     \let\lst@visiblespace\xxt@visiblespace
-  }{}}
+  }{}
+}
 %    \end{macrocode}
 %
 % \iffalse

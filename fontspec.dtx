@@ -145,7 +145,7 @@ This work consists of this file fontspec.dtx
 % \section{Package loading and options}
 %
 % For basic use, no package options are required:
-% \begin{Verbatim}[gobble=2]
+% \begin{Verbatim}
 %   \usepackage{fontspec}
 % \end{Verbatim}
 %
@@ -464,7 +464,7 @@ This work consists of this file fontspec.dtx
 %
 % For example, if you were using Optima with the Euler maths font, you
 % might have this in your preamble:
-% \begin{Verbatim}[gobble=2]
+% \begin{Verbatim}
 %   \usepackage{mathpazo}
 %   \usepackage{fontspec,xunicode}
 %   \setmainfont{Optima}
@@ -1544,7 +1544,7 @@ This work consists of this file fontspec.dtx
 % \DescribeMacro{\newfontlanguage}
 % Further scripts and languages may be added with the \cmd\newfontscript\
 % and \cmd\newfontlanguage\ commands. For example,
-% \begin{Verbatim}[gobble=2]
+% \begin{Verbatim}
 %   \newfontscript{Arabic}{arab}
 %   \newfontlanguage{Turkish}{TUR}
 % \end{Verbatim}
@@ -1778,7 +1778,7 @@ This work consists of this file fontspec.dtx
 % \feat{Letters} feature, but \opt{550099BB} cannot be substituted for \opt{Purple}
 % in a \feat{Color} specification. For this type of thing, the \cmd\newfontfeature\
 % command should be used to declare a new, \eg, \feat{PurpleColor} feature:
-% \begin{Verbatim}[gobble=2]
+% \begin{Verbatim}
 %   \newfontfeature{PurpleColor}{color=550099BB}
 % \end{Verbatim}
 %
@@ -4623,7 +4623,7 @@ This work consists of this file fontspec.dtx
   \DeclareMathAccent{\mathring}{\mathalpha}{legacymaths}{23}
 %    \end{macrocode}
 % \paragraph{\cmd\colon: what's going on?} Okay, so \verb":" and \cmd\colon\ in maths mode are defined in a few places, so I need to work out what does what. Respectively, we have:
-% \begin{Verbatim}[gobble=2]
+% \begin{Verbatim}
 % % fontmath.ltx:
 % \DeclareMathSymbol{\colon}{\mathpunct}{operators}{"3A}
 % \DeclareMathSymbol{:}{\mathrel}{operators}{"3A}
@@ -5403,6 +5403,7 @@ information.
 \ProvidesPackage{fontspec-style}
 
 \usepackage{booktabs,calc,color,enumitem,fancyvrb,graphicx,ifthen,refstyle,url,varioref}
+\fvset{gobble=2}
 \usepackage{metalogo}
 \usepackage{tgpagella,eulervm}
 \usepackage[scaled=1.1]{inconsolata}
@@ -5446,7 +5447,7 @@ information.
 \definecolor{niceblue}{rgb}{0.2,0.4,1.0}
 \newenvironment{example}
   {\VerbatimEnvironment
-   \begin{VerbatimOut}[gobble=2]{\examplefilename}}
+   \begin{VerbatimOut}{\examplefilename}}
   {\end{VerbatimOut}\relax
    \begingroup
      \color{niceblue}

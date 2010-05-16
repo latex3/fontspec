@@ -151,7 +151,6 @@ This work consists of this file fontspec.dtx
 %
 % In brief, \pkg{fontspec}'s package options are
 % \begin{description}[nolistsep,font=\ttfamily]
-% \item [cm-default] Don't load the Latin Modern fonts;
 % \item [no-math] Don't change any maths fonts;
 % \item [no-config] Don't load \pkg{fontspec.cfg}; and,
 % \item [quiet] Output \pkg{fontspec} warnings in the log file rather than the console output.
@@ -177,18 +176,6 @@ This work consists of this file fontspec.dtx
 % \pkg{babel}.
 %
 %
-% \subsection{Latin Modern defaults}
-% \pkg{fontspec} defines a new \LaTeX\ font encoding for its purposes to allow
-% the Latin Modern fonts to be used by default. This has three implications:
-% \begin{enumerate}
-% \item Unicode fonts are loaded by default; it didn't make sense to have the legacy Computer Modern fonts in the Unicode-enabled \XeTeX.
-% \item If you don't have the Latin Modern OpenType fonts installed, you might want to consider doing so.
-% \item \pkg{fontspec} also requires the \pkg{euenc} package\footnote{\url{http://tug.ctan.org/pkg/euenc}} to be installed.
-% \end{enumerate}
-% Another package option is provided for controlling this behaviour: |[cm-default]|
-% will ignore the Latin Modern fonts and go about things as it used to. Use this
-% option if you don't have the Latin Modern fonts installed or you (Mac-specifically)
-% want to use the `default \TeX\ font' without using the |xdvipdfmx| driver.
 %
 % \subsection{Maths fonts adjustments}
 % By default, \pkg{fontspec} adjusts \LaTeX's
@@ -1917,7 +1904,6 @@ This work consists of this file fontspec.dtx
 % For package options:
 %    \begin{macrocode}
 \newif\if@zf@configfile
-\newif\if@zf@euenc
 \newif\if@zf@math
 %    \end{macrocode}
 % \paragraph{Counters}
@@ -1946,8 +1932,9 @@ This work consists of this file fontspec.dtx
 % \subsection{Option processing}
 %
 %    \begin{macrocode}
-\DeclareOption{cm-default}{\@zf@euencfalse}
-\DeclareOption{lm-default}{\@zf@euenctrue}
+\DeclareOption{cm-default}{
+  \fontspec_warning:n {cm-default-obsolete}
+}
 \DeclareOption{math}{\@zf@mathtrue}
 \DeclareOption{no-math}{\@zf@mathfalse}
 \DeclareOption{config}{\@zf@configfiletrue}
@@ -1960,7 +1947,7 @@ This work consists of this file fontspec.dtx
   \msg_redirect_module:nnn { fontspec } { warning } { none }
   \msg_redirect_module:nnn { fontspec } { info } { none }
 }
-\ExecuteOptions{config,lm-default,math}
+\ExecuteOptions{config,math}
 \ProcessOptions*
 %    \end{macrocode}
 %
@@ -1986,16 +1973,11 @@ This work consists of this file fontspec.dtx
 % Now that \XeTeX\ can find fonts in the |texmf| tree, the Latin Modern OpenType fonts
 % can be used as the defaults. See the |euenc| collection of files for how this is implemented.
 %    \begin{macrocode}
-\if@zf@euenc
-  \xetex_or_luatex:nnn {\tl_set:Nn \zf@enc} {EU1} {EU2}
-  \tl_set:Nn \rmdefault {lmr}
-  \tl_set:Nn \sfdefault {lmss}
-  \tl_set:Nn \ttdefault {lmtt}
-  \RequirePackage[\zf@enc]{fontenc}
-\else
-  \tl_set:Nn \zf@enc {U}
-  \tl_set_eq:NN \encodingdefault \zf@enc
-\fi
+\xetex_or_luatex:nnn {\tl_set:Nn \zf@enc} {EU1} {EU2}
+\tl_set:Nn \rmdefault {lmr}
+\tl_set:Nn \sfdefault {lmss}
+\tl_set:Nn \ttdefault {lmtt}
+\RequirePackage[\zf@enc]{fontenc}
 \tl_set_eq:NN \UTFencname \zf@enc % for xunicode
 %    \end{macrocode}
 % Dealing with a couple of the problems introduced by \pkg{babel}:
@@ -4904,6 +4886,10 @@ This work consists of this file fontspec.dtx
   Input~ mapping~ not~ (yet?)~ supported~ in~ LuaTeX.\\
   Use~ "Ligatures=TeX"~ instead~ of~ "Mapping=tex-text".
 }
+\msg_new:nnn {fontspec} {cm-default-obsolete}
+{
+  The~ "cm-default"~ package~ option~ is~ obsolete.
+}
 %    \end{macrocode}
 % Info messages:
 %    \begin{macrocode}
@@ -5457,7 +5443,7 @@ information.
 \labelformat{subsection}{Section~#1}
 
 %% verbatim examples:
-\definecolor{niceblue}{rgb}{0.4,0.6,1.000}
+\definecolor{niceblue}{rgb}{0.2,0.4,1.0}
 \newenvironment{example}
   {\VerbatimEnvironment
    \begin{VerbatimOut}[gobble=2]{\examplefilename}}

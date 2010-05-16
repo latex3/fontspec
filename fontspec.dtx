@@ -3907,9 +3907,19 @@ This work consists of this file fontspec.dtx
 %
 % \paragraph{Mapping}
 %    \begin{macrocode}
-\define@key[zf]{options}{Mapping}{
+\xetex_or_luatex:nnn {
+  \define@key[zf]{options}{Mapping}
+}{
   \zf@update@family{+map:#1}
   \zf@update@ff{mapping=#1}
+}{
+  \tl_if_eq:nnTF {#1} {tex-text} {
+    \fontspec_warning:n {no-mapping-ligtex}
+    \msg_redirect_name:nnn {fontspec} {no-mapping-ligtex} {none}
+    \setkeys[zf]{options}{ Ligatures=TeX }
+  }{
+    \fontspec_warning:n {no-mapping}
+  }
 }
 %    \end{macrocode}
 %
@@ -4886,6 +4896,15 @@ This work consists of this file fontspec.dtx
 {
   Ignored~ LuaTeX~ only~ feature:~ '#1'.
 }
+\msg_new:nnn {fontspec} {no-mapping}
+{
+  Input~ mapping~ not~ (yet?)~ supported~ in~ LuaTeX.
+}
+\msg_new:nnn {fontspec} {no-mapping-ligtex}
+{
+  Input~ mapping~ not~ (yet?)~ supported~ in~ LuaTeX.\\
+  Use~ "Ligatures=TeX"~ instead~ of~ "Mapping=tex-text".
+}
 %    \end{macrocode}
 % Info messages:
 %    \begin{macrocode}
@@ -5247,7 +5266,7 @@ end
 % \end{environment}
 %
 % \begin{environment}{listingcont*}
-% This is for \pkg{moreverb}. 
+% This is for \pkg{moreverb}.
 % The main |listing*| environment inherits this definition.
 %    \begin{macrocode}
 \def\xxt@patch@moreverb{%

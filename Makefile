@@ -6,7 +6,7 @@ DTX = $(NAME).dtx
 
 # Files grouped by generation mode
 COMPILED = $(DOC)
-UNPACKED = fontspec.sty fontspec.lua fontspec.cfg fontspec-luatex.tex fontspec-xetex.tex
+UNPACKED = fontspec.sty fontspec-patches.sty fontspec.lua fontspec.cfg fontspec-luatex.tex fontspec-xetex.tex
 SOURCE = $(DTX) Makefile
 GENERATED = $(COMPILED) $(UNPACKED)
 

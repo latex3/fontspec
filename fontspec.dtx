@@ -61,7 +61,7 @@ This work consists of this file fontspec.dtx
 %<fontspec>\ProvidesPackage{fontspec}
 %<patches>\ProvidesPackage{fontspec-patches}
 %<*fontspec|patches>
-  [2010/05/14 v2.0 Advanced font selection for XeLaTeX/LuaLaTeX]
+  [2010/05/19 v2.0 Advanced font selection for XeLaTeX/LuaLaTeX]
 %</fontspec|patches>
 %
 %<*driver>
@@ -1912,6 +1912,7 @@ This work consists of this file fontspec.dtx
 \newcount\c@zf@index
 \newcount\c@zf@script
 \newcount\c@zf@language
+\int_new:N \l_fontspec_strnum_int
 %    \end{macrocode}
 % Temporary definition until expl3 has been updated to include this:
 %    \begin{macrocode}
@@ -2011,7 +2012,7 @@ This work consists of this file fontspec.dtx
 %   family is selected.
 %    \begin{macrocode}
 \DeclareDocumentCommand \fontspec { O{} m } {
-  \zf@fontspec{#1}{#2}
+  \fontspec_select:nn{#1}{#2}
   \fontfamily\zf@family\selectfont
   \ignorespaces
 }
@@ -2029,17 +2030,17 @@ This work consists of this file fontspec.dtx
 %     used in the document, the change registers immediately.
 %    \begin{macrocode}
 \DeclareDocumentCommand \setmainfont { O{} m } {
-  \zf@fontspec{#1}{#2}
+  \fontspec_select:nn{#1}{#2}
   \tl_set_eq:NN \rmdefault \zf@family
   \normalfont
 }
 \DeclareDocumentCommand \setsansfont { O{} m } {
-  \zf@fontspec{#1}{#2}
+  \fontspec_select:nn{#1}{#2}
   \tl_set_eq:NN \sfdefault \zf@family
   \normalfont
 }
 \DeclareDocumentCommand \setmonofont { O{} m } {
-  \zf@fontspec{#1}{#2}
+  \fontspec_select:nn{#1}{#2}
   \tl_set_eq:NN \ttdefault \zf@family
   \normalfont
 }
@@ -2057,19 +2058,19 @@ This work consists of this file fontspec.dtx
 % fonts should be used in \cmd\boldmath.
 %    \begin{macrocode}
 \DeclareDocumentCommand \setmathrm { O{} m } {
-  \zf@fontspec{#1}{#2}
+  \fontspec_select:nn{#1}{#2}
   \let\zf@rmmaths\zf@family
 }
 \DeclareDocumentCommand \setboldmathrm { O{} m } {
-  \zf@fontspec{#1}{#2}
+  \fontspec_select:nn{#1}{#2}
   \let\zf@rmboldmaths\zf@family
 }
 \DeclareDocumentCommand \setmathsf { O{} m } {
-  \zf@fontspec{#1}{#2}
+  \fontspec_select:nn{#1}{#2}
   \let\zf@sfmaths\zf@family
 }
 \DeclareDocumentCommand \setmathtt { O{} m } {
-  \zf@fontspec{#1}{#2}
+  \fontspec_select:nn{#1}{#2}
   \let\zf@ttmaths\zf@family
 }
 \@onlypreamble\setmathrm
@@ -2102,10 +2103,10 @@ This work consists of this file fontspec.dtx
 %   declaration, saved in the macro name specified.
 %    \begin{macrocode}
 \DeclareDocumentCommand \newfontfamily { m O{} m } {
-  \zf@fontspec{#2}{#3}
+  \fontspec_select:nn{#2}{#3}
   \use:x {
-    \noexpand \DeclareRobustCommand \noexpand #1 {
-      \noexpand \fontfamily {\zf@family} \noexpand \selectfont
+    \exp_not:N \DeclareRobustCommand \exp_not:N #1 {
+      \exp_not:N \fontfamily {\zf@family} \exp_not:N \selectfont
     }
   }
 }
@@ -2150,7 +2151,7 @@ This work consists of this file fontspec.dtx
 %
 %   The default options are \emph{not} applied (which is why
 %   \cs{zf@default@options} is emptied inside the group; this is allowed
-%   as \cmd\zf@family\ is globally defined in \cmd\zf@fontspec), so this
+%   as \cmd\zf@family\ is globally defined in \cmd\fontspec_select:nn), so this
 %   means that the only added features to the font are strictly those
 %   specified by this command.
 %
@@ -2162,7 +2163,7 @@ This work consists of this file fontspec.dtx
     \begingroup
       \let\zf@default@options\@empty
       \use:x {
-        \noexpand\zf@fontspec
+        \exp_not:N\fontspec_select:nn
           {\csname zf@family@options\f@family\endcsname,#1}
           {\csname zf@family@fontname\f@family\endcsname}
       }
@@ -2270,7 +2271,7 @@ This work consists of this file fontspec.dtx
     \fontspec_check_script:nTF {#2} {
       \zf@update@family{+script=#1}
       \tl_set:Nn \l_fontspec_script_tl {#2}
-      \c@zf@script=\@tempcnta\relax
+      \c@zf@script=\l_fontspec_strnum_int\relax
     }{
       \fontspec_warning:nx {script-not-exist} {#1}
     }
@@ -2300,7 +2301,7 @@ This work consists of this file fontspec.dtx
     \fontspec_check_lang:nTF {#2} {
       \zf@update@family{+lang=#1}
       \tl_set:Nn \l_fontspec_lang_tl {#2}
-      \c@zf@language=\@tempcnta\relax
+      \c@zf@language=\l_fontspec_strnum_int\relax
     }{
       \fontspec_warning:nx {language-not-exist} {#1}
     }
@@ -2358,7 +2359,7 @@ This work consists of this file fontspec.dtx
   \ifcsname zf@family@fontdef\f@family\endcsname
     \font\zf@basefont="\use:c{zf@family@fontdef\f@family}"~at~\f@size pt
     \ifzf@atsui
-      \zf@make@aat@feature@string{#1}{#2}
+      \fontspec_make_AAT_feature_string:nn{#1}{#2}
       \ifx\@tempa\@empty
         \prg_return_false:
       \else
@@ -2433,8 +2434,8 @@ This work consists of this file fontspec.dtx
     \font\zf@basefont="\csname zf@family@fontdef\f@family\endcsname"~at~\f@size pt
     \fontspec_set_font_type:
     \ifzf@icu
-      \zf@iv@strnum{#1} \c@zf@script   = \@tempcnta \relax
-      \zf@iv@strnum{#2} \c@zf@language = \@tempcnta \relax
+      \fontspec_iv_str_to_num:n{#1} \c@zf@script   = \l_fontspec_strnum_int \relax
+      \fontspec_iv_str_to_num:n{#2} \c@zf@language = \l_fontspec_strnum_int \relax
       \fontspec_check_ot_feat:nTF {#3} \prg_return_true: \prg_return_false:
     \else
       \prg_return_false:
@@ -2505,7 +2506,7 @@ This work consists of this file fontspec.dtx
     \fontspec_set_font_type:
     \ifzf@icu
       \tl_set:Nn \l_fontspec_script_tl {#1}
-      \zf@iv@strnum{#1} \c@zf@script   = \@tempcnta \relax
+      \fontspec_iv_str_to_num:n{#1} \c@zf@script   = \l_fontspec_strnum_int \relax
       \fontspec_check_lang:nTF {#2} \prg_return_true: \prg_return_false:
     \else
       \prg_return_false:
@@ -2572,7 +2573,7 @@ This work consists of this file fontspec.dtx
 % The macros from here in are used internally by all those defined above.
 % They are not designed to remain consistent between versions.
 %
-% \begin{macro}{\zf@fontspec}
+% \begin{macro}{\fontspec_select:nn}
 % This is the command that defines font families for use, the underlying
 % procedure of all \cmd\fontspec-like commands. Given a
 % list of font features (|#1|) for a requested font (|#2|, stored
@@ -2591,7 +2592,7 @@ This work consists of this file fontspec.dtx
 % the way subsequent features are processed. All font features that `slip through'
 % this stage are saved in the \cmd\zf@font@feat\ macro for future processing.
 %    \begin{macrocode}
-\cs_set:Npn \zf@fontspec #1#2 {
+\cs_set:Npn \fontspec_select:nn #1#2 {
   \begingroup
   \fontspec_init:
 %    \end{macrocode}
@@ -2620,9 +2621,9 @@ This work consists of this file fontspec.dtx
   \let\zf@font@feat\XKV@rm
 %    \end{macrocode}
 %    \begin{macrocode}
-  \font\zf@basefont="\fontspec_fullname:n {\zf@up}"~at~\f@size pt
+  \global\font\zf@basefont="\fontspec_fullname:n {\zf@up}"~at~\f@size pt
   \fontspec_set_font_type:
-  \font\zf@basefont="\fontspec_fullname:n {\zf@up}"~at~\f@size pt
+  \global\font\zf@basefont="\fontspec_fullname:n {\zf@up}"~at~\f@size pt
 %    \end{macrocode}
 % Now convert the remaining requested features to font definition
 % strings. This is performed with \cs{zf@get@feature@requests}, in
@@ -2639,7 +2640,7 @@ This work consists of this file fontspec.dtx
       \fontspec_setkeys:xxx {feat} {Script} {\l_fontspec_script_name_tl}
       \fontspec_setkeys:xxx {feat} {Lang}   {\l_fontspec_lang_name_tl}
     \fi
-    \zf@get@feature@requests{\zf@font@feat}
+    \fontspec_get_features:n{\zf@font@feat}
   \zf@firsttimefalse
 %    \end{macrocode}
 % Now we have a unique (in fact, too unique!) string that contains
@@ -2740,7 +2741,9 @@ This work consists of this file fontspec.dtx
 % Constructs the complete font name based on a common piece of info.
 %    \begin{macrocode}
 \cs_set:Nn \fontspec_fullname:n {
-  \zf@font@wrap { #1 \l_fontspec_extension_tl } \zf@suffix
+  \fontspec_namewrap:n { #1 \l_fontspec_extension_tl }
+  \l_fontspec_renderer_tl
+  \l_fontspec_optical_size_tl
 }
 %    \end{macrocode}
 % \end{macro}
@@ -2883,13 +2886,13 @@ This work consists of this file fontspec.dtx
 % processing), and if it is indeed still empty, assign it a value so that the
 % other weights of the font are specifically loaded with the same renderer.
 %    \begin{macrocode}
-    \ifx \l_fontspec_renderer_tl \@empty
+    \tl_if_empty:NT \l_fontspec_renderer_tl {
       \ifzf@atsui
         \tl_set:Nn \l_fontspec_renderer_tl {/AAT}
       \else\ifzf@icu
         \tl_set:Nn \l_fontspec_renderer_tl {/ICU}
       \fi\fi
-    \fi
+    }
   }
   {
     \zf@icutrue
@@ -2957,7 +2960,7 @@ This work consists of this file fontspec.dtx
 }
 %    \end{macrocode}
 % Note that the test for italics to choose the \cmd\sidefault\ shape
-% only works while \cmd\zf@fontspec\ passes single tokens to this macro\dots
+% only works while \cmd\fontspec_select:nn\ passes single tokens to this macro\dots
 % \end{macro}
 %
 % \begin{macro}{\zf@DeclareFontShape}
@@ -2968,72 +2971,61 @@ This work consists of this file fontspec.dtx
 % Wrapper for \cmd\DeclareFontShape.
 %    \begin{macrocode}
 \newcommand\zf@DeclareFontShape[4][]{
-  \ifx\zf@size@feat\@empty
-    \zf@get@feature@requests{#4}
-    \edef \zf@font@str {
+  \clist_if_empty:NTF \l_fontspec_sizefeat_clist
+  {
+    \fontspec_get_features:n{#4}
+    \tl_set:Nx \l_fontspec_nfss_tl {
       <-> \zf@scale "
       \fontspec_fullname:n {\zf@fontname} :
         \l_fontspec_pre_feat_tl \zf@ff #1 "
     }
-  \else
+  }
 %    \end{macrocode}
 % Default code, above, sets things up for no optical size fonts or features.
 % On the other hand, loop through \feat{SizeFeatures} arguments, which
 % are of the form
 % {\par\centering |SizeFeatures={{<one>},{<two>},{<three>}}|.\par}
 %    \begin{macrocode}
-    \clist_map_variable:NNn \zf@size@feat \zf@this@size {
+  {
+    \tl_clear:N \l_fontspec_nfss_tl
+    \clist_map_inline:Nn \l_fontspec_sizefeat_clist {
       \let\zf@size\@empty
       \let\zf@size@fnt\zf@fontname
-      \fontspec_setkeys:xx {sizing} {\expandafter\@firstofone\zf@this@size}
+      \fontspec_setkeys:xx {sizing} { \expandafter \@firstofone ##1 }
       \ifx\zf@size\@empty
         \fontspec_error:n {no-size-info}
       \fi
-      \zf@get@feature@requests{#4,\XKV@rm}
-      \edef\zf@font@str{
-        \zf@font@str <\zf@size> \zf@scale "
-        \fontspec_fullname:n { \zf@size@fnt }
+      \fontspec_get_features:n{#4,\XKV@rm}
+      \tl_put_right:Nx \l_fontspec_nfss_tl {
+        <\zf@size> \zf@scale " \fontspec_fullname:n { \zf@size@fnt }
           : \l_fontspec_pre_feat_tl \zf@ff #1 "
       }
     }
-  \fi
+  }
 %    \end{macrocode}
-% And finally the actual font shape declaration using \cmd\zf@font@str\ defined above.
+% And finally the actual font shape declaration using \cmd\l_fontspec_nfss_tl\ defined above.
 % \cmd\zf@adjust\ is defined in various places to deal with things like the hyphenation
 % character and interword spacing.
 %    \begin{macrocode}
   \use:x{
-    \noexpand\DeclareFontShape{\zf@enc}{\zf@family}{#2}{#3}
-      {\zf@font@str}{\zf@adjust}
+    \exp_not:N\DeclareFontShape{\zf@enc}{\zf@family}{#2}{#3}
+      {\l_fontspec_nfss_tl}{\zf@adjust}
   }
 %    \end{macrocode}
 % This extra stuff for the slanted shape substitution is a little bit awkward,
 % but I'd rather have it here than break out yet another macro. Alternatively,
 % one day I might just redefine \cmd\slshape. Why not, eh?
 %    \begin{macrocode}
-  \edef\@tempa{#3}
-  \edef\@tempb{\itdefault}
-  \ifx\@tempa\@tempb
-    \use:x{
-      \noexpand\DeclareFontShape{\zf@enc}{\zf@family}{#2}{\sldefault}
+  \tl_if_eq:xxT {#3} {\itdefault}
+  {
+    \use:x {
+      \exp_not:N \DeclareFontShape {\zf@enc}{\zf@family}{#2}{\sldefault}
         {<->ssub*\zf@family/#2/\itdefault}{\zf@adjust}
     }
-  \fi
+  }
 }
 %    \end{macrocode}
 % \end{macro}
-%
-%
-% \begin{macro}{\zf@suffix}
-% \XeTeX\ fontname suffix to denote, e.g., renderer and so on.
-%    \begin{macrocode}
-\cs_set:Npn \zf@suffix {
-  \l_fontspec_renderer_tl
-  \l_fontspec_optical_size_tl
-}
-%    \end{macrocode}
-% \end{macro}
-%
 %
 % \begin{macro}{\l_fontspec_pre_feat_tl}
 % These are the features always applied to a font selection before other
@@ -3060,7 +3052,7 @@ This work consists of this file fontspec.dtx
 % This macro is used to build up a complex family name based on its
 % features.
 %
-% \cmd{\zf@firsttime} is set true in \cmd{\zf@fontspec} only the first
+% \cmd{\zf@firsttime} is set true in \cmd{\fontspec_select:nn} only the first
 % time \cmd{zf@get@feature@requests} is called, so that the family
 % name is only created once.
 %    \begin{macrocode}
@@ -3075,20 +3067,20 @@ This work consists of this file fontspec.dtx
 %
 % \subsubsection{Features}
 %
-% \begin{macro}{\zf@get@feature@requests}
+% \begin{macro}{\fontspec_get_features:n}
 %   This macro is a wrapper for |\setkeys| which expands and adds a
 %   default specification to the original passed options. It begins by
 %   initialising the commands used to hold font-feature specific
 %   strings.
 %    \begin{macrocode}
-\newcommand*\zf@get@feature@requests[1]{
+\cs_set:Npn \fontspec_get_features:n #1 {
   \let\zf@ff     \@empty
   \let\zf@scale  \@empty
   \let\zf@adjust \@empty
   \fontspec_setkeys:xx {options} {#1}
-  \ifx \XKV@rm \@empty \else
+  \tl_if_empty:NF \XKV@rm {
     \fontspec_error:nx {unknown-options} { \exp_not:V \XKV@rm }
-  \fi
+  }
   \PackageInfo{fontspec}{Raw~ font~ features~ "\zf@ff"}
 }
 %    \end{macrocode}
@@ -3111,8 +3103,7 @@ This work consists of this file fontspec.dtx
 \tl_clear:N \zf@sl@feat
 \tl_clear:N \zf@bfsl@feat
 \tl_clear:N \zf@sc@feat
-\tl_clear:N \zf@size@feat
-\tl_clear:N \zf@font@str
+\clist_clear:N \l_fontspec_sizefeat_clist
 %    \end{macrocode}
 % Or once per fontspec font invocation:
 % (Some of these may be redundant.
@@ -3120,7 +3111,7 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \newcommand*\fontspec_init:{
   \zf@icufalse
-  \let\zf@font@wrap   \@firstofone
+  \cs_set_eq:NN \fontspec_namewrap:n \use:n
   \tl_clear:N \l_fontspec_optical_size_tl
   \tl_clear:N \l_fontspec_renderer_tl
   \tl_set:Nn \l_fontspec_script_name_tl {Latin}
@@ -3147,7 +3138,7 @@ This work consists of this file fontspec.dtx
   \xetex_or_luatex:nn
   {
     \ifzf@atsui
-      \zf@make@aat@feature@string{3}{3}
+      \fontspec_make_AAT_feature_string:nn{3}{3}
       \unless\ifx\@tempa\@empty
         \edef\zf@smallcaps{\@tempa;}
       \fi
@@ -3181,15 +3172,15 @@ This work consists of this file fontspec.dtx
 %
 %
 %
-% \begin{macro}{\zf@make@feature}
+% \begin{macro}{\fontspec_make_feature:nnn}
 %   This macro is called by each feature key selected, and runs
 %   according to which type of font is selected.
 %    \begin{macrocode}
-\newcommand*\zf@make@feature[3]{
+\cs_new:Npn \fontspec_make_feature:nnn #1#2#3 {
   \xetex_or_luatex:nn
   {
     \ifzf@atsui
-      \fontspec_make_AAT_feature:nn {#1} {#2}
+      \fontspec_make_AAT_feature:nn {#1}{#2}
     \fi
     \ifzf@icu
       \fontspec_make_ICU_feature:n {#3}
@@ -3200,31 +3191,33 @@ This work consists of this file fontspec.dtx
   }
 }
 \cs_new:Nn \fontspec_make_AAT_feature:nn {
-  \def\@tempa{#1}
-  \ifx\@tempa\@empty
+  \tl_if_empty:nTF {#1}
+  {
     \fontspec_warning:n {aat-feature-not-exist}
-  \else
-    \zf@make@aat@feature@string{#1}{#2}
+  }
+  {
+    \fontspec_make_AAT_feature_string:nn {#1}{#2}
     \ifx\@tempa\@empty
       \fontspec_warning:nx {aat-feature-not-exist-in-font} {#1,#2}
     \else
       \zf@update@family{+#1,#2}
       \zf@update@ff\@tempa
     \fi
-  \fi
+  }
 }
 \cs_new:Nn \fontspec_make_ICU_feature:n {
-  \edef\@tempa{#1}
-  \ifx\@tempa\@empty
+  \tl_if_empty:nTF {#1}
+  {
     \fontspec_warning:n {icu-feature-not-exist}
-  \else
-    \fontspec_check_ot_feat:VTF {\@tempa} {
+  }
+  {
+    \fontspec_check_ot_feat:nTF {#1} {
       \zf@update@family{#1}
       \zf@update@ff{#1}
     }{
       \fontspec_warning:nx {icu-feature-not-exist-in-font} {#1}
     }
-  \fi
+  }
 }
 %    \end{macrocode}
 % \end{macro}
@@ -3237,7 +3230,7 @@ This work consists of this file fontspec.dtx
   \define@key[zf]{options}{#1}{{\setkeys[zf@feat]{#1}{##1}}}
 }
 \newcommand*\zf@define@feature@option[5]{
-  \define@key[zf@feat]{#1}{#2}[]{\zf@make@feature{#3}{#4}{#5}}
+  \define@key[zf@feat]{#1}{#2}[]{\fontspec_make_feature:nnn{#3}{#4}{#5}}
 }
 %    \end{macrocode}
 % \end{macro}
@@ -3273,7 +3266,7 @@ This work consists of this file fontspec.dtx
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\zf@make@aat@feature@string}
+% \begin{macro}{\fontspec_make_AAT_feature_string:nn}
 %   This macro takes the numerical codes for a font feature and
 %   creates a specified macro containing the string required in the
 %   font definition to turn that feature on or off. Used primarily in
@@ -3281,7 +3274,7 @@ This work consists of this file fontspec.dtx
 %   exists in the requested font (see page~\pageref{mac:zf@make@smallcaps}).
 %
 %    \begin{macrocode}
-\newcommand*\zf@make@aat@feature@string[2]{
+\cs_new:Npn \fontspec_make_AAT_feature_string:nn #1#2 {
   \edef\@tempa{\XeTeXfeaturename\zf@basefont #1}
   \unless\ifx\@tempa\@empty
 %    \end{macrocode}
@@ -3304,7 +3297,9 @@ This work consists of this file fontspec.dtx
 % to denote the switch.
 %    \begin{macrocode}
       \else
-        \edef\@tempb{\XeTeXselectorname\zf@basefont #1\space \numexpr#2-1\relax}
+        \edef\@tempb{
+          \XeTeXselectorname\zf@basefont #1\space \numexpr#2-1\relax
+        }
         \unless\ifx\@tempb\@empty
           \edef\@tempb{!\@tempb}
         \fi
@@ -3324,11 +3319,11 @@ This work consists of this file fontspec.dtx
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\zf@iv@strnum}
-% \begin{macro}{\zf@v@strnum}
+% \begin{macro}{\fontspec_iv_str_to_num:n}
+% \begin{macro}{\fontspec_v_str_to_num:n}
 % This macro takes a four character string and converts it to the
 % numerical representation required for \XeTeX\ OpenType script/language/feature
-% purposes. The output is stored in \cmd\@tempcnta.
+% purposes. The output is stored in \cmd\l_fontspec_strnum_int.
 %
 % The reason it's ugly is because the input can be of the form of any of these:
 % `|abcd|', `|abc|', `|abc |', `|ab|', `|ab  |', \etc.
@@ -3337,55 +3332,53 @@ This work consists of this file fontspec.dtx
 % and anything beyond four chars is snipped. The \cmd\@empty s then are used to reconstruct
 % the spaces in the string to number calculation.
 %
-% The variant \cmd\zf@v@strnum\ is used when looking at features, which are passed around
+% The variant \cmd\fontspec_v_str_to_num:n\ is used when looking at features, which are passed around
 % with prepended plus and minus signs (\eg, \texttt{+liga}, \texttt{-dlig}); it
-% simply strips off the first char of the input before calling the normal \cmd\zf@iv@strnum.
+% simply strips off the first char of the input before calling the normal \cmd\fontspec_iv_str_to_num:n.
 %
 % It's probable that all OpenType features \emph{are} in fact four characters long, but
 % not impossible that they aren't. So I'll leave the less efficient parsing stage in there
 % even though it's not strictly necessary for now.
 %    \begin{macrocode}
-\newcommand\zf@iv@strnum[1]{\zf@iv@strnum@i#1 \@nil}
-\def\zf@iv@strnum@i#1 \@nil{\zf@iv@strnum@ii#1\@empty\@empty\@nil}
-\def\zf@iv@strnum@ii#1#2#3#4#5\@nil{
-  \@tempcnta\z@
-  \@tempcntb`#1\relax
-  \multiply\@tempcntb"1000000
-  \advance\@tempcnta\@tempcntb
-  \@tempcntb`#2
-  \multiply\@tempcntb"10000
-  \advance\@tempcnta\@tempcntb
-  \expandafter\@tempcntb\ifx\@empty#332\else`#3\fi
-  \multiply\@tempcntb"100
-  \advance\@tempcnta\@tempcntb
-  \expandafter\@tempcntb\ifx\@empty#432\else`#4\fi
-  \advance\@tempcnta\@tempcntb
+\cs_set:Npn \fontspec_iv_str_to_num:n #1 {
+  \fontspec_iv_str_to_num:w #1 \@empty \@empty \q_nil
 }
-\newcommand\zf@v@strnum[1]{
-  \bool_if:nTF {
-    \tl_if_head_eq_charcode_p:nN {#1} {+} ||
-    \tl_if_head_eq_charcode_p:nN {#1} {-}
+\cs_set:Npn \fontspec_iv_str_to_num:w #1#2#3#4#5 \q_nil {
+  \int_set:Nn \l_fontspec_strnum_int {
+      `#1 * "1000000
+    + `#2 * "10000
+    + \ifx \@empty #3 32 \else `#3 \fi * "100
+    + \ifx \@empty #4 32 \else `#4 \fi
   }
-  { \exp_after:wN \zf@iv@strnum@i \use_none:n #1 \@nil }
-  { \zf@iv@strnum@i #1 \@nil }
+}
+\cs_set:Npn \fontspec_v_str_to_num:n #1 {
+  \bool_if:nTF
+    {
+      \tl_if_head_eq_charcode_p:nN {#1} {+} ||
+      \tl_if_head_eq_charcode_p:nN {#1} {-}
+    }
+    {
+      \exp_after:wN \fontspec_iv_str_to_num:n
+      \exp_after:wN { \use_none:n #1 }
+    }
+    { \fontspec_iv_str_to_num:n {#1} }
 }
 %    \end{macrocode}
-% TODO: convert to \cmd\numexpr
 % \end{macro}
 % \end{macro}
 %
 % \begin{macro}{\fontspec_check_script:nTF}
 % This macro takes an OpenType script tag and checks if it exists in the current
-% font. The output boolean is \cmd\@tempswatrue. \cmd\@tempcnta\ is used to store
+% font. The output boolean is \cmd\@tempswatrue. \cmd\l_fontspec_strnum_int\ is used to store
 % the number corresponding to the script tag string.
 %    \begin{macrocode}
 \xetex_or_luatex:nnn {\prg_new_conditional:Nnn \fontspec_check_script:n {TF}}
   {
-    \zf@iv@strnum{#1}
+    \fontspec_iv_str_to_num:n{#1}
     \@tempcntb\XeTeXOTcountscripts\zf@basefont
     \c@zf@index\z@ \@tempswafalse
     \loop\ifnum\c@zf@index<\@tempcntb
-      \ifnum\XeTeXOTscripttag\zf@basefont\c@zf@index=\@tempcnta
+      \ifnum\XeTeXOTscripttag\zf@basefont\c@zf@index=\l_fontspec_strnum_int
         \@tempswatrue
         \c@zf@index\@tempcntb
       \else
@@ -3403,19 +3396,19 @@ This work consists of this file fontspec.dtx
 %
 % \begin{macro}{\fontspec_check_lang:nTF}
 % This macro takes an OpenType language tag and checks if it exists in the current
-% font/script. The output boolean is \cmd\@tempswatrue. \cmd\@tempcnta\ is used to store
+% font/script. The output boolean is \cmd\@tempswatrue. \cmd\l_fontspec_strnum_int\ is used to store
 % the number corresponding to the language tag string.
 % The script used is whatever's held in \cmd\c@zf@script. By default, that's the
 % number corresponding to `|latn|'.
 %    \begin{macrocode}
 \xetex_or_luatex:nnn {\prg_new_conditional:Nnn \fontspec_check_lang:n {TF}}
   {
-    \zf@iv@strnum{#1}
+    \fontspec_iv_str_to_num:n{#1}
     \@tempcntb\XeTeXOTcountlanguages\zf@basefont\c@zf@script
     \c@zf@index\z@
     \@tempswafalse
     \loop\ifnum\c@zf@index<\@tempcntb
-      \ifnum\XeTeXOTlanguagetag\zf@basefont\c@zf@script\c@zf@index=\@tempcnta
+      \ifnum\XeTeXOTlanguagetag\zf@basefont\c@zf@script\c@zf@index=\l_fontspec_strnum_int
         \@tempswatrue
         \c@zf@index\@tempcntb
       \else
@@ -3426,11 +3419,7 @@ This work consists of this file fontspec.dtx
   }
   {
     \directlua{
-      fontspec.check_ot_lang(
-                              "zf@basefont",
-                              "#1",
-                              "\l_fontspec_script_tl"
-                            )
+      fontspec.check_ot_lang( "zf@basefont", "#1", "\l_fontspec_script_tl" )
     }
     \if@tempswa \prg_return_true: \else: \prg_return_false: \fi:
   }
@@ -3438,12 +3427,10 @@ This work consists of this file fontspec.dtx
 % \end{macro}
 %
 % \begin{macro}{\fontspec_check_ot_feat:nTF}
-% \begin{macro}{\fontspec_check_ot_feat:VTF}
 % \begin{macro}{\fontspec_check_ot_feat:nT}
-% \begin{macro}{\fontspec_check_ot_feat:VT}
 % This macro takes an OpenType feature tag and checks if it exists in the current
 % font/script/language.
-% The output boolean is \cmd\@tempswa. \cmd\@tempcnta\ is used to store
+% The output boolean is \cmd\@tempswa. \cmd\l_fontspec_strnum_int\ is used to store
 % the number corresponding to the feature tag string.
 % The script used is whatever's held in \cmd\c@zf@script. By default, that's the
 % number corresponding to `|latn|'. The language used is \cmd\c@zf@language,
@@ -3453,12 +3440,12 @@ This work consists of this file fontspec.dtx
    { \prg_new_conditional:Nnn \fontspec_check_ot_feat:n {TF,T} }
    {
     \@tempcntb\XeTeXOTcountfeatures\zf@basefont\c@zf@script\c@zf@language
-    \zf@v@strnum {#1}
+    \fontspec_v_str_to_num:n {#1}
     \c@zf@index\z@
     \@tempswafalse
     \loop\ifnum\c@zf@index<\@tempcntb
       \ifnum\XeTeXOTfeaturetag\zf@basefont\c@zf@script\c@zf@language
-            \c@zf@index=\@tempcnta
+            \c@zf@index=\l_fontspec_strnum_int
         \@tempswatrue
         \c@zf@index\@tempcntb
       \else
@@ -3470,19 +3457,13 @@ This work consists of this file fontspec.dtx
   {
     \directlua{
       fontspec.check_ot_feat(
-                              "zf@basefont",
-                              "#1",
-                              "\l_fontspec_lang_tl",
-                              "\l_fontspec_script_tl"
+                              "zf@basefont", "#1",
+                              "\l_fontspec_lang_tl", "\l_fontspec_script_tl"
                             )
     }
     \if@tempswa \prg_return_true: \else: \prg_return_false: \fi:
   }
-\cs_generate_variant:Nn \fontspec_check_ot_feat:nTF {V}
-\cs_generate_variant:Nn \fontspec_check_ot_feat:nT  {V}
 %    \end{macrocode}
-% \end{macro}
-% \end{macro}
 % \end{macro}
 % \end{macro}
 %
@@ -3506,7 +3487,7 @@ This work consists of this file fontspec.dtx
   \zf@nobftrue
   \zf@noittrue
   \bool_set_true:N \l_fontspec_external_bool
-  \gdef\zf@font@wrap##1{[#1##1]}
+  \cs_gset:Npn \fontspec_namewrap:n ##1 { [ #1 ##1 ] }
   \xetex_if_engine:T { \setkeys[zf]{preparse}{Renderer=ICU} }
 }
 \aliasfontfeature{ExternalLocation}{Path}
@@ -3700,7 +3681,7 @@ This work consists of this file fontspec.dtx
 % TODO: sizezfeatures and italicfont (etc) don't play nice
 %    \begin{macrocode}
 \define@key[zf]{preparse}{SizeFeatures}{
-  \unless\ifzf@firsttime\def\zf@size@feat{#1}\fi
+  \unless\ifzf@firsttime\def\l_fontspec_sizefeat_clist{#1}\fi
   \zf@update@family{sizefeat:\zap@space #1~\@empty}
 }
 %    \end{macrocode}
@@ -3851,7 +3832,9 @@ This work consists of this file fontspec.dtx
           \fontspec_error:nx {no-glyph}{#1}
         \fi}%
       }{
-        \ifnum\directlua{fontspec.sprint(fontspec.charglyph('#1', 'zf@basefont'))} > \z@
+        \ifnum\directlua{
+            fontspec.sprint(fontspec.charglyph('#1', 'zf@basefont'))
+        } > \z@
           \g@addto@macro\zf@adjust{\luatexprehyphenchar=`#1\relax}
         \else
           \fontspec_error:nx {no-glyph}{#1}
@@ -3865,7 +3848,9 @@ This work consists of this file fontspec.dtx
           \fontspec_error:nx {no-glyph}{#1}
         \fi}%
       }{
-        \ifnum\directlua{fontspec.sprint(fontspec.charglyph('#1', 'zf@basefont'))} > \z@
+        \ifnum\directlua{
+            fontspec.sprint(fontspec.charglyph('#1', 'zf@basefont'))
+        } > \z@
           \g@addto@macro\zf@adjust{\luatexprehyphenchar=#1\relax}
         \else
           \fontspec_error:nx {no-glyph}{#1}
@@ -4132,7 +4117,7 @@ This work consists of this file fontspec.dtx
   \setkeys*[zf@feat]{Alternate}{#1}
   \unless\ifx\XKV@rm\@empty
     \def\XKV@tfam{Alternate}
-    \zf@make@feature{17}{#1}{+salt=#1}
+    \fontspec_make_feature:nnn{17}{#1}{+salt=#1}
   \fi
 }
 %    \end{macrocode}
@@ -4142,7 +4127,7 @@ This work consists of this file fontspec.dtx
   \setkeys*[zf@feat]{Variant}{#1}
   \unless\ifx\XKV@rm\@empty
     \def\XKV@tfam{Variant}
-    \zf@make@feature{18}{#1}{+ss\two@digits{#1}}
+    \fontspec_make_feature:nnn{18}{#1}{+ss\two@digits{#1}}
   \fi
 }
 %    \end{macrocode}
@@ -4212,7 +4197,7 @@ This work consists of this file fontspec.dtx
 \zf@define@font@feature{Vertical}
 \define@key[zf@feat]{Vertical}{RotatedGlyphs}[]{
   \ifzf@icu
-    \zf@make@feature{}{}{+vrt2}
+    \fontspec_make_feature:nnn{}{}{+vrt2}
     \zf@update@family{+vert}
     \zf@update@ff{vertical}
   \else
@@ -4463,12 +4448,12 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \define@key[zf@feat]{Lang}{Turkish}[]{
   \fontspec_check_lang:nTF {TRK} {
-    \c@zf@language\@tempcnta\relax
+    \c@zf@language\l_fontspec_strnum_int\relax
     \zf@update@family{+lang=Turkish}
     \tl_set:Nn \l_fontspec_lang_tl {TRK}
   }{
     \fontspec_check_lang:nTF {TUR} {
-      \c@zf@language\@tempcnta\relax
+      \c@zf@language\l_fontspec_strnum_int\relax
       \zf@update@family{+lang=Turkish}
       \tl_set:Nn \l_fontspec_lang_tl {TUR}
     }{
@@ -5317,19 +5302,10 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% FOR BACKWARDS COMPATIBILITY WITH PREVIOUS VERSIONS %%%
 
-\newcommand\newfeaturecode[3]{%
-  \define@key{zf}{#1}[]{\zf@make@feature{#2}{#3}{}}}
-
-\aliasfontfeature{BoldFont}{Bold}
-\aliasfontfeature{ItalicFont}{Italic}
-\aliasfontfeature{BoldItalicFont}{BoldItalic}
-\aliasfontfeature{SmallCapsFont}{SmallCaps}
-
-\aliasfontfeature{Style}{StyleOptions}
-\aliasfontfeature{Contextuals}{Swashes}
-\aliasfontfeatureoption{Contextuals}{Swash}{Contextual}
-\aliasfontfeatureoption{Letters}{UppercaseSmallCaps}{SMALLCAPS}
-\aliasfontfeatureoption{Letters}{UppercasePetiteCaps}{PETITECAPS}
+% Nothing here!
+% I have absolutely no idea whether backwards compatibility,
+% of the sort that was previously populated here, is important
+% for version 2.
 
 %%%%%%%%%%%%%%%%%%%%%%%
 %%% FOR CONVENIENCE %%%

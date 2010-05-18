@@ -6,12 +6,12 @@ DTX = $(NAME).dtx
 
 # Files grouped by generation mode
 COMPILED = $(DOC)
-UNPACKED = fontspec.sty fontspec.lua fontspec.cfg fontspec-example.ltx
+UNPACKED = fontspec.sty fontspec-patches.sty fontspec.lua fontspec.cfg fontspec-luatex.tex fontspec-xetex.tex
 SOURCE = $(DTX) Makefile
 GENERATED = $(COMPILED) $(UNPACKED)
 
 # Files grouped by installation location
-UNPACKED_DOC = fontspec-example.ltx
+UNPACKED_DOC = fontspec-luatex.tex fontspec-xetex.tex
 RUNFILES = $(filter-out $(UNPACKED_DOC), $(UNPACKED))
 DOCFILES = $(DOC) README $(UNPACKED_DOC)
 SRCFILES = $(DTX) Makefile

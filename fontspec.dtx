@@ -2975,7 +2975,7 @@ This work consists of this file fontspec.dtx
   {
     \fontspec_get_features:n{#4}
     \tl_set:Nx \l_fontspec_nfss_tl {
-      <-> \zf@scale "
+      <-> \l_fontspec_scale_tl "
       \fontspec_fullname:n {\zf@fontname} :
         \l_fontspec_pre_feat_tl \zf@ff #1 "
     }
@@ -2997,7 +2997,7 @@ This work consists of this file fontspec.dtx
       \fi
       \fontspec_get_features:n{#4,\XKV@rm}
       \tl_put_right:Nx \l_fontspec_nfss_tl {
-        <\zf@size> \zf@scale " \fontspec_fullname:n { \zf@size@fnt }
+        <\zf@size> \l_fontspec_scale_tl " \fontspec_fullname:n { \zf@size@fnt }
           : \l_fontspec_pre_feat_tl \zf@ff #1 "
       }
     }
@@ -3075,7 +3075,7 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \cs_set:Npn \fontspec_get_features:n #1 {
   \let\zf@ff     \@empty
-  \let\zf@scale  \@empty
+  \tl_clear:N \l_fontspec_scale_tl
   \let\zf@adjust \@empty
   \fontspec_setkeys:xx {options} {#1}
   \tl_if_empty:NF \XKV@rm {
@@ -3699,28 +3699,22 @@ This work consists of this file fontspec.dtx
 %
 % \paragraph{Scale}
 % If the input isn't one of the pre-defined string options, then
-% it's gotta be numerical. \cmd\zf@calc@scale\ does all the work in
+% it's gotta be numerical. \cs{fontspec_calc_scale:n} does all the work in
 % the auto-scaling cases.
 %    \begin{macrocode}
 \define@key[zf]{options}{Scale}{
-  \edef\@tempa{#1}
-  \edef\@tempb{MatchLowercase}
-  \ifx\@tempa\@tempb
-    \zf@calc@scale{5}
-  \else
-    \edef\@tempb{MatchUppercase}
-    \ifx\@tempa\@tempb
-      \zf@calc@scale{8}
-    \else
-      \edef\zf@scale{#1}
-    \fi
-  \fi
-  \zf@update@family{+scale:\zf@scale}
-  \edef\zf@scale{s*[\zf@scale]}
+  \prg_case_str:nnn {#1}
+  {
+    {MatchLowercase} { \fontspec_calc_scale:n {5} }
+    {MatchUppercase} { \fontspec_calc_scale:n {8} }
+  }
+  { \tl_set:Nx \l_fontspec_scale_tl {#1} }
+  \zf@update@family{+scale:\l_fontspec_scale_tl}
+  \tl_set:Nx \l_fontspec_scale_tl { s*[\l_fontspec_scale_tl] }
 }
 %    \end{macrocode}
 %
-% \begin{macro}{\zf@calc@scale}
+% \begin{macro}{\fontspec_calc_scale:n}
 % This macro calculates the amount of scaling between the default
 % roman font and the (default shape of) the font being selected such
 % that the font dimension that is input is equal for both. The only
@@ -3731,20 +3725,27 @@ This work consists of this file fontspec.dtx
 % but allows alternate italic shapes from a separate font, say, to
 % be loaded and to be auto-scaled correctly. Even if this would be ugly.
 %    \begin{macrocode}
-\newcommand\zf@calc@scale[1]{
-  \begingroup
+\cs_new:Npn \fontspec_calc_scale:n #1 {
+  \group_begin:
     \rmfamily
-    \xetex_or_luatex:nn {
-      \setlength\@tempdima{\fontdimen#1\font}%
-      \setlength\@tempdimb{\fontdimen#1\zf@basefont}%
-    }{
-      \setlength\@tempdima{\directlua{fontspec.get_dimen(#1, "font")}}
-      \setlength\@tempdimb{\directlua{fontspec.get_dimen(#1, "zf@basefont")}}
-    }
-    \setlength\@tempdimc{1pt*\ratio{\@tempdima}{\@tempdimb}}%
-    \xdef\zf@scale{\strip@pt\@tempdimc}%
+    \fontspec_set_font_dimen:NnN \@tempdima {#1} \font
+    \fontspec_set_font_dimen:NnN \@tempdimb {#1} \zf@basefont
+    \dim_set:N \@tempdimc { 1pt*\ratio{\@tempdima}{\@tempdimb} }
+    \tl_gset:Nx \l_fontspec_scale_tl {\strip@pt\@tempdimc}
     \fontspec_info:n {set-scale}
-  \endgroup
+  \group_end:
+}
+%    \end{macrocode}
+% This function sets the dimension |#1| (for font |#3|) to what would be known
+% as the `fontdimen' |#2| in \TeX\ but apparently isn't set that way in
+% \LuaTeX.
+%    \begin{macrocode}
+\xetex_or_luatex:nnn { \cs_new:Npn \fontspec_set_font_dimen:NnN }
+{
+  \dim_set:N #1 { \fontdimen #2 #3 }
+}
+{
+  \dim_set:N #1 { \directlua{ fontspec.get_dimen(#2, "\cs_to_str:N #3") } }
 }
 %    \end{macrocode}
 % \end{macro}
@@ -4888,7 +4889,7 @@ This work consists of this file fontspec.dtx
 }
 \msg_new:nnn {fontspec} {set-scale}
 {
-  \zf@fontname\space scale ~=~ \zf@scale.
+  \zf@fontname\space scale ~=~ \l_fontspec_scale_tl.
 }
 \msg_new:nnn {fontspec} {setup-math}
 {
@@ -5063,7 +5064,7 @@ function fontspec.check_ot_feat(fnt, feat, lang, script)
 end
 
 %    \end{macrocode}
-% Get font dimens for \cmd\zf@calc@scale\ (despite the name of this function,
+% Get font dimens for \cs{fontspec_calc_scale:n} (despite the name of this function,
 % it doesn't return any arbitrary font dimen, only \cmd\dimen5 and \cmd\dimen8.)
 %    \begin{macrocode}
 

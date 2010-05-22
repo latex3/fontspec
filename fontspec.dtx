@@ -2679,7 +2679,7 @@ This work consists of this file fontspec.dtx
     \tl_gset:cx {zf@family@fontname\zf@family} {#2}
     \tl_gset:cx {zf@family@options\zf@family} {\zf@default@options #1}
     \tl_gset:cx {zf@family@fontdef\zf@family} {
-      \fontspec_fullname:n {\zf@fontname} : \l_fontspec_pre_feat_tl \zf@ff
+      \fontspec_fullname:n {\zf@fontname} : \l_fontspec_pre_feat_tl \l_fontspec_rawfeatures_sclist
     }
     \tl_gset:cx {g_fontspec_script_num_(\zf@family)_tl}
       { \int_use:N \c@zf@script   }
@@ -2977,7 +2977,7 @@ This work consists of this file fontspec.dtx
     \tl_set:Nx \l_fontspec_nfss_tl {
       <-> \l_fontspec_scale_tl "
       \fontspec_fullname:n {\zf@fontname} :
-        \l_fontspec_pre_feat_tl \zf@ff #1 "
+        \l_fontspec_pre_feat_tl \l_fontspec_rawfeatures_sclist #1 "
     }
   }
 %    \end{macrocode}
@@ -2989,16 +2989,15 @@ This work consists of this file fontspec.dtx
   {
     \tl_clear:N \l_fontspec_nfss_tl
     \clist_map_inline:Nn \l_fontspec_sizefeat_clist {
-      \let\zf@size\@empty
-      \let\zf@size@fnt\zf@fontname
+      \tl_clear:N \l_fontspec_size_tl
+      \tl_set_eq:NN \l_fontspec_sizedfont_tl \zf@fontname
       \fontspec_setkeys:xx {sizing} { \expandafter \@firstofone ##1 }
-      \ifx\zf@size\@empty
-        \fontspec_error:n {no-size-info}
-      \fi
+      \tl_if_empty:NT \l_fontspec_size_tl { \fontspec_error:n {no-size-info} }
       \fontspec_get_features:n{#4,\XKV@rm}
       \tl_put_right:Nx \l_fontspec_nfss_tl {
-        <\zf@size> \l_fontspec_scale_tl " \fontspec_fullname:n { \zf@size@fnt }
-          : \l_fontspec_pre_feat_tl \zf@ff #1 "
+        <\l_fontspec_size_tl> \l_fontspec_scale_tl
+        " \fontspec_fullname:n { \l_fontspec_sizedfont_tl }
+          : \l_fontspec_pre_feat_tl \l_fontspec_rawfeatures_sclist #1 "
       }
     }
   }
@@ -3074,14 +3073,14 @@ This work consists of this file fontspec.dtx
 %   strings.
 %    \begin{macrocode}
 \cs_set:Npn \fontspec_get_features:n #1 {
-  \let\zf@ff     \@empty
+  \let\l_fontspec_rawfeatures_sclist     \@empty
   \tl_clear:N \l_fontspec_scale_tl
   \let\zf@adjust \@empty
   \fontspec_setkeys:xx {options} {#1}
   \tl_if_empty:NF \XKV@rm {
     \fontspec_error:nx {unknown-options} { \exp_not:V \XKV@rm }
   }
-  \PackageInfo{fontspec}{Raw~ font~ features~ "\zf@ff"}
+  \PackageInfo{fontspec}{Raw~ font~ features~ "\l_fontspec_rawfeatures_sclist"}
 }
 %    \end{macrocode}
 % \end{macro}
@@ -3157,14 +3156,14 @@ This work consists of this file fontspec.dtx
 %
 %
 % \begin{macro}{\zf@update@ff}
-% \cmd{\zf@ff} is the string used to define the list of specific
+% \cmd{\l_fontspec_rawfeatures_sclist} is the string used to define the list of specific
 % font features. Each time another font feature is requested, this
-% macro is used to add that feature to the list. AAT features are
-% separated by semicolons, OpenType features by commas.
+% macro is used to add that feature to the list. Font features are
+% separated by semicolons.
 %    \begin{macrocode}
 \newcommand*\zf@update@ff[1]{
   \unless\ifzf@firsttime
-    \xdef\zf@ff{\zf@ff #1;}
+    \xdef\l_fontspec_rawfeatures_sclist{\l_fontspec_rawfeatures_sclist #1;}
   \fi
 }
 %    \end{macrocode}
@@ -3687,9 +3686,9 @@ This work consists of this file fontspec.dtx
 %    \end{macrocode}
 %
 %    \begin{macrocode}
-\define@key[zf]{sizing}{Size}{\def\zf@size{#1}}
+\define@key[zf]{sizing}{Size}{ \tl_set:Nn \l_fontspec_size_tl {#1} }
 \define@key[zf]{sizing}{Font}{
-  \fontspec_complete_fontname:Nn \zf@size@fnt {#1}
+  \fontspec_complete_fontname:Nn \l_fontspec_sizedfont_tl {#1}
 }
 %    \end{macrocode}
 %

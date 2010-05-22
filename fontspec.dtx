@@ -1914,10 +1914,6 @@ This work consists of this file fontspec.dtx
 \newcount\c@zf@language
 \int_new:N \l_fontspec_strnum_int
 %    \end{macrocode}
-% Temporary definition until expl3 has been updated to include this:
-%    \begin{macrocode}
-  \cs_set:Nn \use:x { \edef\@tempa{#1}\@tempa }
-%    \end{macrocode}
 %
 %    \begin{macrocode}
 \cs_new:Nn \fontspec_setkeys:xx
@@ -2740,7 +2736,7 @@ This work consists of this file fontspec.dtx
 % \begin{macro}{\fontspec_fullname:n}
 % Constructs the complete font name based on a common piece of info.
 %    \begin{macrocode}
-\cs_set:Nn \fontspec_fullname:n {
+\cs_set:Npn \fontspec_fullname:n #1 {
   \fontspec_namewrap:n { #1 \l_fontspec_extension_tl }
   \l_fontspec_renderer_tl
   \l_fontspec_optical_size_tl
@@ -3148,6 +3144,20 @@ This work consists of this file fontspec.dtx
   }
   {
     \fontspec_check_ot_feat:nT {+smcp} {\edef\zf@smallcaps{+smcp;}}
+  }
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+%
+% \begin{macro}{\sclist_put_right:Nn}
+% I'm hardly going to write an `sclist' module but a couple of functions are
+% necessary.
+%    \begin{macrocode}
+\cs_new:Npn \sclist_put_right:Nn #1#2 {
+  \tl_if_empty:NT #1 {
+    
   }
 }
 %    \end{macrocode}
@@ -3633,7 +3643,7 @@ This work consists of this file fontspec.dtx
 % replaced by the font name. This lets us define supplementary fonts in full
 % (``\texttt{Baskerville Semibold}'') or in abbreviation (``\texttt{* Semibold}'').
 %    \begin{macrocode}
-\cs_set:Nn \fontspec_complete_fontname:Nn {
+\cs_set:Npn \fontspec_complete_fontname:Nn #1#2 {
   \tl_set:Nn #1 {#2}
   \tl_replace_all_in:Nnx #1 {*} {\zf@fontname}
 }

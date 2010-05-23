@@ -61,7 +61,7 @@ This work consists of this file fontspec.dtx
 %<fontspec>\ProvidesPackage{fontspec}
 %<patches>\ProvidesPackage{fontspec-patches}
 %<*fontspec|patches>
-  [2010/05/19 v2.0 Advanced font selection for XeLaTeX/LuaLaTeX]
+  [2010/05/23 v2.0 Advanced font selection for XeLaTeX/LuaLaTeX]
 %</fontspec|patches>
 %
 %<*driver>
@@ -1913,6 +1913,10 @@ This work consists of this file fontspec.dtx
 \newcount\c@zf@script
 \newcount\c@zf@language
 \int_new:N \l_fontspec_strnum_int
+%    \end{macrocode}
+% Temporary definition until expl3 has been updated to include this:
+%    \begin{macrocode}
+\cs_set:Nn \use:x { \edef\@tempa{#1}\@tempa }
 %    \end{macrocode}
 %
 %    \begin{macrocode}

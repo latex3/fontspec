@@ -372,7 +372,7 @@ This work consists of this file fontspec.dtx
 % \end{example}
 % \noindent This example is repeated in \vref{sec:contextuals}.
 %
-% \subsection{Arbitrary bold/italic/small caps fonts}
+% \subsection{More control over font shape selection}
 % \label{sec:bfitfonts}
 %
 % The automatic bold, italic, and bold italic font selections will not be
@@ -381,9 +381,7 @@ This work consists of this file fontspec.dtx
 % designer may be able to chose well-matching accompanying shapes from
 % a different font altogether, others can have a range of bold and
 % italic fonts to chose between.  The \feat{BoldFont} and
-% \feat{ItalicFont} features~\warn{v1.6}{These features used to be called
-%   \feat{Bold} and \feat{Italic}, and these shorter names may still be
-%   used if you desire.}  are provided for these situations. If only
+% \feat{ItalicFont} features are provided for these situations. If only
 % one of these is used, the bold italic font is requested as the
 % default from the \emph{new} font.
 % \begin{example}
@@ -396,7 +394,9 @@ This work consists of this file fontspec.dtx
 % \end{example}
 % If a bold italic shape is not defined, or you want to specify
 % \emph{both} custom bold and italic shapes, the \feat{BoldItalicFont}
-% feature is provided~\warn{v1.6}{\opt{BoldItalic} also works}.
+% feature is provided.
+%
+% \subsubsection{Input shorthands}
 %
 % For those cases that the base font name is repeated, you can
 % replace it with an asterisk. For example,
@@ -414,6 +414,14 @@ This work consists of this file fontspec.dtx
 %          Upright \textit{Italic}
 %   \bfseries Bold \textit{Bold Italic}
 % \end{example}
+%
+% \subsubsection{Small caps and slanted font shapes}
+%
+% For the rare situations where a font family will have slanted \emph{and}
+% italic shapes, these may be specified separately using the analogous
+% features \feat{SlantedFont} and \feat{BoldSlantedFont}. Without these,
+% however, the \LaTeX\ font switches for slanted (\cs{textsl}, \cs{slshape})
+% will default to the italic shape.
 %
 % Old-fashioned font families used to distribute their small caps
 % glyphs in separate fonts due to the limitations on the number

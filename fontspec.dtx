@@ -718,7 +718,7 @@ This work consists of this file fontspec.dtx
 % measure the correct dimensions of the fonts loaded, and hence
 % calculate values to scale them automatically.
 %
-% The \feat{Scale} feature now \warn{v1.9}{As of Dec.\,2005}
+% The \feat{Scale} feature now
 % also takes the options \opt{MatchLowercase}
 % and \opt{MatchUppercase}, which will scale the font being selected to match
 % the current default roman font to either the height of the lowercase or
@@ -1036,9 +1036,7 @@ This work consists of this file fontspec.dtx
 % split the characters up.
 %
 % \subsection{Letters} \label{sec:letters}
-% The \opt{Letters} feature~\warn{v1.6}{This feature has changed names
-%   along with its options, \textbf{breaking} backwards
-%   compatibility!}  specifies how the letters in the current font
+% The \opt{Letters} feature specifies how the letters in the current font
 % will look. For AAT fonts, you may choose from \opt{Normal},
 % \opt{Uppercase}, \opt{Lowercase}, \opt{SmallCaps}, and
 % \opt{InitialCaps}.
@@ -1047,9 +1045,6 @@ This work consists of this file fontspec.dtx
 % \opt{Uppercase}, \opt{SmallCaps}, \opt{PetiteCaps},
 % \opt{UppercaseSmallCaps}, \opt{UppercasePetiteCaps}, and
 % \opt{Unicase}.
-%   \warn{v1.9}{The \texttt{Uppercase...} variants have changed
-%     (\eg, from \opt{SMALLCAPS}) to allow for more flexible
-%     option handling in the future. The old forms still work, for now\dots}
 % Petite caps are smaller than small caps. Mixed case
 % commands turn lowercase letters into the smaller caps letters,
 % whereas uppercase options turn the capital letters to the smaller
@@ -1102,7 +1097,6 @@ This work consists of this file fontspec.dtx
 % \subsection{Contextuals} \label{sec:contextuals}
 % This feature refers to glyph substitution that vary by their position;
 % things like contextual swashes are implemented here
-%  \warn{v1.9}{This feature used to be called \feat{Swashes}. This name still works, for now.}.
 % The options for AAT fonts are
 % \opt{WordInitial}, \opt{WordFinal}, \opt{LineInitial},
 % \opt{LineFinal}, and \opt{Inner} (also called `non-final' sometimes). As
@@ -1120,8 +1114,7 @@ This work consists of this file fontspec.dtx
 %    contain the archaic long~s.
 % \end{aatexample}
 % For OpenType fonts, all feature options as above but the \opt{LineInitial} feature are supported,
-% and \opt{Swash} turns on contextual
-% swashes \warn{v1.9}{Used to be \opt{Contextual}; still works.}.
+% and \opt{Swash} turns on contextual swashes.
 % \begin{opentypeexample}
 %   \fontspec{Warnock Pro} \itshape
 %    Without Contextual Swashes             \\
@@ -1177,8 +1170,7 @@ This work consists of this file fontspec.dtx
 % Many fonts come with the capability to typeset various forms of
 % fractional material. This is accessed in \pkg{fontspec} with the
 % \feat{Fractions} feature, which may be turned \opt{On} or \opt{Off}
-% in both AAT and OpenType fonts.~\warn{v1.7}{This feature has
-%   changed: no backwards compatibility!}
+% in both AAT and OpenType fonts.
 %
 % In AAT fonts, the `fraction slash' or solidus character, is
 % to be used to create fractions. When \feat{Fractions} are turned
@@ -1360,9 +1352,7 @@ This work consists of this file fontspec.dtx
 % glyphs are `supposed' to look. Some fonts will contain many alternate
 % glyphs available in order to be able to display these gylphs
 % correctly in whichever form is appropriate. Both AAT and OpenType
-% fonts support the following \feat{CJKShape} options
-%   \warn{v1.9}{Was \feat{CharacterShape}, which wasn't very descriptive.
-%     \textbf{No} backwards compatibility.}:
+% fonts support the following \feat{CJKShape} options:
 % \opt{Traditional}, \opt{Simplified}, \opt{JIS1978}, \opt{JIS1983},
 % \opt{JIS1990}, and \opt{Expert}. OpenType also supports the \opt{NLC} option.
 % \setexsize\LARGE
@@ -1389,8 +1379,6 @@ This work consists of this file fontspec.dtx
 %   their AAT tables any more, so if the following features don't work
 %   for a specific font let me know and I'll try and see if anything
 %   can be salvaged from the situation.}
-%   \warn{v1.9}{Was \feat{TextSpacing}, which wasn't very descriptive.
-%     \textbf{No} backwards compatibility.}
 % For now, OpenType and AAT
 % share the same six options for this feature: \opt{Proportional},
 % \opt{Full}, \opt{Half}, \opt{Third},
@@ -5527,23 +5515,6 @@ information.
 \newcommand*\setexsize[1]{\let\examplesize#1}
 \newcommand*\setverbwidth[1]{\def\auxwidth{#1}}
 
-%% Sidenotes:
-\newcommand\warn[2]{%
-  \edef\thisversion{#1}%
-  \leavevmode\unskip\null\marginpar{\raggedleft
-    \small%
-      {\ifx\thisversion\fileversion\color{red}\fi$\star$}%
-      \,{\notefont #1:~#2}}\ignorespaces}
-
-\newcommand\new[2][New!]{%
-  \edef\thisversion{#2}%
-  \leavevmode\unskip\null\marginpar{\raggedleft
-    \small\ifx\thisversion\fileversion\color{blue}\else\color[gray]{0.5}\fi
-    $\star$\,{\notefont #2:~#1}}\ignorespaces}
-
-%% Sidenote font
-\let\notefont\sffamily
-
 %% Various labelling commands:
 \newcommand*\name[1]{{#1}}
 \newcommand*\pkg[1]{\textsf{#1}}
@@ -5579,8 +5550,6 @@ information.
 
 \newcommand\unichar[2]{\textsc{\MakeLowercase{u+#1: #2}}}
 
-
-
 %%%%%%%%%%%
 
 \def \MakePrivateLetters {%
@@ -5593,7 +5562,6 @@ information.
 \catcode `\_= 11
 
 \renewcommand\partname{Part}
-
 
 %    \end{macrocode}
 %</doc-style>

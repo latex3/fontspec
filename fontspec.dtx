@@ -861,11 +861,18 @@ This work consists of this file fontspec.dtx
 %
 % \feat{Ligatures} refer to the replacement of two separate characters
 % with a specially drawn glyph for functional or \ae sthetic reasons.
-% You may choose from any combination of \opt{Required},
-% \opt{Common}, \opt{Rare}, \opt{Historical} and \opt{Contextual}.
-% To turn a ligature option
-% \emph{off} (usually in case it is active by default), prefix its name with \opt{No}: \eg, \opt{NoCommon}.
-% \setexsize\Large
+% The list of options, of which multiple may be selected at one time,
+% is shown in \ref{feat:Ligatures}.
+%
+% \begin{features}{Ligatures}
+% \otf*{Required}{rlig}
+% \otf*{Common}{liga}
+% \otf{Rare/Discretionary}{dlig}
+% \otf{Historical}{hlig}
+% \otf{Contextual}{clig}
+% \otf{TeX}{tlig/trep}
+% \end{features}
+%
 % \begin{opentypeexample}
 %   \fontspec[Ligatures=Rare]{Adobe Garamond Pro}
 %    \textit{strict firefly}                \\
@@ -879,9 +886,21 @@ This work consists of this file fontspec.dtx
 % \opt{Uppercase}, \opt{SmallCaps}, \opt{PetiteCaps},
 % \opt{UppercaseSmallCaps}, \opt{UppercasePetiteCaps}, and
 % \opt{Unicase}.
-% Petite caps are smaller than small caps. Mixed case
-% commands turn lowercase letters into the smaller caps letters,
-% whereas uppercase options turn the capital letters to the smaller
+%
+% \begin{features}{Letters}
+% \otf{Uppercase}{case}
+% \otf{SmallCaps}{smcp}
+% \otf{PetiteCaps}{pcap}
+% \otf{UppercaseSmallCaps}{c2sc}
+% \otf{UppercasePetiteCaps}{c2pc}
+% \otf{Unicase}{unic}
+% \end{features}
+%
+% Petite caps are smaller than small caps.
+% \opt{SmallCaps} and \opt{PetiteCaps}
+% turn lowercase letters into the smaller caps letters,
+% whereas the \opt{Uppercase...} options turn the \emph{capital} letters into
+% the smaller
 % caps (good, \eg, for applying to already uppercase acronyms like
 % `NASA'). `Unicase' is a weird hybrid of upper and lower case
 % letters.
@@ -891,11 +910,12 @@ This work consists of this file fontspec.dtx
 %   \fontspec[Letters=UppercaseSmallCaps]{TeX Gyre Adventor}
 %    THIS SENTENCE no verb
 % \end{opentypeexample}
-% The \opt{Uppercase} option is also provided \emph{but} it will (probably)
+%
+% Note that The \opt{Uppercase} option will (probably)
 % not actually map letters to uppercase.
 %  \note{If you want automatic uppercase letters, look to \LaTeX's
 %       \cmd\MakeUppercase\ command.}
-% It will, however, select various
+% It is designed select various
 % uppercase forms for glyphs such as accents and dashes.
 % \begin{opentypeexample}
 %   \fontspec{Warnock Pro}
@@ -905,6 +925,43 @@ This work consists of this file fontspec.dtx
 % \end{opentypeexample}
 % The \feat{Kerning} feature also contains an \opt{Uppercase} option,
 % which adds a small amount of spacing in between letters (see \vref{sec:kerning}).
+%
+% \subsection{Numbers}
+%
+% The \feat{Numbers} feature defines how numbers will look in the
+% selected font, accepting options shown in \ref{feat:Numbers}.
+%
+% \begin{features}{Numbers}
+% \otf{Uppercase/Lining}{lnum}
+% \otf{Lowercase/OldStyle}{onum}
+% \otf{Proportional}{pnum}
+% \otf{Monospaced}{tnum}
+% \otf{SlashedZero}{zero}
+% \otf{Remap}{anum}
+% \end{features}
+%
+% The synonyms
+% \opt{Uppercase} and \opt{Lowercase} are equivalent to \opt{Lining} and
+% \opt{OldStyle}, respectively.
+% The differences have been shown previously
+% in \vref{sec:addfontfeatures}.
+% The \opt{Monospaced} option is useful for tabular material when digits need
+% to be vertically aligned.
+%
+% The \opt{SlashedZero} option
+% replaces the default zero with a slashed version to prevent
+% confusion with an uppercase `O'.
+%
+% The \opt{Remap} option maps numerals to their Arabic or Farsi equivalents
+% based on the current \opt{Language} setting (see \vref{sec:ot}). This
+% is based on a \LuaTeX\ feature, not an OpenType feature.
+%
+% \begin{opentypeexample}
+%   \fontspec[Numbers=Lining]{TeX Gyre Bonum}
+%    0123456789
+%   \fontspec[Numbers=SlashedZero]{TeX Gyre Bonum}
+%    0123456789
+% \end{opentypeexample}
 %
 % \subsection{OpenType scripts and languages}\label{sec:ot}
 %
@@ -1232,22 +1289,12 @@ This work consists of this file fontspec.dtx
 %
 % \subsection{Numbers}
 % The \feat{Numbers} feature defines how numbers will look in the
-% selected font. For both AAT and OpenType fonts, they may be a
+% selected font. For both AAT, they may be a
 % combination of \opt{Lining} or \opt{OldStyle} and \opt{Proportional} or
 % \opt{Monospaced} (the latter is good for tabular material). The synonyms
 % \opt{Uppercase} and \opt{Lowercase} are equivalent to \opt{Lining} and
 % \opt{OldStyle}, respectively. The differences have been shown previously
 % in \vref{sec:addfontfeatures}.
-%
-% For OpenType fonts, there is also the \opt{SlashedZero} option which
-% replaces the default zero with a slashed version to prevent
-% confusion with an uppercase `O'.
-% \begin{opentypeexample}
-%   \fontspec[Numbers=Lining]{TeX Gyre Bonum}
-%    0123456789
-%   \fontspec[Numbers=SlashedZero]{TeX Gyre Bonum}
-%    0123456789
-% \end{opentypeexample}
 %
 % \subsection{Contextuals} \label{sec:contextuals}
 % This feature refers to glyph substitution that vary by their position;
@@ -5578,6 +5625,35 @@ information.
 \newcommand\unichar[2]{\textsc{\MakeLowercase{u+#1: #2}}}
 
 \newcommand\cmdbox[1]{\smallskip\par\noindent\fbox{#1}\smallskip}
+
+\usepackage{xparse}
+\NewDocumentCommand \otf {smm} {%
+  \IfBooleanTF #1
+  {%
+    \gdef\NOTE{\par\smallskip {$\ast$ \footnotesize This feature is activated by default.}}%
+    \featname&#2&$\ast$&\texttt{#3}\\
+    \featname&No#2&&\texttt{#3}~~{\footnotesize(\textit{deactivate})}\\
+  }
+  {\featname&#2&&\texttt{#3}\\}%
+}
+\newenvironment{features}[1]{%
+  \def\NOTE{}
+  \def\thisfeatname{#1}%
+  \def\featname{\thisfeatname~~\texttt=~~\null\gdef\featname{}}%
+  \begin{table}
+    \centering
+    \begin{tabular}{@{}l@{}l@{\hspace{0.5\tabcolsep}}l@{\hspace{0.5\tabcolsep}}l@{}}
+    \toprule
+    Feature & Option && Tag \\
+    \midrule
+}{
+    \bottomrule
+    \end{tabular}
+    \NOTE
+    \caption{Options for the OpenType font feature `\thisfeatname'.}
+    \edef\@tempa{\noexpand\label{feat:\thisfeatname}}\@tempa
+  \end{table}
+}
 
 %%%%%%%%%%%
 

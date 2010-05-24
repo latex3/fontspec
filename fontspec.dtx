@@ -454,9 +454,8 @@ This work consists of this file fontspec.dtx
 % you expect since \pkg{fontspec} (and \XeTeX\ in general) breaks many of the
 % assumptions of \TeX\ as to where maths characters and accents can be found.
 % Contact me if you have troubles, but I can't guarantee to be able to fix any
-% incompatibilities. The Lucida and Euler maths fonts (the latter loaded with
-% \pkg{euler} rather than \pkg{eulervm}) should be fine; for all others keep an
-% eye out for problems.
+% incompatibilities. The Lucida and Euler maths fonts should be fine; for all
+% others keep an eye out for problems.
 %
 % \DescribeMacro{\setmathrm} \DescribeMacro{\setboldmathrm}
 % \DescribeMacro{\setmathsf} \DescribeMacro{\setmathtt}
@@ -838,9 +837,187 @@ This work consists of this file fontspec.dtx
 %
 %
 %
-% \part{\LuaTeX}
+% \part{OpenType fonts}
 %
-% \part{\XeTeX: Cross-platform use with OpenType fonts}
+% \subsection{Ligatures}
+%
+% \feat{Ligatures} refer to the replacement of two separate characters
+% with a specially drawn glyph for functional or \ae sthetic reasons.
+% You may choose from any combination of \opt{Required},
+% \opt{Common}, \opt{Rare}, \opt{Historical} and \opt{Contextual}.
+% To turn a ligature option
+% \emph{off} (usually in case it is active by default), prefix its name with \opt{No}: \eg, \opt{NoCommon}.
+% \setexsize\Large
+% \begin{opentypeexample}
+%   \fontspec[Ligatures=Rare]{Adobe Garamond Pro}
+%    \textit{strict firefly}                \\
+%   \fontspec[Ligatures=NoCommon]{Adobe Garamond Pro}
+%    \textit{strict firefly}
+% \end{opentypeexample}
+%
+% \subsection{Letters} \label{sec:letters}
+% The \opt{Letters} feature specifies how the letters in the current font
+% will look. OpenType fonts have options:
+% \opt{Uppercase}, \opt{SmallCaps}, \opt{PetiteCaps},
+% \opt{UppercaseSmallCaps}, \opt{UppercasePetiteCaps}, and
+% \opt{Unicase}.
+% Petite caps are smaller than small caps. Mixed case
+% commands turn lowercase letters into the smaller caps letters,
+% whereas uppercase options turn the capital letters to the smaller
+% caps (good, \eg, for applying to already uppercase acronyms like
+% `NASA'). `Unicase' is a weird hybrid of upper and lower case
+% letters.
+% \begin{opentypeexample}
+%   \fontspec[Letters=SmallCaps]{TeX Gyre Adventor}
+%    THIS SENTENCE no verb                \\
+%   \fontspec[Letters=UppercaseSmallCaps]{TeX Gyre Adventor}
+%    THIS SENTENCE no verb
+% \end{opentypeexample}
+% The \opt{Uppercase} option is also provided \emph{but} it will (probably)
+% not actually map letters to uppercase.
+%  \note{If you want automatic uppercase letters, look to \LaTeX's
+%       \cmd\MakeUppercase\ command.}
+% It will, however, select various
+% uppercase forms for glyphs such as accents and dashes.
+% \begin{opentypeexample}
+%   \fontspec{Warnock Pro}
+%    UPPER-CASE EXAMPLE \\
+%   \addfontfeature{Letters=Uppercase}
+%    UPPER-CASE EXAMPLE
+% \end{opentypeexample}
+% The \feat{Kerning} feature also contains an \opt{Uppercase} option,
+% which adds a small amount of spacing in between letters (see \vref{sec:kerning}).
+%
+% \subsection{OpenType scripts and languages}\label{sec:ot}
+%
+% When dealing with fonts that include glyphs for various languages,
+% they may contain different font features for the different character
+% sets and languages it supports. These may be selected with the
+% \feat{Script} and \feat{Language} features. The possible options are
+% tabulated in \vref{tab:ot-scpt} and \vref{tab:ot-lang},
+% respectively. When a script or language is requested that is not
+% supported by the current font, a warning is printed in the console output.
+%
+% Because these font features can
+% change which features are able to be selected for the font, they are selected
+% by \pkg{fontspec} before all others and will specifically select the \opt{ICU}
+% renderer for this font, as described in \vref{sec:renderer}.
+%
+% \subsubsection{\feat{Script} examples}
+%
+% In the following examples, the same font is used to typeset the
+% verbatim input and the \XeTeX\ output. Because the \opt{Script} is
+% only specified for the output, the text is rendered incorrectly in
+% the verbatim input. Many examples of incorrect diacritic spacing as
+% well as a lack of contextual ligatures and rearrangement can be
+% seen. Thanks to \name{Jonathan Kew}, \name{Yves Codet} and
+% \name{Gildas Hamel} for their contributions towards these examples.
+%
+% \begingroup
+% \setverbwidth{0.5\textwidth}
+% \begin{opentypeexample}
+%   \fontspec[Script=Arabic]{Code2000}
+%    العربي
+% \end{opentypeexample}
+% \begin{opentypeexample}
+%   \fontspec[Script=Devanagari]{Code2000}
+%    हिन्दी
+% \end{opentypeexample}
+% \begin{opentypeexample}
+%   \fontspec[Script=Bengali]{Code2000}
+%    লেখ
+% \end{opentypeexample}
+% \begin{opentypeexample}
+%   \fontspec[Script=Gujarati]{Code2000}
+%    મર્યાદા-સૂચક નિવેદન
+% \end{opentypeexample}
+% \begin{opentypeexample}
+%   \fontspec[Script=Malayalam]{Code2000}
+%    നമ്മുടെ പാരബര്യ
+% \end{opentypeexample}
+% \begin{opentypeexample}
+%   \fontspec[Script=Gurmukhi]{Code2000}
+%    ਆਦਿ ਸਚੁ ਜੁਗਾਦਿ ਸਚੁ
+% \end{opentypeexample}
+% \begin{opentypeexample}
+%   \fontspec[Script=Tamil]{Code2000}
+%    தமிழ் தேடி
+% \end{opentypeexample}
+% \begin{opentypeexample}
+%   \fontspec[Script=Hebrew]{Code2000}
+%    רִדְתָּֽהּ
+% \end{opentypeexample}
+% \endgroup
+%
+% \subsubsection{\feat{Language} examples}
+%
+% Vietnamese requires careful diacritic placement:
+% \begingroup
+% \setexsize\Large
+% \begin{opentypeexample}
+%   \fontspec{Doulos SIL}
+%    cấp số mỗi \\
+%   \addfontfeature{Language=Vietnamese}
+%    cấp số mỗi
+% \end{opentypeexample}
+% \noindent Moldavian, as a typical example from Ralf Stubner's FPL Neu font:
+% \setexsize\Large
+% \begin{opentypeexample}
+%   \fontspec{FPL Neu}
+%    Ş ş Ţ ţ  \\
+%   \addfontfeature{Language=Moldavian}
+%    Ş ş Ţ ţ
+% \end{opentypeexample}
+% \endgroup
+%
+% \subsubsection{Defining new scripts and languages}
+%
+% \DescribeMacro{\newfontscript}
+% \DescribeMacro{\newfontlanguage}
+% Further scripts and languages may be added with the \cmd\newfontscript\
+% and \cmd\newfontlanguage\ commands. For example,
+% \begin{Verbatim}
+%   \newfontscript{Arabic}{arab}
+%   \newfontlanguage{Turkish}{TUR}
+% \end{Verbatim}
+% The first argument is the \pkg{fontspec} name, the second the OpenType
+% definition. The advantage to using these commands rather than \cmd\newfontfeature\
+% (see \vref{sec:newfeatures}) is the error-checking that is performed when
+% the script or language is requested.
+%
+% \begin{table}[!hbp]
+% \def\dup{\makebox[0pt][r]{\textcolor{red}{\P}}}% % \setlength\columnseprule{0pt}
+%   \hrule
+%   \begin{multicols}{4}\setlength\parindent{0pt}
+%     \sffamily\scriptsize
+%     Arabic \par Armenian \par Balinese \par Bengali \par Bopomofo \par Braille \par Buginese \par Buhid \par Byzantine Music \par Canadian Syllabics \par Cherokee \par \dup CJK \par \dup CJK Ideographic \par Coptic \par Cypriot Syllabary \par Cyrillic \par Default \par Deseret \par Devanagari \par Ethiopic \par Georgian \par Glagolitic \par Gothic \par Greek \par Gujarati \par Gurmukhi \par Hangul Jamo \par Hangul \par Hanunoo \par Hebrew \par \dup Hiragana and Katakana \par \dup Kana \par Javanese \par Kannada \par Kharosthi \par Khmer \par Lao \par Latin \par Limbu \par Linear B \par Malayalam \par \dup Math \par \dup Maths \par Mongolian \par Musical Symbols \par Myanmar \par N'ko \par Ogham \par Old Italic \par Old Persian Cuneiform \par Oriya \par Osmanya \par Phags-pa \par Phoenician \par Runic \par Shavian \par Sinhala \par Sumero-Akkadian Cuneiform \par Syloti Nagri \par Syriac \par Tagalog \par Tagbanwa \par Tai Le \par Tai Lu \par Tamil \par Telugu \par Thaana \par Thai \par Tibetan \par Tifinagh \par Ugaritic Cuneiform \par Yi
+%   \end{multicols}
+%   \hrule
+%   \caption{Defined \opt{Script}s for OpenType fonts. Aliased names are shown in adjacent positions marked with red pilcrows ({\sffamily\textcolor{red}{\P}}), defined in \texttt{fontspec.cfg}.}
+%   \label{tab:ot-scpt}
+% \end{table}
+%
+% \begin{table}[p]
+%   \vspace*{-3cm}
+%   \hspace{-3cm}
+%   \begin{minipage}{\linewidth+4cm}
+%   \setlength\columnseprule{0pt}
+%   \hrule
+%   \begin{multicols}{6}
+%     \everypar{\setlength\parindent{0pt}\setlength\hangindent{2em}}
+%     \sffamily\footnotesize\raggedright
+%     Abaza \par Abkhazian \par Adyghe \par Afrikaans \par Afar \par Agaw \par Altai \par Amharic \par Arabic \par Aari \par Arakanese \par Assamese \par Athapaskan \par Avar \par Awadhi \par Aymara \par Azeri \par Badaga \par Baghelkhandi \par Balkar \par Baule \par Berber \par Bench \par Bible Cree \par Belarussian \par Bemba \par Bengali \par Bulgarian \par Bhili \par Bhojpuri \par Bikol \par Bilen \par Blackfoot \par Balochi \par Balante \par Balti \par Bambara \par Bamileke \par Breton \par Brahui \par Braj Bhasha \par Burmese \par Bashkir \par Beti \par Catalan \par Cebuano \par Chechen \par Chaha Gurage \par Chattisgarhi \par Chichewa \par Chukchi \par Chipewyan \par Cherokee \par Chuvash \par Comorian \par Coptic \par Cree \par Carrier \par Crimean Tatar \par Church Slavonic \par Czech \par Danish \par Dargwa \par Woods Cree \par German \par Default \par Dogri \par Divehi \par Djerma \par Dangme \par Dinka \par Dungan \par Dzongkha \par Ebira \par Eastern Cree \par Edo \par Efik \par Greek \par English \par Erzya \par Spanish \par Estonian \par Basque \par Evenki \par Even \par Ewe \par French Antillean \par Farsi \par Finnish \par Fijian \par Flemish \par Forest Nenets \par Fon \par Faroese \par French \par Frisian \par Friulian \par Futa \par Fulani \par Ga \par Gaelic \par Gagauz \par Galician \par Garshuni \par Garhwali \par Ge'ez \par Gilyak \par Gumuz \par Gondi \par Greenlandic \par Garo \par Guarani \par Gujarati \par Haitian \par Halam \par Harauti \par Hausa \par Hawaiin \par Hammer-Banna \par Hiligaynon \par Hindi \par High Mari \par Hindko \par Ho \par Harari \par Croatian \par Hungarian \par Armenian \par Igbo \par Ijo \par Ilokano \par Indonesian \par Ingush \par Inuktitut \par Irish \par Irish Traditional \par Icelandic \par Inari Sami \par Italian \par Hebrew \par Javanese \par Yiddish \par Japanese \par Judezmo \par Jula \par Kabardian \par Kachchi \par Kalenjin \par Kannada \par Karachay \par Georgian \par Kazakh \par Kebena \par Khutsuri Georgian \par Khakass \par Khanty-Kazim \par Khmer \par Khanty-Shurishkar \par Khanty-Vakhi \par Khowar \par Kikuyu \par Kirghiz \par Kisii \par Kokni \par Kalmyk \par Kamba \par Kumaoni \par Komo \par Komso \par Kanuri \par Kodagu \par Korean Old Hangul \par Konkani \par Kikongo \par Komi-Permyak \par Korean \par Komi-Zyrian \par Kpelle \par Krio \par Karakalpak \par Karelian \par Karaim \par Karen \par Koorete \par Kashmiri \par Khasi \par Kildin Sami \par Kui \par Kulvi \par Kumyk \par Kurdish \par Kurukh \par Kuy \par Koryak \par Ladin \par Lahuli \par Lak \par Lambani \par Lao \par Latin \par Laz \par L-Cree \par Ladakhi \par Lezgi \par Lingala \par Low Mari \par Limbu \par Lomwe \par Lower Sorbian \par Lule Sami \par Lithuanian \par Luba \par Luganda \par Luhya \par Luo \par Latvian \par Majang \par Makua \par Malayalam Traditional \par Mansi \par Marathi \par Marwari \par Mbundu \par Manchu \par Moose Cree \par Mende \par Me'en \par Mizo \par Macedonian \par Male \par Malagasy \par Malinke \par Malayalam Reformed \par Malay \par Mandinka \par Mongolian \par Manipuri \par Maninka \par Manx Gaelic \par Moksha \par Moldavian \par Mon \par Moroccan \par Maori \par Maithili \par Maltese \par Mundari \par Naga-Assamese \par Nanai \par Naskapi \par N-Cree \par Ndebele \par Ndonga \par Nepali \par Newari \par Nagari \par Norway House Cree \par Nisi \par Niuean \par Nkole \par N'ko \par Dutch \par Nogai \par Norwegian \par Northern Sami \par Northern Tai \par Esperanto \par Nynorsk \par Oji-Cree \par Ojibway \par Oriya \par Oromo \par Ossetian \par Palestinian Aramaic \par Pali \par Punjabi \par Palpa \par Pashto \par Polytonic Greek \par Pilipino \par Palaung \par Polish \par Provencal \par Portuguese \par Chin \par Rajasthani \par R-Cree \par Russian Buriat \par Riang \par Rhaeto-Romanic \par Romanian \par Romany \par Rusyn \par Ruanda \par Russian \par Sadri \par Sanskrit \par Santali \par Sayisi \par Sekota \par Selkup \par Sango \par Shan \par Sibe \par Sidamo \par Silte Gurage \par Skolt Sami \par Slovak \par Slavey \par Slovenian \par Somali \par Samoan \par Sena \par Sindhi \par Sinhalese \par Soninke \par Sodo Gurage \par Sotho \par Albanian \par Serbian \par Saraiki \par Serer \par South Slavey \par Southern Sami \par Suri \par Svan \par Swedish \par Swadaya Aramaic \par Swahili \par Swazi \par Sutu \par Syriac \par Tabasaran \par Tajiki \par Tamil \par Tatar \par TH-Cree \par Telugu \par Tongan \par Tigre \par Tigrinya \par Thai \par Tahitian \par Tibetan \par Turkmen \par Temne \par Tswana \par Tundra Nenets \par Tonga \par Todo \par Turkish \par Tsonga \par Turoyo Aramaic \par Tulu \par Tuvin \par Twi \par Udmurt \par Ukrainian \par Urdu \par Upper Sorbian \par Uyghur \par Uzbek \par Venda \par Vietnamese \par Wa \par Wagdi \par West-Cree \par Welsh \par Wolof \par Tai Lue \par Xhosa \par Yakut \par Yoruba \par Y-Cree \par Yi Classic \par Yi Modern \par Chinese Hong Kong \par Chinese Phonetic \par Chinese Simplified \par Chinese Traditional \par Zande \par Zulu
+%   \end{multicols}
+%   \hspace{4pt}
+%   \hrule
+%   \caption{Defined \opt{Language}s for OpenType fonts.
+%     Note that they are sorted alphabetically \emph{not}
+%     by name but by OpenType tag, which is a little irritating, really.}
+%   \label{tab:ot-lang}
+%  \end{minipage}
+% \end{table}
+%
+% \part{\XeTeX}
 %
 % \subsection{Mapping}
 %
@@ -849,6 +1026,9 @@ This work consists of this file fontspec.dtx
 %   \fontspec[Mapping=tex-text]{Cochin}
 %   ``!`A small amount of---text!''
 % \end{example}
+% Using the |tex-text| mapping is also equivalent to writing |Ligatures=TeX|.
+% The use of the latter syntax is recommended for better compatibility with
+% \LuaTeX\ documents.
 %
 %
 % \subsection{Letter spacing}
@@ -1019,16 +1199,6 @@ This work consists of this file fontspec.dtx
 % \opt{Common}, \opt{Rare} (or \opt{Discretionary}), \opt{Logos}, \opt{Rebus},
 % \opt{Diphthong}, \opt{Squared}, \opt{AbbrevSquared}, and \opt{Icelandic}.
 %
-% The first three are also supported in OpenType fonts, which may also
-% use \opt{Historical} and \opt{Contextual}. To turn a ligature option
-% \emph{off}, prefix its name with \opt{No}: \eg, \opt{NoDiphthong}.
-% \setexsize\Large
-% \begin{opentypeexample}
-%   \fontspec[Ligatures=Rare]{Adobe Garamond Pro}
-%    \textit{strict firefly}                \\
-%   \fontspec[Ligatures=NoCommon]{Adobe Garamond Pro}
-%    \textit{strict firefly}
-% \end{opentypeexample}
 % Some other Apple AAT fonts have those `Rare' ligatures contained in
 % the \opt{Icelandic} feature. Notice also that the old \TeX\ trick of
 % splitting up a ligature with an empty brace pair does not work in
@@ -1041,39 +1211,6 @@ This work consists of this file fontspec.dtx
 % \opt{Uppercase}, \opt{Lowercase}, \opt{SmallCaps}, and
 % \opt{InitialCaps}.
 %
-% OpenType fonts have some different options:
-% \opt{Uppercase}, \opt{SmallCaps}, \opt{PetiteCaps},
-% \opt{UppercaseSmallCaps}, \opt{UppercasePetiteCaps}, and
-% \opt{Unicase}.
-% Petite caps are smaller than small caps. Mixed case
-% commands turn lowercase letters into the smaller caps letters,
-% whereas uppercase options turn the capital letters to the smaller
-% caps (good, \eg, for applying to already uppercase acronyms like
-% `NASA'). `Unicase' is a weird hybrid of upper and lower case
-% letters.
-% \begin{opentypeexample}
-%   \fontspec[Letters=SmallCaps]{TeX Gyre Adventor}
-%    THIS SENTENCE no verb                \\
-%   \fontspec[Letters=UppercaseSmallCaps]{TeX Gyre Adventor}
-%    THIS SENTENCE no verb
-% \end{opentypeexample}
-% The \opt{Uppercase} option is also provided \emph{but} it will (probably)
-% not actually map letters to uppercase.
-%  \note{If you want automatic uppercase letters, look to \LaTeX's
-%       \cmd\MakeUppercase\ command.}
-% It will, however, select various
-% uppercase forms for glyphs such as accents and dashes.
-% \begin{opentypeexample}
-%   \fontspec{Warnock Pro}
-%    UPPER-CASE EXAMPLE \\
-%   \addfontfeature{Letters=Uppercase}
-%    UPPER-CASE EXAMPLE
-% \end{opentypeexample}
-% The \feat{Kerning} feature also contains an \opt{Uppercase} option,
-% which adds a small amount of spacing in between letters (see \vref{sec:kerning}).
-% This feature was originally planned to be included with the one above (so \feat{Letters=}\opt{Uppercase} would do both punctuation \emph{and} tracking), but I decided
-% that it would be a bad idea to break the one-to-one correspondence with \pkg{fontspec}
-% and OpenType features. (Sorry TUGboat readers!)
 %
 % \subsection{Numbers}
 % The \feat{Numbers} feature defines how numbers will look in the
@@ -1452,134 +1589,7 @@ This work consists of this file fontspec.dtx
 %
 %
 %
-% \subsection{OpenType scripts and languages}\label{sec:ot}
-%
-% When dealing with fonts that include glyphs for various languages,
-% they may contain different font features for the different character
-% sets and languages it supports. These may be selected with the
-% \feat{Script} and \feat{Language} features. The possible options are
-% tabulated in \vref{tab:ot-scpt} and \vref{tab:ot-lang},
-% respectively. When a script or language is requested that is not
-% supported by the current font, a warning is printed in the console output.
-%
-% Because these font features can
-% change which features are able to be selected for the font, they are selected
-% by \pkg{fontspec} before all others and will specifically select the \opt{ICU}
-% renderer for this font, as described in \vref{sec:renderer}.
-%
-% \subsubsection{\feat{Script} examples}
-%
-% In the following examples, the same font is used to typeset the
-% verbatim input and the \XeTeX\ output. Because the \opt{Script} is
-% only specified for the output, the text is rendered incorrectly in
-% the verbatim input. Many examples of incorrect diacritic spacing as
-% well as a lack of contextual ligatures and rearrangement can be
-% seen. Thanks to \name{Jonathan Kew}, \name{Yves Codet} and
-% \name{Gildas Hamel} for their contributions towards these examples.
-%
-% \begingroup
-% \setverbwidth{0.5\textwidth}
-% \begin{opentypeexample}
-%   \fontspec[Script=Arabic]{Code2000}
-%    العربي
-% \end{opentypeexample}
-% \begin{opentypeexample}
-%   \fontspec[Script=Devanagari]{Code2000}
-%    हिन्दी
-% \end{opentypeexample}
-% \begin{opentypeexample}
-%   \fontspec[Script=Bengali]{Code2000}
-%    লেখ
-% \end{opentypeexample}
-% \begin{opentypeexample}
-%   \fontspec[Script=Gujarati]{Code2000}
-%    મર્યાદા-સૂચક નિવેદન
-% \end{opentypeexample}
-% \begin{opentypeexample}
-%   \fontspec[Script=Malayalam]{Code2000}
-%    നമ്മുടെ പാരബര്യ
-% \end{opentypeexample}
-% \begin{opentypeexample}
-%   \fontspec[Script=Gurmukhi]{Code2000}
-%    ਆਦਿ ਸਚੁ ਜੁਗਾਦਿ ਸਚੁ
-% \end{opentypeexample}
-% \begin{opentypeexample}
-%   \fontspec[Script=Tamil]{Code2000}
-%    தமிழ் தேடி
-% \end{opentypeexample}
-% \begin{opentypeexample}
-%   \fontspec[Script=Hebrew]{Code2000}
-%    רִדְתָּֽהּ
-% \end{opentypeexample}
-% \endgroup
-%
-% \subsubsection{\feat{Language} examples}
-%
-% Vietnamese requires careful diacritic placement:
-% \begingroup
-% \setexsize\Large
-% \begin{opentypeexample}
-%   \fontspec{Doulos SIL}
-%    cấp số mỗi \\
-%   \addfontfeature{Language=Vietnamese}
-%    cấp số mỗi
-% \end{opentypeexample}
-% \noindent Moldavian, as a typical example from Ralf Stubner's FPL Neu font:
-% \setexsize\Large
-% \begin{opentypeexample}
-%   \fontspec{FPL Neu}
-%    Ş ş Ţ ţ  \\
-%   \addfontfeature{Language=Moldavian}
-%    Ş ş Ţ ţ
-% \end{opentypeexample}
-% \endgroup
-%
-% \subsubsection{Defining new scripts and languages}
-%
-% \DescribeMacro{\newfontscript}
-% \DescribeMacro{\newfontlanguage}
-% Further scripts and languages may be added with the \cmd\newfontscript\
-% and \cmd\newfontlanguage\ commands. For example,
-% \begin{Verbatim}
-%   \newfontscript{Arabic}{arab}
-%   \newfontlanguage{Turkish}{TUR}
-% \end{Verbatim}
-% The first argument is the \pkg{fontspec} name, the second the OpenType
-% definition. The advantage to using these commands rather than \cmd\newfontfeature\
-% (see \vref{sec:newfeatures}) is the error-checking that is performed when
-% the script or language is requested.
-%
-% \begin{table}[!hbp]
-% \def\dup{\makebox[0pt][r]{\textcolor{red}{\P}}}% % \setlength\columnseprule{0pt}
-%   \hrule
-%   \begin{multicols}{4}\setlength\parindent{0pt}
-%     \sffamily\scriptsize
-%     Arabic \par Armenian \par Balinese \par Bengali \par Bopomofo \par Braille \par Buginese \par Buhid \par Byzantine Music \par Canadian Syllabics \par Cherokee \par \dup CJK \par \dup CJK Ideographic \par Coptic \par Cypriot Syllabary \par Cyrillic \par Default \par Deseret \par Devanagari \par Ethiopic \par Georgian \par Glagolitic \par Gothic \par Greek \par Gujarati \par Gurmukhi \par Hangul Jamo \par Hangul \par Hanunoo \par Hebrew \par \dup Hiragana and Katakana \par \dup Kana \par Javanese \par Kannada \par Kharosthi \par Khmer \par Lao \par Latin \par Limbu \par Linear B \par Malayalam \par \dup Math \par \dup Maths \par Mongolian \par Musical Symbols \par Myanmar \par N'ko \par Ogham \par Old Italic \par Old Persian Cuneiform \par Oriya \par Osmanya \par Phags-pa \par Phoenician \par Runic \par Shavian \par Sinhala \par Sumero-Akkadian Cuneiform \par Syloti Nagri \par Syriac \par Tagalog \par Tagbanwa \par Tai Le \par Tai Lu \par Tamil \par Telugu \par Thaana \par Thai \par Tibetan \par Tifinagh \par Ugaritic Cuneiform \par Yi
-%   \end{multicols}
-%   \hrule
-%   \caption{Defined \opt{Script}s for OpenType fonts. Aliased names are shown in adjacent positions marked with red pilcrows ({\sffamily\textcolor{red}{\P}}), defined in \texttt{fontspec.cfg}.}
-%   \label{tab:ot-scpt}
-% \end{table}
-%
-% \begin{table}[p]
-%   \vspace*{-3cm}
-%   \hspace{-3cm}
-%   \begin{minipage}{\linewidth+4cm}
-%   \setlength\columnseprule{0pt}
-%   \hrule
-%   \begin{multicols}{6}
-%     \everypar{\setlength\parindent{0pt}\setlength\hangindent{2em}}
-%     \sffamily\footnotesize\raggedright
-%     Abaza \par Abkhazian \par Adyghe \par Afrikaans \par Afar \par Agaw \par Altai \par Amharic \par Arabic \par Aari \par Arakanese \par Assamese \par Athapaskan \par Avar \par Awadhi \par Aymara \par Azeri \par Badaga \par Baghelkhandi \par Balkar \par Baule \par Berber \par Bench \par Bible Cree \par Belarussian \par Bemba \par Bengali \par Bulgarian \par Bhili \par Bhojpuri \par Bikol \par Bilen \par Blackfoot \par Balochi \par Balante \par Balti \par Bambara \par Bamileke \par Breton \par Brahui \par Braj Bhasha \par Burmese \par Bashkir \par Beti \par Catalan \par Cebuano \par Chechen \par Chaha Gurage \par Chattisgarhi \par Chichewa \par Chukchi \par Chipewyan \par Cherokee \par Chuvash \par Comorian \par Coptic \par Cree \par Carrier \par Crimean Tatar \par Church Slavonic \par Czech \par Danish \par Dargwa \par Woods Cree \par German \par Default \par Dogri \par Divehi \par Djerma \par Dangme \par Dinka \par Dungan \par Dzongkha \par Ebira \par Eastern Cree \par Edo \par Efik \par Greek \par English \par Erzya \par Spanish \par Estonian \par Basque \par Evenki \par Even \par Ewe \par French Antillean \par Farsi \par Finnish \par Fijian \par Flemish \par Forest Nenets \par Fon \par Faroese \par French \par Frisian \par Friulian \par Futa \par Fulani \par Ga \par Gaelic \par Gagauz \par Galician \par Garshuni \par Garhwali \par Ge'ez \par Gilyak \par Gumuz \par Gondi \par Greenlandic \par Garo \par Guarani \par Gujarati \par Haitian \par Halam \par Harauti \par Hausa \par Hawaiin \par Hammer-Banna \par Hiligaynon \par Hindi \par High Mari \par Hindko \par Ho \par Harari \par Croatian \par Hungarian \par Armenian \par Igbo \par Ijo \par Ilokano \par Indonesian \par Ingush \par Inuktitut \par Irish \par Irish Traditional \par Icelandic \par Inari Sami \par Italian \par Hebrew \par Javanese \par Yiddish \par Japanese \par Judezmo \par Jula \par Kabardian \par Kachchi \par Kalenjin \par Kannada \par Karachay \par Georgian \par Kazakh \par Kebena \par Khutsuri Georgian \par Khakass \par Khanty-Kazim \par Khmer \par Khanty-Shurishkar \par Khanty-Vakhi \par Khowar \par Kikuyu \par Kirghiz \par Kisii \par Kokni \par Kalmyk \par Kamba \par Kumaoni \par Komo \par Komso \par Kanuri \par Kodagu \par Korean Old Hangul \par Konkani \par Kikongo \par Komi-Permyak \par Korean \par Komi-Zyrian \par Kpelle \par Krio \par Karakalpak \par Karelian \par Karaim \par Karen \par Koorete \par Kashmiri \par Khasi \par Kildin Sami \par Kui \par Kulvi \par Kumyk \par Kurdish \par Kurukh \par Kuy \par Koryak \par Ladin \par Lahuli \par Lak \par Lambani \par Lao \par Latin \par Laz \par L-Cree \par Ladakhi \par Lezgi \par Lingala \par Low Mari \par Limbu \par Lomwe \par Lower Sorbian \par Lule Sami \par Lithuanian \par Luba \par Luganda \par Luhya \par Luo \par Latvian \par Majang \par Makua \par Malayalam Traditional \par Mansi \par Marathi \par Marwari \par Mbundu \par Manchu \par Moose Cree \par Mende \par Me'en \par Mizo \par Macedonian \par Male \par Malagasy \par Malinke \par Malayalam Reformed \par Malay \par Mandinka \par Mongolian \par Manipuri \par Maninka \par Manx Gaelic \par Moksha \par Moldavian \par Mon \par Moroccan \par Maori \par Maithili \par Maltese \par Mundari \par Naga-Assamese \par Nanai \par Naskapi \par N-Cree \par Ndebele \par Ndonga \par Nepali \par Newari \par Nagari \par Norway House Cree \par Nisi \par Niuean \par Nkole \par N'ko \par Dutch \par Nogai \par Norwegian \par Northern Sami \par Northern Tai \par Esperanto \par Nynorsk \par Oji-Cree \par Ojibway \par Oriya \par Oromo \par Ossetian \par Palestinian Aramaic \par Pali \par Punjabi \par Palpa \par Pashto \par Polytonic Greek \par Pilipino \par Palaung \par Polish \par Provencal \par Portuguese \par Chin \par Rajasthani \par R-Cree \par Russian Buriat \par Riang \par Rhaeto-Romanic \par Romanian \par Romany \par Rusyn \par Ruanda \par Russian \par Sadri \par Sanskrit \par Santali \par Sayisi \par Sekota \par Selkup \par Sango \par Shan \par Sibe \par Sidamo \par Silte Gurage \par Skolt Sami \par Slovak \par Slavey \par Slovenian \par Somali \par Samoan \par Sena \par Sindhi \par Sinhalese \par Soninke \par Sodo Gurage \par Sotho \par Albanian \par Serbian \par Saraiki \par Serer \par South Slavey \par Southern Sami \par Suri \par Svan \par Swedish \par Swadaya Aramaic \par Swahili \par Swazi \par Sutu \par Syriac \par Tabasaran \par Tajiki \par Tamil \par Tatar \par TH-Cree \par Telugu \par Tongan \par Tigre \par Tigrinya \par Thai \par Tahitian \par Tibetan \par Turkmen \par Temne \par Tswana \par Tundra Nenets \par Tonga \par Todo \par Turkish \par Tsonga \par Turoyo Aramaic \par Tulu \par Tuvin \par Twi \par Udmurt \par Ukrainian \par Urdu \par Upper Sorbian \par Uyghur \par Uzbek \par Venda \par Vietnamese \par Wa \par Wagdi \par West-Cree \par Welsh \par Wolof \par Tai Lue \par Xhosa \par Yakut \par Yoruba \par Y-Cree \par Yi Classic \par Yi Modern \par Chinese Hong Kong \par Chinese Phonetic \par Chinese Simplified \par Chinese Traditional \par Zande \par Zulu
-%   \end{multicols}
-%   \hspace{4pt}
-%   \hrule
-%   \caption{Defined \opt{Language}s for OpenType fonts.
-%     Note that they are sorted alphabetically \emph{not}
-%     by name but by OpenType tag, which is a little irritating, really.}
-%   \label{tab:ot-lang}
-%  \end{minipage}
-% \end{table}
+
 %
 % \section{Defining new features} \label{sec:newfeatures}
 % This package cannot hope to contain every possible font

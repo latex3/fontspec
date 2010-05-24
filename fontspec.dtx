@@ -158,13 +158,17 @@ This work consists of this file fontspec.dtx
 % These are described in more detail below.
 %
 % \paragraph{\XeTeX\ users only}
-% \name{Ross Moore}'s \pkg{xunicode} package is highly recommended, as it
-% provides access \LaTeX's various methods for accessing extra
+% \name{Ross Moore}'s \pkg{xunicode} package is recommended for
+% providing backwards compatibility with \LaTeX's methods for accessing extra
 % characters and accents (for example, |\%|, |\$|, |\textbullet|, |\"u|, and
-% so on), plus many more unicode characters. The \pkg{xltxtra} package adds a couple of general improvements to \LaTeX\ under \XeTeX; it also provides the \cmd\XeTeX\ macro to typeset the \XeTeX\ logo.
+% so on), plus many more unicode characters. The \pkg{xltxtra} package adds a
+% couple of general improvements to \LaTeX\ under \XeTeX; it also provides the
+% \cmd\XeTeX\ macro to typeset the \XeTeX\ logo.
 %
 % \paragraph{\LuaTeX\ users only}
 % In order to load fonts by their name rather than by their filename (\eg, `Latin Modern Roman' instead of `ec-lmr10'), you may need to run the script \texttt{mkluatexfontdb.lua}, which is distributed with the \pkg{luaotfload} package. Please see its documentation for more information.
+% Note that the \pkg{xunicode} package is not required as it has been
+% incorporated directly into the unicode font definitions (see the \pkg{euenc} package for more information).
 %
 % \paragraph{\pkg{babel}}
 % \emph{The \pkg{babel} package is not really supported!} Especially Vietnamese,
@@ -217,8 +221,9 @@ This work consists of this file fontspec.dtx
 % This section concerns the variety of commands that can be used to select
 % fonts.
 %
-% \DescribeMacro{\fontspec} \cmd{\fontspec}\oarg{font features}\marg{font name}
-% is the base command of the package, used for once-off selection of the
+% \cmdbox{\cmd{\fontspec}\oarg{font features}\marg{font name}}
+%
+% This is the base command of the package, used for once-off selection of the
 % specified \meta{font name}. The font features argument accepts comma separated
 % \meta{font feature}=\meta{option} lists; these will not be fully described
 % until \vref{sec:features}.
@@ -344,11 +349,14 @@ This work consists of this file fontspec.dtx
 %
 % \section{New commands to select font families}
 %
-% \DescribeMacro{\newfontfamily} For cases when a specific font with a specific
+% \cmdbox{\cmd{\newfontfamily} \cs{\meta{font-switch}} \oarg{font features} \marg{font name}}
+%
+% \noindent For cases when a specific font with a specific
 % feature set is going to be re-used many times in a document, it is inefficient
 % to keep calling \cs{fontspec} for every use. While the command does not define
 % a new font instance after the first call, the feature options must still be
 % parsed and processed.
+%
 %
 % For this reason, new commands can be created for loading a particular font
 % family with the \cmd\newfontfamily\ command:
@@ -511,15 +519,25 @@ This work consists of this file fontspec.dtx
 %
 % \subsection{Miscellaneous font selecting details}
 %
-% \cmd\fontspec\ and \cmd\addfontfeatures\ will now ignore following spaces as
+% \paragraph{Spaces}
+% \cmd\fontspec\ and \cmd\addfontfeatures\ ignore trailing spaces as
 % if it were a `naked' control sequence; \eg, `|M. \fontspec{...} N|' and
 % `|M. \fontspec{...}N|' are the same.
 %
+% \paragraph{Italic small caps}
 % Note that this package redefines the \cs{itshape} and \cs{scshape}
 % commands in order to allow them to select italic small caps in
-% conjunction. (This was implicitly shown in the first example,
-% but it's worth mentioning now, too.)
+% conjunction.
 %
+% \paragraph{Emphasis and nested emphasis}
+% You may specify the behaviour of the \cs{emph} command by setting the
+% \cs{emshape} command. \Eg, for bold emphasis:\par
+% \indent|\renewcommand\emshape{\bfseries}|\par\noindent
+% Nested emphasis is controlled by the \cs{eminnershape} command.
+% For example, for |\emph{\emph{...}}| to produce small caps:\par
+% \indent|\renewcommand\eminnershape{\scshape}|\par\noindent
+% \XeTeX\ users will need to load the \pkg{xltxtra} package before the
+% advice above works.
 %
 %
 % \section{Selecting font features}
@@ -814,7 +832,6 @@ This work consists of this file fontspec.dtx
 % it must be the UTF-8 slot number of the hyphen character you desire.
 %
 % Below, Adobe Garamond Pro's uppercase hyphenation character
-%   \note{I found the character, and its number, in \MacOSX's Character Palette.}
 % is used to demonstrate a possible use for this feature.
 % The second example redundantly demonstrates the default behaviour
 % of using the hyphen as the hyphenation character.
@@ -832,7 +849,8 @@ This work consists of this file fontspec.dtx
 % Note that in an actual situation, the \opt{Uppercase} option of the \feat{Letters} feature
 % would probably supply this for you (see \vref{sec:letters}).
 %
-% The \pkg{xltxtra} package redefines \LaTeX's \cmd\-\ macro
+% This package (or the \pkg{xltxtra} package for \XeTeX\ users)
+% redefines \LaTeX's \cmd\-\ macro
 % such that it adjusts along with the above changes.
 %
 %
@@ -5432,7 +5450,7 @@ information.
 \newcommand\XeLaTeX{\hologo{XeLaTeX}}
 \newcommand\LuaTeX{\hologo{LuaTeX}}
 \usepackage{tgpagella,eulervm}
-\usepackage[scaled=1.1]{inconsolata}
+\usepackage{inconsolata}
 \usepackage[
   bookmarks=true,
   colorlinks=true,
@@ -5558,6 +5576,8 @@ information.
 \makeatother
 
 \newcommand\unichar[2]{\textsc{\MakeLowercase{u+#1: #2}}}
+
+\newcommand\cmdbox[1]{\smallskip\par\noindent\fbox{#1}\smallskip}
 
 %%%%%%%%%%%
 

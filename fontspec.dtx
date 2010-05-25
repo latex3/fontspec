@@ -61,7 +61,7 @@ This work consists of this file fontspec.dtx
 %<fontspec>\ProvidesPackage{fontspec}
 %<patches>\ProvidesPackage{fontspec-patches}
 %<*fontspec|patches>
-  [2010/05/23 v2.0 Advanced font selection for XeLaTeX/LuaLaTeX]
+  [2010/05/25 v2.0b1 Advanced font selection for XeLaTeX/LuaLaTeX]
 %</fontspec|patches>
 %
 %<*driver>
@@ -539,7 +539,6 @@ This work consists of this file fontspec.dtx
 % \XeTeX\ users will need to load the \pkg{xltxtra} package before the
 % advice above works.
 %
-%
 % \section{Selecting font features}
 % \label{sec:selectingfeature}
 %
@@ -954,7 +953,8 @@ This work consists of this file fontspec.dtx
 %
 % The \opt{Remap} option maps numerals to their Arabic or Farsi equivalents
 % based on the current \opt{Language} setting (see \vref{sec:ot}). This
-% is based on a \LuaTeX\ feature, not an OpenType feature.
+% is based on a \LuaTeX\ feature of the \pkg{luaotfload} package,
+% not an OpenType feature.
 %
 % \begin{opentypeexample}
 %   \fontspec[Numbers=Lining]{TeX Gyre Bonum}
@@ -5490,9 +5490,8 @@ information.
 %    \begin{macrocode}
 \ProvidesPackage{fontspec-style}
 
-\usepackage{booktabs,calc,color,enumitem,fancyvrb,graphicx,ifthen,refstyle,url,varioref}
+\usepackage{booktabs,calc,color,enumitem,fancyvrb,hologo,graphicx,ifthen,refstyle,url,varioref}
 \fvset{gobble=2}
-\usepackage{hologo}
 \newcommand\XeTeX{\hologo{XeTeX}}
 \newcommand\XeLaTeX{\hologo{XeLaTeX}}
 \newcommand\LuaTeX{\hologo{LuaTeX}}

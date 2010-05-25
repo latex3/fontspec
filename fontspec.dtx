@@ -866,9 +866,9 @@ This work consists of this file fontspec.dtx
 % \begin{features}{Ligatures}
 % \otf*{Required}{rlig}
 % \otf*{Common}{liga}
+% \otf*{Contextual}{clig}
 % \otf{Rare/Discretionary}{dlig}
 % \otf{Historical}{hlig}
-% \otf{Contextual}{clig}
 % \otf{TeX}{tlig/trep}
 % \end{features}
 %
@@ -963,6 +963,325 @@ This work consists of this file fontspec.dtx
 %    0123456789
 % \end{opentypeexample}
 %
+%
+% \subsection{Contextuals}
+% This feature refers to glyph substitution that vary by their position;
+% things like contextual swashes are accessed here.
+%
+% \begin{features}{Contextuals}
+% \otf{Swash}{cswh}
+% \otf*{Alternate}{calt}
+% \otf{WordInitial}{init}
+% \otf{WordFinal}{fina}
+% \otf{LineFinal}{falt}
+% \otf{Inner}{medi}
+% \end{features}
+%
+% \begin{opentypeexample}
+%   \fontspec{Warnock Pro} \itshape
+%    Without Contextual Swashes             \\
+%   \fontspec[Contextuals=Swash]{Warnock Pro}
+%    With Contextual Swashes; cf. W C S
+% \end{opentypeexample}
+%
+% Historic forms are accessed in OpenType
+% fonts via the feature \feat{Style=Historic}; this is generally \emph{not}
+% contextual in OpenType, which is why it is not included here.
+%
+% \subsection{Vertical Position}
+%
+% \begin{features}{VerticalPosition}
+% \otf{Superior}{sups}
+% \otf{Inferior}{subs}
+% \otf{Numerator}{numr}
+% \otf{Denominator}{dnom}
+% \otf{ScientificInferior}{sinf}
+% \otf{Ordinal}{ordn}
+% \end{features}
+%
+% The \feat{VerticalPosition} feature is used to access things like
+% subscript (\opt{Inferior}) and superscript (\opt{Superior}) numbers and
+% letters (and a small amount of punctuation, sometimes).
+% The \opt{Ordinal} option will only raise characters that are used
+% in some languages directly after a number.
+%
+% The \opt{ScientificInferior} feature will move glyphs
+% further below the baseline than the \opt{Inferior} feature.
+%
+% \opt{Numerator} and \opt{Denominator} should only be used for creating
+% arbitrary fractions (see next section).
+%
+% \begin{aatexample}
+%   \fontspec{Skia}
+%    Normal
+%   \fontspec[VerticalPosition=Superior]{Skia}
+%    Superior
+%   \fontspec[VerticalPosition=Inferior]{Skia}
+%    Inferior                \\
+%   \fontspec[VerticalPosition=Ordinal]{Skia}
+%    1st 2nd 3rd 4th 0th 8abcde
+% \end{aatexample}
+% \begin{opentypeexample}
+%   \fontspec[VerticalPosition=Superior]{Warnock Pro}
+%    Sup: abdehilmnorst (-\$12,345.67)                      \\
+%   \fontspec[VerticalPosition=Numerator]{Warnock Pro}
+%    Numerator: 12345                                       \\
+%   \fontspec[VerticalPosition=Denominator]{Warnock Pro}
+%    Denominator: 12345                                     \\
+%   \fontspec[VerticalPosition=ScientificInferior]{Warnock Pro}
+%    Scientific Inferior: 12345                             \\
+%   \fontspec[VerticalPosition=Ordinal]{Warnock Pro}
+%   `Ordinals': 1st 2nd 3rd 4th 0th
+% \end{opentypeexample}
+%
+% The \pkg{realscripts} package (yet to be released)
+% (or \pkg{xltxtra} for \XeTeX)
+% redefines the \cmd\textsubscript\ and
+% \cmd\textsuperscript\ commands to use the above font features.
+%
+%
+% \subsection{Fractions}
+%
+% \begin{features}{Fractions}
+% \otf{On}{frac}
+% \otf{Alternate}{afrc}
+% \end{features}
+%
+% For OpenType fonts use a regular text slash to create fractions:
+% \begin{opentypeexample}
+%   \fontspec{Hiragino Maru Gothic Pro W4}
+%    1/2 \quad 1/4 \quad 5/6 \quad 13579/24680 \\
+%   \addfontfeature{Fractions=On}
+%    1/2 \quad 1/4 \quad 5/6 \quad 13579/24680 \\
+% \end{opentypeexample}
+%
+% Some (Asian fonts predominantly) also provide for the
+% \opt{Alternate} feature:
+% \begin{opentypeexample}
+%   \fontspec{Hiragino Maru Gothic Pro W4}
+%    1/2 \quad 1/4 \quad 5/6 \quad 13579/24680 \\
+%   \addfontfeature{Fractions=Alternate}
+%    1/2 \quad 1/4 \quad 5/6 \quad 13579/24680 \\
+% \end{opentypeexample}
+%
+% \subsection{StylisticSet}
+%
+% This feature selects a `Stylistic Set'
+% specified numerically. Here are two examples from the Junicode
+% font\footnote{\url{http://junicode.sf.net}}; thanks to Adam
+% Buchbinder for the suggestion.
+% This example shows insular (ancient) letterforms:
+% \begin{opentypeexample}
+%   \fontspec{Junicode}
+%    Insular forms. \\
+%   \addfontfeature{StylisticSet=2}
+%    Insular forms. \\
+% \end{opentypeexample}
+% And here is shown enlarged minuscules: (capital letters remain
+% unchanged)
+% \begin{opentypeexample}
+%   \fontspec{Junicode}
+%    ENLARGED Minuscules. \\
+%   \addfontfeature{StylisticSet=6}
+%    ENLARGED Minuscules. \\
+% \end{opentypeexample}
+%
+% (This is a synonym of the \feat{Variant} feature for AAT fonts.)
+% See \vref{sec:newfeatures} for a way to assign names to stylistic sets,
+% which should be done on a per-font basis.
+%
+% \subsection{Alternates}
+% Selection of the \feat{Alternate} feature again
+% must be done numerically.
+%
+% For OpenType fonts, this option is used to access numerical
+% variations of the raw |salt| feature. I can't show an example,
+% but here's how it would be used:
+% \begin{verbatim}
+%   \fontspec[Alternate=1]{Garamond Premier Pro}
+% \end{verbatim}
+% Numbering starts from |0| for the first stylistic alternate.
+% Note that the \texttt{Style=Alternate} option is equivalent
+% to \texttt{Alternate=0} to access the default case.
+%
+% See \vref{sec:newfeatures} for a way to assign names to alternates,
+% which should be done on a per-font basis.
+%
+% \subsection{Style}
+%
+% \begin{features}{Style}
+% \otf{Alternate}{salt}
+% \otf{Italic}{ital}
+% \otf{Ruby}{ruby}
+% \otf{Swash}{swsh}
+% \otf{Historic}{hist}
+% \otf{TitlingCaps}{titl}
+% \otf{HorizontalKana}{hkna}
+% \otf{VerticalKana}{vkna}
+% \end{features}
+%
+% `Ruby' refers to a small optical size, used in
+% Japanese typography for annotations.
+% For fonts with multiple |salt| OpenType features,
+% use the fontspec \feat{Alternate} feature instead.
+%
+% \setexsize\Large
+%  \begin{opentypeexample}
+%   \fontspec{Warnock Pro}
+%    K Q R k v w y                      \\
+%   \addfontfeature{Style=Alternate}
+%    K Q R k v w y
+% \end{opentypeexample}
+% Note the occasional inconsistency with which font features are labelled; a long-tailed `Q' could turn up anywhere!
+% \setexsize\Large
+% \begin{opentypeexample}
+%   \fontspec{Adobe Jenson Pro}
+%    M Q Z                              \\
+%   \addfontfeature{Style=Historic}
+%    M Q Z
+% \end{opentypeexample}
+% \setexsize\Large
+% \begin{example}
+%   \fontspec{Adobe Garamond Pro}
+%    TITLING CAPS                       \\
+%   \addfontfeature{Style=TitlingCaps}
+%    TITLING CAPS
+% \end{example}
+%
+% Two features in one example; \opt{Italic} affects the Latin text and \opt{Ruby} the Japanese:
+% \setexsize\Large
+% \begin{opentypeexample}
+%   \fontspec{Hiragino Mincho Pro W3}
+%    Latin ようこそ ワカヨタレソ        \\
+%   \addfontfeature{Style={Italic, Ruby}}
+%    Latin ようこそ ワカヨタレソ
+% \end{opentypeexample}
+% Note the difference here between the default and the horizontal style kana:
+% \setexsize\Large
+% \begin{aatexample}
+%    \fontspec{Hiragino Mincho Pro}
+%     ようこそ ワカヨタレソ  \\
+%   {\addfontfeature{Style=HorizontalKana}
+%     ようこそ ワカヨタレソ} \\
+%   {\addfontfeature{Style=VerticalKana}
+%     ようこそ ワカヨタレソ}
+% \end{aatexample}
+%
+%
+%
+% \subsection{Diacritics}
+% Specifies how diacritics should be placed.
+% These will usually be controlled automatically
+% according to the Script setting.
+%
+% \begin{features}{Diacritics}
+% \otf*{MarkToBase}{mark}
+% \otf*{MarkToMark}{mkmk}
+% \otf*{AboveBase}{abvm}
+% \otf*{BelowBase}{blwm}
+% \end{features}
+%
+% \subsection{Kerning}\label{sec:kerning}
+% Specifies how inter-glyph spacing should behave.
+%
+% \begin{features}{Kerning}
+% \otf{Uppercase}{cpsp}
+% \otf*[Off]{On}{kern}
+% \end{features}
+%
+% As briefly mentioned previously at the end of \vref{sec:letters},
+% the \opt{Uppercase} option will add a small amount of tracking between uppercase letters:
+% \begin{opentypeexample}
+%   \fontspec{Warnock Pro}
+%    UPPER-CASE EXAMPLE \\
+%   \addfontfeature{Kerning=Uppercase}
+%    UPPER-CASE EXAMPLE
+% \end{opentypeexample}
+%
+%
+% \subsection{CJK shape}
+%
+% \begin{features}{CJKShape}
+% \otf{Traditional}{trad}
+% \otf{Simplified} {smpl}
+% \otf{JIS1978}    {jp78}
+% \otf{JIS1983}    {jp83}
+% \otf{JIS1990}    {jp90}
+% \otf{Expert}     {expt}
+% \otf{NLC}        {nlck}
+% \end{features}
+%
+% There have been many standards for how CJK ideographic
+% glyphs are `supposed' to look. Some fonts will contain many alternate
+% glyphs available in order to be able to display these gylphs
+% correctly in whichever form is appropriate. Both AAT and OpenType
+% fonts support the following \feat{CJKShape} options:
+% \opt{Traditional}, \opt{Simplified}, \opt{JIS1978}, \opt{JIS1983},
+% \opt{JIS1990}, and \opt{Expert}. OpenType also supports the \opt{NLC} option.
+% \setexsize\LARGE
+% \begin{opentypeexample}
+%   \fontspec{Hiragino Mincho Pro}
+%   {\addfontfeature{CJKShape=Traditional}
+%    唖噛躯 妍并訝 }                          \\
+%   {\addfontfeature{CJKShape=NLC}
+%    唖噛躯 妍并訝 }                          \\
+%   {\addfontfeature{CJKShape=Expert}
+%    唖噛躯 妍并訝 }
+% \end{opentypeexample}
+%
+% \subsection{Character width}\label{sec:CharacterWidth}
+% Many Asian fonts are equipped with variously spaced characters for
+% shoe-horning into their generally monospaced text.
+% These are
+% accessed through the \feat{CharacterWidth} feature.
+%
+% \begin{features}{CharacterWidth}
+% \otf{Proportional}{pwid}
+% \otf{Full}        {fwid}
+% \otf{Half}        {hwid}
+% \otf{Third}       {twid}
+% \otf{Quarter}     {qwid}
+% \otf{AlternateProportional}{palt}
+% \otf{AlternateHalf}{halt}
+% \end{features}
+%
+% Japanese alphabetic glyphs (in Hiragana or Katakana) may be typeset
+% proportionally, to better fit horizontal measures, or monospaced, to
+% fit into the rigid grid imposed by ideographic typesetting. In this
+% latter case, there are also half-width forms for squeezing more kana
+% glyphs (which are less complex than the kanji they are amongst) into
+% a given block of space. The same features are given to roman letters
+% in Japanese fonts, for typesetting foreign words in the same style
+% as the surrounding text.
+% \begin{opentypeexample}
+%   \def\test{\makebox[2cm][l]{ようこそ}% %             \makebox[2.5cm][l]{ワカヨタレソ}% %             \makebox[2.5cm][l]{abcdef}}
+%   \fontspec{Hiragino Mincho Pro}
+%   {\addfontfeature{CharacterWidth=Proportional}\test}\\
+%   {\addfontfeature{CharacterWidth=Full}\test}\\
+%   {\addfontfeature{CharacterWidth=Half}\test}
+% \end{opentypeexample}
+% The same situation occurs with numbers, which are provided in
+% increasingly illegible compressed forms:
+% \setexsize\large
+% \begin{aatexample}
+%   \fontspec[Renderer=AAT]{Hiragino Mincho Pro}
+%   {\addfontfeature{CharacterWidth=Full}
+%    ---12321---}\\
+%   {\addfontfeature{CharacterWidth=Half}
+%    ---1234554321---}\\
+%   {\addfontfeature{CharacterWidth=Third}
+%    ---123456787654321---}\\
+%   {\addfontfeature{CharacterWidth=Quarter}
+%    ---12345678900987654321---}
+% \end{aatexample}
+% The option \opt{CharacterWidth=Full} doesn't work with the
+% default OpenType font renderer (ICU) due to a bug in the Hiragino fonts.
+%
+% \subsection{Vertical typesetting}
+%
+% TODO!
+%
+%
 % \subsection{OpenType scripts and languages}\label{sec:ot}
 %
 % When dealing with fonts that include glyphs for various languages,
@@ -977,7 +1296,7 @@ This work consists of this file fontspec.dtx
 % change which features are able to be selected for the font, they are selected
 % by \pkg{fontspec} before all others and will specifically select the \opt{ICU}
 % renderer for this font, as described in \vref{sec:renderer}.
-%
+% \iffalse
 % \subsubsection{\feat{Script} examples}
 %
 % In the following examples, the same font is used to typeset the
@@ -1044,6 +1363,7 @@ This work consists of this file fontspec.dtx
 %    Ş ş Ţ ţ
 % \end{opentypeexample}
 % \endgroup
+% \fi
 %
 % \subsubsection{Defining new scripts and languages}
 %
@@ -1091,6 +1411,9 @@ This work consists of this file fontspec.dtx
 %   \label{tab:ot-lang}
 %  \end{minipage}
 % \end{table}
+%
+%
+%
 %
 % \part{\XeTeX}
 %
@@ -1266,6 +1589,25 @@ This work consists of this file fontspec.dtx
 %            ]{Warnock Pro}
 % \end{verbatim}
 %
+%
+%
+% \part{\XeTeX: Mac\,OS\,X's \textsc{aat} fonts}
+%
+% Mac\,OS\,X's font technology began life before the ubiquitous-OpenType era
+% and revolved around the Apple-invented `\textsc{aat}' font format. This format
+% had some advantages (and other disadvantages) but it never became widely
+% popular in the font world.
+%
+% Nonetheless, this is the font format that was first supported by \XeTeX\
+% (due to its pedigree on Mac\,OS\,X in the first place) and was the first
+% font format supported by \pkg{fontspec}. A number of fonts distributed with
+% Mac\,OS\,X are still in the \textsc{aat} format, such as `Skia'. Documents
+% that use these fonts should be compiled with \XeLaTeX\ using the
+% \texttt{xdv2pdf} driver, as opposed to the default \texttt{xdvipdfmx}. E.g.,
+% \begin{verbatim}
+%   xelatex -output-driver="xdv2pdf" filename.tex
+% \end{verbatim}
+%
 % \subsection{Ligatures}
 %
 % \feat{Ligatures} refer to the replacement of two separate characters
@@ -1315,19 +1657,6 @@ This work consists of this file fontspec.dtx
 %   `Inner' swashes can \emph{sometimes}    \\
 %    contain the archaic long~s.
 % \end{aatexample}
-% For OpenType fonts, all feature options as above but the \opt{LineInitial} feature are supported,
-% and \opt{Swash} turns on contextual swashes.
-% \begin{opentypeexample}
-%   \fontspec{Warnock Pro} \itshape
-%    Without Contextual Swashes             \\
-%   \fontspec[Contextuals=Swash]{Warnock Pro}
-%    With Contextual Swashes; cf. W C S
-% \end{opentypeexample}
-% Historic forms (\eg, long~s as shown above) are accessed in OpenType
-% fonts via the feature \feat{Style=Historic}; this is generally \emph{not}
-% contextual in OpenType, which is why it is not included here.
-%
-% New option \opt{Alternate} corresponds to the raw feature |calt|. It should usually be activated by default.
 %
 %
 % \subsection{Vertical position}
@@ -1347,23 +1676,6 @@ This work consists of this file fontspec.dtx
 %   \fontspec[VerticalPosition=Ordinal]{Skia}
 %    1st 2nd 3rd 4th 0th 8abcde
 % \end{aatexample}
-% OpenType fonts also have the option \opt{ScientificInferior} which
-% extends further below the baseline than \opt{Inferior}s, as well as
-% \opt{Numerator} and \opt{Denominator} for creating arbitrary fractions (see
-% next section). Beware, the \opt{Ordinal} feature will not work
-% correctly for all OpenType fonts!
-% \begin{opentypeexample}
-%   \fontspec[VerticalPosition=Superior]{Warnock Pro}
-%    Sup: abdehilmnorst (-\$12,345.67)                      \\
-%   \fontspec[VerticalPosition=Numerator]{Warnock Pro}
-%    Numerator: 12345                                       \\
-%   \fontspec[VerticalPosition=Denominator]{Warnock Pro}
-%    Denominator: 12345                                     \\
-%   \fontspec[VerticalPosition=ScientificInferior]{Warnock Pro}
-%    Scientific Inferior: 12345                             \\
-%   \fontspec[VerticalPosition=Ordinal]{Warnock Pro}
-%   `Ordinals': 1st 2nd 3rd 4th 0th
-% \end{opentypeexample}
 %
 % The \pkg{xltxtra} package redefines the \cmd\textsubscript\ and
 % \cmd\textsuperscript\ commands to use the above font features.
@@ -1390,13 +1702,7 @@ This work consists of this file fontspec.dtx
 %          13579⁄24680 \\ % fraction slash
 %    \quad 13579/24680    % regular  slash
 % \end{aatexample}
-% OpenType fonts simply use a regular text slash to create fractions:
-% \begin{opentypeexample}
-%   \fontspec{Hiragino Maru Gothic Pro W4}
-%    1/2 \quad 1/4 \quad 5/6 \quad 13579/24680 \\
-%   \addfontfeature{Fractions=On}
-%    1/2 \quad 1/4 \quad 5/6 \quad 13579/24680 \\
-% \end{opentypeexample}
+%
 % Some (Asian fonts predominantly) also provide for the
 % \opt{Alternate} feature:
 % \begin{opentypeexample}
@@ -1425,25 +1731,6 @@ This work consists of this file fontspec.dtx
 %   \whiledo{\value{var}<9}{% %     \stepcounter{trans}% %     \fontspec[Variant=\thevar,
 %       Color=005599\thetrans\thetrans]{Zapfino}% %     \makebox[0.75\width]{d}% %     \stepcounter{var}}
 % \end{aatexample}
-% For OpenType fonts, \opt{Variant} selects a `Stylistic Set', again
-% specified numerically. Here are two examples from the Junicode
-% font\footnote{\url{http://junicode.sf.net}}; thanks to Adam
-% Buchbinder for the suggestion.
-% This example shows insular (ancient) letterforms:
-% \begin{opentypeexample}
-%   \fontspec{Junicode}
-%    Insular forms. \\
-%   \addfontfeature{Variant=2}
-%    Insular forms. \\
-% \end{opentypeexample}
-% And here is shown enlarged minuscules: (capital letters remain
-% unchanged)
-% \begin{opentypeexample}
-%   \fontspec{Junicode}
-%    ENLARGED Minuscules. \\
-%   \addfontfeature{Variant=6}
-%    ENLARGED Minuscules. \\
-% \end{opentypeexample}
 %
 % See \vref{sec:newfeatures} for a way to assign names to variants,
 % which should be done on a per-font basis.
@@ -1461,15 +1748,6 @@ This work consists of this file fontspec.dtx
 % See \vref{sec:newfeatures} for a way to assign names to alternates,
 % which should be done on a per-font basis.
 %
-% For OpenType fonts, this option is used to access numerical
-% variations of the raw |salt| feature. I can't show an example,
-% but here's how it would be used:
-% \begin{verbatim}
-%   \fontspec[Alternate=1]{Garamond Premier Pro}
-% \end{verbatim}
-% Numbering starts from |0| for the first stylistic alternate.
-% Note that the \texttt{Style=Alternate} option is equivalent
-% to \texttt{Alternate=0} to access the default case.
 %
 % \subsection{Style}
 % The options of the \feat{Style} feature
@@ -1478,12 +1756,7 @@ This work consists of this file fontspec.dtx
 % \opt{Ruby},\footnotemark\ \opt{TallCaps}, or \opt{TitlingCaps}.
 % \footnotetext{`Ruby' refers to a small optical size, used in
 % Japanese typography for annotations.}
-% \let\savemark\@thefnmark
 %
-% ICU supported options are \opt{Alternate},
-% \opt{Italic}, \opt{Historic},
-% \opt{Ruby},\footnotemark[\savemark]
-% \opt{Swash}, \opt{TitlingCaps}, \opt{HorizontalKana}, and \opt{VerticalKana}.
 % \setexsize\Large
 %  \begin{opentypeexample}
 %   \fontspec{Warnock Pro}
@@ -1527,27 +1800,7 @@ This work consists of this file fontspec.dtx
 %
 %
 %
-% \subsection{Kerning}\label{sec:kerning}
-% Well designed fonts contain kerning information that controls the spacing between
-% letter pairs, on an individual basis. The \feat{Kerning} feature provides
-% options to control this, for OpenType fonts only.
 %
-% The options provided for now are \opt{On}, \opt{Off} (don't know why you'd want to), and \opt{Uppercase}.
-% \begin{opentypeexample}
-%   \fontspec{Warnock Pro}
-%    Ta AV                \\
-%   \fontspec[Kerning=Off]{Warnock Pro}
-%    Ta AV
-% \end{opentypeexample}
-%
-% As briefly mentioned previously at the end of \vref{sec:letters},
-% the \opt{Uppercase} option will add a small amount of tracking between uppercase letters:
-% \begin{opentypeexample}
-%   \fontspec{Warnock Pro}
-%    UPPER-CASE EXAMPLE \\
-%   \addfontfeature{Kerning=Uppercase}
-%    UPPER-CASE EXAMPLE
-% \end{opentypeexample}
 %
 % \subsection{CJK shape}
 % There have been many standards for how CJK ideographic
@@ -1557,16 +1810,6 @@ This work consists of this file fontspec.dtx
 % fonts support the following \feat{CJKShape} options:
 % \opt{Traditional}, \opt{Simplified}, \opt{JIS1978}, \opt{JIS1983},
 % \opt{JIS1990}, and \opt{Expert}. OpenType also supports the \opt{NLC} option.
-% \setexsize\LARGE
-% \begin{opentypeexample}
-%   \fontspec{Hiragino Mincho Pro}
-%   {\addfontfeature{CJKShape=Traditional}
-%    唖噛躯 妍并訝 }                          \\
-%   {\addfontfeature{CJKShape=NLC}
-%    唖噛躯 妍并訝 }                          \\
-%   {\addfontfeature{CJKShape=Expert}
-%    唖噛躯 妍并訝 }
-% \end{opentypeexample}
 %
 % \subsection{Character width}\label{sec:CharacterWidth}
 % Many Asian fonts are equipped with variously spaced characters for
@@ -1654,97 +1897,6 @@ This work consists of this file fontspec.dtx
 %
 %
 %
-
-%
-% \section{Defining new features} \label{sec:newfeatures}
-% This package cannot hope to contain every possible font
-% feature. Three commands are provided for selecting font features
-% that are not provided for out of the box. If you are using
-% them a lot, chances are I've left something out, so please let me
-% know.
-%
-% \DescribeMacro{\newAATfeature}
-% New AAT features may be created with this command:\par
-% {\centering\cmd\newAATfeature\marg{feature}\marg{option}\marg{feature code}\marg{selector code}\par}\noindent
-% Use the \XeTeX\ file \path{AAT-info.tex} to obtain the code numbers. For example:
-% \begin{aatexample}
-%   \newAATfeature{Alternate}{HoeflerSwash}{17}{1}
-%   \fontspec[Alternate=HoeflerSwash]{Hoefler Text Italic}
-%    This is XeTeX by Jonathan Kew.
-% \end{aatexample}
-% This command replaces \cmd\newfeaturecode, which is provided
-% for backwards compatibility via \texttt{fontspec.cfg}.
-%
-% \DescribeMacro{\newICUfeature}
-% New OpenType features may be created with this command:\par
-% {\centering\cmd\newICUfeature\marg{feature}\marg{option}\marg{feature tag}\par}
-% In the following example, the Moldavian language (see \vref{sec:ot}) must be activated to achieve the effect shown.
-% \setexsize\Large
-% \begingroup
-% \begin{opentypeexample}
-%   \newICUfeature{Style}{NoLocalForms}{-locl}
-%   \fontspec[Language=Moldavian]{FPL Neu}
-%   Ş ş Ţ ţ  \\
-%   \addfontfeature{Style=NoLocalForms}
-%   Ş ş Ţ ţ
-% \end{opentypeexample}
-% \endgroup
-%
-% \DescribeMacro{\newfontfeature}
-% In case the above commands do not accommodate the desired font feature
-% (perhaps a new \XeTeX\ feature that \pkg{fontspec} hasn't been updated
-% to support), a command is provided to pass arbitrary input into the
-% font selection string:\par
-% {\centering\cmd{\newfontfeature}\marg{name}\marg{input string}\par}
-%
-% For example, Zapfino
-% contains the feature `Avoid d-collisions'. To access it
-% with this package, you could do the following:
-% \begin{aatexample}
-%   \newfontfeature{AvoidD}{Special=Avoid d-collisions}
-%   \newfontfeature{NoAvoidD}{Special=!Avoid d-collisions}
-%   \fontspec[AvoidD,Variant=1]{Zapfino}
-%    sockdolager rubdown               \\
-%   \fontspec[NoAvoidD,Variant=1]{Zapfino}
-%    sockdolager rubdown
-% \end{aatexample}
-%
-% The advantage to using the \cmd\newAATfeature\ and \cmd\newICUfeature\
-% commands is that they check if the selected font actually contains the font
-% feature. By contrast, \cmd\newfontfeature\ will not give a warning
-% for improper input.
-%
-%
-% \subsection{Going behind \pkg{fontspec}'s back}
-% Expert users may wish not to use \pkg{fontspec}'s feature handling at all,
-% while still taking advantage of its \LaTeX\ font selection conveniences. The
-% \feat{RawFeature} font feature allows literal \XeTeX\ font feature selection
-% when you happen to have the OpenType feature tag memorised.
-% \begin{example}
-%   \fontspec[RawFeature=+smcp]{FPL Neu}
-%   FPL Neu small caps
-% \end{example}
-% Multiple features can either be included in a single declaration:\par
-% {\centering|[RawFeature=+smcp;+onum]|\par}
-% \noindent or with multiple declarations:\par
-% {\centering|[RawFeature=+smcp, RawFeature=+onum]|\par}
-%
-% \part{\XeTeX: Mac\,OS\,X's \textsc{aat} fonts}
-%
-% Mac\,OS\,X's font technology began life before the ubiquitous-OpenType era
-% and revolved around the Apple-invented `\textsc{aat}' font format. This format
-% had some advantages (and other disadvantages) but it never became widely
-% popular in the font world.
-%
-% Nonetheless, this is the font format that was first supported by \XeTeX\
-% (due to its pedigree on Mac\,OS\,X in the first place) and was the first
-% font format supported by \pkg{fontspec}. A number of fonts distributed with
-% Mac\,OS\,X are still in the \textsc{aat} format, such as `Skia'. Documents
-% that use these fonts should be compiled with \XeLaTeX\ using the
-% \texttt{xdv2pdf} driver, as opposed to the default \texttt{xdvipdfmx}. E.g.,
-% \begin{verbatim}
-%   xelatex -output-driver="xdv2pdf" filename.tex
-% \end{verbatim}
 %
 % \subsection{Diacritics}
 % Diacritics refer to characters that include extra marks that usually
@@ -1762,7 +1914,6 @@ This work consists of this file fontspec.dtx
 % The \opt{Hide} option is for Arabic-like fonts which may be
 % displayed either with or without vowel markings.
 %
-% No options for OpenType fonts.
 %
 % \subsection{Annotation}
 % Various Asian fonts are equipped with a more extensive range of
@@ -1809,13 +1960,83 @@ This work consists of this file fontspec.dtx
 % This is the beginning of some work to provide some hooks that use
 % \pkg{fontspec} for various macro programming purposes.
 %
-% In some cases, it is useful to know what the \LaTeX\ font family
-% of a specific \pkg{fontspec} font is. After a \cmd\fontspec-like
-% command, this is stored inside the \cmd\zf@family\ macro.
-% Otherwise, \LaTeX's own \cmd\f@family\ macro can be useful here,
-% too.
 %
-% \subsection{Renaming existing features \& options}\label{sec:aliasfontfeature}
+% \section{Defining new features} \label{sec:newfeatures}
+% This package cannot hope to contain every possible font
+% feature. Three commands are provided for selecting font features
+% that are not provided for out of the box. If you are using
+% them a lot, chances are I've left something out, so please let me
+% know.
+%
+% \DescribeMacro{\newAATfeature}
+% New AAT features may be created with this command:\par
+% {\centering\cmd\newAATfeature\marg{feature}\marg{option}\marg{feature code}\marg{selector code}\par}\noindent
+% Use the \XeTeX\ file \path{AAT-info.tex} to obtain the code numbers. For example:
+% \begin{aatexample}
+%   \newAATfeature{Alternate}{HoeflerSwash}{17}{1}
+%   \fontspec[Alternate=HoeflerSwash]{Hoefler Text Italic}
+%    This is XeTeX by Jonathan Kew.
+% \end{aatexample}
+% This command replaces \cmd\newfeaturecode, which is provided
+% for backwards compatibility via \texttt{fontspec.cfg}.
+%
+% \DescribeMacro{\newICUfeature}
+% \DescribeMacro{\newopentypefeature}
+% New OpenType features may be created with this command:\par
+% {\centering\cmd\newICUfeature\marg{feature}\marg{option}\marg{feature tag}\par}
+% The synonym \cs{newopentypefeature} is provided for \LuaTeX\ users.
+% In the following example, the Moldavian language (see \vref{sec:ot}) must be activated to achieve the effect shown.
+% \setexsize\Large
+% \begingroup
+% \begin{opentypeexample}
+%   \newICUfeature{Style}{NoLocalForms}{-locl}
+%   \fontspec[Language=Moldavian]{FPL Neu}
+%   Ş ş Ţ ţ  \\
+%   \addfontfeature{Style=NoLocalForms}
+%   Ş ş Ţ ţ
+% \end{opentypeexample}
+% \endgroup
+%
+% \DescribeMacro{\newfontfeature}
+% In case the above commands do not accommodate the desired font feature
+% (perhaps a new \XeTeX\ feature that \pkg{fontspec} hasn't been updated
+% to support), a command is provided to pass arbitrary input into the
+% font selection string:\par
+% {\centering\cmd{\newfontfeature}\marg{name}\marg{input string}\par}
+%
+% For example, Zapfino
+% contains the feature `Avoid d-collisions'. To access it
+% with this package, you could do the following:
+% \begin{aatexample}
+%   \newfontfeature{AvoidD}{Special=Avoid d-collisions}
+%   \newfontfeature{NoAvoidD}{Special=!Avoid d-collisions}
+%   \fontspec[AvoidD,Variant=1]{Zapfino}
+%    sockdolager rubdown               \\
+%   \fontspec[NoAvoidD,Variant=1]{Zapfino}
+%    sockdolager rubdown
+% \end{aatexample}
+%
+% The advantage to using the \cmd\newAATfeature\ and \cmd\newICUfeature\
+% commands is that they check if the selected font actually contains the font
+% feature. By contrast, \cmd\newfontfeature\ will not give a warning
+% for improper input.
+%
+% \section{Going behind \pkg{fontspec}'s back}
+% Expert users may wish not to use \pkg{fontspec}'s feature handling at all,
+% while still taking advantage of its \LaTeX\ font selection conveniences. The
+% \feat{RawFeature} font feature allows literal \XeTeX\ font feature selection
+% when you happen to have the OpenType feature tag memorised.
+% \begin{example}
+%   \fontspec[RawFeature=+smcp]{FPL Neu}
+%   FPL Neu small caps
+% \end{example}
+% Multiple features can either be included in a single declaration:\par
+% {\centering|[RawFeature=+smcp;+onum]|\par}
+% \noindent or with multiple declarations:\par
+% {\centering|[RawFeature=+smcp, RawFeature=+onum]|\par}
+%
+% \section{Renaming existing features \& options}
+% \label{sec:aliasfontfeature}
 %
 % \DescribeMacro{\aliasfontfeature}
 % If you don't like the name of a particular font feature,
@@ -1852,6 +2073,82 @@ This work consists of this file fontspec.dtx
 % \begin{Verbatim}
 %   \newfontfeature{PurpleColor}{color=550099BB}
 % \end{Verbatim}
+%
+% \section{Programming details}
+%
+% In some cases, it is useful to know what the \LaTeX\ font family
+% of a specific \pkg{fontspec} font is. After a \cmd\fontspec-like
+% command, this is stored inside the \cmd\zf@family\ macro.
+% Otherwise, \LaTeX's own \cmd\f@family\ macro can be useful here,
+% too.
+% The raw \TeX\ font that is defined is stored temporarily
+% in \cmd{\zf@basefont}.
+%
+% The following commands in \pkg{expl3} syntax may be used
+% for writing codes that interface with fontspec-loaded fonts.
+% All of the following conditionals also exist with |T| and |F|
+% suffices as well as |TF|.
+%
+% \begin{macro}{\fontspec_if_fontspec_font:TF}
+% Test whether the currently selected font has been loaded by fontspec.
+% \end{macro}
+%
+%
+% \begin{macro}{\fontspec_if_aat_feature:nnTF}
+% Test whether the currently selected font contains the AAT
+% feature (|#1|,|#2|).
+% \end{macro}
+%
+%
+% \begin{macro}{\fontspec_if_opentype:TF}
+% Test whether the currently selected font is an OpenType font.
+% Always true for LuaTeX fonts.
+% \end{macro}
+%
+% \begin{macro}{\fontspec_if_feature:nTF}
+% Test whether the currently selected font contains the raw OpenType
+% feature |#1|. E.g.: |\fontspec_if_feature:nTF {pnum} {True} {False}|.
+% Returns false if the font is not loaded by fontspec or is not an OpenType
+% font.
+% \end{macro}
+%
+% \begin{macro}{\fontspec_if_feature:nnnTF}
+% Test whether the currently selected font with raw OpenType script tag |#1| and raw OpenType language tag |#2| contains the raw OpenType feature tag |#3|. E.g.: |\fontspec_if_feature:nTF {latn} {ROM} {pnum} {True} {False}|.
+% Returns false if the font is not loaded by fontspec or is not an OpenType
+% font.
+% \end{macro}
+%
+% \begin{macro}{\fontspec_if_script:nTF}
+% Returns whether the currently selected font contains the raw OpenType
+% script |#1|. E.g.: |\fontspec_if_script:nTF {latn} {True} {False}|.
+% Returns false if the font is not loaded by fontspec or is not an OpenType
+% font.
+% \end{macro}
+%
+% \begin{macro}{\fontspec_if_language:nTF}
+% Test whether the currently selected font contains the raw OpenType
+% feature |#1|. E.g.: |\fontspec_if_feature:nTF {pnum} {True} {False}|.
+% Returns false if the font is not loaded by fontspec or is not an OpenType
+% font.
+% \end{macro}
+%
+% \begin{macro}{\fontspec_if_language:nnTF}
+% Test whether the currently selected font contains the raw OpenType
+% feature |#2| in script |#1|. E.g.: |\fontspec_if_feature:nTF {latn} {pnum} {True} {False}|.
+% Returns false if the font is not loaded by fontspec or is not an OpenType
+% font.
+% \end{macro}
+%
+%
+% \begin{macro}{\fontspec_if_current_script:nTF}
+% Test whether the currently loaded font is using the specified raw
+% OpenType script tag |#1|.
+% \end{macro}
+%
+% \begin{macro}{\fontspec_if_current_language:nTF}
+% Test whether the currently loaded font is using the specified raw
+% OpenType language tag |#1|.
+% \end{macro}
 %
 %  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% %
 % \part{The patching/improvement of \LaTeXe\ and other packages}
@@ -2302,6 +2599,7 @@ This work consists of this file fontspec.dtx
 % \end{macro}
 %
 % \begin{macro}{\newICUfeature}
+% \begin{macro}{\newopentypefeature}
 % This command assigns a new OpenType feature by its abbreviation (|#2|) to a new name (|#1|).
 % Better than \cmd\newfontfeature\ because it checks if the feature exists in the
 % font it's being used for.
@@ -2315,7 +2613,9 @@ This work consists of this file fontspec.dtx
   }
   \zf@define@feature@option{#1}{#2}{}{}{#3}
 }
+\cs_set_eq:NN \newopentypefeature \newICUfeature
 %    \end{macrocode}
+% \end{macro}
 % \end{macro}
 %
 %
@@ -4126,7 +4426,7 @@ This work consists of this file fontspec.dtx
 %
 % |luaotload| provides a custom |anum| feature for replacing Latin
 % (AKA Arabic) numbers with Arabic (AKA Indic-Arabic). The same feature
-% maps to Farsi (Persian) numbers if font language is Frasi.
+% maps to Farsi (Persian) numbers if font language is Farsi.
 %
 %    \begin{macrocode}
 \luatex_if_engine:T {
@@ -4225,6 +4525,7 @@ This work consists of this file fontspec.dtx
     \fontspec_make_feature:nnn{18}{#1}{+ss\two@digits{#1}}
   \fi
 }
+\aliasfontfeature{StylisticSet}{Variant}
 %    \end{macrocode}
 %
 % \subsubsection{Style}
@@ -5534,7 +5835,7 @@ information.
 \labelformat{subsection}{Section~#1}
 
 %% verbatim examples:
-\definecolor{niceblue}{rgb}{0.2,0.4,1.0}
+\definecolor{niceblue}{rgb}{0.1,0.2,0.8}
 \newenvironment{example}
   {\VerbatimEnvironment
    \begin{VerbatimOut}{\examplefilename}}
@@ -5626,14 +5927,15 @@ information.
 \newcommand\cmdbox[1]{\smallskip\par\noindent\fbox{#1}\smallskip}
 
 \usepackage{xparse}
-\NewDocumentCommand \otf {smm} {%
+\NewDocumentCommand \otf {somm} {%
   \IfBooleanTF #1
   {%
     \gdef\NOTE{\par\smallskip {$\ast$ \footnotesize This feature is activated by default.}}%
-    \featname&#2&$\ast$&\texttt{#3}\\
-    \featname&No#2&&\texttt{#3}~~{\footnotesize(\textit{deactivate})}\\
+    \IfNoValueTF {#2} {\gdef\offname{No#3}}{\gdef\offname{#2}}%
+    \featname&#3&$\ast$&\texttt{#4}\\
+    \featname&\offname&&\texttt{#4}~~{\footnotesize(\textit{deactivate})}\\
   }
-  {\featname&#2&&\texttt{#3}\\}%
+  {\featname&#3&&\texttt{#4}\\}%
 }
 \newenvironment{features}[1]{%
   \def\NOTE{}

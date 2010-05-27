@@ -215,18 +215,33 @@ This work consists of this file fontspec.dtx
 %
 %
 %
-%
+% \clearpage
 % \part{General font selection}
 %
 % This section concerns the variety of commands that can be used to select
 % fonts.
 %
-% \cmdbox{\cmd{\fontspec}\oarg{font features}\marg{font name}}
+% \cmdbox{%
+%   \CMD{~~~~~\string\fontspec} \oarg{font features} \marg{font name}\\
+%   \CMD{~~\string\setmainfont} \oarg{font features} \marg{font name}\\
+%   \CMD{~~\string\setsansfont} \oarg{font features} \marg{font name}\\
+%   \CMD{~~\string\setmonofont} \oarg{font features} \marg{font name}\\
+%   \CMD{\string\newfontfamily} \meta{cmd} \oarg{font features} \marg{font name}
+% }
 %
-% This is the base command of the package, used for once-off selection of the
-% specified \meta{font name}. The font features argument accepts comma separated
-% \meta{font feature}=\meta{option} lists; these will not be fully described
-% until \vref{sec:features}.
+% These are the main font-selecting commands of this package.
+% The \cs{fontspec} command selects a font for one-time use; all
+% others should be used to define the standard fonts used in a document.
+% They will be described later in this section.
+%
+% The font features argument accepts comma separated
+% \meta{font feature}=\meta{option} lists; these are described in later:
+% \begin{itemize}
+% \item For general font features, see \vref{sec:font-ind-features}
+% \item For OpenType fonts, see Part~\vref{sec:opentype-features}
+% \item For \XeTeX-only general font features, see Part~\vref{sec:xetex-features}
+% \item For features for \AAT\ fonts in \XeTeX, see Part~\vref{sec:aat-features}
+% \end{itemize}
 %
 % \section{Font selection}
 %
@@ -323,19 +338,21 @@ This work consists of this file fontspec.dtx
 % \section{Default font families}
 % \label{sec:setxxfont}
 %
-% \DescribeMacro{\setmainfont}
-% \DescribeMacro{\setsansfont}
-% \DescribeMacro{\setmonofont}
-% The \cs{setmainfont},
-% \cs{setsansfont}, and \cs{setmonofont} commands are used to select
+% \cmdbox{
+%   \cmd{\setmainfont} \oarg{font features} \marg{font name} \\
+%   \cmd{\setsansfont} \oarg{font features} \marg{font name} \\
+%   \cmd{\setmonofont} \oarg{font features} \marg{font name}
+% }
+%
+% These commands are used to select
 % the default font families for the entire document. They take the
 % same arguments as \cmd{\fontspec}. For example:
 %   \def\pangram{Pack my box with five
 %                      dozen liquor jugs.}
 % \begin{example}
 %   \setmainfont{Baskerville}
-%   \setsansfont[Scale=0.86]{Skia}
-%   \setmonofont[Scale=0.8]{Monaco}
+%   \setsansfont[Scale=MatchLowercase]{Skia}
+%   \setmonofont[Scale=MatchLowercase]{Monaco}
 %   \rmfamily\pangram\par
 %   \sffamily\pangram\par
 %   \ttfamily\pangram
@@ -349,7 +366,10 @@ This work consists of this file fontspec.dtx
 %
 % \section{New commands to select font families}
 %
-% \cmdbox{\cmd{\newfontfamily} \cs{\meta{font-switch}} \oarg{font features} \marg{font name}}
+% \cmdbox{
+%   \CMD{\string\newfontfamily} \cs{\meta{font-switch}} \oarg{font features} \marg{font name} \\
+%   \CMD{~~\string\newfontface} \cs{\meta{font-switch}} \oarg{font features} \marg{font name}
+% }
 %
 % \noindent For cases when a specific font with a specific
 % feature set is going to be re-used many times in a document, it is inefficient
@@ -357,7 +377,7 @@ This work consists of this file fontspec.dtx
 % a new font instance after the first call, the feature options must still be
 % parsed and processed.
 %
-%
+% \DescribeMacro{\newfontfamily}
 % For this reason, new commands can be created for loading a particular font
 % family with the \cmd\newfontfamily\ command:
 % \begin{example}
@@ -382,6 +402,15 @@ This work consists of this file fontspec.dtx
 %
 % \subsection{More control over font shape selection}
 % \label{sec:bfitfonts}
+%
+% \cmdbox{
+%  \feat{~~~~~~~BoldFont} = \meta{font name} \\
+%  \feat{~~~~~ItalicFont} = \meta{font name} \\
+%  \feat{~BoldItalicFont} = \meta{font name} \\
+%  \feat{~~~~SlantedFont} = \meta{font name} \\
+%  \feat{BoldSlantedFont} = \meta{font name} \\
+%  \feat{~~SmallCapsFont} = \meta{font name}
+% }
 %
 % The automatic bold, italic, and bold italic font selections will not be
 % adequate for the needs of every font: while some fonts mayn't even
@@ -465,8 +494,13 @@ This work consists of this file fontspec.dtx
 % incompatibilities. The Lucida and Euler maths fonts should be fine; for all
 % others keep an eye out for problems.
 %
-% \DescribeMacro{\setmathrm} \DescribeMacro{\setboldmathrm}
-% \DescribeMacro{\setmathsf} \DescribeMacro{\setmathtt}
+% \cmdbox{
+%   \cmd{\setmathrmfont} \oarg{font features} \marg{font name} \\
+%   \cmd{\setmathsffont} \oarg{font features} \marg{font name} \\
+%   \cmd{\setmathttfont} \oarg{font features} \marg{font name} \\
+%   \cmd{\setboldmathrmfont} \oarg{font features} \marg{font name}
+% }
+%
 % However, the default text fonts may not necessarily be the ones you
 % wish to use when typesetting maths (especially with the use of fancy
 % ligatures and so on). For this reason, you may optionally use those
@@ -539,21 +573,25 @@ This work consists of this file fontspec.dtx
 % \XeTeX\ users will need to load the \pkg{xltxtra} package before the
 % advice above works.
 %
+%
+%
+%
+%
 % \section{Selecting font features}
 % \label{sec:selectingfeature}
 %
 % The commands discussed so far each take an optional argument for
 % accessing the font features of the requested font. These features
-% are generally unavailable or harder to access in regular \LaTeX. The
-% font features and their options are described in
-% \vref{sec:features}, but before we look at the range of available
-% font features, it is necessary to discuss how they can  be applied.
+% are generally unavailable or harder to access in regular \LaTeX.
 %
 % \subsection{Default settings} \label{sec:defaults}
-% \DescribeMacro{\defaultfontfeatures} It is desirable to define
+%
+% \cmdbox{\cmd\defaultfontfeatures \marg{font features}}
+%
+% It is desirable to define
 % options that are applied to every subsequent font selection command:
 % a default feature set, so to speak. This may be defined with the
-% \cmd{\defaultfontfeatures}\marg{font features} command.
+% \cmd{\defaultfontfeatures} command.
 % New calls of \cs{defaultfontfeatures} overwrite previous ones.
 % \begin{example}
 %   \fontspec{Didot}
@@ -566,8 +604,9 @@ This work consists of this file fontspec.dtx
 % \subsection{Changing the currently selected features}
 % \label{sec:addfontfeatures}
 %
-% \DescribeMacro{\addfontfeatures}
-% The \cs{addfontfeatures}\marg{font features} command allows font features to
+% \cmdbox{\cmd\addfontfeatures \marg{font features}}
+%
+% This command allows font features to
 % be changed without knowing what features are currently selected or even what
 % font is being used. A good example of this could be to add a hook to all
 % tabular material to use monospaced numbers, as shown in the following example:
@@ -586,6 +625,7 @@ This work consists of this file fontspec.dtx
 %     \bottomrule
 %   \end{tabular}}
 % \end{example}
+%
 % \DescribeMacro{\addfontfeature}
 % This command may also be executed under the alias \cmd{\addfontfeature}.
 %
@@ -598,7 +638,16 @@ This work consists of this file fontspec.dtx
 % features requested.
 %
 % \subsection{Different features for different font shapes}
-% \seclabel{bfit-feat}
+% \label{sec:bfit-feat}
+%
+% \cmdbox{
+%  \feat{~~~~~~~BoldFeatures}\marg{features} \\
+%  \feat{~~~~~ItalicFeatures}\marg{features} \\
+%  \feat{~BoldItalicFeatures}\marg{features} \\
+%  \feat{~~~~SlantedFeatures}\marg{features} \\
+%  \feat{BoldSlantedFeatures}\marg{features} \\
+%  \feat{~~SmallCapsFeatures}\marg{features}
+% }
 %
 % It is entirely possible that separate fonts in a family will require
 % separate options; \eg, Hoefler Text Italic contains various swash
@@ -626,7 +675,7 @@ This work consists of this file fontspec.dtx
 % \end{aatexample}
 %
 % Note that because most fonts include their small caps glyphs
-% within the main font, these features are applied \emph{in addition} to
+% within the main font, features specified with \feat{SmallCapsFeatures} are applied \emph{in addition} to
 % any other shape-specific features as defined above, and hence \feat{SmallCapsFeatures}
 % can be nested within \feat{ItalicFeatures} and friends. Every combination
 % of upright, italic, bold and small caps can thus be assigned individual
@@ -650,6 +699,22 @@ This work consists of this file fontspec.dtx
 %
 % \subsection{Different features for different font sizes}
 % \label{sec:sizefeature}
+%
+% \cmdbox{
+% \ttfamily SizeFeatures = \char`\{\\
+% \null\quad...\\
+% \null\quad\char`\{~Size =
+% \rmfamily\meta{size range}\ttfamily
+% ,
+% \rmfamily \meta{font features}\ttfamily
+% ~\char`\} \\
+% \null\quad\char`\{~Size =
+% \rmfamily\meta{size range}\ttfamily
+% , Font =
+% \rmfamily\meta{font name}\texttt, \meta{font features}\ttfamily
+% ~\char`\} \\
+% \null\quad... \\
+% \char`\}}
 %
 % The \feat{SizeFeature} feature is a little more complicated
 % than the previous features discussed. It allows different fonts
@@ -711,8 +776,8 @@ This work consists of this file fontspec.dtx
 %
 % \subsection{Color}
 %
-% \feat{Color} (or \feat{Colour}), also shown in \vref{sec:defaults} and
-% \vref{sec:features}, uses \XeTeX\ font specifications to set the color of
+% \feat{Color} (or \feat{Colour}), also shown in \vref{sec:defaults}
+% and elsewhere, uses \XeTeX\ font specifications to set the color of
 % the text. The color is defined as a triplet of two-digit Hex RGB
 % values, with optionally another value for the transparency (where
 % |00| is completely transparent and |FF| is opaque.)
@@ -727,15 +792,21 @@ This work consists of this file fontspec.dtx
 %
 % \subsection{Scale}
 %
+% \cmdbox{
+%  \feat{Scale} = \meta{number} \\
+%  \feat{Scale} = \opt{MatchLowercase} \\
+%  \feat{Scale} = \opt{MatchUppercase}
+% }
+%
 % In its explicit form, \feat{Scale} takes a single
 % numeric argument for linearly scaling the font, as demonstrated
 % in \vref{sec:setxxfont}.
-% Since version 0.99 of \XeTeX, however, it is now possible to
-% measure the correct dimensions of the fonts loaded, and hence
+% It is now possible to
+% measure the correct dimensions of the fonts loaded and
 % calculate values to scale them automatically.
 %
-% The \feat{Scale} feature now
-% also takes the options \opt{MatchLowercase}
+% As well as a numerical argument, \feat{Scale} feature
+% also accepts options \opt{MatchLowercase}
 % and \opt{MatchUppercase}, which will scale the font being selected to match
 % the current default roman font to either the height of the lowercase or
 % uppercase letters, respectively.
@@ -1066,8 +1137,11 @@ This work consists of this file fontspec.dtx
 %
 % \subsection{StylisticSet}
 %
-% This feature selects a `Stylistic Set'
-% specified numerically. Here are two examples from the Junicode
+% This feature selects a `Stylistic Set' variation,
+% specified numerically. These correspond to OpenType
+% features |ss01|, |ss02|, etc.
+%
+% Here are two examples from the Junicode
 % font\footnote{\url{http://junicode.sf.net}}; thanks to Adam
 % Buchbinder for the suggestion.
 % This example shows insular (ancient) letterforms:
@@ -5797,7 +5871,7 @@ information.
 %    \begin{macrocode}
 \ProvidesPackage{fontspec-style}
 
-\usepackage{booktabs,calc,color,enumitem,fancyvrb,hologo,graphicx,ifthen,refstyle,url,varioref}
+\usepackage{booktabs,calc,color,enumitem,fancyvrb,hologo,graphicx,ifthen,url,varioref,varwidth}
 \fvset{gobble=2}
 \newcommand\XeTeX{\hologo{XeTeX}}
 \newcommand\XeLaTeX{\hologo{XeLaTeX}}
@@ -5931,7 +6005,14 @@ information.
 
 \newcommand\unichar[2]{\textsc{\MakeLowercase{u+#1: #2}}}
 
-\newcommand\cmdbox[1]{\smallskip\par\noindent\fbox{#1}\smallskip}
+\newcommand\cmdbox[1]{%
+  \smallskip\par\noindent
+  \fbox{\begin{varwidth}{\linewidth}
+    #1%
+  \end{varwidth}}%
+  \smallskip
+}
+\def\CMD#1{\texttt{\null#1\unskip}}
 
 \usepackage{xparse}
 \NewDocumentCommand \otf {somm} {%

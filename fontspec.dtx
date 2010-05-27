@@ -105,7 +105,7 @@ This work consists of this file fontspec.dtx
 % has been extracted to be useful for other \TeX\ macro systems as well, and
 % this has enabled \pkg{fontspec} to be adapted for \LaTeX\ when run with the
 % \LuaTeX\ engine. Elie Roux and Khaled Hosny have been instrumental and
-% invaluable with all of this.
+% invaluable with this development work.
 %
 % \section{Introduction}
 %
@@ -120,14 +120,9 @@ This work consists of this file fontspec.dtx
 % fonts now available for use, however, it becomes less desirable to have to
 % write these font definition (|.fd|) files for every font one wishes to use.
 %
-% This package provides a completely automatic way to select font families in
-% \LaTeX\ for arbitrary fonts. Furthermore, it allows very flexible control over
-% the selection of advanced font features such as number case and fancy
-% ligatures (and many more!) present in most modern fonts.
-%
 % Because \pkg{fontspec} is designed to work in a variety of modes, this
 % user documentation is split into separate sections that are designed to be
-% completely independent. Nonetheless, the basic functionality all behaves in
+% relatively independent. Nonetheless, the basic functionality all behaves in
 % the same way, so previous users of \pkg{fontspec} under \XeTeX\ should have
 % little or no difficulty switching over to \LuaTeX.
 %
@@ -253,14 +248,14 @@ This work consists of this file fontspec.dtx
 % Fonts known to \LuaTeX\ or \XeTeX\ may be loaded by their names.
 % `Known to' in this case generally means `exists in a standard fonts location'
 % such as |~/Library/Fonts| on \MacOSX, or |C://WINNT/Fonts| on Windows.
-% TODO: check that path.
 %
-% Commands for loading fonts
-%
+% The simplest example might be something like
 % \begin{Verbatim}
 %   \fontspec[ ... ]{Cambria}
 % \end{Verbatim}
-%
+% in which the bold and italic fonts will be found automatically
+% (if they exist) and are immediately accessible with the usual
+% \cs{textit} and \cs{textbf} commands.
 %
 % TODO: add explanation for how to find out what the `font name' is.
 %
@@ -529,27 +524,6 @@ This work consists of this file fontspec.dtx
 % \end{example}
 % (TODO: this example obviously doesn't work without the graphic.)
 %
-% \subsection{External fonts}
-%
-% This feature is handled in \pkg{fontspec} with the font feature \feat{ExternalLocation}.
-% When this feature is used, the main argument to \cmd\fontspec\ is the \emph{file name} of the
-% font (in contrast to the usual syntax which requires the font display name) and the argument
-% to the feature is the (absolute) path to the font. For example:
-% \begin{verbatim}
-%     \fontspec[ExternalLocation=/Users/will/Fonts/]{CODE2000.TTF}
-% \end{verbatim}
-%
-% If no path is given, then the font will be found in a location normally searched by
-% \XeTeX, including the current directory. For example, the following declaration
-% could load either the Latin Modern roman font in the current directory or, say,
-% in \path{$TEXMF/fonts/opentype/public/lm/}:
-% \begin{verbatim}
-%     \fontspec[ExternalLocation]{lmroman10-regular}
-% \end{verbatim}
-%
-% Bold and italic fonts cannot be automatically selected when external fonts
-% are being used; they must be explicitly declared using the methods
-% described in \vref{sec:bfitfonts}.
 %
 % \subsection{Miscellaneous font selecting details}
 %
@@ -924,8 +898,83 @@ This work consists of this file fontspec.dtx
 % such that it adjusts along with the above changes.
 %
 %
+% \subsection{Optical font sizes} \label{sec:opticalsize}
 %
-% \part{OpenType fonts}
+% Optically scaled fonts thicken out as the font size decreases
+% in order to make the glyph shapes more robust (less prone to losing
+% detail), which improves legibility. Conversely, at large optical
+% sizes the serifs and other small details may be more delicately
+% rendered.
+%
+% OpenType fonts with optical scaling will exist in
+% several discrete sizes, and these will be selected by \XeTeX\
+% \emph{automatically} determined by the current font size. The
+% \opt{OpticalSize} option may be used to specify a different optical
+% size.
+%
+% For the OpenType font Warnock Pro, we have three optically sized
+% variants: caption, subhead, and display. With \opt{OpticalSize} set
+% to zero, no optical size font substitution is performed:
+% \begin{opentypeexample}
+%   \fontspec[OpticalSize=0]{Warnock Pro Caption}
+%    Warnock Pro optical sizes                \\
+%   \fontspec[OpticalSize=0]{Warnock Pro}
+%    Warnock Pro optical sizes                \\
+%   \fontspec[OpticalSize=0]{Warnock Pro Subhead}
+%    Warnock Pro optical sizes                \\
+%   \fontspec[OpticalSize=0]{Warnock Pro Display}
+%    Warnock Pro optical sizes
+% \end{opentypeexample}
+%
+% Automatic OpenType optical scaling is shown in the following
+% example, in which we've scaled down some large text in order to be
+% able to compare the difference for equivalent font sizes: (this
+% gives the same output as we saw in the previous example for Warnock
+% Pro Display)
+% \begin{opentypeexample}
+%   \fontspec{Warnock Pro}
+%    Automatic optical size                  \\
+%   \scalebox{0.4}{\Huge
+%    Automatic optical size}
+% \end{opentypeexample}
+%
+% The \feat{SizeFeatures} feature (\vref{sec:sizefeature}) can be
+% used to specify exactly which optical sizes will be used for ranges
+% of font size. For example, something like
+% \begin{verbatim}
+%   \fontspec[
+%     SizeFeatures={
+%       {Size=-10,     OpticalSize=8 },
+%       {Size= 10-14,  OpticalSize=10},
+%       {Size= 14-18,  OpticalSize=14},
+%       {Size=    18-, OpticalSize=18}}
+%            ]{Warnock Pro}
+% \end{verbatim}
+%
+% \clearpage
+% \part{OpenType}
+% \label{sec:opentype-features}
+%
+% \section{Introduction}
+%
+% TODO: explain OpenType font features.
+%
+% Some examples of font features have already be seen in previous
+% sections.
+%
+% Multiple options may be given to
+% any feature that accepts non-numerical input, although doing so will
+% not always work. Some options will override others in generally
+% obvious ways; \Verb|Numbers={OldStyle,Lining}| doesn't make much
+% sense because the two options are mutually exclusive, and \XeTeX\
+% will simply use the last option that is specified (in this case
+% using \opt{Lining} over \opt{OldStyle}).
+%
+% If a feature or an option is requested that the font does not have,
+% a warning is given in the console output. As mentioned in \vref{sec:quiet-warnings}
+% these warnings can be suppressed by selecting the \texttt{[quiet]} package option.
+%
+% \section{Complete listing of OpenType font features}
 %
 % \subsection{Ligatures}
 %
@@ -1488,8 +1537,14 @@ This work consists of this file fontspec.dtx
 %
 %
 %
+% \clearpage
+% \part{Fonts and features with \XeTeX}
+% \label{sec:xetex-features}
 %
-% \part{\XeTeX}
+% \section{\XeTeX-only font features}
+%
+% The features described here are available for any font
+% selected by \pkg{fontspec}.
 %
 % \subsection{Mapping}
 %
@@ -1539,33 +1594,6 @@ This work consists of this file fontspec.dtx
 %
 % If values are omitted, their defaults are as shown above.
 %
-% \section{Font-dependent features}  \label{sec:features}
-%
-% This section covers each and every font feature catered for by this
-% package. Some, in fact, have already be seen in previous
-% sections. There are too many to list in this introduction, but for a
-% first taste of what is available, here is an example of the Apple
-% Chancery typeface:
-% \setexsize\Large
-% \begin{aatexample}
-%   \fontspec[
-%     Color=CC00CC,
-%     Numbers=OldStyle,
-%     VerticalPosition=Ordinal,
-%     Variant=2]{Apple Chancery}
-%   My 1st example of\\ Apple Chancery
-% \end{aatexample}
-% Multiple options may be given to
-% any feature that accepts non-numerical input, although doing so will
-% not always work. Some options will override others in generally
-% obvious ways; \Verb|Numbers={OldStyle,Lining}| doesn't make much
-% sense because the two options are mutually exclusive, and \XeTeX\
-% will simply use the last option that is specified (in this case
-% using \opt{Lining} over \opt{OldStyle}).
-%
-% If a feature or an option is requested that the font does not have,
-% a warning is given in the console output. As mentioned in \vref{sec:quiet-warnings}
-% these warnings can be suppressed by selecting the \texttt{[quiet]} package option.
 %
 % \subsection{Different font technologies: \AAT\ and ICU}\label{sec:renderer}
 %
@@ -1592,47 +1620,7 @@ This work consists of this file fontspec.dtx
 %
 % \subsection{Optical font sizes} \label{sec:opticalsize}
 %
-% Optically scaled fonts thicken out as the font size decreases
-% in order to make the glyph shapes more robust (less prone to losing
-% detail), which improves legibility. Conversely, at large optical
-% sizes the serifs and other small details may be more delicately
-% rendered.
-%
-% Optically sized fonts can be seen in either OpenType or Multiple
-% Master varieties. The differences when dealing with these two are
-% quite significant. OpenType fonts with optical scaling will exist in
-% several discrete sizes, and these will be selected by \XeTeX\
-% \emph{automatically} determined by the current font size. The
-% \opt{OpticalSize} option may be used to specify a different optical
-% size.
-%
-% For the OpenType font Warnock Pro, we have three optically sized
-% variants: caption, subhead, and display. With \opt{OpticalSize} set
-% to zero, no optical size font substitution is performed:
-% \begin{opentypeexample}
-%   \fontspec[OpticalSize=0]{Warnock Pro Caption}
-%    Warnock Pro optical sizes                \\
-%   \fontspec[OpticalSize=0]{Warnock Pro}
-%    Warnock Pro optical sizes                \\
-%   \fontspec[OpticalSize=0]{Warnock Pro Subhead}
-%    Warnock Pro optical sizes                \\
-%   \fontspec[OpticalSize=0]{Warnock Pro Display}
-%    Warnock Pro optical sizes
-% \end{opentypeexample}
-%
-% Automatic OpenType optical scaling is shown in the following
-% example, in which we've scaled down some large text in order to be
-% able to compare the difference for equivalent font sizes: (this
-% gives the same output as we saw in the previous example for Warnock
-% Pro Display)
-% \begin{opentypeexample}
-%   \fontspec{Warnock Pro}
-%    Automatic optical size                  \\
-%   \scalebox{0.4}{\Huge
-%    Automatic optical size}
-% \end{opentypeexample}
-%
-% Multiple Master fonts, on the other hand, are parameterised over
+% Multiple Master fonts are parameterised over
 % orthogonal font axes, allowing continuous selection along such
 % features as weight, width, and optical size~(see \vref{sec:mm} for
 % further details). Whereas an OpenType font will have only a few separate
@@ -1650,18 +1638,6 @@ This work consists of this file fontspec.dtx
 %    MM optical size test                    \\
 % \end{Verbatim}
 %
-% The \feat{SizeFeatures} feature (\vref{sec:sizefeature}) can be
-% used to specify exactly which optical sizes will be used for ranges
-% of font size. For example, something like
-% \begin{verbatim}
-%   \fontspec[
-%     SizeFeatures={
-%       {Size=-10,     OpticalSize=8 },
-%       {Size= 10-14,  OpticalSize=10},
-%       {Size= 14-18,  OpticalSize=14},
-%       {Size=    18-, OpticalSize=18}}
-%            ]{Warnock Pro}
-% \end{verbatim}
 %
 %
 %
@@ -2032,7 +2008,7 @@ This work consists of this file fontspec.dtx
 % shown previously in \vref{sec:opticalsize}.
 %
 %
-%
+% \clearpage
 % \part{Programming interface}
 %
 % This is the beginning of some work to provide some hooks that use
@@ -2229,6 +2205,7 @@ This work consists of this file fontspec.dtx
 % \end{macro}
 %
 %  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% %
+% \clearpage
 % \part{The patching/improvement of \LaTeXe\ and other packages}
 % \label{sec:patching}
 %
@@ -5796,6 +5773,7 @@ end
 %<*example>
 % \fi
 %
+% \clearpage
 % \part{Example documents}
 %
 %    \begin{macrocode}

@@ -92,7 +92,7 @@ This work consists of this file fontspec.dtx
 % \section{History}
 %
 % This package began life as a \LaTeX\ interface to select system-installed
-% Mac\,OS\,X fonts in \name{Jonathan Kew}'s \XeTeX, the first widely-used
+% \MacOSX\ fonts in \name{Jonathan Kew}'s \XeTeX, the first widely-used
 % unicode extension to \TeX. Over time, \XeTeX\ was extended to support OpenType
 % fonts and then was ported into a cross-platform program to run also on Windows
 % and Linux.
@@ -785,7 +785,7 @@ This work consists of this file fontspec.dtx
 %   \fillertext
 % \end{example}
 % \endgroup
-% Be careful with the unpredictable things that the AAT font renderer
+% Be careful with the unpredictable things that the \AAT\ font renderer
 % can do with the text! Unlike \TeX, \MacOSX\ will allow
 % fonts to letterspace themselves, which can be seen above; OpenType fonts, however, will not
 % show this tendency, as they do not support this arguably dubious feature.
@@ -1086,7 +1086,7 @@ This work consists of this file fontspec.dtx
 %    ENLARGED Minuscules. \\
 % \end{opentypeexample}
 %
-% (This is a synonym of the \feat{Variant} feature for AAT fonts.)
+% (This is a synonym of the \feat{Variant} feature for \AAT\ fonts.)
 % See \vref{sec:newfeatures} for a way to assign names to stylistic sets,
 % which should be done on a per-font basis.
 %
@@ -1214,7 +1214,7 @@ This work consists of this file fontspec.dtx
 % There have been many standards for how CJK ideographic
 % glyphs are `supposed' to look. Some fonts will contain many alternate
 % glyphs available in order to be able to display these gylphs
-% correctly in whichever form is appropriate. Both AAT and OpenType
+% correctly in whichever form is appropriate. Both \AAT\ and OpenType
 % fonts support the following \feat{CJKShape} options:
 % \opt{Traditional}, \opt{Simplified}, \opt{JIS1978}, \opt{JIS1983},
 % \opt{JIS1990}, and \opt{Expert}. OpenType also supports the \opt{NLC} option.
@@ -1493,7 +1493,7 @@ This work consists of this file fontspec.dtx
 % a warning is given in the console output. As mentioned in \vref{sec:quiet-warnings}
 % these warnings can be suppressed by selecting the \texttt{[quiet]} package option.
 %
-% \subsection{Different font technologies: AAT and ICU}\label{sec:renderer}
+% \subsection{Different font technologies: \AAT\ and ICU}\label{sec:renderer}
 %
 % \XeTeX\ supports two rendering technologies for typesetting, selected with
 % the \feat{Renderer} font feature. The first, \opt{AAT}, is
@@ -1502,7 +1502,7 @@ This work consists of this file fontspec.dtx
 % OpenType features, notably contextual arrangement, over \opt{AAT}.
 %
 % In general, this feature will not need to be explicitly called: for OpenType
-% fonts, the \opt{ICU} renderer is used automatically, and for AAT fonts,
+% fonts, the \opt{ICU} renderer is used automatically, and for \AAT\ fonts,
 % \opt{AAT} is chosen by default. Some fonts, however, will contain font tables
 % for \emph{both} rendering technologies, such as the Hiragino Japanese fonts
 % distributed with \MacOSX, and in these cases the choice may be required.
@@ -1591,32 +1591,36 @@ This work consists of this file fontspec.dtx
 %
 %
 %
-% \part{\XeTeX: Mac\,OS\,X's \textsc{aat} fonts}
+% \section{\MacOSX's \AAT\ fonts}
+% \label{sec:aat-features}
 %
-% Mac\,OS\,X's font technology began life before the ubiquitous-OpenType era
-% and revolved around the Apple-invented `\textsc{aat}' font format. This format
+% \MacOSX's font technology began life before the ubiquitous-OpenType era
+% and revolved around the Apple-invented `\AAT' font format. This format
 % had some advantages (and other disadvantages) but it never became widely
 % popular in the font world.
 %
 % Nonetheless, this is the font format that was first supported by \XeTeX\
-% (due to its pedigree on Mac\,OS\,X in the first place) and was the first
+% (due to its pedigree on \MacOSX\ in the first place) and was the first
 % font format supported by \pkg{fontspec}. A number of fonts distributed with
-% Mac\,OS\,X are still in the \textsc{aat} format, such as `Skia'. Documents
+% \MacOSX\ are still in the \AAT\ format, such as `Skia'. Documents
 % that use these fonts should be compiled with \XeLaTeX\ using the
 % \texttt{xdv2pdf} driver, as opposed to the default \texttt{xdvipdfmx}. E.g.,
 % \begin{verbatim}
 %   xelatex -output-driver="xdv2pdf" filename.tex
 % \end{verbatim}
 %
+% \MacOSX\ also supports Multiple Master fonts, which are discussed
+% in \ref{sec:mm}.
+%
 % \subsection{Ligatures}
 %
 % \feat{Ligatures} refer to the replacement of two separate characters
 % with a specially drawn glyph for functional or \ae sthetic reasons.
-% For AAT fonts, you may choose from any combination of \opt{Required},
+% For \AAT\ fonts, you may choose from any combination of \opt{Required},
 % \opt{Common}, \opt{Rare} (or \opt{Discretionary}), \opt{Logos}, \opt{Rebus},
 % \opt{Diphthong}, \opt{Squared}, \opt{AbbrevSquared}, and \opt{Icelandic}.
 %
-% Some other Apple AAT fonts have those `Rare' ligatures contained in
+% Some other Apple \AAT\ fonts have those `Rare' ligatures contained in
 % the \opt{Icelandic} feature. Notice also that the old \TeX\ trick of
 % splitting up a ligature with an empty brace pair does not work in
 % \XeTeX; you must use a 0\,pt kern or \cs{hbox} (\eg, \cs{null}) to
@@ -1624,14 +1628,14 @@ This work consists of this file fontspec.dtx
 %
 % \subsection{Letters} \label{sec:letters}
 % The \opt{Letters} feature specifies how the letters in the current font
-% will look. For AAT fonts, you may choose from \opt{Normal},
+% will look. For \AAT\ fonts, you may choose from \opt{Normal},
 % \opt{Uppercase}, \opt{Lowercase}, \opt{SmallCaps}, and
 % \opt{InitialCaps}.
 %
 %
 % \subsection{Numbers}
 % The \feat{Numbers} feature defines how numbers will look in the
-% selected font. For both AAT, they may be a
+% selected font. For both \AAT, they may be a
 % combination of \opt{Lining} or \opt{OldStyle} and \opt{Proportional} or
 % \opt{Monospaced} (the latter is good for tabular material). The synonyms
 % \opt{Uppercase} and \opt{Lowercase} are equivalent to \opt{Lining} and
@@ -1641,7 +1645,7 @@ This work consists of this file fontspec.dtx
 % \subsection{Contextuals} \label{sec:contextuals}
 % This feature refers to glyph substitution that vary by their position;
 % things like contextual swashes are implemented here
-% The options for AAT fonts are
+% The options for \AAT\ fonts are
 % \opt{WordInitial}, \opt{WordFinal}, \opt{LineInitial},
 % \opt{LineFinal}, and \opt{Inner} (also called `non-final' sometimes). As
 % non-exclusive selectors, like the ligatures, you can turn them off
@@ -1684,9 +1688,9 @@ This work consists of this file fontspec.dtx
 % Many fonts come with the capability to typeset various forms of
 % fractional material. This is accessed in \pkg{fontspec} with the
 % \feat{Fractions} feature, which may be turned \opt{On} or \opt{Off}
-% in both AAT and OpenType fonts.
+% in both \AAT\ and OpenType fonts.
 %
-% In AAT fonts, the `fraction slash' or solidus character, is
+% In \AAT\ fonts, the `fraction slash' or solidus character, is
 % to be used to create fractions. When \feat{Fractions} are turned
 % \opt{On}, then only pre-drawn fractions will be used.
 % \begin{aatexample}
@@ -1694,7 +1698,7 @@ This work consists of this file fontspec.dtx
 %    1⁄2 \quad 5⁄6 \\ % fraction slash
 %    1/2 \quad 5/6    % regular  slash
 % \end{aatexample}
-% Using the \opt{Diagonal} option (AAT only), the font will attempt
+% Using the \opt{Diagonal} option (\AAT\ only), the font will attempt
 % to create the fraction from superscript and subscript
 % characters. This is shown in the following example:
 % \begin{aatexample}
@@ -1738,7 +1742,7 @@ This work consists of this file fontspec.dtx
 % \subsection{Alternates}
 %
 % Selection of \feat{Alternate}s \emph{again}
-% must be done numerically. Here's an example with an AAT font:
+% must be done numerically. Here's an example with an \AAT\ font:
 % \begin{aatexample}
 %   \fontspec[Alternate=0]{Hoefler Text Italic}
 %    Sphinx Of Black Quartz, {\scshape Judge My Vow} \\
@@ -1751,7 +1755,7 @@ This work consists of this file fontspec.dtx
 %
 % \subsection{Style}
 % The options of the \feat{Style} feature
-% are defined in AAT as one of the following: \opt{Display},
+% are defined in \AAT\ as one of the following: \opt{Display},
 % \opt{Engraved}, \opt{IlluminatedCaps}, \opt{Italic},
 % \opt{Ruby},\footnotemark\ \opt{TallCaps}, or \opt{TitlingCaps}.
 % \footnotetext{`Ruby' refers to a small optical size, used in
@@ -1806,7 +1810,7 @@ This work consists of this file fontspec.dtx
 % There have been many standards for how CJK ideographic
 % glyphs are `supposed' to look. Some fonts will contain many alternate
 % glyphs available in order to be able to display these gylphs
-% correctly in whichever form is appropriate. Both AAT and OpenType
+% correctly in whichever form is appropriate. Both \AAT\ and OpenType
 % fonts support the following \feat{CJKShape} options:
 % \opt{Traditional}, \opt{Simplified}, \opt{JIS1978}, \opt{JIS1983},
 % \opt{JIS1990}, and \opt{Expert}. OpenType also supports the \opt{NLC} option.
@@ -1817,18 +1821,18 @@ This work consists of this file fontspec.dtx
 % These are
 % accessed through the \feat{CharacterWidth} feature.
 %   \note{Apple
-%   seems to be adapting its AAT features in this regard (at least in
+%   seems to be adapting its \AAT\ features in this regard (at least in
 %   the fonts it distributes with \MacOSX) to have a one-to-one
 %   correspondence with the equivalent OpenType features. Previously
-%   AAT was more fine grained, but naturally they're not documenting
-%   their AAT tables any more, so if the following features don't work
+%   \AAT\ was more fine grained, but naturally they're not documenting
+%   their \AAT\ tables any more, so if the following features don't work
 %   for a specific font let me know and I'll try and see if anything
 %   can be salvaged from the situation.}
-% For now, OpenType and AAT
+% For now, OpenType and \AAT\
 % share the same six options for this feature: \opt{Proportional},
 % \opt{Full}, \opt{Half}, \opt{Third},
 % \opt{Quarter}, \opt{AlternateProportional}, and
-% \opt{AlternateHalf}. AAT also allows \opt{Default} to return to
+% \opt{AlternateHalf}. \AAT\ also allows \opt{Default} to return to
 % whatever was originally specified.
 %
 % Japanese alphabetic glyphs (in Hiragana or Katakana) may be typeset
@@ -1901,7 +1905,7 @@ This work consists of this file fontspec.dtx
 % \subsection{Diacritics}
 % Diacritics refer to characters that include extra marks that usually
 % indicate pronunciation; \eg, accented letters. You may either choose
-% to \opt{Show}, \opt{Hide} or \opt{Decompose} them in AAT fonts.
+% to \opt{Show}, \opt{Hide} or \opt{Decompose} them in \AAT\ fonts.
 %
 % Some fonts include |O/| \etc\ as diacritics for writing \O. You'll
 % want to turn this feature off (imagine typing |hello/goodbye| and
@@ -1933,9 +1937,9 @@ This work consists of this file fontspec.dtx
 %    1 2 3 4 5 6 7 8 9
 % \end{aatexample}
 %
-% \subsection{AAT \& Multiple Master font axes} \label{sec:mm}
+% \section{\AAT\ \& Multiple Master font axes} \label{sec:mm}
 %
-% Multiple Master and AAT font specifications both provide continuous
+% Multiple Master and \AAT\ font specifications both provide continuous
 % variation along font parameters. For example, they don't have just
 % regular and bold weights, they can have any bold weight you like between
 % the two extremes.
@@ -1969,7 +1973,7 @@ This work consists of this file fontspec.dtx
 % know.
 %
 % \DescribeMacro{\newAATfeature}
-% New AAT features may be created with this command:\par
+% New \AAT\ features may be created with this command:\par
 % {\centering\cmd\newAATfeature\marg{feature}\marg{option}\marg{feature code}\marg{selector code}\par}\noindent
 % Use the \XeTeX\ file \path{AAT-info.tex} to obtain the code numbers. For example:
 % \begin{aatexample}
@@ -2095,7 +2099,7 @@ This work consists of this file fontspec.dtx
 %
 %
 % \begin{macro}{\fontspec_if_aat_feature:nnTF}
-% Test whether the currently selected font contains the AAT
+% Test whether the currently selected font contains the \AAT\
 % feature (|#1|,|#2|).
 % \end{macro}
 %
@@ -2514,7 +2518,7 @@ This work consists of this file fontspec.dtx
 % \begin{macro}{\fontspec}
 %   This is the main command of the package that
 %   selects fonts with various features. It takes two arguments: the
-%   Mac OS X font name and the optional requested features of that
+%   \MacOSX\ font name and the optional requested features of that
 %   font. It simply runs \cs{zf@fontspec}, which takes the same
 %   arguments as the top level macro and puts the new-fangled font
 %   family name into the global \cmd{\zf@family}. Then this new font
@@ -2874,7 +2878,7 @@ This work consists of this file fontspec.dtx
 %
 %
 % \begin{macro}{\fontspec_if_aat_feature:nnTF}
-% Conditional to test if the currently selected font contains the AAT
+% Conditional to test if the currently selected font contains the \AAT\
 % feature (|#1|,|#2|).
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \fontspec_if_aat_feature:nn {TF,T,F} {
@@ -3385,8 +3389,8 @@ This work consists of this file fontspec.dtx
 % be automatic (based on the font type), or specified by the user via a font feature.
 %
 % This macro sets \cs{zf@atsui} or \cs{zf@icu} or \cs{zf@mm} booleans
-% accordingly depending if the font in \cmd\zf@basefont\ is an AAT
-% font or an OpenType font or a font with feature axes (either AAT or
+% accordingly depending if the font in \cmd\zf@basefont\ is an \AAT\
+% font or an OpenType font or a font with feature axes (either \AAT\ or
 % Multiple Master), respectively.
 %    \begin{macrocode}
 \xetex_or_luatex:nnn { \cs_new:Npn \fontspec_set_font_type: }
@@ -4489,7 +4493,7 @@ This work consists of this file fontspec.dtx
 % \subsubsection{Ligatures}
 % The call to the nested keyval family must be wrapped in braces to
 % hide the parent list (this later requires the use of global
-% definitions (|\xdef|) in |\zf@update@...|). Both AAT and OpenType
+% definitions (|\xdef|) in |\zf@update@...|). Both \AAT\ and OpenType
 % names are offered to chose |Rare|/|Discretionary| ligatures.
 %    \begin{macrocode}
 \zf@define@font@feature{Ligatures}
@@ -4548,7 +4552,7 @@ This work consists of this file fontspec.dtx
 % \subsubsection{Numbers}
 %
 % These were originally separated into \feat{NumberCase} and
-% \feat{NumberSpacing} following AAT, but it makes more sense to
+% \feat{NumberSpacing} following \AAT, but it makes more sense to
 % combine them.
 %
 % Both naming conventions are offered to select the number case.
@@ -5907,6 +5911,7 @@ information.
 \newcommand\note[1]{\unskip\footnote{#1}}
 
 \def\MacOSX{Mac~OS~X}
+\def\AAT{\textsc{aat}}
 \def\LuaTeX{L\kern-0.08emu\kern-0.03ema\kern-0.12em\TeX}
 
 %% (La)TeX font-related declarations:

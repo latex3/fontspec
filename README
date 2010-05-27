@@ -1,66 +1,33 @@
-                        The fontspec package
+---------------------------
+THE FONTSPEC PACKAGE v2.0b1
+
+This is the initial release of the fontspec package with support for LuaTeX.
+(Previously, fontspec was XeTeX-only.)
+
+The fontspec package provides an automatic and unified interface for loading
+fonts in LaTeX. XeTeX and LuaTeX (the latter through the luaotfload package)
+allows a direct interface to fonts which may be loaded by their name rather
+than filename, so no manual font installation is required.
+
+This package also provides access to the large number of font features
+available with AAT and OpenType fonts, including upper and lower case numbers,
+proportional and monospaced numbers, swash letters, ligature control, and many
+others.
+
+This package is developed at GitHub: <http://github.com/wspr/fontspec>
+Please offer suggestions and file bug reports in the issue tracker:
+  <http://github.com/wspr/fontspec/issues>
 
 
-The fontspec package allows users of either XeTeX or LuaTeX to
-load OpenType fonts in a LaTeX document. No font installation is necessary,
-and font features can be selected and used as desired throughout the document.
+LuaTeX requirements
+-------------------
 
-This package is developped on <http://github.com/wspr/fontspec>.
+TeXLive 2010 is recommended for running this package under LuaTeX.
 
-
-Installation
-------------
-
-Here are the recommended installation methods (preferred first).
-
-1. If you are using TeX Live 2008 or later, use 'tlmgr install euenc'.
-Alternatively, try your (TeX or Linux) distribution's package management system.
-
-2. a. Grab euenc.tds.zip on the CTAN.
-   b. Unzip it at the root of one or your TDS trees.
-   c. You may need to update some filename database after, see your TeX
-      distribution's manual for details.
-
-3. a. Grab the sources from CTAN or github.
-   b. Run 'make install TEXMFROOT=/path/to/texmf'.
-   c. See 2c.
-
-4. Try to figure it out by looking at the Makefile and comments in the sources.
-
-5. For LuaTeX support you need luaotfload, it can be installed the same way.
-
-Manifest
---------
-
-Source files:
-        fontspec.dtx               single file source & doc for the package
-
-Derived files:
-        fontspec.pdf.              documentation
-        fontspec.sty               LaTeX style file
-        fontspec.lua               Lua functions for LuaTeX
-        fontspec.cfg               default configuration file
-        fontspec-example.ltx       LaTeX example document
-
-
-
-License
--------
-
-This work is distributed under the LPPL license. The legal notice of all the
-files is:
-
-"
-Copyright 2004--2010 Will Robertson <wspr81@gmail.com>
-Copyright 2009--2010 Khaled Hosny <khaledhosny@eglug.org>
-
-Distributable under the LaTeX Project Public License,
-version 1.3c or higher (your choice). The latest version of
-this license is at: http://www.latex-project.org/lppl.txt
-
-This work is "maintained" (as per LPPL maintenance status)
-by Will Robertson.
-"
+This package requires the luaotfload package in order to load fonts in LuaTeX.
+Version 1.08 or greater is recommended for this release. Please see
+instructions in that package for font setup. That package, in turn, requires
+a version of LuaTeX greater than that shipped with TeX Live 2009.
 
 
 Summary of user commands
@@ -107,3 +74,55 @@ Features can be renamed and feature options can be renamed with
 
     \aliasfontfeature{<current feature>}{<new feature>}
     \aliasfontfeatureoption{<feature>}{<current option>}{<new option>}
+
+
+
+Installation
+------------
+
+Here are the recommended installation methods (preferred first).
+
+1. If you are using TeX Live 2008 or later, use 'tlmgr install fontspec'.
+Alternatively, try your (TeX or Linux) distribution's package management system.
+
+2. a. Grab euenc.tds.zip on the CTAN.
+   b. Unzip it at the root of one or your TDS trees.
+   c. You may need to update some filename database after, see your TeX
+      distribution's manual for details.
+
+3. a. Grab the sources from CTAN or github.
+   b. Run 'make install TEXMFROOT=/path/to/texmf'.
+   c. See 2c.
+
+4. Try to figure it out by looking at the Makefile and comments in the sources.
+
+5. For LuaTeX support you need luaotfload, it can be installed the same way.
+
+
+Manifest
+--------
+
+Source files:
+        fontspec.dtx               single file source & doc for the package
+
+Derived files:
+        fontspec.pdf.              documentation
+        fontspec.sty               LaTeX style file
+        fontspec.lua               Lua functions for LuaTeX
+        fontspec.cfg               default configuration file
+        fontspec-example.ltx       LaTeX example document
+
+
+License
+-------
+
+Copyright 2004--2010 Will Robertson <wspr81@gmail.com>
+Copyright 2009--2010 Khaled Hosny <khaledhosny@eglug.org>
+
+Distributable under the LaTeX Project Public License,
+version 1.3c or higher (your choice). The latest version of
+this license is at: http://www.latex-project.org/lppl.txt
+
+This work is "maintained" (as per LPPL maintenance status)
+by Will Robertson.
+

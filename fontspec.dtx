@@ -472,7 +472,7 @@ This work consists of this file fontspec.dtx
 % \end{Verbatim}
 %
 % All of the bold, italic, and small caps fonts can be loaded with different
-% font features from the main font. See \secref{bfit-feat} for details.
+% font features from the main font. See \ref{bfit-feat} for details.
 %
 % \subsection{Math(s) fonts}
 %
@@ -2230,28 +2230,28 @@ This work consists of this file fontspec.dtx
 %
 %  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% %
 % \part{The patching/improvement of \LaTeXe\ and other packages}
-% \seclabel{patching}
+% \label{sec:patching}
 %
 % Derived originally from xltxtra, this package contains patches to various
 % \LaTeX\ components and third-party packages to improve the default
 % behaviour.
 %
-% \subsection{Inner emphasis}
-% \seclabel{emph}
+% \section{Inner emphasis}
+% \label{sec:emph}
 %
 % \pkg{fixltx2e}'s method for checking for ``inner'' emphasis is a little fragile in \XeTeX, because
 % font slant information might be missing from the font. Therefore, we use \LaTeX's NFSS
 % information, which is more likely to be correct.
 %
-% \subsection{Unicode footnote symbols}
+% \section{Unicode footnote symbols}
 % By default \LaTeX\ defines symbolic footnote characters in terms of commands 
 % that don't resolve well; better results can be achieved by using specific unicode characters or proper LICRs with the \pkg{xunicode} package.
 %
 % This problem has been solved by loading the 
 % \pkg{fixltx2e} and \pkg{xunicode} packages in \pkg{xltxtra}.
 %
-% \subsection{Verbatim}
-% \seclabel{verb}
+% \section{Verbatim}
+% \label{sec:verb}
 %
 % Many verbatim mechanisms assume the existence of a `visible space' character that exists in the \textsc{ascii} space slot of the typewriter font. This character is known in unicode as \unichar{2434}{box open}, which looks like this: `\verb*| |'.
 %
@@ -2260,8 +2260,8 @@ This work consists of this file fontspec.dtx
 %
 % In the case that the typewriter font does not contain `\verb*| |', the Latin Modern Mono font is used as a fallback. 
 %
-% \subsection{Discrectionary hyphenation: \cmd\-}
-% \seclabel{hyphen}
+% \section{Discrectionary hyphenation: \cmd\-}
+% \label{sec:hyphen}
 %
 % \LaTeX\ defines the macro \cmd\-\ to insert discretionary hyphenation points.
 % However, it is hard-coded in \LaTeX\ to use the hyphen |-| character. Since \pkg{fontspec}

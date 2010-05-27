@@ -3,22 +3,22 @@
 NAME = fontspec
 DOC = $(NAME).pdf
 DTX = $(NAME).dtx
+INS = $(NAME).ins
 
 # Files grouped by generation mode
 COMPILED = $(DOC)
 UNPACKED = fontspec.sty fontspec-patches.sty fontspec.lua fontspec.cfg fontspec-luatex.tex fontspec-xetex.tex
-SOURCE = $(DTX) Makefile
+SOURCE = $(DTX) $(INS) Makefile README
 GENERATED = $(COMPILED) $(UNPACKED)
 
 # Files grouped by installation location
 UNPACKED_DOC = fontspec-luatex.tex fontspec-xetex.tex
+
 RUNFILES = $(filter-out $(UNPACKED_DOC), $(UNPACKED))
 DOCFILES = $(DOC) README $(UNPACKED_DOC)
-SRCFILES = $(DTX) Makefile
+SRCFILES = $(DTX) $(INS) Makefile
 
-# The following definitions should be equivalent
-# ALL_FILES = $(RUNFILES) $(DOCFILES) $(SRCFILES)
-ALL_FILES = $(GENERATED) $(SOURCE)
+ALL_FILES = $(RUNFILES) $(DOCFILES) $(SRCFILES)
 
 # Installation locations
 FORMAT = latex

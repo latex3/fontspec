@@ -83,8 +83,7 @@ manifest:
 	@for f in $(GENERATED); do echo $$f; done
 
 clean:
-	@$(RM) -- *.log *.aux *.toc *.idx *.ind *.ilg *.glo *.example
-
-mrproper: clean
+	@$(RM) -- *.log *.aux *.toc *.idx *.ind *.ilg *.glo *.gls *.example *.out *.synctex* *.tmp fontspec-style.sty *.ins fontspec*.pdf
 	@$(RM) -- $(GENERATED) $(ZIPS)
+
 

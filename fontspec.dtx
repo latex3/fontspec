@@ -1,8 +1,6 @@
 % \iffalse
 %<*internal>
 \begingroup
-%</internal>
-%<*batchfile>
 \input docstrip.tex
 \keepsilent
 \usedir{tex/latex/fontspec}
@@ -32,26 +30,28 @@ This work consists of this file fontspec.dtx
           and the derived files fontspec.sty,
                                 fontspec.lua,
                                 fontspec.cfg,
-                                fontspec.ins,
                                 fontspec-xetex.tex,
                                 fontspec-luatex.tex,
                             and fontspec.pdf.
 
 \endpostamble
 \askforoverwritefalse
+
 \def\MetaPrefix{-- }
 \generate{\file{fontspec.lua}          {\from{fontspec.dtx}{lua}}}
+
 \let\MetaPrefix\DoubleperCent
 \generate{\file{fontspec.sty}          {\from{fontspec.dtx}{fontspec}}}
 \generate{\file{fontspec-patches.sty}  {\from{fontspec.dtx}{patches}}}
+
 \nopreamble\nopostamble
 \generate{\file{fontspec.cfg}          {\from{fontspec.dtx}{cfg}}}
 \generate{\file{fontspec-xetex.tex}    {\from{fontspec.dtx}{example,xetex}}}
 \generate{\file{fontspec-luatex.tex}   {\from{fontspec.dtx}{example,luatex}}}
-%</batchfile>
-%<batchfile>\endbatchfile
-%<*internal>
-\generate{\file{fontspec.ins}          {\from{fontspec.dtx}{batchfile}}}
+
+\def\tmpa{plain}
+\ifx\tmpa\fmtname\endgroup\expandafter\bye\fi
+
 \generate{\file{fontspec-style.sty}    {\from{fontspec.dtx}{doc-style}}}
 \endgroup
 %</internal>

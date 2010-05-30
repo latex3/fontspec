@@ -32,6 +32,7 @@ TDS_ZIP = $(NAME).tds.zip
 ZIPS = $(CTAN_ZIP) $(TDS_ZIP)
 
 DO_PDFLATEX = pdflatex --interaction=batchmode $< >/dev/null
+DO_TEX = tex --interaction=batchmode $< >/dev/null
 DO_MAKEINDEX = makeindex -s gind.ist $(subst .dtx,,$<) >/dev/null 2>&1
 
 all: $(GENERATED)
@@ -48,7 +49,7 @@ $(COMPILED): $(DTX)
 	$(DO_PDFLATEX)
 
 $(UNPACKED): $(DTX)
-	$(DO_PDFLATEX)
+	$(DO_TEX)
 
 $(CTAN_ZIP): $(SOURCE) $(COMPILED) $(TDS_ZIP)
 	@echo "Making $@ for CTAN upload."

@@ -1,5 +1,6 @@
----------------------------
-THE FONTSPEC PACKAGE v2.0b1
+
+THE FONTSPEC PACKAGE v2.0b2
+===========================
 
 This is the initial release of the fontspec package with support for LuaTeX.
 (Previously, fontspec was XeTeX-only.)
@@ -14,9 +15,17 @@ available with AAT and OpenType fonts, including upper and lower case numbers,
 proportional and monospaced numbers, swash letters, ligature control, and many
 others.
 
-This package is developed at GitHub: <http://github.com/wspr/fontspec>
+Release versions of fontspec are available from CTAN:
+
+  http://tug.ctan.org/pkg/fontspec
+  
+Development and historical versions are available from Github:
+
+  http://github.com/wspr/fontspec
+  
 Please offer suggestions and file bug reports in the issue tracker:
-  <http://github.com/wspr/fontspec/issues>
+
+  http://github.com/wspr/fontspec/issues
 
 
 LuaTeX requirements
@@ -80,23 +89,46 @@ Features can be renamed and feature options can be renamed with
 Installation
 ------------
 
-Here are the recommended installation methods (preferred first).
+If you are running TeX Live 2010, you can get the latest version
+of this package by running
 
-1. If you are using TeX Live 2008 or later, use 'tlmgr install fontspec'.
-Alternatively, try your (TeX or Linux) distribution's package management system.
+    tlmgr install fontspec
 
-2. a. Grab euenc.tds.zip on the CTAN.
-   b. Unzip it at the root of one or your TDS trees.
-   c. You may need to update some filename database after, see your TeX
-      distribution's manual for details.
+  * * *
 
-3. a. Grab the sources from CTAN or github.
-   b. Run 'make install TEXMFROOT=/path/to/texmf'.
-   c. See 2c.
+If you wish to download the latest release version from CTAN, get
+the pre-built TDS package and extract it in your local texmf tree:
 
-4. Try to figure it out by looking at the Makefile and comments in the sources.
+    http://mirror.ctan.org/install/macros/latex/contrib/fontspec.tds.zip
 
-5. For LuaTeX support you need luaotfload, it can be installed the same way.
+  * * *
+
+If you wish to use the latest development version from Github,
+either use git to obtain the bleeding edge version with
+
+    git clone git://github.com/wspr/fontspec.git
+
+or if you don't have git you can download it from
+
+    http://github.com/wspr/fontspec/zipball/master
+
+Having obtained the package from Github, run
+
+    tex fontspec.dtx
+
+to extract the source then and move the necessary files into your
+local texmf tree. The documentation can be compiled by running
+
+    pdflatex fontspec.dtx
+
+These steps are automated in the Makefile; run
+
+    make install
+
+to compile the documentation and install all necessary files in your
+local texmf tree. Depending how your TeX distribution is configured
+you may then need to update the filename database with `texhash`.
+
 
 
 Manifest
@@ -104,13 +136,16 @@ Manifest
 
 Source files:
         fontspec.dtx               single file source & doc for the package
+        Makefile                   script for extracting and installing
 
 Derived files:
-        fontspec.pdf.              documentation
+        fontspec.pdf               documentation
         fontspec.sty               LaTeX style file
         fontspec.lua               Lua functions for LuaTeX
         fontspec.cfg               default configuration file
-        fontspec-example.ltx       LaTeX example document
+        fontspec-xetex.tex         example file for XeTeX
+        fontspec-luatex.tex        example file for LuaTeX
+
 
 
 License

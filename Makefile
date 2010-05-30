@@ -5,6 +5,10 @@ DOC = $(NAME).pdf
 DTX = $(NAME).dtx
 INS = $(NAME).ins
 
+# Rename the README for CTAN
+README: README.markdown
+	cp $< $@
+
 # Files grouped by generation mode
 COMPILED = $(DOC)
 UNPACKED = fontspec.sty fontspec-patches.sty fontspec.lua fontspec.cfg fontspec-luatex.tex fontspec-xetex.tex

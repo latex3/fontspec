@@ -25,7 +25,7 @@ FORMAT = latex
 RUNDIR = $(TEXMFROOT)/tex/$(FORMAT)/$(NAME)
 DOCDIR = $(TEXMFROOT)/doc/$(FORMAT)/$(NAME)
 SRCDIR = $(TEXMFROOT)/source/$(FORMAT)/$(NAME)
-TEXMFROOT = ./texmf
+TEXMFROOT = `kpsewhich --expand-path='$$TEXMFHOME'`
 
 CTAN_ZIP = $(NAME).zip
 TDS_ZIP = $(NAME).tds.zip

@@ -76,7 +76,7 @@ README: README.markdown
 .PHONY: install manifest clean mrproper
 
 install: $(ALL_FILES)
-	@if [ "$(TEXMFROOT)" == "" ] ; then \
+	@if test ! -n "$(TEXMFROOT)" ; then \
 		echo "Cannot locate your home texmf tree. Specify manually with\n\n    make install TEXMFROOT=/path/to/texmf\n" ; \
 		false ; \
 	fi ;

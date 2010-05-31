@@ -3,16 +3,11 @@
 NAME = fontspec
 DOC = $(NAME).pdf
 DTX = $(NAME).dtx
-INS = $(NAME).ins
-
-# Rename the README for CTAN
-README: README.markdown
-	cp $< $@
 
 # Files grouped by generation mode
 COMPILED = $(DOC)
 UNPACKED = fontspec.sty fontspec-patches.sty fontspec.lua fontspec.cfg fontspec-luatex.tex fontspec-xetex.tex
-SOURCE = $(DTX) $(INS) Makefile README
+SOURCE = $(DTX) Makefile README
 GENERATED = $(COMPILED) $(UNPACKED)
 
 # Files grouped by installation location
@@ -20,7 +15,7 @@ UNPACKED_DOC = fontspec-luatex.tex fontspec-xetex.tex
 
 RUNFILES = $(filter-out $(UNPACKED_DOC), $(UNPACKED))
 DOCFILES = $(DOC) README $(UNPACKED_DOC)
-SRCFILES = $(DTX) $(INS) Makefile
+SRCFILES = $(DTX) Makefile
 
 ALL_FILES = $(RUNFILES) $(DOCFILES) $(SRCFILES)
 
@@ -29,7 +24,7 @@ FORMAT = latex
 RUNDIR = $(TEXMFROOT)/tex/$(FORMAT)/$(NAME)
 DOCDIR = $(TEXMFROOT)/doc/$(FORMAT)/$(NAME)
 SRCDIR = $(TEXMFROOT)/source/$(FORMAT)/$(NAME)
-TEXMFROOT = `kpsewhich --expand-path='$$TEXMFHOME'`
+TEXMFROOT = $(shell kpsewhich --var-value TEXMFHOME)
 
 CTAN_ZIP = $(NAME).zip
 TDS_ZIP = $(NAME).tds.zip
@@ -74,9 +69,17 @@ $(TDS_ZIP): $(ALL_FILES)
 	@cd $(TEXMFROOT) && zip -9 ../$@ -r . >/dev/null
 	@$(RM) -r -- $(TEXMFROOT)
 
+# Rename the README for CTAN
+README: README.markdown
+	cp $< $@
+
 .PHONY: install manifest clean mrproper
 
 install: $(ALL_FILES)
+	@if [ "$(TEXMFROOT)" == "" ] ; then \
+		echo "Cannot locate your home texmf tree. Specify manually with\n\n    make install TEXMFROOT=/path/to/texmf\n" ; \
+		false ; \
+	fi ;
 	@echo "Installing in '$(TEXMFROOT)'."
 	$(run-install)
 

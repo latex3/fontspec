@@ -2494,6 +2494,10 @@ This work consists of this file fontspec.dtx
 {
   Adjusting~ the~ maths~ setup~ (use~ [no-math]~ to~ avoid~ this).
 }
+\msg_new:nnn {fontspec} {no-scripts}
+{
+  Font~ \zf@fontname~ does not contain any OpenType `Script' information.
+}
 %    \end{macrocode}
 %
 % \subsection{Option processing}
@@ -3216,8 +3220,26 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
   \zf@firsttimetrue
     \ifzf@icu
-      \fontspec_setkeys:xxx {feat} {Script} {\l_fontspec_script_name_tl}
-      \fontspec_setkeys:xxx {feat} {Lang}   {\l_fontspec_lang_name_tl}
+      \tl_if_empty:NTF \l_fontspec_script_name_tl {
+        \fontspec_check_script:nTF {latn}
+        {
+          \tl_set:Nn \l_fontspec_script_name_tl {Latin}
+          \tl_set:Nn \l_fontspec_script_tl      {latn}
+          \tl_if_empty:NT \l_fontspec_lang_tl {
+            \tl_set:Nn \l_fontspec_lang_name_tl {Default}
+            \tl_set:Nn \l_fontspec_lang_tl      {DFLT}
+          }
+          \fontspec_setkeys:xxx {feat} {Script} {\l_fontspec_script_name_tl}
+          \fontspec_setkeys:xxx {feat} {Lang}   {\l_fontspec_lang_name_tl}
+        }
+        {
+          \fontspec_info:n {no-scripts}
+        }
+      }
+      {
+        \fontspec_setkeys:xxx {feat} {Script} {\l_fontspec_script_name_tl}
+        \fontspec_setkeys:xxx {feat} {Lang}   {\l_fontspec_lang_name_tl}
+      }
     \fi
     \fontspec_get_features:n{\zf@font@feat}
   \zf@firsttimefalse
@@ -3612,14 +3634,20 @@ This work consists of this file fontspec.dtx
 \xetex_or_luatex:nnn { \tl_set:Nn \l_fontspec_pre_feat_tl }
   {
     \ifzf@icu
-      script   = \l_fontspec_script_tl ;
-      language = \l_fontspec_lang_tl   ;
+      \tl_if_empty:NF \l_fontspec_script_tl
+      {
+        script   = \l_fontspec_script_tl ;
+        language = \l_fontspec_lang_tl   ;
+      }
     \fi
   }
   {
     mode     = \l_fontspec_mode_tl   ;
-    script   = \l_fontspec_script_tl ;
-    language = \l_fontspec_lang_tl   ;
+    \tl_if_empty:NF \l_fontspec_script_tl
+    {
+      script   = \l_fontspec_script_tl ;
+      language = \l_fontspec_lang_tl   ;
+    }
   }
 %    \end{macrocode}
 % \end{macro}
@@ -3681,6 +3709,10 @@ This work consists of this file fontspec.dtx
 \tl_clear:N \zf@sl@feat
 \tl_clear:N \zf@bfsl@feat
 \tl_clear:N \zf@sc@feat
+\tl_clear:N \l_fontspec_script_name_tl
+\tl_clear:N \l_fontspec_script_tl
+\tl_clear:N \l_fontspec_lang_name_tl
+\tl_clear:N \l_fontspec_lang_tl
 \clist_clear:N \l_fontspec_sizefeat_clist
 %    \end{macrocode}
 % Or once per fontspec font invocation:
@@ -3692,10 +3724,6 @@ This work consists of this file fontspec.dtx
   \cs_set_eq:NN \fontspec_namewrap:n \use:n
   \tl_clear:N \l_fontspec_optical_size_tl
   \tl_clear:N \l_fontspec_renderer_tl
-  \tl_set:Nn \l_fontspec_script_name_tl {Latin}
-  \tl_set:Nn \l_fontspec_script_tl      {latn}
-  \tl_set:Nn \l_fontspec_lang_name_tl {Default}
-  \tl_set:Nn \l_fontspec_lang_tl      {DFLT}
   \luatex_if_engine:T {
     \tl_set:Nn \l_fontspec_mode_tl {node}
     \luatexprehyphenchar   =`\-  % fixme

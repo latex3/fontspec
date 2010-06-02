@@ -3782,8 +3782,10 @@ This work consists of this file fontspec.dtx
 % necessary.
 %    \begin{macrocode}
 \cs_new:Npn \sclist_put_right:Nn #1#2 {
-  \tl_if_empty:NT #1 {
-    
+  \tl_if_empty:NTF #1 {
+    \tl_set:Nn #1 {#2}
+  }{
+    \tl_put_right:Nn #1 {;#2}
   }
 }
 %    \end{macrocode}

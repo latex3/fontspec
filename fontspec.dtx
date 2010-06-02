@@ -62,7 +62,7 @@ This work consists of this file fontspec.dtx
 %<fontspec>\ProvidesPackage{fontspec}
 %<patches>\ProvidesPackage{fontspec-patches}
 %<*fontspec|patches>
-  [2010/05/27 v2.0b2 Advanced font selection for XeLaTeX/LuaLaTeX]
+  [2010/06/02 v2.0b2 Advanced font selection for XeLaTeX/LuaLaTeX]
 %</fontspec|patches>
 %
 %<*driver>
@@ -2582,8 +2582,8 @@ This work consists of this file fontspec.dtx
 %   family is selected.
 %    \begin{macrocode}
 \DeclareDocumentCommand \fontspec { O{} m } {
-  \fontspec_select:nn{#1}{#2}
-  \fontfamily\zf@family\selectfont
+  \fontspec_set_family:Nnn \f@family {#1}{#2}
+  \selectfont
   \ignorespaces
 }
 %    \end{macrocode}
@@ -2600,18 +2600,15 @@ This work consists of this file fontspec.dtx
 %     used in the document, the change registers immediately.
 %    \begin{macrocode}
 \DeclareDocumentCommand \setmainfont { O{} m } {
-  \fontspec_select:nn{#1}{#2}
-  \tl_set_eq:NN \rmdefault \zf@family
+  \fontspec_set_family:Nnn \rmdefault {#1}{#2}
   \normalfont
 }
 \DeclareDocumentCommand \setsansfont { O{} m } {
-  \fontspec_select:nn{#1}{#2}
-  \tl_set_eq:NN \sfdefault \zf@family
+  \fontspec_set_family:Nnn \sfdefault {#1}{#2}
   \normalfont
 }
 \DeclareDocumentCommand \setmonofont { O{} m } {
-  \fontspec_select:nn{#1}{#2}
-  \tl_set_eq:NN \ttdefault \zf@family
+  \fontspec_set_family:Nnn \ttdefault {#1}{#2}
   \normalfont
 }
 %    \end{macrocode}
@@ -2638,20 +2635,16 @@ This work consists of this file fontspec.dtx
 % fonts should be used in \cmd\boldmath.
 %    \begin{macrocode}
 \DeclareDocumentCommand \setmathrm { O{} m } {
-  \fontspec_select:nn{#1}{#2}
-  \let\zf@rmmaths\zf@family
+  \fontspec_set_family:Nnn \zf@rmmaths {#1}{#2}
 }
 \DeclareDocumentCommand \setboldmathrm { O{} m } {
-  \fontspec_select:nn{#1}{#2}
-  \let\zf@rmboldmaths\zf@family
+  \fontspec_set_family:Nnn \zf@rmboldmaths {#1}{#2}
 }
 \DeclareDocumentCommand \setmathsf { O{} m } {
-  \fontspec_select:nn{#1}{#2}
-  \let\zf@sfmaths\zf@family
+  \fontspec_set_family:Nnn \zf@sfmaths {#1}{#2}
 }
 \DeclareDocumentCommand \setmathtt { O{} m } {
-  \fontspec_select:nn{#1}{#2}
-  \let\zf@ttmaths\zf@family
+  \fontspec_set_family:Nnn \zf@ttmaths {#1}{#2}
 }
 \@onlypreamble\setmathrm
 \@onlypreamble\setboldmathrm
@@ -2678,7 +2671,7 @@ This work consists of this file fontspec.dtx
 %   \cs{zf@fontspec} is inefficient because it must parse the
 %   option arguments every time.
 %
-%   \cs{zf@fontspec} defines a font family and saves its name in
+%   \cs{fontspec_select:nn} defines a font family and saves its name in
 %   \cs{zf@family}. This family is then used in a typical NFSS \cmd\fontfamily\
 %   declaration, saved in the macro name specified.
 %    \begin{macrocode}
@@ -3149,12 +3142,34 @@ This work consists of this file fontspec.dtx
 \cs_generate_variant:Nn \tl_if_eq:nnTF {nv}
 %    \end{macrocode}
 %
+% \begin{macro}{\fontspec_set_family:Nnn}
+% \darg{family}
+% \darg{fontspec features}
+% \darg{font name}
+% Defines a new font family from given \meta{features} and \meta{font},
+% and stores the name in the variable \meta{family}.
+% See the standard \pkg{fontspec} user commands for applications of this
+% function.
+%
+% We want to store the actual name of the font family within the \meta{family}
+% variable because the actual \LaTeX\ family name is automatically generated
+% by fontspec and it's easier to keep it that way.
+%    \begin{macrocode}
+\cs_new:Npn \fontspec_set_family:Nnn #1#2#3 {
+  \fontspec_select:nn {#2}{#3}
+  \tl_set_eq:NN #1 \zf@family
+}
+%    \end{macrocode}
+% \end{macro}
 %
 % \subsection{Internal macros}
 % \label{sec:codeinternal}
 %
 % The macros from here in are used internally by all those defined above.
 % They are not designed to remain consistent between versions.
+%
+%
+%
 %
 % \begin{macro}{\fontspec_select:nn}
 % This is the command that defines font families for use, the underlying

@@ -3713,6 +3713,8 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \tl_clear:N \zf@bf
 \tl_clear:N \zf@it
+\tl_clear:N \zf@fake@bf
+\tl_clear:N \zf@fake@it
 \tl_clear:N \zf@bfit
 \tl_clear:N \zf@sl
 \tl_clear:N \zf@bfsl
@@ -4581,6 +4583,7 @@ This work consists of this file fontspec.dtx
 %    \end{macrocode}
 %
 % \subsubsection{Font transformations}
+% These are to be specified to apply directly to a font shape:
 %    \begin{macrocode}
 \define@key[zf]{options}{FakeSlant}{
   \zf@update@family{+slant:#1}
@@ -4593,6 +4596,20 @@ This work consists of this file fontspec.dtx
 \define@key[zf]{options}{FakeBold}{
   \zf@update@family{+embolden:#1}
   \zf@update@ff{embolden=#1}
+}
+%    \end{macrocode}
+% These are to be given to a shape that has no real bold/italic
+% to signal that \pkg{fontspec} should automatically create `fake' shapes.
+%    \begin{macrocode}
+\define@key[zf]{options}{AutoFakeSlant}{
+  \tl_put_right:Nn \zf@it@feat {,FakeSlant=#1}
+  \tl_set_eq:NN \zf@it \zf@fontname
+  \zf@update@family{fakeit:#1}
+}
+\define@key[zf]{options}{AutoFakeBold}{
+  \tl_put_right:Nn \zf@bf@feat {,FakeBold=#1}
+  \tl_set_eq:NN \zf@bf \zf@fontname
+  \zf@update@family{fakebf:#1}
 }
 %    \end{macrocode}
 %

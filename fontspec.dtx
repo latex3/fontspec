@@ -2218,6 +2218,16 @@ This work consists of this file fontspec.dtx
 % OpenType language tag |#1|.
 % \end{macro}
 %
+% \begin{macro}{\fontspec_set_family:Nnn}
+% \darg{family}
+% \darg{fontspec features}
+% \darg{font name}
+% Defines a new font family from given \meta{features} and \meta{font},
+% and stores the name in the variable \meta{family}.
+% See the standard \pkg{fontspec} user commands for applications of this
+% function.
+% \end{macro}
+%
 %  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% %
 % \clearpage
 % \part{The patching/improvement of \LaTeXe\ and other packages}
@@ -2235,7 +2245,7 @@ This work consists of this file fontspec.dtx
 % information, which is more likely to be correct.
 %
 % \section{Unicode footnote symbols}
-% By default \LaTeX\ defines symbolic footnote characters in terms of commands 
+% By default \LaTeX\ defines symbolic footnote characters in terms of commands
 % that don't resolve well; better results can be achieved by using specific unicode characters or proper LICRs with the \pkg{xunicode} package.
 %
 % This problem has been solved by loading the 

@@ -62,7 +62,7 @@ This work consists of this file fontspec.dtx
 %<fontspec>\ProvidesPackage{fontspec}
 %<patches>\ProvidesPackage{fontspec-patches}
 %<*fontspec|patches>
-  [2010/06/02 v2.0b2 Advanced font selection for XeLaTeX/LuaLaTeX]
+  [2010/06/03 v2.0b2 Advanced font selection for XeLaTeX/LuaLaTeX]
 %</fontspec|patches>
 %
 %<*driver>
@@ -2556,7 +2556,7 @@ This work consists of this file fontspec.dtx
 % designed to incorporate the hidden but useful parts of the old \pkg{xltxtra}
 % package.
 %    \begin{macrocode}
-\luatex_if_engine:T { \RequirePackage{fontspec-patches} }
+\RequirePackage{fontspec-patches}
 %    \end{macrocode}
 %
 %

@@ -3713,8 +3713,8 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \tl_clear:N \zf@bf
 \tl_clear:N \zf@it
-\tl_clear:N \zf@fake@bf
-\tl_clear:N \zf@fake@it
+\tl_clear:N \zf@fake@slant
+\tl_clear:N \zf@fake@embolden
 \tl_clear:N \zf@bfit
 \tl_clear:N \zf@sl
 \tl_clear:N \zf@bfsl
@@ -4600,16 +4600,43 @@ This work consists of this file fontspec.dtx
 %    \end{macrocode}
 % These are to be given to a shape that has no real bold/italic
 % to signal that \pkg{fontspec} should automatically create `fake' shapes.
+%
+% The behaviour is currently that only if both \opt{AutoFakeSlant} \emph{and}
+% \opt{AutoFakeBold} are specified, the bold italic is also faked.
+%
+% These features presently \emph{override} real shapes found in the font;
+% in the future I'd like these features to be ignored in this case, instead.
+% (This is just a bit harder to program in the current design of
+% \pkg{fontspec})
 %    \begin{macrocode}
 \define@key[zf]{options}{AutoFakeSlant}{
-  \tl_put_right:Nn \zf@it@feat {,FakeSlant=#1}
-  \tl_set_eq:NN \zf@it \zf@fontname
-  \zf@update@family{fakeit:#1}
+  \ifzf@firsttime
+    \tl_set:Nn \zf@fake@slant {#1}
+    \tl_put_right:Nn \zf@it@feat {,FakeSlant=#1}
+    \tl_set_eq:NN \zf@it \zf@fontname
+    \zf@update@family{fakeit:#1}
+    \tl_if_empty:NF \zf@fake@embolden {
+      \tl_put_right:Nx \zf@bfit@feat
+        {,FakeBold=\zf@fake@embolden,FakeSlant=#1}
+      \tl_set_eq:NN \zf@bfit \zf@fontname
+    }
+  \fi
 }
+%    \end{macrocode}
+% Same but reversed:
+%    \begin{macrocode}
 \define@key[zf]{options}{AutoFakeBold}{
-  \tl_put_right:Nn \zf@bf@feat {,FakeBold=#1}
-  \tl_set_eq:NN \zf@bf \zf@fontname
-  \zf@update@family{fakebf:#1}
+  \ifzf@firsttime
+    \tl_set:Nn \zf@fake@embolden {#1}
+    \tl_put_right:Nn \zf@bf@feat {,FakeBold=#1}
+    \tl_set_eq:NN \zf@bf \zf@fontname
+    \zf@update@family{fakebf:#1}
+    \tl_if_empty:NF \zf@fake@slant {
+      \tl_put_right:Nx \zf@bfit@feat
+        {,FakeSlant=\zf@fake@slant,FakeBold=#1}
+      \tl_set_eq:NN \zf@bfit \zf@fontname
+    }
+  \fi
 }
 %    \end{macrocode}
 %

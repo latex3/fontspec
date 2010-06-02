@@ -1577,7 +1577,7 @@ This work consists of this file fontspec.dtx
 %
 % \subsection{Font transformations}
 %
-% In rare situations users may want to mechanically distort the shapes of the glyphs in the current font. Please don't overuse these features; they can be extremely ugly if overused.
+% In rare situations users may want to mechanically distort the shapes of the glyphs in the current font. Please don't overuse these features; they are \emph{not} a good alternative to having the real shapes.
 %
 % \begin{example}
 %   \fontspec{Charis SIL} \emph{ABCxyz} \quad
@@ -1595,6 +1595,18 @@ This work consists of this file fontspec.dtx
 % \end{example}
 %
 % If values are omitted, their defaults are as shown above.
+%
+% If you want the bold shape to be faked automatically, or the italic shape
+% to be slanted automatically, use the \feat{AutoFakeBold} and
+% \feat{AutoFakeSlant} features. For example, the following two invocations
+% are equivalent:
+% \begin{verbatim}
+%   \fontspec[AutoFakeBold=1.5]{Charis SIL}
+%   \fontspec[BoldFeatures={FakeBold=1.5}]{Charis SIL}
+% \end{verbatim}
+%
+% If bolh of the \feat{AutoFake...} features are used, then the bold italic
+% font will also be faked.
 %
 %
 % \subsection{Different font technologies: \AAT\ and ICU}\label{sec:renderer}
@@ -4585,15 +4597,15 @@ This work consists of this file fontspec.dtx
 % \subsubsection{Font transformations}
 % These are to be specified to apply directly to a font shape:
 %    \begin{macrocode}
-\define@key[zf]{options}{FakeSlant}{
+\define@key[zf]{options}{FakeSlant}[0.2]{
   \zf@update@family{+slant:#1}
   \zf@update@ff{slant=#1}
 }
-\define@key[zf]{options}{FakeStretch}{
+\define@key[zf]{options}{FakeStretch}[1.2]{
   \zf@update@family{+extend:#1}
   \zf@update@ff{extend=#1}
 }
-\define@key[zf]{options}{FakeBold}{
+\define@key[zf]{options}{FakeBold}[1.5]{
   \zf@update@family{+embolden:#1}
   \zf@update@ff{embolden=#1}
 }
@@ -4609,7 +4621,7 @@ This work consists of this file fontspec.dtx
 % (This is just a bit harder to program in the current design of
 % \pkg{fontspec})
 %    \begin{macrocode}
-\define@key[zf]{options}{AutoFakeSlant}{
+\define@key[zf]{options}{AutoFakeSlant}[0.2]{
   \ifzf@firsttime
     \tl_set:Nn \zf@fake@slant {#1}
     \tl_put_right:Nn \zf@it@feat {,FakeSlant=#1}
@@ -4625,7 +4637,7 @@ This work consists of this file fontspec.dtx
 %    \end{macrocode}
 % Same but reversed:
 %    \begin{macrocode}
-\define@key[zf]{options}{AutoFakeBold}{
+\define@key[zf]{options}{AutoFakeBold}[1.5]{
   \ifzf@firsttime
     \tl_set:Nn \zf@fake@embolden {#1}
     \tl_put_right:Nn \zf@bf@feat {,FakeBold=#1}

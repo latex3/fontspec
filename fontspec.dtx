@@ -3176,6 +3176,9 @@ This work consists of this file fontspec.dtx
 % We want to store the actual name of the font family within the \meta{family}
 % variable because the actual \LaTeX\ family name is automatically generated
 % by fontspec and it's easier to keep it that way.
+%
+% Please use |\fontspec_set_family:Nnn| instead of |\fontspec_select:nn|,
+% which may change in the future.
 %    \begin{macrocode}
 \cs_new:Npn \fontspec_set_family:Nnn #1#2#3 {
   \fontspec_select:nn {#2}{#3}
@@ -3183,6 +3186,9 @@ This work consists of this file fontspec.dtx
 }
 %    \end{macrocode}
 % \end{macro}
+%
+%
+%
 %
 % \subsection{Internal macros}
 % \label{sec:codeinternal}
@@ -3358,6 +3364,12 @@ This work consists of this file fontspec.dtx
 %    \end{macrocode}
 % \end{macro}
 %
+% \begin{macro}{\zf@fontspec}
+% For backwards compatibility. Do not use this from now on!
+%    \begin{macrocode}
+\cs_set_eq:NN \zf@fontspec \fontspec_select:nn
+%    \end{macrocode}
+% \end{macro}
 %
 % \begin{macro}{\fontspec_if_detect_external:nT}
 % Check if either the fontname ends with a known font extension.

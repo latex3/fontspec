@@ -94,12 +94,12 @@ This work consists of this file fontspec.dtx
 %
 % This package began life as a \LaTeX\ interface to select system-installed
 % \MacOSX\ fonts in \name{Jonathan Kew}'s \XeTeX, the first widely-used
-% unicode extension to \TeX. Over time, \XeTeX\ was extended to support OpenType
+% Unicode extension to \TeX. Over time, \XeTeX\ was extended to support OpenType
 % fonts and then was ported into a cross-platform program to run also on Windows
 % and Linux.
 %
 % More recently, \LuaTeX\ is fast becoming the \TeX\ engine of the day; it
-% supports unicode encodings and OpenType fonts and opens up the internals of
+% supports Unicode encodings and OpenType fonts and opens up the internals of
 % \TeX\ via the Lua programming language. Hans Hagen's Con\TeX t Mk.\,IV is a
 % re-write of his powerful typesetting system, taking full advantage of
 % \LuaTeX's features including font support; a kernel of his work in this area
@@ -157,7 +157,7 @@ This work consists of this file fontspec.dtx
 % \name{Ross Moore}'s \pkg{xunicode} package is recommended for
 % providing backwards compatibility with \LaTeX's methods for accessing extra
 % characters and accents (for example, |\%|, |\$|, |\textbullet|, |\"u|, and
-% so on), plus many more unicode characters. The \pkg{xltxtra} package adds a
+% so on), plus many more Unicode characters. The \pkg{xltxtra} package adds a
 % couple of general improvements to \LaTeX\ under \XeTeX; it also provides the
 % \cmd\XeTeX\ macro to typeset the \XeTeX\ logo.
 %
@@ -165,7 +165,7 @@ This work consists of this file fontspec.dtx
 % In order to load fonts by their name rather than by their filename (\eg, `Latin Modern Roman' instead of `ec-lmr10'), you may need to run the script \texttt{mkluatexfontdb}, which is distributed with the \pkg{luaotfload} package. Note that if you do not execute this script beforehand, the first time you attempt to typeset the process will pause for (up to) several minutes. (But only the first time.)
 % Please see the \pkg{luaotfload} documentation for more information.
 % Note that the \pkg{xunicode} package is not required as it has been
-% incorporated directly into the unicode font definitions (see the \pkg{euenc} package for more information).
+% incorporated directly into the Unicode font definitions (see the \pkg{euenc} package for more information).
 %
 % \paragraph{\pkg{babel}}
 % \emph{The \pkg{babel} package is not really supported!} Especially Vietnamese,
@@ -2246,7 +2246,7 @@ This work consists of this file fontspec.dtx
 %
 % \section{Unicode footnote symbols}
 % By default \LaTeX\ defines symbolic footnote characters in terms of commands
-% that don't resolve well; better results can be achieved by using specific unicode characters or proper LICRs with the \pkg{xunicode} package.
+% that don't resolve well; better results can be achieved by using specific Unicode characters or proper LICRs with the \pkg{xunicode} package.
 %
 % This problem has been solved by loading the 
 % \pkg{fixltx2e} and \pkg{xunicode} packages in \pkg{xltxtra}.
@@ -2254,9 +2254,9 @@ This work consists of this file fontspec.dtx
 % \section{Verbatim}
 % \label{sec:verb}
 %
-% Many verbatim mechanisms assume the existence of a `visible space' character that exists in the \textsc{ascii} space slot of the typewriter font. This character is known in unicode as \unichar{2434}{box open}, which looks like this: `\verb*| |'.
+% Many verbatim mechanisms assume the existence of a `visible space' character that exists in the \textsc{ascii} space slot of the typewriter font. This character is known in Unicode as \unichar{2434}{box open}, which looks like this: `\verb*| |'.
 %
-% When a unicode typewriter font is used, \LaTeX\ no longer prints visible spaces for the |verbatim*| environment and |\verb*| command. \pkg{xltxtra} fixes this problem by using the correct unicode glyph, and patches the following packages to do the same:
+% When a Unicode typewriter font is used, \LaTeX\ no longer prints visible spaces for the |verbatim*| environment and |\verb*| command. \pkg{xltxtra} fixes this problem by using the correct Unicode glyph, and patches the following packages to do the same:
 % \pkg{listings}, \pkg{fancyvrb}, \pkg{moreverb}, and \pkg{verbatim}.
 %
 % In the case that the typewriter font does not contain `\verb*| |', the Latin Modern Mono font is used as a fallback. 
@@ -2562,7 +2562,7 @@ This work consists of this file fontspec.dtx
 %
 % \subsection{Encodings}
 % Frank Mittelbach has recommended using the `\texttt{EU}$x$' family of font encodings
-% to experiment with unicode.
+% to experiment with Unicode.
 % Now that \XeTeX\ can find fonts in the |texmf| tree, the Latin Modern OpenType fonts
 % can be used as the defaults. See the |euenc| collection of files for how this is implemented.
 %    \begin{macrocode}

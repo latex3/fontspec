@@ -3280,6 +3280,10 @@ This work consists of this file fontspec.dtx
         }
       }
       {
+        \tl_if_empty:NT \l_fontspec_lang_tl {
+          \tl_set:Nn \l_fontspec_lang_name_tl {Default}
+          \tl_set:Nn \l_fontspec_lang_tl      {DFLT}
+        }
         \fontspec_setkeys:xxx {feat} {Script} {\l_fontspec_script_name_tl}
         \fontspec_setkeys:xxx {feat} {Lang}   {\l_fontspec_lang_name_tl}
       }

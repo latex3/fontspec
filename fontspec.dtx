@@ -4164,7 +4164,9 @@ This work consists of this file fontspec.dtx
   \zf@nobftrue
   \zf@noittrue
   \bool_set_true:N \l_fontspec_external_bool
-  \cs_gset:Npn \fontspec_namewrap:n ##1 { file: #1 ##1 }
+  \xetex_or_luatex:nnn { \cs_gset:Npn \fontspec_namewrap:n ##1 }
+    {     [ #1 ##1 ] }
+    { file: #1 ##1   }
   \xetex_if_engine:T { \setkeys[zf]{preparse}{Renderer=ICU} }
 }
 \aliasfontfeature{ExternalLocation}{Path}

@@ -165,9 +165,11 @@ $(TESTLIST): $(BUILDFILES) $(BUILDTESTTARGET)
 	ls *.ltx | sed -e 's/\(.*\).ltx/\\TEST{\1}/g' > $(TESTLIST)
 
 $(builddir)/%: $(testdir)/%
+	@mkdir -p $(builddir); \
 	$(COPY) $< $@
 
 $(builddir)/%: %
+	@mkdir -p $(builddir); \
 	$(COPY) -f $< $@
 
 

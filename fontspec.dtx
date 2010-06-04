@@ -48,6 +48,7 @@ This work consists of this file fontspec.dtx
 \generate{\file{fontspec.cfg}          {\from{fontspec.dtx}{cfg}}}
 \generate{\file{fontspec-xetex.tex}    {\from{fontspec.dtx}{example,xetex}}}
 \generate{\file{fontspec-luatex.tex}   {\from{fontspec.dtx}{example,luatex}}}
+\generate{\file{fontspec-testsuite.tex}{\from{fontspec.dtx}{testsuite}}}
 
 \def\tmpa{plain}
 \ifx\tmpa\fmtname\endgroup\expandafter\bye\fi
@@ -5910,11 +5911,19 @@ end
 %
 % \iffalse
 %</cfg>
-%<*example>
 % \fi
 %
 % \clearpage
-% \part{Example documents}
+% \PrintChanges
+%
+% \clearpage
+% \setcounter{IndexColumns}{2}
+% \PrintIndex
+%
+% \Finale
+%
+% \iffalse
+%<*example>
 %
 %    \begin{macrocode}
 %<luatex>% !TEX TS-program = LuaLaTeX
@@ -5971,20 +5980,71 @@ information.
 \end{document}
 %    \end{macrocode}
 %
-% \iffalse
 %</example>
-% \fi
+%<*testsuite>
 %
-% \clearpage
-% \PrintChanges
+%    \begin{macrocode}
+\documentclass{article}
+\usepackage{fontspec,fancyvrb,geometry,graphicx,calc,multicol}
+\geometry{margin=2cm,a4paper}
+\setmainfont[Ligatures=TeX]{TeX Gyre Pagella}
+\setmonofont{Consolas}
+
+\newcommand\meta[1]{$\langle$\emph{#1}$\rangle$}
+
+\newcommand\TEST[1]{%
+  \section{Test #1}
+  \begin{minipage}{0.5\textwidth}
+  \VerbatimInput{testsuite/#1.ltx}
+  \end{minipage}
+  \hfill
+  \begin{minipage}{8cm+4pt}
+    \fboxsep=1pt
+    \fboxrule=1pt
+    \fbox{\includegraphics[width=8cm]{testsuite/#1.safe.pdf}}
+  \end{minipage}
+}
+
+\newcommand\codeline[1]{\par{\centering#1\par}\par\noindent\ignorespaces}
+
+\pagestyle{empty}
+\begin{document}
+\title{The \textsf{fontspec} test suite}
+\author{Will Robertson}
+\date{Compiled: \today}
+\maketitle
+\thispagestyle{empty}
+
+\section*{Preamble}
+
+\begin{multicols}{2}\noindent
+The examples shown in the remainder of the document are generated directly from the code shown alongside.
+As well as being good minimal examples, these tests are useful to ensure that changes to \textsf{fontspec} don't affect old behaviour.
+
+When the test suite is run, the new output is compared pixel by pixel with that shown here and warnings produced if the outputs are not identical (within a small tolerance to account for rounding errors).
+
+Tests with a name that begins with `\textit X' are processed with \texttt{xelatex} only; `\textit L' with \texttt{lualatex}; and `\textit F' with both.
+In the latter case, the output from both engines is compared with each other, ensuring that the package is consistent cross-platform.
+
+To generate tests yourself, write a new file in the \texttt{testsuite/} folder with filename
+\codeline{\meta{F,L,X}\meta{num}\meta{letter}\texttt{.ltx}}
+according to the naming scheme above and the following numbering scheme. If you are writing a new test entirely, increment the \meta{num}; if you are writing a variation on an old test, increment the \meta{letter}. No need to be too fussy, though.
+
+After writing the new test, run
+\codeline{\texttt{make initest}}
+This will generate the reference output (\texttt{*.safe.pdf}) from which to check all future tests.
+After any changes have been made to \textsf{fontspec}, the entire test suite is compiled with \codeline{\texttt{make check}}
+If you want to run just a single test, use
+\codeline{\texttt{make }\meta{testname}}
+(but this syntax \emph{may} be fragile and need to be changed in the future).
+\end{multicols}
+
+\input{testsuite/testsuite-listing.tex}
+
+\end{document}
+%    \end{macrocode}
+%</testsuite>
 %
-% \clearpage
-% \setcounter{IndexColumns}{2}
-% \PrintIndex
-%
-% \Finale
-%
-% \iffalse
 %<*doc-style>
 %    \begin{macrocode}
 \ProvidesPackage{fontspec-style}

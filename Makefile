@@ -138,7 +138,7 @@ both=F
 
 COPY = cp -a
 MOVE = mv -f
-COMPARE_OPTS = -metric ae -fuzz 10%
+COMPARE_OPTS = -density 300x300 -metric ae -fuzz 35%
 
 LTXSOURCE = $(NAME).sty $(NAME).cfg $(NAME)-patches.sty
 
@@ -196,12 +196,12 @@ $(bothlonelypath): $(bothlonelytest)
 #### REFERENCE OUTPUT GENERATION ####
 
 $(builddir)/$(both)%.gendiff.pdf: $(builddir)/$(both)%-$(lprefix).pdf $(builddir)/$(both)%-$(xprefix).pdf
-	if [ "$(shell compare \
 	@echo '$(both)$*: Comparing PDF from LuaLaTeX with PDF from XeLaTeX.'
+	@if test $(shell compare \
 	                $(COMPARE_OPTS) \
 	                $(builddir)/$(both)$*-$(lprefix).pdf \
 	                $(builddir)/$(both)$*-$(xprefix).pdf \
-	                $(builddir)/$(both)$*.gendiff.pdf | grep 'dB')" == "0 dB" ] ; then \
+	                $(builddir)/$(both)$*.gendiff.pdf 2>&1) -lt 1 ; then \
 	  echo '$(both)$*: Test generation successed.' ; \
 	else \
 	  echo '$(both)$*: Test generation failed; XeLaTeX and LuaLaTeX gave different output.' ; \
@@ -214,23 +214,23 @@ $(builddir)/$(both)%.pdf: $(builddir)/$(both)%.gendiff.pdf
 #### TESTS FOR BOTH ENGINES ####
 
 $(builddir)/$(both)%.diff.pdf: $(builddir)/$(both)%-$(lprefix).pdf $(builddir)/$(both)%-$(xprefix).pdf
-	if [ "$(shell compare \
 	@echo '$(both)$*: Comparing PDF from LuaLaTeX against reference output.'
+	@if test $(shell compare \
 	                $(COMPARE_OPTS) \
 	                $(builddir)/$(both)$*-$(lprefix).pdf \
 	                $(testdir)/$(both)$*.safe.pdf \
-	                $(builddir)/$(both)$*.diff.pdf | grep 'dB')" == "0 dB" ] ; then \
+	                $(builddir)/$(both)$*.diff.pdf 2>&1) -le 1 ; then \
 	  echo '$(both)$*: Test passed.' ; \
 	else \
 	  echo '$(both)$*: Test failed.' ; \
 	  false ; \
 	fi
-	if [ "$(shell compare \
 	@echo '$(both)$*: Comparing PDF from XeLaTeX against reference output.'
+	@if test $(shell compare \
 	                $(COMPARE_OPTS) \
 	                $(builddir)/$(both)$*-$(xprefix).pdf \
 	                $(testdir)/$(both)$*.safe.pdf \
-	                $(builddir)/$(both)$*.diff.pdf | grep 'dB')" == "0 dB" ] ; then \
+	                $(builddir)/$(both)$*.diff.pdf 2>&1) -le 1 ; then \
 	  echo '$(both)$*: Test passed.' ; \
 	else \
 	  echo '$(both)$*: Test failed.' ; \
@@ -238,23 +238,21 @@ $(builddir)/$(both)%.diff.pdf: $(builddir)/$(both)%-$(lprefix).pdf $(builddir)/$
 	fi
 
 $(builddir)/$(both)%-$(lprefix).pdf: $(BUILDSOURCE) $(BUILDSUITE) $(builddir)/$(both)%.ltx
-	cd $(builddir); lualatex -jobname=$(both)$*-$(lprefix) -interaction=batchmode $(both)$*.ltx > /dev/null
 	@echo '$(both)$*: Generating PDF output with LuaLaTeX.'
+	@cd $(builddir); lualatex -jobname=$(both)$*-$(lprefix) -interaction=batchmode $(both)$*.ltx > /dev/null
 
 $(builddir)/$(both)%-$(xprefix).pdf: $(BUILDSOURCE) $(BUILDSUITE) $(builddir)/$(both)%.ltx
-	cd $(builddir); xelatex -jobname=$(both)$*-$(xprefix) -interaction=batchmode $(both)$*.ltx > /dev/null
 	@echo '$(both)$*: Generating PDF output with XeLaTeX.'
+	@cd $(builddir); xelatex -jobname=$(both)$*-$(xprefix) -interaction=batchmode $(both)$*.ltx > /dev/null
 
 
 #### TEST FOR EACH ENGINE INDIVIDUALLY ####
 
 $(builddir)/$(lprefix)%.diff.pdf: $(builddir)/$(lprefix)%.pdf
-	if [ "$(shell compare \
-	                $(COMPARE_OPTS) \
-	                $(builddir)/$(lprefix)$*.pdf \
-	                $(testdir)/$(lprefix)$*.safe.pdf \
-	                $(builddir)/$(lprefix)$*.diff.pdf | grep 'dB')" == "0 dB" ] ; then \
 	@echo '$(lprefix)$*: Comparing PDF from LuaLaTeX against reference output.'
+	@if test $(shell compare $(COMPARE_OPTS) \
+	          $(builddir)/$(lprefix)$*.pdf $(testdir)/$(lprefix)$*.safe.pdf \
+	          $(builddir)/$(lprefix)$*.diff.pdf 2>&1) -le 1 ; then \
 	  echo '$(lprefix)$*: Test passed.' ; \
 	else \
 	  echo '$(lprefix)$*: Test failed.' ; \
@@ -262,12 +260,12 @@ $(builddir)/$(lprefix)%.diff.pdf: $(builddir)/$(lprefix)%.pdf
 	fi
 
 $(builddir)/$(xprefix)%.diff.pdf: $(builddir)/$(xprefix)%.pdf
-	if [ "$(shell compare \
 	@echo '$(xprefix)$*: Comparing PDF from XeLaTeX against reference output.'
+	@if test $(shell compare \
 	                $(COMPARE_OPTS) \
 	                $(builddir)/$(xprefix)$*.pdf \
 	                $(testdir)/$(xprefix)$*.safe.pdf \
-	                $(builddir)/$(xprefix)$*.diff.pdf | grep 'dB')" == "0 dB" ] ; then \
+	                $(builddir)/$(xprefix)$*.diff.pdf 2>&1) -le 1 ; then \
 	  echo '$(xprefix)$*: Test passed.' ; \
 	else \
 	  echo '$(xprefix)$*: Test failed.' ; \

@@ -4452,27 +4452,11 @@ This work consists of this file fontspec.dtx
 }
 %    \end{macrocode}
 % This function sets the dimension |#1| (for font |#3|) to what would be known
-% as the `fontdimen' |#2| in \TeX\ but apparently isn't set that way in
-% \LuaTeX.
+% as the `fontdimen' |#2| in \TeX.
 %    \begin{macrocode}
-\xetex_or_luatex:nnn { \cs_new:Npn \fontspec_set_font_dimen:NnN #1#2#3 }
+\cs_new:Npn \fontspec_set_font_dimen:NnN #1#2#3
 {
   \dim_set:Nn #1 { \fontdimen #2 #3 }
-}
-%    \end{macrocode}
-% In Lua\TeX, fall back to manual calculations if necessary:
-%    \begin{macrocode}
-{
-  \dim_set:Nn #1 { \fontdimen #2 #3 }
-  \dim_compare:nNnT #1 = {0pt} {
-    \dim_set:Nn #1 { \directlua{ fontspec.get_dimen(#2, "\cs_to_str:N #3") } }
-  }
-  \dim_compare:nNnT #1 = {0pt} {
-    \settoheight #1 {
-      \tl_if_eq:nnTF {#3} {\font} \rmfamily #3
-      \prg_case_int:nnn #2 { 5 x 8 X } {?}
-    }
-  }
 }
 %    \end{macrocode}
 % \end{macro}
@@ -5771,28 +5755,6 @@ function fontspec.check_ot_feat(fnt, feat, lang, script)
     else
         tempswafalse()
     end
-end
-
-%    \end{macrocode}
-% Get font dimens for \cs{fontspec_calc_scale:n} (despite the name of this function,
-% it doesn't return any arbitrary font dimen, only \cmd\dimen5 and \cmd\dimen8.)
-%    \begin{macrocode}
-
-function fontspec.get_dimen(fontdimen, csname)
-    local id, h, em, pt
-    if csname == "font" then
-        id = font.current()
-    else
-        id = font_id(csname)
-    end
-    if fontdimen == 8 then
-        h = fonts.ids[id].shared.otfdata.pfminfo.os2_capheight
-    elseif fontdimen == 5 then
-        h = fonts.ids[id].shared.otfdata.pfminfo.os2_xheight
-    end
-    em = fonts.ids[id].shared.otfdata.metadata.units_per_em
-    pt = fonts.ids[id].size / 65536
-    tex.sprint(string.format("%spt", (h/em)*pt))
 end
 
 function fontspec.charglyph(char, csname)

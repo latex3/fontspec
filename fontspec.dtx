@@ -4429,7 +4429,10 @@ This work consists of this file fontspec.dtx
 % In Lua\TeX, fall back to manual calculations if necessary:
 %    \begin{macrocode}
 {
-  \dim_set:Nn #1 { \directlua{ fontspec.get_dimen(#2, "\cs_to_str:N #3") } }
+  \dim_set:Nn #1 { \fontdimen #2 #3 }
+  \dim_compare:nNnT #1 = {0pt} {
+    \dim_set:Nn #1 { \directlua{ fontspec.get_dimen(#2, "\cs_to_str:N #3") } }
+  }
   \dim_compare:nNnT #1 = {0pt} {
     \settoheight #1 {
       \tl_if_eq:nnTF {#3} {\font} \rmfamily #3

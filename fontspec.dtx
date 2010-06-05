@@ -767,6 +767,19 @@ This work consists of this file fontspec.dtx
 %   {\addfontfeature{Color=00BB3399}R}
 % \end{example}
 %
+% If you load the \pkg{xcolor} package, you may use any named color as well:
+% \begin{example}
+%  \usepackage{xcolor}
+%  ...
+%  \fontspec[Color=red]{Verdana}
+%  \definecolor{Foo}{rgb}{0.3,0.4,0.5}
+%  \fontspec[Color=Foo]{Verdana}
+% \end{example}
+% The \pkg{color} package is \emph{not} supported; use \pkg{xcolor} instead.
+% If you insist, however, I can probably add \pkg{color} support too.
+% Transparency is not supported under this mode, yet. Suggestions for syntax
+% welcome.
+%
 % \subsection{Scale}
 %
 % \cmdbox{
@@ -2289,6 +2302,7 @@ This work consists of this file fontspec.dtx
 % \fi
 %    \begin{macrocode}
 \RequirePackage{expl3,xparse}
+\input binhex.tex  % before expl syntax!
 \ExplSyntaxOn
 %    \end{macrocode}
 %
@@ -2368,6 +2382,11 @@ This work consists of this file fontspec.dtx
 %    \end{macrocode}
 %
 %    \begin{macrocode}
+\cs_set:Npn \use_v:nnnnn #1#2#3#4#5 {#5}
+\cs_set:Npn \use_iv:nnnnn #1#2#3#4#5 {#4}
+%    \end{macrocode}
+%
+%    \begin{macrocode}
 \cs_new:Npn \fontspec_setkeys:xx #1#2
  {
   \use:x { \exp_not:N \setkeys*[zf]{#1}{#2} }
@@ -2429,7 +2448,22 @@ This work consists of this file fontspec.dtx
   loaded~ after~ euler.~ Type~ <return>~ to~ proceed\\
   with~ incorrect~ \string\mathit,~ \string\mathbf,~ etc.
 }
-
+\msg_new:nnnn {fontspec} {no-xcolor}
+{
+  Cannot~ load~ named~ colours~ without~ the~ xcolor~ package.
+}
+{
+  Sorry,~ I~ can't~ do~ anything~ to~ help.~ Instead~ of~ loading\\
+  the~ color~ package,~ use~ xcolor~ instead.~ It's~ better.
+}
+\msg_new:nnnn {fontspec} {unknown-color-model}
+{
+  Error~ loading~ colour~ `#1';~ unknown~ colour~ model.
+}
+{
+  Sorry,~ I~ can't~ do~ anything~ to~ help.~ Please~ report~ this~ error\\
+  to~ my~ developer~ with~ a~ minimal~ example~ that~ causes~ the~ problem.
+}
 %    \end{macrocode}
 % Warnings:
 %    \begin{macrocode}
@@ -4560,10 +4594,83 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \define@key[zf]{options}{Color}{
   \zf@update@family{+col:#1}
-  \zf@update@ff{color=#1}
+  \cs_if_exist:cTF {\token_to_str:N\color@#1}
+  {
+    \hexcol_convert_dec:n {#1}
+    \zf@update@ff{color=\l_hexcol_tl}
+  }
+  {
+    \zf@update@ff{color=#1}
+  }
 }
 \keyval@alias@key[zf]{options}{Color}{Colour}
 %    \end{macrocode}
+%
+% \paragraph{Support for xcolor}
+%
+%    \begin{macrocode}
+\cs_set:Npn \hexcol_grabR:w #1,#2,#3 \q_nil {#1}
+\cs_set:Npn \hexcol_grabG:w #1,#2,#3 \q_nil {#2}
+\cs_set:Npn \hexcol_grabB:w #1,#2,#3 \q_nil {#3}
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+\newcounter{fontspec_hexcol}
+\cs_new:Npn \hexcol_convert_dec:n #1 {
+  \cs_if_exist:NF \adjustUCRBG {
+    \fontspec_error:n {no-xcolor}
+  }
+  \group_begin:
+  \tl_set:Nv \l_hexcol_colordef_tl {\string\color@#1}
+  \tl_set:Nf \l_hexcol_color_tl {
+    \exp_after:wN\use_v:nnnnn \l_hexcol_colordef_tl
+  }
+  \tl_set:Nf \l_hexcol_colortype_tl {
+    \exp_after:wN\use_iv:nnnnn \l_hexcol_colordef_tl
+  }
+  \prg_case_str:nnn {\l_hexcol_colortype_tl} {
+    {\detokenize{rgb}} {
+      \rgb_to_hex:VN \l_hexcol_color_tl R
+      \rgb_to_hex:VN \l_hexcol_color_tl G
+      \rgb_to_hex:VN \l_hexcol_color_tl B
+    }
+    {\detokenize{gray}} {
+     \gray_to_hex:N \l_hexcol_color_tl
+    }
+  }{
+    \fontspec_error:nx {unknown-color-model} {#1}
+  }
+  \group_end:
+}
+%    \end{macrocode}
+% Once for each color:
+%    \begin{macrocode}
+\cs_new:Npn \rgb_to_hex:nN #1#2 {
+  \setcounter {fontspec_hexcol} {
+    255*\real{ \use:c{hexcol_grab#2:w} #1 \q_nil }
+  }
+  \tl_gset:cx {l_hexcol_#2_tl} { \nhex{2}{\value{fontspec_hexcol}} }
+}
+%    \end{macrocode}
+% Once only:
+%    \begin{macrocode}
+\cs_new:Npn \gray_to_hex:N #1 {
+  \setcounter{hexcol}{255*\real{#1}}
+  \tl_gset:Nx    \l_hexcol_R_tl {\nhex{2}{\value{hexcol}}}
+  \tl_gset_eq:NN \l_hexcol_G_tl \l_hexcol_R_tl
+  \tl_gset_eq:NN \l_hexcol_B_tl \l_hexcol_R_tl
+}
+\cs_generate_variant:Nn \rgb_to_hex:nN {V}
+%    \end{macrocode}
+% This holds the six-char color definition:
+%    \begin{macrocode}
+\tl_set:Nn \l_hexcol_tl {
+  \l_hexcol_R_tl
+  \l_hexcol_G_tl
+  \l_hexcol_B_tl
+}
+%    \end{macrocode}
+%
 %
 % \paragraph{Mapping}
 %    \begin{macrocode}

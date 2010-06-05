@@ -6212,6 +6212,120 @@ If you want to run just a single test, use
 \def\firstline{1}
 \def\lastline{}
 
+
+
+
+
+
+
+
+\newsavebox\X
+\newsavebox\Y
+
+\newcounter{example}
+
+\newcommand\exref[1]{Example~\ref{ex:#1}}
+
+\newenvironment{Xexample}[3][]
+  {\VerbatimEnvironment\begin{Fexample}[#1]{#2}{#3}{X}}
+  {\end{Fexample}}
+
+\newenvironment{Lexample}[3][]
+  {\VerbatimEnvironment\begin{Fexample}[#1]{#2}{#3}{L}}
+  {\end{Fexample}}
+
+
+
+\newenvironment{Fexample}[4][]
+  {%
+    \def\options{#1}%
+    \def\filename{#2}%
+    \def\captiontext{#3}%
+    \def\prefix{#4}
+    \refstepcounter{example}%
+    \label{ex:\filename}%
+    \VerbatimEnvironment
+    \begin{VerbatimOut}{doc/\theexample-\prefix-\filename.tex}}
+% text in the environment
+  {\end{VerbatimOut}
+    \begin{figure}
+      \setlength\parindent{0pt}%
+      \edef\@tempa{[gobble=0,fontsize=\noexpand\small,\options]}%
+      \savebox\X{%
+                  \expandafter\BVerbatimInput
+                  \@tempa{doc/\theexample-\prefix-\filename.tex}%
+                }%
+      \IfFileExists{doc/\theexample-\prefix-\filename.pdf}{}
+         {%
+           \edef\1{%
+             cd doc; \csname prog@\prefix\endcsname
+             "%
+             \unexpanded{%
+               \documentclass{article}%
+               \usepackage{ifthen,xcolor,varwidth}
+               \usepackage[active,tightpage]{preview}%
+               \usepackage{fontspec}%
+               \defaultfontfeatures{Ligatures=TeX} \begin{document}\begin{preview}\begin{varwidth}{0.7\linewidth}\input} \theexample-\prefix-\filename.tex
+             \unexpanded{\end{varwidth}\end{preview}\end{document}}
+             "
+           }%
+           \immediate\write18{
+              mkdir -p doc;
+              cp -a fontspec.dtx doc/;
+              cd doc;
+              tex fontspec.dtx > /dev/null ;
+              rm \theexample-* ;
+           }
+           \immediate\write18{\unexpanded\expandafter{\1}}%
+         }%
+      \savebox\Y{%
+      \IfFileExists{doc/\theexample-\prefix-\filename.pdf}
+          {\includegraphics{doc/\theexample-\prefix-\filename.pdf}}
+          {Graphic not generated.}%
+      }
+      % TYPESETTING
+      \rule[0.5\baselineskip]{\columnwidth}{1pt}%
+      \vspace{-1.2ex}%
+      \def\@tempa{\small\textsf{Example~\theexample:~}}%
+      \settowidth\@tempdima{\@tempa\captiontext}%
+      \par
+      \ifdim\@tempdima>\linewidth
+        \settowidth\@tempdima{\@tempa}%
+        \@tempa\parbox[t]{\linewidth-\@tempdima}{\small\captiontext}%
+        \vspace{0.4\baselineskip}%
+      \else
+        \parbox{\linewidth}{\centering\@tempa~\captiontext}%
+      \fi
+      \par\rule[0.4\baselineskip]{\columnwidth}{1pt}\par
+      \ifdim\dimexpr\wd\X+\wd\Y>\linewidth\relax
+        \null\hfill\makebox[0pt][r]{\usebox\Y}\usebox\X
+      \else
+        \usebox\Y\hfill\usebox\X
+      \fi
+      \par\rule[0.5\baselineskip]{\columnwidth}{1pt}
+    \end{figure}
+}
+
+\def\prog@X{xelatex
+               -output-driver=xdv2pdf\space
+               -jobname=\theexample-X-\filename\space}
+
+\def\prog@L{lualatex
+               -jobname=\theexample-L-\filename\space}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 \let\aatexample\example
 \let\endaatexample\endexample
 \let\opentypeexample\example

@@ -1,0 +1,13 @@
+\documentclass{testsuite}
+\usepackage{fontspec}
+\usepackage{xcolor}
+\begin{document}
+{\fontspec[Color=5500FF]{Verdana}Test}
+
+{\fontspec[Color=red]{Verdana}Test} vs
+{\color{red}\fontspec{Verdana}Test}
+
+\definecolor{Foo}{rgb}{0.3,0.4,0.5}
+{\fontspec[Color=Foo]{Verdana}Test} vs
+{\color{Foo}\fontspec{Verdana}Test}
+\end{document}

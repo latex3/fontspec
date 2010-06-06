@@ -3323,6 +3323,7 @@ This work consists of this file fontspec.dtx
   \font\zf@basefont="\fontspec_fullname:n {\zf@up}"~at~\f@size pt
   \fontspec_set_font_type:
   \global\font\zf@basefont="\fontspec_fullname:n {\zf@up}"~at~\f@size pt
+  \zf@basefont % this is necessary for LuaLaTeX to check the scripts properly
 }
 %    \end{macrocode}
 % \end{macro}

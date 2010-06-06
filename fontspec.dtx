@@ -63,7 +63,7 @@ This work consists of this file fontspec.dtx
 %<fontspec>\ProvidesPackage{fontspec}
 %<patches>\ProvidesPackage{fontspec-patches}
 %<*fontspec|patches>
-  [2010/06/03 v2.0b2 Advanced font selection for XeLaTeX/LuaLaTeX]
+  [2010/06/07 v2.0b2 Advanced font selection for XeLaTeX/LuaLaTeX]
 %</fontspec|patches>
 %
 %<*driver>
@@ -3226,21 +3226,12 @@ This work consists of this file fontspec.dtx
 % \begin{macro}{\fontspec_select:nn}
 % This is the command that defines font families for use, the underlying
 % procedure of all \cmd\fontspec-like commands. Given a
-% list of font features (|#1|) for a requested font (|#2|, stored
-% in \cs{zf@fontname} globally for the
-% \cs{zf@make@aat@feature@string} macro), it will define an NFSS
-% family for that font and put the family name into \cs{zf@family}.
+% list of font features (|#1|) for a requested font (|#2|),
+% it will define an NFSS
+% family for that font and put the family name (globally) into \cs{zf@family}.
+% The \TeX\ `\cs{font}' command is (globally) stored in \cs{zf@basefont}.
 %
-% This macro does its processing inside a group, but it's a bit worthless coz
-% there's all sorts of \cmd\global\ action going on. Pity. Anyway, lots of things
-% are branched out for the pure reason of splitting
-% the code up into logical chunks. Some of it is never even re-used, so it
-% all might be a bit obfuscating. (\Eg, \cmd{\fontspec_init:} and \cmd{\fontspec_set_font_type:}.)
-%
-% First off, initialise some bits and pieces and run the |preparse| feature
-% processing. This catches font features such as |Renderer| that can change
-% the way subsequent features are processed. All font features that `slip through'
-% this stage are saved in the \cmd\zf@font@feat\ macro for future processing.
+% This macro does its processing inside a group to attempt to restrict the scope of its internal processing. This works to some degree to insulate the internal commands from having to be manually.
 %    \begin{macrocode}
 \cs_set:Npn \fontspec_select:nn #1#2 {
   \begingroup
@@ -3254,6 +3245,63 @@ This work consists of this file fontspec.dtx
   \edef\zf@fontname{#2}
   \let\zf@family@long\zf@fontname
   \let\zf@up\zf@fontname
+%    \end{macrocode}
+% Now convert the requested features to font definition
+% strings. First the features are parsed for information about font
+% loading (whether it's a named font or external font, etc.), and then
+% information is extracted for the names of the other shape fonts.
+%
+% Then the mapping from user features to low-level features occurs.
+% This is performed with \cs{fontspec_get_features:n}, in
+% which \cs{setkeys} retrieves the requested font features and
+% processes them. As \cs{setkeys} is run multiple times, some of its
+% information storing only occurs once while we decide if the font family
+% has been defined or not. When the later processing is occuring per-shape
+% this no longer needs to happen; this is indicated by the `firsttime'
+% conditional.
+%    \begin{macrocode}
+  \fontspec_preparse_features:nn {#1}{#2}
+  \fontspec_set_scriptlang:
+  \fontspec_get_features:n {\zf@font@feat}
+  \zf@firsttimefalse
+%    \end{macrocode}
+% Check if the family is unique and, if so, save its information.
+% (\cs{addfontfeature} and other macros use this data.)
+% Then the font family and its shapes are defined in the NFSS.
+%
+% All NFSS specifications take their default values, so if any of them
+% are redefined, the shapes will be selected to fit in with the
+% current state. For example, if \cmd\bfdefault\ is redefined to |b|, all
+% bold shapes defined by this package will also be assigned to |b|.
+%    \begin{macrocode}
+  \fontspec_save_family:nT {#2} {
+    \fontspec_info:nxx {defining-font} {#1} {#2}
+    \fontspec_save_fontinfo:nn {#1} {#2}
+    \DeclareFontFamily{\zf@enc}{\zf@family}{}
+    \fontspec_set_upright:
+    \fontspec_set_bold:
+    \fontspec_set_italic:
+    \fontspec_set_slanted:
+    \fontspec_set_bold_italic:
+    \fontspec_set_bold_slanted:
+  }
+  \endgroup
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\zf@fontspec}
+% For backwards compatibility. Do not use this from now on!
+%    \begin{macrocode}
+\cs_set_eq:NN \zf@fontspec \fontspec_select:nn
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\fontspec_preparse_features:nn}
+% Perform the (multi-step) feature parsing process.
+%    \begin{macrocode}
+\cs_new:Npn \fontspec_preparse_features:nn #1#2 {
 %    \end{macrocode}
 % Detect if external fonts are to be used, possibly automatically, and
 % parse fontspec features for bold/italic fonts and their features.
@@ -3270,134 +3318,15 @@ This work consists of this file fontspec.dtx
   \fontspec_setkeys:xx {preparse} {\XKV@rm}
   \let\zf@font@feat\XKV@rm
 %    \end{macrocode}
+% Finally save the `confirmed' font definition.
 %    \begin{macrocode}
-  \global\font\zf@basefont="\fontspec_fullname:n {\zf@up}"~at~\f@size pt
+  \font\zf@basefont="\fontspec_fullname:n {\zf@up}"~at~\f@size pt
   \fontspec_set_font_type:
   \global\font\zf@basefont="\fontspec_fullname:n {\zf@up}"~at~\f@size pt
-%    \end{macrocode}
-% Now convert the remaining requested features to font definition
-% strings. This is performed with \cs{zf@get@feature@requests}, in
-% which \cs{setkeys} retrieves the requested font features and
-% processes them. To build up the complex family name, it
-% concatenates each font feature with the family name of the
-% font. So since \cs{setkeys} is run more than once (since different
-% font faces may have different feature names), we only want the
-% complex family name to be built up once, hence the \cs{zf@firsttime}
-% conditionals.
-%    \begin{macrocode}
-  \zf@firsttimetrue
-    \ifzf@icu
-      \tl_if_empty:NTF \l_fontspec_script_name_tl {
-        \fontspec_check_script:nTF {latn}
-        {
-          \tl_set:Nn \l_fontspec_script_name_tl {Latin}
-          \tl_set:Nn \l_fontspec_script_tl      {latn}
-          \tl_if_empty:NT \l_fontspec_lang_tl {
-            \tl_set:Nn \l_fontspec_lang_name_tl {Default}
-            \tl_set:Nn \l_fontspec_lang_tl      {DFLT}
-          }
-          \fontspec_setkeys:xxx {feat} {Script} {\l_fontspec_script_name_tl}
-          \fontspec_setkeys:xxx {feat} {Lang}   {\l_fontspec_lang_name_tl}
-        }
-        {
-          \fontspec_info:n {no-scripts}
-        }
-      }
-      {
-        \tl_if_empty:NT \l_fontspec_lang_tl {
-          \tl_set:Nn \l_fontspec_lang_name_tl {Default}
-          \tl_set:Nn \l_fontspec_lang_tl      {DFLT}
-        }
-        \fontspec_setkeys:xxx {feat} {Script} {\l_fontspec_script_name_tl}
-        \fontspec_setkeys:xxx {feat} {Lang}   {\l_fontspec_lang_name_tl}
-      }
-    \fi
-    \fontspec_get_features:n{\zf@font@feat}
-  \zf@firsttimefalse
-%    \end{macrocode}
-% Now we have a unique (in fact, too unique!) string that contains
-% the family name and every option in abbreviated form. This is used
-% with a counter to create a simple NFSS family name for the font we're
-% selecting.
-%
-% The font name is fully expanded, in case it's defined in terms of macros, before having its spaces zapped.
-%    \begin{macrocode}
-  \unless\ifcsname zf@UID@\zf@family@long\endcsname
-    \ifcsname c@zf@famc@#2\endcsname
-      \expandafter\global\expandafter\advance
-        \csname c@zf@famc@#2\endcsname\@ne
-    \else
-      \expandafter\global\expandafter\newcount
-        \csname c@zf@famc@#2\endcsname
-    \fi
-    \edef\@tempa{#2~}
-    \cs_gset:cpx{zf@UID@\zf@family@long}{
-      \expandafter\zap@space\@tempa\@empty
-      (\expandafter\the\csname c@zf@famc@#2\endcsname)
-    }
-  \fi
-  \xdef\zf@family{\@nameuse{zf@UID@\zf@family@long}}
-%    \end{macrocode}
-%
-% Now that we have the family name, we
-% can check to see if the family has already been defined, and if not,
-% do so. Once the family name is created, use it to create global
-% macros to save the user
-% string of the requested options and font name, primarily for use with
-% \cs{addfontfeatures}.
-%    \begin{macrocode}
-  \unless\ifcsname zf@family@fontname\zf@family\endcsname
-    \fontspec_info:nxx {defining-font} {#1} {#2}
-    \tl_gset:cx {zf@family@fontname\zf@family} {#2}
-    \tl_gset:cx {zf@family@options\zf@family} {\zf@default@options #1}
-    \tl_gset:cx {zf@family@fontdef\zf@family} {
-      \fontspec_fullname:n {\zf@fontname} : \l_fontspec_pre_feat_tl \l_fontspec_rawfeatures_sclist
-    }
-    \tl_gset:cx {g_fontspec_script_num_(\zf@family)_tl}
-      { \int_use:N \c@zf@script   }
-    \tl_gset:cx {g_fontspec_lang_num_(\zf@family)_tl}
-      { \int_use:N \c@zf@language }
-    \tl_gset_eq:cN {g_fontspec_script_(\zf@family)_tl} \l_fontspec_script_tl
-    \tl_gset_eq:cN {g_fontspec_lang_(\zf@family)_tl}   \l_fontspec_lang_tl
-%    \end{macrocode}
-% Next the font family and its shapes are defined in the NFSS.
-%
-% All NFSS specifications take their default values, so if any of them
-% are redefined, the shapes will be selected to fit in with the
-% current state. For example, if \cmd\bfdefault\ is redefined to |b|, all
-% bold shapes defined by this package will also be assigned to |b|.
-%
-% The macros \cs{zf@bf}, et al., are used to store the name of the
-% custom bold, et al., font, if requested as user options. If they are
-% empty, the default fonts are used.
-%
-% First we define the font family and define the normal shape: (any shape-specific
-% features are appended to the generic font features requested in the last argument
-% of \cmd\zf@make@font@shapes.)
-%    \begin{macrocode}
-    \DeclareFontFamily{\zf@enc}{\zf@family}{}
-    \zf@make@font@shapes{\zf@fontname}
-      {\mddefault}{\updefault}{\zf@font@feat\zf@up@feat}
-%    \end{macrocode}
-% And the different shapes are set accordingly.
-%    \begin{macrocode}
-    \fontspec_set_bold:
-    \fontspec_set_italic:
-    \fontspec_set_slanted:
-    \fontspec_set_bold_italic:
-    \fontspec_set_bold_slanted:
-  \fi
-  \endgroup
 }
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\zf@fontspec}
-% For backwards compatibility. Do not use this from now on!
-%    \begin{macrocode}
-\cs_set_eq:NN \zf@fontspec \fontspec_select:nn
-%    \end{macrocode}
-% \end{macro}
 %
 % \begin{macro}{\fontspec_if_detect_external:nT}
 % Check if either the fontname ends with a known font extension.
@@ -3428,8 +3357,109 @@ This work consists of this file fontspec.dtx
 %
 %
 %
+% \begin{macro}{\fontspec_save_family:nT}
+%% Now we have a unique (in fact, too unique!) string that contains
+% the family name and every option in abbreviated form. This is used
+% with a counter to create a simple NFSS family name for the font we're
+% selecting.
+%
+% The font name is fully expanded, in case it's defined in terms of macros, before having its spaces zapped.
+%    \begin{macrocode}
+\prg_new_conditional:Nnn \fontspec_save_family:n {T} {
+  \unless\ifcsname zf@UID@\zf@family@long\endcsname
+    \ifcsname c@zf@famc@#1\endcsname
+      \expandafter\global\expandafter\advance
+        \csname c@zf@famc@#1\endcsname\@ne
+    \else
+      \expandafter\global\expandafter\newcount
+        \csname c@zf@famc@#1\endcsname
+    \fi
+    \edef\@tempa{#1~}
+    \cs_gset:cpx{zf@UID@\zf@family@long}{
+      \expandafter\zap@space\@tempa\@empty
+      (\expandafter\the\csname c@zf@famc@#1\endcsname)
+    }
+  \fi
+  \xdef\zf@family{\@nameuse{zf@UID@\zf@family@long}}
+  \cs_if_exist:cTF {zf@family@fontname\zf@family}
+    \prg_return_false: \prg_return_true:
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\fontspec_set_scriptlang:}
+% Only necessary for OpenType fonts.
+% First check if the font supports scripts, then apply defaults if
+% none are explicitly requested. Similarly with the language settings.
+%    \begin{macrocode}
+\cs_new:Npn \fontspec_set_scriptlang: {
+  \ifzf@icu
+    \tl_if_empty:NTF \l_fontspec_script_name_tl {
+      \fontspec_check_script:nTF {latn}
+      {
+        \tl_set:Nn \l_fontspec_script_name_tl {Latin}
+        \tl_set:Nn \l_fontspec_script_tl      {latn}
+        \tl_if_empty:NT \l_fontspec_lang_tl {
+          \tl_set:Nn \l_fontspec_lang_name_tl {Default}
+          \tl_set:Nn \l_fontspec_lang_tl      {DFLT}
+        }
+        \fontspec_setkeys:xxx {feat} {Script} {\l_fontspec_script_name_tl}
+        \fontspec_setkeys:xxx {feat} {Lang}   {\l_fontspec_lang_name_tl}
+      }
+      {
+        \fontspec_info:n {no-scripts}
+      }
+    }
+    {
+      \tl_if_empty:NT \l_fontspec_lang_tl {
+        \tl_set:Nn \l_fontspec_lang_name_tl {Default}
+        \tl_set:Nn \l_fontspec_lang_tl      {DFLT}
+      }
+      \fontspec_setkeys:xxx {feat} {Script} {\l_fontspec_script_name_tl}
+      \fontspec_setkeys:xxx {feat} {Lang}   {\l_fontspec_lang_name_tl}
+    }
+  \fi
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\fontspec_save_fontinfo:nn}
+% Saves the relevant font information for future processing.
+%    \begin{macrocode}
+\cs_new:Npn \fontspec_save_fontinfo:nn #1#2 {
+    \tl_gset:cx {zf@family@fontname\zf@family} {#2}
+    \tl_gset:cx {zf@family@options\zf@family} {\zf@default@options #1}
+    \tl_gset:cx {zf@family@fontdef\zf@family} {
+      \fontspec_fullname:n {\zf@fontname} : \l_fontspec_pre_feat_tl \l_fontspec_rawfeatures_sclist
+    }
+    \tl_gset:cx {g_fontspec_script_num_(\zf@family)_tl}
+      { \int_use:N \c@zf@script   }
+    \tl_gset:cx {g_fontspec_lang_num_(\zf@family)_tl}
+      { \int_use:N \c@zf@language }
+    \tl_gset_eq:cN {g_fontspec_script_(\zf@family)_tl} \l_fontspec_script_tl
+    \tl_gset_eq:cN {g_fontspec_lang_(\zf@family)_tl}   \l_fontspec_lang_tl
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\fontspec_set_upright:}
+% Sets the upright shape.
+%    \begin{macrocode}
+\cs_new:Npn \fontspec_set_upright: {
+  \zf@make@font@shapes{\zf@fontname}
+    {\mddefault}{\updefault}{\zf@font@feat\zf@up@feat}
+}
+%    \end{macrocode}
+% \end{macro}
+%
 % \begin{macro}{\fontspec_set_bold:}
-% Again, the extra bold options defined with
+% The macros \cs{zf@bf}, et al., are used to store the name of the
+% custom bold, et al., font, if requested as user options. If they are
+% empty, the default fonts are used.
+%
+% The extra bold options defined with
 % \feat{BoldFeatures} are appended to the generic font features.
 % Then, the bold font is defined either as the ATS
 % default (\cs{zf@make@font@shapes}' optional argument is to check if
@@ -3611,7 +3641,7 @@ This work consists of this file fontspec.dtx
     \else
       \edef\zf@fontname{#1#2}
       \let\zf@basefont\@tempfontb
-      \zf@DeclareFontShape{#3}{#4}{#5}
+      \fontspec_declare_shape:nnnn {}{#3}{#4}{#5}
 %    \end{macrocode}
 % Next, the small caps are defined. \cs{zf@make@smallcaps} is used to
 % define the appropriate string for activating small caps in the font,
@@ -3625,13 +3655,13 @@ This work consists of this file fontspec.dtx
         \unless\ifzf@nosc
           \zf@make@smallcaps
           \unless\ifx\zf@smallcaps\@empty
-            \zf@DeclareFontShape[\zf@smallcaps]{#3}
+            \fontspec_declare_shape:nnnn {\zf@smallcaps}{#3}
               {\ifx#4\itdefault\sidefault\else\scdefault\fi}{#5\zf@sc@feat}
           \fi
         \fi
       \else
         \edef\zf@fontname{\zf@sc}
-        \zf@DeclareFontShape{#3}
+        \fontspec_declare_shape:nnnn {}{#3}
           {\ifx#4\itdefault\sidefault\else\scdefault\fi}{#5\zf@sc@feat}
       \fi
     \fi
@@ -3642,14 +3672,14 @@ This work consists of this file fontspec.dtx
 % only works while \cmd\fontspec_select:nn\ passes single tokens to this macro\dots
 % \end{macro}
 %
-% \begin{macro}{\zf@DeclareFontShape}
-% \doarg{Raw appended font feature}
+% \begin{macro}{\fontspec_declare_shape:nnnn}
+% \darg{Raw appended font feature}
 % \darg{Font series}
 % \darg{Font shape}
 % \darg{Font features}
 % Wrapper for \cmd\DeclareFontShape.
 %    \begin{macrocode}
-\newcommand\zf@DeclareFontShape[4][]{
+\cs_new:Npn \fontspec_declare_shape:nnnn #1#2#3#4 {
   \clist_if_empty:NTF \l_fontspec_sizefeat_clist
   {
     \fontspec_get_features:n{#4}
@@ -3685,6 +3715,10 @@ This work consists of this file fontspec.dtx
 % \cmd\zf@adjust\ is defined in various places to deal with things like the hyphenation
 % character and interword spacing.
 %    \begin{macrocode}
+  \PackageInfo{fontspec}{
+    Defining~ shape~ #2/#3~ with~ raw~ font~ features:
+    \MessageBreak \l_fontspec_rawfeatures_sclist
+  \@gobble}
   \use:x{
     \exp_not:N\DeclareFontShape{\zf@enc}{\zf@family}{#2}{#3}
       {\l_fontspec_nfss_tl}{\zf@adjust}
@@ -3765,7 +3799,6 @@ This work consists of this file fontspec.dtx
   \tl_if_empty:NF \XKV@rm {
     \fontspec_error:nx {unknown-options} { \exp_not:V \XKV@rm }
   }
-  \PackageInfo{fontspec}{Raw~ font~ features~ "\l_fontspec_rawfeatures_sclist"}
 }
 %    \end{macrocode}
 % \end{macro}
@@ -3801,6 +3834,7 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \newcommand*\fontspec_init:{
   \zf@icufalse
+  \zf@firsttimetrue
   \cs_set_eq:NN \fontspec_namewrap:n \use:n
   \tl_clear:N \l_fontspec_optical_size_tl
   \tl_clear:N \l_fontspec_renderer_tl
@@ -6218,6 +6252,7 @@ If you want to run just a single test, use
 \newcounter{example}
 
 \newcommand\exref[1]{Example~\ref{ex:#1}}
+\newcommand\Exref[1]{Example~\ref{ex:#1}}
 
 \newenvironment{Xexample}[3][]
   {\VerbatimEnvironment\begin{Fexample}[#1]{#2}{#3}{X}}

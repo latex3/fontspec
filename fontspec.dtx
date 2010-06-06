@@ -155,7 +155,7 @@ This work consists of this file fontspec.dtx
 % These are described in more detail below.
 %
 % \paragraph{\XeTeX\ users only}
-% \name{Ross Moore}'s \pkg{xunicode} package is recommended for
+% Ross Moore's \pkg{xunicode} package is recommended for
 % providing backwards compatibility with \LaTeX's methods for accessing extra
 % characters and accents (for example, |\%|, |\$|, |\textbullet|, |\"u|, and
 % so on), plus many more Unicode characters. The \pkg{xltxtra} package adds a
@@ -636,20 +636,24 @@ This work consists of this file fontspec.dtx
 % \feat{Italic-}, and \feat{BoldItalicFeatures},
 % separate font features may be defined to their respective shapes
 % \emph{in addition} to, and with precedence over, the `global' font features.
-% \begin{aatexample}
+% See \exref{itfeat}.
+%
+% \begin{Xexample}{itfeat}{Features for, say, just italics.}
 %   \fontspec{Hoefler Text} \itshape \scshape
 %   Attention All Martini Drinkers \\
 %   \addfontfeature{ItalicFeatures={Alternate = 1}}
 %   Attention All Martini Drinkers \\
-% \end{aatexample}
+% \end{Xexample}
+%
 % Combined with the options for selecting arbitrary \emph{fonts} for
 % the different shapes, these separate feature options allow the
-% selection of arbitrary weights in the Skia typeface, for example:
-% \begin{aatexample}
+% selection of arbitrary weights in the Skia typeface, as shown in \exref{bffeat}.
+%
+% \begin{Xexample}{bffeat}{Multiple Master--like features in AAT fonts.}
 %   \fontspec[BoldFont={Skia},
 %    BoldFeatures={Weight=2}]{Skia}
 %   Skia \\ \bfseries Skia `Bold'
-% \end{aatexample}
+% \end{Xexample}
 %
 % Note that because most fonts include their small caps glyphs
 % within the main font, features specified with \feat{SmallCapsFeatures} are applied \emph{in addition} to
@@ -758,22 +762,22 @@ This work consists of this file fontspec.dtx
 % the text. The color is defined as a triplet of two-digit Hex RGB
 % values, with optionally another value for the transparency (where
 % |00| is completely transparent and |FF| is opaque.)
-% \begin{example}
+% \begin{Xexample}{color}{Selecting colour with transparency.}
 %   \fontsize{48}{48}
-%   \fontspec{Hoefler Text Black}
+%   \fontspec{TeX Gyre Bonum Bold}
 %   {\addfontfeature{Color=FF000099}W}\kern-1ex
 %   {\addfontfeature{Color=0000FF99}S}\kern-0.8ex
 %   {\addfontfeature{Color=DDBB2299}P}\kern-0.8ex
 %   {\addfontfeature{Color=00BB3399}R}
-% \end{example}
+% \end{Xexample}
 %
 % If you load the \pkg{xcolor} package, you may use any named color as well:
 % \begin{example}
 %  \usepackage{xcolor}
 %  ...
-%  \fontspec[Color=red]{Verdana}
+%  \fontspec[Color=red]{Verdana} ...
 %  \definecolor{Foo}{rgb}{0.3,0.4,0.5}
-%  \fontspec[Color=Foo]{Verdana}
+%  \fontspec[Color=Foo]{Verdana} ...
 % \end{example}
 % The \pkg{color} package is \emph{not} supported; use \pkg{xcolor} instead.
 % If you insist, however, I can probably add \pkg{color} support too.
@@ -799,14 +803,16 @@ This work consists of this file fontspec.dtx
 % also accepts options \opt{MatchLowercase}
 % and \opt{MatchUppercase}, which will scale the font being selected to match
 % the current default roman font to either the height of the lowercase or
-% uppercase letters, respectively.
-% \begin{example}
+% uppercase letters, respectively; these features are shown in \exref{scale}.
+%
+% \begin{Xexample}{scale}{Automatically calculated scale values.}
 %   \setmainfont{Georgia}
 %   \newfontfamily\lc[Scale=MatchLowercase]{Verdana}
 %    The perfect match {\lc is hard to find.}\\
 %   \newfontfamily\uc[Scale=MatchUppercase]{Arial}
 %    L O G O \uc F O N T
-% \end{example}
+% \end{Xexample}
+%
 % The amount of scaling used in each instance is reported in the \texttt{.log} file.
 % Since there is some subjectivity about the exact scaling to be used, these values
 % should be used to fine-tune the results.
@@ -821,35 +827,31 @@ This work consists of this file fontspec.dtx
 % more convenient to specify this information when the font is
 % first defined.
 %
-% The space in between words in a paragraph will be chosen automatically
-% by \XeTeX, and generally will not need to be adjusted. For those
+% The space in between words in a paragraph will be chosen automatically,
+% and generally will not need to be adjusted. For those
 % times when the precise details are important, the \feat{WordSpace}
 % features is
 % provided, which takes either a single scaling factor to scale the
-% value that \XeTeX\ has already chosen, or a triplet of comma-separated
-% values for the nominal value, the stretch, and the shrink of the
-% interword space, respectively. \Ie, |WordSpace=0.8| is the same as
-% |WordSpace={0.8,0.8,0.8}|.
+% default value, or a triplet of comma-separated
+% values to scale the nominal value, the stretch, and the shrink of the
+% interword space by, respectively. (|WordSpace={|$x$|}| is the same as
+% |WordSpace={|$x$|,|$x$|,|$x$|}|.)
 %
-% For example, I believe that the Cochin font, as distributed with \MacOSX,
-% is too widely spaced. Now, this can be rectified, as shown below.
 % \begingroup
 % \let\centering\relax
-% \def\fillertext{Some filler text for our example to take up some
-%   space, and to demonstrate the large default interword space in \textit{Cochin}.}
-% \begin{example}
-%   \fontspec{Cochin}
-%   \fillertext
-%   \vspace{1em}
+% \begin{Xexample}{wordspace}{Scaling the default interword space. An exaggerated value has been chosen to emphasise the effects here.}
+%   \fontspec{TeX Gyre Termes}
+%   Some text for our example to take
+%   up some space, and to demonstrate
+%   the default interword space.
+%   \bigskip
 %
-%   \fontspec[ WordSpace = {0.7 , 0.8 , 0.9} ]{Cochin}
-%   \fillertext
-% \end{example}
+%   \addfontfeature{ WordSpace = 0.3 }
+%   Some text for our example to take
+%   up some space, and to demonstrate
+%   the default interword space.
+% \end{Xexample}
 % \endgroup
-% Be careful with the unpredictable things that the \AAT\ font renderer
-% can do with the text! Unlike \TeX, \MacOSX\ will allow
-% fonts to letterspace themselves, which can be seen above; OpenType fonts, however, will not
-% show this tendency, as they do not support this arguably dubious feature.
 %
 % \subsection{Post-punctuation space}
 %
@@ -859,25 +861,21 @@ This work consists of this file fontspec.dtx
 % effect can be justified, pardon the pun.
 %
 % The \feat{PunctuationSpace} feature takes a scaling factor by which to
-% adjust the nominal value chosen for the font. Note that |PunctuationSpace=0|
+% adjust the nominal value chosen for the font; this is demonstrated in
+% \exref{punctspace}.
+% Note that |PunctuationSpace=0|
 % is \emph{not} equivalent to \cmd\frenchspacing, although the difference
 % will only be apparent when a line of text is under-full.
-% \begingroup
-% \let\centering\relax
-% \begin{example}
-%   \nonfrenchspacing
-%   \fontspec{Baskerville}
-%    Letters, Words. Sentences.          \par
-%   \fontspec[PunctuationSpace=0.5]{Baskerville}
-%    Letters, Words. Sentences.          \par
-%   \fontspec[PunctuationSpace=0]{Baskerville}
-%    Letters, Words. Sentences.
-% \end{example}
-% \endgroup
 %
-% Also be aware that the above caveat for interword space also applies here,
-% so after the last line in the above example, the \feat{PunctuationSpace}
-% for \emph{all} Baskerville instances will be |0|.
+% \begin{Lexample}{punctspace}{Scaling the default post-punctuation space.}
+%   \nonfrenchspacing
+%   \fontspec{TeX Gyre Schola}
+%    Letters, Words. Sentences.          \par
+%   \fontspec[PunctuationSpace=2]{TeX Gyre Schola}
+%    Letters, Words. Sentences.          \par
+%   \fontspec[PunctuationSpace=0]{TeX Gyre Schola}
+%    Letters, Words. Sentences.
+% \end{Lexample}
 %
 %
 %
@@ -891,28 +889,23 @@ This work consists of this file fontspec.dtx
 % character is used. Finally, if the input is longer than a single character
 % it must be the UTF-8 slot number of the hyphen character you desire.
 %
-% Below, Adobe Garamond Pro's uppercase hyphenation character
-% is used to demonstrate a possible use for this feature.
-% The second example redundantly demonstrates the default behaviour
-% of using the hyphen as the hyphenation character.
-% \begingroup
-% \let\centering\relax
-% \begin{example}
-%   \def\text
-%     {A MULTITUDE OF OBSTREPEROUSLY HYPHENATED ENTITIES
-%                                        \par\vspace{1ex}}
-%   \fontspec[HyphenChar=None]{Adobe Garamond Pro} \text
-%   \fontspec[HyphenChar={-}]{Adobe Garamond Pro} \text
-%   \fontspec[HyphenChar="F6BA]{Adobe Garamond Pro} \text
-% \end{example}
-% \endgroup
+% Adobe Garamond Pro's uppercase hyphenation character
+% is used to demonstrate a possible use for this feature in \exref{hyphchar}.
 % Note that in an actual situation, the \opt{Uppercase} option of the \feat{Letters} feature
 % would probably supply this for you (see \vref{sec:letters}).
 %
-% This package (or the \pkg{xltxtra} package for \XeTeX\ users)
+% This package
 % redefines \LaTeX's \cmd\-\ macro
 % such that it adjusts along with the above changes.
 %
+% \begin{Lexample}{hyphchar}{Explicitly choosing the hyphenation character.}
+%  \def\text{\parbox{3cm}{%
+%    OBSTREPEROUSHYPHENATION%
+%  }\par\bigskip}
+%  \fontspec[HyphenChar=None]{Adobe Garamond Pro} \text
+%  \fontspec[HyphenChar={+}]{Adobe Garamond Pro}  \text
+%  \fontspec[HyphenChar="F6BA]{Adobe Garamond Pro}\text
+% \end{Lexample}
 %
 % \subsection{Optical font sizes} \label{sec:opticalsize}
 %
@@ -1008,12 +1001,13 @@ This work consists of this file fontspec.dtx
 % \otf{TeX}{tlig/trep}
 % \end{features}
 %
-% \begin{opentypeexample}
+% \begin{Lexample}{lig}{An example of the \feat{Ligatures} feature.}
+%    \Huge
 %   \fontspec[Ligatures=Rare]{Adobe Garamond Pro}
 %    \textit{strict firefly}                \\
 %   \fontspec[Ligatures=NoCommon]{Adobe Garamond Pro}
 %    \textit{strict firefly}
-% \end{opentypeexample}
+% \end{Lexample}
 %
 % \subsection{Letters} \label{sec:letters}
 % The \opt{Letters} feature specifies how the letters in the current font
@@ -1037,27 +1031,32 @@ This work consists of this file fontspec.dtx
 % whereas the \opt{Uppercase...} options turn the \emph{capital} letters into
 % the smaller
 % caps (good, \eg, for applying to already uppercase acronyms like
-% `NASA'). `Unicase' is a weird hybrid of upper and lower case
-% letters.
-% \begin{opentypeexample}
+% `NASA').
+% This difference is shown in \exref{caps}.
+% `Unicase' is a weird hybrid of upper and lower case letters.
+%
+% \begin{Lexample}{caps}{Small caps from lowercase or uppercase letters.}
 %   \fontspec[Letters=SmallCaps]{TeX Gyre Adventor}
 %    THIS SENTENCE no verb                \\
 %   \fontspec[Letters=UppercaseSmallCaps]{TeX Gyre Adventor}
 %    THIS SENTENCE no verb
-% \end{opentypeexample}
+% \end{Lexample}
 %
 % Note that The \opt{Uppercase} option will (probably)
 % not actually map letters to uppercase.
 %  \note{If you want automatic uppercase letters, look to \LaTeX's
 %       \cmd\MakeUppercase\ command.}
 % It is designed select various
-% uppercase forms for glyphs such as accents and dashes.
-% \begin{opentypeexample}
-%   \fontspec{Warnock Pro}
-%    UPPER-CASE EXAMPLE \\
+% uppercase forms for glyphs such as accents and dashes, such as shown
+% in \exref{letters-uppercase}.
+%
+% \begin{Lexample}{letters-uppercase}{An example of the \opt{Uppercase} option of the \feat{Letters} feature.}
+%   \fontspec{Adobe Garamond Pro}
+%    UPPER-CASE example \\
 %   \addfontfeature{Letters=Uppercase}
-%    UPPER-CASE EXAMPLE
-% \end{opentypeexample}
+%    UPPER-CASE example
+% \end{Lexample}
+%
 % The \feat{Kerning} feature also contains an \opt{Uppercase} option,
 % which adds a small amount of spacing in between letters (see \vref{sec:kerning}).
 %
@@ -1092,12 +1091,12 @@ This work consists of this file fontspec.dtx
 % is based on a \LuaTeX\ feature of the \pkg{luaotfload} package,
 % not an OpenType feature.
 %
-% \begin{opentypeexample}
+% \begin{Lexample}{slashzero}{The effect of the \opt{SlashedZero} option.}
 %   \fontspec[Numbers=Lining]{TeX Gyre Bonum}
 %    0123456789
 %   \fontspec[Numbers=SlashedZero]{TeX Gyre Bonum}
 %    0123456789
-% \end{opentypeexample}
+% \end{Lexample}
 %
 %
 % \subsection{Contextuals}
@@ -1113,12 +1112,12 @@ This work consists of this file fontspec.dtx
 % \otf{Inner}{medi}
 % \end{features}
 %
-% \begin{opentypeexample}
+% \begin{Lexample}{swash}{An example of the \opt{Swashes} option of the \opt{Contextuals} feature.}
 %   \fontspec{Warnock Pro} \itshape
 %    Without Contextual Swashes             \\
 %   \fontspec[Contextuals=Swash]{Warnock Pro}
 %    With Contextual Swashes; cf. W C S
-% \end{opentypeexample}
+% \end{Lexample}
 %
 % Historic forms are accessed in OpenType
 % fonts via the feature \feat{Style=Historic}; this is generally \emph{not}
@@ -1147,7 +1146,7 @@ This work consists of this file fontspec.dtx
 % \opt{Numerator} and \opt{Denominator} should only be used for creating
 % arbitrary fractions (see next section).
 %
-% \begin{aatexample}
+% \begin{example}
 %   \fontspec{Skia}
 %    Normal
 %   \fontspec[VerticalPosition=Superior]{Skia}
@@ -1156,7 +1155,7 @@ This work consists of this file fontspec.dtx
 %    Inferior                \\
 %   \fontspec[VerticalPosition=Ordinal]{Skia}
 %    1st 2nd 3rd 4th 0th 8abcde
-% \end{aatexample}
+% \end{example}
 % \begin{opentypeexample}
 %   \fontspec[VerticalPosition=Superior]{Warnock Pro}
 %    Sup: abdehilmnorst (-\$12,345.67)                      \\
@@ -1564,11 +1563,13 @@ This work consists of this file fontspec.dtx
 %
 % \subsection{Mapping}
 %
-% \feat{Mapping} enables a \XeTeX\ text-mapping scheme.
-% \begin{example}
+% \feat{Mapping} enables a \XeTeX\ text-mapping scheme, shown in \exref{mapping}.
+%
+% \begin{Xexample}{mapping}{\XeTeX's \feat{Mapping} feature.}
 %   \fontspec[Mapping=tex-text]{Cochin}
 %   ``!`A small amount of---text!''
-% \end{example}
+% \end{Xexample}
+%
 % Using the |tex-text| mapping is also equivalent to writing |Ligatures=TeX|.
 % The use of the latter syntax is recommended for better compatibility with
 % \LuaTeX\ documents.
@@ -1724,21 +1725,24 @@ This work consists of this file fontspec.dtx
 % This feature refers to glyph substitution that vary by their position;
 % things like contextual swashes are implemented here
 % The options for \AAT\ fonts are
-% \opt{WordInitial}, \opt{WordFinal}, \opt{LineInitial},
-% \opt{LineFinal}, and \opt{Inner} (also called `non-final' sometimes). As
+% \opt{WordInitial}, \opt{WordFinal} (\exref{wordcx}), \opt{LineInitial},
+% \opt{LineFinal}, and \opt{Inner} (\exref{lonsaat}, also called `non-final' sometimes). As
 % non-exclusive selectors, like the ligatures, you can turn them off
 % by prefixing their name with \opt{No}.
-% \begin{aatexample}
+%
+% \begin{Xexample}{wordcx}{Contextual glyph for the beginnings and ends of words.}
 %   \newfontface\fancy
 %       [Contextuals={WordInitial,WordFinal}]
 %                        {Hoefler Text Italic}
 %   \fancy where is all the vegemite
-% \end{aatexample}
-% \begin{aatexample}
+% \end{Xexample}
+%
+% \begin{Xexample}{longsaat}{A contextual feature for the `long s' can be convenient as the character does not need to be marked up explicitly.}
 %   \fontspec[Contextuals=Inner]{Hoefler Text}
 %   `Inner' swashes can \emph{sometimes}    \\
 %    contain the archaic long~s.
-% \end{aatexample}
+% \end{Xexample}
+%
 %
 %
 % \subsection{Vertical position}
@@ -1748,7 +1752,9 @@ This work consists of this file fontspec.dtx
 % The \opt{Ordinal} option is (supposed to be)
 % contextually sensitive to only raise characters that appear directly
 % after a number.
-% \begin{aatexample}
+% These are shown in \exref{aat-supp}.
+%
+% \begin{Xexample}{aat-supp}{Vertical position for AAT fonts.}
 %   \fontspec{Skia}
 %    Normal
 %   \fontspec[VerticalPosition=Superior]{Skia}
@@ -1757,7 +1763,7 @@ This work consists of this file fontspec.dtx
 %    Inferior                \\
 %   \fontspec[VerticalPosition=Ordinal]{Skia}
 %    1st 2nd 3rd 4th 0th 8abcde
-% \end{aatexample}
+% \end{Xexample}
 %
 % The \pkg{xltxtra} package redefines the \cmd\textsubscript\ and
 % \cmd\textsuperscript\ commands to use the above font features.
@@ -1771,19 +1777,21 @@ This work consists of this file fontspec.dtx
 % In \AAT\ fonts, the `fraction slash' or solidus character, is
 % to be used to create fractions. When \feat{Fractions} are turned
 % \opt{On}, then only pre-drawn fractions will be used.
-% \begin{aatexample}
+% See \exref{aat-frac}.
+%
+% Using the \opt{Diagonal} option (\AAT\ only), the font will attempt
+% to create the fraction from superscript and subscript
+% characters.
+%
+% \begin{Xexample}{aat-frac}{Fractions in AAT fonts.}
 %   \fontspec[Fractions=On]{Skia}
 %    1⁄2 \quad 5⁄6 \\ % fraction slash
 %    1/2 \quad 5/6    % regular  slash
-% \end{aatexample}
-% Using the \opt{Diagonal} option (\AAT\ only), the font will attempt
-% to create the fraction from superscript and subscript
-% characters. This is shown in the following example:
-% \begin{aatexample}
+%
 %   \fontspec[Fractions=Diagonal]{Skia}
 %          13579⁄24680 \\ % fraction slash
 %    \quad 13579/24680    % regular  slash
-% \end{aatexample}
+% \end{Xexample}
 %
 % Some (Asian fonts predominantly) also provide for the
 % \opt{Alternate} feature:
@@ -6244,6 +6252,9 @@ If you want to run just a single test, use
     \def\prefix{#4}
     \refstepcounter{example}%
     \label{ex:\filename}%
+    \IfFileExists{doc/\theexample-\prefix-\filename.tex}{}{%
+      \immediate\write18{cd doc && rm \theexample-* ;}%
+    }%
     \VerbatimEnvironment
     \begin{VerbatimOut}{doc/\theexample-\prefix-\filename.tex}}
 % text in the environment
@@ -6274,7 +6285,6 @@ If you want to run just a single test, use
               cp -a fontspec.dtx doc/;
               cd doc;
               tex fontspec.dtx > /dev/null ;
-              rm \theexample-* ;
            }
            \immediate\write18{\unexpanded\expandafter{\1}}%
          }%

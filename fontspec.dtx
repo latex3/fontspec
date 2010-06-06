@@ -2542,7 +2542,7 @@ This work consists of this file fontspec.dtx
 }
 \msg_new:nnn {fontspec} {no-scripts}
 {
-  Font~ \zf@fontname~ does~ not~ contain~ any~ OpenType~ `Script'~ information.
+  Font~ \zf@fontname\space does~ not~ contain~ any~ OpenType~ `Script'~ information.
 }
 %    \end{macrocode}
 %
@@ -4584,7 +4584,9 @@ This work consists of this file fontspec.dtx
           \fontspec_error:nx {no-glyph}{#1}
         \fi}%
       }{
-        \ifnum\directlua{fontspec.sprint(fontspec.charglyph('#1'))} > \z@
+        \ifnum\directlua{
+            fontspec.sprint(fontspec.charglyph('#1', 'zf@basefont'))
+        } > \z@
           \g@addto@macro\zf@adjust{\luatexprehyphenchar=`#1\relax}
         \else
           \fontspec_error:nx {no-glyph}{#1}
@@ -4598,7 +4600,9 @@ This work consists of this file fontspec.dtx
           \fontspec_error:nx {no-glyph}{#1}
         \fi}%
       }{
-        \ifnum\directlua{fontspec.sprint(fontspec.charglyph('#1'))} > \z@
+        \ifnum\directlua{
+            fontspec.sprint(fontspec.charglyph('#1', 'zf@basefont'))
+        } > \z@
           \g@addto@macro\zf@adjust{\luatexprehyphenchar=#1\relax}
         \else
           \fontspec_error:nx {no-glyph}{#1}

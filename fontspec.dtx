@@ -1205,24 +1205,24 @@ This work consists of this file fontspec.dtx
 % specified numerically. These correspond to OpenType
 % features |ss01|, |ss02|, etc.
 %
-% Here are two examples from the Junicode
-% font\footnote{\url{http://junicode.sf.net}}; thanks to Adam
+% Two demonstrations from the Junicode
+% font\footnote{\url{http://junicode.sf.net}}
+% are shown in \exref{ss} and \exref{ss2}; thanks to Adam
 % Buchbinder for the suggestion.
-% This example shows insular (ancient) letterforms:
-% \begin{opentypeexample}
+%
+% \begin{Lexample}{ss}{Insular (ancient) letterforms for the Junicode font, accessed with the \feat{StylisticSet} feature.}
 %   \fontspec{Junicode}
 %    Insular forms. \\
 %   \addfontfeature{StylisticSet=2}
 %    Insular forms. \\
-% \end{opentypeexample}
-% And here is shown enlarged minuscules: (capital letters remain
-% unchanged)
-% \begin{opentypeexample}
+% \end{Lexample}
+%
+% \begin{Lexample}{ss2}{Enlarged minuscules (capital letters remain unchanged) for the Junicode font, accessed with the \feat{STylisticSet} feature.}
 %   \fontspec{Junicode}
 %    ENLARGED Minuscules. \\
 %   \addfontfeature{StylisticSet=6}
 %    ENLARGED Minuscules. \\
-% \end{opentypeexample}
+% \end{Lexample}
 %
 % (This is a synonym of the \feat{Variant} feature for \AAT\ fonts.)
 % See \vref{sec:newfeatures} for a way to assign names to stylistic sets,
@@ -1263,47 +1263,7 @@ This work consists of this file fontspec.dtx
 % For fonts with multiple |salt| OpenType features,
 % use the fontspec \feat{Alternate} feature instead.
 %
-% \setexsize\Large
-%  \begin{opentypeexample}
-%   \fontspec{Warnock Pro}
-%    K Q R k v w y                      \\
-%   \addfontfeature{Style=Alternate}
-%    K Q R k v w y
-% \end{opentypeexample}
-% Note the occasional inconsistency with which font features are labelled; a long-tailed `Q' could turn up anywhere!
-% \setexsize\Large
-% \begin{opentypeexample}
-%   \fontspec{Adobe Jenson Pro}
-%    M Q Z                              \\
-%   \addfontfeature{Style=Historic}
-%    M Q Z
-% \end{opentypeexample}
-% \setexsize\Large
-% \begin{example}
-%   \fontspec{Adobe Garamond Pro}
-%    TITLING CAPS                       \\
-%   \addfontfeature{Style=TitlingCaps}
-%    TITLING CAPS
-% \end{example}
-%
-% Two features in one example; \opt{Italic} affects the Latin text and \opt{Ruby} the Japanese:
-% \setexsize\Large
-% \begin{opentypeexample}
-%   \fontspec{Hiragino Mincho Pro W3}
-%    Latin ようこそ ワカヨタレソ        \\
-%   \addfontfeature{Style={Italic, Ruby}}
-%    Latin ようこそ ワカヨタレソ
-% \end{opentypeexample}
-% Note the difference here between the default and the horizontal style kana:
-% \setexsize\Large
-% \begin{aatexample}
-%    \fontspec{Hiragino Mincho Pro}
-%     ようこそ ワカヨタレソ  \\
-%   {\addfontfeature{Style=HorizontalKana}
-%     ようこそ ワカヨタレソ} \\
-%   {\addfontfeature{Style=VerticalKana}
-%     ようこそ ワカヨタレソ}
-% \end{aatexample}
+% Typical examples for these features are shown in \ref{sec:ot-feat-style}.
 %
 %
 %
@@ -1399,9 +1359,10 @@ This work consists of this file fontspec.dtx
 %   {\addfontfeature{CharacterWidth=Half}\test}
 % \end{opentypeexample}
 % The same situation occurs with numbers, which are provided in
-% increasingly illegible compressed forms:
-% \setexsize\large
-% \begin{aatexample}
+% increasingly illegible compressed forms seen in exref{charwd}.
+%
+% \begin{Xexample}[firstline=2]{charwd}{Numbers can be compressed significantly.}
+%   \centering
 %   \fontspec[Renderer=AAT]{Hiragino Mincho Pro}
 %   {\addfontfeature{CharacterWidth=Full}
 %    ---12321---}\\
@@ -1411,7 +1372,8 @@ This work consists of this file fontspec.dtx
 %    ---123456787654321---}\\
 %   {\addfontfeature{CharacterWidth=Quarter}
 %    ---12345678900987654321---}
-% \end{aatexample}
+% \end{Xexample}
+%
 % The option \opt{CharacterWidth=Full} doesn't work with the
 % default OpenType font renderer (ICU) due to a bug in the Hiragino fonts.
 %
@@ -1811,16 +1773,22 @@ This work consists of this file fontspec.dtx
 %
 % \subsection{Variants}
 % The \feat{Variant} feature takes a single numerical input for
-% choosing different alphabetic shapes. Don't mind my fancy example
+% choosing different alphabetic shapes. Don't mind my fancy \exref{aat-var}
 % \texttt{:)} I'm just looping through the nine~(\,!\,) variants of
 % Zapfino.
-% \setexsize\Huge
-% \def\firstline{2}\def\lastline{9}
-% \begin{aatexample}
-%   \rule{0pt}{2cm}% %   \newcounter{var}\newcounter{trans}
-%   \whiledo{\value{var}<9}{% %     \stepcounter{trans}% %     \fontspec[Variant=\thevar,
-%       Color=005599\thetrans\thetrans]{Zapfino}% %     \makebox[0.75\width]{d}% %     \stepcounter{var}}
-% \end{aatexample}
+%
+% \begin{Xexample}[firstline=2,lastline=9]{aat-var}{Nine variants of Zapfino.}
+%   \Huge \rule{0pt}{2cm}
+%   \newcounter{var}\newcounter{trans}
+%   \whiledo{\value{var}<9}{%
+%     \stepcounter{trans}%
+%     \edef\1{%
+%     \noexpand\fontspec[Variant=\thevar,
+%       Color=005599\thetrans\thetrans]{Zapfino}}\1%
+%     \makebox[0.75\width]{d}%
+%     \stepcounter{var}}
+%   \hspace*{2cm}
+% \end{Xexample}
 %
 % See \vref{sec:newfeatures} for a way to assign names to variants,
 % which should be done on a per-font basis.
@@ -1840,6 +1808,8 @@ This work consists of this file fontspec.dtx
 %
 %
 % \subsection{Style}
+% \label{sec:ot-feat-style}
+%
 % The options of the \feat{Style} feature
 % are defined in \AAT\ as one of the following: \opt{Display},
 % \opt{Engraved}, \opt{IlluminatedCaps}, \opt{Italic},
@@ -1847,46 +1817,57 @@ This work consists of this file fontspec.dtx
 % \footnotetext{`Ruby' refers to a small optical size, used in
 % Japanese typography for annotations.}
 %
-% \setexsize\Large
-%  \begin{opentypeexample}
+% \Exref{style-alt} and \exref{style-hist} both contain glyph
+% subtitutions with similar characteristics.
+% Note the occasional inconsistency with which font features are labelled; a long-tailed `Q' could turn up anywhere!
+%
+%  \begin{Lexample}[firstline=2]{style-alt}{Example of the \opt{Alternate} option of the \feat{Style} feature.}
+%   \Large
 %   \fontspec{Warnock Pro}
 %    K Q R k v w y                      \\
 %   \addfontfeature{Style=Alternate}
 %    K Q R k v w y
-% \end{opentypeexample}
-% Note the occasional inconsistency with which font features are labelled; a long-tailed `Q' could turn up anywhere!
-% \setexsize\Large
-% \begin{opentypeexample}
+% \end{Lexample}
+%
+% \begin{Xexample}[firstline=2]{style-hist}{Example of the \opt{Historic} option of the \feat{Style} feature.}
+%   \Large
 %   \fontspec{Adobe Jenson Pro}
-%    M Q Z                              \\
+%    M Q Z                      \\
 %   \addfontfeature{Style=Historic}
 %    M Q Z
-% \end{opentypeexample}
-% \setexsize\Large
-% \begin{example}
+% \end{Xexample}
+%
+% In other features, larger breadths of changes can be seen, covering
+% the style of an entire alphabet. See \exref{style-titl} and \exref{style-itrub}; in the latter, the \opt{Italic} option affects the Latin text and the \opt{Ruby} option the Japanese.
+%
+% \begin{Lexample}[firstline=2]{style-titl}{Example of the \opt{TitlingCaps} option of the \feat{Style} feature.}
+%   \Large
 %   \fontspec{Adobe Garamond Pro}
 %    TITLING CAPS                       \\
 %   \addfontfeature{Style=TitlingCaps}
 %    TITLING CAPS
-% \end{example}
-% Two features in one example; \opt{Italic} affects the Latin text and \opt{Ruby} the Japanese:
-% \setexsize\Large
-% \begin{opentypeexample}
-%   \fontspec{Hiragino Mincho Pro W3}
-%    Latin ようこそ ワカヨタレソ        \\
+% \end{Lexample}
+%
+% \begin{Xexample}[firstline=2]{style-itrub}{Example of the \opt{Italic} and \opt{Ruby} options of the \feat{Style} feature.}
+%   \Large \def\kana{ようこそ ワカヨタレソ}
+%   \fontspec{Hiragino Mincho Pro}
+%    Latin \kana        \\
 %   \addfontfeature{Style={Italic, Ruby}}
-%    Latin ようこそ ワカヨタレソ
-% \end{opentypeexample}
-% Note the difference here between the default and the horizontal style kana:
-% \setexsize\Large
-% \begin{aatexample}
+%    Latin \kana
+% \end{Xexample}
+%
+% Note the difference here between the default and the horizontal style kana
+% in \exref{style-hvkana}.
+%
+% \begin{Xexample}[firstline=2]{style-hvkana}{Example of the \opt{HorizontalKana} and \opt{VerticalKana} options of the \feat{Style} feature.}
+%   \Large \def\kana{ようこそ ワカヨタレソ}
 %    \fontspec{Hiragino Mincho Pro}
-%     ようこそ ワカヨタレソ  \\
+%     \kana   \\
 %   {\addfontfeature{Style=HorizontalKana}
-%     ようこそ ワカヨタレソ} \\
+%     \kana } \\
 %   {\addfontfeature{Style=VerticalKana}
-%     ようこそ ワカヨタレソ}
-% \end{aatexample}
+%     \kana }
+% \end{Xexample}
 %
 %
 %

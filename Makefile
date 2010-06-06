@@ -13,6 +13,7 @@ help:
 	echo '                  help  -  (this message)'
 	echo '                unpack  -  extracts all files'
 	echo '                   doc  -  compile documentation'
+	echo '                gendoc  -  compile documentation including external examples'
 	echo '                  ctan  -  generate archive for CTAN'
 	echo '                   all  -  unpack & doc'
 	echo '                 world  -  all & ctan'
@@ -60,6 +61,7 @@ TDS_ZIP = $(NAME).tds.zip
 ZIPS = $(CTAN_ZIP) $(TDS_ZIP)
 
 DO_PDFLATEX = pdflatex --interaction=batchmode $< >/dev/null
+DO_PDFLATEX_WRITE18 = pdflatex --shell-escape --interaction=batchmode $< >/dev/null
 DO_TEX = tex --interaction=batchmode $< >/dev/null
 DO_MAKEINDEX = makeindex -s gind.ist $(subst .dtx,,$<) >/dev/null 2>&1
 
@@ -69,6 +71,9 @@ unpack: $(UNPACKED)
 ctan: $(CTAN_ZIP)
 tds: $(TDS_ZIP)
 world: all ctan
+
+gendoc: $(DTX)
+	$(DO_PDFLATEX_WRITE18)
 
 $(COMPILED): $(DTX)
 	$(DO_PDFLATEX)

@@ -4949,21 +4949,25 @@ This work consists of this file fontspec.dtx
 %
 %    \begin{macrocode}
 \define@key[zf]{options}{Alternate}[0]{
+  \clist_set_eq:NN \l_fontspec_tmpa_clist \XKV@rm
   \setkeys*[zf@feat]{Alternate}{#1}
   \unless\ifx\XKV@rm\@empty
     \def\XKV@tfam{Alternate}
     \fontspec_make_feature:nnn{17}{#1}{+salt=#1}
   \fi
+  \clist_set_eq:NN \XKV@rm \l_fontspec_tmpa_clist
 }
 %    \end{macrocode}
 %
 %    \begin{macrocode}
 \define@key[zf]{options}{Variant}{
+  \clist_set_eq:NN \l_fontspec_tmpa_clist \XKV@rm
   \setkeys*[zf@feat]{Variant}{#1}
   \unless\ifx\XKV@rm\@empty
     \def\XKV@tfam{Variant}
     \fontspec_make_feature:nnn{18}{#1}{+ss\two@digits{#1}}
   \fi
+  \clist_set_eq:NN \XKV@rm \l_fontspec_tmpa_clist
 }
 \aliasfontfeature{Variant}{StylisticSet}
 %    \end{macrocode}

@@ -134,10 +134,19 @@ This work consists of this file fontspec.dtx
 %
 % \subsection{About this manual}
 %
-% As of version 2.0 with the addition of \LuaTeX\ support, this manual
+% This manual for version 2 of fontspec
 % is still in the process of being re-written.
-% It currently contains no typeset examples.
-% Your patience and feedback is appreciated!
+% If you see any typeset examples that are broken, please let me know!
+% I've managed to go over a lot of them but some have been brought over
+% from the old version without being proofed.
+%
+% I'd also like to reduce the number of non-free fonts used in these
+% examples. If you know any freely available fonts that could be used
+% as alternative to any of the fonts in this document, please suggest them
+% to me.
+% Finally, if any aspect of the documentation is unclear or you would
+% like to suggest more examples that could be made, get in touch.
+% (Contributions especially welcome.)
 %
 % \section{Package loading and options}
 %
@@ -145,14 +154,6 @@ This work consists of this file fontspec.dtx
 % \begin{Verbatim}
 %   \usepackage{fontspec}
 % \end{Verbatim}
-%
-% In brief, \pkg{fontspec}'s package options are
-% \begin{description}[nolistsep,font=\ttfamily]
-% \item [no-math] Don't change any maths fonts;
-% \item [no-config] Don't load \pkg{fontspec.cfg}; and,
-% \item [quiet] Output \pkg{fontspec} warnings in the log file rather than the console output.
-% \end{description}
-% These are described in more detail below.
 %
 % \paragraph{\XeTeX\ users only}
 % Ross Moore's \pkg{xunicode} package is recommended for
@@ -183,7 +184,7 @@ This work consists of this file fontspec.dtx
 % By default, \pkg{fontspec} adjusts \LaTeX's
 % default maths setup in order to maintain the correct Computer Modern symbols
 % when the roman font changes. However, it will attempt to avoid doing this if
-% another maths font package is loaded (such as \pkg{mathpazo} or my upcoming
+% another maths font package is loaded (such as \pkg{mathpazo} or the
 % \pkg{unicode-math} package).
 %
 % If you find that it is incorrectly changing the maths font when it should be
@@ -213,17 +214,16 @@ This work consists of this file fontspec.dtx
 %
 %
 %
-% \clearpage
 % \part{General font selection}
 %
 % This section concerns the variety of commands that can be used to select
 % fonts.
 %
 % \cmdbox{%
-%   \CMD{~~~~~\string\fontspec} \oarg{font features} \marg{font name}\\
-%   \CMD{~~\string\setmainfont} \oarg{font features} \marg{font name}\\
-%   \CMD{~~\string\setsansfont} \oarg{font features} \marg{font name}\\
-%   \CMD{~~\string\setmonofont} \oarg{font features} \marg{font name}\\
+%   \CMD{\string\fontspec} \oarg{font features} \marg{font name}\\
+%   \CMD{\string\setmainfont} \oarg{font features} \marg{font name}\\
+%   \CMD{\string\setsansfont} \oarg{font features} \marg{font name}\\
+%   \CMD{\string\setmonofont} \oarg{font features} \marg{font name}\\
 %   \CMD{\string\newfontfamily} \meta{cmd} \oarg{font features} \marg{font name}
 % }
 %
@@ -344,21 +344,23 @@ This work consists of this file fontspec.dtx
 %
 % These commands are used to select
 % the default font families for the entire document. They take the
-% same arguments as \cmd{\fontspec}. For example:
-%   \def\pangram{Pack my box with five
-%                      dozen liquor jugs.}
-% \begin{example}
-%   \setmainfont{Baskerville}
-%   \setsansfont[Scale=MatchLowercase]{Skia}
-%   \setmonofont[Scale=MatchLowercase]{Monaco}
-%   \rmfamily\pangram\par
-%   \sffamily\pangram\par
-%   \ttfamily\pangram
-% \end{example}
+% same arguments as \cmd{\fontspec}. See \exref{fontload}.
 % Here, the scales of the fonts have been chosen to equalise their
 % lowercase letter heights. The \feat{Scale} font feature will be discussed
 % further in \vref{sec:font-ind-features}, including methods for automatic
 % scaling.
+%
+% \begin{Lexample}[firstline=3]{fontload}{Loading the default, sans serif, and monospaced fonts.}
+%   \def\pangram{Pack my box with five
+%                      dozen liquor jugs.}
+%   \setmainfont{TeX Gyre Bonum}
+%   \setsansfont[Scale=MatchLowercase]{Latin Modern Sans}
+%   \setmonofont[Scale=MatchLowercase]{Inconsolata}
+%   \rmfamily\pangram\par
+%   \sffamily\pangram\par
+%   \ttfamily\pangram
+% \end{Lexample}
+%
 %
 %
 %
@@ -366,7 +368,7 @@ This work consists of this file fontspec.dtx
 %
 % \cmdbox{
 %   \CMD{\string\newfontfamily} \cs{\meta{font-switch}} \oarg{font features} \marg{font name} \\
-%   \CMD{~~\string\newfontface} \cs{\meta{font-switch}} \oarg{font features} \marg{font name}
+%   \CMD{\string\newfontface} \cs{\meta{font-switch}} \oarg{font features} \marg{font name}
 % }
 %
 % \noindent For cases when a specific font with a specific
@@ -377,37 +379,50 @@ This work consists of this file fontspec.dtx
 %
 % \DescribeMacro{\newfontfamily}
 % For this reason, new commands can be created for loading a particular font
-% family with the \cmd\newfontfamily\ command:
-% \begin{example}
-%   \newfontfamily\notefont{Didot}
-%   \notefont This is a \emph{note}.
-% \end{example}
+% family with the \cmd\newfontfamily\ command, demonstrated in \exref{nff}.
 % This macro should be used to create commands that would be used in
 % the same way as \cmd\rmfamily, for example.
+% If you would like to create a command that only changes the font
+% inside its argument (like \cmd{emph}) define it using regular \LaTeX\
+% commands:
+% \begin{Verbatim}
+%   \newcommand\textnote[1]{{\notefont #1}}
+%   \textnote{This is a note.}
+% \end{Verbatim}
+% Note that the double braces are intentional; the inner pair are used to
+% to delimit the scope of the font change.
+%
+% \begin{Lexample}{nff}{Defining new font families.}
+%   \newfontfamily\notefont{Kurier}
+%   \notefont This is a \emph{note}.
+% \end{Lexample}
 %
 % \DescribeMacro{\newfontface}
 % Sometimes only a specific font face is desired, without accompanying italic or bold variants
 % begin automatically selected.
 % This is common when selecting a fancy italic font, say, that has swash features unavailable
-% in the upright forms. \cmd\newfontface\ is used for this purpose:
-% \begin{example}
+% in the upright forms. \cmd\newfontface\ is used for this purpose, shown
+% in \exref{nfface}, which is repeated in \vref{sec:contextuals}.
+%
+% \begin{Xexample}{nfface}{Defining a single font face.}
 %   \newfontface\fancy
 %       [Contextuals={WordInitial,WordFinal}]
 %                        {Hoefler Text Italic}
 %   \fancy where is all the vegemite
-% \end{example}
-% \noindent This example is repeated in \vref{sec:contextuals}.
+%   % \emph, \textbf, etc., all don't work
+% \end{Xexample}
+
 %
 % \subsection{More control over font shape selection}
 % \label{sec:bfitfonts}
 %
 % \cmdbox{
-%  \feat{~~~~~~~BoldFont} = \meta{font name} \\
-%  \feat{~~~~~ItalicFont} = \meta{font name} \\
+%  \feat{BoldFont} = \meta{font name} \\
+%  \feat{ItalicFont} = \meta{font name} \\
 %  \feat{~BoldItalicFont} = \meta{font name} \\
-%  \feat{~~~~SlantedFont} = \meta{font name} \\
+%  \feat{SlantedFont} = \meta{font name} \\
 %  \feat{BoldSlantedFont} = \meta{font name} \\
-%  \feat{~~SmallCapsFont} = \meta{font name}
+%  \feat{SmallCapsFont} = \meta{font name}
 % }
 %
 % The automatic bold, italic, and bold italic font selections will not be
@@ -418,15 +433,17 @@ This work consists of this file fontspec.dtx
 % italic fonts to chose between.  The \feat{BoldFont} and
 % \feat{ItalicFont} features are provided for these situations. If only
 % one of these is used, the bold italic font is requested as the
-% default from the \emph{new} font.
-% \begin{example}
+% default from the \emph{new} font. See \exref{bff}.
+%
+% \begin{Xexample}{bff}{Explicit selection of the bold font.}
 %   \fontspec[BoldFont={Helvetica Neue}]
 %                           {Helvetica Neue UltraLight}
 %                 Helvetica Neue UltraLight         \\
 %   {\itshape     Helvetica Neue UltraLight Italic} \\
 %   {\bfseries               Helvetica Neue       } \\
 %   {\bfseries\itshape       Helvetica Neue Italic} \\
-% \end{example}
+% \end{Xexample}
+%
 % If a bold italic shape is not defined, or you want to specify
 % \emph{both} custom bold and italic shapes, the \feat{BoldItalicFont}
 % feature is provided.
@@ -434,21 +451,18 @@ This work consists of this file fontspec.dtx
 % \subsubsection{Input shorthands}
 %
 % For those cases that the base font name is repeated, you can
-% replace it with an asterisk. For example,
+% replace it with an asterisk. (This has been shown previously in this section.)
+% For example,
 % some space can be saved instead of writing `\texttt{Baskerville SemiBold}':
-% \begin{example}
+% \begin{Verbatim}
 %   \fontspec[BoldFont={* SemiBold}]{Baskerville}
-%          Baskerville \textit{Italic}
-%   \bfseries SemiBold \textit{Italic}
-% \end{example}
+% \end{Verbatim}
 %
 % As a matter of fact, this feature can also be used for the upright font too:
-% \begin{example}
+% \begin{Verbatim}
 %   \fontspec[UprightFont={* SemiBold},
 %             BoldFont={* Bold}]{Baskerville}
-%          Upright \textit{Italic}
-%   \bfseries Bold \textit{Bold Italic}
-% \end{example}
+% \end{Verbatim}
 %
 % \subsubsection{Small caps and slanted font shapes}
 %
@@ -518,14 +532,6 @@ This work consists of this file fontspec.dtx
 %   \setmathrm{Optima}
 %   \setboldmathrm[BoldFont=Optima ExtraBlack]{Optima Bold}
 % \end{Verbatim}
-% and this would allow you to typeset something like this:
-% \begin{example}
-%   \setmainfont{Optima Regular}
-%   $ X \rightarrow \mathrm{X} \rightarrow \mathbf{X} $
-%   \\\boldmath
-%   $ X \rightarrow \mathrm{X} \rightarrow \mathbf{X} $
-% \end{example}
-% (TODO: this example obviously doesn't work without the graphic.)
 %
 %
 % \subsection{Miscellaneous font selecting details}
@@ -568,15 +574,19 @@ This work consists of this file fontspec.dtx
 % It is desirable to define
 % options that are applied to every subsequent font selection command:
 % a default feature set, so to speak. This may be defined with the
-% \cmd{\defaultfontfeatures} command.
+% \cmd{\defaultfontfeatures} command, shown in \exref{dff}.
 % New calls of \cs{defaultfontfeatures} overwrite previous ones.
-% \begin{example}
-%   \fontspec{Didot}
-%    Some `default' Didot 0123456789             \\
-%   \defaultfontfeatures{Numbers=OldStyle, Color=888888}
-%   \fontspec{Didot}
-%    Now grey, with old-style figures: 0123456789
-% \end{example}
+%
+% \begin{Xexample}{dff}{A demonstration of the \cs{defaultfontfeatures} command.}
+%   \fontspec{TeX Gyre Adventor}
+%   Some `default' Didot 0123456789 \\
+%   \defaultfontfeatures{
+%      Numbers=OldStyle, Color=888888
+%   }
+%   \fontspec{TeX Gyre Adventor}
+%   Now grey, with old-style figures:
+%   0123456789
+% \end{Xexample}
 %
 % \subsection{Changing the currently selected features}
 % \label{sec:addfontfeatures}
@@ -586,22 +596,22 @@ This work consists of this file fontspec.dtx
 % This command allows font features to
 % be changed without knowing what features are currently selected or even what
 % font is being used. A good example of this could be to add a hook to all
-% tabular material to use monospaced numbers, as shown in the following example:
+% tabular material to use monospaced numbers, as shown in \exref{aff}.
 %
-% \begin{example}
-%   \fontspec[Numbers=OldStyle]{Skia}
+% \begin{Lexample}{aff}{A demonstration of the \cs{addfontfeatures} command.}
+%   \fontspec[Numbers={Proportional,OldStyle}]
+%            {TeX Gyre Adventor}
 %   `In 1842, 999 people sailed 97 miles in
 %    13 boats. In 1923, 111 people sailed 54
 %    miles in 56 boats.'            \bigskip
 %
 %   {\addfontfeatures{Numbers={Monospaced,Lining}}
 %   \begin{tabular}{@{} cccc @{}}
-%     \toprule  Year & People & Miles & Boats \\
-%     \midrule  1842 &  999   &  75   &  13   \\
-%               1923 &  111   &  54   &  56   \\
-%     \bottomrule
+%             Year & People & Miles & Boats \\
+%     \hline  1842 &  999   &  75   &  13   \\
+%             1923 &  111   &  54   &  56
 %   \end{tabular}}
-% \end{example}
+% \end{Lexample}
 %
 % \DescribeMacro{\addfontfeature}
 % This command may also be executed under the alias \cmd{\addfontfeature}.
@@ -618,12 +628,12 @@ This work consists of this file fontspec.dtx
 % \label{sec:bfit-feat}
 %
 % \cmdbox{
-%  \feat{~~~~~~~BoldFeatures}\marg{features} \\
-%  \feat{~~~~~ItalicFeatures}\marg{features} \\
-%  \feat{~BoldItalicFeatures}\marg{features} \\
-%  \feat{~~~~SlantedFeatures}\marg{features} \\
+%  \feat{BoldFeatures}\marg{features} \\
+%  \feat{ItalicFeatures}\marg{features} \\
+%  \feat{BoldItalicFeatures}\marg{features} \\
+%  \feat{SlantedFeatures}\marg{features} \\
 %  \feat{BoldSlantedFeatures}\marg{features} \\
-%  \feat{~~SmallCapsFeatures}\marg{features}
+%  \feat{SmallCapsFeatures}\marg{features}
 % }
 %
 % It is entirely possible that separate fonts in a family will require
@@ -660,8 +670,10 @@ This work consists of this file fontspec.dtx
 % any other shape-specific features as defined above, and hence \feat{SmallCapsFeatures}
 % can be nested within \feat{ItalicFeatures} and friends. Every combination
 % of upright, italic, bold and small caps can thus be assigned individual
-% features, as shown in the following ludicrous example.
-% \begin{example}
+% features, as shown in the somewhat ludicrous \exref{scfeat}.
+%
+% \begin{Xexample}{scfeat}{An example of setting the \feat{SmallCapsFeatures}
+% separately for each font shape.}
 %   \fontspec[
 %       UprightFeatures={Color = 220022,
 %            SmallCapsFeatures = {Color=115511}},
@@ -671,12 +683,12 @@ This work consists of this file fontspec.dtx
 %            SmallCapsFeatures = {Color=992211}},
 %    BoldItalicFeatures={Color = 888844,
 %            SmallCapsFeatures = {Color=444422}},
-%            ]{Hoefler Text}
+%            ]{TeX Gyre Termes}
 %   Upright {\scshape Small Caps}\\
 %   \itshape Italic {\scshape Italic Small Caps}\\
 %   \upshape\bfseries Bold {\scshape Bold Small Caps}\\
 %   \itshape Bold Italic {\scshape Bold Italic Small Caps}
-% \end{example}
+% \end{Xexample}
 %
 % \subsection{Different features for different font sizes}
 % \label{sec:sizefeature}
@@ -707,16 +719,18 @@ This work consists of this file fontspec.dtx
 % to declare the size range, and optionally \opt{Font} to change the
 % font based on size. Other (regular) fontspec features that are added
 % are used on top of the font features that would be used anyway.
-%
-% \begin{example}
-%   \fontspec[ SizeFeatures={
-%       {Size={-8}, Font=Apple Chancery, Color=AA0000},
-%       {Size={8-14}, Color=00AA00},
-%       {Size={14-}, Color=0000AA}} ]{Skia}
-%   {\scriptsize Small\par} Normal size\par {\Large Large\par}
-% \end{example}
+% A demonstration to hopefully clarify these details is shown in \exref{sizefeat}.
 % A less trivial example is shown in the context of optical font sizes
 % in \vref{sec:opticalsize}.
+%
+% \begin{Xexample}{sizefeat}{An example of specifying different font features for different sizes of font with \feat{SizeFeatures}.}
+%   \fontspec[ SizeFeatures={
+%       {Size={-8}, Font=TeX Gyre Bonum Italic, Color=AA0000},
+%       {Size={8-14}, Color=00AA00},
+%       {Size={14-}, Color=0000AA}} ]{TeX Gyre Chorus}
+%
+%   {\scriptsize Small\par} Normal size\par {\Large Large\par}
+% \end{Xexample}
 %
 % To be precise, the \opt{Size} sub-feature accepts arguments in the form shown in \vref{tab:sizing}.
 % Braces around the size range are optional. For an exact font size (|Size=X|)
@@ -771,25 +785,25 @@ This work consists of this file fontspec.dtx
 %   {\addfontfeature{Color=00BB3399}R}
 % \end{Xexample}
 % Transparency is supported by \XeLaTeX\ with the \texttt{xdv2pdf}
-% driver and with \LuaLaTeX; \XeLaTeX\ with the \texttt{xdvipdfmx} driver
+% driver and with Lua\LaTeX; \XeLaTeX\ with the \texttt{xdvipdfmx} driver
 % is not supported.
 %
 % If you load the \pkg{xcolor} package, you may use any named color instead
 % of writing the colours in hexadecimal.
-% \begin{example}
+% \begin{Verbatim}
 %  \usepackage{xcolor}
 %  ...
 %  \fontspec[Color=red]{Verdana} ...
 %  \definecolor{Foo}{rgb}{0.3,0.4,0.5}
 %  \fontspec[Color=Foo]{Verdana} ...
-% \end{example}
+% \end{Verbatim}
 % The \pkg{color} package is \emph{not} supported; use \pkg{xcolor} instead.
 %
 % You may specify the transparency with a named font using the \feat{Opacity}
 % feature:
-% \begin{example}
+% \begin{Verbatim}
 %  \fontspec[Color=red,Opacity=0.7]{Verdana} ...
-% \end{example}
+% \end{Verbatim}
 % The \feat{Opacity} feature may only be used in conjunction with the \feat{Color} feature; it will be silently ignored if it appears by itself.
 %
 % \subsection{Scale}
@@ -893,7 +907,9 @@ This work consists of this file fontspec.dtx
 % The letter used for hyphenation may be chosen with the \feat{HyphenChar}
 % feature. It takes three types of input, which are chosen according to some
 % simple rules. If the input is the string \opt{None}, then hyphenation is
-% suppressed for this font. If the input is a single character, then this
+% suppressed for this font.
+% \note{Known bug: this doesn't work yet in Lua\LaTeX.}
+% If the input is a single character, then this
 % character is used. Finally, if the input is longer than a single character
 % it must be the UTF-8 slot number of the hyphen character you desire.
 %
@@ -906,14 +922,19 @@ This work consists of this file fontspec.dtx
 % redefines \LaTeX's \cmd\-\ macro
 % such that it adjusts along with the above changes.
 %
-% \begin{Lexample}{hyphchar}{Explicitly choosing the hyphenation character.}
-%  \def\text{\parbox{3cm}{%
-%    OBSTREPEROUSHYPHENATION%
-%  }\par\bigskip}
-%  \fontspec[HyphenChar=None]{Adobe Garamond Pro} \text
-%  \fontspec[HyphenChar={+}]{Adobe Garamond Pro}  \text
-%  \fontspec[HyphenChar="F6BA]{Adobe Garamond Pro}\text
-% \end{Lexample}
+% \begin{Xexample}{hyphchar}{Explicitly choosing the hyphenation character.}
+%  \def\text{\fbox{\parbox{1.55cm}{%
+%    EXAMPLE HYPHENATION%
+%  }}\qquad\qquad\null\par\bigskip}
+%
+%  \fontspec{Adobe Garamond Pro}
+%  \addfontfeature{HyphenChar=None}
+%  \text
+%  \addfontfeature{HyphenChar={+}}
+%  \text
+%  \addfontfeature{HyphenChar={"F6BA}}
+%  \text
+% \end{Xexample}
 %
 % \subsection{Optical font sizes} \label{sec:opticalsize}
 %
@@ -931,8 +952,10 @@ This work consists of this file fontspec.dtx
 %
 % For the OpenType font Warnock Pro, we have three optically sized
 % variants: caption, subhead, and display. With \opt{OpticalSize} set
-% to zero, no optical size font substitution is performed:
-% \begin{opentypeexample}
+% to zero, no optical size font substitution is performed, as shown in
+% \exref{optsize0}.
+%
+% \begin{Lexample}{optsize0}{Optical size substitution is suppressed when set to zero.}
 %   \fontspec[OpticalSize=0]{Warnock Pro Caption}
 %    Warnock Pro optical sizes                \\
 %   \fontspec[OpticalSize=0]{Warnock Pro}
@@ -941,23 +964,24 @@ This work consists of this file fontspec.dtx
 %    Warnock Pro optical sizes                \\
 %   \fontspec[OpticalSize=0]{Warnock Pro Display}
 %    Warnock Pro optical sizes
-% \end{opentypeexample}
+% \end{Lexample}
 %
-% Automatic OpenType optical scaling is shown in the following
-% example, in which we've scaled down some large text in order to be
-% able to compare the difference for equivalent font sizes: (this
+% Automatic OpenType optical scaling is in
+% \exref{optsize}, in which we've scaled down some large text in order to be
+% able to compare the difference for equivalent font sizes (this
 % gives the same output as we saw in the previous example for Warnock
-% Pro Display)
-% \begin{opentypeexample}
+% Pro Display).
+%
+% \begin{Lexample}{optsize}{A demonstration of automatic optical size selection.}
 %   \fontspec{Warnock Pro}
 %    Automatic optical size                  \\
 %   \scalebox{0.4}{\Huge
 %    Automatic optical size}
-% \end{opentypeexample}
+% \end{Lexample}
 %
-% The \feat{SizeFeatures} feature (\vref{sec:sizefeature}) can be
+% The \feat{SizeFeatures} feature (\vref*{sec:sizefeature}) can be
 % used to specify exactly which optical sizes will be used for ranges
-% of font size. For example, something like
+% of font size. For example, something like:
 % \begin{verbatim}
 %   \fontspec[
 %     SizeFeatures={
@@ -968,7 +992,6 @@ This work consists of this file fontspec.dtx
 %            ]{Warnock Pro}
 % \end{verbatim}
 %
-% \clearpage
 % \part{OpenType}
 % \label{sec:opentype-features}
 %
@@ -1147,24 +1170,14 @@ This work consists of this file fontspec.dtx
 % letters (and a small amount of punctuation, sometimes).
 % The \opt{Ordinal} option will only raise characters that are used
 % in some languages directly after a number.
-%
 % The \opt{ScientificInferior} feature will move glyphs
 % further below the baseline than the \opt{Inferior} feature.
+% These are all shown in \exref{vertpos}
 %
 % \opt{Numerator} and \opt{Denominator} should only be used for creating
 % arbitrary fractions (see next section).
 %
-% \begin{example}
-%   \fontspec{Skia}
-%    Normal
-%   \fontspec[VerticalPosition=Superior]{Skia}
-%    Superior
-%   \fontspec[VerticalPosition=Inferior]{Skia}
-%    Inferior                \\
-%   \fontspec[VerticalPosition=Ordinal]{Skia}
-%    1st 2nd 3rd 4th 0th 8abcde
-% \end{example}
-% \begin{opentypeexample}
+% \begin{Lexample}{vertpos}{The \feat{VerticalPosition} feature.}
 %   \fontspec[VerticalPosition=Superior]{Warnock Pro}
 %    Sup: abdehilmnorst (-\$12,345.67)                      \\
 %   \fontspec[VerticalPosition=Numerator]{Warnock Pro}
@@ -1175,12 +1188,12 @@ This work consists of this file fontspec.dtx
 %    Scientific Inferior: 12345                             \\
 %   \fontspec[VerticalPosition=Ordinal]{Warnock Pro}
 %   `Ordinals': 1st 2nd 3rd 4th 0th
-% \end{opentypeexample}
+% \end{Lexample}
 %
 % The \pkg{realscripts} package (yet to be released)
 % (or \pkg{xltxtra} for \XeTeX)
 % redefines the \cmd\textsubscript\ and
-% \cmd\textsuperscript\ commands to use the above font features.
+% \cmd\textsuperscript\ commands to use the above font features automatically.
 %
 %
 % \subsection{Fractions}
@@ -1190,22 +1203,20 @@ This work consists of this file fontspec.dtx
 % \otf{Alternate}{afrc}
 % \end{features}
 %
-% For OpenType fonts use a regular text slash to create fractions:
-% \begin{opentypeexample}
+% For OpenType fonts use a regular text slash to create fractions, but
+% the \feat{Fraction} feature must be explicitly activated.
+% Some (Asian fonts predominantly) also provide for the
+% \opt{Alternate} feature. These are both shown in \exref{ot-frac}.
+%
+% \begin{Xexample}{ot-frac}{The \feat{Fractions} feature.}
 %   \fontspec{Hiragino Maru Gothic Pro W4}
 %    1/2 \quad 1/4 \quad 5/6 \quad 13579/24680 \\
 %   \addfontfeature{Fractions=On}
 %    1/2 \quad 1/4 \quad 5/6 \quad 13579/24680 \\
-% \end{opentypeexample}
-%
-% Some (Asian fonts predominantly) also provide for the
-% \opt{Alternate} feature:
-% \begin{opentypeexample}
-%   \fontspec{Hiragino Maru Gothic Pro W4}
-%    1/2 \quad 1/4 \quad 5/6 \quad 13579/24680 \\
 %   \addfontfeature{Fractions=Alternate}
 %    1/2 \quad 1/4 \quad 5/6 \quad 13579/24680 \\
-% \end{opentypeexample}
+% \end{Xexample}
+%
 %
 % \subsection{StylisticSet}
 %
@@ -1296,13 +1307,14 @@ This work consists of this file fontspec.dtx
 % \end{features}
 %
 % As briefly mentioned previously at the end of \vref{sec:letters},
-% the \opt{Uppercase} option will add a small amount of tracking between uppercase letters:
-% \begin{opentypeexample}
+% the \opt{Uppercase} option will add a small amount of tracking between uppercase letters, seen in \exref{kernup}.
+%
+% \begin{Lexample}{kernup}{Adding extra kerning for uppercase letters.}
 %   \fontspec{Warnock Pro}
 %    UPPER-CASE EXAMPLE \\
 %   \addfontfeature{Kerning=Uppercase}
 %    UPPER-CASE EXAMPLE
-% \end{opentypeexample}
+% \end{Lexample}
 %
 %
 % \subsection{CJK shape}
@@ -1324,16 +1336,17 @@ This work consists of this file fontspec.dtx
 % fonts support the following \feat{CJKShape} options:
 % \opt{Traditional}, \opt{Simplified}, \opt{JIS1978}, \opt{JIS1983},
 % \opt{JIS1990}, and \opt{Expert}. OpenType also supports the \opt{NLC} option.
-% \setexsize\LARGE
-% \begin{opentypeexample}
+
+% \begin{Xexample}[firstline=2]{ot-cjk-shape}{Different standards for CJK ideograph presentation.}
+%   \LARGE\def\text{ 唖噛躯 妍并訝}
 %   \fontspec{Hiragino Mincho Pro}
 %   {\addfontfeature{CJKShape=Traditional}
-%    唖噛躯 妍并訝 }                          \\
+%   \text }                          \\
 %   {\addfontfeature{CJKShape=NLC}
-%    唖噛躯 妍并訝 }                          \\
+%   \text }                          \\
 %   {\addfontfeature{CJKShape=Expert}
-%    唖噛躯 妍并訝 }
-% \end{opentypeexample}
+%   \text }
+% \end{Xexample}
 %
 % \subsection{Character width}\label{sec:CharacterWidth}
 % Many Asian fonts are equipped with variously spaced characters for
@@ -1359,13 +1372,18 @@ This work consists of this file fontspec.dtx
 % a given block of space. The same features are given to roman letters
 % in Japanese fonts, for typesetting foreign words in the same style
 % as the surrounding text.
-% \begin{opentypeexample}
-%   \def\test{\makebox[2cm][l]{ようこそ}% %             \makebox[2.5cm][l]{ワカヨタレソ}% %             \makebox[2.5cm][l]{abcdef}}
+%
+% \begin{Xexample}[firstline=2]{charwdprop}{Proportional or fixed width forms.}
+%   \def\texta{ようこそ}\def\textb{ワカヨタレソ}
+%   \def\test{\makebox[2cm][l]{\texta}%
+%             \makebox[2.5cm][l]{\textb}%
+%             \makebox[2.5cm][l]{abcdef}}
 %   \fontspec{Hiragino Mincho Pro}
 %   {\addfontfeature{CharacterWidth=Proportional}\test}\\
 %   {\addfontfeature{CharacterWidth=Full}\test}\\
 %   {\addfontfeature{CharacterWidth=Half}\test}
-% \end{opentypeexample}
+% \end{Xexample}
+%
 % The same situation occurs with numbers, which are provided in
 % increasingly illegible compressed forms seen in exref{charwd}.
 %
@@ -1404,6 +1422,8 @@ This work consists of this file fontspec.dtx
 % change which features are able to be selected for the font, they are selected
 % by \pkg{fontspec} before all others and will specifically select the \opt{ICU}
 % renderer for this font, as described in \vref{sec:renderer}.
+%
+%
 % \iffalse
 % \subsubsection{\feat{Script} examples}
 %
@@ -1471,6 +1491,7 @@ This work consists of this file fontspec.dtx
 %    Ş ş Ţ ţ
 % \end{opentypeexample}
 % \endgroup
+%
 % \fi
 %
 % \subsubsection{Defining new scripts and languages}
@@ -1522,7 +1543,6 @@ This work consists of this file fontspec.dtx
 %
 %
 %
-% \clearpage
 % \part{Fonts and features with \XeTeX}
 % \label{sec:xetex-features}
 %
@@ -1546,38 +1566,37 @@ This work consists of this file fontspec.dtx
 %
 %
 % \subsection{Letter spacing}
-% Letter spacing, or tracking, is the term given to adding (or subtracting) a small amount of horizontal space in between adjacent characters. It is specified with the \feat{LetterSpace}, which takes a numeric argument.
+% Letter spacing, or tracking, is the term given to adding (or subtracting) a small amount of horizontal space in between adjacent characters. It is specified with the \feat{LetterSpace}, which takes a numeric argument,
+% shown in \exref{tracking}.
 %
 % The letter spacing parameter is a normalised additive factor (not a scaling factor); it is defined as a percentage of the font size. That is, for a 10\,pt font, a letter spacing parameter of `|1.0|' will add 0.1\,pt between each letter.
-% \begin{example}
+%
+% \begin{Xexample}{tracking}{The \feat{LetterSpace} feature.}
 %   \fontspec{Didot}
 %   \addfontfeature{LetterSpace=0.0}
 %   USE TRACKING FOR DISPLAY CAPS TEXT \\
 %   \addfontfeature{LetterSpace=2.0}
 %   USE TRACKING FOR DISPLAY CAPS TEXT
-% \end{example}
+% \end{Xexample}
+%
 % This functionality \emph{should not be used for lowercase text}, which is spacing correctly to begin with, but it can be very useful, in small amounts, when setting small caps or all caps titles.
 % Also see the OpenType \opt{Uppercase}
 % option of the \feat{Letters} feature (\vref*{sec:letters}).
 %
 % \subsection{Font transformations}
 %
-% In rare situations users may want to mechanically distort the shapes of the glyphs in the current font. Please don't overuse these features; they are \emph{not} a good alternative to having the real shapes.
+% In rare situations users may want to mechanically distort the shapes of the glyphs in the current font such as shown in \exref{fake}. Please don't overuse these features; they are \emph{not} a good alternative to having the real shapes.
 %
-% \begin{example}
+% \begin{Xexample}{fake}{Articifial font transformations.}
 %   \fontspec{Charis SIL} \emph{ABCxyz} \quad
 %   \fontspec[FakeSlant=0.2]{Charis SIL} ABCxyz
-% \end{example}
 %
-% \begin{example}
 %   \fontspec{Charis SIL}  ABCxyz \quad
 %   \fontspec[FakeStretch=1.2]{Charis SIL} ABCxyz
-% \end{example}
 %
-% \begin{example}
 %   \fontspec{Charis SIL} \textbf{ABCxyz} \quad
 %   \fontspec[FakeBold=1.5]{Charis SIL} ABCxyz
-% \end{example}
+% \end{Xexample}
 %
 % If values are omitted, their defaults are as shown above.
 %
@@ -1764,19 +1783,14 @@ This work consists of this file fontspec.dtx
 % \end{Xexample}
 %
 % Some (Asian fonts predominantly) also provide for the
-% \opt{Alternate} feature:
-% \begin{opentypeexample}
-%   \fontspec{Hiragino Maru Gothic Pro W4}
+% \opt{Alternate} feature shown in \exref{frac-alt}.
+%
+% \begin{Xexample}{frac-alt}{Alternate design of pre-composed fractions.}
+%   \fontspec{Hiragino Maru Gothic Pro}
 %    1/2 \quad 1/4 \quad 5/6 \quad 13579/24680 \\
 %   \addfontfeature{Fractions=Alternate}
-%    1/2 \quad 1/4 \quad 5/6 \quad 13579/24680 \\
-% \end{opentypeexample}
-% The \pkg{xltxtra} package provides a \cmd\vfrac\ command
-% for creating arbitrary so-called `vulgar' fractions:
-% \begin{opentypeexample}
-%   \fontspec{Warnock Pro}
-%   \vfrac{13579}{24680}
-% \end{opentypeexample}
+%    1/2 \quad 1/4 \quad 5/6 \quad 13579/24680
+% \end{Xexample}
 %
 %
 % \subsection{Variants}
@@ -1804,15 +1818,16 @@ This work consists of this file fontspec.dtx
 % \subsection{Alternates}
 %
 % Selection of \feat{Alternate}s \emph{again}
-% must be done numerically. Here's an example with an \AAT\ font:
-% \begin{aatexample}
+% must be done numerically; see \exref{aat-alt}.
+% See \vref{sec:newfeatures} for a way to assign names to alternates,
+% which should be done on a per-font basis.
+%
+% \begin{Xexample}{aat-alt}{Alternate shape selection must be numerical.}
 %   \fontspec[Alternate=0]{Hoefler Text Italic}
 %    Sphinx Of Black Quartz, {\scshape Judge My Vow} \\
 %   \fontspec[Alternate=1]{Hoefler Text Italic}
 %    Sphinx Of Black Quartz, {\scshape Judge My Vow}
-% \end{aatexample}
-% See \vref{sec:newfeatures} for a way to assign names to alternates,
-% which should be done on a per-font basis.
+% \end{Xexample}
 %
 %
 % \subsection{Style}
@@ -1890,85 +1905,44 @@ This work consists of this file fontspec.dtx
 % \opt{Traditional}, \opt{Simplified}, \opt{JIS1978}, \opt{JIS1983},
 % \opt{JIS1990}, and \opt{Expert}. OpenType also supports the \opt{NLC} option.
 %
-% \subsection{Character width}\label{sec:CharacterWidth}
-% Many Asian fonts are equipped with variously spaced characters for
-% shoe-horning into their generally monospaced text.
-% These are
-% accessed through the \feat{CharacterWidth} feature.
-%   \note{Apple
-%   seems to be adapting its \AAT\ features in this regard (at least in
-%   the fonts it distributes with \MacOSX) to have a one-to-one
-%   correspondence with the equivalent OpenType features. Previously
-%   \AAT\ was more fine grained, but naturally they're not documenting
-%   their \AAT\ tables any more, so if the following features don't work
-%   for a specific font let me know and I'll try and see if anything
-%   can be salvaged from the situation.}
-% For now, OpenType and \AAT\
-% share the same six options for this feature: \opt{Proportional},
-% \opt{Full}, \opt{Half}, \opt{Third},
-% \opt{Quarter}, \opt{AlternateProportional}, and
-% \opt{AlternateHalf}. \AAT\ also allows \opt{Default} to return to
-% whatever was originally specified.
-%
-% Japanese alphabetic glyphs (in Hiragana or Katakana) may be typeset
-% proportionally, to better fit horizontal measures, or monospaced, to
-% fit into the rigid grid imposed by ideographic typesetting. In this
-% latter case, there are also half-width forms for squeezing more kana
-% glyphs (which are less complex than the kanji they are amongst) into
-% a given block of space. The same features are given to roman letters
-% in Japanese fonts, for typesetting foreign words in the same style
-% as the surrounding text.
-% \begin{opentypeexample}
-%   \def\test{\makebox[2cm][l]{ようこそ}% %             \makebox[2.5cm][l]{ワカヨタレソ}% %             \makebox[2.5cm][l]{abcdef}}
-%   \fontspec{Hiragino Mincho Pro}
-%   {\addfontfeature{CharacterWidth=Proportional}\test}\\
-%   {\addfontfeature{CharacterWidth=Full}\test}\\
-%   {\addfontfeature{CharacterWidth=Half}\test}
-% \end{opentypeexample}
-% The same situation occurs with numbers, which are provided in
-% increasingly illegible compressed forms:
-% \setexsize\large
-% \begin{aatexample}
-%   \fontspec[Renderer=AAT]{Hiragino Mincho Pro}
-%   {\addfontfeature{CharacterWidth=Full}
-%    ---12321---}\\
-%   {\addfontfeature{CharacterWidth=Half}
-%    ---1234554321---}\\
-%   {\addfontfeature{CharacterWidth=Third}
-%    ---123456787654321---}\\
-%   {\addfontfeature{CharacterWidth=Quarter}
-%    ---12345678900987654321---}
-% \end{aatexample}
-% The option \opt{CharacterWidth=Full} doesn't work with the
-% default OpenType font renderer (ICU) due to a bug in the Hiragino fonts.
+% \subsection{Character width}
+% See \vref{sec:CharacterWidth} for relevant examples; the features are
+% the same between OpenType and \AAT\ fonts.
+% \AAT\ also allows \feat{CharacterWidth}|=|\opt{Default} to return to
+% the original font settings.
 %
 %
 % \subsection{Annotation}
 % Various Asian fonts are equipped with a more extensive range of
 % numbers and numerals in different forms.
-% For OpenType fonts, the only option supported is \opt{On} and \opt{Off}:
-% \begin{opentypeexample}
+% For OpenType fonts, annotations with the \feat{Annotation} feature are selected numerically, as shown in \exref{ot-annot}.
+%
+% \begin{Xexample}{ot-annot}{Annotation forms.}
 %   \fontspec{Hiragino Maru Gothic Pro}
-%    1 2 3 4 5 6 7 8 9                         \\
-%   \addfontfeature{Annotation=On}
 %    1 2 3 4 5 6 7 8 9
-% \end{opentypeexample}
-% I'm not sure if \XeTeX\ can access alternate annotation
-% forms, even if they exist (as in this case) in the font.
+%   \def\x#1{\\{\addfontfeature{Annotation=#1}
+%             1 2 3 4 5 6 7 8 9 }}
+%   \x0\x1\x2\x3\x4\x5\x6\x7\x7\x8\x9
+% \end{Xexample}
+%
 %
 %
 % \subsection{Vertical typesetting}
 %
-% \XeTeX\ provides for vertical typesetting simply with the ability to rotate
-% the individual glyphs as a font is used for typesetting.
+% TODO: improve!
 %
-% \begin{aatexample}
+% \XeTeX\ provides for vertical typesetting simply with the ability to rotate
+% the individual glyphs as a font is used for typesetting, as shown in
+% \exref{vert}.
+%
+% \begin{Xexample}[firstline=2]{vert}{Vertical typesetting.}
+%   \def\verttext{共産主義者は}
 %   \fontspec{Hiragino Mincho Pro}
-%   共産主義者は
+%   \verttext
 %
 %   \fontspec[Renderer=AAT,Vertical=RotatedGlyphs]{Hiragino Mincho Pro}
-%   \rotatebox{-90}{共産主義者は}% requires the graphicx package
-% \end{aatexample}
+%   \rotatebox{-90}{\verttext}% requires the graphicx package
+% \end{Xexample}
 %
 % No actual provision is made for typesetting top-to-bottom
 % languages; for an example of how to do this, see the vertical Chinese
@@ -2001,7 +1975,9 @@ This work consists of this file fontspec.dtx
 % \opt{Box}, \opt{RoundedBox}, \opt{Circle}, \opt{BlackCircle},
 % \opt{Parenthesis}, \opt{Period}, \opt{RomanNumerals}, \opt{Diamond},
 % \opt{BlackSquare}, \opt{BlackRoundSquare}, and \opt{DoubleCircle}.
-% \begin{aatexample}
+% See \exref{aat-annot}
+%
+% \begin{Xexample}{aat-annot}{Various annotation forms.}
 %   \fontspec{Hei Regular}
 %    1 2 3 4 5 6 7 8 9                         \\
 %   \fontspec[Annotation=Circle]{Hei Regular}
@@ -2010,7 +1986,7 @@ This work consists of this file fontspec.dtx
 %    1 2 3 4 5 6 7 8 9                         \\
 %   \fontspec[Annotation=Period]{Hei Regular}
 %    1 2 3 4 5 6 7 8 9
-% \end{aatexample}
+% \end{Xexample}
 %
 % \section{\AAT\ \& Multiple Master font axes} \label{sec:mm}
 %
@@ -2021,19 +1997,20 @@ This work consists of this file fontspec.dtx
 %
 % \opt{Weight}, \opt{Width}, and \opt{OpticalSize} are supported by this
 % package. Skia, which is distributed with
-% Mac~OS~X, has two of these variable parameters, allowing for a
-% demonstration:
-% \begin{aatexample}
+% Mac~OS~X, has two of these variable parameters, allowing for the
+% demonstration in \exref{aatmm}.
+% Variations along a multiple master font's optical size axis has been
+% shown previously in \vref{sec:opticalsize}.
+%
+% \begin{Xexample}{aatmm}{Continuously variable font parameters. These fonts
+%  are unfortunately quite rare.}
 %   \fontspec[Weight=0.5,Width=3]{Skia}
 %    Really light and extended Skia         \\
 %   \fontspec[Weight=2,Width=0.5]{Skia}
 %    Really fat and condensed Skia
-% \end{aatexample}
-% Variations along a multiple master font's optical size axis has been
-% shown previously in \vref{sec:opticalsize}.
+% \end{Xexample}
 %
 %
-% \clearpage
 % \part{Programming interface}
 %
 % This is the beginning of some work to provide some hooks that use
@@ -2050,31 +2027,26 @@ This work consists of this file fontspec.dtx
 % \DescribeMacro{\newAATfeature}
 % New \AAT\ features may be created with this command:\par
 % {\centering\cmd\newAATfeature\marg{feature}\marg{option}\marg{feature code}\marg{selector code}\par}\noindent
-% Use the \XeTeX\ file \path{AAT-info.tex} to obtain the code numbers. For example:
-% \begin{aatexample}
+% Use the \XeTeX\ file \path{AAT-info.tex} to obtain the code numbers.
+% See \exref{newAATfeat}.
+%
+% \begin{Xexample}{newAATfeat}{Assigning new \AAT\ features.}
 %   \newAATfeature{Alternate}{HoeflerSwash}{17}{1}
 %   \fontspec[Alternate=HoeflerSwash]{Hoefler Text Italic}
 %    This is XeTeX by Jonathan Kew.
-% \end{aatexample}
-% This command replaces \cmd\newfeaturecode, which is provided
-% for backwards compatibility via \texttt{fontspec.cfg}.
+% \end{Xexample}
+%
 %
 % \DescribeMacro{\newICUfeature}
 % \DescribeMacro{\newopentypefeature}
 % New OpenType features may be created with this command:\par
 % {\centering\cmd\newICUfeature\marg{feature}\marg{option}\marg{feature tag}\par}
-% The synonym \cs{newopentypefeature} is provided for \LuaTeX\ users.
-% In the following example, the Moldavian language (see \vref{sec:ot}) must be activated to achieve the effect shown.
-% \setexsize\Large
-% \begingroup
-% \begin{opentypeexample}
-%   \newICUfeature{Style}{NoLocalForms}{-locl}
-%   \fontspec[Language=Moldavian]{FPL Neu}
-%   Ş ş Ţ ţ  \\
-%   \addfontfeature{Style=NoLocalForms}
-%   Ş ş Ţ ţ
-% \end{opentypeexample}
-% \endgroup
+% The synonym \cs{newopentypefeature} is provided for Lua\LaTeX\ users.
+%
+% Here's what it would look like in practise:
+% \begin{Verbatim}
+% \newopentypefeature{Style}{NoLocalForms}{-locl}
+% \begin{Verbatim}
 %
 % \DescribeMacro{\newfontfeature}
 % In case the above commands do not accommodate the desired font feature
@@ -2085,19 +2057,20 @@ This work consists of this file fontspec.dtx
 %
 % For example, Zapfino
 % contains the feature `Avoid d-collisions'. To access it
-% with this package, you could do the following:
-% \begin{aatexample}
+% with this package, you could do some like that shown in \exref{avoidd}
+%
+% \begin{Xexample}{avoidd}{Assigning new arbitary features.}
 %   \newfontfeature{AvoidD}{Special=Avoid d-collisions}
 %   \newfontfeature{NoAvoidD}{Special=!Avoid d-collisions}
 %   \fontspec[AvoidD,Variant=1]{Zapfino}
 %    sockdolager rubdown               \\
 %   \fontspec[NoAvoidD,Variant=1]{Zapfino}
 %    sockdolager rubdown
-% \end{aatexample}
+% \end{Xexample}
 %
 % The advantage to using the \cmd\newAATfeature\ and \cmd\newICUfeature\
-% commands is that they check if the selected font actually contains the font
-% feature. By contrast, \cmd\newfontfeature\ will not give a warning
+% commands instead of \cs{newfontfeature} is that they check if the selected font actually contains the desired font
+% feature at load time. By contrast, \cmd\newfontfeature\ will not give a warning
 % for improper input.
 %
 % \section{Going behind \pkg{fontspec}'s back}
@@ -2105,10 +2078,12 @@ This work consists of this file fontspec.dtx
 % while still taking advantage of its \LaTeX\ font selection conveniences. The
 % \feat{RawFeature} font feature allows literal \XeTeX\ font feature selection
 % when you happen to have the OpenType feature tag memorised.
-% \begin{example}
-%   \fontspec[RawFeature=+smcp]{FPL Neu}
-%   FPL Neu small caps
-% \end{example}
+%
+% \begin{Xexample}{raw}{Using raw font features directly.}
+%   \fontspec[RawFeature=+smcp]{TeX Gyre Pagella}
+%   Pagella small caps
+% \end{Xexample}
+%
 % Multiple features can either be included in a single declaration:\par
 % {\centering|[RawFeature=+smcp;+onum]|\par}
 % \noindent or with multiple declarations:\par
@@ -2120,12 +2095,14 @@ This work consists of this file fontspec.dtx
 % \DescribeMacro{\aliasfontfeature}
 % If you don't like the name of a particular font feature,
 % it may be aliased to another with the
-% \cs{aliasfontfeature}\marg{existing name}\marg{new name} command:
-% \begin{aatexample}
+% \cs{aliasfontfeature}\marg{existing name}\marg{new name} command,
+% such as shown in \exref{alias}.
+%
+% \begin{Xexample}{alias}{Renaming font features.}
 %   \aliasfontfeature{ItalicFeatures}{IF}
 %   \fontspec[IF = {Alternate=1}]{Hoefler Text}
 %   Roman Letters \itshape And Swash
-% \end{aatexample}
+% \end{Xexample}
 %
 % Spaces in feature (and option names, see below) \emph{are} allowed. (You may have
 % noticed this already in the lists of OpenType scripts and languages).
@@ -2133,13 +2110,15 @@ This work consists of this file fontspec.dtx
 % \DescribeMacro{\aliasfontfeatureoption}
 % If you wish to change the name of a font feature option,
 % it can be aliased to another with the command
-% \cs{aliasfontfeatureoption}\marg{font feature}\marg{existing name}\marg{new name}:
-% \begin{opentypeexample}
+% \cs{aliasfontfeatureoption}\marg{font feature}\marg{existing name}\marg{new name}, such as shown in \exref{aliasopt}.
+%
+% \begin{Lexample}{aliasopt}{Renaming font feature options.}
 %   \aliasfontfeature{VerticalPosition}{Vert Pos}
 %   \aliasfontfeatureoption{VerticalPosition}{ScientificInferior}{Sci Inf}
 %   \fontspec[Vert Pos=Sci Inf]{Warnock Pro}
 %    Scientific Inferior: 12345
-% \end{opentypeexample}
+% \end{Lexample}
+%
 % This example demonstrates an important point: when aliasing the feature
 % options, the \emph{original} feature name must be used when declaring
 % to which feature the option belongs.
@@ -2152,6 +2131,8 @@ This work consists of this file fontspec.dtx
 % \begin{Verbatim}
 %   \newfontfeature{PurpleColor}{color=550099BB}
 % \end{Verbatim}
+% Except that this example was written before support for named colours was
+% implemented. But you get the idea.
 %
 % \section{Programming details}
 %
@@ -2240,7 +2221,6 @@ This work consists of this file fontspec.dtx
 % \end{macro}
 %
 %  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% %
-% \clearpage
 % \part{The patching/improvement of \LaTeXe\ and other packages}
 % \label{sec:patching}
 %
@@ -5007,9 +4987,7 @@ This work consists of this file fontspec.dtx
 %
 % \subsubsection{Annotation}
 %    \begin{macrocode}
-\zf@define@font@feature{Annotation}
-\zf@define@feature@option{Annotation}{Off}{24}{0}{-nalt}
-\zf@define@feature@option{Annotation}{On}{}{}{+nalt}
+\zf@define@feature@option{Annotation}{Off}{24}{0}{}
 \zf@define@feature@option{Annotation}{Box}{24}{1}{}
 \zf@define@feature@option{Annotation}{RoundedBox}{24}{2}{}
 \zf@define@feature@option{Annotation}{Circle}{24}{3}{}
@@ -5023,6 +5001,17 @@ This work consists of this file fontspec.dtx
 \zf@define@feature@option{Annotation}{DoubleCircle}{24}{11}{}
 %    \end{macrocode}
 %
+%    \begin{macrocode}
+\define@key[zf]{options}{Annotation}[0]{
+  \clist_set_eq:NN \l_fontspec_tmpa_clist \XKV@rm
+  \setkeys*[zf@feat]{Annotation}{#1}
+  \unless\ifx\XKV@rm\@empty
+    \def\XKV@tfam{Alternate}
+    \fontspec_make_feature:nnn{}{}{+nalt=#1}
+  \fi
+  \clist_set_eq:NN \XKV@rm \l_fontspec_tmpa_clist
+}
+%    \end{macrocode}
 %
 % \subsubsection{Vertical}
 %    \begin{macrocode}
@@ -6165,59 +6154,7 @@ If you want to run just a single test, use
 \labelformat{section}{Section~#1}
 \labelformat{subsection}{Section~#1}
 
-%% verbatim examples:
 \definecolor{niceblue}{rgb}{0.1,0.2,0.8}
-\newenvironment{example}
-  {\VerbatimEnvironment
-   \begin{VerbatimOut}{\examplefilename}}
-  {\end{VerbatimOut}\relax
-   \begingroup
-     \color{niceblue}
-     \typesetexample
-   \endgroup}
-
-\newlength\examplewidth\newlength\verbatimwidth
-\newlength\exoutdent   \newlength\exverbgap
-\setlength\exverbgap{1em}
-\setlength\exoutdent{-0.15\textwidth}
-\newsavebox\verbatimbox
-\edef\examplefilename{\jobname.example}
-
-\newcommand\typesetexample{\relax
-   \begin{lrbox}{\verbatimbox}\relax
-     \BVerbatimInput[fontsize=\small,firstline=\firstline,lastline=\lastline]{\examplefilename}\relax
-   \end{lrbox}
-   \begin{list}{}{\setlength\itemindent{0pt}
-                  \setlength\leftmargin\exoutdent
-                  \setlength\rightmargin{0pt}}\item
-   \ifx\auxwidth\relax
-     \setlength\verbatimwidth{\wd\verbatimbox}\relax
-   \else
-     \setlength\verbatimwidth{\auxwidth}\relax
-     \let\auxwidth\relax
-   \fi
-%   \begin{minipage}[c]{\textwidth-\exoutdent-\verbatimwidth-\exverbgap}
-%     \catcode`\%=14\centering\examplesize\input\examplefilename\relax
-%   \end{minipage}\hfill
-   \centering
-   \begin{minipage}[c]{\verbatimwidth}
-     \usebox\verbatimbox
-   \end{minipage}
-   \end{list}
-   \global\let\examplesize\normalsize
-   \gdef\firstline{1}\gdef\lastline{}\par\noindent}
-
-\let\examplesize\normalsize
-\let\auxwidth\relax
-\def\firstline{1}
-\def\lastline{}
-
-
-
-
-
-
-
 
 \newsavebox\X
 \newsavebox\Y
@@ -6266,7 +6203,7 @@ If you want to run just a single test, use
              "%
              \unexpanded{%
                \documentclass{article}%
-               \usepackage{ifthen,xcolor,varwidth}
+               \usepackage{booktabs,ifthen,graphicx,xcolor,varwidth}
                \usepackage[active,tightpage]{preview}%
                \usepackage{fontspec}%
                \defaultfontfeatures{Ligatures=TeX} \begin{document}\begin{preview}\begin{varwidth}{0.7\linewidth}\input} \theexample-\prefix-\filename.tex
@@ -6303,7 +6240,7 @@ If you want to run just a single test, use
       \ifdim\dimexpr\wd\X+\wd\Y>\linewidth\relax
         \null\hfill\makebox[0pt][r]{\usebox\Y}\usebox\X
       \else
-        \usebox\Y\hfill\usebox\X
+        \hfill\usebox\Y\hfill\usebox\X
       \fi
       \par\rule[0.5\baselineskip]{\columnwidth}{1pt}
     \end{figure}
@@ -6316,23 +6253,7 @@ If you want to run just a single test, use
 \def\prog@L{lualatex
                -jobname=\theexample-L-\filename\space}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-\let\aatexample\example
-\let\endaatexample\endexample
-\let\opentypeexample\example
-\let\endopentypeexample\endexample
+%%%%%%%%%%%%%%%%%%%%%%
 
 \newcommand*\setexsize[1]{\let\examplesize#1}
 \newcommand*\setverbwidth[1]{\def\auxwidth{#1}}

@@ -4415,7 +4415,7 @@ This work consists of this file fontspec.dtx
 % TODO: sizezfeatures and italicfont (etc) don't play nice
 %    \begin{macrocode}
 \define@key[zf]{preparse}{SizeFeatures}{
-  \unless\ifzf@firsttime\def\l_fontspec_sizefeat_clist{#1}\fi
+  \tl_set:Nn \l_fontspec_sizefeat_clist {#1}
   \zf@update@family{sizefeat:\zap@space #1~\@empty}
 }
 %    \end{macrocode}

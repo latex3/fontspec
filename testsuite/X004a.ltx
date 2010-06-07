@@ -1,0 +1,11 @@
+\documentclass{testsuite}
+\usepackage{fontspec}
+\usepackage{xcolor}
+\begin{document}
+   \fontspec[ SizeFeatures={
+       {Size={-8}, Font=TeX Gyre Bonum Italic, Color=AA0000},
+       {Size={8-14}, Color=00AA00},
+       {Size={14-}, Color=0000AA}} ]{TeX Gyre Chorus}
+
+   {\scriptsize Small\par} Normal size\par {\Large Large\par}
+\end{document}

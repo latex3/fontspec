@@ -68,7 +68,7 @@ DO_MAKEINDEX = makeindex -s gind.ist $(subst .dtx,,$<) >/dev/null 2>&1
 all: $(GENERATED)
 doc: $(COMPILED)
 unpack: $(UNPACKED)
-ctan: $(CTAN_ZIP)
+ctan: check $(CTAN_ZIP)
 tds: $(TDS_ZIP)
 world: all ctan
 

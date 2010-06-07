@@ -1,6 +1,6 @@
 
-THE FONTSPEC PACKAGE v2.0b2
-===========================
+THE FONTSPEC PACKAGE v2.0
+=========================
 
 This is the initial release of the fontspec package with support for LuaTeX.
 (Previously, fontspec was XeTeX-only.)
@@ -34,7 +34,7 @@ LuaTeX requirements
 TeXLive 2010 is recommended for running this package under LuaTeX.
 
 This package requires the luaotfload package in order to load fonts in LuaTeX.
-Version 1.08 or greater is recommended for this release. Please see
+Version 1.10 or greater is recommended for this release. Please see
 instructions in that package for font setup. That package, in turn, requires
 a version of LuaTeX greater than that shipped with TeX Live 2009.
 

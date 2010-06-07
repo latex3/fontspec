@@ -3831,7 +3831,9 @@ This work consists of this file fontspec.dtx
 \newcommand*\fontspec_init:{
   \zf@icufalse
   \zf@firsttimetrue
-  \cs_set_eq:NN \fontspec_namewrap:n \use:n
+  \xetex_or_luatex:nnn { \cs_set:Npn \fontspec_namewrap:n ##1 }
+    { ##1 }
+    { name:##1 }
   \tl_clear:N \l_fontspec_optical_size_tl
   \tl_clear:N \l_fontspec_renderer_tl
   \luatex_if_engine:T {

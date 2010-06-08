@@ -35,7 +35,7 @@ DOC = $(NAME).pdf
 DTX = $(NAME).dtx
 
 # Files grouped by generation mode
-COMPILED = $(DOC)
+COMPILED = $(DOC) fontspec-testsuite.pdf
 UNPACKED = fontspec.sty fontspec-patches.sty fontspec.lua fontspec.cfg fontspec-luatex.tex fontspec-xetex.tex
 SOURCE = $(DTX) Makefile README
 GENERATED = $(COMPILED) $(UNPACKED)
@@ -75,7 +75,7 @@ world: all ctan
 gendoc: $(DTX)
 	$(DO_PDFLATEX_WRITE18)
 
-$(COMPILED): $(DTX)
+$(DOC): $(DTX)
 	$(DO_PDFLATEX)
 	$(DO_MAKEINDEX)
 	$(DO_PDFLATEX)
@@ -106,6 +106,12 @@ $(TDS_ZIP): $(ALL_FILES)
 # Rename the README for CTAN
 README: README.markdown
 	cp $< $@
+
+# lazy:
+fontspec-testsuite.pdf: $(DTX) check
+	@echo 'Compiling test suite.'
+	$(DO_PDFLATEX)
+	xelatex --interaction=batchmode fontspec-testsuite.tex
 
 .PHONY: install manifest clean mrproper
 
@@ -254,7 +260,7 @@ $(builddir)/$(both)%-$(xprefix).pdf: $(BUILDSOURCE) $(BUILDSUITE) $(builddir)/$(
 #### TEST FOR EACH ENGINE INDIVIDUALLY ####
 
 $(builddir)/$(lprefix)%.diff.pdf: $(builddir)/$(lprefix)%.pdf
-	@echo '$(lprefix)$*: Comparing PDF from LuaLaTeX against reference output.'
+	@echo '$(lprefix)$*: Comparing PDF against reference output.'
 	@if test $(shell compare $(COMPARE_OPTS) \
 	          $(builddir)/$(lprefix)$*.pdf $(testdir)/$(lprefix)$*.safe.pdf \
 	          $(builddir)/$(lprefix)$*.diff.pdf 2>&1) -le 1 ; then \
@@ -265,7 +271,7 @@ $(builddir)/$(lprefix)%.diff.pdf: $(builddir)/$(lprefix)%.pdf
 	fi
 
 $(builddir)/$(xprefix)%.diff.pdf: $(builddir)/$(xprefix)%.pdf
-	@echo '$(xprefix)$*: Comparing PDF from XeLaTeX against reference output.'
+	@echo '$(xprefix)$*: Comparing PDF against reference output.'
 	@if test $(shell compare \
 	                $(COMPARE_OPTS) \
 	                $(builddir)/$(xprefix)$*.pdf \

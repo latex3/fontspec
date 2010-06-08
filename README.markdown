@@ -17,15 +17,15 @@ others.
 
 Release versions of fontspec are available from CTAN:
 
-  http://tug.ctan.org/pkg/fontspec
+  <http://tug.ctan.org/pkg/fontspec>
   
 Development and historical versions are available from Github:
 
-  http://github.com/wspr/fontspec
+  <http://github.com/wspr/fontspec>
   
 Please offer suggestions and file bug reports in the issue tracker:
 
-  http://github.com/wspr/fontspec/issues
+  <http://github.com/wspr/fontspec/issues>
 
 
 LuaTeX requirements
@@ -130,6 +130,18 @@ local texmf tree. Depending how your TeX distribution is configured
 you may then need to update the filename database with `texhash`.
 
 
+Test suite
+----------
+
+Towards the end of the development process of version 2, we started
+to add a test suite to ensure stability with any future changes. The
+output of each test is included in the distributed documentation file
+`fontspec-testsuite.pdf`.
+
+There aren't many tests yet, but we'll slowly add to them in time.
+If you would like to help put some tests together, contributions are
+gladly accepted!
+
 
 Manifest
 --------
@@ -142,10 +154,18 @@ Derived files:
         fontspec.pdf               documentation
         fontspec.sty               LaTeX style file
         fontspec.lua               Lua functions for LuaTeX
+        fontspec-patches.sty       redefinitions of various LaTeX internals
         fontspec.cfg               default configuration file
         fontspec-xetex.tex         example file for XeTeX
         fontspec-luatex.tex        example file for LuaTeX
+        fontspec-testsuite.tex     test suite documentation file
 
+Test suite: (within testsuite/)
+        testsuite.cls              class file for each test
+        testsuite-listing.tex      listing of each test in the suite
+        L*.ltx                     LuaLaTeX test file
+        X*.ltx                     XeLaTeX test file
+        F*.ltx                     Test file for both engines
 
 
 License

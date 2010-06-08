@@ -36,15 +36,20 @@ DTX = $(NAME).dtx
 
 # Files grouped by generation mode
 COMPILED = $(DOC) fontspec-testsuite.pdf
-UNPACKED = fontspec.sty fontspec-patches.sty fontspec.lua fontspec.cfg fontspec-luatex.tex fontspec-xetex.tex
+EXAMPLES = fontspec-luatex.tex fontspec-xetex.tex
+UNPACKED = fontspec.sty fontspec-patches.sty fontspec.lua fontspec.cfg $(EXAMPLES)
 SOURCE = $(DTX) Makefile README
 GENERATED = $(COMPILED) $(UNPACKED)
+
+TESTS = $(shell ls testsuite/*.cls testsuite/*.tex testsuite/*.ltx)
+
+CTAN_FILES = $(SOURCE) $(COMPILED) $(EXAMPLES) $(TESTS)
 
 # Files grouped by installation location
 UNPACKED_DOC = fontspec-luatex.tex fontspec-xetex.tex
 
 RUNFILES = $(filter-out $(UNPACKED_DOC), $(UNPACKED))
-DOCFILES = $(DOC) README $(UNPACKED_DOC)
+DOCFILES = $(COMPILED) README $(UNPACKED_DOC)
 SRCFILES = $(DTX) Makefile
 
 ALL_FILES = $(RUNFILES) $(DOCFILES) $(SRCFILES)
@@ -84,7 +89,7 @@ $(DOC): $(DTX)
 $(UNPACKED): $(DTX)
 	@$(DO_TEX)
 
-$(CTAN_ZIP): $(SOURCE) $(COMPILED) $(TDS_ZIP)
+$(CTAN_ZIP): $(CTAN_FILES) $(TDS_ZIP)
 	@echo "Making $@ for CTAN upload."
 	@$(RM) -- $@
 	@zip -9 $@ $^ >/dev/null
@@ -93,6 +98,7 @@ define run-install
 @mkdir -p $(RUNDIR) && cp $(RUNFILES) $(RUNDIR)
 @mkdir -p $(DOCDIR) && cp $(DOCFILES) $(DOCDIR)
 @mkdir -p $(SRCDIR) && cp $(SRCFILES) $(SRCDIR)
+@mkdir -p $(SRCDIR)/testsuite/ && cp $(TESTS) $(SRCDIR)/testsuite/
 endef
 
 $(TDS_ZIP): TEXMFROOT=./tmp-texmf

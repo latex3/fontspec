@@ -3924,6 +3924,10 @@ This work consists of this file fontspec.dtx
     \fontspec_make_ICU_feature:n {#3}
   }
 }
+\cs_generate_variant:Nn \fontspec_make_feature:nnn {nnx}
+%    \end{macrocode}
+%
+%    \begin{macrocode}
 \cs_new:Npn \fontspec_make_AAT_feature:nn #1#2 {
   \tl_if_empty:nTF {#1}
   {
@@ -4939,7 +4943,7 @@ This work consists of this file fontspec.dtx
   \setkeys*[zf@feat]{Variant}{#1}
   \unless\ifx\XKV@rm\@empty
     \def\XKV@tfam{Variant}
-    \fontspec_make_feature:nnn{18}{#1}{+ss\two@digits{#1}}
+    \fontspec_make_feature:nnx{18}{#1}{+ss\two@digits{#1}}
   \fi
   \clist_set_eq:NN \XKV@rm \l_fontspec_tmpa_clist
 }

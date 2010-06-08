@@ -294,4 +294,4 @@ $(builddir)/$(lprefix)%.pdf: $(BUILDSOURCE) $(BUILDSUITE) $(builddir)/$(lprefix)
 #### HACK: allow `make <foobar>` run that test.
 
 %: build/%.ltx
-	make build/$*.pdf
+	make build/$*.diff.pdf

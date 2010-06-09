@@ -2419,7 +2419,7 @@ This work consists of this file fontspec.dtx
 }
 \msg_new:nnn {fontspec} {no-glyph}
 {
-  '\zf@fontname'~ doesn't~ appear~ to~ have~ the~ glyph~ corresponding~ to~ '#1'.
+  '\zf@fontname'~ does~ not~ contain~ glyph~ #1.
 }
 \msg_new:nnnn {fontspec} {unknown-options}
 {
@@ -4581,53 +4581,26 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \define@key[zf]{options}{HyphenChar}{
   \zf@update@family{+hyphenchar:#1}
-  \edef\@tempa{#1}
-  \edef\@tempb{None}
-  \ifx\@tempa\@tempb
-    \xetex_or_luatex:nnn { \g@addto@macro\zf@adjust }
-      { \hyphenchar\font-1\relax }
-      { \luatexprehyphenchar=-1\relax }
-  \else
-    \zf@check@one@char#1\zf@@
-    \ifx\@tempb\@empty
-      \xetex_or_luatex:nn {
-        {\zf@basefont\expandafter\ifnum\expandafter\XeTeXcharglyph
-              \expandafter`#1 > \z@
-           \g@addto@macro\zf@adjust{%
-             {\expandafter\hyphenchar\expandafter
-              \font\expandafter`#1}}%
-        \else
-          \fontspec_error:nx {no-glyph}{#1}
-        \fi}%
-      }{
-        \ifnum\directlua{
-            fontspec.sprint(fontspec.charglyph('#1', 'zf@basefont'))
-        } > \z@
-          \g@addto@macro\zf@adjust{\luatexprehyphenchar=`#1\relax}
-        \else
-          \fontspec_error:nx {no-glyph}{#1}
-        \fi
-      }
-    \else
-      \xetex_or_luatex:nn {
-        {\zf@basefont\ifnum\XeTeXcharglyph#1 > \z@
-          \g@addto@macro\zf@adjust{\hyphenchar\font#1\relax}%
-        \else
-          \fontspec_error:nx {no-glyph}{#1}
-        \fi}%
-      }{
-        \ifnum\directlua{
-            fontspec.sprint(fontspec.charglyph('#1', 'zf@basefont'))
-        } > \z@
-          \g@addto@macro\zf@adjust{\luatexprehyphenchar=#1\relax}
-        \else
-          \fontspec_error:nx {no-glyph}{#1}
-        \fi
-      }
-    \fi
-  \fi
+  \tl_if_eq:nnTF {#1} {None}
+  {
+    \tl_put_right:Nn \zf@adjust { \hyphenchar \font = \c_minus_one }
+  }
+  {
+    \tl_if_single:nTF {#1}
+      { \tl_set:Nn \l_fontspec_hyphenchar_tl {`#1} }
+      { \tl_set:Nn \l_fontspec_hyphenchar_tl { #1} }
+    \fontspec_glyph_if_exist:NnTF \zf@basefont {\l_fontspec_hyphenchar_tl}
+    {
+      \xetex_or_luatex:nnn { \tl_put_right:Nn \zf@adjust }
+        { \hyphenchar \font = \l_fontspec_hyphenchar_tl \scan_stop: }
+        {
+          \hyphenchar \font = \c_zero
+          \luatexprehyphenchar = \l_fontspec_hyphenchar_tl \scan_stop:
+        }
+    }
+    { \fontspec_error:nx {no-glyph}{#1} }
+  }
 }
-\def\zf@check@one@char#1#2\zf@@{\def\@tempb{#2}}
 %    \end{macrocode}
 %
 % \paragraph{Color}

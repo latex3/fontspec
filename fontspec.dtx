@@ -2363,6 +2363,20 @@ This work consists of this file fontspec.dtx
 \cs_set:Npn \use_iv:nnnnn #1#2#3#4#5 {#4}
 %    \end{macrocode}
 %
+%
+% \begin{macro}{\fontspec_glyph_if_exist:NnTF}
+%    \begin{macrocode}
+\prg_new_conditional:Nnn \fontspec_glyph_if_exist:Nn {p,TF,T,F} {
+  \etex_iffontchar:D #1 #2 \scan_stop:
+    \prg_return_true:
+  \else:
+    \prg_return_false:
+  \fi:
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
 %    \begin{macrocode}
 \cs_new:Npn \fontspec_setkeys:xx #1#2
  {

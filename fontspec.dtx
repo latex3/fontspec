@@ -5691,22 +5691,6 @@ local function check_feature(id, feature, language, script)
 end
 
 %    \end{macrocode}
-% This function takes a font csname (without the leading slash) and returns its
-% internal font id. Since \LuaTeX~0.47, there is a built in \texttt{font.id()}
-% function.
-%    \begin{macrocode}
-
-local function font_id(str)
-    local id
-    if tex.luatexversion >= 47 then
-        id = font.id(str)
-    else
-        id = token.create(str)[2]
-    end
-    return id
-end
-
-%    \end{macrocode}
 % The following are the function that get called from \TeX\ end.
 %    \begin{macrocode}
 
@@ -5714,7 +5698,7 @@ local function tempswatrue()  fontspec.sprint([[\@tempswatrue]])  end
 local function tempswafalse() fontspec.sprint([[\@tempswafalse]]) end
 
 function fontspec.check_ot_script(fnt, script)
-    if check_script(font_id(fnt), script) then
+    if check_script(font.id(fnt), script) then
         tempswatrue()
     else
         tempswafalse()
@@ -5722,7 +5706,7 @@ function fontspec.check_ot_script(fnt, script)
 end
 
 function fontspec.check_ot_lang(fnt, lang, script)
-    if check_language(font_id(fnt), lang, script) then
+    if check_language(font.id(fnt), lang, script) then
         tempswatrue()
     else
         tempswafalse()
@@ -5736,7 +5720,7 @@ function fontspec.check_ot_feat(fnt, feat, lang, script)
             return
         end
     end
-    if check_feature(font_id(fnt), feat, lang, script) then
+    if check_feature(font.id(fnt), feat, lang, script) then
         tempswatrue()
     else
         tempswafalse()

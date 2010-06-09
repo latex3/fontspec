@@ -5743,27 +5743,6 @@ function fontspec.check_ot_feat(fnt, feat, lang, script)
     end
 end
 
-function fontspec.charglyph(char)
-    if char then
-        local id, c
-        if utf.len(char) > 1 then
-            c = utf.byte(utf.char(char:gsub('"', '0x')))
-        else
-            c = utf.byte(char)
-        end
-
-        id = font.current()
-
-        if font.fonts[id]["characters"][c] then
-            return font.fonts[id]["characters"][c].index
-        else
-            return 0
-        end
-    else
-        return 0
-    end
-end
-
 %    \end{macrocode}
 %
 % \iffalse

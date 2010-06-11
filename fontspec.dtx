@@ -2227,22 +2227,22 @@ This work consists of this file fontspec.dtx
 % \end{macro}
 %
 % \begin{macro}{\fontspec_if_script:nTF}
-% Returns whether the currently selected font contains the raw OpenType
+% Test whether the currently selected font contains the raw OpenType
 % script |#1|. E.g.: |\fontspec_if_script:nTF {latn} {True} {False}|.
 % Returns false if the font is not loaded by fontspec or is not an OpenType
 % font.
 % \end{macro}
 %
 % \begin{macro}{\fontspec_if_language:nTF}
-% Test whether the currently selected font contains the raw OpenType
-% feature |#1|. E.g.: |\fontspec_if_feature:nTF {pnum} {True} {False}|.
+% Test whether the currently selected font contains the raw OpenType language
+% tag |#1|. E.g.: |\fontspec_if_language:nTF {ROM} {True} {False}|.
 % Returns false if the font is not loaded by fontspec or is not an OpenType
 % font.
 % \end{macro}
 %
 % \begin{macro}{\fontspec_if_language:nnTF}
-% Test whether the currently selected font contains the raw OpenType
-% feature |#2| in script |#1|. E.g.: |\fontspec_if_feature:nTF {latn} {pnum} {True} {False}|.
+% Test whether the currently selected font contains the raw OpenType language
+% tag |#2| in script |#1|. E.g.: |\fontspec_if_language:nnTF {cyrl} {SRB} {True} {False}|.
 % Returns false if the font is not loaded by fontspec or is not an OpenType
 % font.
 % \end{macro}
@@ -3010,7 +3010,7 @@ This work consists of this file fontspec.dtx
 % from a \verb|\newfontfamily| macro or from \verb|\setmainfont| and so on.) 
 %
 % \begin{macro}{\fontspec_if_fontspec_font:TF}
-% Returns whether the currently selected font has been loaded by fontspec.
+% Test whether the currently selected font has been loaded by fontspec.
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \fontspec_if_fontspec_font: {TF,T,F} {
   \ifcsname zf@family@fontdef\f@family\endcsname
@@ -3049,7 +3049,7 @@ This work consists of this file fontspec.dtx
 %
 %
 % \begin{macro}{\fontspec_if_opentype:TF}
-% Returns whether the currently selected font is an OpenType font.
+% Test whether the currently selected font is an OpenType font.
 % Always true for LuaTeX fonts.
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \fontspec_if_opentype: {TF,T,F} {
@@ -3069,7 +3069,7 @@ This work consists of this file fontspec.dtx
 % \end{macro}
 %
 % \begin{macro}{\fontspec_if_feature:nTF}
-% Returns whether the currently selected font contains the raw OpenType
+% Test whether the currently selected font contains the raw OpenType
 % feature |#1|. E.g.: |\fontspec_if_feature:nTF {pnum} {True} {False}|
 % Returns false if the font is not loaded by fontspec or is not an OpenType
 % font.
@@ -3097,7 +3097,7 @@ This work consists of this file fontspec.dtx
 % \end{macro}
 %
 % \begin{macro}{\fontspec_if_feature:nnnTF}
-% Returns whether the currently selected font with raw OpenType script tag |#1| and raw OpenType language tag |#2| contains the raw OpenType feature tag |#3|. E.g.: |\fontspec_if_feature:nTF {latn} {ROM} {pnum} {True} {False}|
+% Test whether the currently selected font with raw OpenType script tag |#1| and raw OpenType language tag |#2| contains the raw OpenType feature tag |#3|. E.g.: |\fontspec_if_feature:nTF {latn} {ROM} {pnum} {True} {False}|
 % Returns false if the font is not loaded by fontspec or is not an OpenType
 % font.
 %    \begin{macrocode}
@@ -3120,7 +3120,7 @@ This work consists of this file fontspec.dtx
 % \end{macro}
 %
 % \begin{macro}{\fontspec_if_script:nTF}
-% Returns whether the currently selected font contains the raw OpenType
+% Test whether the currently selected font contains the raw OpenType
 % script |#1|. E.g.: |\fontspec_if_script:nTF {latn} {True} {False}|
 % Returns false if the font is not loaded by fontspec or is not an OpenType
 % font.
@@ -3142,8 +3142,8 @@ This work consists of this file fontspec.dtx
 % \end{macro}
 %
 % \begin{macro}{\fontspec_if_language:nTF}
-% Returns whether the currently selected font contains the raw OpenType
-% feature |#1|. E.g.: |\fontspec_if_feature:nTF {+pnum} {True} {False}|
+% Test whether the currently selected font contains the raw OpenType language
+% tag |#1|. E.g.: |\fontspec_if_language:nTF {ROM} {True} {False}|.
 % Returns false if the font is not loaded by fontspec or is not an OpenType
 % font.
 %    \begin{macrocode}
@@ -3167,8 +3167,8 @@ This work consists of this file fontspec.dtx
 % \end{macro}
 %
 % \begin{macro}{\fontspec_if_language:nnTF}
-% Returns whether the currently selected font contains the raw OpenType
-% feature |#2| in script |#1|. E.g.: |\fontspec_if_feature:nTF {+pnum} {True} {False}|
+% Test whether the currently selected font contains the raw OpenType language
+% tag |#2| in script |#1|. E.g.: |\fontspec_if_language:nnTF {cyrl} {SRB} {True} {False}|.
 % Returns false if the font is not loaded by fontspec or is not an OpenType
 % font.
 %    \begin{macrocode}
@@ -3192,7 +3192,7 @@ This work consists of this file fontspec.dtx
 %
 %
 % \begin{macro}{\fontspec_if_current_script:nTF}
-% Returns whether the currently loaded font is using the specified raw
+% Test whether the currently loaded font is using the specified raw
 % OpenType script tag |#1|.
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \fontspec_if_current_script:n {TF,T,F} {
@@ -3213,7 +3213,7 @@ This work consists of this file fontspec.dtx
 % \end{macro}
 %
 % \begin{macro}{\fontspec_if_current_language:nTF}
-% Returns whether the currently loaded font is using the specified raw
+% Test whether the currently loaded font is using the specified raw
 % OpenType language tag |#1|.
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \fontspec_if_current_language:n {TF,T,F} {

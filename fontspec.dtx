@@ -238,6 +238,7 @@ This work consists of this file fontspec.dtx
 % \item For general font features, see \vref{sec:font-ind-features}
 % \item For OpenType fonts, see Part~\vref{sec:opentype-features}
 % \item For \XeTeX-only general font features, see Part~\vref{sec:xetex-features}
+% \item For \LuaTeX-only general font features, see Part~\vref{sec:luatex-features}
 % \item For features for \AAT\ fonts in \XeTeX, see Part~\vref{sec:aat-features}
 % \end{itemize}
 %
@@ -1576,8 +1577,52 @@ This work consists of this file fontspec.dtx
 %
 %
 %
+% \part{\LuaTeX-only font features}
+% \label{sec:lua-features}
+%
+% \section{OpenType font feature files}
+%
+% An OpenType font feature file is a plain text file descriping OpenType layout
+% feature of a font in a human-readable format. The syntax of OpenType feature
+% files is define by Adobe\footnote{\url{http://www.adobe.com/devnet/opentype/afdko/topic_feature_file_syntax.html}}.
+%
+% Feature files can be used to add or customise OpenType feature of a font on
+% the fly without editing the font file itself.
+%
+% Feature files are loading by passing its name or path to \feat{FeatureFile},
+% then OpenType features defined in the file can be applied as usual.
+%
+% For example, to added OpenType mapping of f-ligatures in Times New Roman
+% font, one can define a \texttt{times-nr.fea} filw with the following content:
+%
+% \begin{Verbatim}
+% lookup fligatures {
+%   lookupflag 0;
+%     sub \f \i  by \fi;
+%     sub \f \l  by \fl;
+% } fligatures;
+%
+% feature liga {
+%   script DFLT;
+%      language dflt ;
+%       lookup fligatures;
+%
+%   script latn;
+%      language dflt ;
+%       lookup fligatures;
+% } liga;
+% \end{Verbatim}
+%
+% Then the font can be loaded with:
+% \begin{Verbatim}
+% \setmainfont[FeatureFile=times-nr.fea]{Times New Roman}
+% \end{Verbatim}
+%
 % \part{Fonts and features with \XeTeX}
 % \label{sec:xetex-features}
+%
+%
+%
 %
 % \section{\XeTeX-only font features}
 %

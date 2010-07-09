@@ -3449,10 +3449,8 @@ This work consists of this file fontspec.dtx
       \fontspec_check_script:nTF {latn}
       {
         \tl_set:Nn \l_fontspec_script_name_tl {Latin}
-        \tl_set:Nn \l_fontspec_script_tl      {latn}
-        \tl_if_empty:NT \l_fontspec_lang_tl {
+        \tl_if_empty:NT \l_fontspec_lang_name_tl {
           \tl_set:Nn \l_fontspec_lang_name_tl {Default}
-          \tl_set:Nn \l_fontspec_lang_tl      {DFLT}
         }
         \fontspec_setkeys:xxx {feat} {Script} {\l_fontspec_script_name_tl}
         \fontspec_setkeys:xxx {feat} {Lang}   {\l_fontspec_lang_name_tl}
@@ -3462,9 +3460,8 @@ This work consists of this file fontspec.dtx
       }
     }
     {
-      \tl_if_empty:NT \l_fontspec_lang_tl {
+      \tl_if_empty:NT \l_fontspec_lang_name_tl {
         \tl_set:Nn \l_fontspec_lang_name_tl {Default}
-        \tl_set:Nn \l_fontspec_lang_tl      {DFLT}
       }
       \fontspec_setkeys:xxx {feat} {Script} {\l_fontspec_script_name_tl}
       \fontspec_setkeys:xxx {feat} {Lang}   {\l_fontspec_lang_name_tl}

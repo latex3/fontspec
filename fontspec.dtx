@@ -1350,6 +1350,19 @@ This work consists of this file fontspec.dtx
 % Currently, \feat{FakeStretch} doesn't work in \LuaTeX\ and will be ignored
 % silently.
 %
+% \subsection{Annotation}
+% Various Asian fonts are equipped with an extensive range of
+% numbers and numerals in different forms. These are accessed with the
+% \feat{Annotation} feature, selected numerically as shown in
+% \exref{ot-annot}.
+%
+% \begin{Xexample}{ot-annot}{Annotation forms for OpenType fonts.}
+%   \fontspec{Hiragino Maru Gothic Pro}
+%    1 2 3 4 5 6 7 8 9
+%   \def\x#1{\\{\addfontfeature{Annotation=#1}
+%             1 2 3 4 5 6 7 8 9 }}
+%   \x0\x1\x2\x3\x4\x5\x6\x7\x7\x8\x9
+% \end{Xexample}
 %
 % \subsection{CJK shape}
 %
@@ -1960,18 +1973,8 @@ This work consists of this file fontspec.dtx
 % the original font settings.
 %
 %
-% \subsection{Annotation}
-% Various Asian fonts are equipped with a more extensive range of
-% numbers and numerals in different forms.
-% For OpenType fonts, annotations with the \feat{Annotation} feature are selected numerically, as shown in \exref{ot-annot}.
-%
-% \begin{Xexample}{ot-annot}{Annotation forms.}
-%   \fontspec{Hiragino Maru Gothic Pro}
-%    1 2 3 4 5 6 7 8 9
-%   \def\x#1{\\{\addfontfeature{Annotation=#1}
-%             1 2 3 4 5 6 7 8 9 }}
-%   \x0\x1\x2\x3\x4\x5\x6\x7\x7\x8\x9
-% \end{Xexample}
+
+
 %
 %
 %
@@ -2019,11 +2022,11 @@ This work consists of this file fontspec.dtx
 % \subsection{Annotation}
 % Various Asian fonts are equipped with a more extensive range of
 % numbers and numerals in different forms. These are accessed through
-% the \feat{Annotation} feature with the following options: \opt{Off},
+% the \feat{Annotation} feature (see \exref{aat-annot}) with the following
+% options: \opt{Off},
 % \opt{Box}, \opt{RoundedBox}, \opt{Circle}, \opt{BlackCircle},
 % \opt{Parenthesis}, \opt{Period}, \opt{RomanNumerals}, \opt{Diamond},
 % \opt{BlackSquare}, \opt{BlackRoundSquare}, and \opt{DoubleCircle}.
-% See \exref{aat-annot}
 %
 % \begin{Xexample}{aat-annot}{Various annotation forms.}
 %   \fontspec{Hei Regular}

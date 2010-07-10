@@ -1661,7 +1661,7 @@ This work consists of this file fontspec.dtx
 % Also see the OpenType \opt{Uppercase}
 % option of the \feat{Letters} feature (\vref*{sec:letters}).
 %
-% \subsection{Different font technologies: \AAT\ and ICU}\label{sec:renderer}
+% \subsection{Different font technologies: \AAT\ and \ICU}\label{sec:renderer}
 %
 % \XeTeX\ supports two rendering technologies for typesetting, selected with
 % the \feat{Renderer} font feature. The first, \opt{AAT}, is
@@ -3616,7 +3616,7 @@ This work consists of this file fontspec.dtx
 % \subsubsection{Fonts}
 %
 % \begin{macro}{\fontspec_set_font_type:}
-% Now check if the font is to be rendered with ATSUI or ICU. This will either
+% Now check if the font is to be rendered with \ATSUI\ or \ICU. This will either
 % be automatic (based on the font type), or specified by the user via a font feature.
 %
 % This macro sets \cs{zf@atsui} or \cs{zf@icu} or \cs{zf@mm} booleans
@@ -6276,6 +6276,8 @@ If you want to run just a single test, use
 
 \def\MacOSX{Mac~OS~X}
 \def\AAT{\textsc{aat}}
+\def\ATSUI{\textsc{atsui}}
+\def\ICU{\textsc{icu}}
 \def\LuaTeX{L\kern-0.08emu\kern-0.03ema\kern-0.12em\TeX}
 
 %% (La)TeX font-related declarations:

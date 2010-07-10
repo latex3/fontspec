@@ -1103,7 +1103,7 @@ This work consists of this file fontspec.dtx
 % \otf{Proportional}{pnum}
 % \otf{Monospaced}{tnum}
 % \otf{SlashedZero}{zero}
-% \otf{Remap}{anum}
+% \otf{Arabic}{anum}
 % \end{features}
 %
 % The synonyms
@@ -1116,12 +1116,7 @@ This work consists of this file fontspec.dtx
 %
 % The \opt{SlashedZero} option
 % replaces the default zero with a slashed version to prevent
-% confusion with an uppercase `O'.
-%
-% The \opt{Remap} option maps numerals to their Arabic or Farsi equivalents
-% based on the current \opt{Language} setting (see \vref{sec:ot}). This
-% is based on a \LuaTeX\ feature of the \pkg{luaotfload} package,
-% not an OpenType feature.
+% confusion with an uppercase `O', shown in \exref{slashzero}.
 %
 % \begin{Lexample}{slashzero}{The effect of the \opt{SlashedZero} option.}
 %   \fontspec[Numbers=Lining]{TeX Gyre Bonum}
@@ -1130,6 +1125,20 @@ This work consists of this file fontspec.dtx
 %    0123456789
 % \end{Lexample}
 %
+% The \opt{Arabic} option maps numerals to their Arabic or Persian equivalents
+% based on the current \opt{Language} setting (see \vref{sec:ot}), shown in
+% \exref{num-arab} using the Zar fonts\footnote{\url{http://wiki.irmug.org/index.php/X_Series_2}}.
+% This option is based on a \LuaTeX\ feature of the \pkg{luaotfload} package,
+% not an OpenType feature. (Thus, this feature is unavailable in \XeTeX.)
+%
+% \begin{Lexample}[firstline=2]{num-arab}{An example of number remapping to Arabic or Persian. (\LuaTeX\ only.)}
+%   \huge
+%   \fontspec[Script=Arabic,Numbers=Arabic]{XB Zar}
+%   {\addfontfeature{Language=Arabic}
+%    0123456789} \\
+%   {\addfontfeature{Language=Parsi}
+%    0123456789}
+% \end{Lexample}
 %
 % \subsection{Contextuals}
 % This feature refers to glyph substitution that vary by their position;
@@ -4884,7 +4893,6 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \luatex_if_engine:T {
   \zf@define@feature@option{Numbers}{Arabic}{}{}{+anum}
-  \zf@define@feature@option{Numbers}{Farsi} {}{}{+anum}
 }
 %    \end{macrocode}
 %

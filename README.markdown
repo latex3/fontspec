@@ -1,6 +1,6 @@
 
-THE FONTSPEC PACKAGE v2.0
-=========================
+THE FONTSPEC PACKAGE v2.0a
+==========================
 
 This is the initial release of the fontspec package with support for LuaTeX.
 (Previously, fontspec was XeTeX-only.)
@@ -15,16 +15,13 @@ available with AAT and OpenType fonts, including upper and lower case numbers,
 proportional and monospaced numbers, swash letters, ligature control, and many
 others.
 
-Release versions of fontspec are available from CTAN:
-
+Release versions of fontspec are available from CTAN:  
   <http://tug.ctan.org/pkg/fontspec>
   
-Development and historical versions are available from Github:
-
+Development and historical versions are available from Github:  
   <http://github.com/wspr/fontspec>
   
-Please offer suggestions and file bug reports in the issue tracker:
-
+Please offer suggestions and file bug reports in the issue tracker:  
   <http://github.com/wspr/fontspec/issues>
 
 
@@ -97,7 +94,7 @@ of this package by running
   * * *
 
 If you wish to download the latest release version from CTAN, get
-the pre-built TDS package and extract it in your local texmf tree:
+the pre-built TDS package and extract it into your local texmf tree:
 
     http://mirror.ctan.org/install/macros/latex/contrib/fontspec.tds.zip
 
@@ -142,6 +139,18 @@ There aren't many tests yet, but we'll slowly add to them in time.
 If you would like to help put some tests together, contributions are
 gladly accepted!
 
+
+Change history
+--------------
+
+- v2.0a (2010 July 11)  
+  Final release before TeX Live 2010.
+  
+    * Bug fix for the Language setting being ignored
+    * Add programmer's command `\fontspec_glyph_if_exist:NnTF`
+    * Many documentation improvements, especially for LuaTeX features
+      `FeatureFile=...` and `Numbers=Arabic`.
+    * Add `Parsi` and `Persian` synonyms for `Language=Farsi`
 
 Manifest
 --------

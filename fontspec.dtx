@@ -63,7 +63,7 @@ This work consists of this file fontspec.dtx
 %<fontspec>\ProvidesPackage{fontspec}
 %<patches>\ProvidesPackage{fontspec-patches}
 %<*fontspec|patches>
-  [2010/06/08 v2.0 Advanced font selection for XeLaTeX/LuaLaTeX]
+  [2010/07/11 v2.0a Advanced font selection for XeLaTeX/LuaLaTeX]
 %</fontspec|patches>
 %
 %<*driver>
@@ -909,15 +909,9 @@ This work consists of this file fontspec.dtx
 % feature. It takes three types of input, which are chosen according to some
 % simple rules. If the input is the string \opt{None}, then hyphenation is
 % suppressed for this font.
-% \note{Known bug: this doesn't work yet in Lua\LaTeX.}
 % If the input is a single character, then this
 % character is used. Finally, if the input is longer than a single character
 % it must be the UTF-8 slot number of the hyphen character you desire.
-%
-% Adobe Garamond Pro's uppercase hyphenation character
-% is used to demonstrate a possible use for this feature in \exref{hyphchar}.
-% Note that in an actual situation, the \opt{Uppercase} option of the \feat{Letters} feature
-% would probably supply this for you (see \vref{sec:letters}).
 %
 % This package
 % redefines \LaTeX's \cmd\-\ macro
@@ -928,12 +922,10 @@ This work consists of this file fontspec.dtx
 %    EXAMPLE HYPHENATION%
 %  }}\qquad\qquad\null\par\bigskip}
 %
-%  \fontspec{Adobe Garamond Pro}
+%  \fontspec{Linux Libertine}
 %  \addfontfeature{HyphenChar=None}
 %  \text
 %  \addfontfeature{HyphenChar={+}}
-%  \text
-%  \addfontfeature{HyphenChar={"F6BA}}
 %  \text
 % \end{Xexample}
 %
@@ -1023,6 +1015,7 @@ This work consists of this file fontspec.dtx
 % with a specially drawn glyph for functional or \ae sthetic reasons.
 % The list of options, of which multiple may be selected at one time,
 % is shown in \ref{feat:Ligatures}.
+% A demonstration with the Linux Libertine fonts\footnote{\url{http://www.linuxlibertine.org/}} is shown in \exref{lig}.
 %
 % \begin{features}{Ligatures}
 % \otf*{Required}{rlig}
@@ -1033,12 +1026,14 @@ This work consists of this file fontspec.dtx
 % \otf{TeX}{tlig/trep}
 % \end{features}
 %
-% \begin{Lexample}{lig}{An example of the \feat{Ligatures} feature.}
-%    \Huge
-%   \fontspec[Ligatures=Rare]{Adobe Garamond Pro}
-%    \textit{strict firefly}                \\
-%   \fontspec[Ligatures=NoCommon]{Adobe Garamond Pro}
-%    \textit{strict firefly}
+% \begin{Lexample}[firstline=2]{lig}{An example of the \feat{Ligatures} feature.}
+%    \Huge\centering
+%    \def\test#1#2{%
+%      #2 $\to$ {\addfontfeature{#1} #2}\\}
+%    \fontspec{Linux Libertine}
+%    \test{Ligatures=Historical}{strict}
+%    \test{Ligatures=Rare}{wurtzite}
+%    \test{Ligatures=NoCommon}{firefly}
 % \end{Lexample}
 %
 % \subsection{Letters} \label{sec:letters}
@@ -1083,7 +1078,7 @@ This work consists of this file fontspec.dtx
 % in \exref{letters-uppercase}.
 %
 % \begin{Lexample}{letters-uppercase}{An example of the \opt{Uppercase} option of the \feat{Letters} feature.}
-%   \fontspec{Adobe Garamond Pro}
+%   \fontspec{Linux Libertine}
 %    UPPER-CASE example \\
 %   \addfontfeature{Letters=Uppercase}
 %    UPPER-CASE example
@@ -1231,7 +1226,9 @@ This work consists of this file fontspec.dtx
 % \subsection{StylisticSet}
 %
 % This feature selects a `Stylistic Set' variation,
-% specified numerically. These correspond to OpenType
+% which usually corresponds to an alternate glyph style for a range of
+% characters (usually an alphabet or subset thereof).
+% This feature is specified numerically. These correspond to OpenType
 % features |ss01|, |ss02|, etc.
 %
 % Two demonstrations from the Junicode
@@ -1258,23 +1255,25 @@ This work consists of this file fontspec.dtx
 % which should be done on a per-font basis.
 %
 % \subsection{Alternates}
-% Selection of the \feat{Alternate} feature again
-% must be done numerically.
 %
-% For OpenType fonts, this option is used to access numerical
-% variations of the raw |salt| feature. I can't show an example,
-% but here's how it would be used:
-% \begin{verbatim}
-%   \fontspec[Alternate=1]{Garamond Premier Pro}
-% \end{verbatim}
-% Numbering starts from |0| for the first stylistic alternate.
+% The \feat{Alternate} feature (for the raw OpenType feature |salt|) is used to access alternate font glyphs when variations exist in the font, such as in \exref{salt}.
+% It uses a numerical selection, starting from zero, that will be different for each font.
 % Note that the \texttt{Style=Alternate} option is equivalent
 % to \texttt{Alternate=0} to access the default case.
 %
+% \begin{Xexample}[firstline=2]{salt}{The \feat{Alternate} feature.}
+%   \huge
+%   \fontspec{Linux Libertine}
+%   \textsc{a} \& h \\
+%   \addfontfeature{Alternate=0}
+%   \textsc{a} \& h
+% \end{Xexample}
+%
 % See \vref{sec:newfeatures} for a way to assign names to alternates,
-% which should be done on a per-font basis.
+% which must be done on a per-font basis.
 %
 % \subsection{Style}
+% \label{sec:ot-feat-style}
 %
 % \begin{features}{Style}
 % \otf{Alternate}{salt}
@@ -1292,9 +1291,57 @@ This work consists of this file fontspec.dtx
 % For fonts with multiple |salt| OpenType features,
 % use the fontspec \feat{Alternate} feature instead.
 %
-% Typical examples for these features are shown in \ref{sec:ot-feat-style}.
+% \Exref{style-alt} and \exref{style-hist} both contain glyph
+% subtitutions with similar characteristics.
+% Note the occasional inconsistency with which font features are labelled; a long-tailed `Q' could turn up anywhere!
 %
+%  \begin{Lexample}[firstline=2]{style-alt}{Example of the \opt{Alternate} option of the \feat{Style} feature.}
+%   \Large
+%   \fontspec{Warnock Pro}
+%    K Q R k v w y                      \\
+%   \addfontfeature{Style=Alternate}
+%    K Q R k v w y
+% \end{Lexample}
 %
+% \begin{Lexample}[firstline=2]{style-hist}{Example of the \opt{Historic} option of the \feat{Style} feature.}
+%   \Large
+%   \fontspec{Adobe Jenson Pro}
+%    M Q Z                      \\
+%   \addfontfeature{Style=Historic}
+%    M Q Z
+% \end{Lexample}
+%
+% In other features, larger breadths of changes can be seen, covering
+% the style of an entire alphabet. See \exref{style-titl} and \exref{style-itrub}; in the latter, the \opt{Italic} option affects the Latin text and the \opt{Ruby} option the Japanese.
+%
+% \begin{Lexample}[firstline=2]{style-titl}{Example of the \opt{TitlingCaps} option of the \feat{Style} feature.}
+%   \Large
+%   \fontspec{Adobe Garamond Pro}
+%    TITLING CAPS                       \\
+%   \addfontfeature{Style=TitlingCaps}
+%    TITLING CAPS
+% \end{Lexample}
+%
+% \begin{Xexample}[firstline=2]{style-itrub}{Example of the \opt{Italic} and \opt{Ruby} options of the \feat{Style} feature.}
+%   \Large \def\kana{ようこそ ワカヨタレソ}
+%   \fontspec{Hiragino Mincho Pro}
+%    Latin \kana        \\
+%   \addfontfeature{Style={Italic, Ruby}}
+%    Latin \kana
+% \end{Xexample}
+%
+% Note the difference here between the default and the horizontal style kana
+% in \exref{style-hvkana}.
+%
+% \begin{Xexample}[firstline=2]{style-hvkana}{Example of the \opt{HorizontalKana} and \opt{VerticalKana} options of the \feat{Style} feature.}
+%   \Large \def\kana{ようこそ ワカヨタレソ}
+%    \fontspec{Hiragino Mincho Pro}
+%     \kana   \\
+%   {\addfontfeature{Style=HorizontalKana}
+%     \kana } \\
+%   {\addfontfeature{Style=VerticalKana}
+%     \kana }
+% \end{Xexample}
 %
 % \subsection{Diacritics}
 % Specifies how diacritics should be placed.
@@ -1360,9 +1407,9 @@ This work consists of this file fontspec.dtx
 % silently.
 %
 % \subsection{Annotation}
-% Various Asian fonts are equipped with an extensive range of
+% Some fonts are equipped with an extensive range of
 % numbers and numerals in different forms. These are accessed with the
-% \feat{Annotation} feature, selected numerically as shown in
+% \feat{Annotation} feature (OpenType feature |nalt|), selected numerically as shown in
 % \exref{ot-annot}.
 %
 % \begin{Xexample}{ot-annot}{Annotation forms for OpenType fonts.}
@@ -1907,7 +1954,6 @@ This work consists of this file fontspec.dtx
 %
 %
 % \subsection{Style}
-% \label{sec:ot-feat-style}
 %
 % The options of the \feat{Style} feature
 % are defined in \AAT\ as one of the following: \opt{Display},
@@ -1916,57 +1962,8 @@ This work consists of this file fontspec.dtx
 % \footnotetext{`Ruby' refers to a small optical size, used in
 % Japanese typography for annotations.}
 %
-% \Exref{style-alt} and \exref{style-hist} both contain glyph
-% subtitutions with similar characteristics.
-% Note the occasional inconsistency with which font features are labelled; a long-tailed `Q' could turn up anywhere!
+% Typical examples for these features are shown in \ref{sec:ot-feat-style}.
 %
-%  \begin{Lexample}[firstline=2]{style-alt}{Example of the \opt{Alternate} option of the \feat{Style} feature.}
-%   \Large
-%   \fontspec{Warnock Pro}
-%    K Q R k v w y                      \\
-%   \addfontfeature{Style=Alternate}
-%    K Q R k v w y
-% \end{Lexample}
-%
-% \begin{Lexample}[firstline=2]{style-hist}{Example of the \opt{Historic} option of the \feat{Style} feature.}
-%   \Large
-%   \fontspec{Adobe Jenson Pro}
-%    M Q Z                      \\
-%   \addfontfeature{Style=Historic}
-%    M Q Z
-% \end{Lexample}
-%
-% In other features, larger breadths of changes can be seen, covering
-% the style of an entire alphabet. See \exref{style-titl} and \exref{style-itrub}; in the latter, the \opt{Italic} option affects the Latin text and the \opt{Ruby} option the Japanese.
-%
-% \begin{Lexample}[firstline=2]{style-titl}{Example of the \opt{TitlingCaps} option of the \feat{Style} feature.}
-%   \Large
-%   \fontspec{Adobe Garamond Pro}
-%    TITLING CAPS                       \\
-%   \addfontfeature{Style=TitlingCaps}
-%    TITLING CAPS
-% \end{Lexample}
-%
-% \begin{Xexample}[firstline=2]{style-itrub}{Example of the \opt{Italic} and \opt{Ruby} options of the \feat{Style} feature.}
-%   \Large \def\kana{ようこそ ワカヨタレソ}
-%   \fontspec{Hiragino Mincho Pro}
-%    Latin \kana        \\
-%   \addfontfeature{Style={Italic, Ruby}}
-%    Latin \kana
-% \end{Xexample}
-%
-% Note the difference here between the default and the horizontal style kana
-% in \exref{style-hvkana}.
-%
-% \begin{Xexample}[firstline=2]{style-hvkana}{Example of the \opt{HorizontalKana} and \opt{VerticalKana} options of the \feat{Style} feature.}
-%   \Large \def\kana{ようこそ ワカヨタレソ}
-%    \fontspec{Hiragino Mincho Pro}
-%     \kana   \\
-%   {\addfontfeature{Style=HorizontalKana}
-%     \kana } \\
-%   {\addfontfeature{Style=VerticalKana}
-%     \kana }
-% \end{Xexample}
 %
 %
 %
@@ -2181,7 +2178,7 @@ This work consists of this file fontspec.dtx
 % \begin{Lexample}{aliasopt}{Renaming font feature options.}
 %   \aliasfontfeature{VerticalPosition}{Vert Pos}
 %   \aliasfontfeatureoption{VerticalPosition}{ScientificInferior}{Sci Inf}
-%   \fontspec[Vert Pos=Sci Inf]{Warnock Pro}
+%   \fontspec[Vert Pos=Sci Inf]{Linux Libertine}
 %    Scientific Inferior: 12345
 % \end{Lexample}
 %
@@ -2286,7 +2283,8 @@ This work consists of this file fontspec.dtx
 % function.
 % \end{macro}
 %
-%  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% %
+%  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
 % \part{The patching/improvement of \LaTeXe\ and other packages}
 % \label{sec:patching}
 %
@@ -2305,20 +2303,19 @@ This work consists of this file fontspec.dtx
 % By default \LaTeX\ defines symbolic footnote characters in terms of commands
 % that don't resolve well; better results can be achieved by using specific Unicode characters or proper LICRs with the \pkg{xunicode} package.
 %
-% This problem has been solved by loading the 
-% \pkg{fixltx2e} and \pkg{xunicode} packages in \pkg{xltxtra}.
+% This problem has been solved by loading the \pkg{fixltx2e} package.
 %
 % \section{Verbatim}
 % \label{sec:verb}
 %
 % Many verbatim mechanisms assume the existence of a `visible space' character that exists in the \textsc{ascii} space slot of the typewriter font. This character is known in Unicode as \unichar{2434}{box open}, which looks like this: `\verb*| |'.
 %
-% When a Unicode typewriter font is used, \LaTeX\ no longer prints visible spaces for the |verbatim*| environment and |\verb*| command. \pkg{xltxtra} fixes this problem by using the correct Unicode glyph, and patches the following packages to do the same:
+% When a Unicode typewriter font is used, \LaTeX\ no longer prints visible spaces for the |verbatim*| environment and |\verb*| command. This problem is fixed by using the correct Unicode glyph, and the following packages are patched to do the same:
 % \pkg{listings}, \pkg{fancyvrb}, \pkg{moreverb}, and \pkg{verbatim}.
 %
-% In the case that the typewriter font does not contain `\verb*| |', the Latin Modern Mono font is used as a fallback. 
+% In the case that the typewriter font does not contain `\verb*| |', the Latin Modern Mono font is used as a fallback.
 %
-% \section{Discrectionary hyphenation: \cmd\-}
+% \section{Discretionary hyphenation: \cmd\-}
 % \label{sec:hyphen}
 %
 % \LaTeX\ defines the macro \cmd\-\ to insert discretionary hyphenation points.

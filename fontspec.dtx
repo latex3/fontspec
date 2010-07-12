@@ -939,38 +939,34 @@ This work consists of this file fontspec.dtx
 %
 % OpenType fonts with optical scaling will exist in
 % several discrete sizes, and these will be selected by \XeTeX\
-% \emph{automatically} determined by the current font size. The
+% \emph{automatically} determined by the current font size as in
+% \exref{optsize}, in which we've scaled down some large text in order to be
+% able to compare the difference for equivalent font sizes.
+%
+% The
 % \opt{OpticalSize} option may be used to specify a different optical
 % size.
-%
-% For the OpenType font Warnock Pro, we have three optically sized
-% variants: caption, subhead, and display. With \opt{OpticalSize} set
+% With \opt{OpticalSize} set
 % to zero, no optical size font substitution is performed, as shown in
 % \exref{optsize0}.
 %
-% \begin{Lexample}{optsize0}{Optical size substitution is suppressed when set to zero.}
-%   \fontspec[OpticalSize=0]{Warnock Pro Caption}
-%    Warnock Pro optical sizes                \\
-%   \fontspec[OpticalSize=0]{Warnock Pro}
-%    Warnock Pro optical sizes                \\
-%   \fontspec[OpticalSize=0]{Warnock Pro Subhead}
-%    Warnock Pro optical sizes                \\
-%   \fontspec[OpticalSize=0]{Warnock Pro Display}
-%    Warnock Pro optical sizes
-% \end{Lexample}
-%
-% Automatic OpenType optical scaling is in
-% \exref{optsize}, in which we've scaled down some large text in order to be
-% able to compare the difference for equivalent font sizes (this
-% gives the same output as we saw in the previous example for Warnock
-% Pro Display).
-%
-% \begin{Lexample}{optsize}{A demonstration of automatic optical size selection.}
-%   \fontspec{Warnock Pro}
+% \begin{Xexample}{optsize}{A demonstration of automatic optical size selection.}
+%   \fontspec{Latin Modern Roman}
 %    Automatic optical size                  \\
 %   \scalebox{0.4}{\Huge
 %    Automatic optical size}
-% \end{Lexample}
+% \end{Xexample}
+%
+% \begin{Xexample}{optsize0}{Optical size substitution is suppressed when set to zero.}
+%   \fontspec[OpticalSize=0]{Latin Modern Roman 5 Regular}
+%    Latin Modern optical sizes                \\
+%   \fontspec[OpticalSize=0]{Latin Modern Roman 8 Regular}
+%    Latin Modern optical sizes                \\
+%   \fontspec[OpticalSize=0]{Latin Modern Roman 12 Regular}
+%    Latin Modern optical sizes                \\
+%   \fontspec[OpticalSize=0]{Latin Modern Roman 17 Regular}
+%    Latin Modern optical sizes
+% \end{Xexample}
 %
 % The \feat{SizeFeatures} feature (\vref*{sec:sizefeature}) can be
 % used to specify exactly which optical sizes will be used for ranges
@@ -982,7 +978,7 @@ This work consists of this file fontspec.dtx
 %       {Size= 10-14,  OpticalSize=10},
 %       {Size= 14-18,  OpticalSize=14},
 %       {Size=    18-, OpticalSize=18}}
-%            ]{Warnock Pro}
+%            ]{Latin Modern Roman}
 % \end{verbatim}
 %
 % \part{OpenType}
@@ -1364,14 +1360,15 @@ This work consists of this file fontspec.dtx
 % \end{features}
 %
 % As briefly mentioned previously at the end of \vref{sec:letters},
-% the \opt{Uppercase} option will add a small amount of tracking between uppercase letters, seen in \exref{kernup}.
+% the \opt{Uppercase} option will add a small amount of tracking between uppercase letters, seen in \exref{kernup}, which uses the Romande fonts\footnote{\url{http://arkandis.tuxfamily.org/adffonts.html}} (thanks to Clea F. Rees for the suggestion).
 %
-% \begin{Lexample}{kernup}{Adding extra kerning for uppercase letters.}
-%   \fontspec{Warnock Pro}
-%    UPPER-CASE EXAMPLE \\
+% \begin{Xexample}[firstline=2]{kernup}{Adding extra kerning for uppercase letters.}
+%   \large
+%   \fontspec{Romande ADF Std Bold}
+%    UPPERCASE EXAMPLE \\
 %   \addfontfeature{Kerning=Uppercase}
-%    UPPER-CASE EXAMPLE
-% \end{Lexample}
+%    UPPERCASE EXAMPLE
+% \end{Xexample}
 %
 %
 % \subsection{Font transformations}
@@ -1523,11 +1520,10 @@ This work consists of this file fontspec.dtx
 %
 % Because these font features can
 % change which features are able to be selected for the font, they are selected
-% by \pkg{fontspec} before all others and will specifically select the \opt{ICU}
+% by \pkg{fontspec} before all others and, if \XeTeX\ is being used, will specifically select the \opt{ICU}
 % renderer for this font, as described in \vref{sec:renderer}.
 %
 %
-% \iffalse
 % \subsubsection{\feat{Script} examples}
 %
 % In the following examples, the same font is used to typeset the
@@ -1540,38 +1536,38 @@ This work consists of this file fontspec.dtx
 %
 % \begingroup
 % \setverbwidth{0.5\textwidth}
-% \begin{opentypeexample}
+% \begin{Xexample}{script-arabic}{An example of the Arabic script.}
 %   \fontspec[Script=Arabic]{Code2000}
 %    العربي
-% \end{opentypeexample}
-% \begin{opentypeexample}
+% \end{Xexample}
+% \begin{Xexample}{script-devanagari}{An example of the Devanagari script.}
 %   \fontspec[Script=Devanagari]{Code2000}
 %    हिन्दी
-% \end{opentypeexample}
-% \begin{opentypeexample}
+% \end{Xexample}
+% \begin{Xexample}{script-bengali}{An example of the Bengali script.}
 %   \fontspec[Script=Bengali]{Code2000}
 %    লেখ
-% \end{opentypeexample}
-% \begin{opentypeexample}
+% \end{Xexample}
+% \begin{Xexample}{script-gujarati}{An example of the Gujarati script.}
 %   \fontspec[Script=Gujarati]{Code2000}
 %    મર્યાદા-સૂચક નિવેદન
-% \end{opentypeexample}
-% \begin{opentypeexample}
+% \end{Xexample}
+% \begin{Xexample}{script-malayalam}{An example of the Malayalam script.}
 %   \fontspec[Script=Malayalam]{Code2000}
 %    നമ്മുടെ പാരബര്യ
-% \end{opentypeexample}
-% \begin{opentypeexample}
+% \end{Xexample}
+% \begin{Xexample}{script-gurmukhi}{An example of the Gurmukhi script.}
 %   \fontspec[Script=Gurmukhi]{Code2000}
 %    ਆਦਿ ਸਚੁ ਜੁਗਾਦਿ ਸਚੁ
-% \end{opentypeexample}
-% \begin{opentypeexample}
+% \end{Xexample}
+% \begin{Xexample}{script-tamil}{An example of the Tamil script.}
 %   \fontspec[Script=Tamil]{Code2000}
 %    தமிழ் தேடி
-% \end{opentypeexample}
-% \begin{opentypeexample}
+% \end{Xexample}
+% \begin{Xexample}{script-hebrew}{An example of the Hebrew script.}
 %   \fontspec[Script=Hebrew]{Code2000}
 %    רִדְתָּֽהּ
-% \end{opentypeexample}
+% \end{Xexample}
 % \endgroup
 %
 % \subsubsection{\feat{Language} examples}
@@ -1579,23 +1575,14 @@ This work consists of this file fontspec.dtx
 % Vietnamese requires careful diacritic placement:
 % \begingroup
 % \setexsize\Large
-% \begin{opentypeexample}
+% \begin{Xexample}{lang-viet}{An example of the Vietnamese language.}
 %   \fontspec{Doulos SIL}
 %    cấp số mỗi \\
 %   \addfontfeature{Language=Vietnamese}
 %    cấp số mỗi
-% \end{opentypeexample}
-% \noindent Moldavian, as a typical example from Ralf Stubner's FPL Neu font:
-% \setexsize\Large
-% \begin{opentypeexample}
-%   \fontspec{FPL Neu}
-%    Ş ş Ţ ţ  \\
-%   \addfontfeature{Language=Moldavian}
-%    Ş ş Ţ ţ
-% \end{opentypeexample}
+% \end{Xexample}
 % \endgroup
 %
-% \fi
 %
 % \subsubsection{Defining new scripts and languages}
 %
@@ -1608,7 +1595,7 @@ This work consists of this file fontspec.dtx
 %   \newfontlanguage{Turkish}{TUR}
 % \end{Verbatim}
 % The first argument is the \pkg{fontspec} name, the second the OpenType
-% definition. The advantage to using these commands rather than \cmd\newfontfeature\
+% tag. The advantage to using these commands rather than \cmd\newfontfeature\
 % (see \vref{sec:newfeatures}) is the error-checking that is performed when
 % the script or language is requested.
 %

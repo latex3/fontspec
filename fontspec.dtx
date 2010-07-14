@@ -1222,7 +1222,7 @@ This work consists of this file fontspec.dtx
 % \end{Xexample}
 %
 %
-% \subsection{StylisticSet}
+% \subsection{Stylistic Set variations}
 %
 % This feature selects a `Stylistic Set' variation,
 % which usually corresponds to an alternate glyph style for a range of
@@ -1252,6 +1252,19 @@ This work consists of this file fontspec.dtx
 % (This is a synonym of the \feat{Variant} feature for \AAT\ fonts.)
 % See \vref{sec:newfeatures} for a way to assign names to stylistic sets,
 % which should be done on a per-font basis.
+%
+% \subsection{Character Variants}
+%
+% Similar to the `Stylistic Sets' above, `Character Variations' are selected
+% numerically to adjust the output of (usually) a single character for the
+% particular font. These correspond to the OpenType features |cv01| to |cv99|.
+%
+% I don't have a font to demonstrate this with (please suggest one if you
+% know of a free font with this feature!), but the syntax is similar to that
+% above:
+% \begin{verbatim}
+%   \fontspec[CharacterVariant={1,3,5}]{...}
+% \end{verbatim}
 %
 % \subsection{Alternates}
 %
@@ -4967,6 +4980,15 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \xetex_or_luatex:nnn { \cs_set:Npn \fontspec_salt:n }
   {+salt=#1} { +salt= \intexpr_eval:n {#1+1} }
+\define@key[zf]{options}{CharacterVariant}{
+  \clist_set_eq:NN \l_fontspec_tmpa_clist \XKV@rm
+  \setkeys*[zf@feat]{CharacterVariant}{#1}
+  \unless\ifx\XKV@rm\@empty
+    \def\XKV@tfam{CharacterVariant}
+    \fontspec_make_feature:nnx {}{} { +cv \two@digits {#1} }
+  \fi
+  \clist_set_eq:NN \XKV@rm \l_fontspec_tmpa_clist
+}
 %    \end{macrocode}
 %
 % \subsubsection{Style}

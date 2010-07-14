@@ -4967,7 +4967,7 @@ This work consists of this file fontspec.dtx
   \setkeys*[zf@feat]{Alternate}{#1}
   \unless\ifx\XKV@rm\@empty
     \def\XKV@tfam{Alternate}
-    \fontspec_make_feature:nnn{17}{#1}{+salt=#1}
+    \fontspec_make_feature:nnx {17}{#1} { \fontspec_salt:n {#1} }
   \fi
   \clist_set_eq:NN \XKV@rm \l_fontspec_tmpa_clist
 }
@@ -4979,11 +4979,16 @@ This work consists of this file fontspec.dtx
   \setkeys*[zf@feat]{Variant}{#1}
   \unless\ifx\XKV@rm\@empty
     \def\XKV@tfam{Variant}
-    \fontspec_make_feature:nnx{18}{#1}{+ss\two@digits{#1}}
+    \fontspec_make_feature:nnx {18}{#1} { +ss \two@digits {#1} }
   \fi
   \clist_set_eq:NN \XKV@rm \l_fontspec_tmpa_clist
 }
 \aliasfontfeature{Variant}{StylisticSet}
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+\xetex_or_luatex:nnn { \cs_set:Npn \fontspec_salt:n }
+  {+salt=#1} { +salt= \intexpr_eval:n {#1+1} }
 %    \end{macrocode}
 %
 % \subsubsection{Style}
@@ -5049,10 +5054,15 @@ This work consists of this file fontspec.dtx
   \setkeys*[zf@feat]{Annotation}{#1}
   \unless\ifx\XKV@rm\@empty
     \def\XKV@tfam{Alternate}
-    \fontspec_make_feature:nnn{}{}{+nalt=#1}
+    \fontspec_make_feature:nnx {}{} { \fontspec_nalt:n {#1} }
   \fi
   \clist_set_eq:NN \XKV@rm \l_fontspec_tmpa_clist
 }
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+\xetex_or_luatex:nnn { \cs_set:Npn \fontspec_nalt:n }
+  {+nalt=#1} { +nalt= \intexpr_eval:n {#1+1} }
 %    \end{macrocode}
 %
 % \subsubsection{Vertical}

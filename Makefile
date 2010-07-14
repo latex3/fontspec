@@ -43,7 +43,9 @@ GENERATED = $(COMPILED) $(UNPACKED)
 
 TESTS = $(shell ls testsuite/*.cls testsuite/*.tex testsuite/*.ltx)
 
-CTAN_FILES = $(SOURCE) $(COMPILED) $(EXAMPLES) $(TESTS)
+DOC_EXAMPLES = $(shell ls doc/*.pdf)
+
+CTAN_FILES = $(SOURCE) $(COMPILED) $(EXAMPLES) $(TESTS) $(DOC_EXAMPLES)
 
 # Files grouped by installation location
 UNPACKED_DOC = fontspec-luatex.tex fontspec-xetex.tex
@@ -73,7 +75,8 @@ DO_MAKEINDEX = makeindex -s gind.ist $(subst .dtx,,$<) >/dev/null 2>&1
 all: $(GENERATED)
 doc: $(COMPILED)
 unpack: $(UNPACKED)
-ctan: check $(CTAN_ZIP)
+ctan: $(CTAN_ZIP)
+	echo $(DOCFILES)
 tds: $(TDS_ZIP)
 world: all ctan
 

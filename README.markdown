@@ -1,5 +1,5 @@
 
-THE FONTSPEC PACKAGE v2.0a
+THE FONTSPEC PACKAGE v2.0b
 ==========================
 
 This is the initial release of the fontspec package with support for LuaTeX.
@@ -143,7 +143,17 @@ gladly accepted!
 Change history
 --------------
 
-- v2.0a (2010 July 11)  
+- v2.0b (2010/07/14)  
+  *Actually* the final release before TeX Live 2010.
+
+    * Improved examples in the documentation, with fewer proprietary fonts
+    * All font examples are included as separate images on CTAN, so the
+      manual can be compiled (with pdfLaTeX) by anyone, anywhere
+    * LuaLaTeX fixes for the StylisticSet and Annotation features
+    * New OpenType feature `CharacterVariant` now supported
+    * Minor change: `Ligatures=Historical` is now `Ligatures=Historic` for consistency
+
+- v2.0a (2010/07/11)  
   Final release before TeX Live 2010.
   
     * Bug fix for the Language setting being ignored
@@ -176,6 +186,9 @@ Test suite: (within testsuite/)
         X*.ltx                     XeLaTeX test file
         F*.ltx                     Test file for both engines
 
+Documentation sources:
+        doc/*.pdf                  These are pre-generated example outputs for 
+                                   direct inclusion in the documentation
 
 License
 -------

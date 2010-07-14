@@ -63,7 +63,7 @@ This work consists of this file fontspec.dtx
 %<fontspec>\ProvidesPackage{fontspec}
 %<patches>\ProvidesPackage{fontspec-patches}
 %<*fontspec|patches>
-  [2010/07/11 v2.0a Advanced font selection for XeLaTeX/LuaLaTeX]
+  [2010/07/14 v2.0b Advanced font selection for XeLaTeX/LuaLaTeX]
 %</fontspec|patches>
 %
 %<*driver>
@@ -1307,32 +1307,32 @@ This work consists of this file fontspec.dtx
 % subtitutions with similar characteristics.
 % Note the occasional inconsistency with which font features are labelled; a long-tailed `Q' could turn up anywhere!
 %
-%  \begin{Lexample}[firstline=2]{style-alt}{Example of the \opt{Alternate} option of the \feat{Style} feature.}
+%  \begin{Xexample}[firstline=2]{style-alt}{Example of the \opt{Alternate} option of the \feat{Style} feature.}
 %   \Large
 %   \fontspec{Warnock Pro}
 %    K Q R k v w y                      \\
 %   \addfontfeature{Style=Alternate}
 %    K Q R k v w y
-% \end{Lexample}
+% \end{Xexample}
 %
-% \begin{Lexample}[firstline=2]{style-hist}{Example of the \opt{Historic} option of the \feat{Style} feature.}
+% \begin{Xexample}[firstline=2]{style-hist}{Example of the \opt{Historic} option of the \feat{Style} feature.}
 %   \Large
 %   \fontspec{Adobe Jenson Pro}
 %    M Q Z                      \\
 %   \addfontfeature{Style=Historic}
 %    M Q Z
-% \end{Lexample}
+% \end{Xexample}
 %
 % In other features, larger breadths of changes can be seen, covering
 % the style of an entire alphabet. See \exref{style-titl} and \exref{style-itrub}; in the latter, the \opt{Italic} option affects the Latin text and the \opt{Ruby} option the Japanese.
 %
-% \begin{Lexample}[firstline=2]{style-titl}{Example of the \opt{TitlingCaps} option of the \feat{Style} feature.}
+% \begin{Xexample}[firstline=2]{style-titl}{Example of the \opt{TitlingCaps} option of the \feat{Style} feature.}
 %   \Large
 %   \fontspec{Adobe Garamond Pro}
 %    TITLING CAPS                       \\
 %   \addfontfeature{Style=TitlingCaps}
 %    TITLING CAPS
-% \end{Lexample}
+% \end{Xexample}
 %
 % \begin{Xexample}[firstline=2]{style-itrub}{Example of the \opt{Italic} and \opt{Ruby} options of the \feat{Style} feature.}
 %   \Large \def\kana{ようこそ ワカヨタレソ}
@@ -2302,7 +2302,7 @@ This work consists of this file fontspec.dtx
 % \LaTeX\ defines the macro \cmd\-\ to insert discretionary hyphenation points.
 % However, it is hard-coded in \LaTeX\ to use the hyphen |-| character. Since \pkg{fontspec}
 % makes it easy to change the hyphenation character on a per font basis, it would
-% be nice if \cmd\-\ adjusted automatically — and now it does.
+% be nice if \cmd\-\ adjusted automatically --- and now it does.
 %
 % \StopEventually{}
 %

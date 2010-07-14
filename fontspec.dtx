@@ -1527,64 +1527,42 @@ This work consists of this file fontspec.dtx
 % renderer for this font, as described in \vref{sec:renderer}.
 %
 %
-% \subsubsection{\feat{Script} examples}
+% \subsubsection{\feat{Script} and \feat{Language} examples}
 %
-% In the following examples, the same font is used to typeset the
-% verbatim input and the \XeTeX\ output. Because the \opt{Script} is
-% only specified for the output, the text is rendered incorrectly in
-% the verbatim input. Many examples of incorrect diacritic spacing as
+% In the following examples, the Code2000 font\footnote{\url{http://www.code2000.net/}}
+% is used to typeset the input without and without the OpenType Script applied. The text is only rendered correctly in the second case;
+% many examples of incorrect diacritic spacing as
 % well as a lack of contextual ligatures and rearrangement can be
 % seen. Thanks to \name{Jonathan Kew}, \name{Yves Codet} and
 % \name{Gildas Hamel} for their contributions towards these examples.
 %
-% \begingroup
-% \setverbwidth{0.5\textwidth}
-% \begin{Xexample}{script-arabic}{An example of the Arabic script.}
-%   \fontspec[Script=Arabic]{Code2000}
-%    العربي
+% \begin{Xexample}[firstline=14,lastline=23]{script-lang}{An example of various Scripts and Languages.}
+% \def\testfeature#1#2{%^^A
+%   \fontspec{\examplefont}#2 & \fontspec[#1]{\examplefont}#2\\[1ex]}
+% \def \examplefont{Code2000}
+% \def \arabictext{العربي}
+% \def \devanagaritext{हिन्दी}
+% \def \bengalitext{লেখ}
+% \def \gujaratitext{મર્યાદા-સૂચક નિવેદન}
+% \def \malayalamtext{നമ്മുടെ പാരബര്യ}
+% \def \gurmukhitext{ਆਦਿ ਸਚੁ ਜੁਗਾਦਿ ਸਚੁ}
+% \def \tamiltext{தமிழ் தேடி}
+% \def \hebrewtext{רִדְתָּֽהּ}
+% \def \vietnamesetext{cấp số mỗi}
+% \begin{tabular}{r@{\quad}l}
+%   \testfeature{Script=Arabic}{\arabictext}
+%   \testfeature{Script=Devanagari}{\devanagaritext}
+%   \testfeature{Script=Bengali}{\bengalitext}
+%   \testfeature{Script=Gujarati}{\gujaratitext}
+%   \testfeature{Script=Malayalam}{\malayalamtext}
+%   \testfeature{Script=Gurmukhi}{\gurmukhitext}
+%   \testfeature{Script=Tamil}{\tamiltext}
+%   \testfeature{Script=Hebrew}{\hebrewtext}
+%   \def\examplefont{Doulos SIL}
+%   \testfeature{Language=Vietnamese}{\vietnamesetext}
+% \end{tabular}
 % \end{Xexample}
-% \begin{Xexample}{script-devanagari}{An example of the Devanagari script.}
-%   \fontspec[Script=Devanagari]{Code2000}
-%    हिन्दी
-% \end{Xexample}
-% \begin{Xexample}{script-bengali}{An example of the Bengali script.}
-%   \fontspec[Script=Bengali]{Code2000}
-%    লেখ
-% \end{Xexample}
-% \begin{Xexample}{script-gujarati}{An example of the Gujarati script.}
-%   \fontspec[Script=Gujarati]{Code2000}
-%    મર્યાદા-સૂચક નિવેદન
-% \end{Xexample}
-% \begin{Xexample}{script-malayalam}{An example of the Malayalam script.}
-%   \fontspec[Script=Malayalam]{Code2000}
-%    നമ്മുടെ പാരബര്യ
-% \end{Xexample}
-% \begin{Xexample}{script-gurmukhi}{An example of the Gurmukhi script.}
-%   \fontspec[Script=Gurmukhi]{Code2000}
-%    ਆਦਿ ਸਚੁ ਜੁਗਾਦਿ ਸਚੁ
-% \end{Xexample}
-% \begin{Xexample}{script-tamil}{An example of the Tamil script.}
-%   \fontspec[Script=Tamil]{Code2000}
-%    தமிழ் தேடி
-% \end{Xexample}
-% \begin{Xexample}{script-hebrew}{An example of the Hebrew script.}
-%   \fontspec[Script=Hebrew]{Code2000}
-%    רִדְתָּֽהּ
-% \end{Xexample}
-% \endgroup
 %
-% \subsubsection{\feat{Language} examples}
-%
-% Vietnamese requires careful diacritic placement:
-% \begingroup
-% \setexsize\Large
-% \begin{Xexample}{lang-viet}{An example of the Vietnamese language.}
-%   \fontspec{Doulos SIL}
-%    cấp số mỗi \\
-%   \addfontfeature{Language=Vietnamese}
-%    cấp số mỗi
-% \end{Xexample}
-% \endgroup
 %
 %
 % \subsubsection{Defining new scripts and languages}

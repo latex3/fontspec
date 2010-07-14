@@ -4965,6 +4965,11 @@ This work consists of this file fontspec.dtx
 %    \end{macrocode}
 %
 %    \begin{macrocode}
+\xetex_or_luatex:nnn { \cs_set:Npn \fontspec_salt:n #1 }
+  {+salt=#1} { +salt= \intexpr_eval:n {#1+1} }
+%    \end{macrocode}
+%
+%    \begin{macrocode}
 \define@key[zf]{options}{Variant}{
   \clist_set_eq:NN \l_fontspec_tmpa_clist \XKV@rm
   \setkeys*[zf@feat]{Variant}{#1}
@@ -4978,8 +4983,6 @@ This work consists of this file fontspec.dtx
 %    \end{macrocode}
 %
 %    \begin{macrocode}
-\xetex_or_luatex:nnn { \cs_set:Npn \fontspec_salt:n }
-  {+salt=#1} { +salt= \intexpr_eval:n {#1+1} }
 \define@key[zf]{options}{CharacterVariant}{
   \clist_set_eq:NN \l_fontspec_tmpa_clist \XKV@rm
   \setkeys*[zf@feat]{CharacterVariant}{#1}
@@ -5061,7 +5064,7 @@ This work consists of this file fontspec.dtx
 %    \end{macrocode}
 %
 %    \begin{macrocode}
-\xetex_or_luatex:nnn { \cs_set:Npn \fontspec_nalt:n }
+\xetex_or_luatex:nnn { \cs_set:Npn \fontspec_nalt:n #1 }
   {+nalt=#1} { +nalt= \intexpr_eval:n {#1+1} }
 %    \end{macrocode}
 %

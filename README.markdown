@@ -1,5 +1,5 @@
 
-THE FONTSPEC PACKAGE v2.0b
+THE FONTSPEC PACKAGE v2.0c
 ==========================
 
 This is the initial release of the fontspec package with support for LuaTeX.
@@ -142,6 +142,13 @@ gladly accepted!
 
 Change history
 --------------
+
+- v2.0c (2010/07/23)  
+  Bug fix and documentation tune-up.
+
+    * Significant bug fix reported simultaneously by Enrico Gregorio and
+      Don Hosek.
+    * Many documentation improvements and additions due to David Perry.
 
 - v2.0b (2010/07/14)  
   *Actually* the final release before TeX Live 2010.

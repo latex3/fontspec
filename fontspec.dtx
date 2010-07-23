@@ -138,7 +138,7 @@ This work consists of this file fontspec.dtx
 % \subsection{About this manual}
 %
 % This manual for version 2 of fontspec
-% is still in the process of being re-written.
+% is still in the process of being rewritten.
 % If you see any typeset examples that are broken, please let me know!
 % I've managed to go over a lot of them but some have been brought over
 % from the old version without being proofed.
@@ -162,8 +162,8 @@ This work consists of this file fontspec.dtx
 % Ross Moore's \pkg{xunicode} package is recommended for
 % providing backwards compatibility with \LaTeX's methods for accessing extra
 % characters and accents (for example, |\%|, |\$|, |\textbullet|, |\"u|, and
-% so on), plus many more Unicode characters. The \pkg{xltxtra} package adds a
-% couple of general improvements to \LaTeX\ under \XeTeX; it also provides the
+% so on), plus many more Unicode characters.
+% The \pkg{xltxtra} package adds some minor extra features to \XeLaTeX, including, via the \pkg{metalogo} package, the
 % \cmd\XeTeX\ macro to typeset the \XeTeX\ logo.
 %
 % \paragraph{\LuaTeX\ users only}
@@ -190,15 +190,15 @@ This work consists of this file fontspec.dtx
 % another maths font package is loaded (such as \pkg{mathpazo} or the
 % \pkg{unicode-math} package).
 %
-% If you find that it is incorrectly changing the maths font when it should be
+% If you find that \pkg{fontspec} is incorrectly changing the maths font when it should be
 % leaving well enough alone, apply the |[no-math]| package option to manually
 % suppress its maths font.
 %
 % \subsection{Configuration} If you wish to customise any part of the
 % \pkg{fontspec} interface (see later in this manual, \vref{sec:newfeatures}
 % and~\ref{sec:aliasfontfeature}), this should be done by creating your own
-% \texttt{fontspec.cfg} file, \note{An example is distributed with the package.}
-% which will be automatically loaded if it is found by \XeTeX. Either place it
+% \texttt{fontspec.cfg} file,
+% which will be automatically loaded if it is found by \XeTeX\ or \LuaTeX. Either place it
 % in the same folder as the main document for isolated cases, or in a location
 % that \XeTeX\ or \LuaTeX\ searches by default; \eg\ in Mac\TeX: \path{~/Library/texmf/tex/latex/}.
 % The package option |[no-config]| will suppress this behaviour under all circumstances.
@@ -242,7 +242,7 @@ This work consists of this file fontspec.dtx
 % \item For OpenType fonts, see Part~\vref{sec:opentype-features}
 % \item For \XeTeX-only general font features, see Part~\vref{sec:xetex-features}
 % \item For \LuaTeX-only general font features, see Part~\vref{sec:luatex-features}
-% \item For features for \AAT\ fonts in \XeTeX, see Part~\vref{sec:aat-features}
+% \item For features for \AAT\ fonts in \XeTeX, see \vref{sec:aat-features}
 % \end{itemize}
 %
 % \section{Font selection}
@@ -254,7 +254,7 @@ This work consists of this file fontspec.dtx
 %
 % Fonts known to \LuaTeX\ or \XeTeX\ may be loaded by their names.
 % `Known to' in this case generally means `exists in a standard fonts location'
-% such as |~/Library/Fonts| on \MacOSX, or |C://WINNT/Fonts| on Windows.
+% such as |~/Library/Fonts| on \MacOSX, or |C:\Windows\Fonts| on Windows.
 %
 % The simplest example might be something like
 % \begin{Verbatim}
@@ -268,15 +268,23 @@ This work consists of this file fontspec.dtx
 %
 %
 % \subsection{By file name}
+% \label{sec:by-file-name}
+%
+% \XeTeX\ and \LuaTeX\ also allow fonts to be loaded by file name instead of font name.
+% When you have a very large collection of fonts, you will sometimes not
+% wish to have them all installed in your system's font directories.
+% In this case, it is more convenient to load them from a different location on your disk.
+% This technique is also necessary in \XeTeX\ when loading OpenType fonts that are present within your \TeX\ distribution, such as \path{/usr/local/texlive/2010/texmf-dist/fonts/opentype/public}.
+% Fonts in such locations are visible to \XeTeX\ but cannot be loaded by font name, only file name; \LuaTeX\ does not have this restriction.
 %
 % When selecting fonts by file name, any font that can be found in the default
 % search paths may be used directly (including in the current directory)
 % without having to explicitly define the location of the font file on disk.
 %
-% Note that \XeTeX\ with the |xdvipdfmx| driver and \LuaTeX\ can both select
-% fonts in this way, but \XeTeX\ with the |xdv2pdf| driver can only select fonts
-% by name and not by file name. The |xdvipdfmx| driver is default for \XeTeX;
-% the |xdv2pdf| driver is only available on \MacOSX.
+% \paragraph{\XeTeX\ \& Mac users only:}
+% Note that \XeTeX\ can only select fonts in this way with the |xdvipdfmx| driver, but \XeTeX\ with the |xdv2pdf| driver can only select system-installed fonts
+% by font name and not file name. The |xdvipdfmx| driver is default for \XeTeX, so this is only a problem if you wish to explicitly use
+% the |xdv2pdf| driver.
 %
 % Fonts selected by filename must include bold and italic variants explicitly.
 % \begin{Verbatim}
@@ -354,15 +362,14 @@ This work consists of this file fontspec.dtx
 % further in \vref{sec:font-ind-features}, including methods for automatic
 % scaling.
 %
-% \begin{Lexample}[firstline=3]{fontload}{Loading the default, sans serif, and monospaced fonts.}
-%   \def\pangram{Pack my box with five
-%                      dozen liquor jugs.}
+% \begin{Lexample}{fontload}{Loading the default, sans serif, and monospaced fonts.}
 %   \setmainfont{TeX Gyre Bonum}
 %   \setsansfont[Scale=MatchLowercase]{Latin Modern Sans}
 %   \setmonofont[Scale=MatchLowercase]{Inconsolata}
-%   \rmfamily\pangram\par
-%   \sffamily\pangram\par
-%   \ttfamily\pangram
+%
+%   \rmfamily Pack my box with five dozen liquor jugs\par
+%   \sffamily Pack my box with five dozen liquor jugs\par
+%   \ttfamily Pack my box with five dozen liquor jugs
 % \end{Lexample}
 %
 %
@@ -377,7 +384,7 @@ This work consists of this file fontspec.dtx
 %
 % \noindent For cases when a specific font with a specific
 % feature set is going to be re-used many times in a document, it is inefficient
-% to keep calling \cs{fontspec} for every use. While the command does not define
+% to keep calling \cs{fontspec} for every use. While the \cs{fontspec} command does not define
 % a new font instance after the first call, the feature options must still be
 % parsed and processed.
 %
@@ -387,7 +394,7 @@ This work consists of this file fontspec.dtx
 % This macro should be used to create commands that would be used in
 % the same way as \cmd\rmfamily, for example.
 % If you would like to create a command that only changes the font
-% inside its argument (like \cmd{emph}) define it using regular \LaTeX\
+% inside its argument (i.e., the same behaviour as \cs{emph}) define it using regular \LaTeX\
 % commands:
 % \begin{Verbatim}
 %   \newcommand\textnote[1]{{\notefont #1}}
@@ -434,7 +441,7 @@ This work consists of this file fontspec.dtx
 % have bold or italic shapes, in which case a skilled (or lucky)
 % designer may be able to chose well-matching accompanying shapes from
 % a different font altogether, others can have a range of bold and
-% italic fonts to chose between.  The \feat{BoldFont} and
+% italic fonts to chose among.  The \feat{BoldFont} and
 % \feat{ItalicFont} features are provided for these situations. If only
 % one of these is used, the bold italic font is requested as the
 % default from the \emph{new} font. See \exref{bff}.
@@ -455,7 +462,7 @@ This work consists of this file fontspec.dtx
 % \subsubsection{Input shorthands}
 %
 % For those cases that the base font name is repeated, you can
-% replace it with an asterisk. (This has been shown previously in this section.)
+% replace it with an asterisk. (This has been shown previously in \vref{sec:by-file-name}.)
 % For example,
 % some space can be saved instead of writing `\texttt{Baskerville SemiBold}':
 % \begin{Verbatim}
@@ -482,10 +489,11 @@ This work consists of this file fontspec.dtx
 % by declaring the \feat{SmallCapsFont} of the family you are specifying:
 % \begin{Verbatim}
 %   \fontspec[
-%     SmallCapsFont={Minion MM Small Caps & Oldstyle Figures},
+%     SmallCapsFont={Minion MM Small Caps & Oldstyle Figures}
 %            ]{Minion MM Roman}
 %   Roman 123 \\ \textsc{Small caps 456}
 % \end{Verbatim}
+% For most modern fonts that have small caps as a font feature, this level of control isn't generally necessary, but you may still occasionally find font families in which the small caps are in a separate font.
 %
 % All of the bold, italic, and small caps fonts can be loaded with different
 % font features from the main font. See \ref{sec:bfit-feat} for details.
@@ -519,8 +527,8 @@ This work consists of this file fontspec.dtx
 %
 % However, the default text fonts may not necessarily be the ones you
 % wish to use when typesetting maths (especially with the use of fancy
-% ligatures and so on). For this reason, you may optionally use those
-% commands listed in the margin (in the same way as our other
+% ligatures and so on). For this reason, you may optionally use the
+% commands above (in the same way as our other
 % \cmd\fontspec-like commands) to explicitly state which fonts to use
 % inside such commands as \cmd\mathrm. Additionally, the
 % \cmd\setboldmathrm\ command allows you define the font used for
@@ -534,7 +542,7 @@ This work consists of this file fontspec.dtx
 %   \usepackage{fontspec,xunicode}
 %   \setmainfont{Optima}
 %   \setmathrm{Optima}
-%   \setboldmathrm[BoldFont=Optima ExtraBlack]{Optima Bold}
+%   \setboldmathrm[BoldFont={Optima ExtraBlack}]{Optima Bold}
 % \end{Verbatim}
 %
 %
@@ -567,9 +575,11 @@ This work consists of this file fontspec.dtx
 % \section{Selecting font features}
 % \label{sec:selectingfeature}
 %
-% The commands discussed so far each take an optional argument for
-% accessing the font features of the requested font. These features
-% are generally unavailable or harder to access in regular \LaTeX.
+% The commands discussed so far such as \cmd{fontspec} each take an optional argument for
+% accessing the font features of the requested font.
+% Commands are provided to set default features to be applied for all fonts, and even to change the features that a font is presently loaded with.
+% Different font shapes can be loaded with separate features, and different features can even be selected for different sizes that the font appears in.
+% This section discusses these options.
 %
 % \subsection{Default settings} \label{sec:defaults}
 %
@@ -704,12 +714,12 @@ This work consists of this file fontspec.dtx
 % \rmfamily\meta{size range}\ttfamily
 % ,
 % \rmfamily \meta{font features}\ttfamily
-% ~\char`\} \\
+% ~\char`\} , \\
 % \null\quad\char`\{~Size =
 % \rmfamily\meta{size range}\ttfamily
 % , Font =
 % \rmfamily\meta{font name}\texttt, \meta{font features}\ttfamily
-% ~\char`\} \\
+% ~\char`\} , \\
 % \null\quad... \\
 % \char`\}}
 %
@@ -788,8 +798,8 @@ This work consists of this file fontspec.dtx
 %   {\addfontfeature{Color=DDBB2299}P}\kern-0.8ex
 %   {\addfontfeature{Color=00BB3399}R}
 % \end{Xexample}
-% Transparency is supported by \XeLaTeX\ with the \texttt{xdv2pdf}
-% driver and with Lua\LaTeX; \XeLaTeX\ with the \texttt{xdvipdfmx} driver
+% Transparency is supported by \XeLaTeX\ with Lua\LaTeX and with the \texttt{xdv2pdf}
+% driver (\MacOSX\ only); \XeLaTeX\ with the \texttt{xdvipdfmx} driver
 % is not supported.
 %
 % If you load the \pkg{xcolor} package, you may use any named color instead
@@ -856,7 +866,7 @@ This work consists of this file fontspec.dtx
 % The space in between words in a paragraph will be chosen automatically,
 % and generally will not need to be adjusted. For those
 % times when the precise details are important, the \feat{WordSpace}
-% features is
+% feature is
 % provided, which takes either a single scaling factor to scale the
 % default value, or a triplet of comma-separated
 % values to scale the nominal value, the stretch, and the shrink of the
@@ -989,10 +999,31 @@ This work consists of this file fontspec.dtx
 %
 % \section{Introduction}
 %
-% TODO: explain OpenType font features.
+% OpenType fonts (and other `smart' font technologies such as AAT and Graphite) can change the appearance of text in many different ways.
+% These changes are referred to as features.
+% When the user applies a feature~--- for example, small capitals~--- to a run of text, the code inside the font makes appropriate adjustments and small capitals appear in place of lowercase letters.
+% However, the use of such features does not affect the underlying text.
+% In our small caps example, the lowercase letters are still stored in the document; only the appearance has been changed by the OpenType feature.
+% This makes it possible to search and copy text without difficulty.
+% If the user selected a different font that does not support small caps, the `plain' lowercase letters would appear instead.
 %
-% Some examples of font features have already be seen in previous
-% sections.
+% Some OpenType features are required to support particular scripts, and these features are often applied automatically.
+% The scripts used in India, for example, often require that characters be reshaped and reordered after they are typed by the user, in order to display them in the traditional ways that readers expect.
+% Other features can be applied to support a particular language.
+% The Junicode font for medievalists uses by default the Old English shape of the letter thorn, while in modern Icelandic thorn has a more rounded shape.
+% If a user tags some text as being in Icelandic, Junicode will automatically change to the Icelandic shape through an OpenType feature that localizes the shapes of letters.
+%
+% A very large group of OpenType features is designed to support high quality typography in Latin, Greek, Cyrillic and other standard scripts.
+% Examples of some font features have already been shown in previous sections; the complete set of OpenType font features supported by \pkg{fontspec} is described below in \ref{sec:otf-feat}.
+%
+% The OpenType specification provides four-letter codes (e.g., \texttt{smcp} for small capitals) for each feature.  The four-letter codes are given below along with the \pkg{fontspec} names for various features, for the benefit of people who are already familiar with OpenType.  You can ignore the codes if they don't mean anything to you.
+%
+%
+% \subsection{How to select font features}
+%
+% Font features are selected by a series of \meta{feature}=\meta{option}
+% selections. Features are (usually) grouped logically; for example, all
+% font features relating to ligatures are accessed by writing \verb|Ligatures={...}| with the appropriate argument(s), which could be \texttt{TeX}, \texttt{Rare}, etc., as shown below in \ref{sec:ot-feat-liga}.
 %
 % Multiple options may be given to
 % any feature that accepts non-numerical input, although doing so will
@@ -1007,14 +1038,19 @@ This work consists of this file fontspec.dtx
 % these warnings can be suppressed by selecting the \texttt{[quiet]} package option.
 %
 % \section{Complete listing of OpenType font features}
+% \label{sec:ot-feat}
 %
 % \subsection{Ligatures}
+% \label{sec:ot-feat-liga}
 %
 % \feat{Ligatures} refer to the replacement of two separate characters
 % with a specially drawn glyph for functional or \ae sthetic reasons.
 % The list of options, of which multiple may be selected at one time,
 % is shown in \ref{feat:Ligatures}.
 % A demonstration with the Linux Libertine fonts\footnote{\url{http://www.linuxlibertine.org/}} is shown in \exref{lig}.
+%
+% Note the additional features accessed with \verb|Ligatures=TeX|. These are
+% not actually real OpenType features, but additions provided by \pkg{luaotfload} (i.e., \LuaTeX\ only) to emulate \TeX's behaviour for \textsc{ascii} input of curly quotes and punctuation. In \XeTeX\ this is achieved with the \feat{Mapping} feature (see \vref{sec:mapping}) but for consistency \verb|Ligatures=TeX| will perform the same function as \verb|Mapping=tex-text|.
 %
 % \begin{features}{Ligatures}
 % \otf*{Required}{rlig}
@@ -1037,7 +1073,7 @@ This work consists of this file fontspec.dtx
 %
 % \subsection{Letters} \label{sec:letters}
 % The \opt{Letters} feature specifies how the letters in the current font
-% will look. OpenType fonts have options:
+% will look. OpenType fonts may contain the following options:
 % \opt{Uppercase}, \opt{SmallCaps}, \opt{PetiteCaps},
 % \opt{UppercaseSmallCaps}, \opt{UppercasePetiteCaps}, and
 % \opt{Unicase}.
@@ -1068,13 +1104,14 @@ This work consists of this file fontspec.dtx
 %    THIS SENTENCE no verb
 % \end{Lexample}
 %
-% Note that The \opt{Uppercase} option will (probably)
+% Note that the \opt{Uppercase} option will (probably)
 % not actually map letters to uppercase.
 %  \note{If you want automatic uppercase letters, look to \LaTeX's
 %       \cmd\MakeUppercase\ command.}
 % It is designed select various
 % uppercase forms for glyphs such as accents and dashes, such as shown
-% in \exref{letters-uppercase}.
+% in \exref{letters-uppercase}; note the raised position of the hyphen
+% to better match the surrounding letters.
 %
 % \begin{Lexample}{letters-uppercase}{An example of the \opt{Uppercase} option of the \feat{Letters} feature.}
 %   \fontspec{Linux Libertine}
@@ -1119,7 +1156,7 @@ This work consists of this file fontspec.dtx
 %    0123456789
 % \end{Lexample}
 %
-% The \opt{Arabic} option maps numerals to their Arabic or Persian equivalents
+% The \opt{Arabic} option (with tag \verb|anum|) maps regular numerals to their Arabic script or Persian equivalents
 % based on the current \opt{Language} setting (see \vref{sec:ot}), shown in
 % \exref{num-arab} using the Zar fonts\footnote{\url{http://wiki.irmug.org/index.php/X_Series_2}}.
 % This option is based on a \LuaTeX\ feature of the \pkg{luaotfload} package,
@@ -1135,8 +1172,8 @@ This work consists of this file fontspec.dtx
 % \end{Lexample}
 %
 % \subsection{Contextuals}
-% This feature refers to glyph substitution that vary by their position;
-% things like contextual swashes are accessed here.
+% This feature refers to substitutions of glyphs that vary `contextually' by their relative position in a word or string of characters;
+% features such as contextual swashes are accessed here.
 %
 % \begin{features}{Contextuals}
 % \otf{Swash}{cswh}
@@ -1176,12 +1213,12 @@ This work consists of this file fontspec.dtx
 % in some languages directly after a number.
 % The \opt{ScientificInferior} feature will move glyphs
 % further below the baseline than the \opt{Inferior} feature.
-% These are all shown in \exref{vertpos}
+% These are shown in \exref{vertpos}
 %
 % \opt{Numerator} and \opt{Denominator} should only be used for creating
 % arbitrary fractions (see next section).
 %
-% \begin{Lexample}{vertpos}{The \feat{VerticalPosition} feature.}
+% \begin{Lexample}{vertpos}{The \feat{VerticalPosition} feature. Note that the \opt{Ordinal} option can be quite unreliable, as the results here demonstrate.}
 %   \fontspec[VerticalPosition=Superior]{Warnock Pro}
 %    Sup: abdehilmnorst (-\$12,345.67)                      \\
 %   \fontspec[VerticalPosition=Numerator]{Warnock Pro}
@@ -1235,14 +1272,14 @@ This work consists of this file fontspec.dtx
 % are shown in \exref{ss} and \exref{ss2}; thanks to Adam
 % Buchbinder for the suggestion.
 %
-% \begin{Lexample}{ss}{Insular (ancient) letterforms for the Junicode font, accessed with the \feat{StylisticSet} feature.}
+% \begin{Lexample}{ss}{Insular letterforms, as used in medieval Northern Europe, for the Junicode font accessed with the \feat{StylisticSet} feature.}
 %   \fontspec{Junicode}
 %    Insular forms. \\
 %   \addfontfeature{StylisticSet=2}
 %    Insular forms. \\
 % \end{Lexample}
 %
-% \begin{Lexample}{ss2}{Enlarged minuscules (capital letters remain unchanged) for the Junicode font, accessed with the \feat{STylisticSet} feature.}
+% \begin{Lexample}{ss2}{Enlarged minuscules (capital letters remain unchanged) for the Junicode font, accessed with the \feat{StylisticSet} feature.}
 %   \fontspec{Junicode}
 %    ENLARGED Minuscules. \\
 %   \addfontfeature{StylisticSet=6}
@@ -1304,7 +1341,7 @@ This work consists of this file fontspec.dtx
 % use the fontspec \feat{Alternate} feature instead.
 %
 % \Exref{style-alt} and \exref{style-hist} both contain glyph
-% subtitutions with similar characteristics.
+% substitutions with similar characteristics.
 % Note the occasional inconsistency with which font features are labelled; a long-tailed `Q' could turn up anywhere!
 %
 %  \begin{Xexample}[firstline=2]{style-alt}{Example of the \opt{Alternate} option of the \feat{Style} feature.}
@@ -1343,7 +1380,7 @@ This work consists of this file fontspec.dtx
 % \end{Xexample}
 %
 % Note the difference here between the default and the horizontal style kana
-% in \exref{style-hvkana}.
+% in \exref{style-hvkana}: the horizontal style is slightly wider.
 %
 % \begin{Xexample}[firstline=2]{style-hvkana}{Example of the \opt{HorizontalKana} and \opt{VerticalKana} options of the \feat{Style} feature.}
 %   \Large \def\kana{ようこそ ワカヨタレソ}
@@ -1356,7 +1393,7 @@ This work consists of this file fontspec.dtx
 % \end{Xexample}
 %
 % \subsection{Diacritics}
-% Specifies how diacritics should be placed.
+% Specifies how combining diacritics should be placed.
 % These will usually be controlled automatically
 % according to the Script setting.
 %
@@ -1378,7 +1415,7 @@ This work consists of this file fontspec.dtx
 % As briefly mentioned previously at the end of \vref{sec:letters},
 % the \opt{Uppercase} option will add a small amount of tracking between uppercase letters, seen in \exref{kernup}, which uses the Romande fonts\footnote{\url{http://arkandis.tuxfamily.org/adffonts.html}} (thanks to Clea F. Rees for the suggestion).
 %
-% \begin{Xexample}[firstline=2]{kernup}{Adding extra kerning for uppercase letters.}
+% \begin{Xexample}[firstline=2]{kernup}{Adding extra kerning for uppercase letters. (The difference is usually very small.)}
 %   \large
 %   \fontspec{Romande ADF Std Bold}
 %    UPPERCASE EXAMPLE \\
@@ -1501,7 +1538,7 @@ This work consists of this file fontspec.dtx
 % \end{Xexample}
 %
 % The same situation occurs with numbers, which are provided in
-% increasingly illegible compressed forms seen in exref{charwd}.
+% increasingly illegible compressed forms seen in \exref{charwd}.
 %
 % \begin{Xexample}[firstline=2]{charwd}{Numbers can be compressed significantly.}
 %   \centering
@@ -1516,9 +1553,6 @@ This work consists of this file fontspec.dtx
 %    ---12345678900987654321---}
 % \end{Xexample}
 %
-% The option \opt{CharacterWidth=Full} doesn't work with the
-% default OpenType font renderer (ICU) due to a bug in the Hiragino fonts.
-%
 % \subsection{Vertical typesetting}
 %
 % TODO!
@@ -1526,16 +1560,22 @@ This work consists of this file fontspec.dtx
 %
 % \subsection{OpenType scripts and languages}\label{sec:ot}
 %
-% When dealing with fonts that include glyphs for various languages,
-% they may contain different font features for the different character
-% sets and languages it supports. These may be selected with the
-% \feat{Script} and \feat{Language} features. The possible options are
+% Fonts that include glyphs for various scripts and languages may contain different font features for the different character sets and languages they support, and different font features may behave differently depending on the script or language chosen.
+% When multilingual fonts are used, it is important to select which language
+% they are being used for, and more importantly what script is being used.
+%
+% The `script' refers to the alphabet in used; for example, both English
+% and French use the Latin script. Similarly, the Arabic script can be used
+% to write in both the Arabic and Persian languages.
+%
+% The
+% \feat{Script} and \feat{Language} features are used to designate this information. The possible options are
 % tabulated in \vref{tab:ot-scpt} and \vref{tab:ot-lang},
 % respectively. When a script or language is requested that is not
 % supported by the current font, a warning is printed in the console output.
 %
 % Because these font features can
-% change which features are able to be selected for the font, they are selected
+% change which features are able to be selected for the font, they are automatically selected
 % by \pkg{fontspec} before all others and, if \XeTeX\ is being used, will
 % specifically select the \opt{ICU}
 % renderer for this font, as described in \vref{sec:renderer}.
@@ -1634,17 +1674,17 @@ This work consists of this file fontspec.dtx
 %
 % \section{OpenType font feature files}
 %
-% An OpenType font feature file is a plain text file descriping OpenType layout
+% An OpenType font feature file is a plain text file describing OpenType layout
 % feature of a font in a human-readable format. The syntax of OpenType feature
-% files is define by Adobe\footnote{\url{http://www.adobe.com/devnet/opentype/afdko/topic_feature_file_syntax.html}}.
+% files is defined by Adobe\footnote{\url{http://www.adobe.com/devnet/opentype/afdko/topic_feature_file_syntax.html}}.
 %
-% Feature files can be used to add or customise OpenType feature of a font on
+% Feature files can be used to add or customise OpenType features of a font on
 % the fly without editing the font file itself.
 %
-% Feature files are loading by passing its name or path to \feat{FeatureFile},
-% then OpenType features defined in the file can be applied as usual.
+% A feature file is loading by passing its name or path to \feat{FeatureFile};
+% OpenType features defined in the file can be then be applied as usual to the font.
 %
-% For example, to added OpenType mapping of f-ligatures in Times New Roman
+% For example, to add OpenType mapping of f-ligatures in the Times New Roman
 % font, one can define a \texttt{times-nr.fea} file with content shown in
 % Figure~\ref{fig:featurefile}.
 % Then the font with the new ligatures can be loaded with:
@@ -1688,6 +1728,7 @@ This work consists of this file fontspec.dtx
 % selected by \pkg{fontspec}.
 %
 % \subsection{Mapping}
+% \label{sec:mapping}
 %
 % \feat{Mapping} enables a \XeTeX\ text-mapping scheme, shown in \exref{mapping}.
 %
@@ -1798,7 +1839,7 @@ This work consists of this file fontspec.dtx
 % the \opt{Icelandic} feature. Notice also that the old \TeX\ trick of
 % splitting up a ligature with an empty brace pair does not work in
 % \XeTeX; you must use a 0\,pt kern or \cs{hbox} (\eg, \cs{null}) to
-% split the characters up.
+% split the characters up if you do not want a ligature to be performed (the usual examples for when this might be desired are words like `shelf\null full').
 %
 % \subsection{Letters} \label{sec:aat-letters}
 % The \opt{Letters} feature specifies how the letters in the current font
@@ -1809,7 +1850,7 @@ This work consists of this file fontspec.dtx
 %
 % \subsection{Numbers}
 % The \feat{Numbers} feature defines how numbers will look in the
-% selected font. For both \AAT, they may be a
+% selected font. For \AAT\ fonts, they may be a
 % combination of \opt{Lining} or \opt{OldStyle} and \opt{Proportional} or
 % \opt{Monospaced} (the latter is good for tabular material). The synonyms
 % \opt{Uppercase} and \opt{Lowercase} are equivalent to \opt{Lining} and
@@ -1878,15 +1919,18 @@ This work consists of this file fontspec.dtx
 % to create the fraction from superscript and subscript
 % characters.
 %
-% \begin{Xexample}{aat-frac}{Fractions in AAT fonts.}
+% \edef\caretcc{\the\catcode`\^}
+% \catcode`\^=12\relax
+% \begin{Xexample}{aat-frac}{Fractions in AAT fonts. The \texttt{\relax^^^^2044} glyph is the `fraction slash' that may be typed in \MacOSX\ with \textsc{opt+shift+1}; not shown literally here due to font contraints.}
 %   \fontspec[Fractions=On]{Skia}
-%    1⁄2 \quad 5⁄6 \\ % fraction slash
+%    1{^^^^2044}2 \quad 5{^^^^2044}6 \\ % fraction slash
 %    1/2 \quad 5/6    % regular  slash
 %
 %   \fontspec[Fractions=Diagonal]{Skia}
-%          13579⁄24680 \\ % fraction slash
+%          13579{^^^^2044}24680 \\ % fraction slash
 %    \quad 13579/24680    % regular  slash
 % \end{Xexample}
+% \catcode`\^=\caretcc\relax
 %
 % Some (Asian fonts predominantly) also provide for the
 % \opt{Alternate} feature shown in \exref{frac-alt}.
@@ -1955,7 +1999,7 @@ This work consists of this file fontspec.dtx
 % \subsection{CJK shape}
 % There have been many standards for how CJK ideographic
 % glyphs are `supposed' to look. Some fonts will contain many alternate
-% glyphs available in order to be able to display these gylphs
+% glyphs in order to be able to display these gylphs
 % correctly in whichever form is appropriate. Both \AAT\ and OpenType
 % fonts support the following \feat{CJKShape} options:
 % \opt{Traditional}, \opt{Simplified}, \opt{JIS1978}, \opt{JIS1983},
@@ -1998,20 +2042,22 @@ This work consists of this file fontspec.dtx
 %
 %
 % \subsection{Diacritics}
-% Diacritics refer to characters that include extra marks that usually
-% indicate pronunciation; \eg, accented letters. You may either choose
+% Diacritics are marks, such as the acute accent or the tilde, applied to letters; they usually indicate a change in pronunciation.
+% In Arabic scripts, diacritics are used to indicate vowels.
+% You may either choose
 % to \opt{Show}, \opt{Hide} or \opt{Decompose} them in \AAT\ fonts.
+% The \opt{Hide} option is for scripts such as Arabic which may be
+% displayed either with or without vowel markings. E.g.,
+% \verb|\fontspec[Diacritics=Hide]{...}|
 %
-% Some fonts include |O/| \etc\ as diacritics for writing \O. You'll
+% Some older fonts distributed with \MacOSX\ included `|O/|' \etc\ as shorthand for writing `\O' under the label of the \feat{Diacritics} feature. If you come across such fonts, you'll
 % want to turn this feature off (imagine typing |hello/goodbye| and
 % getting `hell\o goodbye' instead!) by decomposing the two characters
 % in the diacritic into the ones you actually
-% want. I would recommend using
-% the proper \TeX\ input conventions for obtaining such characters
+% want. I recommend using
+% the proper \LaTeX\ input conventions for obtaining such characters
 % instead.
 %
-% The \opt{Hide} option is for Arabic-like fonts which may be
-% displayed either with or without vowel markings.
 %
 %
 % \subsection{Annotation}

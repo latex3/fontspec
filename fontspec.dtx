@@ -1624,11 +1624,15 @@ This work consists of this file fontspec.dtx
 %
 % \DescribeMacro{\newfontscript}
 % \DescribeMacro{\newfontlanguage}
-% Further scripts and languages may be added with the \cmd\newfontscript\
+% While the scripts and languages listed in \ref{tab:ot-scpt} and \ref{tab:ot-lang}
+% are intended to be comprehensive, there may be some missing; alternatively,
+% you might wish to different names to access scripts/languages that are
+% already listed.
+% Adding scripts and languages can be performed with the \cmd\newfontscript\
 % and \cmd\newfontlanguage\ commands. For example,
 % \begin{Verbatim}
 %   \newfontscript{Arabic}{arab}
-%   \newfontlanguage{Turkish}{TUR}
+%   \newfontlanguage{Zulu}{ZUL}
 % \end{Verbatim}
 % The first argument is the \pkg{fontspec} name, the second the OpenType
 % tag. The advantage to using these commands rather than \cmd\newfontfeature\

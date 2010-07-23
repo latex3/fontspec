@@ -5855,23 +5855,21 @@ end
 %
 % Many thanks to Apostolos Syropoulos for discovering this problem and writing the  redefinion of \LaTeX's |verbatim| environment and \cs{verb*} command.
 %
-% \begin{macro}{\xxt@visiblespace}
+% \begin{macro}{\fontspec_visible_space:}
 % Print \unichar{2434}{Open box}, which is used to visibly display a space character.
 %    \begin{macrocode}
-\def\xxt@visiblespace{
-  \iffontchar\font"2423
-    \expandafter\textvisiblespace
-  \else
-    \expandafter\xxt@visiblespace@fallback
-  \fi
+\cs_new:Npn \fontspec_visible_space: {
+  \fontspec_glyph_if_exist:NnTF \font {"2423}
+    {\char"2423\relax}
+    {\fontspec_visible_space_fallback:}
 }
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\xxt@visiblespace@fallback}
-% If the current font doesn't have u2434, use Latin Modern Mono instead.
+% \begin{macro}{\fontspec_visible_space:@fallback}
+% If the current font doesn't have \unichar{2434}{Open box}, use Latin Modern Mono instead.
 %    \begin{macrocode}
-\def\xxt@visiblespace@fallback{
+\cs_new:Npn \fontspec_visible_space_fallback: {
   {
     \usefont{EU1}{lmtt}{\f@series}{\f@shape}
     \textvisiblespace
@@ -5880,19 +5878,22 @@ end
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\xxt@vprintspaces}
-% Helper macro to turn spaces active and print visible space instead.
+% \begin{macro}{\fontspec_print_visible_spaces:}
+% Helper macro to turn spaces (\verb|^^20|) active and print visible space instead.
 %    \begin{macrocode}
-\begingroup
-  \catcode`\~=\active
-  \gdef\xxt@vprintspaces{\catcode`\~\active\let \xxt@visiblespace}
-\endgroup
+\group_begin:
+\char_make_active:n{"20}%
+\cs_gset:Npn\fontspec_print_visible_spaces:{%
+\char_make_active:n{"20}%
+\cs_set_eq:NN^^20\fontspec_visible_space:%
+}%
+\group_end:
 %    \end{macrocode}
 % \end{macro}
 %
 % \begin{macro}{\verb}
 % \begin{macro}{\verb*}
-% Redefine \cmd\verb\ to use \cmd\xxt@vprintspaces.
+% Redefine \cmd\verb\ to use \cmd\fontspec_print_visible_spaces:.
 %    \begin{macrocode}
 \def\verb{
   \relax\ifmmode\hbox\else\leavevmode\null\fi
@@ -5901,7 +5902,7 @@ end
     \verbatim@font\@noligs
     \@ifstar\@@sverb\@verb
 }
-\def\@@sverb{\xxt@vprintspaces\@sverb}
+\def\@@sverb{\fontspec_print_visible_spaces:\@sverb}
 %    \end{macrocode}
 % \end{macro}
 % \end{macro}
@@ -5921,14 +5922,16 @@ end
 %    \begin{macrocode}
 \cs_set:Npn \fontspec_patch_verbatim: {
   \@ifpackageloaded{verbatim}{
-    \@namedef{verbatim*}{
-      \begingroup\@verbatim\xxt@vprintspaces\verbatim@start
+    \cs_set:cpn {verbatim*} {
+      \begingroup \@verbatim \fontspec_print_visible_spaces: \verbatim@start
     }
   }{
 %    \end{macrocode}
-% This is for vanilla LaTeX.
+% This is for vanilla \LaTeX.
 %    \begin{macrocode}
-    \@namedef{verbatim*}{\@verbatim\xxt@vprintspaces\@sxverbatim}
+    \cs_set:cpn {verbatim*} {
+      \@verbatim \fontspec_print_visible_spaces: \@sxverbatim
+    }
   }
 }
 %    \end{macrocode}
@@ -5940,14 +5943,15 @@ end
 %    \begin{macrocode}
 \cs_set:Npn \fontspec_patch_moreverb: {
   \@ifpackageloaded{moreverb}{
-    \@namedef{listingcont*}{
-      \def\verbatim@processline{
+    \cs_set:cpn {listingcont*} {
+      \cs_set:Npn \verbatim@processline {
         \thelisting@line \global\advance\listing@line\c_one
         \the\verbatim@line\par
       }
-      \@verbatim\xxt@vprintspaces\verbatim@start
+      \@verbatim \fontspec_print_visible_spaces: \verbatim@start
     }
-  }{}}
+  }{}
+}
 %    \end{macrocode}
 % \end{environment}
 %
@@ -5955,7 +5959,7 @@ end
 %    \begin{macrocode}
 \cs_set:Npn \fontspec_patch_fancyvrb: {
   \@ifpackageloaded{fancyvrb}{
-    \let\FancyVerbSpace\xxt@visiblespace
+    \cs_set_eq:NN \FancyVerbSpace \fontspec_visible_space:
   }{}
 }
 %    \end{macrocode}
@@ -5963,7 +5967,7 @@ end
 %    \begin{macrocode}
 \cs_set:Npn \fontspec_patch_listings: {
   \@ifpackageloaded{listings}{
-    \let\lst@visiblespace\xxt@visiblespace
+    \cs_set_eq:NN \lst@visiblespace \fontspec_visible_space:
   }{}
 }
 %    \end{macrocode}

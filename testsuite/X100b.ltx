@@ -1,0 +1,24 @@
+\documentclass[twocolumn]{testsuite}
+\usepackage{fontspec,verbatim}
+\begin{document}
+\setmainfont{texgyretermes-regular.otf}
+\setmonofont{Inconsolata.otf}
+\verb|testing spaces|\\
+\verb*|testing spaces|
+\begin{verbatim}
+testing spaces
+\end{verbatim}
+\begin{verbatim*}
+testing spaces
+\end{verbatim*}
+\newpage
+\setmonofont{Courier New}
+\verb|testing spaces|\\
+\verb*|testing spaces|
+\begin{verbatim}
+testing spaces
+\end{verbatim}
+\begin{verbatim*}
+testing spaces
+\end{verbatim*}
+\end{document}

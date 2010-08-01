@@ -143,12 +143,13 @@ gladly accepted!
 Change history
 --------------
 
-- v2.0c (2010/07/23)  
+- v2.0c (2010/08/01)  
   Bug fix and documentation tune-up.
 
     * Significant bug fix reported simultaneously by Enrico Gregorio and
       Don Hosek.
     * Many documentation improvements and additions due to David Perry.
+    * Documentation typo thanks to John McChesney-Young
 
 - v2.0b (2010/07/14)  
   *Actually* the final release before TeX Live 2010.

@@ -5922,7 +5922,10 @@ end
 %    \begin{macrocode}
 \DeclareRobustCommand \em {
   \@nomath\em
-  \tl_if_eq:xxTF \f@shape \itdefault \eminnershape \emshape
+  \tl_if_eq:xxTF \f@shape \itdefault \eminnershape
+  {
+    \tl_if_eq:xxTF \f@shape \sldefault \eminnershape \emshape
+  }
 }
 \DeclareTextFontCommand{\emph}{\em}
 \let\emshape\itshape

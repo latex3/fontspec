@@ -63,7 +63,7 @@ This work consists of this file fontspec.dtx
 %<fontspec>\ProvidesPackage{fontspec}
 %<patches>\ProvidesPackage{fontspec-patches}
 %<*fontspec|patches>
-  [2010/08/01 v2.0c Advanced font selection for XeLaTeX/LuaLaTeX]
+  [2010/08/05 v2.1 Advanced font selection for XeLaTeX/LuaLaTeX]
 %</fontspec|patches>
 %
 %<*driver>
@@ -177,19 +177,31 @@ This work consists of this file fontspec.dtx
 %   \usepackage{fontspec}
 % \end{Verbatim}
 %
-% \paragraph{\XeTeX\ users only}
-% Ross Moore's \pkg{xunicode} package is recommended for
-% providing backwards compatibility with \LaTeX's methods for accessing extra
+% \paragraph{\pkg{xunicode}}
+% Ross Moore's \pkg{xunicode} package is now automatically loaded for
+% users of both \XeLaTeX\ and \LuaLaTeX.
+% This package provides backwards compatibility with \LaTeX's methods for accessing extra
 % characters and accents (for example, |\%|, |\$|, |\textbullet|, |\"u|, and
 % so on), plus many more Unicode characters.
+% \textbf{Warning}: introduced in v2.1, this is a backwards incompatible change to previous
+% versions of \pkg{fontspec}. This change was necessary in order to provide consistent
+% support for users of \XeTeX\ and \LuaTeX. I'm not aware of any issues this
+% may cause but please let me know if you run into problems.
+%
+% \paragraph{\XeTeX\ users only}
 % The \pkg{xltxtra} package adds some minor extra features to \XeLaTeX, including, via the \pkg{metalogo} package, the
-% \cmd\XeTeX\ macro to typeset the \XeTeX\ logo.
+% \cmd\XeTeX\ macro to typeset the \XeTeX\ logo. While this package was
+% previously recommended, it serves a much smaller r\^ole nowadays and generally
+% will not be required.
 %
 % \paragraph{\LuaTeX\ users only}
-% In order to load fonts by their name rather than by their filename (\eg, `Latin Modern Roman' instead of `ec-lmr10'), you may need to run the script \texttt{mkluatexfontdb}, which is distributed with the \pkg{luaotfload} package. Note that if you do not execute this script beforehand, the first time you attempt to typeset the process will pause for (up to) several minutes. (But only the first time.)
+% In order to load fonts by their name rather than by their filename (\eg,
+% `Latin Modern Roman' instead of `ec-lmr10'), you may need to run the script
+% \texttt{mkluatexfontdb}, which is distributed with the \pkg{luaotfload}
+% package. Note that if you do not execute this script beforehand, the first
+% time you attempt to typeset the process will pause for (up to) several
+% minutes. (But only the first time.)
 % Please see the \pkg{luaotfload} documentation for more information.
-% Note that the \pkg{xunicode} package is not required as it has been
-% incorporated directly into the Unicode font definitions (see the \pkg{euenc} package for more information).
 %
 % \paragraph{\pkg{babel}}
 % \emph{The \pkg{babel} package is not really supported!} Especially Vietnamese,
@@ -2727,6 +2739,22 @@ This work consists of this file fontspec.dtx
 % That latin encoding definition is repeated to suppress font warnings.
 % Something to do with \cmd\select@language\ ending up in the \texttt{.aux}
 % file which is read at the beginning of the document.
+%
+% \paragraph{xunicode}
+% Now we load \pkg{xunicode}, working around its internal \XeTeX\ check
+% when under \LuaTeX.
+%    \begin{macrocode}
+\xetex_or_luatex:nn
+{
+  \RequirePackage{xunicode}
+}
+{
+  \cs_set_eq:NN \fontspec_tmp: \XeTeXpicfile
+  \cs_set:Npn \XeTeXpicfile {}
+  \RequirePackage{xunicode}
+  \cs_set_eq:NN \XeTeXpicfile \fontspec_tmp:
+}
+%    \end{macrocode}
 %
 %
 % \subsection{User commands}\label{sec:codeuser}

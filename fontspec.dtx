@@ -46,8 +46,7 @@ This work consists of this file fontspec.dtx
 
 \nopreamble\nopostamble
 \generate{\file{fontspec.cfg}          {\from{fontspec.dtx}{cfg}}}
-\generate{\file{fontspec-xetex.tex}    {\from{fontspec.dtx}{example,xetex}}}
-\generate{\file{fontspec-luatex.tex}   {\from{fontspec.dtx}{example,luatex}}}
+\generate{\file{fontspec-example.tex}  {\from{fontspec.dtx}{example}}}
 \generate{\file{fontspec-testsuite.tex}{\from{fontspec.dtx}{testsuite}}}
 
 \def\tmpa{plain}
@@ -6113,19 +6112,13 @@ end
 %<*example>
 %
 %    \begin{macrocode}
-%<luatex>% !TEX TS-program = LuaLaTeX
-%<xetex>% !TEX TS-program = XeLaTeX
-
 \documentclass{article}
 
-%<luatex>\usepackage{fontspec}
-%<xetex>\usepackage{xltxtra}
+\usepackage{fontspec}
 
 \setmainfont[Ligatures=TeX]{TeX Gyre Pagella}
 \setsansfont[Ligatures=TeX,Scale=MatchLowercase]{TeX Gyre Heros}
 \setmonofont[Scale=MatchLowercase]{Inconsolata}
-
-\frenchspacing % TeX's default is a little old-fashioned...
 
 \begin{document}
 \pagestyle{empty}

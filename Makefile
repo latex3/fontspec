@@ -36,7 +36,7 @@ DTX = $(NAME).dtx
 
 # Files grouped by generation mode
 COMPILED = $(DOC) fontspec-testsuite.pdf
-EXAMPLES = fontspec-luatex.tex fontspec-xetex.tex
+EXAMPLES = fontspec-example.tex
 UNPACKED = fontspec.sty fontspec-patches.sty fontspec.lua fontspec.cfg $(EXAMPLES)
 SOURCE = $(DTX) Makefile README
 GENERATED = $(COMPILED) $(UNPACKED)

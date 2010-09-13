@@ -813,11 +813,11 @@ This work consists of this file fontspec.dtx
 %
 % Features introduced in this section may be used with any font.
 %
-% \subsection{Color}
+% \subsection{Colour}
 %
 % \feat{Color} (or \feat{Colour}), also shown in \vref{sec:defaults}
-% and elsewhere, uses font specifications to set the color of
-% the text. The color is defined as a triplet of two-digit Hex RGB
+% and elsewhere, uses font specifications to set the colour of
+% the text. The colour is defined as a triplet of two-digit Hex RGB
 % values, with optionally another value for the transparency (where
 % |00| is completely transparent and |FF| is opaque.)
 % \begin{Xexample}{color}{Selecting colour with transparency.}
@@ -832,7 +832,7 @@ This work consists of this file fontspec.dtx
 % driver (\MacOSX\ only); \XeLaTeX\ with the \texttt{xdvipdfmx} driver
 % does not support this feature.
 %
-% If you load the \pkg{xcolor} package, you may use any named color instead
+% If you load the \pkg{xcolor} package, you may use any named colour instead
 % of writing the colours in hexadecimal.
 % \begin{Verbatim}
 %  \usepackage{xcolor}
@@ -843,12 +843,11 @@ This work consists of this file fontspec.dtx
 % \end{Verbatim}
 % The \pkg{color} package is \emph{not} supported; use \pkg{xcolor} instead.
 %
-% You may specify the transparency with a named font using the \feat{Opacity}
+% You may specify the transparency with a named colour using the \feat{Opacity}
 % feature:
 % \begin{Verbatim}
 %  \fontspec[Color=red,Opacity=0.7]{Verdana} ...
 % \end{Verbatim}
-% The \feat{Opacity} feature may only be used in conjunction with the \feat{Color} feature; it will be silently ignored if it appears by itself.
 %
 % \subsection{Scale}
 %
@@ -2673,6 +2672,24 @@ This work consists of this file fontspec.dtx
 {
   Font~ \zf@fontname\space does~ not~ contain~ any~ OpenType~ `Script'~ information.
 }
+\msg_new:nnn {fontspec} {opa-twice}
+{
+  Opacity~ set~ twice,~ in~ both~ Colour~ and~ Opacity.\\
+  Using~ specification~ "Opacity=#1".
+}
+\msg_new:nnn {fontspec} {opa-twice-col}
+{
+  Opacity~ set~ twice,~ in~ both~ Opacity~ and~ Colour.\\
+  Using~ an~ opacity~ specification~ in~ hex~ of~ "#1/FF".
+}
+\msg_new:nnn {fontspec} {bad-colour}
+{
+  Bad~ colour~ declaration~ "#1".~
+  Colour~ must~ be~ one~ of:\\
+  *~ a~ named~ xcolor~ colour\\
+  *~ a~ six-digit~ hex~ colour~ RRGGBB\\
+  *~ an~ eight-digit~ hex~ colour~ RRGGBBTT~ with~ opacity
+}
 %    \end{macrocode}
 %
 % \subsection{Option processing}
@@ -3937,6 +3954,8 @@ This work consists of this file fontspec.dtx
 \cs_set:Npn \fontspec_get_features:n #1 {
   \let\l_fontspec_rawfeatures_sclist     \@empty
   \tl_clear:N \l_fontspec_scale_tl
+  \tl_set_eq:NN \l_fontspec_opacity_tl \g_fontspec_opacity_tl
+  \tl_set_eq:NN \l_fontspec_hexcol_tl \g_fontspec_hexcol_tl
   \let\zf@adjust \@empty
   \fontspec_setkeys:xx {options} {#1}
   \tl_if_empty:NF \XKV@rm {
@@ -3945,9 +3964,7 @@ This work consists of this file fontspec.dtx
 %    \end{macrocode}
 % Finish the colour specification:
 %    \begin{macrocode}
-  \cs_if_exist:NT \l_fontspec_hexcol_tl {
-    \zf@update@ff{color=\l_fontspec_hexcol_tl\l_fontspec_opacity_tl}
-  }
+  \zf@update@ff{color=\l_fontspec_hexcol_tl\l_fontspec_opacity_tl}
 }
 %    \end{macrocode}
 % \end{macro}
@@ -3976,7 +3993,8 @@ This work consists of this file fontspec.dtx
 \tl_clear:N \l_fontspec_lang_name_tl
 \tl_clear:N \l_fontspec_lang_tl
 \clist_clear:N \l_fontspec_sizefeat_clist
-\tl_set:Nn \l_fontspec_opacity_tl {FF}
+\tl_new:Nn \g_fontspec_hexcol_tl {000000}
+\tl_new:Nn \g_fontspec_opacity_tl {FF~}
 %    \end{macrocode}
 % Or once per fontspec font invocation:
 % (Some of these may be redundant.
@@ -4752,8 +4770,28 @@ This work consists of this file fontspec.dtx
     \convertcolorspec{named}{#1}{HTML}\l_fontspec_hexcol_tl
   }
   {
-    \tl_set:Nn \l_fontspec_hexcol_tl {#1}
+    \intexpr_compare:nTF { \tl_elt_count:n {#1} == 6 }
+    { \tl_set:Nn \l_fontspec_hexcol_tl {#1} }
+    {
+      \intexpr_compare:nTF { \tl_elt_count:n {#1} == 8 }
+      { \fontspec_parse_colour:viii #1 }
+      {
+        \ifzf@firsttime\else
+          \fontspec_warning:nx {bad-colour} {#1}
+        \fi
+      }
+    }
   }
+}
+\cs_set:Npn \fontspec_parse_colour:viii #1#2#3#4#5#6#7#8 {
+  \tl_set:Nn \l_fontspec_hexcol_tl {#1#2#3#4#5#6}
+  \tl_if_eq:NNF \l_fontspec_opacity_tl \g_fontspec_opacity_tl
+   {
+    \ifzf@firsttime\else
+      \fontspec_warning:nx {opa-twice-col} {#7#8}
+    \fi
+   }
+  \tl_set:Nn \l_fontspec_opacity_tl {#7#8}
 }
 \keyval@alias@key[zf]{options}{Color}{Colour}
 %    \end{macrocode}
@@ -4762,9 +4800,14 @@ This work consists of this file fontspec.dtx
 \define@key[zf]{options}{Opacity}{
   \zf@update@family{+opac:#1}
   \setcounter {fontspec_tmp_int} { 255*\real{#1} }
-  \tl_set:Nx \l_fontspec_opacity_tl {
-    \nhex2 { \value{fontspec_tmp_int} }
-  }
+  \tl_if_eq:NNF \l_fontspec_opacity_tl \g_fontspec_opacity_tl
+   {
+    \ifzf@firsttime\else
+      \fontspec_warning:nx {opa-twice} {#1}
+    \fi
+   }
+  \tl_set:Nx \l_fontspec_opacity_tl
+   { \nhex2 { \value{fontspec_tmp_int} } }
 }
 %    \end{macrocode}
 %

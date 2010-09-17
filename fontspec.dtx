@@ -452,7 +452,21 @@ This work consists of this file fontspec.dtx
 %   \fancy where is all the vegemite
 %   % \emph, \textbf, etc., all don't work
 % \end{Xexample}
-
+%
+% Comment for advanced users:
+% The commands defined by \cs{newfontface} and \cs{newfontfamily} include
+% their encoding information, so even if the document is set to use a
+% legacy \TeX\ encoding, such commands will still work correctly. For example,
+% \begin{verbatim}
+% \documentclass{article}
+% \usepackage{fontspec}
+% \newfontfamily\unicodefont{Lucida Grande}
+% \usepackage{mathpazo}
+% \usepackage[T1]{fontenc}
+% \begin{document}
+% A legacy \TeX\ font. {\unicodefont A unicode font.}
+% \end{document}
+% \end{verbatim}
 %
 % \subsection{More control over font shape selection}
 % \label{sec:bfitfonts}
@@ -2790,6 +2804,7 @@ This work consists of this file fontspec.dtx
 %   family is selected.
 %    \begin{macrocode}
 \DeclareDocumentCommand \fontspec { O{} m } {
+  \fontencoding {\zf@enc}
   \fontspec_set_family:Nnn \f@family {#1}{#2}
   \selectfont
   \ignorespaces
@@ -2887,6 +2902,7 @@ This work consists of this file fontspec.dtx
   \fontspec_select:nn{#2}{#3}
   \use:x {
     \exp_not:N \DeclareRobustCommand \exp_not:N #1 {
+      \exp_not:N \fontencoding {\zf@enc}
       \exp_not:N \fontfamily {\zf@family} \exp_not:N \selectfont
     }
   }

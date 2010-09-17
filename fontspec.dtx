@@ -3529,21 +3529,20 @@ This work consists of this file fontspec.dtx
 % The font name is fully expanded, in case it's defined in terms of macros, before having its spaces zapped.
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \fontspec_save_family:n {T} {
-  \unless\ifcsname zf@UID@\zf@family@long\endcsname
-    \ifcsname c@zf@famc@#1\endcsname
-      \expandafter\global\expandafter\advance
-        \csname c@zf@famc@#1\endcsname\@ne
-    \else
-      \expandafter\global\expandafter\newcount
-        \csname c@zf@famc@#1\endcsname
-    \fi
-    \edef\@tempa{#1~}
-    \cs_gset:cpx{zf@UID@\zf@family@long}{
-      \expandafter\zap@space\@tempa\@empty
-      (\expandafter\the\csname c@zf@famc@#1\endcsname)
+  \cs_if_exist:cF {g_fontspec_UID_\zf@family@long}
+  {
+    \cs_if_exist:cTF {g_fontspec_family_#1_int} {
+      \int_gincr:c {g_fontspec_family_#1_int}
+    }{
+      \int_new:c {g_fontspec_family_#1_int}
     }
-  \fi
-  \xdef\zf@family{\@nameuse{zf@UID@\zf@family@long}}
+    \edef\@tempa{#1~}
+    \tl_gset:cx {g_fontspec_UID_\zf@family@long} {
+      \expandafter\zap@space\@tempa\@empty
+          ( \int_use:c {g_fontspec_family_#1_int} )
+    }
+  }
+  \tl_gset:Nv \zf@family {g_fontspec_UID_\zf@family@long}
   \cs_if_exist:cTF {zf@family@fontname\zf@family}
     \prg_return_false: \prg_return_true:
 }
@@ -6126,9 +6125,6 @@ end
 %<*cfg>
 % \fi
 %
-% As an example, and to avoid upsetting people as much as possible,
-% I'm populating the default \texttt{fontspec.cfg} file with
-% backwards compatibility feature aliases.
 %    \begin{macrocode}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -6137,6 +6133,7 @@ end
 % Please note that most of the entries here from fontspec v1.x are
 % no longer present. Please advise of any serious problems this causes.
 
+\aliasfontfeatureoption{Ligatures}{Historic}{Historical}
 \let\newfontinstance\newfontfamily
 
 %    \end{macrocode}

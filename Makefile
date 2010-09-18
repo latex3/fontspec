@@ -48,7 +48,7 @@ DOC_EXAMPLES = $(shell ls doc/*.pdf)
 CTAN_FILES = $(SOURCE) $(COMPILED) $(EXAMPLES) $(TESTS) $(DOC_EXAMPLES)
 
 # Files grouped by installation location
-UNPACKED_DOC = fontspec-luatex.tex fontspec-xetex.tex
+UNPACKED_DOC = fontspec-example.tex
 
 RUNFILES = $(filter-out $(UNPACKED_DOC), $(UNPACKED))
 DOCFILES = $(COMPILED) README $(UNPACKED_DOC)
@@ -76,7 +76,6 @@ all: $(GENERATED)
 doc: $(COMPILED)
 unpack: $(UNPACKED)
 ctan: $(CTAN_ZIP)
-	echo $(DOCFILES)
 tds: $(TDS_ZIP)
 world: all ctan
 

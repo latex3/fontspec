@@ -1,6 +1,6 @@
 
-THE FONTSPEC PACKAGE v2.0c
-==========================
+THE FONTSPEC PACKAGE v2.1
+=========================
 
 This is the initial release of the fontspec package with support for LuaTeX.
 (Previously, fontspec was XeTeX-only.)
@@ -142,6 +142,18 @@ gladly accepted!
 
 Change history
 --------------
+
+- v2.1 (2010/09/19)
+  
+    * Now load xunicode internally for consistent behaviour in
+      XeLaTeX and LuaLaTeX.
+    * Font commands now include \fontencoding internally, easing their
+      use together with legacy TeX fonts.
+    * Colour & Opacity now behave a little better.
+    * Nested emphasis with \emph now also occurs inside a "slanted" shape.
+    * Some compatibility commands/options added that were removed.
+      in the transition to v2.
+    * Bug fix for a problem triggered after counters got too high.
 
 - v2.0c (2010/08/01)  
   Bug fix and documentation tune-up.

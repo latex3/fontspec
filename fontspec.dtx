@@ -537,10 +537,21 @@ This work consists of this file fontspec.dtx
 %            ]{Minion MM Roman}
 %   Roman 123 \\ \textsc{Small caps 456}
 % \end{Verbatim}
-% For most modern fonts that have small caps as a font feature, this level of control isn't generally necessary, but you may still occasionally find font families in which the small caps are in a separate font.
+% For most modern fonts that have small caps as a font feature, this level of
+% control isn't generally necessary, but you may still occasionally find font
+% families in which the small caps are in a separate font.
 %
 % All of the bold, italic, and small caps fonts can be loaded with different
 % font features from the main font. See \ref{sec:bfit-feat} for details.
+% When an OpenType font is selected for |SmallCapsFont|, the small caps
+% font feature is \emph{not} automatically enabled. In this case, users
+% should write instead
+% \begin{Verbatim}
+%   \fontspec[
+%     SmallCapsFont={...},
+%     SmallCapsFeatures={Letters=SmallCaps},
+%            ]{...}
+% \end{Verbatim}
 %
 % \subsection{Math(s) fonts}
 %
@@ -3135,7 +3146,7 @@ This work consists of this file fontspec.dtx
 %
 % All functions are defined assuming that the font to be queried is
 % currently selected as a fontspec font. (I.e., via \verb|\fontspec| or
-% from a \verb|\newfontfamily| macro or from \verb|\setmainfont| and so on.) 
+% from a \verb|\newfontfamily| macro or from \verb|\setmainfont| and so on.)
 %
 % \begin{macro}{\fontspec_if_fontspec_font:TF}
 % Test whether the currently selected font has been loaded by fontspec.

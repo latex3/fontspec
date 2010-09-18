@@ -3168,7 +3168,7 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \fontspec_if_aat_feature:nn {TF,T,F} {
   \ifcsname zf@family@fontdef\f@family\endcsname
-    \font\zf@basefont="\use:c{zf@family@fontdef\f@family}"~at~\f@size pt
+    \font_set:Nnn \zf@basefont {\use:c{zf@family@fontdef\f@family}} {\f@size pt}
     \ifzf@atsui
       \fontspec_make_AAT_feature_string:nn{#1}{#2}
       \ifx\@tempa\@empty
@@ -3193,7 +3193,7 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \fontspec_if_opentype: {TF,T,F} {
   \ifcsname zf@family@fontdef\f@family\endcsname
-    \font\zf@basefont="\csname zf@family@fontdef\f@family\endcsname"~at~\f@size pt
+    \font_set:Nnn \zf@basefont {\csname zf@family@fontdef\f@family\endcsname} {\f@size pt}
     \fontspec_set_font_type:
     \ifzf@icu
       \prg_return_true:
@@ -3215,7 +3215,7 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \fontspec_if_feature:n {TF,T,F} {
   \ifcsname zf@family@fontdef\f@family\endcsname
-    \font\zf@basefont="\csname zf@family@fontdef\f@family\endcsname"~at~\f@size pt
+    \font_set:Nnn \zf@basefont {\csname zf@family@fontdef\f@family\endcsname} {\f@size pt}
     \fontspec_set_font_type:
     \ifzf@icu
       \int_set:Nn \c@zf@script
@@ -3242,7 +3242,7 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \fontspec_if_feature:nnn {TF,T,F} {
   \ifcsname zf@family@fontdef\f@family\endcsname
-    \font\zf@basefont="\csname zf@family@fontdef\f@family\endcsname"~at~\f@size pt
+    \font_set:Nnn \zf@basefont {\csname zf@family@fontdef\f@family\endcsname} {\f@size pt}
     \fontspec_set_font_type:
     \ifzf@icu
       \fontspec_iv_str_to_num:n{#1} \c@zf@script   = \l_fontspec_strnum_int \relax
@@ -3266,7 +3266,7 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \fontspec_if_script:n {TF,T,F} {
   \ifcsname zf@family@fontdef\f@family\endcsname
-    \font\zf@basefont="\csname zf@family@fontdef\f@family\endcsname"~at~\f@size pt
+    \font_set:Nnn \zf@basefont {\csname zf@family@fontdef\f@family\endcsname} {\f@size pt}
     \fontspec_set_font_type:
     \ifzf@icu
       \fontspec_check_script:nTF {#1} \prg_return_true: \prg_return_false:
@@ -3288,7 +3288,7 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \fontspec_if_language:n {TF,T,F} {
   \ifcsname zf@family@fontdef\f@family\endcsname
-    \font\zf@basefont="\csname zf@family@fontdef\f@family\endcsname"~at~\f@size pt
+    \font_set:Nnn \zf@basefont {\csname zf@family@fontdef\f@family\endcsname} {\f@size pt}
     \fontspec_set_font_type:
     \ifzf@icu
       \tl_set:Nv \l_fontspec_script_tl {g_fontspec_script_(\zf@family)_tl}
@@ -3313,7 +3313,7 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \fontspec_if_language:nn {TF,T,F} {
   \ifcsname zf@family@fontdef\f@family\endcsname
-    \font\zf@basefont="\csname zf@family@fontdef\f@family\endcsname"~at~\f@size pt
+    \font_set:Nnn \zf@basefont {\csname zf@family@fontdef\f@family\endcsname} {\f@size pt}
     \fontspec_set_font_type:
     \ifzf@icu
       \tl_set:Nn \l_fontspec_script_tl {#1}
@@ -3336,7 +3336,7 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \fontspec_if_current_script:n {TF,T,F} {
   \ifcsname zf@family@fontdef\f@family\endcsname
-    \font\zf@basefont="\csname zf@family@fontdef\f@family\endcsname"~at~\f@size pt
+    \font_set:Nnn \zf@basefont {\csname zf@family@fontdef\f@family\endcsname} {\f@size pt}
     \fontspec_set_font_type:
     \ifzf@icu
       \tl_if_eq:nvTF {#1} {g_fontspec_script_(\zf@family)_tl}
@@ -3357,7 +3357,7 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \fontspec_if_current_language:n {TF,T,F} {
   \ifcsname zf@family@fontdef\f@family\endcsname
-    \font\zf@basefont="\csname zf@family@fontdef\f@family\endcsname"~at~\f@size pt
+    \font_set:Nnn \zf@basefont {\csname zf@family@fontdef\f@family\endcsname} {\f@size pt}
     \fontspec_set_font_type:
     \ifzf@icu
       \tl_if_eq:nvTF {#1} {g_fontspec_lang_(\zf@family)_tl}
@@ -3401,6 +3401,25 @@ This work consists of this file fontspec.dtx
 % \end{macro}
 %
 %
+% \subsection{expl3 interface for font loading}
+%
+% Using |\font\1={xyz}| notation doesn't work at present with LuaLaTeX,
+% although it should be the correct way to do things. Continue to use
+% |\font\1="xyz"| for now for both engines.
+%    \begin{macrocode}
+\xetex_or_luatex:nnn { \cs_set:Npn \fontspec_fontwrap:n #1 } { "#1" } { {#1} }
+\cs_set:Npn \fontspec_fontwrap:n #1 { "#1" }
+%    \end{macrocode}
+%
+% Beginnings of an `l3font', I guess:
+%    \begin{macrocode}
+\cs_new:Npn \font_set:Nnn #1#2#3 {
+  \font #1 = \fontspec_fontwrap:n {#2} ~at~#3\scan_stop:
+}
+\cs_new:Npn \font_gset:Nnn #1#2#3 {
+  \global \font #1 = \fontspec_fontwrap:n {#2} ~at~#3\scan_stop:
+}
+%    \end{macrocode}
 %
 %
 % \subsection{Internal macros}
@@ -3509,9 +3528,9 @@ This work consists of this file fontspec.dtx
 %    \end{macrocode}
 % Finally save the `confirmed' font definition.
 %    \begin{macrocode}
-  \font\zf@basefont="\fontspec_fullname:n {\zf@up}"~at~\f@size pt
+  \font_set:Nnn \zf@basefont {\fontspec_fullname:n {\zf@up}} {\f@size pt}
   \fontspec_set_font_type:
-  \global\font\zf@basefont="\fontspec_fullname:n {\zf@up}"~at~\f@size pt
+  \font_gset:Nnn \zf@basefont {\fontspec_fullname:n {\zf@up}} {\f@size pt}
   \zf@basefont % this is necessary for LuaLaTeX to check the scripts properly
 }
 %    \end{macrocode}
@@ -3817,10 +3836,10 @@ This work consists of this file fontspec.dtx
   \begingroup
     \edef\@tempa{#1}
     \unless\ifx\@tempa\@empty
-      \font\@tempfonta="\fontspec_fullname:n {#1}"~at~\f@size pt
+      \font_set:Nnn \@tempfonta {\fontspec_fullname:n {#1}} {\f@size pt}
       \edef\@tempa{\fontname\@tempfonta}
     \fi
-    \font\@tempfontb="\fontspec_fullname:n {#1#2}"~at~\f@size pt
+    \font_set:Nnn \@tempfontb {\fontspec_fullname:n {#1#2}} {\f@size pt}
     \edef\@tempb{\fontname\@tempfontb}
     \ifx\@tempa\@tempb
       \fontspec_info:nx {no-font-shape} {#1#2}
@@ -3870,9 +3889,11 @@ This work consists of this file fontspec.dtx
   {
     \fontspec_get_features:n{#4}
     \tl_set:Nx \l_fontspec_nfss_tl {
-      <-> \l_fontspec_scale_tl "
-      \fontspec_fullname:n {\zf@fontname} :
-        \l_fontspec_pre_feat_tl \l_fontspec_rawfeatures_sclist #1 "
+      <-> \l_fontspec_scale_tl
+      \fontspec_fontwrap:n {
+        \fontspec_fullname:n {\zf@fontname} :
+          \l_fontspec_pre_feat_tl \l_fontspec_rawfeatures_sclist #1
+      }
     }
   }
 %    \end{macrocode}
@@ -3891,8 +3912,10 @@ This work consists of this file fontspec.dtx
       \fontspec_get_features:n{#4,\XKV@rm}
       \tl_put_right:Nx \l_fontspec_nfss_tl {
         <\l_fontspec_size_tl> \l_fontspec_scale_tl
-        " \fontspec_fullname:n { \l_fontspec_sizedfont_tl }
-          : \l_fontspec_pre_feat_tl \l_fontspec_rawfeatures_sclist #1 "
+        \fontspec_fontwrap:n {
+          \fontspec_fullname:n { \l_fontspec_sizedfont_tl }
+          : \l_fontspec_pre_feat_tl \l_fontspec_rawfeatures_sclist #1
+        }
       }
     }
   }

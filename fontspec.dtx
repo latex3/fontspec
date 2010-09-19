@@ -4011,9 +4011,15 @@ This work consists of this file fontspec.dtx
     \fontspec_error:nx {unknown-options} { \exp_not:V \XKV@rm }
   }
 %    \end{macrocode}
-% Finish the colour specification:
+% Finish the colour specification.
+% Do not set the colour if not explicitly spec'd else \verb|\color| (using
+% specials) will not work.
 %    \begin{macrocode}
-  \zf@update@ff{color=\l_fontspec_hexcol_tl\l_fontspec_opacity_tl}
+  \tl_if_eq:xxF { \l_fontspec_hexcol_tl \l_fontspec_opacity_tl }
+                { \g_fontspec_hexcol_tl \g_fontspec_opacity_tl }
+  {
+    \zf@update@ff{color=\l_fontspec_hexcol_tl\l_fontspec_opacity_tl}
+  }
 }
 %    \end{macrocode}
 % \end{macro}

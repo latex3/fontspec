@@ -3849,10 +3849,10 @@ This work consists of this file fontspec.dtx
   \font_set:Nnn \l_tmpa_font {\fontspec_fullname:n {#1}}   {\f@size pt}
   \font_set:Nnn \l_tmpb_font {\fontspec_fullname:n {#1#2}} {\f@size pt}
   \str_if_eq:xxTF { \fontname \l_tmpa_font } { \fontname \l_tmpb_font }
+  { \fontspec_info:nx {no-font-shape} {#1#2} }
   {
     \fontspec_make_font_shapes:nnnn {#1#2}{#3}{#4}{#5}
   }
-  { \fontspec_info:nx {no-font-shape} {#1#2} }
 }
 \cs_new:Nn \fontspec_make_font_shapes:nnnn {
   \group_begin:

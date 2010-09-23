@@ -3661,8 +3661,8 @@ This work consists of this file fontspec.dtx
 % Sets the upright shape.
 %    \begin{macrocode}
 \cs_new:Npn \fontspec_set_upright: {
-  \zf@make@font@shapes{\l_fontspec_fontname_tl}
-    {\mddefault}{\updefault}{\l_fontspec_fontfeat_up_clist}
+  \fontspec_make_font_shapes:nnnn \l_fontspec_fontname_tl
+    \mddefault \updefault \l_fontspec_fontfeat_up_clist
 }
 %    \end{macrocode}
 % \end{macro}
@@ -3682,11 +3682,11 @@ This work consists of this file fontspec.dtx
 \cs_new:Npn \fontspec_set_bold: {
   \unless\ifzf@nobf
     \ifx\zf@bf\@empty
-      \zf@make@font@shapes[\l_fontspec_fontname_tl]{/B}
-        {\bfdefault}{\updefault}{\l_fontspec_fontfeat_bf_clist}
+      \fontspec_make_font_shapes:nnnnn \l_fontspec_fontname_tl {/B}
+        \bfdefault \updefault \l_fontspec_fontfeat_bf_clist
     \else
-      \zf@make@font@shapes{\zf@bf}
-        {\bfdefault}{\updefault}{\l_fontspec_fontfeat_bf_clist}
+      \fontspec_make_font_shapes:nnnn \zf@bf
+        \bfdefault \updefault \l_fontspec_fontfeat_bf_clist
     \fi
   \fi
 }
@@ -3699,11 +3699,11 @@ This work consists of this file fontspec.dtx
 \cs_new:Npn \fontspec_set_italic: {
   \unless\ifzf@noit
     \ifx\zf@it\@empty
-      \zf@make@font@shapes[\l_fontspec_fontname_tl]{/I}
-        {\mddefault}{\itdefault}{\l_fontspec_fontfeat_it_clist}
+      \fontspec_make_font_shapes:nnnnn \l_fontspec_fontname_tl {/I}
+        \mddefault \itdefault \l_fontspec_fontfeat_it_clist
     \else
-      \zf@make@font@shapes{\zf@it}
-        {\mddefault}{\itdefault}{\l_fontspec_fontfeat_it_clist}
+      \fontspec_make_font_shapes:nnnn \zf@it
+        \mddefault \itdefault \l_fontspec_fontfeat_it_clist
     \fi
   \fi
 }
@@ -3715,8 +3715,8 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \cs_new:Npn \fontspec_set_slanted: {
   \ifx\zf@sl\@empty\else
-    \zf@make@font@shapes{\zf@sl}
-      {\mddefault}{\sldefault}{\l_fontspec_fontfeat_sl_clist}
+    \fontspec_make_font_shapes:nnnn
+      \zf@sl \mddefault \sldefault \l_fontspec_fontfeat_sl_clist
   \fi
 }
 %    \end{macrocode}
@@ -3738,19 +3738,19 @@ This work consists of this file fontspec.dtx
     \ifx\zf@bfit\@empty
       \ifx\zf@bf\@empty
         \ifx\zf@it\@empty
-          \zf@make@font@shapes[\l_fontspec_fontname_tl]{/BI}
-            {\bfdefault}{\itdefault}{\l_fontspec_fontfeat_bfit_clist}
+          \fontspec_make_font_shapes:nnnnn \l_fontspec_fontname_tl {/BI}
+             \bfdefault \itdefault \l_fontspec_fontfeat_bfit_clist
         \else
-          \zf@make@font@shapes[\zf@it]{/B}
-            {\bfdefault}{\itdefault}{\l_fontspec_fontfeat_bfit_clist}
+          \fontspec_make_font_shapes:nnnnn \zf@it {/B}
+             \bfdefault \itdefault \l_fontspec_fontfeat_bfit_clist
         \fi
       \else
-        \zf@make@font@shapes[\zf@bf]{/I}
-          {\bfdefault}{\itdefault}{\l_fontspec_fontfeat_bfit_clist}
+        \fontspec_make_font_shapes:nnnnn \zf@bf {/I}
+           \bfdefault \itdefault \l_fontspec_fontfeat_bfit_clist
       \fi
     \else
-      \zf@make@font@shapes{\zf@bfit}
-        {\bfdefault}{\itdefault}{\l_fontspec_fontfeat_bfit_clist}
+      \fontspec_make_font_shapes:nnnn \zf@bfit
+         \bfdefault \itdefault \l_fontspec_fontfeat_bfit_clist
     \fi
   \fi
 }
@@ -3763,12 +3763,12 @@ This work consists of this file fontspec.dtx
 \cs_new:Npn \fontspec_set_bold_slanted: {
   \ifx\zf@bfsl\@empty
     \ifx\zf@sl\@empty\else
-      \zf@make@font@shapes[\zf@sl]{/B}
-        {\bfdefault}{\sldefault}{\l_fontspec_fontfeat_bfsl_clist}
+      \fontspec_make_font_shapes:nnnnn \zf@sl {/B}
+         \bfdefault \sldefault \l_fontspec_fontfeat_bfsl_clist
     \fi
   \else
-    \zf@make@font@shapes{\zf@bfsl}
-      {\bfdefault}{\sldefault}{\l_fontspec_fontfeat_bfsl_clist}
+    \fontspec_make_font_shapes:nnnn \zf@bfsl
+      \bfdefault \sldefault \l_fontspec_fontfeat_bfsl_clist
   \fi
 }
 %    \end{macrocode}
@@ -3824,8 +3824,8 @@ This work consists of this file fontspec.dtx
 %
 %
 %
-% \begin{macro}{\zf@make@font@shapes}
-%  \doarg{Font name prefix}
+% \begin{macro}{\fontspec_make_font_shapes:nnnn,\fontspec_make_font_shapes:nnnnn}
+%  \darg{Font name prefix (in the 5-arg case)}
 %  \darg{Font name}
 %  \darg{Font series}
 %  \darg{Font shape}
@@ -3839,23 +3839,7 @@ This work consists of this file fontspec.dtx
 %   and |/BI| font name suffixes. If no such font is found, it falls
 %   back to the original font name, in which case this macro doesn't
 %   proceed and the font shape is not created for the NFSS.
-%    \begin{macrocode}
-\newcommand*\zf@make@font@shapes[5][]{
-  \begingroup
-    \edef\@tempa{#1}
-    \unless\ifx\@tempa\@empty
-      \font_set:Nnn \@tempfonta {\fontspec_fullname:n {#1}} {\f@size pt}
-      \edef\@tempa{\fontname\@tempfonta}
-    \fi
-    \font_set:Nnn \@tempfontb {\fontspec_fullname:n {#1#2}} {\f@size pt}
-    \edef\@tempb{\fontname\@tempfontb}
-    \ifx\@tempa\@tempb
-      \fontspec_info:nx {no-font-shape} {#1#2}
-    \else
-      \tl_set:Nx \l_fontspec_fontname_tl {#1#2}
-      \font_set_eq:NN \zf@basefont \@tempfontb
-      \fontspec_declare_shape:nnnn {}{#3}{#4}{#5}
-%    \end{macrocode}
+%
 % Next, the small caps are defined. \cs{zf@make@smallcaps} is used to
 % define the appropriate string for activating small caps in the font,
 % if they exist. If we are defining small caps for the upright shape,
@@ -3864,21 +3848,34 @@ This work consists of this file fontspec.dtx
 % italic small caps by their own identifier. See \vref{sec:sishape}
 % for the code that enables this usage.
 %    \begin{macrocode}
-      \ifx\zf@sc\@empty
-        \unless\ifzf@nosc
-          \zf@make@smallcaps
-          \unless\ifx\zf@smallcaps\@empty
-            \fontspec_declare_shape:nnnn {\zf@smallcaps}{#3}
-              {\ifx#4\itdefault\sidefault\else\scdefault\fi}{#5\l_fontspec_fontfeat_sc_clist}
-          \fi
+\cs_new:Nn \fontspec_make_font_shapes:nnnnn {
+  \font_set:Nnn \l_tmpa_font {\fontspec_fullname:n {#1}}   {\f@size pt}
+  \font_set:Nnn \l_tmpb_font {\fontspec_fullname:n {#1#2}} {\f@size pt}
+  \str_if_eq:xxTF { \fontname \l_tmpa_font } { \fontname \l_tmpb_font }
+  {
+    \fontspec_make_font_shapes:nnnn {#1#2}{#3}{#4}{#5}
+  }
+  { \fontspec_info:nx {no-font-shape} {#1#2} }
+}
+\cs_new:Nn \fontspec_make_font_shapes:nnnn {
+  \group_begin:
+    \tl_set:Nx \l_fontspec_fontname_tl {#1}
+    \font_set:Nnn \zf@basefont {\fontspec_fullname:n {#1}} {\f@size pt}
+    \fontspec_declare_shape:nnnn {}{#2}{#3}{#4}
+    \ifx\zf@sc\@empty
+      \unless\ifzf@nosc
+        \zf@make@smallcaps
+        \unless\ifx\zf@smallcaps\@empty
+          \fontspec_declare_shape:nnnn {\zf@smallcaps}{#2}
+            {\ifx#3\itdefault\sidefault\else\scdefault\fi}{#4\l_fontspec_fontfeat_sc_clist}
         \fi
-      \else
-        \tl_set:Nx \l_fontspec_fontname_tl {\zf@sc}
-        \fontspec_declare_shape:nnnn {}{#3}
-          {\ifx#4\itdefault\sidefault\else\scdefault\fi}{#5\l_fontspec_fontfeat_sc_clist}
       \fi
+    \else
+      \tl_set:Nx \l_fontspec_fontname_tl {\zf@sc}
+      \fontspec_declare_shape:nnnn {}{#2}
+        {\ifx#3\itdefault\sidefault\else\scdefault\fi}{#4\l_fontspec_fontfeat_sc_clist}
     \fi
-  \endgroup
+  \group_end:
 }
 %    \end{macrocode}
 % Note that the test for italics to choose the \cmd\sidefault\ shape
@@ -3886,7 +3883,7 @@ This work consists of this file fontspec.dtx
 % \end{macro}
 %
 % \begin{macro}{\fontspec_declare_shape:nnnn}
-% \darg{Raw appended font feature}
+% \darg{Raw appended font features}
 % \darg{Font series}
 % \darg{Font shape}
 % \darg{Font features}

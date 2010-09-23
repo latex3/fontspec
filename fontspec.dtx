@@ -2525,18 +2525,12 @@ This work consists of this file fontspec.dtx
 \cs_set:Npn \use_iv:nnnnn #1#2#3#4#5 {#4}
 %    \end{macrocode}
 %
-%
-% \begin{macro}{\fontspec_glyph_if_exist:NnTF}
+% Need these:
 %    \begin{macrocode}
-\prg_new_conditional:Nnn \fontspec_glyph_if_exist:Nn {p,TF,T,F} {
-  \etex_iffontchar:D #1 #2 \scan_stop:
-    \prg_return_true:
-  \else:
-    \prg_return_false:
-  \fi:
-}
+\cs_generate_variant:Nn \str_if_eq:nnTF {nv}
+\cs_generate_variant:Nn \int_set:Nn {Nv}
+\cs_generate_variant:Nn \tl_gset:Nn {cV}
 %    \end{macrocode}
-% \end{macro}
 %
 %
 %    \begin{macrocode}
@@ -3371,12 +3365,6 @@ This work consists of this file fontspec.dtx
 %    \end{macrocode}
 % \end{macro}
 %
-% Need these:
-%    \begin{macrocode}
-\cs_generate_variant:Nn \str_if_eq:nnTF {nv}
-\cs_generate_variant:Nn \int_set:Nn {Nv}
-\cs_generate_variant:Nn \tl_gset:Nn {cV}
-%    \end{macrocode}
 %
 % \begin{macro}{\fontspec_set_family:Nnn}
 % \darg{family}
@@ -3422,6 +3410,18 @@ This work consists of this file fontspec.dtx
   \global \font #1 = \fontspec_fontwrap:n {#2} ~at~#3\scan_stop:
 }
 %    \end{macrocode}
+%
+% \begin{macro}{\font_glyph_if_exist:NnTF}
+%    \begin{macrocode}
+\prg_new_conditional:Nnn \font_glyph_if_exist:Nn {p,TF,T,F} {
+  \etex_iffontchar:D #1 #2 \scan_stop:
+    \prg_return_true:
+  \else:
+    \prg_return_false:
+  \fi:
+}
+%    \end{macrocode}
+% \end{macro}
 %
 %
 % \subsection{Internal macros}
@@ -4831,7 +4831,7 @@ This work consists of this file fontspec.dtx
     \tl_if_single:nTF {#1}
       { \tl_set:Nn \l_fontspec_hyphenchar_tl {`#1} }
       { \tl_set:Nn \l_fontspec_hyphenchar_tl { #1} }
-    \fontspec_glyph_if_exist:NnTF \zf@basefont {\l_fontspec_hyphenchar_tl}
+    \font_glyph_if_exist:NnTF \zf@basefont {\l_fontspec_hyphenchar_tl}
     {
       \xetex_or_luatex:nnn { \tl_put_right:Nn \l_fontspec_postadjust_tl }
         { \hyphenchar \font = \l_fontspec_hyphenchar_tl \scan_stop: }
@@ -6086,7 +6086,7 @@ end
 % Print \unichar{2434}{Open box}, which is used to visibly display a space character.
 %    \begin{macrocode}
 \cs_new:Npn \fontspec_visible_space: {
-  \fontspec_glyph_if_exist:NnTF \font {"2423}
+  \font_glyph_if_exist:NnTF \font {"2423}
     {\char"2423\relax}
     {\fontspec_visible_space_fallback:}
 }

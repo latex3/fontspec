@@ -3860,14 +3860,16 @@ This work consists of this file fontspec.dtx
     \tl_if_empty:NTF \l_fontspec_fontname_sc_tl {
       \unless\ifzf@nosc
         \fontspec_make_smallcaps:T {
-          \fontspec_declare_shape:nnnn {\zf@smallcaps}{#2}
-            {\ifx#3\itdefault\sidefault\else\scdefault\fi}{#4\l_fontspec_fontfeat_sc_clist}
+          \fontspec_declare_shape:nnnn {\l_fontspec_sc_featstr_sclist} {#2}
+            { \tl_if_eq:NNTF #3 \itdefault \sidefault \scdefault }
+            { #4 \l_fontspec_fontfeat_sc_clist }
         }
       \fi
     }{
       \tl_set:Nx \l_fontspec_fontname_tl {\l_fontspec_fontname_sc_tl}
       \fontspec_declare_shape:nnnn {}{#2}
-        {\ifx#3\itdefault\sidefault\else\scdefault\fi}{#4\l_fontspec_fontfeat_sc_clist}
+        { \tl_if_eq:NNTF #3 \itdefault \sidefault \scdefault }
+        { #4 \l_fontspec_fontfeat_sc_clist }
     }
   \group_end:
 }
@@ -4081,12 +4083,12 @@ This work consists of this file fontspec.dtx
 % \begin{macro}{\fontspec_make_smallcaps:T}
 % \label{mac:zf@make@smallcaps}
 % This macro checks if the font contains small caps, and if so
-% creates the string for accessing them in \cmd{\zf@smallcaps}.
+% creates the string for accessing them in \cmd{\l_fontspec_sc_featstr_sclist}.
 %    \begin{macrocode}
 \cs_set:Nn \fontspec_make_ot_smallcaps:T {
-  \tl_clear:N \zf@smallcaps
+  \tl_clear:N \l_fontspec_sc_featstr_sclist
   \fontspec_check_ot_feat:nT {+smcp} {
-    \tl_set:Nx\zf@smallcaps{+smcp;}
+    \tl_set:Nx \l_fontspec_sc_featstr_sclist {+smcp;}
     #1
   }
 }
@@ -4094,9 +4096,9 @@ This work consists of this file fontspec.dtx
 {
   \cs_set:Nn \fontspec_make_smallcaps:T {
     \ifzf@atsui
-      \tl_clear:N \zf@smallcaps
+      \tl_clear:N \l_fontspec_sc_featstr_sclist
       \fontspec_make_AAT_feature_string:nnT {3}{3} {
-        \tl_set:Nx \zf@smallcaps {\l_fontspec_feature_string_tl;}
+        \tl_set:Nx \l_fontspec_sc_featstr_sclist {\l_fontspec_feature_string_tl;}
         #1
       }
     \fi

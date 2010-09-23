@@ -2509,6 +2509,18 @@ This work consists of this file fontspec.dtx
 % Temporary definition until expl3 has been updated to include this:
 %    \begin{macrocode}
 \cs_set:Npn \use:x #1 { \edef\@tempa{#1}\@tempa }
+
+\cs_if_exist:NF \str_if_eq:xxTF {
+  \cs_set_eq:NN \str_if_eq_p:xx \tl_if_eq_p:
+  \cs_set_eq:NN \str_if_eq:xxTF \tl_if_eq:xxTF
+  \cs_set_eq:NN \str_if_eq:xxT  \tl_if_eq:xxT
+  \cs_set_eq:NN \str_if_eq:xxF  \tl_if_eq:xxF
+  \cs_set_eq:NN \str_if_eq_p:nn \tl_if_eq_p:nn
+  \cs_set_eq:NN \str_if_eq:nnTF \tl_if_eq:nnTF
+  \cs_set_eq:NN \str_if_eq:nnT \tl_if_eq:nnT
+  \cs_set_eq:NN \str_if_eq:nnF \tl_if_eq:nnF
+}
+
 %    \end{macrocode}
 %
 %    \begin{macrocode}
@@ -3374,9 +3386,10 @@ This work consists of this file fontspec.dtx
 %    \end{macrocode}
 % \end{macro}
 %
-% Need this:
+% Need these:
 %    \begin{macrocode}
 \cs_generate_variant:Nn \tl_if_eq:nnTF {nv}
+\cs_generate_variant:Nn \str_if_eq:nnTF {nv}
 %    \end{macrocode}
 %
 % \begin{macro}{\fontspec_set_family:Nnn}
@@ -3942,7 +3955,7 @@ This work consists of this file fontspec.dtx
 % but I'd rather have it here than break out yet another macro. Alternatively,
 % one day I might just redefine \cmd\slshape. Why not, eh?
 %    \begin{macrocode}
-  \tl_if_eq:xxT {#3} {\itdefault}
+  \str_if_eq:xxT {#3} {\itdefault}
   {
     \use:x {
       \exp_not:N \DeclareFontShape {\zf@enc}{\zf@family}{#2}{\sldefault}
@@ -4020,7 +4033,7 @@ This work consists of this file fontspec.dtx
 % Do not set the colour if not explicitly spec'd else \verb|\color| (using
 % specials) will not work.
 %    \begin{macrocode}
-  \tl_if_eq:xxF { \l_fontspec_hexcol_tl \l_fontspec_opacity_tl }
+  \str_if_eq:xxF { \l_fontspec_hexcol_tl \l_fontspec_opacity_tl }
                 { \g_fontspec_hexcol_tl \g_fontspec_opacity_tl }
   {
     \zf@update@ff{color=\l_fontspec_hexcol_tl\l_fontspec_opacity_tl}
@@ -4726,7 +4739,7 @@ This work consists of this file fontspec.dtx
   \dim_set:Nn #1 { \fontdimen #2 #3 }
   \dim_compare:nNnT #1 = {0pt} {
     \settoheight #1 {
-      \tl_if_eq:nnTF {#3} {\font} \rmfamily #3
+      \str_if_eq:nnTF {#3} {\font} \rmfamily #3
       \prg_case_int:nnn #2 {
         {5} {x} % x-height
         {8} {X} % cap-height
@@ -4802,7 +4815,7 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \define@key[zf]{options}{HyphenChar}{
   \zf@update@family{+hyphenchar:#1}
-  \tl_if_eq:nnTF {#1} {None}
+  \str_if_eq:nnTF {#1} {None}
   {
     \tl_put_right:Nn \zf@adjust { \hyphenchar \font = \c_minus_one }
   }
@@ -4883,7 +4896,7 @@ This work consists of this file fontspec.dtx
   \zf@update@family{+map:#1}
   \zf@update@ff{mapping=#1}
 }{
-  \tl_if_eq:nnTF {#1} {tex-text} {
+  \str_if_eq:nnTF {#1} {tex-text} {
     \fontspec_warning:n {no-mapping-ligtex}
     \msg_redirect_name:nnn {fontspec} {no-mapping-ligtex} {none}
     \setkeys[zf]{options}{ Ligatures=TeX }
@@ -6028,9 +6041,9 @@ end
 %    \begin{macrocode}
 \DeclareRobustCommand \em {
   \@nomath\em
-  \tl_if_eq:xxTF \f@shape \itdefault \eminnershape
+  \str_if_eq:xxTF \f@shape \itdefault \eminnershape
   {
-    \tl_if_eq:xxTF \f@shape \sldefault \eminnershape \emshape
+    \str_if_eq:xxTF \f@shape \sldefault \eminnershape \emshape
   }
 }
 \DeclareTextFontCommand{\emph}{\em}

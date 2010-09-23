@@ -3864,7 +3864,7 @@ This work consists of this file fontspec.dtx
     \fontspec_declare_shape:nnnn {}{#2}{#3}{#4}
     \ifx\zf@sc\@empty
       \unless\ifzf@nosc
-        \zf@make@smallcaps
+        \fontspec_make_smallcaps:
         \unless\ifx\zf@smallcaps\@empty
           \fontspec_declare_shape:nnnn {\zf@smallcaps}{#2}
             {\ifx#3\itdefault\sidefault\else\scdefault\fi}{#4\l_fontspec_fontfeat_sc_clist}
@@ -4084,27 +4084,31 @@ This work consists of this file fontspec.dtx
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\zf@make@smallcaps}\label{mac:zf@make@smallcaps}
+% \begin{macro}{\fontspec_make_smallcaps:}\label{mac:zf@make@smallcaps}
 % This macro checks if the font contains small caps, and if so
 % creates the string for accessing them in \cmd{\zf@smallcaps}.
 %    \begin{macrocode}
-\newcommand*\zf@make@smallcaps{
+\cs_set:Nn \fontspec_make_ot_smallcaps: {
   \tl_clear:N \zf@smallcaps
-  \xetex_or_luatex:nn
-  {
+  \fontspec_check_ot_feat:nT {+smcp} {\tl_set:Nx\zf@smallcaps{+smcp;}}
+}
+\xetex_or_luatex:nn
+{
+  \cs_set:Nn \fontspec_make_smallcaps: {
     \ifzf@atsui
+      \tl_clear:N \zf@smallcaps
       \fontspec_make_AAT_feature_string:nn{3}{3}
-      \unless\ifx\@tempa\@empty
-        \edef\zf@smallcaps{\@tempa;}
-      \fi
+      \tl_if_empty:NF \@tempa {
+        \tl_set:Nx \zf@smallcaps {\@tempa;}
+      }
     \fi
     \ifzf@icu
-      \fontspec_check_ot_feat:nT {+smcp} {\edef\zf@smallcaps{+smcp;}}
+      \fontspec_make_ot_smallcaps:
     \fi
   }
-  {
-    \fontspec_check_ot_feat:nT {+smcp} {\edef\zf@smallcaps{+smcp;}}
-  }
+}
+{
+  \cs_set_eq:NN \fontspec_make_smallcaps: \fontspec_make_ot_smallcaps:
 }
 %    \end{macrocode}
 % \end{macro}

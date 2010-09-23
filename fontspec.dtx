@@ -3008,8 +3008,8 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \DeclareDocumentCommand \newfontfeature {mm} {
   \define@key[zf]{options}{#1}[]{
-    \zf@update@family {+zf-#1}
-    \zf@update@ff {#2}
+    \fontspec_update_fontid:n  {+zf-#1}
+    \fontspec_update_featstr:n {#2}
   }
 }
 %    \end{macrocode}
@@ -3085,7 +3085,7 @@ This work consists of this file fontspec.dtx
 {
   \define@key[zf@feat]{Script}{#1}[]{
     \fontspec_check_script:nTF {#2} {
-      \zf@update@family{+script=#1}
+      \fontspec_update_fontid:n {+script=#1}
       \tl_set:Nn \l_fontspec_script_tl {#2}
       \int_set:Nn \l_fontspec_script_int {\l_fontspec_strnum_int}
     }{
@@ -3115,7 +3115,7 @@ This work consists of this file fontspec.dtx
 {
   \define@key[zf@feat]{Lang}{#1}[]{
     \fontspec_check_lang:nTF {#2} {
-      \zf@update@family{+lang=#1}
+      \fontspec_update_fontid:n {+lang=#1}
       \tl_set:Nn \l_fontspec_lang_tl {#2}
       \int_set:Nn \l_fontspec_language_int {\l_fontspec_strnum_int}
     }{
@@ -3450,7 +3450,7 @@ This work consists of this file fontspec.dtx
   \fontspec_init:
 %    \end{macrocode}
 % \cmd{\zf@fontname} is used as the generic name of the font being defined.
-% \cmd{\zf@family@long} is the unique identifier of the font with all its
+% \cmd{\l_fontspec_fontid_tl} is the unique identifier of the font with all its
 % features.
 % \cmd{\zf@up} is the font specifically to be used as the upright font.
 %    \begin{macrocode}
@@ -3458,7 +3458,7 @@ This work consists of this file fontspec.dtx
   \luatex_if_engine:T {
     \tl_replace_all_in:Nnn \zf@fontname {~} {}
   }
-  \let\zf@family@long\zf@fontname
+  \let\l_fontspec_fontid_tl\zf@fontname
   \let\zf@up\zf@fontname
 %    \end{macrocode}
 % Now convert the requested features to font definition
@@ -3582,7 +3582,7 @@ This work consists of this file fontspec.dtx
 % The font name is fully expanded, in case it's defined in terms of macros, before having its spaces zapped.
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \fontspec_save_family:n {T} {
-  \cs_if_exist:cF {g_fontspec_UID_\zf@family@long}
+  \cs_if_exist:cF {g_fontspec_UID_\l_fontspec_fontid_tl}
   {
     \cs_if_exist:cTF {g_fontspec_family_#1_int} {
       \int_gincr:c {g_fontspec_family_#1_int}
@@ -3590,12 +3590,12 @@ This work consists of this file fontspec.dtx
       \int_new:c {g_fontspec_family_#1_int}
     }
     \edef\@tempa{#1~}
-    \tl_gset:cx {g_fontspec_UID_\zf@family@long} {
+    \tl_gset:cx {g_fontspec_UID_\l_fontspec_fontid_tl} {
       \expandafter\zap@space\@tempa\@empty
           ( \int_use:c {g_fontspec_family_#1_int} )
     }
   }
-  \tl_gset:Nv \zf@family {g_fontspec_UID_\zf@family@long}
+  \tl_gset:Nv \zf@family {g_fontspec_UID_\l_fontspec_fontid_tl}
   \cs_if_exist:cTF {zf@family@fontname\zf@family}
     \prg_return_false: \prg_return_true:
 }
@@ -3980,7 +3980,7 @@ This work consists of this file fontspec.dtx
 %
 %
 %
-% \begin{macro}{\zf@update@family}
+% \begin{macro}{\fontspec_update_fontid:n}
 % This macro is used to build up a complex family name based on its
 % features.
 %
@@ -3988,9 +3988,9 @@ This work consists of this file fontspec.dtx
 % time \cmd{zf@get@feature@requests} is called, so that the family
 % name is only created once.
 %    \begin{macrocode}
-\newcommand*{\zf@update@family}[1]{
+\cs_new:Nn \fontspec_update_fontid:n {
   \ifzf@firsttime
-    \xdef\zf@family@long{\zf@family@long#1}
+    \tl_gput_right:Nx \l_fontspec_fontid_tl {#1}
   \fi
 }
 %    \end{macrocode}
@@ -4023,7 +4023,7 @@ This work consists of this file fontspec.dtx
   \str_if_eq:xxF { \l_fontspec_hexcol_tl \l_fontspec_opacity_tl }
                 { \g_fontspec_hexcol_tl \g_fontspec_opacity_tl }
   {
-    \zf@update@ff{color=\l_fontspec_hexcol_tl\l_fontspec_opacity_tl}
+    \fontspec_update_featstr:n{color=\l_fontspec_hexcol_tl\l_fontspec_opacity_tl}
   }
 }
 %    \end{macrocode}
@@ -4125,13 +4125,13 @@ This work consists of this file fontspec.dtx
 %
 %
 %
-% \begin{macro}{\zf@update@ff}
+% \begin{macro}{\fontspec_update_featstr:n}
 % \cmd{\l_fontspec_rawfeatures_sclist} is the string used to define the list of specific
 % font features. Each time another font feature is requested, this
 % macro is used to add that feature to the list. Font features are
 % separated by semicolons.
 %    \begin{macrocode}
-\newcommand*\zf@update@ff[1]{
+\cs_new:Nn \fontspec_update_featstr:n {
   \unless\ifzf@firsttime
     \sclist_gput_right:Nx \l_fontspec_rawfeatures_sclist {#1}
   \fi
@@ -4173,8 +4173,8 @@ This work consists of this file fontspec.dtx
     \ifx\@tempa\@empty
       \fontspec_warning:nx {aat-feature-not-exist-in-font} {#1,#2}
     \else
-      \zf@update@family{+#1,#2}
-      \zf@update@ff\@tempa
+      \fontspec_update_fontid:n {+#1,#2}
+      \fontspec_update_featstr:n\@tempa
     \fi
   }
 }
@@ -4185,8 +4185,8 @@ This work consists of this file fontspec.dtx
   }
   {
     \fontspec_check_ot_feat:nTF {#1} {
-      \zf@update@family{#1}
-      \zf@update@ff{#1}
+      \fontspec_update_fontid:n {#1}
+      \fontspec_update_featstr:n{#1}
     }{
       \fontspec_warning:nx {icu-feature-not-exist-in-font} {#1}
     }
@@ -4501,7 +4501,7 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \define@choicekey[zf]{preparse}{Renderer}[\l_tmpa_tl\l_tmpa_num]
     {AAT,ICU,Graphite,Full,Basic}{
-  \zf@update@family{+rend:#1}
+  \fontspec_update_fontid:n {+rend:#1}
   \intexpr_compare:nTF {\l_tmpa_num < 3} {
     \xetex_or_luatex:nn
     {
@@ -4529,7 +4529,7 @@ This work consists of this file fontspec.dtx
 \define@key[zf]{preparse}{Script}{
   \xetex_if_engine:T { \setkeys[zf]{preparse}{Renderer=ICU} }
   \tl_set:Nn \l_fontspec_script_name_tl {#1}
-  \zf@update@family{+script:#1}
+  \fontspec_update_fontid:n {+script:#1}
 }
 %    \end{macrocode}
 % Exactly the same:
@@ -4537,7 +4537,7 @@ This work consists of this file fontspec.dtx
 \define@key[zf]{preparse}{Language}{
   \xetex_if_engine:T { \setkeys[zf]{preparse}{Renderer=ICU} }
   \tl_set:Nn \l_fontspec_lang_name_tl {#1}
-  \zf@update@family{+language:#1}
+  \fontspec_update_fontid:n {+language:#1}
 }
 %    \end{macrocode}
 %
@@ -4552,7 +4552,7 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \define@key[zf]{preparse-external}{UprightFont}{
   \fontspec_complete_fontname:Nn \zf@up {#1}
-  \zf@update@family{up:#1}
+  \fontspec_update_fontid:n {up:#1}
 }
 %    \end{macrocode}
 % Bold:
@@ -4561,11 +4561,11 @@ This work consists of this file fontspec.dtx
   \edef\@tempa{#1}
   \ifx\@tempa\@empty
     \zf@nobftrue
-    \zf@update@family{nobf}
+    \fontspec_update_fontid:n {nobf}
   \else
     \zf@nobffalse
     \fontspec_complete_fontname:Nn \zf@bf {#1}
-    \zf@update@family{bf:#1}
+    \fontspec_update_fontid:n {bf:#1}
   \fi
 }
 %    \end{macrocode}
@@ -4575,11 +4575,11 @@ This work consists of this file fontspec.dtx
   \edef\@tempa{#1}
   \ifx\@tempa\@empty
     \zf@noittrue
-    \zf@update@family{noit}
+    \fontspec_update_fontid:n {noit}
   \else
     \zf@noitfalse
     \fontspec_complete_fontname:Nn \zf@it {#1}
-    \zf@update@family{it:#1}
+    \fontspec_update_fontid:n {it:#1}
   \fi
 }
 %    \end{macrocode}
@@ -4587,15 +4587,15 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \define@key[zf]{preparse-external}{BoldItalicFont}{
   \fontspec_complete_fontname:Nn \zf@bfit {#1}
-  \zf@update@family{bfit:#1}
+  \fontspec_update_fontid:n {bfit:#1}
 }
 \define@key[zf]{preparse-external}{SlantedFont}{
   \fontspec_complete_fontname:Nn \zf@sl {#1}
-  \zf@update@family{sl:#1}
+  \fontspec_update_fontid:n {sl:#1}
 }
 \define@key[zf]{preparse-external}{BoldSlantedFont}{
   \fontspec_complete_fontname:Nn \zf@bfsl {#1}
-  \zf@update@family{bfsl:#1}
+  \fontspec_update_fontid:n {bfsl:#1}
 }
 %    \end{macrocode}
 % Small caps isn't pre-parsed because it can vary with others above:
@@ -4604,11 +4604,11 @@ This work consists of this file fontspec.dtx
   \edef\@tempa{#1}
   \ifx\@tempa\@empty
     \zf@nosctrue
-    \zf@update@family{nosc}
+    \fontspec_update_fontid:n {nosc}
   \else
     \zf@noscfalse
     \fontspec_complete_fontname:Nn \zf@sc {#1}
-    \zf@update@family{sc:\zap@space #1~\@empty}
+    \fontspec_update_fontid:n {sc:\zap@space #1~\@empty}
   \fi
 }
 %    \end{macrocode}
@@ -4633,34 +4633,34 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \define@key[zf]{preparse}{UprightFeatures}{
   \def\zf@up@feat{, #1}
-  \zf@update@family{rmfeat:#1}
+  \fontspec_update_fontid:n {rmfeat:#1}
 }
 \define@key[zf]{preparse}{BoldFeatures}{
   \def\zf@bf@feat{, #1}
-  \zf@update@family{bffeat:#1}
+  \fontspec_update_fontid:n {bffeat:#1}
 }
 \define@key[zf]{preparse}{ItalicFeatures}{
   \def\zf@it@feat{, #1}
-  \zf@update@family{itfeat:#1}
+  \fontspec_update_fontid:n {itfeat:#1}
 }
 \define@key[zf]{preparse}{BoldItalicFeatures}{
   \def\zf@bfit@feat{, #1}
-  \zf@update@family{bfitfeat:#1}
+  \fontspec_update_fontid:n {bfitfeat:#1}
 }
 \define@key[zf]{preparse}{SlantedFeatures}{
   \def\zf@sl@feat{, #1}
-  \zf@update@family{slfeat:#1}
+  \fontspec_update_fontid:n {slfeat:#1}
 }
 \define@key[zf]{preparse}{BoldSlantedFeatures}{
   \def\zf@bfsl@feat{, #1}
-  \zf@update@family{bfslfeat:#1}
+  \fontspec_update_fontid:n {bfslfeat:#1}
 }
 %    \end{macrocode}
 % Note that small caps features can vary by shape, so these in fact \emph{aren't} pre-parsed.
 %    \begin{macrocode}
 \define@key[zf]{options}{SmallCapsFeatures}{
   \unless\ifzf@firsttime\def\zf@sc@feat{, #1}\fi
-  \zf@update@family{scfeat:\zap@space #1~\@empty}
+  \fontspec_update_fontid:n {scfeat:\zap@space #1~\@empty}
 }
 %    \end{macrocode}
 %
@@ -4669,7 +4669,7 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \define@key[zf]{preparse}{SizeFeatures}{
   \tl_set:Nn \l_fontspec_sizefeat_clist {#1}
-  \zf@update@family{sizefeat:\zap@space #1~\@empty}
+  \fontspec_update_fontid:n {sizefeat:\zap@space #1~\@empty}
 }
 %    \end{macrocode}
 %
@@ -4696,7 +4696,7 @@ This work consists of this file fontspec.dtx
     {MatchUppercase} { \fontspec_calc_scale:n {8} }
   }
   { \tl_set:Nx \l_fontspec_scale_tl {#1} }
-  \zf@update@family{+scale:\l_fontspec_scale_tl}
+  \fontspec_update_fontid:n {+scale:\l_fontspec_scale_tl}
   \tl_set:Nx \l_fontspec_scale_tl { s*[\l_fontspec_scale_tl] }
 }
 %    \end{macrocode}
@@ -4755,7 +4755,7 @@ This work consists of this file fontspec.dtx
 % font being loaded.
 %    \begin{macrocode}
 \define@key[zf]{options}{WordSpace}{
-  \zf@update@family{+wordspace:#1}
+  \fontspec_update_fontid:n {+wordspace:#1}
   \unless\ifzf@firsttime
     \zf@wordspace@parse#1,\zf@@ii,\zf@@iii,\zf@@
   \fi
@@ -4792,7 +4792,7 @@ This work consists of this file fontspec.dtx
 % Scaling factor for the nominal \cmd\fontdimen \#7.
 %    \begin{macrocode}
 \define@key[zf]{options}{PunctuationSpace}{
-  \zf@update@family{+punctspace:#1}
+  \fontspec_update_fontid:n {+punctspace:#1}
   \setlength\@tempdima{#1\fontdimen7\zf@basefont}
   \edef\zf@adjust{\zf@adjust\fontdimen7\font\the\@tempdima}
 }
@@ -4801,8 +4801,8 @@ This work consists of this file fontspec.dtx
 % \paragraph{Letterspacing}
 %    \begin{macrocode}
 \define@key[zf]{options}{LetterSpace}{
-  \zf@update@family{+tracking:#1}
-  \zf@update@ff{letterspace=#1}
+  \fontspec_update_fontid:n {+tracking:#1}
+  \fontspec_update_featstr:n{letterspace=#1}
 }
 %    \end{macrocode}
 %
@@ -4813,7 +4813,7 @@ This work consists of this file fontspec.dtx
 % the third.
 %    \begin{macrocode}
 \define@key[zf]{options}{HyphenChar}{
-  \zf@update@family{+hyphenchar:#1}
+  \fontspec_update_fontid:n {+hyphenchar:#1}
   \str_if_eq:nnTF {#1} {None}
   {
     \tl_put_right:Nn \zf@adjust { \hyphenchar \font = \c_minus_one }
@@ -4839,7 +4839,7 @@ This work consists of this file fontspec.dtx
 % \paragraph{Color}
 %    \begin{macrocode}
 \define@key[zf]{options}{Color}{
-  \zf@update@family{+col:#1}
+  \fontspec_update_fontid:n {+col:#1}
   \cs_if_exist:cTF {\token_to_str:N\color@#1}
   {
     \convertcolorspec{named}{#1}{HTML}\l_fontspec_hexcol_tl
@@ -4873,7 +4873,7 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \newcounter{fontspec_tmp_int}
 \define@key[zf]{options}{Opacity}{
-  \zf@update@family{+opac:#1}
+  \fontspec_update_fontid:n {+opac:#1}
   \setcounter {fontspec_tmp_int} { 255*\real{#1} }
   \tl_if_eq:NNF \l_fontspec_opacity_tl \g_fontspec_opacity_tl
    {
@@ -4892,8 +4892,8 @@ This work consists of this file fontspec.dtx
 \xetex_or_luatex:nnn {
   \define@key[zf]{options}{Mapping}
 }{
-  \zf@update@family{+map:#1}
-  \zf@update@ff{mapping=#1}
+  \fontspec_update_fontid:n {+map:#1}
+  \fontspec_update_featstr:n{mapping=#1}
 }{
   \str_if_eq:nnTF {#1} {tex-text} {
     \fontspec_warning:n {no-mapping-ligtex}
@@ -4908,8 +4908,8 @@ This work consists of this file fontspec.dtx
 % \paragraph{FeatureFile}
 %    \begin{macrocode}
 \define@key[zf]{options}{FeatureFile}{
-  \zf@update@family{+fea:#1}
-  \zf@update@ff{featurefile=#1}
+  \fontspec_update_fontid:n {+fea:#1}
+  \fontspec_update_featstr:n{featurefile=#1}
 }
 %    \end{macrocode}
 %
@@ -4918,22 +4918,22 @@ This work consists of this file fontspec.dtx
 %
 %    \begin{macrocode}
 \define@key[zf]{options}{Weight}{
-  \zf@update@family{+weight:#1}
-  \zf@update@ff{weight=#1}
+  \fontspec_update_fontid:n {+weight:#1}
+  \fontspec_update_featstr:n{weight=#1}
 }
 \define@key[zf]{options}{Width}{
-  \zf@update@family{+width:#1}
-  \zf@update@ff{width=#1}
+  \fontspec_update_fontid:n {+width:#1}
+  \fontspec_update_featstr:n{width=#1}
 }
 \define@key[zf]{options}{OpticalSize}{
   \xetex_or_luatex:nn {
     \ifzf@icu
       \tl_set:Nn \l_fontspec_optical_size_tl {/ S = #1}
-      \zf@update@family{+size:#1}
+      \fontspec_update_fontid:n {+size:#1}
     \fi
     \ifzf@mm
-      \zf@update@family{+size:#1}
-      \zf@update@ff{optical size=#1}
+      \fontspec_update_fontid:n {+size:#1}
+      \fontspec_update_featstr:n{optical size=#1}
     \fi
     \ifzf@icu\else
       \ifzf@mm\else
@@ -4944,7 +4944,7 @@ This work consists of this file fontspec.dtx
     \fi
   }{
     \tl_set:Nn \l_fontspec_optical_size_tl {/ S = #1}
-    \zf@update@family{+size:#1}
+    \fontspec_update_fontid:n {+size:#1}
   }
 }
 %    \end{macrocode}
@@ -4953,16 +4953,16 @@ This work consists of this file fontspec.dtx
 % These are to be specified to apply directly to a font shape:
 %    \begin{macrocode}
 \define@key[zf]{options}{FakeSlant}[0.2]{
-  \zf@update@family{+slant:#1}
-  \zf@update@ff{slant=#1}
+  \fontspec_update_fontid:n {+slant:#1}
+  \fontspec_update_featstr:n{slant=#1}
 }
 \define@key[zf]{options}{FakeStretch}[1.2]{
-  \zf@update@family{+extend:#1}
-  \zf@update@ff{extend=#1}
+  \fontspec_update_fontid:n {+extend:#1}
+  \fontspec_update_featstr:n{extend=#1}
 }
 \define@key[zf]{options}{FakeBold}[1.5]{
-  \zf@update@family{+embolden:#1}
-  \zf@update@ff{embolden=#1}
+  \fontspec_update_fontid:n {+embolden:#1}
+  \fontspec_update_featstr:n{embolden=#1}
 }
 %    \end{macrocode}
 % These are to be given to a shape that has no real bold/italic
@@ -4981,7 +4981,7 @@ This work consists of this file fontspec.dtx
     \tl_set:Nn \zf@fake@slant {#1}
     \tl_put_right:Nn \zf@it@feat {,FakeSlant=#1}
     \tl_set_eq:NN \zf@it \zf@fontname
-    \zf@update@family{fakeit:#1}
+    \fontspec_update_fontid:n {fakeit:#1}
     \tl_if_empty:NF \zf@fake@embolden {
       \tl_put_right:Nx \zf@bfit@feat
         {,FakeBold=\zf@fake@embolden,FakeSlant=#1}
@@ -4997,7 +4997,7 @@ This work consists of this file fontspec.dtx
     \tl_set:Nn \zf@fake@embolden {#1}
     \tl_put_right:Nn \zf@bf@feat {,FakeBold=#1}
     \tl_set_eq:NN \zf@bf \zf@fontname
-    \zf@update@family{fakebf:#1}
+    \fontspec_update_fontid:n {fakebf:#1}
     \tl_if_empty:NF \zf@fake@slant {
       \tl_put_right:Nx \zf@bfit@feat
         {,FakeSlant=\zf@fake@slant,FakeBold=#1}
@@ -5044,11 +5044,11 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \define@key[zf@feat]{Ligatures}{TeX}[]{
   \xetex_or_luatex:nn {
-    \zf@update@family{+map:tex-text}
-    \zf@update@ff{mapping=tex-text}
+    \fontspec_update_fontid:n {+map:tex-text}
+    \fontspec_update_featstr:n{mapping=tex-text}
   }{
-    \zf@update@family{+tlig+trep}
-    \zf@update@ff{+tlig;+trep}
+    \fontspec_update_fontid:n {+tlig+trep}
+    \fontspec_update_featstr:n{+tlig;+trep}
   }
 }
 %    \end{macrocode}
@@ -5291,11 +5291,11 @@ This work consists of this file fontspec.dtx
 \define@key[zf@feat]{Vertical}{RotatedGlyphs}[]{
   \ifzf@icu
     \fontspec_make_feature:nnn{}{}{+vrt2}
-    \zf@update@family{+vert}
-    \zf@update@ff{vertical}
+    \fontspec_update_fontid:n {+vert}
+    \fontspec_update_featstr:n{vertical}
   \else
-    \zf@update@family{+vert}
-    \zf@update@ff{vertical}
+    \fontspec_update_fontid:n {+vert}
+    \fontspec_update_featstr:n{vertical}
   \fi
 }
 %    \end{macrocode}
@@ -5551,12 +5551,12 @@ This work consists of this file fontspec.dtx
 \define@key[zf@feat]{Lang}{Turkish}[]{
   \fontspec_check_lang:nTF {TRK} {
     \int_set:Nn \l_fontspec_language_int {\l_fontspec_strnum_int}
-    \zf@update@family{+lang=Turkish}
+    \fontspec_update_fontid:n {+lang=Turkish}
     \tl_set:Nn \l_fontspec_lang_tl {TRK}
   }{
     \fontspec_check_lang:nTF {TUR} {
       \int_set:Nn \l_fontspec_language_int {\l_fontspec_strnum_int}
-      \zf@update@family{+lang=Turkish}
+      \fontspec_update_fontid:n {+lang=Turkish}
       \tl_set:Nn \l_fontspec_lang_tl {TUR}
     }{
       \fontspec_warning:nx {language-not-exist} {#1}
@@ -5569,7 +5569,7 @@ This work consists of this file fontspec.dtx
 %
 %    \begin{macrocode}
 \define@key[zf@feat]{Lang}{Default}[]{
-  \zf@update@family{+lang=dflt}
+  \fontspec_update_fontid:n {+lang=dflt}
   \tl_set:Nn \l_fontspec_lang_tl {DFLT}
   \int_zero:N \l_fontspec_language_int
 }
@@ -5580,8 +5580,8 @@ This work consists of this file fontspec.dtx
 % already memorised the OpenType abbreviations and don't mind not having error checking.
 %    \begin{macrocode}
 \define@key[zf]{options}{RawFeature}{
-  \zf@update@family{+Raw:#1}
-  \zf@update@ff{#1}
+  \fontspec_update_fontid:n {+Raw:#1}
+  \fontspec_update_featstr:n{#1}
 }
 %    \end{macrocode}
 %

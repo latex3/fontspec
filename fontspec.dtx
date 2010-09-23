@@ -5686,8 +5686,6 @@ This work consists of this file fontspec.dtx
 \@ifpackageloaded{euler}{\zf@package@euler@loadedtrue}
                         {\zf@package@euler@loadedfalse}
 \def\zf@math{
-  \cs_set_eq:NN \zf@font@warning \@font@warning
-  \cs_set_eq:NN \@font@warning \@font@info
   \@ifpackageloaded{euler}{
     \ifzf@package@euler@loaded
       \zf@math@eulertrue
@@ -5831,7 +5829,6 @@ This work consists of this file fontspec.dtx
   \fi
   \SetMathAlphabet\mathsf{bold}\zf@enc\zf@sfmaths\bfdefault\updefault
   \SetMathAlphabet\mathtt{bold}\zf@enc\zf@ttmaths\bfdefault\updefault
-  \cs_set_eq:NN \font@warning \zf@font@warning
 }
 %    \end{macrocode}
 % \end{macro}

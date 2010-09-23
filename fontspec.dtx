@@ -620,8 +620,6 @@ This work consists of this file fontspec.dtx
 % Nested emphasis is controlled by the \cs{eminnershape} command.
 % For example, for |\emph{\emph{...}}| to produce small caps:\par
 % \indent|\renewcommand\eminnershape{\scshape}|\par\noindent
-% \XeTeX\ users will need to load the \pkg{xltxtra} package before the
-% advice above works.
 %
 %
 %
@@ -1286,10 +1284,11 @@ This work consists of this file fontspec.dtx
 %   `Ordinals': 1st 2nd 3rd 4th 0th
 % \end{Lexample}
 %
-% The \pkg{realscripts} package (yet to be released)
-% (or \pkg{xltxtra} for \XeTeX)
+% The \pkg{realscripts} package
+% (which is also loaded \pkg{xltxtra} for \XeTeX)
 % redefines the \cmd\textsubscript\ and
-% \cmd\textsuperscript\ commands to use the above font features automatically.
+% \cmd\textsuperscript\ commands to use the above font features automatically,
+% including for use in footnote labels.
 %
 %
 % \subsection{Fractions}
@@ -1960,8 +1959,11 @@ This work consists of this file fontspec.dtx
 %    1st 2nd 3rd 4th 0th 8abcde
 % \end{Xexample}
 %
-% The \pkg{xltxtra} package redefines the \cmd\textsubscript\ and
-% \cmd\textsuperscript\ commands to use the above font features.
+% The \pkg{realscripts} package
+% (also loaded by \pkg{xltxtra})
+% redefines the \cmd\textsubscript\ and
+% \cmd\textsuperscript\ commands to use the above font features,
+% including for use in footnote labels.
 %
 % \subsection{Fractions}
 % Many fonts come with the capability to typeset various forms of

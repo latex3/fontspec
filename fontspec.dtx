@@ -2500,8 +2500,6 @@ This work consists of this file fontspec.dtx
 %    \end{macrocode}
 % \paragraph{Counters}
 %    \begin{macrocode}
-\newcount\c@zf@newff
-\newcount\c@zf@index
 \int_new:N \l_fontspec_script_int
 \int_new:N \l_fontspec_language_int
 \int_new:N \l_fontspec_strnum_int
@@ -3006,19 +3004,12 @@ This work consists of this file fontspec.dtx
 % \begin{macro}{\newfontfeature}
 %   \cs{newfontfeature} takes two arguments: the name of the feature
 %   tag by which to reference it, and the string that is used to
-%   select the font feature. It uses a counter to keep track of the
-%   number of new features introduced; every time a new feature is
-%   defined, a control sequence is defined made up of the
-%   concatenation of |+zf-| and the new feature tag. This long-winded
-%   control sequence is then called upon to update the font family
-%   string when a new instance is requested.
+%   select the font feature.
 %    \begin{macrocode}
 \DeclareDocumentCommand \newfontfeature {mm} {
-  \stepcounter{zf@newff}
-  \cs_set:cpx{+zf-#1}{+zf-\the\c@zf@newff}
   \define@key[zf]{options}{#1}[]{
-    \zf@update@family{\csname+zf-#1\endcsname}
-    \zf@update@ff{#2}
+    \zf@update@family {+zf-#1}
+    \zf@update@ff {#2}
   }
 }
 %    \end{macrocode}
@@ -4015,7 +4006,7 @@ This work consists of this file fontspec.dtx
 %   strings.
 %    \begin{macrocode}
 \cs_set:Npn \fontspec_get_features:n #1 {
-  \let\l_fontspec_rawfeatures_sclist     \@empty
+  \sclist_clear:N \l_fontspec_rawfeatures_sclist
   \tl_clear:N \l_fontspec_scale_tl
   \tl_set_eq:NN \l_fontspec_opacity_tl \g_fontspec_opacity_tl
   \tl_set_eq:NN \l_fontspec_hexcol_tl \g_fontspec_hexcol_tl
@@ -4119,13 +4110,16 @@ This work consists of this file fontspec.dtx
 % I'm hardly going to write an `sclist' module but a couple of functions are
 % necessary.
 %    \begin{macrocode}
-\cs_new:Npn \sclist_put_right:Nn #1#2 {
+\cs_set_eq:NN \sclist_new:N \tl_new:N
+\cs_set_eq:NN \sclist_clear:N \tl_clear:N
+\cs_new:Npn \sclist_gput_right:Nn #1#2 {
   \tl_if_empty:NTF #1 {
-    \tl_set:Nn #1 {#2}
+    \tl_gset:Nn #1 {#2}
   }{
-    \tl_put_right:Nn #1 {;#2}
+    \tl_gput_right:Nn #1 {;#2}
   }
 }
+\cs_generate_variant:Nn \sclist_gput_right:Nn {Nx}
 %    \end{macrocode}
 % \end{macro}
 %
@@ -4139,7 +4133,7 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \newcommand*\zf@update@ff[1]{
   \unless\ifzf@firsttime
-    \xdef\l_fontspec_rawfeatures_sclist{\l_fontspec_rawfeatures_sclist #1;}
+    \sclist_gput_right:Nx \l_fontspec_rawfeatures_sclist {#1}
   \fi
 }
 %    \end{macrocode}
@@ -4344,6 +4338,7 @@ This work consists of this file fontspec.dtx
 % \end{macro}
 % \end{macro}
 %
+%
 % \begin{macro}{\fontspec_check_script:nTF}
 % This macro takes an OpenType script tag and checks if it exists in the current
 % font. The output boolean is \cmd\@tempswatrue. \cmd\l_fontspec_strnum_int\ is used to store
@@ -4352,17 +4347,18 @@ This work consists of this file fontspec.dtx
 \xetex_or_luatex:nnn {\prg_new_conditional:Nnn \fontspec_check_script:n {TF}}
   {
     \fontspec_iv_str_to_num:Nn \l_fontspec_strnum_int {#1}
-    \@tempcntb\XeTeXOTcountscripts\zf@basefont
-    \c@zf@index\z@
+    \int_set:Nn \l_tmpb_int { \XeTeXOTcountscripts\zf@basefont }
+    \int_zero:N \l_tmpa_int
     \@tempswafalse
-    \loop\ifnum\c@zf@index<\@tempcntb
-      \ifnum \XeTeXOTscripttag\zf@basefont\c@zf@index = \l_fontspec_strnum_int
+    \bool_until_do:nn { \intexpr_compare_p:nNn \l_tmpa_int = \l_tmpb_int }
+    {
+      \ifnum \XeTeXOTscripttag\zf@basefont \l_tmpa_int = \l_fontspec_strnum_int
         \@tempswatrue
-        \c@zf@index\@tempcntb
+        \int_set:Nn \l_tmpa_int {\l_tmpb_int}
       \else
-        \advance\c@zf@index\@ne
+        \int_incr:N \l_tmpa_int
       \fi
-    \repeat
+    }
     \if@tempswa \prg_return_true: \else: \prg_return_false: \fi:
   }
   {
@@ -4382,19 +4378,20 @@ This work consists of this file fontspec.dtx
 \xetex_or_luatex:nnn {\prg_new_conditional:Nnn \fontspec_check_lang:n {TF}}
   {
     \fontspec_iv_str_to_num:Nn \l_fontspec_strnum_int {#1}
-    \int_set:Nn \@tempcntb {
+    \int_set:Nn \l_tmpb_int {
       \XeTeXOTcountlanguages \zf@basefont \l_fontspec_script_int
     }
-    \c@zf@index\z@
+    \int_zero:N \l_tmpa_int
     \@tempswafalse
-    \loop\ifnum\c@zf@index<\@tempcntb
-      \ifnum\XeTeXOTlanguagetag\zf@basefont\l_fontspec_script_int\c@zf@index=\l_fontspec_strnum_int
+    \bool_until_do:nn { \intexpr_compare_p:nNn \l_tmpa_int = \l_tmpb_int }
+    {
+      \ifnum\XeTeXOTlanguagetag\zf@basefont\l_fontspec_script_int \l_tmpa_int =\l_fontspec_strnum_int
         \@tempswatrue
-        \c@zf@index\@tempcntb
+        \int_set:Nn \l_tmpa_int {\l_tmpb_int}
       \else
-        \advance\c@zf@index\@ne
+        \int_incr:N \l_tmpa_int
       \fi
-    \repeat
+    }
     \if@tempswa \prg_return_true: \else: \prg_return_false: \fi:
   }
   {
@@ -4419,23 +4416,24 @@ This work consists of this file fontspec.dtx
 \xetex_or_luatex:nnn
    { \prg_new_conditional:Nnn \fontspec_check_ot_feat:n {TF,T} }
    {
-    \int_set:Nn \@tempcntb {
+    \int_set:Nn \l_tmpb_int {
       \XeTeXOTcountfeatures \zf@basefont
                             \l_fontspec_script_int
                             \l_fontspec_language_int
     }
     \fontspec_v_str_to_num:Nn \l_fontspec_strnum_int {#1}
-    \c@zf@index\z@
+    \int_zero:N \l_tmpa_int
     \@tempswafalse
-    \loop\ifnum\c@zf@index<\@tempcntb
+    \bool_until_do:nn { \intexpr_compare_p:nNn \l_tmpa_int = \l_tmpb_int }
+    {
       \ifnum\XeTeXOTfeaturetag\zf@basefont\l_fontspec_script_int\l_fontspec_language_int
-            \c@zf@index=\l_fontspec_strnum_int
+           \l_tmpa_int =\l_fontspec_strnum_int
         \@tempswatrue
-        \c@zf@index\@tempcntb
+        \int_set:Nn \l_tmpa_int {\l_tmpb_int}
       \else
-        \advance\c@zf@index\@ne
+        \int_incr:N \l_tmpa_int
       \fi
-    \repeat
+    }
     \if@tempswa \prg_return_true: \else: \prg_return_false: \fi:
   }
   {

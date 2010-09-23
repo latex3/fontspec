@@ -3913,11 +3913,14 @@ This work consists of this file fontspec.dtx
   {
     \tl_clear:N \l_fontspec_nfss_tl
     \clist_map_inline:Nn \l_fontspec_sizefeat_clist {
+
       \tl_clear:N \l_fontspec_size_tl
       \tl_set_eq:NN \l_fontspec_sizedfont_tl \l_fontspec_fontname_tl
-      \fontspec_setkeys:xx {sizing} { \expandafter \@firstofone ##1 }
+
+      \fontspec_setkeys:xx {sizing} { \expandafter \use:n ##1 }
       \tl_if_empty:NT \l_fontspec_size_tl { \fontspec_error:n {no-size-info} }
       \fontspec_get_features:n{ #4 , \XKV@rm }
+
       \tl_put_right:Nx \l_fontspec_nfss_tl {
         <\l_fontspec_size_tl> \l_fontspec_scale_tl
         \fontspec_fontwrap:n {
@@ -3925,6 +3928,7 @@ This work consists of this file fontspec.dtx
           : \l_fontspec_pre_feat_tl \l_fontspec_rawfeatures_sclist #1
         }
       }
+
     }
   }
 %    \end{macrocode}

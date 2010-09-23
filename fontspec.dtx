@@ -2502,8 +2502,8 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \newcount\c@zf@newff
 \newcount\c@zf@index
-\newcount\c@zf@script
-\newcount\c@zf@language
+\int_new:N \l_fontspec_script_int
+\int_new:N \l_fontspec_language_int
 \int_new:N \l_fontspec_strnum_int
 %    \end{macrocode}
 % Temporary definition until expl3 has been updated to include this:
@@ -3096,7 +3096,7 @@ This work consists of this file fontspec.dtx
     \fontspec_check_script:nTF {#2} {
       \zf@update@family{+script=#1}
       \tl_set:Nn \l_fontspec_script_tl {#2}
-      \c@zf@script=\l_fontspec_strnum_int\relax
+      \int_set:Nn \l_fontspec_script_int {\l_fontspec_strnum_int}
     }{
       \fontspec_warning:nx {script-not-exist} {#1}
     }
@@ -3126,7 +3126,7 @@ This work consists of this file fontspec.dtx
     \fontspec_check_lang:nTF {#2} {
       \zf@update@family{+lang=#1}
       \tl_set:Nn \l_fontspec_lang_tl {#2}
-      \c@zf@language=\l_fontspec_strnum_int\relax
+      \int_set:Nn \l_fontspec_language_int {\l_fontspec_strnum_int}
     }{
       \fontspec_warning:nx {language-not-exist} {#1}
     }
@@ -3232,12 +3232,10 @@ This work consists of this file fontspec.dtx
     \font_set:Nnn \zf@basefont {\csname zf@family@fontdef\f@family\endcsname} {\f@size pt}
     \fontspec_set_font_type:
     \ifzf@icu
-      \int_set:Nn \c@zf@script
-        {\use:c {g_fontspec_script_num_(\zf@family)_tl}}
-      \int_set:Nn \c@zf@language
-        {\use:c {g_fontspec_lang_num_(\zf@family)_tl}}
-      \tl_set:Nv \l_fontspec_script_tl {g_fontspec_script_(\zf@family)_tl}
-      \tl_set:Nv \l_fontspec_lang_tl   {g_fontspec_lang_(\zf@family)_tl}
+      \int_set:Nv \l_fontspec_script_int {g_fontspec_script_num_(\f@family)_tl}
+      \int_set:Nv \l_fontspec_language_int {g_fontspec_lang_num_(\f@family)_tl}
+      \tl_set:Nv \l_fontspec_script_tl {g_fontspec_script_(\f@family)_tl}
+      \tl_set:Nv \l_fontspec_lang_tl   {g_fontspec_lang_(\f@family)_tl}
       \fontspec_check_ot_feat:nTF {#1} \prg_return_true: \prg_return_false:
     \else
       \prg_return_false:
@@ -3259,8 +3257,8 @@ This work consists of this file fontspec.dtx
     \font_set:Nnn \zf@basefont {\csname zf@family@fontdef\f@family\endcsname} {\f@size pt}
     \fontspec_set_font_type:
     \ifzf@icu
-      \fontspec_iv_str_to_num:n{#1} \c@zf@script   = \l_fontspec_strnum_int \relax
-      \fontspec_iv_str_to_num:n{#2} \c@zf@language = \l_fontspec_strnum_int \relax
+      \fontspec_iv_str_to_num:Nn \l_fontspec_script_int {#1}
+      \fontspec_iv_str_to_num:Nn \l_fontspec_language_int {#2}
       \fontspec_check_ot_feat:nTF {#3} \prg_return_true: \prg_return_false:
     \else
       \prg_return_false:
@@ -3305,9 +3303,8 @@ This work consists of this file fontspec.dtx
     \font_set:Nnn \zf@basefont {\csname zf@family@fontdef\f@family\endcsname} {\f@size pt}
     \fontspec_set_font_type:
     \ifzf@icu
-      \tl_set:Nv \l_fontspec_script_tl {g_fontspec_script_(\zf@family)_tl}
-      \int_set:Nn \c@zf@script
-        {\use:c {g_fontspec_script_num_(\zf@family)_tl}}
+      \tl_set:Nv \l_fontspec_script_tl {g_fontspec_script_(\f@family)_tl}
+      \int_set:Nv \l_fontspec_script_int {g_fontspec_script_num_(\f@family)_tl}
       \fontspec_check_lang:nTF {#1} \prg_return_true: \prg_return_false:
     \else
       \prg_return_false:
@@ -3331,7 +3328,7 @@ This work consists of this file fontspec.dtx
     \fontspec_set_font_type:
     \ifzf@icu
       \tl_set:Nn \l_fontspec_script_tl {#1}
-      \fontspec_iv_str_to_num:n{#1} \c@zf@script   = \l_fontspec_strnum_int \relax
+      \fontspec_iv_str_to_num:Nn \l_fontspec_script_int {#1}
       \fontspec_check_lang:nTF {#2} \prg_return_true: \prg_return_false:
     \else
       \prg_return_false:
@@ -3353,7 +3350,7 @@ This work consists of this file fontspec.dtx
     \font_set:Nnn \zf@basefont {\csname zf@family@fontdef\f@family\endcsname} {\f@size pt}
     \fontspec_set_font_type:
     \ifzf@icu
-      \tl_if_eq:nvTF {#1} {g_fontspec_script_(\zf@family)_tl}
+      \str_if_eq:nvTF {#1} {g_fontspec_script_(\f@family)_tl}
         {\prg_return_true:} {\prg_return_false:}
     \else
       \prg_return_false:
@@ -3374,7 +3371,7 @@ This work consists of this file fontspec.dtx
     \font_set:Nnn \zf@basefont {\csname zf@family@fontdef\f@family\endcsname} {\f@size pt}
     \fontspec_set_font_type:
     \ifzf@icu
-      \tl_if_eq:nvTF {#1} {g_fontspec_lang_(\zf@family)_tl}
+      \str_if_eq:nvTF {#1} {g_fontspec_lang_(\f@family)_tl}
         {\prg_return_true:} {\prg_return_false:}
     \else
       \prg_return_false:
@@ -3388,8 +3385,9 @@ This work consists of this file fontspec.dtx
 %
 % Need these:
 %    \begin{macrocode}
-\cs_generate_variant:Nn \tl_if_eq:nnTF {nv}
 \cs_generate_variant:Nn \str_if_eq:nnTF {nv}
+\cs_generate_variant:Nn \int_set:Nn {Nv}
+\cs_generate_variant:Nn \tl_gset:Nn {cV}
 %    \end{macrocode}
 %
 % \begin{macro}{\fontspec_set_family:Nnn}
@@ -3454,7 +3452,7 @@ This work consists of this file fontspec.dtx
 % family for that font and put the family name (globally) into \cs{zf@family}.
 % The \TeX\ `\cs{font}' command is (globally) stored in \cs{zf@basefont}.
 %
-% This macro does its processing inside a group to attempt to restrict the scope of its internal processing. This works to some degree to insulate the internal commands from having to be manually.
+% This macro does its processing inside a group to attempt to restrict the scope of its internal processing. This works to some degree to insulate the internal commands from having to be manually cleared.
 %    \begin{macrocode}
 \cs_set:Npn \fontspec_select:nn #1#2 {
   \begingroup
@@ -3656,10 +3654,8 @@ This work consists of this file fontspec.dtx
     \tl_gset:cx {zf@family@fontdef\zf@family} {
       \fontspec_fullname:n {\zf@fontname} : \l_fontspec_pre_feat_tl \l_fontspec_rawfeatures_sclist
     }
-    \tl_gset:cx {g_fontspec_script_num_(\zf@family)_tl}
-      { \int_use:N \c@zf@script   }
-    \tl_gset:cx {g_fontspec_lang_num_(\zf@family)_tl}
-      { \int_use:N \c@zf@language }
+    \tl_gset:cV {g_fontspec_script_num_(\zf@family)_tl} \l_fontspec_script_int
+    \tl_gset:cV {g_fontspec_lang_num_(\zf@family)_tl} \l_fontspec_language_int
     \tl_gset_eq:cN {g_fontspec_script_(\zf@family)_tl} \l_fontspec_script_tl
     \tl_gset_eq:cN {g_fontspec_lang_(\zf@family)_tl}   \l_fontspec_lang_tl
 }
@@ -4302,8 +4298,8 @@ This work consists of this file fontspec.dtx
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\fontspec_iv_str_to_num:n}
-% \begin{macro}{\fontspec_v_str_to_num:n}
+% \begin{macro}{\fontspec_iv_str_to_num:Nn}
+% \begin{macro}{\fontspec_v_str_to_num:Nn}
 % This macro takes a four character string and converts it to the
 % numerical representation required for \XeTeX\ OpenType script/language/feature
 % purposes. The output is stored in \cmd\l_fontspec_strnum_int.
@@ -4323,28 +4319,26 @@ This work consists of this file fontspec.dtx
 % not impossible that they aren't. So I'll leave the less efficient parsing stage in there
 % even though it's not strictly necessary for now.
 %    \begin{macrocode}
-\cs_set:Npn \fontspec_iv_str_to_num:n #1 {
-  \fontspec_iv_str_to_num:w #1 \@empty \@empty \q_nil
+\cs_set:Npn \fontspec_iv_str_to_num:Nn #1#2 {
+  \fontspec_iv_str_to_num:w #1 \q_nil #2 \@empty \@empty \q_nil
 }
-\cs_set:Npn \fontspec_iv_str_to_num:w #1#2#3#4#5 \q_nil {
-  \int_set:Nn \l_fontspec_strnum_int {
-      `#1 * "1000000
-    + `#2 * "10000
-    + \ifx \@empty #3 32 \else `#3 \fi * "100
-    + \ifx \@empty #4 32 \else `#4 \fi
+\cs_set:Npn \fontspec_iv_str_to_num:w #1 \q_nil #2#3#4#5#6 \q_nil {
+  \int_set:Nn #1 {
+      `#2 * "1000000
+    + `#3 * "10000
+    + \ifx \@empty #4 32 \else `#4 \fi * "100
+    + \ifx \@empty #5 32 \else `#5 \fi
   }
 }
-\cs_set:Npn \fontspec_v_str_to_num:n #1 {
+\cs_generate_variant:Nn \fontspec_iv_str_to_num:Nn {No}
+\cs_set:Npn \fontspec_v_str_to_num:Nn #1#2 {
   \bool_if:nTF
     {
-      \tl_if_head_eq_charcode_p:nN {#1} {+} ||
-      \tl_if_head_eq_charcode_p:nN {#1} {-}
+      \tl_if_head_eq_charcode_p:nN {#2} {+} ||
+      \tl_if_head_eq_charcode_p:nN {#2} {-}
     }
-    {
-      \exp_after:wN \fontspec_iv_str_to_num:n
-      \exp_after:wN { \use_none:n #1 }
-    }
-    { \fontspec_iv_str_to_num:n {#1} }
+    { \fontspec_iv_str_to_num:No #1 { \use_none:n #2 } }
+    { \fontspec_iv_str_to_num:Nn #1 {#2} }
 }
 %    \end{macrocode}
 % \end{macro}
@@ -4357,11 +4351,12 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \xetex_or_luatex:nnn {\prg_new_conditional:Nnn \fontspec_check_script:n {TF}}
   {
-    \fontspec_iv_str_to_num:n{#1}
+    \fontspec_iv_str_to_num:Nn \l_fontspec_strnum_int {#1}
     \@tempcntb\XeTeXOTcountscripts\zf@basefont
-    \c@zf@index\z@ \@tempswafalse
+    \c@zf@index\z@
+    \@tempswafalse
     \loop\ifnum\c@zf@index<\@tempcntb
-      \ifnum\XeTeXOTscripttag\zf@basefont\c@zf@index=\l_fontspec_strnum_int
+      \ifnum \XeTeXOTscripttag\zf@basefont\c@zf@index = \l_fontspec_strnum_int
         \@tempswatrue
         \c@zf@index\@tempcntb
       \else
@@ -4381,17 +4376,19 @@ This work consists of this file fontspec.dtx
 % This macro takes an OpenType language tag and checks if it exists in the current
 % font/script. The output boolean is \cmd\@tempswatrue. \cmd\l_fontspec_strnum_int\ is used to store
 % the number corresponding to the language tag string.
-% The script used is whatever's held in \cmd\c@zf@script. By default, that's the
+% The script used is whatever's held in \cmd\l_fontspec_script_int. By default, that's the
 % number corresponding to `|latn|'.
 %    \begin{macrocode}
 \xetex_or_luatex:nnn {\prg_new_conditional:Nnn \fontspec_check_lang:n {TF}}
   {
-    \fontspec_iv_str_to_num:n{#1}
-    \@tempcntb\XeTeXOTcountlanguages\zf@basefont\c@zf@script
+    \fontspec_iv_str_to_num:Nn \l_fontspec_strnum_int {#1}
+    \int_set:Nn \@tempcntb {
+      \XeTeXOTcountlanguages \zf@basefont \l_fontspec_script_int
+    }
     \c@zf@index\z@
     \@tempswafalse
     \loop\ifnum\c@zf@index<\@tempcntb
-      \ifnum\XeTeXOTlanguagetag\zf@basefont\c@zf@script\c@zf@index=\l_fontspec_strnum_int
+      \ifnum\XeTeXOTlanguagetag\zf@basefont\l_fontspec_script_int\c@zf@index=\l_fontspec_strnum_int
         \@tempswatrue
         \c@zf@index\@tempcntb
       \else
@@ -4415,19 +4412,23 @@ This work consists of this file fontspec.dtx
 % font/script/language.
 % The output boolean is \cmd\@tempswa. \cmd\l_fontspec_strnum_int\ is used to store
 % the number corresponding to the feature tag string.
-% The script used is whatever's held in \cmd\c@zf@script. By default, that's the
-% number corresponding to `|latn|'. The language used is \cmd\c@zf@language,
+% The script used is whatever's held in \cmd\l_fontspec_script_int. By default, that's the
+% number corresponding to `|latn|'. The language used is \cmd\l_fontspec_language_int,
 % by default |0|, the `default language'.
 %    \begin{macrocode}
 \xetex_or_luatex:nnn
    { \prg_new_conditional:Nnn \fontspec_check_ot_feat:n {TF,T} }
    {
-    \@tempcntb\XeTeXOTcountfeatures\zf@basefont\c@zf@script\c@zf@language
-    \fontspec_v_str_to_num:n {#1}
+    \int_set:Nn \@tempcntb {
+      \XeTeXOTcountfeatures \zf@basefont
+                            \l_fontspec_script_int
+                            \l_fontspec_language_int
+    }
+    \fontspec_v_str_to_num:Nn \l_fontspec_strnum_int {#1}
     \c@zf@index\z@
     \@tempswafalse
     \loop\ifnum\c@zf@index<\@tempcntb
-      \ifnum\XeTeXOTfeaturetag\zf@basefont\c@zf@script\c@zf@language
+      \ifnum\XeTeXOTfeaturetag\zf@basefont\l_fontspec_script_int\l_fontspec_language_int
             \c@zf@index=\l_fontspec_strnum_int
         \@tempswatrue
         \c@zf@index\@tempcntb
@@ -5551,12 +5552,12 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \define@key[zf@feat]{Lang}{Turkish}[]{
   \fontspec_check_lang:nTF {TRK} {
-    \c@zf@language\l_fontspec_strnum_int\relax
+    \int_set:Nn \l_fontspec_language_int {\l_fontspec_strnum_int}
     \zf@update@family{+lang=Turkish}
     \tl_set:Nn \l_fontspec_lang_tl {TRK}
   }{
     \fontspec_check_lang:nTF {TUR} {
-      \c@zf@language\l_fontspec_strnum_int\relax
+      \int_set:Nn \l_fontspec_language_int {\l_fontspec_strnum_int}
       \zf@update@family{+lang=Turkish}
       \tl_set:Nn \l_fontspec_lang_tl {TUR}
     }{
@@ -5572,7 +5573,7 @@ This work consists of this file fontspec.dtx
 \define@key[zf@feat]{Lang}{Default}[]{
   \zf@update@family{+lang=dflt}
   \tl_set:Nn \l_fontspec_lang_tl {DFLT}
-  \c@zf@language=0\relax
+  \int_zero:N \l_fontspec_language_int
 }
 %    \end{macrocode}
 %

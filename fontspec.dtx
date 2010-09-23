@@ -3178,11 +3178,7 @@ This work consists of this file fontspec.dtx
     \font_set:Nnn \zf@basefont {\use:c{zf@family@fontdef\f@family}} {\f@size pt}
     \ifzf@atsui
       \fontspec_make_AAT_feature_string:nn{#1}{#2}
-      \ifx\@tempa\@empty
-        \prg_return_false:
-      \else
-        \prg_return_true:
-      \fi
+      \tl_if_empty:NTF \@tempa \prg_return_false: \prg_return_true:
     \else
       \prg_return_false:
     \fi
@@ -3681,13 +3677,13 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \cs_new:Npn \fontspec_set_bold: {
   \unless\ifzf@nobf
-    \ifx\l_fontspec_fontname_bf_tl\@empty
+    \tl_if_empty:NTF \l_fontspec_fontname_bf_tl {
       \fontspec_make_font_shapes:nnnnn \l_fontspec_fontname_tl {/B}
         \bfdefault \updefault \l_fontspec_fontfeat_bf_clist
-    \else
+    }{
       \fontspec_make_font_shapes:nnnn \l_fontspec_fontname_bf_tl
         \bfdefault \updefault \l_fontspec_fontfeat_bf_clist
-    \fi
+    }
   \fi
 }
 %    \end{macrocode}
@@ -3698,13 +3694,10 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \cs_new:Npn \fontspec_set_italic: {
   \unless\ifzf@noit
-    \ifx\l_fontspec_fontname_it_tl\@empty
-      \fontspec_make_font_shapes:nnnnn \l_fontspec_fontname_tl {/I}
+    \tl_if_empty:NTF \l_fontspec_fontname_it_tl
+    { \fontspec_make_font_shapes:nnnnn \l_fontspec_fontname_tl {/I} }
+    { \fontspec_make_font_shapes:nnnn  \l_fontspec_fontname_it_tl    }
         \mddefault \itdefault \l_fontspec_fontfeat_it_clist
-    \else
-      \fontspec_make_font_shapes:nnnn \l_fontspec_fontname_it_tl
-        \mddefault \itdefault \l_fontspec_fontfeat_it_clist
-    \fi
   \fi
 }
 %    \end{macrocode}
@@ -3714,10 +3707,10 @@ This work consists of this file fontspec.dtx
 % And slanted but only if requested:
 %    \begin{macrocode}
 \cs_new:Npn \fontspec_set_slanted: {
-  \ifx\l_fontspec_fontname_sl_tl\@empty\else
+  \tl_if_empty:NF \l_fontspec_fontname_sl_tl {
     \fontspec_make_font_shapes:nnnn
       \l_fontspec_fontname_sl_tl \mddefault \sldefault \l_fontspec_fontfeat_sl_clist
-  \fi
+  }
 }
 %    \end{macrocode}
 % \end{macro}
@@ -3735,23 +3728,26 @@ This work consists of this file fontspec.dtx
   \ifzf@noit\@tempswafalse\fi
   \bool_if:NT \l_fontspec_external_bool \@tempswafalse
   \if@tempswa
-    \ifx\l_fontspec_fontname_bf_tlit\@empty
-      \ifx\l_fontspec_fontname_bf_tl\@empty
-        \ifx\l_fontspec_fontname_it_tl\@empty
-          \fontspec_make_font_shapes:nnnnn \l_fontspec_fontname_tl {/BI}
-             \bfdefault \itdefault \l_fontspec_fontfeat_bfit_clist
-        \else
+    \tl_if_empty:NTF \l_fontspec_fontname_bfit_tl
+    {
+      \tl_if_empty:NTF \l_fontspec_fontname_bf_tl
+      {
+        \tl_if_empty:NTF \l_fontspec_fontname_it_tl
+        {
+          \fontspec_make_font_shapes:nnnnn \l_fontspec_fontname_tl    {/BI}
+        }
+        {
           \fontspec_make_font_shapes:nnnnn \l_fontspec_fontname_it_tl {/B}
-             \bfdefault \itdefault \l_fontspec_fontfeat_bfit_clist
-        \fi
-      \else
+        }
+      }
+      {
         \fontspec_make_font_shapes:nnnnn \l_fontspec_fontname_bf_tl {/I}
-           \bfdefault \itdefault \l_fontspec_fontfeat_bfit_clist
-      \fi
-    \else
-      \fontspec_make_font_shapes:nnnn \l_fontspec_fontname_bf_tlit
-         \bfdefault \itdefault \l_fontspec_fontfeat_bfit_clist
-    \fi
+      }
+    }
+    {
+      \fontspec_make_font_shapes:nnnn  \l_fontspec_fontname_bfit_tl
+    }
+    \bfdefault \itdefault \l_fontspec_fontfeat_bfit_clist
   \fi
 }
 %    \end{macrocode}
@@ -3761,15 +3757,15 @@ This work consists of this file fontspec.dtx
 % And bold slanted, again, only if requested:
 %    \begin{macrocode}
 \cs_new:Npn \fontspec_set_bold_slanted: {
-  \ifx\l_fontspec_fontname_bf_tlsl\@empty
-    \ifx\l_fontspec_fontname_sl_tl\@empty\else
+  \tl_if_empty:NTF \l_fontspec_fontname_bfsl_tl {
+    \tl_if_empty:NF \l_fontspec_fontname_sl_tl {
       \fontspec_make_font_shapes:nnnnn \l_fontspec_fontname_sl_tl {/B}
          \bfdefault \sldefault \l_fontspec_fontfeat_bfsl_clist
-    \fi
-  \else
-    \fontspec_make_font_shapes:nnnn \l_fontspec_fontname_bf_tlsl
+    }
+  }{
+    \fontspec_make_font_shapes:nnnn \l_fontspec_fontname_bfsl_tl
       \bfdefault \sldefault \l_fontspec_fontfeat_bfsl_clist
-  \fi
+  }
 }
 %    \end{macrocode}
 % \end{macro}
@@ -3862,19 +3858,18 @@ This work consists of this file fontspec.dtx
     \tl_set:Nx \l_fontspec_fontname_tl {#1}
     \font_set:Nnn \zf@basefont {\fontspec_fullname:n {#1}} {\f@size pt}
     \fontspec_declare_shape:nnnn {}{#2}{#3}{#4}
-    \ifx\l_fontspec_fontname_sc_tl\@empty
+    \tl_if_empty:NTF \l_fontspec_fontname_sc_tl {
       \unless\ifzf@nosc
-        \fontspec_make_smallcaps:
-        \unless\ifx\zf@smallcaps\@empty
+        \fontspec_make_smallcaps:T {
           \fontspec_declare_shape:nnnn {\zf@smallcaps}{#2}
             {\ifx#3\itdefault\sidefault\else\scdefault\fi}{#4\l_fontspec_fontfeat_sc_clist}
-        \fi
+        }
       \fi
-    \else
+    }{
       \tl_set:Nx \l_fontspec_fontname_tl {\l_fontspec_fontname_sc_tl}
       \fontspec_declare_shape:nnnn {}{#2}
         {\ifx#3\itdefault\sidefault\else\scdefault\fi}{#4\l_fontspec_fontfeat_sc_clist}
-    \fi
+    }
   \group_end:
 }
 %    \end{macrocode}
@@ -4042,9 +4037,9 @@ This work consists of this file fontspec.dtx
 \tl_clear:N \l_fontspec_fontname_it_tl
 \tl_clear:N \l_fontspec_fake_slant_tl
 \tl_clear:N \l_fontspec_fake_embolden_tl
-\tl_clear:N \l_fontspec_fontname_bf_tlit
+\tl_clear:N \l_fontspec_fontname_bfit_tl
 \tl_clear:N \l_fontspec_fontname_sl_tl
-\tl_clear:N \l_fontspec_fontname_bf_tlsl
+\tl_clear:N \l_fontspec_fontname_bfsl_tl
 \tl_clear:N \l_fontspec_fontname_sc_tl
 \tl_clear:N \l_fontspec_fontfeat_up_clist
 \tl_clear:N \l_fontspec_fontfeat_bf_clist
@@ -4084,31 +4079,36 @@ This work consists of this file fontspec.dtx
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\fontspec_make_smallcaps:}\label{mac:zf@make@smallcaps}
+% \begin{macro}{\fontspec_make_smallcaps:T}
+% \label{mac:zf@make@smallcaps}
 % This macro checks if the font contains small caps, and if so
 % creates the string for accessing them in \cmd{\zf@smallcaps}.
 %    \begin{macrocode}
-\cs_set:Nn \fontspec_make_ot_smallcaps: {
+\cs_set:Nn \fontspec_make_ot_smallcaps:T {
   \tl_clear:N \zf@smallcaps
-  \fontspec_check_ot_feat:nT {+smcp} {\tl_set:Nx\zf@smallcaps{+smcp;}}
+  \fontspec_check_ot_feat:nT {+smcp} {
+    \tl_set:Nx\zf@smallcaps{+smcp;}
+    #1
+  }
 }
 \xetex_or_luatex:nn
 {
-  \cs_set:Nn \fontspec_make_smallcaps: {
+  \cs_set:Nn \fontspec_make_smallcaps:T {
     \ifzf@atsui
       \tl_clear:N \zf@smallcaps
       \fontspec_make_AAT_feature_string:nn{3}{3}
       \tl_if_empty:NF \@tempa {
         \tl_set:Nx \zf@smallcaps {\@tempa;}
+        #1
       }
     \fi
     \ifzf@icu
-      \fontspec_make_ot_smallcaps:
+      \fontspec_make_ot_smallcaps:T {#1}
     \fi
   }
 }
 {
-  \cs_set_eq:NN \fontspec_make_smallcaps: \fontspec_make_ot_smallcaps:
+  \cs_set_eq:NN \fontspec_make_smallcaps:T \fontspec_make_ot_smallcaps:T
 }
 %    \end{macrocode}
 % \end{macro}
@@ -4179,12 +4179,12 @@ This work consists of this file fontspec.dtx
   }
   {
     \fontspec_make_AAT_feature_string:nn {#1}{#2}
-    \ifx\@tempa\@empty
+    \tl_if_empty:NTF \@tempa {
       \fontspec_warning:nx {aat-feature-not-exist-in-font} {#1,#2}
-    \else
+    }{
       \fontspec_update_fontid:n {+#1,#2}
       \fontspec_update_featstr:n\@tempa
-    \fi
+    }
   }
 }
 \cs_new:Npn \fontspec_make_ICU_feature:n #1 {
@@ -4257,20 +4257,20 @@ This work consists of this file fontspec.dtx
 %
 %    \begin{macrocode}
 \cs_new:Npn \fontspec_make_AAT_feature_string:nn #1#2 {
-  \edef\@tempa{\XeTeXfeaturename\zf@basefont #1}
-  \unless\ifx\@tempa\@empty
+  \tl_set:Nx \@tempa {\XeTeXfeaturename\zf@basefont #1}
+  \tl_if_empty:NF {
 %    \end{macrocode}
 % For exclusive selectors, it's easy; just grab the string:
 %    \begin{macrocode}
     \ifnum\XeTeXisexclusivefeature\zf@basefont #1>0
-      \edef\@tempb{\XeTeXselectorname\zf@basefont #1\space #2}
+      \tl_set:Nx \@tempb {\XeTeXselectorname\zf@basefont #1\space #2}
 %    \end{macrocode}
 % For \emph{non}-exclusive selectors, it's a little more complex.
 % If the selector is even, it corresponds to switching the feature on:
 %    \begin{macrocode}
     \else
       \unless\ifodd #2
-        \edef\@tempb{\XeTeXselectorname\zf@basefont #1\space #2}
+        \tl_set:Nx \@tempb {\XeTeXselectorname\zf@basefont #1\space #2}
 %    \end{macrocode}
 % If the selector is \emph{odd}, it corresponds to switching the feature off.
 % But \XeTeX\ doesn't return a selector string for this number, since the
@@ -4279,24 +4279,24 @@ This work consists of this file fontspec.dtx
 % to denote the switch.
 %    \begin{macrocode}
       \else
-        \edef\@tempb{
+        \tl_set:Nx \@tempb {
           \XeTeXselectorname\zf@basefont #1\space \numexpr#2-1\relax
         }
-        \unless\ifx\@tempb\@empty
-          \edef\@tempb{!\@tempb}
-        \fi
+        \tl_if_empty:NF \@tempb {
+          \tl_put_left:Nn \@tempb {!}
+        }
       \fi
     \fi
 %    \end{macrocode}
 % Finally, save out the complete feature string in \cmd\@tempa.
 % If the selector doesn't exist, re-initialise the feature string to empty.
 %    \begin{macrocode}
-    \unless\ifx\@tempb\@empty
-      \edef\@tempa{\@tempa=\@tempb}
-    \else
+    \tl_if_empty:NTF \@tempb {
       \tl_clear:N \@tempa
-    \fi
-  \fi
+    }{
+      \tl_set:Nx \@tempa { \@tempa=\@tempb }
+    }
+  }
 }
 %    \end{macrocode}
 % \end{macro}
@@ -4567,35 +4567,36 @@ This work consists of this file fontspec.dtx
 % Bold:
 %    \begin{macrocode}
 \define@key[zf]{preparse-external}{BoldFont}{
-  \edef\@tempa{#1}
-  \ifx\@tempa\@empty
+  \tl_if_empty:nTF {#1}
+  {
     \zf@nobftrue
     \fontspec_update_fontid:n {nobf}
-  \else
+  }
+  {
     \zf@nobffalse
     \fontspec_complete_fontname:Nn \l_fontspec_fontname_bf_tl {#1}
     \fontspec_update_fontid:n {bf:#1}
-  \fi
+  }
 }
 %    \end{macrocode}
 % Same for italic:
 %    \begin{macrocode}
 \define@key[zf]{preparse-external}{ItalicFont}{
-  \edef\@tempa{#1}
-  \ifx\@tempa\@empty
+  \tl_if_empty:nTF {#1}
+  {
     \zf@noittrue
     \fontspec_update_fontid:n {noit}
-  \else
+  }{
     \zf@noitfalse
     \fontspec_complete_fontname:Nn \l_fontspec_fontname_it_tl {#1}
     \fontspec_update_fontid:n {it:#1}
-  \fi
+  }
 }
 %    \end{macrocode}
 % Simpler for bold+italic \& slanted:
 %    \begin{macrocode}
 \define@key[zf]{preparse-external}{BoldItalicFont}{
-  \fontspec_complete_fontname:Nn \l_fontspec_fontname_bf_tlit {#1}
+  \fontspec_complete_fontname:Nn \l_fontspec_fontname_bfit_tl {#1}
   \fontspec_update_fontid:n {bfit:#1}
 }
 \define@key[zf]{preparse-external}{SlantedFont}{
@@ -4603,22 +4604,22 @@ This work consists of this file fontspec.dtx
   \fontspec_update_fontid:n {sl:#1}
 }
 \define@key[zf]{preparse-external}{BoldSlantedFont}{
-  \fontspec_complete_fontname:Nn \l_fontspec_fontname_bf_tlsl {#1}
+  \fontspec_complete_fontname:Nn \l_fontspec_fontname_bfsl_tl {#1}
   \fontspec_update_fontid:n {bfsl:#1}
 }
 %    \end{macrocode}
 % Small caps isn't pre-parsed because it can vary with others above:
 %    \begin{macrocode}
 \define@key[zf]{options}{SmallCapsFont}{
-  \edef\@tempa{#1}
-  \ifx\@tempa\@empty
+  \tl_if_empty:nTF {#1}
+  {
     \zf@nosctrue
     \fontspec_update_fontid:n {nosc}
-  \else
+  }{
     \zf@noscfalse
     \fontspec_complete_fontname:Nn \l_fontspec_fontname_sc_tl {#1}
     \fontspec_update_fontid:n {sc:\zap@space #1~\@empty}
-  \fi
+  }
 }
 %    \end{macrocode}
 %
@@ -4766,7 +4767,7 @@ This work consists of this file fontspec.dtx
 \define@key[zf]{options}{WordSpace}{
   \fontspec_update_fontid:n {+wordspace:#1}
   \unless\ifzf@firsttime
-    \zf@wordspace@parse#1,\zf@@ii,\zf@@iii,\zf@@
+    \_fontspec_parse_wordspace:w #1,\zf@@ii,\zf@@iii,\zf@@
   \fi
 }
 %    \end{macrocode}
@@ -4776,18 +4777,18 @@ This work consists of this file fontspec.dtx
 % of the form |{X}| or |{X,Y,Z}| and executes the font scaling.
 % If the former input, it executes |{X,X,X}|.
 %    \begin{macrocode}
-\def\zf@wordspace@parse#1,#2,#3,#4\zf@@{
-  \def\@tempa{#4}
-  \ifx\@tempa\@empty
-    \setlength\@tempdima{#1\fontdimen2\zf@basefont}
-    \@tempdimb\@tempdima
-    \@tempdimc\@tempdima
-  \else
-    \setlength\@tempdima{#1\fontdimen2\zf@basefont}
-    \setlength\@tempdimb{#2\fontdimen3\zf@basefont}
-    \setlength\@tempdimc{#3\fontdimen4\zf@basefont}
-  \fi
-  \edef\l_fontspec_postadjust_tl{
+\cs_set:Npn \_fontspec_parse_wordspace:w #1,#2,#3,#4 \zf@@ {
+  \tl_if_empty:nTF {#4}
+  {
+    \dim_set:Nn \@tempdima {#1\fontdimen2\zf@basefont}
+    \dim_set:Nn \@tempdimb {\@tempdima}
+    \dim_set:Nn \@tempdimc {\@tempdima}
+  }{
+    \dim_set:Nn \@tempdima {#1\fontdimen2\zf@basefont}
+    \dim_set:Nn \@tempdimb {#2\fontdimen3\zf@basefont}
+    \dim_set:Nn \@tempdimc {#3\fontdimen4\zf@basefont}
+  }
+  \tl_set:Nx \l_fontspec_postadjust_tl {
     \l_fontspec_postadjust_tl
     \fontdimen2\font\the\@tempdima
     \fontdimen3\font\the\@tempdimb
@@ -4803,7 +4804,7 @@ This work consists of this file fontspec.dtx
 \define@key[zf]{options}{PunctuationSpace}{
   \fontspec_update_fontid:n {+punctspace:#1}
   \setlength\@tempdima{#1\fontdimen7\zf@basefont}
-  \edef\l_fontspec_postadjust_tl{\l_fontspec_postadjust_tl\fontdimen7\font\the\@tempdima}
+  \tl_set:Nx \l_fontspec_postadjust_tl {\l_fontspec_postadjust_tl\fontdimen7\font\the\@tempdima}
 }
 %    \end{macrocode}
 %
@@ -4994,7 +4995,7 @@ This work consists of this file fontspec.dtx
     \tl_if_empty:NF \l_fontspec_fake_embolden_tl {
       \tl_put_right:Nx \l_fontspec_fontfeat_bfit_clist
         {,FakeBold=\l_fontspec_fake_embolden_tl,FakeSlant=#1}
-      \tl_set_eq:NN \l_fontspec_fontname_bf_tlit \l_fontspec_fontname_tl
+      \tl_set_eq:NN \l_fontspec_fontname_bfit_tl \l_fontspec_fontname_tl
     }
   \fi
 }
@@ -5010,7 +5011,7 @@ This work consists of this file fontspec.dtx
     \tl_if_empty:NF \l_fontspec_fake_slant_tl {
       \tl_put_right:Nx \l_fontspec_fontfeat_bfit_clist
         {,FakeSlant=\l_fontspec_fake_slant_tl,FakeBold=#1}
-      \tl_set_eq:NN \l_fontspec_fontname_bf_tlit \l_fontspec_fontname_tl
+      \tl_set_eq:NN \l_fontspec_fontname_bfit_tl \l_fontspec_fontname_tl
     }
   \fi
 }
@@ -5182,10 +5183,10 @@ This work consists of this file fontspec.dtx
 \define@key[zf]{options}{Alternate}[0]{
   \clist_set_eq:NN \l_fontspec_tmpa_clist \XKV@rm
   \setkeys*[zf@feat]{Alternate}{#1}
-  \unless\ifx\XKV@rm\@empty
+  \tl_if_empty:NF \XKV@rm {
     \def\XKV@tfam{Alternate}
     \fontspec_make_feature:nnx {17}{#1} { \fontspec_salt:n {#1} }
-  \fi
+  }
   \clist_set_eq:NN \XKV@rm \l_fontspec_tmpa_clist
 }
 %    \end{macrocode}
@@ -5199,10 +5200,10 @@ This work consists of this file fontspec.dtx
 \define@key[zf]{options}{Variant}{
   \clist_set_eq:NN \l_fontspec_tmpa_clist \XKV@rm
   \setkeys*[zf@feat]{Variant}{#1}
-  \unless\ifx\XKV@rm\@empty
+  \tl_if_empty:NF \XKV@rm {
     \def\XKV@tfam{Variant}
     \fontspec_make_feature:nnx {18}{#1} { +ss \two@digits {#1} }
-  \fi
+  }
   \clist_set_eq:NN \XKV@rm \l_fontspec_tmpa_clist
 }
 \aliasfontfeature{Variant}{StylisticSet}
@@ -5212,10 +5213,10 @@ This work consists of this file fontspec.dtx
 \define@key[zf]{options}{CharacterVariant}{
   \clist_set_eq:NN \l_fontspec_tmpa_clist \XKV@rm
   \setkeys*[zf@feat]{CharacterVariant}{#1}
-  \unless\ifx\XKV@rm\@empty
+  \tl_if_empty:NF \XKV@rm {
     \def\XKV@tfam{CharacterVariant}
     \fontspec_make_feature:nnx {}{} { +cv \two@digits {#1} }
-  \fi
+  }
   \clist_set_eq:NN \XKV@rm \l_fontspec_tmpa_clist
 }
 %    \end{macrocode}
@@ -5281,10 +5282,10 @@ This work consists of this file fontspec.dtx
 \define@key[zf]{options}{Annotation}[0]{
   \clist_set_eq:NN \l_fontspec_tmpa_clist \XKV@rm
   \setkeys*[zf@feat]{Annotation}{#1}
-  \unless\ifx\XKV@rm\@empty
+  \tl_if_empty:NF \XKV@rm {
     \def\XKV@tfam{Alternate}
     \fontspec_make_feature:nnx {}{} { \fontspec_nalt:n {#1} }
-  \fi
+  }
   \clist_set_eq:NN \XKV@rm \l_fontspec_tmpa_clist
 }
 %    \end{macrocode}

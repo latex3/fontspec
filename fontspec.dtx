@@ -4095,9 +4095,8 @@ This work consists of this file fontspec.dtx
   \cs_set:Nn \fontspec_make_smallcaps:T {
     \ifzf@atsui
       \tl_clear:N \zf@smallcaps
-      \fontspec_make_AAT_feature_string:nn{3}{3}
-      \tl_if_empty:NF \@tempa {
-        \tl_set:Nx \zf@smallcaps {\@tempa;}
+      \fontspec_make_AAT_feature_string:nnT {3}{3} {
+        \tl_set:Nx \zf@smallcaps {\l_fontspec_feature_string_tl;}
         #1
       }
     \fi
@@ -4173,31 +4172,26 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \cs_new:Npn \fontspec_make_AAT_feature:nn #1#2 {
   \tl_if_empty:nTF {#1}
+  { \fontspec_warning:n {aat-feature-not-exist} }
   {
-    \fontspec_warning:n {aat-feature-not-exist}
-  }
-  {
-    \fontspec_make_AAT_feature_string:nn {#1}{#2}
-    \tl_if_empty:NTF \@tempa {
-      \fontspec_warning:nx {aat-feature-not-exist-in-font} {#1,#2}
-    }{
+    \fontspec_make_AAT_feature_string:nnTF {#1}{#2}
+    {
       \fontspec_update_fontid:n {+#1,#2}
-      \fontspec_update_featstr:n\@tempa
+      \fontspec_update_featstr:n {\l_fontspec_feature_string_tl}
     }
+    { \fontspec_warning:nx {aat-feature-not-exist-in-font} {#1,#2} }
   }
 }
 \cs_new:Npn \fontspec_make_ICU_feature:n #1 {
   \tl_if_empty:nTF {#1}
+  { \fontspec_warning:n {icu-feature-not-exist} }
   {
-    \fontspec_warning:n {icu-feature-not-exist}
-  }
-  {
-    \fontspec_check_ot_feat:nTF {#1} {
+    \fontspec_check_ot_feat:nTF {#1}
+    {
       \fontspec_update_fontid:n {#1}
       \fontspec_update_featstr:n{#1}
-    }{
-      \fontspec_warning:nx {icu-feature-not-exist-in-font} {#1}
     }
+    { \fontspec_warning:nx {icu-feature-not-exist-in-font} {#1} }
   }
 }
 %    \end{macrocode}
@@ -4247,53 +4241,48 @@ This work consists of this file fontspec.dtx
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\fontspec_make_AAT_feature_string:nn}
+% \begin{macro}[TF]{\fontspec_make_AAT_feature_string:nn}
 %   This macro takes the numerical codes for a font feature and
 %   creates a specified macro containing the string required in the
 %   font definition to turn that feature on or off. Used primarily in
 %   \cmd\zf@make@aat@feature, but also used to check if small caps
 %   exists in the requested font (see page~\pageref{mac:zf@make@smallcaps}).
 %
-%    \begin{macrocode}
-\cs_new:Npn \fontspec_make_AAT_feature_string:nn #1#2 {
-  \tl_set:Nx \@tempa {\XeTeXfeaturename\zf@basefont #1}
-  \tl_if_empty:NF {
-%    \end{macrocode}
 % For exclusive selectors, it's easy; just grab the string:
-%    \begin{macrocode}
-    \ifnum\XeTeXisexclusivefeature\zf@basefont #1>0
-      \tl_set:Nx \@tempb {\XeTeXselectorname\zf@basefont #1\space #2}
-%    \end{macrocode}
 % For \emph{non}-exclusive selectors, it's a little more complex.
-% If the selector is even, it corresponds to switching the feature on:
-%    \begin{macrocode}
-    \else
-      \unless\ifodd #2
-        \tl_set:Nx \@tempb {\XeTeXselectorname\zf@basefont #1\space #2}
-%    \end{macrocode}
+% If the selector is even, it corresponds to switching the feature on.
 % If the selector is \emph{odd}, it corresponds to switching the feature off.
 % But \XeTeX\ doesn't return a selector string for this number, since the
 % feature is defined for the `switching on' value. So we need to check the
 % selector of the previous number, and then prefix the feature string with |!|
 % to denote the switch.
+%
+% Finally, save out the complete feature string in \cmd\l_fontspec_feature_string_tl.
 %    \begin{macrocode}
-      \else
-        \tl_set:Nx \@tempb {
+\prg_new_conditional:Nnn \fontspec_make_AAT_feature_string:nn {TF,T,F} {
+  \tl_set:Nx \l_tmpa_tl { \XeTeXfeaturename \zf@basefont #1 }
+  \tl_if_empty:NTF \l_tmpa_tl
+  { \prg_return_false: }
+  {
+    \intexpr_compare:nTF { \XeTeXisexclusivefeature\zf@basefont #1 > 0 }
+    {
+      \tl_set:Nx \l_tmpb_tl {\XeTeXselectorname\zf@basefont #1\space #2}
+    }{
+      \intexpr_if_even:nTF {#2}
+      {
+        \tl_set:Nx \l_tmpb_tl {\XeTeXselectorname\zf@basefont #1\space #2}
+      }{
+        \tl_set:Nx \l_tmpb_tl {
           \XeTeXselectorname\zf@basefont #1\space \numexpr#2-1\relax
         }
-        \tl_if_empty:NF \@tempb {
-          \tl_put_left:Nn \@tempb {!}
-        }
-      \fi
-    \fi
-%    \end{macrocode}
-% Finally, save out the complete feature string in \cmd\@tempa.
-% If the selector doesn't exist, re-initialise the feature string to empty.
-%    \begin{macrocode}
-    \tl_if_empty:NTF \@tempb {
-      \tl_clear:N \@tempa
-    }{
-      \tl_set:Nx \@tempa { \@tempa=\@tempb }
+        \tl_if_empty:NF \l_tmpb_tl { \tl_put_left:Nn \l_tmpb_tl {!} }
+      }
+    }
+    \tl_if_empty:NTF \l_tmpb_tl
+    { \prg_return_false: }
+    {
+      \tl_set:Nx \l_fontspec_feature_string_tl { \l_tmpa_tl = \l_tmpb_tl }
+      \prg_return_true:
     }
   }
 }

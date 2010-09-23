@@ -2892,16 +2892,16 @@ This work consists of this file fontspec.dtx
 % fonts should be used in \cmd\boldmath.
 %    \begin{macrocode}
 \DeclareDocumentCommand \setmathrm { O{} m } {
-  \fontspec_set_family:Nnn \zf@rmmaths {#1}{#2}
+  \fontspec_set_family:Nnn \g_fontspec_mathrm_tl {#1}{#2}
 }
 \DeclareDocumentCommand \setboldmathrm { O{} m } {
-  \fontspec_set_family:Nnn \zf@rmboldmaths {#1}{#2}
+  \fontspec_set_family:Nnn \g_fontspec_bfmathrm_tl {#1}{#2}
 }
 \DeclareDocumentCommand \setmathsf { O{} m } {
-  \fontspec_set_family:Nnn \zf@sfmaths {#1}{#2}
+  \fontspec_set_family:Nnn \g_fontspec_mathsf_tl {#1}{#2}
 }
 \DeclareDocumentCommand \setmathtt { O{} m } {
-  \fontspec_set_family:Nnn \zf@ttmaths {#1}{#2}
+  \fontspec_set_family:Nnn \g_fontspec_mathtt_tl {#1}{#2}
 }
 \@onlypreamble\setmathrm
 \@onlypreamble\setboldmathrm
@@ -2911,9 +2911,9 @@ This work consists of this file fontspec.dtx
 % If the commands above are not executed, then \cmd\rmdefault\ (\etc)
 % will be used.
 %    \begin{macrocode}
-\def\zf@rmmaths{\rmdefault}
-\def\zf@sfmaths{\sfdefault}
-\def\zf@ttmaths{\ttdefault}
+\def\g_fontspec_mathrm_tl{\rmdefault}
+\def\g_fontspec_mathsf_tl{\sfdefault}
+\def\g_fontspec_mathtt_tl{\ttdefault}
 %    \end{macrocode}
 % \end{macro} \end{macro} \end{macro}
 % \end{macro}
@@ -2960,7 +2960,7 @@ This work consists of this file fontspec.dtx
 %   \cs{fontspec}, et al., commands. It stores its value in
 %   \cs{g_fontspec_default_fontopts_tl} (initialised empty), which is
 %   concatenated with the individual macro choices in the
-%   \cs{zf@get@feature@requests} macro.
+%   [...] macro.
 %    \begin{macrocode}
 \DeclareDocumentCommand \defaultfontfeatures {m} {
   \tl_set:Nn \g_fontspec_default_fontopts_tl {#1,}
@@ -3036,12 +3036,12 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \DeclareDocumentCommand \newAATfeature {mmmm} {
   \unless\ifcsname zf@options@#1\endcsname
-    \zf@define@font@feature{#1}
+    \fontspec_define_font_feature:n{#1}
   \fi
   \key@ifundefined[zf]{#1}{#2}{}{
     \fontspec_warning:nxx {feature-option-overwrite}{#1}{#2}
   }
-  \zf@define@feature@option{#1}{#2}{#3}{#4}{}
+  \fontspec_define_feature_option:nnnnn{#1}{#2}{#3}{#4}{}
 }
 %    \end{macrocode}
 % \end{macro}
@@ -3054,12 +3054,12 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \DeclareDocumentCommand \newICUfeature {mmm} {
   \unless\ifcsname zf@options@#1\endcsname
-    \zf@define@font@feature{#1}
+    \fontspec_define_font_feature:n{#1}
   \fi
   \key@ifundefined[zf]{#1}{#2}{}{
     \fontspec_warning:nxx {feature-option-overwrite}{#1}{#2}
   }
-  \zf@define@feature@option{#1}{#2}{}{}{#3}
+  \fontspec_define_feature_option:nnnnn{#1}{#2}{}{}{#3}
 }
 \cs_set_eq:NN \newopentypefeature \newICUfeature
 %    \end{macrocode}
@@ -3470,14 +3470,14 @@ This work consists of this file fontspec.dtx
 % \cmd{\l_fontspec_fontname_tl} is used as the generic name of the font being defined.
 % \cmd{\l_fontspec_fontid_tl} is the unique identifier of the font with all its
 % features.
-% \cmd{\zf@up} is the font specifically to be used as the upright font.
+% \cmd{\l_fontspec_fontname_up_tl} is the font specifically to be used as the upright font.
 %    \begin{macrocode}
   \tl_set:Nx \l_fontspec_fontname_tl {#2}
   \luatex_if_engine:T {
     \tl_replace_all_in:Nnn \l_fontspec_fontname_tl {~} {}
   }
   \tl_set_eq:NN \l_fontspec_fontid_tl \l_fontspec_fontname_tl
-  \tl_set_eq:NN \zf@up \l_fontspec_fontname_tl
+  \tl_set_eq:NN \l_fontspec_fontname_up_tl \l_fontspec_fontname_tl
 %    \end{macrocode}
 % Now convert the requested features to font definition
 % strings. First the features are parsed for information about font
@@ -3544,18 +3544,18 @@ This work consists of this file fontspec.dtx
   \fontspec_setkeys:xx {preparse-external} {\g_fontspec_default_fontopts_tl #1}
 %    \end{macrocode}
 % When \cmd{\l_fontspec_fontname_tl} is augmented with a prefix or whatever to create
-% the name of the upright font (\cmd{\zf@up}), this latter is the new `general
+% the name of the upright font (\cmd{\l_fontspec_fontname_up_tl}), this latter is the new `general
 % font name' to use.
 %    \begin{macrocode}
-  \tl_set_eq:NN \l_fontspec_fontname_tl \zf@up
+  \tl_set_eq:NN \l_fontspec_fontname_tl \l_fontspec_fontname_up_tl
   \fontspec_setkeys:xx {preparse} {\XKV@rm}
   \clist_set_eq:NN \l_fontspec_fontfeat_clist \XKV@rm
 %    \end{macrocode}
 % Finally save the `confirmed' font definition.
 %    \begin{macrocode}
-  \font_set:Nnn \zf@basefont {\fontspec_fullname:n {\zf@up}} {\f@size pt}
+  \font_set:Nnn \zf@basefont {\fontspec_fullname:n {\l_fontspec_fontname_up_tl}} {\f@size pt}
   \fontspec_set_font_type:
-  \font_gset:Nnn \zf@basefont {\fontspec_fullname:n {\zf@up}} {\f@size pt}
+  \font_gset:Nnn \zf@basefont {\fontspec_fullname:n {\l_fontspec_fontname_up_tl}} {\f@size pt}
   \zf@basefont % this is necessary for LuaLaTeX to check the scripts properly
 }
 %    \end{macrocode}
@@ -3683,14 +3683,14 @@ This work consists of this file fontspec.dtx
 % \end{macro}
 %
 % \begin{macro}{\fontspec_set_bold:}
-% The macros \cs{zf@bf}, et al., are used to store the name of the
+% The macros [...], et al., are used to store the name of the
 % custom bold, et al., font, if requested as user options. If they are
 % empty, the default fonts are used.
 %
 % The extra bold options defined with
 % \feat{BoldFeatures} are appended to the generic font features.
 % Then, the bold font is defined either as the ATS
-% default (\cs{zf@make@font@shapes}' optional argument is to check if
+% default ([...] optional argument is to check if
 % there actually is one; if not, the bold NFSS series is left
 % undefined) or with the font specified with the \feat{BoldFont} feature.
 %    \begin{macrocode}
@@ -3855,7 +3855,7 @@ This work consists of this file fontspec.dtx
 %   back to the original font name, in which case this macro doesn't
 %   proceed and the font shape is not created for the NFSS.
 %
-% Next, the small caps are defined. \cs{zf@make@smallcaps} is used to
+% Next, the small caps are defined. [...] is used to
 % define the appropriate string for activating small caps in the font,
 % if they exist. If we are defining small caps for the upright shape,
 % then the small caps shape default is used. For an \emph{italic}
@@ -4216,14 +4216,14 @@ This work consists of this file fontspec.dtx
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\zf@define@font@feature}
-% \begin{macro}{\zf@define@feature@option}
+% \begin{macro}{\fontspec_define_font_feature:n}
+% \begin{macro}{\fontspec_define_feature_option:nnnnn}
 % These macros are used in order to simplify font feature definition later on.
 %    \begin{macrocode}
-\newcommand*\zf@define@font@feature[1]{
+\cs_new:Nn \fontspec_define_font_feature:n {
   \define@key[zf]{options}{#1}{{\setkeys[zf@feat]{#1}{##1}}}
 }
-\newcommand*\zf@define@feature@option[5]{
+\cs_new:Nn \fontspec_define_feature_option:nnnnn {
   \define@key[zf@feat]{#1}{#2}[]{\fontspec_make_feature:nnn{#3}{#4}{#5}}
 }
 %    \end{macrocode}
@@ -4264,7 +4264,7 @@ This work consists of this file fontspec.dtx
 %   This macro takes the numerical codes for a font feature and
 %   creates a specified macro containing the string required in the
 %   font definition to turn that feature on or off. Used primarily in
-%   \cmd\zf@make@aat@feature, but also used to check if small caps
+%   [...], but also used to check if small caps
 %   exists in the requested font (see page~\pageref{mac:zf@make@smallcaps}).
 %
 % For exclusive selectors, it's easy; just grab the string:
@@ -4567,7 +4567,7 @@ This work consists of this file fontspec.dtx
 % Upright:
 %    \begin{macrocode}
 \define@key[zf]{preparse-external}{UprightFont}{
-  \fontspec_complete_fontname:Nn \zf@up {#1}
+  \fontspec_complete_fontname:Nn \l_fontspec_fontname_up_tl {#1}
   \fontspec_update_fontid:n {up:#1}
 }
 %    \end{macrocode}
@@ -4774,7 +4774,7 @@ This work consists of this file fontspec.dtx
 \define@key[zf]{options}{WordSpace}{
   \fontspec_update_fontid:n {+wordspace:#1}
   \unless\ifzf@firsttime
-    \_fontspec_parse_wordspace:w #1,\zf@@ii,\zf@@iii,\zf@@
+    \_fontspec_parse_wordspace:w #1,,,\q_stop
   \fi
 }
 %    \end{macrocode}
@@ -4784,7 +4784,7 @@ This work consists of this file fontspec.dtx
 % of the form |{X}| or |{X,Y,Z}| and executes the font scaling.
 % If the former input, it executes |{X,X,X}|.
 %    \begin{macrocode}
-\cs_set:Npn \_fontspec_parse_wordspace:w #1,#2,#3,#4 \zf@@ {
+\cs_set:Npn \_fontspec_parse_wordspace:w #1,#2,#3,#4 \q_stop {
   \tl_if_empty:nTF {#4}
   {
     \dim_set:Nn \@tempdima {#1\fontdimen2\zf@basefont}
@@ -5028,34 +5028,34 @@ This work consists of this file fontspec.dtx
 % \subsubsection{Ligatures}
 % The call to the nested keyval family must be wrapped in braces to
 % hide the parent list (this later requires the use of global
-% definitions (|\xdef|) in |\zf@update@...|). Both \AAT\ and OpenType
+% definitions (|\xdef|) in [...]). Both \AAT\ and OpenType
 % names are offered to chose |Rare|/|Discretionary| ligatures.
 %    \begin{macrocode}
-\zf@define@font@feature{Ligatures}
-\zf@define@feature@option{Ligatures}{Required}       {1}{0}{+rlig}
-\zf@define@feature@option{Ligatures}{NoRequired}     {1}{1}{-rlig}
-\zf@define@feature@option{Ligatures}{Common}         {1}{2}{+liga}
-\zf@define@feature@option{Ligatures}{NoCommon}       {1}{3}{-liga}
-\zf@define@feature@option{Ligatures}{Rare}           {1}{4}{+dlig}
-\zf@define@feature@option{Ligatures}{NoRare}         {1}{5}{-dlig}
-\zf@define@feature@option{Ligatures}{Discretionary}  {1}{4}{+dlig}
-\zf@define@feature@option{Ligatures}{NoDiscretionary}{1}{5}{-dlig}
-\zf@define@feature@option{Ligatures}{Contextual}     {}{}  {+clig}
-\zf@define@feature@option{Ligatures}{NoContextual}   {}{}  {-clig}
-\zf@define@feature@option{Ligatures}{Historic}       {}{}  {+hlig}
-\zf@define@feature@option{Ligatures}{NoHistoric}     {}{}  {-hlig}
-\zf@define@feature@option{Ligatures}{Logos}          {1}{6} {}
-\zf@define@feature@option{Ligatures}{NoLogos}        {1}{7} {}
-\zf@define@feature@option{Ligatures}{Rebus}          {1}{8} {}
-\zf@define@feature@option{Ligatures}{NoRebus}        {1}{9} {}
-\zf@define@feature@option{Ligatures}{Diphthong}      {1}{10}{}
-\zf@define@feature@option{Ligatures}{NoDiphthong}    {1}{11}{}
-\zf@define@feature@option{Ligatures}{Squared}        {1}{12}{}
-\zf@define@feature@option{Ligatures}{NoSquared}      {1}{13}{}
-\zf@define@feature@option{Ligatures}{AbbrevSquared}  {1}{14}{}
-\zf@define@feature@option{Ligatures}{NoAbbrevSquared}{1}{15}{}
-\zf@define@feature@option{Ligatures}{Icelandic}      {1}{32}{}
-\zf@define@feature@option{Ligatures}{NoIcelandic}    {1}{33}{}
+\fontspec_define_font_feature:n{Ligatures}
+\fontspec_define_feature_option:nnnnn{Ligatures}{Required}       {1}{0}{+rlig}
+\fontspec_define_feature_option:nnnnn{Ligatures}{NoRequired}     {1}{1}{-rlig}
+\fontspec_define_feature_option:nnnnn{Ligatures}{Common}         {1}{2}{+liga}
+\fontspec_define_feature_option:nnnnn{Ligatures}{NoCommon}       {1}{3}{-liga}
+\fontspec_define_feature_option:nnnnn{Ligatures}{Rare}           {1}{4}{+dlig}
+\fontspec_define_feature_option:nnnnn{Ligatures}{NoRare}         {1}{5}{-dlig}
+\fontspec_define_feature_option:nnnnn{Ligatures}{Discretionary}  {1}{4}{+dlig}
+\fontspec_define_feature_option:nnnnn{Ligatures}{NoDiscretionary}{1}{5}{-dlig}
+\fontspec_define_feature_option:nnnnn{Ligatures}{Contextual}     {}{}  {+clig}
+\fontspec_define_feature_option:nnnnn{Ligatures}{NoContextual}   {}{}  {-clig}
+\fontspec_define_feature_option:nnnnn{Ligatures}{Historic}       {}{}  {+hlig}
+\fontspec_define_feature_option:nnnnn{Ligatures}{NoHistoric}     {}{}  {-hlig}
+\fontspec_define_feature_option:nnnnn{Ligatures}{Logos}          {1}{6} {}
+\fontspec_define_feature_option:nnnnn{Ligatures}{NoLogos}        {1}{7} {}
+\fontspec_define_feature_option:nnnnn{Ligatures}{Rebus}          {1}{8} {}
+\fontspec_define_feature_option:nnnnn{Ligatures}{NoRebus}        {1}{9} {}
+\fontspec_define_feature_option:nnnnn{Ligatures}{Diphthong}      {1}{10}{}
+\fontspec_define_feature_option:nnnnn{Ligatures}{NoDiphthong}    {1}{11}{}
+\fontspec_define_feature_option:nnnnn{Ligatures}{Squared}        {1}{12}{}
+\fontspec_define_feature_option:nnnnn{Ligatures}{NoSquared}      {1}{13}{}
+\fontspec_define_feature_option:nnnnn{Ligatures}{AbbrevSquared}  {1}{14}{}
+\fontspec_define_feature_option:nnnnn{Ligatures}{NoAbbrevSquared}{1}{15}{}
+\fontspec_define_feature_option:nnnnn{Ligatures}{Icelandic}      {1}{32}{}
+\fontspec_define_feature_option:nnnnn{Ligatures}{NoIcelandic}    {1}{33}{}
 %    \end{macrocode}
 % Emulate CM extra ligatures.
 %    \begin{macrocode}
@@ -5072,16 +5072,16 @@ This work consists of this file fontspec.dtx
 %
 % \subsubsection{Letters}
 %    \begin{macrocode}
-\zf@define@font@feature{Letters}
-\zf@define@feature@option{Letters}{Normal}             {3}{0}{}
-\zf@define@feature@option{Letters}{Uppercase}          {3}{1}{+case}
-\zf@define@feature@option{Letters}{Lowercase}          {3}{2}{}
-\zf@define@feature@option{Letters}{SmallCaps}          {3}{3}{+smcp}
-\zf@define@feature@option{Letters}{PetiteCaps}         {} {} {+pcap}
-\zf@define@feature@option{Letters}{UppercaseSmallCaps} {} {} {+c2sc}
-\zf@define@feature@option{Letters}{UppercasePetiteCaps}{} {} {+c2pc}
-\zf@define@feature@option{Letters}{InitialCaps}        {3}{4}{}
-\zf@define@feature@option{Letters}{Unicase}            {} {} {+unic}
+\fontspec_define_font_feature:n{Letters}
+\fontspec_define_feature_option:nnnnn{Letters}{Normal}             {3}{0}{}
+\fontspec_define_feature_option:nnnnn{Letters}{Uppercase}          {3}{1}{+case}
+\fontspec_define_feature_option:nnnnn{Letters}{Lowercase}          {3}{2}{}
+\fontspec_define_feature_option:nnnnn{Letters}{SmallCaps}          {3}{3}{+smcp}
+\fontspec_define_feature_option:nnnnn{Letters}{PetiteCaps}         {} {} {+pcap}
+\fontspec_define_feature_option:nnnnn{Letters}{UppercaseSmallCaps} {} {} {+c2sc}
+\fontspec_define_feature_option:nnnnn{Letters}{UppercasePetiteCaps}{} {} {+c2pc}
+\fontspec_define_feature_option:nnnnn{Letters}{InitialCaps}        {3}{4}{}
+\fontspec_define_feature_option:nnnnn{Letters}{Unicase}            {} {} {+unic}
 %    \end{macrocode}
 %
 % \subsubsection{Numbers}
@@ -5093,15 +5093,15 @@ This work consists of this file fontspec.dtx
 % Both naming conventions are offered to select the number case.
 %
 %    \begin{macrocode}
-\zf@define@font@feature{Numbers}
-\zf@define@feature@option{Numbers}{Monospaced}   {6} {0}{+tnum}
-\zf@define@feature@option{Numbers}{Proportional} {6} {1}{+pnum}
-\zf@define@feature@option{Numbers}{Lowercase}    {21}{0}{+onum}
-\zf@define@feature@option{Numbers}{OldStyle}     {21}{0}{+onum}
-\zf@define@feature@option{Numbers}{Uppercase}    {21}{1}{+lnum}
-\zf@define@feature@option{Numbers}{Lining}       {21}{1}{+lnum}
-\zf@define@feature@option{Numbers}{SlashedZero}  {14}{5}{+zero}
-\zf@define@feature@option{Numbers}{NoSlashedZero}{14}{4}{-zero}
+\fontspec_define_font_feature:n{Numbers}
+\fontspec_define_feature_option:nnnnn{Numbers}{Monospaced}   {6} {0}{+tnum}
+\fontspec_define_feature_option:nnnnn{Numbers}{Proportional} {6} {1}{+pnum}
+\fontspec_define_feature_option:nnnnn{Numbers}{Lowercase}    {21}{0}{+onum}
+\fontspec_define_feature_option:nnnnn{Numbers}{OldStyle}     {21}{0}{+onum}
+\fontspec_define_feature_option:nnnnn{Numbers}{Uppercase}    {21}{1}{+lnum}
+\fontspec_define_feature_option:nnnnn{Numbers}{Lining}       {21}{1}{+lnum}
+\fontspec_define_feature_option:nnnnn{Numbers}{SlashedZero}  {14}{5}{+zero}
+\fontspec_define_feature_option:nnnnn{Numbers}{NoSlashedZero}{14}{4}{-zero}
 %    \end{macrocode}
 %
 % |luaotload| provides a custom |anum| feature for replacing Latin
@@ -5110,76 +5110,76 @@ This work consists of this file fontspec.dtx
 %
 %    \begin{macrocode}
 \luatex_if_engine:T {
-  \zf@define@feature@option{Numbers}{Arabic}{}{}{+anum}
+  \fontspec_define_feature_option:nnnnn{Numbers}{Arabic}{}{}{+anum}
 }
 %    \end{macrocode}
 %
 % \subsubsection{Contextuals}
 %    \begin{macrocode}
-\zf@define@font@feature  {Contextuals}
-\zf@define@feature@option{Contextuals}{Swash}        {} {} {+cswh}
-\zf@define@feature@option{Contextuals}{NoSwash}      {} {} {-cswh}
-\zf@define@feature@option{Contextuals}{Alternate}    {} {} {+calt}
-\zf@define@feature@option{Contextuals}{NoAlternate}  {} {} {-calt}
-\zf@define@feature@option{Contextuals}{WordInitial}  {8}{0}{+init}
-\zf@define@feature@option{Contextuals}{NoWordInitial}{8}{1}{-init}
-\zf@define@feature@option{Contextuals}{WordFinal}    {8}{2}{+fina}
-\zf@define@feature@option{Contextuals}{NoWordFinal}  {8}{3}{-fina}
-\zf@define@feature@option{Contextuals}{LineInitial}  {8}{4}{}
-\zf@define@feature@option{Contextuals}{NoLineInitial}{8}{5}{}
-\zf@define@feature@option{Contextuals}{LineFinal}    {8}{6}{+falt}
-\zf@define@feature@option{Contextuals}{NoLineFinal}  {8}{7}{-falt}
-\zf@define@feature@option{Contextuals}{Inner}        {8}{8}{+medi}
-\zf@define@feature@option{Contextuals}{NoInner}      {8}{9}{-medi}
+\fontspec_define_font_feature:n  {Contextuals}
+\fontspec_define_feature_option:nnnnn{Contextuals}{Swash}        {} {} {+cswh}
+\fontspec_define_feature_option:nnnnn{Contextuals}{NoSwash}      {} {} {-cswh}
+\fontspec_define_feature_option:nnnnn{Contextuals}{Alternate}    {} {} {+calt}
+\fontspec_define_feature_option:nnnnn{Contextuals}{NoAlternate}  {} {} {-calt}
+\fontspec_define_feature_option:nnnnn{Contextuals}{WordInitial}  {8}{0}{+init}
+\fontspec_define_feature_option:nnnnn{Contextuals}{NoWordInitial}{8}{1}{-init}
+\fontspec_define_feature_option:nnnnn{Contextuals}{WordFinal}    {8}{2}{+fina}
+\fontspec_define_feature_option:nnnnn{Contextuals}{NoWordFinal}  {8}{3}{-fina}
+\fontspec_define_feature_option:nnnnn{Contextuals}{LineInitial}  {8}{4}{}
+\fontspec_define_feature_option:nnnnn{Contextuals}{NoLineInitial}{8}{5}{}
+\fontspec_define_feature_option:nnnnn{Contextuals}{LineFinal}    {8}{6}{+falt}
+\fontspec_define_feature_option:nnnnn{Contextuals}{NoLineFinal}  {8}{7}{-falt}
+\fontspec_define_feature_option:nnnnn{Contextuals}{Inner}        {8}{8}{+medi}
+\fontspec_define_feature_option:nnnnn{Contextuals}{NoInner}      {8}{9}{-medi}
 %    \end{macrocode}
 %
 % \subsubsection{Diacritics}
 %    \begin{macrocode}
-\zf@define@font@feature{Diacritics}
-\zf@define@feature@option{Diacritics}{Show}        {9}{0}{}
-\zf@define@feature@option{Diacritics}{Hide}        {9}{1}{}
-\zf@define@feature@option{Diacritics}{Decompose}   {9}{2}{}
-\zf@define@feature@option{Diacritics}{MarkToBase}  {}{}{+mark}
-\zf@define@feature@option{Diacritics}{NoMarkToBase}{}{}{-mark}
-\zf@define@feature@option{Diacritics}{MarkToMark}  {}{}{+mkmk}
-\zf@define@feature@option{Diacritics}{NoMarkToMark}{}{}{-mkmk}
-\zf@define@feature@option{Diacritics}{AboveBase}   {}{}{+abvm}
-\zf@define@feature@option{Diacritics}{NoAboveBase} {}{}{-abvm}
-\zf@define@feature@option{Diacritics}{BelowBase}   {}{}{+blwm}
-\zf@define@feature@option{Diacritics}{NoBelowBase} {}{}{-blwm}
+\fontspec_define_font_feature:n{Diacritics}
+\fontspec_define_feature_option:nnnnn{Diacritics}{Show}        {9}{0}{}
+\fontspec_define_feature_option:nnnnn{Diacritics}{Hide}        {9}{1}{}
+\fontspec_define_feature_option:nnnnn{Diacritics}{Decompose}   {9}{2}{}
+\fontspec_define_feature_option:nnnnn{Diacritics}{MarkToBase}  {}{}{+mark}
+\fontspec_define_feature_option:nnnnn{Diacritics}{NoMarkToBase}{}{}{-mark}
+\fontspec_define_feature_option:nnnnn{Diacritics}{MarkToMark}  {}{}{+mkmk}
+\fontspec_define_feature_option:nnnnn{Diacritics}{NoMarkToMark}{}{}{-mkmk}
+\fontspec_define_feature_option:nnnnn{Diacritics}{AboveBase}   {}{}{+abvm}
+\fontspec_define_feature_option:nnnnn{Diacritics}{NoAboveBase} {}{}{-abvm}
+\fontspec_define_feature_option:nnnnn{Diacritics}{BelowBase}   {}{}{+blwm}
+\fontspec_define_feature_option:nnnnn{Diacritics}{NoBelowBase} {}{}{-blwm}
 %    \end{macrocode}
 %
 % \subsubsection{Kerning}
 %    \begin{macrocode}
-\zf@define@font@feature{Kerning}
-\zf@define@feature@option{Kerning}{Uppercase}{}{}{+cpsp}
-\zf@define@feature@option{Kerning}{On}       {}{}{+kern}
-\zf@define@feature@option{Kerning}{Off}      {}{}{-kern}
-%\zf@define@feature@option{Kerning}{Vertical}{}{}{+vkrn}
-%\zf@define@feature@option{Kerning}
+\fontspec_define_font_feature:n{Kerning}
+\fontspec_define_feature_option:nnnnn{Kerning}{Uppercase}{}{}{+cpsp}
+\fontspec_define_feature_option:nnnnn{Kerning}{On}       {}{}{+kern}
+\fontspec_define_feature_option:nnnnn{Kerning}{Off}      {}{}{-kern}
+%\fontspec_define_feature_option:nnnnn{Kerning}{Vertical}{}{}{+vkrn}
+%\fontspec_define_feature_option:nnnnn{Kerning}
 %    {VerticalAlternateProportional}{}{}{+vpal}
-%\zf@define@feature@option{Kerning}{VerticalAlternateHalfWidth}{}{}{+vhal}
+%\fontspec_define_feature_option:nnnnn{Kerning}{VerticalAlternateHalfWidth}{}{}{+vhal}
 %    \end{macrocode}
 %
 % \subsubsection{Vertical position}
 %    \begin{macrocode}
-\zf@define@font@feature{VerticalPosition}
-\zf@define@feature@option{VerticalPosition}{Normal}     {10}{0}{}
-\zf@define@feature@option{VerticalPosition}{Superior}   {10}{1}{+sups}
-\zf@define@feature@option{VerticalPosition}{Inferior}   {10}{2}{+subs}
-\zf@define@feature@option{VerticalPosition}{Ordinal}    {10}{3}{+ordn}
-\zf@define@feature@option{VerticalPosition}{Numerator}  {}  {} {+numr}
-\zf@define@feature@option{VerticalPosition}{Denominator}{}  {} {+dnom}
-\zf@define@feature@option{VerticalPosition}{ScientificInferior}{}{}{+sinf}
+\fontspec_define_font_feature:n{VerticalPosition}
+\fontspec_define_feature_option:nnnnn{VerticalPosition}{Normal}     {10}{0}{}
+\fontspec_define_feature_option:nnnnn{VerticalPosition}{Superior}   {10}{1}{+sups}
+\fontspec_define_feature_option:nnnnn{VerticalPosition}{Inferior}   {10}{2}{+subs}
+\fontspec_define_feature_option:nnnnn{VerticalPosition}{Ordinal}    {10}{3}{+ordn}
+\fontspec_define_feature_option:nnnnn{VerticalPosition}{Numerator}  {}  {} {+numr}
+\fontspec_define_feature_option:nnnnn{VerticalPosition}{Denominator}{}  {} {+dnom}
+\fontspec_define_feature_option:nnnnn{VerticalPosition}{ScientificInferior}{}{}{+sinf}
 %    \end{macrocode}
 %
 % \subsubsection{Fractions}
 %    \begin{macrocode}
-\zf@define@font@feature{Fractions}
-\zf@define@feature@option{Fractions}{On}       {11}{1}{+frac}
-\zf@define@feature@option{Fractions}{Off}      {11}{0}{-frac}
-\zf@define@feature@option{Fractions}{Diagonal} {11}{2}{}
-\zf@define@feature@option{Fractions}{Alternate}{}  {} {+afrc}
+\fontspec_define_font_feature:n{Fractions}
+\fontspec_define_feature_option:nnnnn{Fractions}{On}       {11}{1}{+frac}
+\fontspec_define_feature_option:nnnnn{Fractions}{Off}      {11}{0}{-frac}
+\fontspec_define_feature_option:nnnnn{Fractions}{Diagonal} {11}{2}{}
+\fontspec_define_feature_option:nnnnn{Fractions}{Alternate}{}  {} {+afrc}
 %    \end{macrocode}
 %
 % \subsubsection{Alternates and variants}
@@ -5230,59 +5230,59 @@ This work consists of this file fontspec.dtx
 %
 % \subsubsection{Style}
 %    \begin{macrocode}
-\zf@define@font@feature{Style}
-\zf@define@feature@option{Style}{Alternate}     {}  {} {+salt}
-\zf@define@feature@option{Style}{Italic}        {32}{2}{+ital}
-\zf@define@feature@option{Style}{Ruby}          {28}{2}{+ruby}
-\zf@define@feature@option{Style}{Swash}         {}  {} {+swsh}
-\zf@define@feature@option{Style}{Historic}      {}  {} {+hist}
-\zf@define@feature@option{Style}{Display}       {19}{1}{}
-\zf@define@feature@option{Style}{Engraved}      {19}{2}{}
-\zf@define@feature@option{Style}{TitlingCaps}   {19}{4}{+titl}
-\zf@define@feature@option{Style}{TallCaps}      {19}{5}{}
-\zf@define@feature@option{Style}{HorizontalKana}{}  {} {+hkna}
-\zf@define@feature@option{Style}{VerticalKana}  {}  {} {+vkna}
+\fontspec_define_font_feature:n{Style}
+\fontspec_define_feature_option:nnnnn{Style}{Alternate}     {}  {} {+salt}
+\fontspec_define_feature_option:nnnnn{Style}{Italic}        {32}{2}{+ital}
+\fontspec_define_feature_option:nnnnn{Style}{Ruby}          {28}{2}{+ruby}
+\fontspec_define_feature_option:nnnnn{Style}{Swash}         {}  {} {+swsh}
+\fontspec_define_feature_option:nnnnn{Style}{Historic}      {}  {} {+hist}
+\fontspec_define_feature_option:nnnnn{Style}{Display}       {19}{1}{}
+\fontspec_define_feature_option:nnnnn{Style}{Engraved}      {19}{2}{}
+\fontspec_define_feature_option:nnnnn{Style}{TitlingCaps}   {19}{4}{+titl}
+\fontspec_define_feature_option:nnnnn{Style}{TallCaps}      {19}{5}{}
+\fontspec_define_feature_option:nnnnn{Style}{HorizontalKana}{}  {} {+hkna}
+\fontspec_define_feature_option:nnnnn{Style}{VerticalKana}  {}  {} {+vkna}
 %    \end{macrocode}
 %
 % \subsubsection{CJK shape}
 %    \begin{macrocode}
-\zf@define@font@feature{CJKShape}
-\zf@define@feature@option{CJKShape}{Traditional}{20}{0} {+trad}
-\zf@define@feature@option{CJKShape}{Simplified} {20}{1} {+smpl}
-\zf@define@feature@option{CJKShape}{JIS1978}    {20}{2} {+jp78}
-\zf@define@feature@option{CJKShape}{JIS1983}    {20}{3} {+jp83}
-\zf@define@feature@option{CJKShape}{JIS1990}    {20}{4} {+jp90}
-\zf@define@feature@option{CJKShape}{Expert}     {20}{10}{+expt}
-\zf@define@feature@option{CJKShape}{NLC}        {20}{13}{+nlck}
+\fontspec_define_font_feature:n{CJKShape}
+\fontspec_define_feature_option:nnnnn{CJKShape}{Traditional}{20}{0} {+trad}
+\fontspec_define_feature_option:nnnnn{CJKShape}{Simplified} {20}{1} {+smpl}
+\fontspec_define_feature_option:nnnnn{CJKShape}{JIS1978}    {20}{2} {+jp78}
+\fontspec_define_feature_option:nnnnn{CJKShape}{JIS1983}    {20}{3} {+jp83}
+\fontspec_define_feature_option:nnnnn{CJKShape}{JIS1990}    {20}{4} {+jp90}
+\fontspec_define_feature_option:nnnnn{CJKShape}{Expert}     {20}{10}{+expt}
+\fontspec_define_feature_option:nnnnn{CJKShape}{NLC}        {20}{13}{+nlck}
 %    \end{macrocode}
 %
 % \subsubsection{Character width}
 %    \begin{macrocode}
-\zf@define@font@feature{CharacterWidth}
-\zf@define@feature@option{CharacterWidth}{Proportional}{22}{0}{+pwid}
-\zf@define@feature@option{CharacterWidth}{Full}{22}{1}{+fwid}
-\zf@define@feature@option{CharacterWidth}{Half}{22}{2}{+hwid}
-\zf@define@feature@option{CharacterWidth}{Third}{22}{3}{+twid}
-\zf@define@feature@option{CharacterWidth}{Quarter}{22}{4}{+qwid}
-\zf@define@feature@option{CharacterWidth}{AlternateProportional}{22}{5}{+palt}
-\zf@define@feature@option{CharacterWidth}{AlternateHalf}{22}{6}{+halt}
-\zf@define@feature@option{CharacterWidth}{Default}{22}{7}{}
+\fontspec_define_font_feature:n{CharacterWidth}
+\fontspec_define_feature_option:nnnnn{CharacterWidth}{Proportional}{22}{0}{+pwid}
+\fontspec_define_feature_option:nnnnn{CharacterWidth}{Full}{22}{1}{+fwid}
+\fontspec_define_feature_option:nnnnn{CharacterWidth}{Half}{22}{2}{+hwid}
+\fontspec_define_feature_option:nnnnn{CharacterWidth}{Third}{22}{3}{+twid}
+\fontspec_define_feature_option:nnnnn{CharacterWidth}{Quarter}{22}{4}{+qwid}
+\fontspec_define_feature_option:nnnnn{CharacterWidth}{AlternateProportional}{22}{5}{+palt}
+\fontspec_define_feature_option:nnnnn{CharacterWidth}{AlternateHalf}{22}{6}{+halt}
+\fontspec_define_feature_option:nnnnn{CharacterWidth}{Default}{22}{7}{}
 %    \end{macrocode}
 %
 % \subsubsection{Annotation}
 %    \begin{macrocode}
-\zf@define@feature@option{Annotation}{Off}{24}{0}{}
-\zf@define@feature@option{Annotation}{Box}{24}{1}{}
-\zf@define@feature@option{Annotation}{RoundedBox}{24}{2}{}
-\zf@define@feature@option{Annotation}{Circle}{24}{3}{}
-\zf@define@feature@option{Annotation}{BlackCircle}{24}{4}{}
-\zf@define@feature@option{Annotation}{Parenthesis}{24}{5}{}
-\zf@define@feature@option{Annotation}{Period}{24}{6}{}
-\zf@define@feature@option{Annotation}{RomanNumerals}{24}{7}{}
-\zf@define@feature@option{Annotation}{Diamond}{24}{8}{}
-\zf@define@feature@option{Annotation}{BlackSquare}{24}{9}{}
-\zf@define@feature@option{Annotation}{BlackRoundSquare}{24}{10}{}
-\zf@define@feature@option{Annotation}{DoubleCircle}{24}{11}{}
+\fontspec_define_feature_option:nnnnn{Annotation}{Off}{24}{0}{}
+\fontspec_define_feature_option:nnnnn{Annotation}{Box}{24}{1}{}
+\fontspec_define_feature_option:nnnnn{Annotation}{RoundedBox}{24}{2}{}
+\fontspec_define_feature_option:nnnnn{Annotation}{Circle}{24}{3}{}
+\fontspec_define_feature_option:nnnnn{Annotation}{BlackCircle}{24}{4}{}
+\fontspec_define_feature_option:nnnnn{Annotation}{Parenthesis}{24}{5}{}
+\fontspec_define_feature_option:nnnnn{Annotation}{Period}{24}{6}{}
+\fontspec_define_feature_option:nnnnn{Annotation}{RomanNumerals}{24}{7}{}
+\fontspec_define_feature_option:nnnnn{Annotation}{Diamond}{24}{8}{}
+\fontspec_define_feature_option:nnnnn{Annotation}{BlackSquare}{24}{9}{}
+\fontspec_define_feature_option:nnnnn{Annotation}{BlackRoundSquare}{24}{10}{}
+\fontspec_define_feature_option:nnnnn{Annotation}{DoubleCircle}{24}{11}{}
 %    \end{macrocode}
 %
 %    \begin{macrocode}
@@ -5304,7 +5304,7 @@ This work consists of this file fontspec.dtx
 %
 % \subsubsection{Vertical}
 %    \begin{macrocode}
-\zf@define@font@feature{Vertical}
+\fontspec_define_font_feature:n{Vertical}
 \define@key[zf@feat]{Vertical}{RotatedGlyphs}[]{
   \ifzf@icu
     \fontspec_make_feature:nnn{}{}{+vrt2}
@@ -5672,7 +5672,7 @@ This work consists of this file fontspec.dtx
 % can only define maths fonts in the preamble, otherwise I'd run this
 % code whenever \cs{setmainfont} and friends was run.
 %
-% \begin{macro}{\zf@math}
+% \begin{macro}{\fontspec_setup_maths:}
 % Everything here is performed \cs{AtBeginDocument} in order to
 % overwrite \pkg{euler}'s attempt. This means \pkg{fontspec} must be
 % loaded \emph{after} \pkg{euler}. We set up a conditional to return
@@ -5685,7 +5685,7 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \@ifpackageloaded{euler}{\zf@package@euler@loadedtrue}
                         {\zf@package@euler@loadedfalse}
-\def\zf@math{
+\cs_set:Nn \fontspec_setup_maths: {
   \@ifpackageloaded{euler}{
     \ifzf@package@euler@loaded
       \zf@math@eulertrue
@@ -5802,44 +5802,44 @@ This work consists of this file fontspec.dtx
   \fi
 %    \end{macrocode}
 % Finally, we change the font definitions for \cmd\mathrm\ and so
-% on. These are defined using the \cmd\zf@rmmaths\ (\dots) macros,
+% on. These are defined using the \cmd\g_fontspec_mathrm_tl\ (\dots) macros,
 % which default to \cmd\rmdefault\ but may be specified with the
 % \cmd\setmathrm\ (\dots) commands in the preamble.
 %
 % Since \LaTeX\ only generally defines one level of boldness, we omit
 % \cmd\mathbf\ in the \textsf{bold} maths series. It can be specified
 % as per usual with \cmd\setboldmathrm, which stores the appropriate
-% family name in \cmd\zf@rmboldmaths.
+% family name in \cmd\g_fontspec_bfmathrm_tl.
 %    \begin{macrocode}
-  \DeclareSymbolFont{operators}\zf@enc\zf@rmmaths\mddefault\updefault
-  \SetSymbolFont{operators}{normal}\zf@enc\zf@rmmaths\mddefault\updefault
-  \SetMathAlphabet\mathrm{normal}\zf@enc\zf@rmmaths\mddefault\updefault
-  \SetMathAlphabet\mathit{normal}\zf@enc\zf@rmmaths\mddefault\itdefault
-  \SetMathAlphabet\mathbf{normal}\zf@enc\zf@rmmaths\bfdefault\updefault
-  \SetMathAlphabet\mathsf{normal}\zf@enc\zf@sfmaths\mddefault\updefault
-  \SetMathAlphabet\mathtt{normal}\zf@enc\zf@ttmaths\mddefault\updefault
-  \SetSymbolFont{operators}{bold}\zf@enc\zf@rmmaths\bfdefault\updefault
-  \ifdefined\zf@rmboldmaths
-    \SetMathAlphabet\mathrm{bold}\zf@enc\zf@rmboldmaths\mddefault\updefault
-    \SetMathAlphabet\mathbf{bold}\zf@enc\zf@rmboldmaths\bfdefault\updefault
-    \SetMathAlphabet\mathit{bold}\zf@enc\zf@rmboldmaths\mddefault\itdefault
+  \DeclareSymbolFont{operators}\zf@enc\g_fontspec_mathrm_tl\mddefault\updefault
+  \SetSymbolFont{operators}{normal}\zf@enc\g_fontspec_mathrm_tl\mddefault\updefault
+  \SetMathAlphabet\mathrm{normal}\zf@enc\g_fontspec_mathrm_tl\mddefault\updefault
+  \SetMathAlphabet\mathit{normal}\zf@enc\g_fontspec_mathrm_tl\mddefault\itdefault
+  \SetMathAlphabet\mathbf{normal}\zf@enc\g_fontspec_mathrm_tl\bfdefault\updefault
+  \SetMathAlphabet\mathsf{normal}\zf@enc\g_fontspec_mathsf_tl\mddefault\updefault
+  \SetMathAlphabet\mathtt{normal}\zf@enc\g_fontspec_mathtt_tl\mddefault\updefault
+  \SetSymbolFont{operators}{bold}\zf@enc\g_fontspec_mathrm_tl\bfdefault\updefault
+  \ifdefined\g_fontspec_bfmathrm_tl
+    \SetMathAlphabet\mathrm{bold}\zf@enc\g_fontspec_bfmathrm_tl\mddefault\updefault
+    \SetMathAlphabet\mathbf{bold}\zf@enc\g_fontspec_bfmathrm_tl\bfdefault\updefault
+    \SetMathAlphabet\mathit{bold}\zf@enc\g_fontspec_bfmathrm_tl\mddefault\itdefault
   \else
-    \SetMathAlphabet\mathrm{bold}\zf@enc\zf@rmmaths\bfdefault\updefault
-    \SetMathAlphabet\mathit{bold}\zf@enc\zf@rmmaths\bfdefault\itdefault
+    \SetMathAlphabet\mathrm{bold}\zf@enc\g_fontspec_mathrm_tl\bfdefault\updefault
+    \SetMathAlphabet\mathit{bold}\zf@enc\g_fontspec_mathrm_tl\bfdefault\itdefault
   \fi
-  \SetMathAlphabet\mathsf{bold}\zf@enc\zf@sfmaths\bfdefault\updefault
-  \SetMathAlphabet\mathtt{bold}\zf@enc\zf@ttmaths\bfdefault\updefault
+  \SetMathAlphabet\mathsf{bold}\zf@enc\g_fontspec_mathsf_tl\bfdefault\updefault
+  \SetMathAlphabet\mathtt{bold}\zf@enc\g_fontspec_mathtt_tl\bfdefault\updefault
 }
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\zf@math@maybe}
-% We're a little less sophisticated about not executing the \cmd\zf@maths\ macro if various other maths font packages are loaded. This list is based on the wonderful `\LaTeX Font Catalogue': \url{http://www.tug.dk/FontCatalogue/mathfonts.html}. I'm sure there are more I've missed. Do the \TeX\ Gyre fonts have maths support yet?
+% \begin{macro}{\fontspec_maybe_setup_maths:}
+% We're a little less sophisticated about not executing the maths setup if various other maths font packages are loaded. This list is based on the wonderful `\LaTeX Font Catalogue': \url{http://www.tug.dk/FontCatalogue/mathfonts.html}. I'm sure there are more I've missed. Do the \TeX\ Gyre fonts have maths support yet?
 %
 % Untested: would |\unless\ifnum\Gamma=28672\relax\@zf@mathfalse\fi| be a better test?
 % This needs more cooperation with euler and lucida, I think.
 %    \begin{macrocode}
-\def\zf@math@maybe{
+\cs_new:Nn \fontspec_maybe_setup_maths: {
   \@ifpackageloaded{anttor}{
     \ifx\define@antt@mathversions a\@zf@mathfalse\fi}{}
   \@ifpackageloaded{arev}{\@zf@mathfalse}{}
@@ -5865,10 +5865,10 @@ This work consists of this file fontspec.dtx
   \@ifpackageloaded{breqn}{\@zf@mathfalse}{}
   \if@zf@math
     \fontspec_info:n {setup-math}
-    \zf@math
+    \fontspec_setup_maths:
   \fi
 }
-\AtBeginDocument{\zf@math@maybe}
+\AtBeginDocument{\fontspec_maybe_setup_maths:}
 %    \end{macrocode}
 % \end{macro}
 %

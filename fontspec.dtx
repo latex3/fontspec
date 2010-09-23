@@ -3167,17 +3167,17 @@ This work consists of this file fontspec.dtx
 % feature (|#1|,|#2|).
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \fontspec_if_aat_feature:nn {TF,T,F} {
-  \ifcsname zf@family@fontdef\f@family\endcsname
+  \fontspec_if_fontspec_font:TF {
     \font_set:Nnn \zf@basefont {\use:c{zf@family@fontdef\f@family}} {\f@size pt}
     \ifzf@atsui
-      \fontspec_make_AAT_feature_string:nn{#1}{#2}
-      \tl_if_empty:NTF \@tempa \prg_return_false: \prg_return_true:
+      \fontspec_make_AAT_feature_string:nnTF {#1}{#2}
+        \prg_return_true: \prg_return_false:
     \else
       \prg_return_false:
     \fi
-  \else
+  }{
     \prg_return_false:
-  \fi
+  }
 }
 %    \end{macrocode}
 % \end{macro}
@@ -3188,7 +3188,7 @@ This work consists of this file fontspec.dtx
 % Always true for LuaTeX fonts.
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \fontspec_if_opentype: {TF,T,F} {
-  \ifcsname zf@family@fontdef\f@family\endcsname
+  \fontspec_if_fontspec_font:TF {
     \font_set:Nnn \zf@basefont {\csname zf@family@fontdef\f@family\endcsname} {\f@size pt}
     \fontspec_set_font_type:
     \ifzf@icu
@@ -3196,9 +3196,9 @@ This work consists of this file fontspec.dtx
     \else
       \prg_return_false:
     \fi
-  \else
+  }{
     \prg_return_false:
-  \fi
+  }
 }
 %    \end{macrocode}
 % \end{macro}
@@ -3210,7 +3210,7 @@ This work consists of this file fontspec.dtx
 % font.
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \fontspec_if_feature:n {TF,T,F} {
-  \ifcsname zf@family@fontdef\f@family\endcsname
+  \fontspec_if_fontspec_font:TF {
     \font_set:Nnn \zf@basefont {\csname zf@family@fontdef\f@family\endcsname} {\f@size pt}
     \fontspec_set_font_type:
     \ifzf@icu
@@ -3222,9 +3222,9 @@ This work consists of this file fontspec.dtx
     \else
       \prg_return_false:
     \fi
-  \else
+  }{
     \prg_return_false:
-  \fi
+  }
 }
 %    \end{macrocode}
 % \end{macro}
@@ -3235,7 +3235,7 @@ This work consists of this file fontspec.dtx
 % font.
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \fontspec_if_feature:nnn {TF,T,F} {
-  \ifcsname zf@family@fontdef\f@family\endcsname
+  \fontspec_if_fontspec_font:TF {
     \font_set:Nnn \zf@basefont {\csname zf@family@fontdef\f@family\endcsname} {\f@size pt}
     \fontspec_set_font_type:
     \ifzf@icu
@@ -3245,9 +3245,9 @@ This work consists of this file fontspec.dtx
     \else
       \prg_return_false:
     \fi
-  \else
+  }{
     \prg_return_false:
-  \fi
+  }
 }
 %    \end{macrocode}
 % \end{macro}
@@ -3259,7 +3259,7 @@ This work consists of this file fontspec.dtx
 % font.
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \fontspec_if_script:n {TF,T,F} {
-  \ifcsname zf@family@fontdef\f@family\endcsname
+  \fontspec_if_fontspec_font:TF {
     \font_set:Nnn \zf@basefont {\csname zf@family@fontdef\f@family\endcsname} {\f@size pt}
     \fontspec_set_font_type:
     \ifzf@icu
@@ -3267,9 +3267,9 @@ This work consists of this file fontspec.dtx
     \else
       \prg_return_false:
     \fi
-  \else
+  }{
     \prg_return_false:
-  \fi
+  }
 }
 %    \end{macrocode}
 % \end{macro}
@@ -3281,7 +3281,7 @@ This work consists of this file fontspec.dtx
 % font.
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \fontspec_if_language:n {TF,T,F} {
-  \ifcsname zf@family@fontdef\f@family\endcsname
+  \fontspec_if_fontspec_font:TF {
     \font_set:Nnn \zf@basefont {\csname zf@family@fontdef\f@family\endcsname} {\f@size pt}
     \fontspec_set_font_type:
     \ifzf@icu
@@ -3291,9 +3291,9 @@ This work consists of this file fontspec.dtx
     \else
       \prg_return_false:
     \fi
-  \else
+  }{
     \prg_return_false:
-  \fi
+  }
 }
 %    \end{macrocode}
 % \end{macro}
@@ -3305,7 +3305,7 @@ This work consists of this file fontspec.dtx
 % font.
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \fontspec_if_language:nn {TF,T,F} {
-  \ifcsname zf@family@fontdef\f@family\endcsname
+  \fontspec_if_fontspec_font:TF {
     \font_set:Nnn \zf@basefont {\csname zf@family@fontdef\f@family\endcsname} {\f@size pt}
     \fontspec_set_font_type:
     \ifzf@icu
@@ -3315,9 +3315,9 @@ This work consists of this file fontspec.dtx
     \else
       \prg_return_false:
     \fi
-  \else
+  }{
     \prg_return_false:
-  \fi
+  }
 }
 %    \end{macrocode}
 % \end{macro}
@@ -3328,7 +3328,7 @@ This work consists of this file fontspec.dtx
 % OpenType script tag |#1|.
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \fontspec_if_current_script:n {TF,T,F} {
-  \ifcsname zf@family@fontdef\f@family\endcsname
+  \fontspec_if_fontspec_font:TF {
     \font_set:Nnn \zf@basefont {\csname zf@family@fontdef\f@family\endcsname} {\f@size pt}
     \fontspec_set_font_type:
     \ifzf@icu
@@ -3337,9 +3337,9 @@ This work consists of this file fontspec.dtx
     \else
       \prg_return_false:
     \fi
-  \else
+  }{
     \prg_return_false:
-  \fi
+  }
 }
 %    \end{macrocode}
 % \end{macro}
@@ -3349,7 +3349,7 @@ This work consists of this file fontspec.dtx
 % OpenType language tag |#1|.
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \fontspec_if_current_language:n {TF,T,F} {
-  \ifcsname zf@family@fontdef\f@family\endcsname
+  \fontspec_if_fontspec_font:TF {
     \font_set:Nnn \zf@basefont {\csname zf@family@fontdef\f@family\endcsname} {\f@size pt}
     \fontspec_set_font_type:
     \ifzf@icu
@@ -3358,9 +3358,9 @@ This work consists of this file fontspec.dtx
     \else
       \prg_return_false:
     \fi
-  \else
+  }{
     \prg_return_false:
-  \fi
+  }
 }
 %    \end{macrocode}
 % \end{macro}

@@ -2544,7 +2544,7 @@ This work consists of this file fontspec.dtx
  }
 %    \end{macrocode}
 %
-% \subsection{Error/warning messages}
+% \subsection{Error/warning/info messages}
 %
 % Shorthands for messages:
 %    \begin{macrocode}
@@ -2625,7 +2625,8 @@ This work consists of this file fontspec.dtx
 }
 \msg_new:nnn {fontspec} {script-not-exist}
 {
-  Font~ '\l_fontspec_fontname_tl'~ does~ not~ contain~ script~ '#1'.
+  Font~ '\l_fontspec_fontname_tl'~ does~ not~ contain~ script~ '#1'.\\
+  'Latin'~ script~ used~ instead.
 }
 \msg_new:nnn {fontspec} {aat-feature-not-exist}
 {
@@ -2655,8 +2656,9 @@ This work consists of this file fontspec.dtx
 \msg_new:nnn {fontspec} {language-not-exist}
 {
   Language~ '#1'~ not~ available\\
-  for~ font~ '\l_fontspec_fontname_tl'\\
-  with~ script~ '\l_fontspec_script_name_tl'.
+  for~ font~ '\l_fontspec_fontname_tl'~
+  with~ script~ '\l_fontspec_script_name_tl'.\\
+  'Default'~ language~ used~ instead.
 }
 \msg_new:nnn {fontspec} {only-xetex-feature}
 {
@@ -2685,6 +2687,22 @@ This work consists of this file fontspec.dtx
 \msg_new:nnn {fontspec} {defining-font}
 {
   Defining~ font~ family~ for~ '#2'~ with~ options~ [\g_fontspec_default_fontopts_tl #1].
+}
+\msg_new:nnn {fontspec} {defining-raw}
+{
+  Defining~ shape~
+  '\prg_case_str:nnn {#1} {
+    {\mddefault/\updefault} {normal}
+    {\mddefault/\scdefault} {small~ caps}
+    {\bfdefault/\updefault} {bold}
+    {\bfdefault/\scdefault} {bold~ small~ caps}
+    {\mddefault/\itdefault} {italic}
+    {\mddefault/\sidefault} {italic~ small~ caps}
+    {\bfdefault/\itdefault} {bold~ italic}
+    {\bfdefault/\sidefault} {bold~ italic~ small~ caps}
+  } {#1}'~
+  with~ NFSS~ specification: \\
+  \l_fontspec_nfss_tl
 }
 \msg_new:nnn {fontspec} {no-font-shape}
 {
@@ -3931,10 +3949,7 @@ This work consists of this file fontspec.dtx
 % \cmd\l_fontspec_postadjust_tl\ is defined in various places to deal with things like the hyphenation
 % character and interword spacing.
 %    \begin{macrocode}
-  \PackageInfo{fontspec}{
-    Defining~ shape~ #2/#3~ with~ raw~ font~ features:
-    \MessageBreak \l_fontspec_rawfeatures_sclist
-  \@gobble}
+  \fontspec_info:nx {defining-raw} {#2/#3}
   \use:x{
     \exp_not:N\DeclareFontShape{\zf@enc}{\zf@family}{#2}{#3}
       {\l_fontspec_nfss_tl}{\l_fontspec_postadjust_tl}

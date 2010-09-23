@@ -2952,7 +2952,7 @@ This work consists of this file fontspec.dtx
 %   \cs{zf@get@feature@requests} macro.
 %    \begin{macrocode}
 \DeclareDocumentCommand \defaultfontfeatures {m} {\def\zf@default@options{#1,}}
-\let\zf@default@options\@empty
+\tl_clear:N \zf@default@options
 %    \end{macrocode}
 % \end{macro}
 %
@@ -2981,7 +2981,7 @@ This work consists of this file fontspec.dtx
 \DeclareDocumentCommand \addfontfeatures {m} {
   \ifcsname zf@family@fontdef\f@family\endcsname
     \begingroup
-      \let\zf@default@options\@empty
+      \tl_clear:N \zf@default@options
       \use:x {
         \exp_not:N\fontspec_select:nn
           {\csname zf@family@options\f@family\endcsname,#1}
@@ -2994,7 +2994,7 @@ This work consists of this file fontspec.dtx
   \fi
   \ignorespaces
 }
-\let\addfontfeature\addfontfeatures
+\cs_set_eq:NN \addfontfeature \addfontfeatures
 %    \end{macrocode}
 % \end{macro}
 %
@@ -3417,6 +3417,7 @@ This work consists of this file fontspec.dtx
 %
 % Beginnings of an `l3font', I guess:
 %    \begin{macrocode}
+\cs_set_eq:NN \font_set_eq:NN \tex_let:D
 \cs_new:Npn \font_set:Nnn #1#2#3 {
   \font #1 = \fontspec_fontwrap:n {#2} ~at~#3\scan_stop:
 }
@@ -3458,8 +3459,8 @@ This work consists of this file fontspec.dtx
   \luatex_if_engine:T {
     \tl_replace_all_in:Nnn \zf@fontname {~} {}
   }
-  \let\l_fontspec_fontid_tl\zf@fontname
-  \let\zf@up\zf@fontname
+  \tl_set_eq:NN \l_fontspec_fontid_tl \zf@fontname
+  \tl_set_eq:NN \zf@up \zf@fontname
 %    \end{macrocode}
 % Now convert the requested features to font definition
 % strings. First the features are parsed for information about font
@@ -3529,9 +3530,9 @@ This work consists of this file fontspec.dtx
 % the name of the upright font (\cmd{\zf@up}), this latter is the new `general
 % font name' to use.
 %    \begin{macrocode}
-  \let\zf@fontname\zf@up
+  \tl_set_eq:NN \zf@fontname \zf@up
   \fontspec_setkeys:xx {preparse} {\XKV@rm}
-  \let\zf@font@feat\XKV@rm
+  \clist_set_eq:NN \zf@font@feat \XKV@rm
 %    \end{macrocode}
 % Finally save the `confirmed' font definition.
 %    \begin{macrocode}
@@ -3850,7 +3851,7 @@ This work consists of this file fontspec.dtx
       \fontspec_info:nx {no-font-shape} {#1#2}
     \else
       \edef\zf@fontname{#1#2}
-      \let\zf@basefont\@tempfontb
+      \font_set_eq:NN \zf@basefont \@tempfontb
       \fontspec_declare_shape:nnnn {}{#3}{#4}{#5}
 %    \end{macrocode}
 % Next, the small caps are defined. \cs{zf@make@smallcaps} is used to
@@ -3926,7 +3927,7 @@ This work consists of this file fontspec.dtx
   }
 %    \end{macrocode}
 % And finally the actual font shape declaration using \cmd\l_fontspec_nfss_tl\ defined above.
-% \cmd\zf@adjust\ is defined in various places to deal with things like the hyphenation
+% \cmd\l_fontspec_postadjust_tl\ is defined in various places to deal with things like the hyphenation
 % character and interword spacing.
 %    \begin{macrocode}
   \PackageInfo{fontspec}{
@@ -3935,7 +3936,7 @@ This work consists of this file fontspec.dtx
   \@gobble}
   \use:x{
     \exp_not:N\DeclareFontShape{\zf@enc}{\zf@family}{#2}{#3}
-      {\l_fontspec_nfss_tl}{\zf@adjust}
+      {\l_fontspec_nfss_tl}{\l_fontspec_postadjust_tl}
   }
 %    \end{macrocode}
 % This extra stuff for the slanted shape substitution is a little bit awkward,
@@ -3946,7 +3947,7 @@ This work consists of this file fontspec.dtx
   {
     \use:x {
       \exp_not:N \DeclareFontShape {\zf@enc}{\zf@family}{#2}{\sldefault}
-        {<->ssub*\zf@family/#2/\itdefault}{\zf@adjust}
+        {<->ssub*\zf@family/#2/\itdefault}{\l_fontspec_postadjust_tl}
     }
   }
 }
@@ -4010,7 +4011,7 @@ This work consists of this file fontspec.dtx
   \tl_clear:N \l_fontspec_scale_tl
   \tl_set_eq:NN \l_fontspec_opacity_tl \g_fontspec_opacity_tl
   \tl_set_eq:NN \l_fontspec_hexcol_tl \g_fontspec_hexcol_tl
-  \let\zf@adjust \@empty
+  \tl_clear:N \l_fontspec_postadjust_tl
   \fontspec_setkeys:xx {options} {#1}
   \tl_if_empty:NF \XKV@rm {
     \fontspec_error:nx {unknown-options} { \exp_not:V \XKV@rm }
@@ -4084,7 +4085,7 @@ This work consists of this file fontspec.dtx
 % creates the string for accessing them in \cmd{\zf@smallcaps}.
 %    \begin{macrocode}
 \newcommand*\zf@make@smallcaps{
-  \let\zf@smallcaps\@empty
+  \tl_clear:N \zf@smallcaps
   \xetex_or_luatex:nn
   {
     \ifzf@atsui
@@ -4285,7 +4286,7 @@ This work consists of this file fontspec.dtx
     \unless\ifx\@tempb\@empty
       \edef\@tempa{\@tempa=\@tempb}
     \else
-      \let\@tempa\@empty
+      \tl_clear:N \@tempa
     \fi
   \fi
 }
@@ -4778,8 +4779,8 @@ This work consists of this file fontspec.dtx
     \setlength\@tempdimb{#2\fontdimen3\zf@basefont}
     \setlength\@tempdimc{#3\fontdimen4\zf@basefont}
   \fi
-  \edef\zf@adjust{
-    \zf@adjust
+  \edef\l_fontspec_postadjust_tl{
+    \l_fontspec_postadjust_tl
     \fontdimen2\font\the\@tempdima
     \fontdimen3\font\the\@tempdimb
     \fontdimen4\font\the\@tempdimc
@@ -4794,7 +4795,7 @@ This work consists of this file fontspec.dtx
 \define@key[zf]{options}{PunctuationSpace}{
   \fontspec_update_fontid:n {+punctspace:#1}
   \setlength\@tempdima{#1\fontdimen7\zf@basefont}
-  \edef\zf@adjust{\zf@adjust\fontdimen7\font\the\@tempdima}
+  \edef\l_fontspec_postadjust_tl{\l_fontspec_postadjust_tl\fontdimen7\font\the\@tempdima}
 }
 %    \end{macrocode}
 %
@@ -4816,7 +4817,7 @@ This work consists of this file fontspec.dtx
   \fontspec_update_fontid:n {+hyphenchar:#1}
   \str_if_eq:nnTF {#1} {None}
   {
-    \tl_put_right:Nn \zf@adjust { \hyphenchar \font = \c_minus_one }
+    \tl_put_right:Nn \l_fontspec_postadjust_tl { \hyphenchar \font = \c_minus_one }
   }
   {
     \tl_if_single:nTF {#1}
@@ -4824,7 +4825,7 @@ This work consists of this file fontspec.dtx
       { \tl_set:Nn \l_fontspec_hyphenchar_tl { #1} }
     \fontspec_glyph_if_exist:NnTF \zf@basefont {\l_fontspec_hyphenchar_tl}
     {
-      \xetex_or_luatex:nnn { \tl_put_right:Nn \zf@adjust }
+      \xetex_or_luatex:nnn { \tl_put_right:Nn \l_fontspec_postadjust_tl }
         { \hyphenchar \font = \l_fontspec_hyphenchar_tl \scan_stop: }
         {
           \hyphenchar \font = \c_zero
@@ -5669,8 +5670,8 @@ This work consists of this file fontspec.dtx
 \@ifpackageloaded{euler}{\zf@package@euler@loadedtrue}
                         {\zf@package@euler@loadedfalse}
 \def\zf@math{
-  \let\zf@font@warning\@font@warning
-  \let\@font@warning\@font@info
+  \cs_set_eq:NN \zf@font@warning \@font@warning
+  \cs_set_eq:NN \@font@warning \@font@info
   \@ifpackageloaded{euler}{
     \ifzf@package@euler@loaded
       \zf@math@eulertrue
@@ -5735,7 +5736,6 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
   \begingroup
     \mathchardef\@tempa="603A \relax
-    \let\next\egroup
     \ifx\colon\@tempa
       \DeclareMathSymbol{\colon}{\mathpunct}{legacymaths}{58}
     \fi
@@ -5815,7 +5815,8 @@ This work consists of this file fontspec.dtx
   \fi
   \SetMathAlphabet\mathsf{bold}\zf@enc\zf@sfmaths\bfdefault\updefault
   \SetMathAlphabet\mathtt{bold}\zf@enc\zf@ttmaths\bfdefault\updefault
-  \let\font@warning\zf@font@warning}
+  \cs_set_eq:NN \font@warning \zf@font@warning
+}
 %    \end{macrocode}
 % \end{macro}
 %
@@ -6046,8 +6047,8 @@ end
   }
 }
 \DeclareTextFontCommand{\emph}{\em}
-\let\emshape\itshape
-\let\eminnershape\upshape
+\cs_set_eq:NN \emshape \itshape
+\cs_set_eq:NN \eminnershape \upshape
 %    \end{macrocode}
 % \end{macro} \end{macro}
 % \end{macro} \end{macro}

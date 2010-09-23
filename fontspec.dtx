@@ -5626,21 +5626,20 @@ This work consists of this file fontspec.dtx
 \DeclareTextFontCommand{\textsi}{\sishape}
 %    \end{macrocode}
 % \end{macro} \end{macro}
-% \begin{macro}{\zf@merge@shape}
+% \begin{macro}{\fontspec_blend_shape:nnn}
 %   This is the macro which enables the overload on the |\..shape|
 %   commands. It takes three such arguments. In essence, the macro
 %   selects the first argument, unless the second argument is already
 %   selected, in which case it selects the third.
 %    \begin{macrocode}
-\newcommand*{\zf@merge@shape}[3]{
-  \edef\@tempa{#1}
-  \edef\@tempb{#2}
-  \ifx\f@shape\@tempb
-    \ifcsname\f@encoding/\f@family/\f@series/#3\endcsname
-      \edef\@tempa{#3}
-    \fi
-  \fi
-  \fontshape{\@tempa}\selectfont
+\cs_new:Nn \fontspec_blend_shape:nnn {
+  \bool_if:nTF
+  {
+    \str_if_eq_p:xx {\f@shape} {#2} &&
+    \cs_if_exist_p:n {\f@encoding/\f@family/\f@series/#3}
+  }
+  { \fontshape{#3}\selectfont }
+  { \fontshape{#1}\selectfont }
 }
 %    \end{macrocode}
 % \end{macro}
@@ -5650,19 +5649,19 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \DeclareRobustCommand \itshape {
   \not@math@alphabet\itshape\mathit
-  \zf@merge@shape\itdefault\scdefault\sidefault
+  \fontspec_blend_shape:nnn\itdefault\scdefault\sidefault
 }
 \DeclareRobustCommand \slshape {
   \not@math@alphabet\slshape\relax
-  \zf@merge@shape\sldefault\scdefault\sidefault
+  \fontspec_blend_shape:nnn\sldefault\scdefault\sidefault
 }
 \DeclareRobustCommand \scshape {
   \not@math@alphabet\scshape\relax
-  \zf@merge@shape\scdefault\itdefault\sidefault
+  \fontspec_blend_shape:nnn\scdefault\itdefault\sidefault
 }
 \DeclareRobustCommand \upshape {
   \not@math@alphabet\upshape\relax
-  \zf@merge@shape\updefault\sidefault\scdefault
+  \fontspec_blend_shape:nnn\updefault\sidefault\scdefault
 }
 %    \end{macrocode}
 % \end{macro} \end{macro} \end{macro}

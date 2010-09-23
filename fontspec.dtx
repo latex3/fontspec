@@ -3681,11 +3681,11 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \cs_new:Npn \fontspec_set_bold: {
   \unless\ifzf@nobf
-    \ifx\zf@bf\@empty
+    \ifx\l_fontspec_fontname_bf_tl\@empty
       \fontspec_make_font_shapes:nnnnn \l_fontspec_fontname_tl {/B}
         \bfdefault \updefault \l_fontspec_fontfeat_bf_clist
     \else
-      \fontspec_make_font_shapes:nnnn \zf@bf
+      \fontspec_make_font_shapes:nnnn \l_fontspec_fontname_bf_tl
         \bfdefault \updefault \l_fontspec_fontfeat_bf_clist
     \fi
   \fi
@@ -3698,11 +3698,11 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \cs_new:Npn \fontspec_set_italic: {
   \unless\ifzf@noit
-    \ifx\zf@it\@empty
+    \ifx\l_fontspec_fontname_it_tl\@empty
       \fontspec_make_font_shapes:nnnnn \l_fontspec_fontname_tl {/I}
         \mddefault \itdefault \l_fontspec_fontfeat_it_clist
     \else
-      \fontspec_make_font_shapes:nnnn \zf@it
+      \fontspec_make_font_shapes:nnnn \l_fontspec_fontname_it_tl
         \mddefault \itdefault \l_fontspec_fontfeat_it_clist
     \fi
   \fi
@@ -3714,9 +3714,9 @@ This work consists of this file fontspec.dtx
 % And slanted but only if requested:
 %    \begin{macrocode}
 \cs_new:Npn \fontspec_set_slanted: {
-  \ifx\zf@sl\@empty\else
+  \ifx\l_fontspec_fontname_sl_tl\@empty\else
     \fontspec_make_font_shapes:nnnn
-      \zf@sl \mddefault \sldefault \l_fontspec_fontfeat_sl_clist
+      \l_fontspec_fontname_sl_tl \mddefault \sldefault \l_fontspec_fontfeat_sl_clist
   \fi
 }
 %    \end{macrocode}
@@ -3735,21 +3735,21 @@ This work consists of this file fontspec.dtx
   \ifzf@noit\@tempswafalse\fi
   \bool_if:NT \l_fontspec_external_bool \@tempswafalse
   \if@tempswa
-    \ifx\zf@bfit\@empty
-      \ifx\zf@bf\@empty
-        \ifx\zf@it\@empty
+    \ifx\l_fontspec_fontname_bf_tlit\@empty
+      \ifx\l_fontspec_fontname_bf_tl\@empty
+        \ifx\l_fontspec_fontname_it_tl\@empty
           \fontspec_make_font_shapes:nnnnn \l_fontspec_fontname_tl {/BI}
              \bfdefault \itdefault \l_fontspec_fontfeat_bfit_clist
         \else
-          \fontspec_make_font_shapes:nnnnn \zf@it {/B}
+          \fontspec_make_font_shapes:nnnnn \l_fontspec_fontname_it_tl {/B}
              \bfdefault \itdefault \l_fontspec_fontfeat_bfit_clist
         \fi
       \else
-        \fontspec_make_font_shapes:nnnnn \zf@bf {/I}
+        \fontspec_make_font_shapes:nnnnn \l_fontspec_fontname_bf_tl {/I}
            \bfdefault \itdefault \l_fontspec_fontfeat_bfit_clist
       \fi
     \else
-      \fontspec_make_font_shapes:nnnn \zf@bfit
+      \fontspec_make_font_shapes:nnnn \l_fontspec_fontname_bf_tlit
          \bfdefault \itdefault \l_fontspec_fontfeat_bfit_clist
     \fi
   \fi
@@ -3761,13 +3761,13 @@ This work consists of this file fontspec.dtx
 % And bold slanted, again, only if requested:
 %    \begin{macrocode}
 \cs_new:Npn \fontspec_set_bold_slanted: {
-  \ifx\zf@bfsl\@empty
-    \ifx\zf@sl\@empty\else
-      \fontspec_make_font_shapes:nnnnn \zf@sl {/B}
+  \ifx\l_fontspec_fontname_bf_tlsl\@empty
+    \ifx\l_fontspec_fontname_sl_tl\@empty\else
+      \fontspec_make_font_shapes:nnnnn \l_fontspec_fontname_sl_tl {/B}
          \bfdefault \sldefault \l_fontspec_fontfeat_bfsl_clist
     \fi
   \else
-    \fontspec_make_font_shapes:nnnn \zf@bfsl
+    \fontspec_make_font_shapes:nnnn \l_fontspec_fontname_bf_tlsl
       \bfdefault \sldefault \l_fontspec_fontfeat_bfsl_clist
   \fi
 }
@@ -3862,7 +3862,7 @@ This work consists of this file fontspec.dtx
     \tl_set:Nx \l_fontspec_fontname_tl {#1}
     \font_set:Nnn \zf@basefont {\fontspec_fullname:n {#1}} {\f@size pt}
     \fontspec_declare_shape:nnnn {}{#2}{#3}{#4}
-    \ifx\zf@sc\@empty
+    \ifx\l_fontspec_fontname_sc_tl\@empty
       \unless\ifzf@nosc
         \fontspec_make_smallcaps:
         \unless\ifx\zf@smallcaps\@empty
@@ -3871,7 +3871,7 @@ This work consists of this file fontspec.dtx
         \fi
       \fi
     \else
-      \tl_set:Nx \l_fontspec_fontname_tl {\zf@sc}
+      \tl_set:Nx \l_fontspec_fontname_tl {\l_fontspec_fontname_sc_tl}
       \fontspec_declare_shape:nnnn {}{#2}
         {\ifx#3\itdefault\sidefault\else\scdefault\fi}{#4\l_fontspec_fontfeat_sc_clist}
     \fi
@@ -4038,14 +4038,14 @@ This work consists of this file fontspec.dtx
 % Initialisations that either need to occur globally:
 % (all setting of these variables is done locally inside a group)
 %    \begin{macrocode}
-\tl_clear:N \zf@bf
-\tl_clear:N \zf@it
-\tl_clear:N \zf@fake@slant
-\tl_clear:N \zf@fake@embolden
-\tl_clear:N \zf@bfit
-\tl_clear:N \zf@sl
-\tl_clear:N \zf@bfsl
-\tl_clear:N \zf@sc
+\tl_clear:N \l_fontspec_fontname_bf_tl
+\tl_clear:N \l_fontspec_fontname_it_tl
+\tl_clear:N \l_fontspec_fake_slant_tl
+\tl_clear:N \l_fontspec_fake_embolden_tl
+\tl_clear:N \l_fontspec_fontname_bf_tlit
+\tl_clear:N \l_fontspec_fontname_sl_tl
+\tl_clear:N \l_fontspec_fontname_bf_tlsl
+\tl_clear:N \l_fontspec_fontname_sc_tl
 \tl_clear:N \l_fontspec_fontfeat_up_clist
 \tl_clear:N \l_fontspec_fontfeat_bf_clist
 \tl_clear:N \l_fontspec_fontfeat_it_clist
@@ -4573,7 +4573,7 @@ This work consists of this file fontspec.dtx
     \fontspec_update_fontid:n {nobf}
   \else
     \zf@nobffalse
-    \fontspec_complete_fontname:Nn \zf@bf {#1}
+    \fontspec_complete_fontname:Nn \l_fontspec_fontname_bf_tl {#1}
     \fontspec_update_fontid:n {bf:#1}
   \fi
 }
@@ -4587,7 +4587,7 @@ This work consists of this file fontspec.dtx
     \fontspec_update_fontid:n {noit}
   \else
     \zf@noitfalse
-    \fontspec_complete_fontname:Nn \zf@it {#1}
+    \fontspec_complete_fontname:Nn \l_fontspec_fontname_it_tl {#1}
     \fontspec_update_fontid:n {it:#1}
   \fi
 }
@@ -4595,15 +4595,15 @@ This work consists of this file fontspec.dtx
 % Simpler for bold+italic \& slanted:
 %    \begin{macrocode}
 \define@key[zf]{preparse-external}{BoldItalicFont}{
-  \fontspec_complete_fontname:Nn \zf@bfit {#1}
+  \fontspec_complete_fontname:Nn \l_fontspec_fontname_bf_tlit {#1}
   \fontspec_update_fontid:n {bfit:#1}
 }
 \define@key[zf]{preparse-external}{SlantedFont}{
-  \fontspec_complete_fontname:Nn \zf@sl {#1}
+  \fontspec_complete_fontname:Nn \l_fontspec_fontname_sl_tl {#1}
   \fontspec_update_fontid:n {sl:#1}
 }
 \define@key[zf]{preparse-external}{BoldSlantedFont}{
-  \fontspec_complete_fontname:Nn \zf@bfsl {#1}
+  \fontspec_complete_fontname:Nn \l_fontspec_fontname_bf_tlsl {#1}
   \fontspec_update_fontid:n {bfsl:#1}
 }
 %    \end{macrocode}
@@ -4616,7 +4616,7 @@ This work consists of this file fontspec.dtx
     \fontspec_update_fontid:n {nosc}
   \else
     \zf@noscfalse
-    \fontspec_complete_fontname:Nn \zf@sc {#1}
+    \fontspec_complete_fontname:Nn \l_fontspec_fontname_sc_tl {#1}
     \fontspec_update_fontid:n {sc:\zap@space #1~\@empty}
   \fi
 }
@@ -4983,18 +4983,18 @@ This work consists of this file fontspec.dtx
 % These features presently \emph{override} real shapes found in the font;
 % in the future I'd like these features to be ignored in this case, instead.
 % (This is just a bit harder to program in the current design of
-% \pkg{fontspec})
+% \pkg{fontspec}.)
 %    \begin{macrocode}
 \define@key[zf]{options}{AutoFakeSlant}[0.2]{
   \ifzf@firsttime
-    \tl_set:Nn \zf@fake@slant {#1}
+    \tl_set:Nn \l_fontspec_fake_slant_tl {#1}
     \clist_put_right:Nn \l_fontspec_fontfeat_it_clist {,FakeSlant=#1}
-    \tl_set_eq:NN \zf@it \l_fontspec_fontname_tl
+    \tl_set_eq:NN \l_fontspec_fontname_it_tl \l_fontspec_fontname_tl
     \fontspec_update_fontid:n {fakeit:#1}
-    \tl_if_empty:NF \zf@fake@embolden {
+    \tl_if_empty:NF \l_fontspec_fake_embolden_tl {
       \tl_put_right:Nx \l_fontspec_fontfeat_bfit_clist
-        {,FakeBold=\zf@fake@embolden,FakeSlant=#1}
-      \tl_set_eq:NN \zf@bfit \l_fontspec_fontname_tl
+        {,FakeBold=\l_fontspec_fake_embolden_tl,FakeSlant=#1}
+      \tl_set_eq:NN \l_fontspec_fontname_bf_tlit \l_fontspec_fontname_tl
     }
   \fi
 }
@@ -5003,14 +5003,14 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \define@key[zf]{options}{AutoFakeBold}[1.5]{
   \ifzf@firsttime
-    \tl_set:Nn \zf@fake@embolden {#1}
+    \tl_set:Nn \l_fontspec_fake_embolden_tl {#1}
     \tl_put_right:Nn \l_fontspec_fontfeat_bf_clist {,FakeBold=#1}
-    \tl_set_eq:NN \zf@bf \l_fontspec_fontname_tl
+    \tl_set_eq:NN \l_fontspec_fontname_bf_tl \l_fontspec_fontname_tl
     \fontspec_update_fontid:n {fakebf:#1}
-    \tl_if_empty:NF \zf@fake@slant {
+    \tl_if_empty:NF \l_fontspec_fake_slant_tl {
       \tl_put_right:Nx \l_fontspec_fontfeat_bfit_clist
-        {,FakeSlant=\zf@fake@slant,FakeBold=#1}
-      \tl_set_eq:NN \zf@bfit \l_fontspec_fontname_tl
+        {,FakeSlant=\l_fontspec_fake_slant_tl,FakeBold=#1}
+      \tl_set_eq:NN \l_fontspec_fontname_bf_tlit \l_fontspec_fontname_tl
     }
   \fi
 }

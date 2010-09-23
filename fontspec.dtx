@@ -2518,7 +2518,6 @@ This work consists of this file fontspec.dtx
   \cs_set_eq:NN \str_if_eq:nnT \tl_if_eq:nnT
   \cs_set_eq:NN \str_if_eq:nnF \tl_if_eq:nnF
 }
-
 %    \end{macrocode}
 %
 %    \begin{macrocode}
@@ -2982,14 +2981,14 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \DeclareDocumentCommand \addfontfeatures {m} {
   \ifcsname zf@family@fontdef\f@family\endcsname
-    \begingroup
+    \group_begin:
       \tl_clear:N \g_fontspec_default_fontopts_tl
       \use:x {
         \exp_not:N\fontspec_select:nn
           {\csname zf@family@options\f@family\endcsname,#1}
           {\csname zf@family@fontname\f@family\endcsname}
       }
-    \endgroup
+    \group_end:
     \fontfamily\zf@family\selectfont
   \else
     \fontspec_warning:n {addfontfeatures-ignored}
@@ -3445,7 +3444,7 @@ This work consists of this file fontspec.dtx
 % This macro does its processing inside a group to attempt to restrict the scope of its internal processing. This works to some degree to insulate the internal commands from having to be manually cleared.
 %    \begin{macrocode}
 \cs_set:Npn \fontspec_select:nn #1#2 {
-  \begingroup
+  \group_begin:
   \fontspec_init:
 %    \end{macrocode}
 % \cmd{\l_fontspec_fontname_tl} is used as the generic name of the font being defined.
@@ -3499,7 +3498,7 @@ This work consists of this file fontspec.dtx
     \fontspec_set_bold_italic:
     \fontspec_set_bold_slanted:
   }
-  \endgroup
+  \group_end:
 }
 %    \end{macrocode}
 % \end{macro}
@@ -5743,12 +5742,12 @@ This work consists of this file fontspec.dtx
 %
 %
 %    \begin{macrocode}
-  \begingroup
+  \group_begin:
     \mathchardef\@tempa="603A \relax
     \ifx\colon\@tempa
       \DeclareMathSymbol{\colon}{\mathpunct}{legacymaths}{58}
     \fi
-  \endgroup
+  \group_end:
 %    \end{macrocode}
 % The following symbols are only defined specifically in \pkg{euler}, so skip them
 % if that package is loaded.
@@ -6151,7 +6150,7 @@ end
 \cs_set:Npn \fontspec_patch_verbatim: {
   \@ifpackageloaded{verbatim}{
     \cs_set:cpn {verbatim*} {
-      \begingroup \@verbatim \fontspec_print_visible_spaces: \verbatim@start
+      \group_begin: \@verbatim \fontspec_print_visible_spaces: \verbatim@start
     }
   }{
 %    \end{macrocode}

@@ -2691,7 +2691,7 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \msg_new:nnn {fontspec} {defining-font}
 {
-  Defining~ font~ family~ for~ '#2'~ with~ options~ [\zf@default@options #1].
+  Defining~ font~ family~ for~ '#2'~ with~ options~ [\g_fontspec_default_fontopts_tl #1].
 }
 \msg_new:nnn {fontspec} {no-font-shape}
 {
@@ -2947,12 +2947,14 @@ This work consists of this file fontspec.dtx
 %   This macro takes one argument that consists of all of feature
 %   options that will be applied by default to all subsequent
 %   \cs{fontspec}, et al., commands. It stores its value in
-%   \cs{zf@default@options} (initialised empty), which is
+%   \cs{g_fontspec_default_fontopts_tl} (initialised empty), which is
 %   concatenated with the individual macro choices in the
 %   \cs{zf@get@feature@requests} macro.
 %    \begin{macrocode}
-\DeclareDocumentCommand \defaultfontfeatures {m} {\def\zf@default@options{#1,}}
-\tl_clear:N \zf@default@options
+\DeclareDocumentCommand \defaultfontfeatures {m} {
+  \tl_set:Nn \g_fontspec_default_fontopts_tl {#1,}
+}
+\tl_clear:N \g_fontspec_default_fontopts_tl
 %    \end{macrocode}
 % \end{macro}
 %
@@ -2970,7 +2972,7 @@ This work consists of this file fontspec.dtx
 %   font again with the top level \cs{fontspec} command.
 %
 %   The default options are \emph{not} applied (which is why
-%   \cs{zf@default@options} is emptied inside the group; this is allowed
+%   \cs{g_fontspec_default_fontopts_tl} is emptied inside the group; this is allowed
 %   as \cmd\zf@family\ is globally defined in \cmd\fontspec_select:nn), so this
 %   means that the only added features to the font are strictly those
 %   specified by this command.
@@ -2981,7 +2983,7 @@ This work consists of this file fontspec.dtx
 \DeclareDocumentCommand \addfontfeatures {m} {
   \ifcsname zf@family@fontdef\f@family\endcsname
     \begingroup
-      \tl_clear:N \zf@default@options
+      \tl_clear:N \g_fontspec_default_fontopts_tl
       \use:x {
         \exp_not:N\fontspec_select:nn
           {\csname zf@family@options\f@family\endcsname,#1}
@@ -3478,7 +3480,7 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
   \fontspec_preparse_features:nn {#1}{#2}
   \fontspec_set_scriptlang:
-  \fontspec_get_features:n {\zf@font@feat}
+  \fontspec_get_features:n {}
   \zf@firsttimefalse
 %    \end{macrocode}
 % Check if the family is unique and, if so, save its information.
@@ -3524,7 +3526,7 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
   \fontspec_if_detect_external:nT {#2}
    { \setkeys[zf]{preparse-external}{ExternalLocation} }
-  \fontspec_setkeys:xx {preparse-external} {\zf@default@options #1}
+  \fontspec_setkeys:xx {preparse-external} {\g_fontspec_default_fontopts_tl #1}
 %    \end{macrocode}
 % When \cmd{\l_fontspec_fontname_tl} is augmented with a prefix or whatever to create
 % the name of the upright font (\cmd{\zf@up}), this latter is the new `general
@@ -3532,7 +3534,7 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
   \tl_set_eq:NN \l_fontspec_fontname_tl \zf@up
   \fontspec_setkeys:xx {preparse} {\XKV@rm}
-  \clist_set_eq:NN \zf@font@feat \XKV@rm
+  \clist_set_eq:NN \l_fontspec_fontfeat_clist \XKV@rm
 %    \end{macrocode}
 % Finally save the `confirmed' font definition.
 %    \begin{macrocode}
@@ -3642,7 +3644,7 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \cs_new:Npn \fontspec_save_fontinfo:nn #1#2 {
     \tl_gset:cx {zf@family@fontname\zf@family} {#2}
-    \tl_gset:cx {zf@family@options\zf@family} {\zf@default@options #1}
+    \tl_gset:cx {zf@family@options\zf@family} {\g_fontspec_default_fontopts_tl #1}
     \tl_gset:cx {zf@family@fontdef\zf@family} {
       \fontspec_fullname:n {\l_fontspec_fontname_tl} : \l_fontspec_pre_feat_tl \l_fontspec_rawfeatures_sclist
     }
@@ -3660,7 +3662,7 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \cs_new:Npn \fontspec_set_upright: {
   \zf@make@font@shapes{\l_fontspec_fontname_tl}
-    {\mddefault}{\updefault}{\zf@font@feat\zf@up@feat}
+    {\mddefault}{\updefault}{\l_fontspec_fontfeat_up_clist}
 }
 %    \end{macrocode}
 % \end{macro}
@@ -3681,10 +3683,10 @@ This work consists of this file fontspec.dtx
   \unless\ifzf@nobf
     \ifx\zf@bf\@empty
       \zf@make@font@shapes[\l_fontspec_fontname_tl]{/B}
-        {\bfdefault}{\updefault}{\zf@font@feat\zf@bf@feat}
+        {\bfdefault}{\updefault}{\l_fontspec_fontfeat_bf_clist}
     \else
       \zf@make@font@shapes{\zf@bf}
-        {\bfdefault}{\updefault}{\zf@font@feat\zf@bf@feat}
+        {\bfdefault}{\updefault}{\l_fontspec_fontfeat_bf_clist}
     \fi
   \fi
 }
@@ -3698,10 +3700,10 @@ This work consists of this file fontspec.dtx
   \unless\ifzf@noit
     \ifx\zf@it\@empty
       \zf@make@font@shapes[\l_fontspec_fontname_tl]{/I}
-        {\mddefault}{\itdefault}{\zf@font@feat\zf@it@feat}
+        {\mddefault}{\itdefault}{\l_fontspec_fontfeat_it_clist}
     \else
       \zf@make@font@shapes{\zf@it}
-        {\mddefault}{\itdefault}{\zf@font@feat\zf@it@feat}
+        {\mddefault}{\itdefault}{\l_fontspec_fontfeat_it_clist}
     \fi
   \fi
 }
@@ -3714,7 +3716,7 @@ This work consists of this file fontspec.dtx
 \cs_new:Npn \fontspec_set_slanted: {
   \ifx\zf@sl\@empty\else
     \zf@make@font@shapes{\zf@sl}
-      {\mddefault}{\sldefault}{\zf@font@feat\zf@sl@feat}
+      {\mddefault}{\sldefault}{\l_fontspec_fontfeat_sl_clist}
   \fi
 }
 %    \end{macrocode}
@@ -3737,18 +3739,18 @@ This work consists of this file fontspec.dtx
       \ifx\zf@bf\@empty
         \ifx\zf@it\@empty
           \zf@make@font@shapes[\l_fontspec_fontname_tl]{/BI}
-            {\bfdefault}{\itdefault}{\zf@font@feat\zf@bfit@feat}
+            {\bfdefault}{\itdefault}{\l_fontspec_fontfeat_bfit_clist}
         \else
           \zf@make@font@shapes[\zf@it]{/B}
-            {\bfdefault}{\itdefault}{\zf@font@feat\zf@bfit@feat}
+            {\bfdefault}{\itdefault}{\l_fontspec_fontfeat_bfit_clist}
         \fi
       \else
         \zf@make@font@shapes[\zf@bf]{/I}
-          {\bfdefault}{\itdefault}{\zf@font@feat\zf@bfit@feat}
+          {\bfdefault}{\itdefault}{\l_fontspec_fontfeat_bfit_clist}
       \fi
     \else
       \zf@make@font@shapes{\zf@bfit}
-        {\bfdefault}{\itdefault}{\zf@font@feat\zf@bfit@feat}
+        {\bfdefault}{\itdefault}{\l_fontspec_fontfeat_bfit_clist}
     \fi
   \fi
 }
@@ -3762,11 +3764,11 @@ This work consists of this file fontspec.dtx
   \ifx\zf@bfsl\@empty
     \ifx\zf@sl\@empty\else
       \zf@make@font@shapes[\zf@sl]{/B}
-        {\bfdefault}{\sldefault}{\zf@font@feat\zf@bfsl@feat}
+        {\bfdefault}{\sldefault}{\l_fontspec_fontfeat_bfsl_clist}
     \fi
   \else
     \zf@make@font@shapes{\zf@bfsl}
-      {\bfdefault}{\sldefault}{\zf@font@feat\zf@bfsl@feat}
+      {\bfdefault}{\sldefault}{\l_fontspec_fontfeat_bfsl_clist}
   \fi
 }
 %    \end{macrocode}
@@ -3867,13 +3869,13 @@ This work consists of this file fontspec.dtx
           \zf@make@smallcaps
           \unless\ifx\zf@smallcaps\@empty
             \fontspec_declare_shape:nnnn {\zf@smallcaps}{#3}
-              {\ifx#4\itdefault\sidefault\else\scdefault\fi}{#5\zf@sc@feat}
+              {\ifx#4\itdefault\sidefault\else\scdefault\fi}{#5\l_fontspec_fontfeat_sc_clist}
           \fi
         \fi
       \else
         \tl_set:Nx \l_fontspec_fontname_tl {\zf@sc}
         \fontspec_declare_shape:nnnn {}{#3}
-          {\ifx#4\itdefault\sidefault\else\scdefault\fi}{#5\zf@sc@feat}
+          {\ifx#4\itdefault\sidefault\else\scdefault\fi}{#5\l_fontspec_fontfeat_sc_clist}
       \fi
     \fi
   \endgroup
@@ -3893,7 +3895,7 @@ This work consists of this file fontspec.dtx
 \cs_new:Npn \fontspec_declare_shape:nnnn #1#2#3#4 {
   \clist_if_empty:NTF \l_fontspec_sizefeat_clist
   {
-    \fontspec_get_features:n{#4}
+    \fontspec_get_features:n {#4}
     \tl_set:Nx \l_fontspec_nfss_tl {
       <-> \l_fontspec_scale_tl
       \fontspec_fontwrap:n {
@@ -3915,7 +3917,7 @@ This work consists of this file fontspec.dtx
       \tl_set_eq:NN \l_fontspec_sizedfont_tl \l_fontspec_fontname_tl
       \fontspec_setkeys:xx {sizing} { \expandafter \@firstofone ##1 }
       \tl_if_empty:NT \l_fontspec_size_tl { \fontspec_error:n {no-size-info} }
-      \fontspec_get_features:n{#4,\XKV@rm}
+      \fontspec_get_features:n{ #4 , \XKV@rm }
       \tl_put_right:Nx \l_fontspec_nfss_tl {
         <\l_fontspec_size_tl> \l_fontspec_scale_tl
         \fontspec_fontwrap:n {
@@ -4005,6 +4007,7 @@ This work consists of this file fontspec.dtx
 %   default specification to the original passed options. It begins by
 %   initialising the commands used to hold font-feature specific
 %   strings.
+%   Its argument is any additional features to prepend to the default.
 %    \begin{macrocode}
 \cs_set:Npn \fontspec_get_features:n #1 {
   \sclist_clear:N \l_fontspec_rawfeatures_sclist
@@ -4012,7 +4015,7 @@ This work consists of this file fontspec.dtx
   \tl_set_eq:NN \l_fontspec_opacity_tl \g_fontspec_opacity_tl
   \tl_set_eq:NN \l_fontspec_hexcol_tl \g_fontspec_hexcol_tl
   \tl_clear:N \l_fontspec_postadjust_tl
-  \fontspec_setkeys:xx {options} {#1}
+  \fontspec_setkeys:xx {options} {\l_fontspec_fontfeat_clist #1}
   \tl_if_empty:NF \XKV@rm {
     \fontspec_error:nx {unknown-options} { \exp_not:V \XKV@rm }
   }
@@ -4042,13 +4045,13 @@ This work consists of this file fontspec.dtx
 \tl_clear:N \zf@sl
 \tl_clear:N \zf@bfsl
 \tl_clear:N \zf@sc
-\tl_clear:N \zf@up@feat
-\tl_clear:N \zf@bf@feat
-\tl_clear:N \zf@it@feat
-\tl_clear:N \zf@bfit@feat
-\tl_clear:N \zf@sl@feat
-\tl_clear:N \zf@bfsl@feat
-\tl_clear:N \zf@sc@feat
+\tl_clear:N \l_fontspec_fontfeat_up_clist
+\tl_clear:N \l_fontspec_fontfeat_bf_clist
+\tl_clear:N \l_fontspec_fontfeat_it_clist
+\tl_clear:N \l_fontspec_fontfeat_bfit_clist
+\tl_clear:N \l_fontspec_fontfeat_sl_clist
+\tl_clear:N \l_fontspec_fontfeat_bfsl_clist
+\tl_clear:N \l_fontspec_fontfeat_sc_clist
 \tl_clear:N \l_fontspec_script_name_tl
 \tl_clear:N \l_fontspec_script_tl
 \tl_clear:N \l_fontspec_lang_name_tl
@@ -4633,34 +4636,34 @@ This work consists of this file fontspec.dtx
 % \paragraph{Features}
 %    \begin{macrocode}
 \define@key[zf]{preparse}{UprightFeatures}{
-  \def\zf@up@feat{, #1}
+  \def\l_fontspec_fontfeat_up_clist{, #1}
   \fontspec_update_fontid:n {rmfeat:#1}
 }
 \define@key[zf]{preparse}{BoldFeatures}{
-  \def\zf@bf@feat{, #1}
+  \def\l_fontspec_fontfeat_bf_clist{, #1}
   \fontspec_update_fontid:n {bffeat:#1}
 }
 \define@key[zf]{preparse}{ItalicFeatures}{
-  \def\zf@it@feat{, #1}
+  \def\l_fontspec_fontfeat_it_clist{, #1}
   \fontspec_update_fontid:n {itfeat:#1}
 }
 \define@key[zf]{preparse}{BoldItalicFeatures}{
-  \def\zf@bfit@feat{, #1}
+  \def\l_fontspec_fontfeat_bfit_clist{, #1}
   \fontspec_update_fontid:n {bfitfeat:#1}
 }
 \define@key[zf]{preparse}{SlantedFeatures}{
-  \def\zf@sl@feat{, #1}
+  \def\l_fontspec_fontfeat_sl_clist{, #1}
   \fontspec_update_fontid:n {slfeat:#1}
 }
 \define@key[zf]{preparse}{BoldSlantedFeatures}{
-  \def\zf@bfsl@feat{, #1}
+  \def\l_fontspec_fontfeat_bfsl_clist{, #1}
   \fontspec_update_fontid:n {bfslfeat:#1}
 }
 %    \end{macrocode}
 % Note that small caps features can vary by shape, so these in fact \emph{aren't} pre-parsed.
 %    \begin{macrocode}
 \define@key[zf]{options}{SmallCapsFeatures}{
-  \unless\ifzf@firsttime\def\zf@sc@feat{, #1}\fi
+  \unless\ifzf@firsttime\def\l_fontspec_fontfeat_sc_clist{, #1}\fi
   \fontspec_update_fontid:n {scfeat:\zap@space #1~\@empty}
 }
 %    \end{macrocode}
@@ -4980,11 +4983,11 @@ This work consists of this file fontspec.dtx
 \define@key[zf]{options}{AutoFakeSlant}[0.2]{
   \ifzf@firsttime
     \tl_set:Nn \zf@fake@slant {#1}
-    \clist_put_right:Nn \zf@it@feat {,FakeSlant=#1}
+    \clist_put_right:Nn \l_fontspec_fontfeat_it_clist {,FakeSlant=#1}
     \tl_set_eq:NN \zf@it \l_fontspec_fontname_tl
     \fontspec_update_fontid:n {fakeit:#1}
     \tl_if_empty:NF \zf@fake@embolden {
-      \tl_put_right:Nx \zf@bfit@feat
+      \tl_put_right:Nx \l_fontspec_fontfeat_bfit_clist
         {,FakeBold=\zf@fake@embolden,FakeSlant=#1}
       \tl_set_eq:NN \zf@bfit \l_fontspec_fontname_tl
     }
@@ -4996,11 +4999,11 @@ This work consists of this file fontspec.dtx
 \define@key[zf]{options}{AutoFakeBold}[1.5]{
   \ifzf@firsttime
     \tl_set:Nn \zf@fake@embolden {#1}
-    \tl_put_right:Nn \zf@bf@feat {,FakeBold=#1}
+    \tl_put_right:Nn \l_fontspec_fontfeat_bf_clist {,FakeBold=#1}
     \tl_set_eq:NN \zf@bf \l_fontspec_fontname_tl
     \fontspec_update_fontid:n {fakebf:#1}
     \tl_if_empty:NF \zf@fake@slant {
-      \tl_put_right:Nx \zf@bfit@feat
+      \tl_put_right:Nx \l_fontspec_fontfeat_bfit_clist
         {,FakeSlant=\zf@fake@slant,FakeBold=#1}
       \tl_set_eq:NN \zf@bfit \l_fontspec_fontname_tl
     }

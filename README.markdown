@@ -143,6 +143,25 @@ gladly accepted!
 Change history
 --------------
 
+- v2.1a (2010/09/27)
+
+    * Fix for colours bug introduced in the last update
+    * Fix for for bad interaction with LuaLaTeX and fallback fonts
+      (such as using \slshape when no slanted font specified)
+    * Behaviour/messaging improvement when scripts/languages are requested
+      that do not exist in the font
+    * Fix bug with detecting font features/scripts in some cases with:
+
+        - `\fontspec_if_feature:n(TF)`
+        - `\fontspec_if_language:n(TF)`
+        - `\fontspec_if_current_script:n(TF)`
+        - `\fontspec_if_current_language:n(TF)`
+
+    * Some messages in the log file are improved
+    * Code for "visible space" fixed for LuaLaTeX use
+    * Lots of internal changes to bring the implementation closer
+      to being "native expl3".
+
 - v2.1 (2010/09/19)
   
     * Now load xunicode internally for consistent behaviour in

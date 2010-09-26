@@ -2509,7 +2509,7 @@ This work consists of this file fontspec.dtx
 \cs_set:Npn \use:x #1 { \edef\@tempa{#1}\@tempa }
 
 \cs_if_exist:NF \str_if_eq:xxTF {
-  \cs_set_eq:NN \str_if_eq_p:xx \tl_if_eq_p:
+  \cs_set_eq:NN \str_if_eq_p:xx \tl_if_eq_p:xx
   \cs_set_eq:NN \str_if_eq:xxTF \tl_if_eq:xxTF
   \cs_set_eq:NN \str_if_eq:xxT  \tl_if_eq:xxT
   \cs_set_eq:NN \str_if_eq:xxF  \tl_if_eq:xxF
@@ -5636,7 +5636,7 @@ This work consists of this file fontspec.dtx
   \bool_if:nTF
   {
     \str_if_eq_p:xx {\f@shape} {#2} &&
-    \cs_if_exist_p:n {\f@encoding/\f@family/\f@series/#3}
+    \cs_if_exist_p:c {\f@encoding/\f@family/\f@series/#3}
   }
   { \fontshape{#3}\selectfont }
   { \fontshape{#1}\selectfont }

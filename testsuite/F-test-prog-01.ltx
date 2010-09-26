@@ -1,0 +1,25 @@
+
+\documentclass{testsuite}
+\usepackage{fontspec}
+\begin{document}
+\ExplSyntaxOn
+LM~is
+\fontspec_if_fontspec_font:TF {\ERROR}{~not~a~fontspec~font.\par}
+
+\setmainfont{TeX~ Gyre~ Pagella}
+TeX Gyre Pagella
+\fontspec_if_fontspec_font:TF {~is~a~fontspec~font}{\ERROR}
+
+\fontspec_if_opentype:TF {,~is~OpenType}{\ERROR}
+
+\fontspec_if_feature:nTF {smcp}{,~has~small~caps}{\ERROR}
+
+\fontspec_if_current_script:nTF {latn}{,~is~using~Latin~script}{\ERROR}
+
+\fontspec_if_script:nTF {cyrl}{,~also~has~Cyrillic}{\ERROR}
+
+\fontspec_if_current_language:nTF {DFLT}{,~is~using~`default'~language}{\ERROR}
+
+\fontspec_if_language:nnTF {latn}{ROM}{,~also~has~Romanian}{\ERROR}
+
+\end{document}

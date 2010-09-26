@@ -4324,10 +4324,6 @@ This work consists of this file fontspec.dtx
 % The variant \cmd\fontspec_v_str_to_num:n\ is used when looking at features, which are passed around
 % with prepended plus and minus signs (\eg, \texttt{+liga}, \texttt{-dlig}); it
 % simply strips off the first char of the input before calling the normal \cmd\fontspec_iv_str_to_num:n.
-%
-% It's probable that all OpenType features \emph{are} in fact four characters long, but
-% not impossible that they aren't. So I'll leave the less efficient parsing stage in there
-% even though it's not strictly necessary for now.
 %    \begin{macrocode}
 \cs_set:Npn \fontspec_iv_str_to_num:Nn #1#2 {
   \fontspec_iv_str_to_num:w #1 \q_nil #2 \@empty \@empty \q_nil

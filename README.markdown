@@ -1,9 +1,9 @@
 
-THE FONTSPEC PACKAGE v2.1
-=========================
+THE FONTSPEC PACKAGE
+====================
 
-This is the initial release of the fontspec package with support for LuaTeX.
-(Previously, fontspec was XeTeX-only.)
+This is the initial generation of the fontspec package with support for
+LuaLaTeX. (Previously, fontspec was XeLaTeX-only.)
 
 The fontspec package provides an automatic and unified interface for loading
 fonts in LaTeX. XeTeX and LuaTeX (the latter through the luaotfload package)
@@ -14,6 +14,8 @@ This package also provides access to the large number of font features
 available with AAT and OpenType fonts, including upper and lower case numbers,
 proportional and monospaced numbers, swash letters, ligature control, and many
 others.
+
+See the documentation `fontspec.pdf` for full information.
 
 Release versions of fontspec are available from CTAN:  
   <http://tug.ctan.org/pkg/fontspec>

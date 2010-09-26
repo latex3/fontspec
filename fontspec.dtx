@@ -43,11 +43,11 @@ This work consists of this file fontspec.dtx
 \let\MetaPrefix\DoubleperCent
 \generate{\file{fontspec.sty}          {\from{fontspec.dtx}{fontspec}}}
 \generate{\file{fontspec-patches.sty}  {\from{fontspec.dtx}{patches}}}
+\generate{\file{fontspec-testsuite.tex}{\from{fontspec.dtx}{testsuite}}}
 
 \nopreamble\nopostamble
 \generate{\file{fontspec.cfg}          {\from{fontspec.dtx}{cfg}}}
 \generate{\file{fontspec-example.tex}  {\from{fontspec.dtx}{example}}}
-\generate{\file{fontspec-testsuite.tex}{\from{fontspec.dtx}{testsuite}}}
 
 \def\tmpa{plain}
 \ifx\tmpa\fmtname\endgroup\expandafter\bye\fi
@@ -4260,7 +4260,7 @@ This work consists of this file fontspec.dtx
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}[TF]{\fontspec_make_AAT_feature_string:nn}
+% \begin{macro}{\fontspec_make_AAT_feature_string:nnTF}
 %   This macro takes the numerical codes for a font feature and
 %   creates a specified macro containing the string required in the
 %   font definition to turn that feature on or off. Used primarily in
@@ -6310,8 +6310,16 @@ information.
   \begin{minipage}{8cm+4pt}
     \fboxsep=1pt
     \fboxrule=1pt
-    \fbox{\includegraphics[width=8cm]{testsuite/#1.safe.pdf}}
+    \fbox{\insertpdf#1\END}
   \end{minipage}
+}
+
+\def\insertpdf#1#2\END{%
+  \ifnum`#1=70\relax
+    \includegraphics[width=8cm]{testsuite/#1#2.Lsafe.pdf}%
+  \else
+    \includegraphics[width=8cm]{testsuite/#1#2.safe.pdf}%
+  \fi
 }
 
 \newcommand\codeline[1]{\par{\centering#1\par}\par\noindent\ignorespaces}
@@ -6441,7 +6449,7 @@ If you want to run just a single test, use
     \refstepcounter{example}%
     \label{ex:\filename}%
     \IfFileExists{doc/\theexample-\prefix-\filename.tex}{}{%
-      \immediate\write18{cd doc && rm \theexample-* ;}%
+      \immediate\write18{cd doc && rm -f \theexample-* ;}%
     }%
     \VerbatimEnvironment
     \begin{VerbatimOut}{doc/\theexample-\prefix-\filename.tex}}

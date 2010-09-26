@@ -71,10 +71,10 @@ CTAN_ZIP = $(NAME).zip
 TDS_ZIP = $(NAME).tds.zip
 ZIPS = $(CTAN_ZIP) $(TDS_ZIP)
 
-DO_PDFLATEX = pdflatex --interaction=batchmode $< >/dev/null
-DO_PDFLATEX_WRITE18 = pdflatex --shell-escape --interaction=batchmode $< >/dev/null
-DO_TEX = tex --interaction=batchmode $< >/dev/null
-DO_MAKEINDEX = makeindex -s gind.ist $(subst .dtx,,$<) >/dev/null 2>&1
+DO_PDFLATEX = pdflatex --interaction=nonstopmode $<  $(REDIRECT)
+DO_PDFLATEX_WRITE18 = pdflatex --shell-escape --interaction=nonstopmode $<  $(REDIRECT)
+DO_TEX = tex --interaction=nonstopmode $<  $(REDIRECT)
+DO_MAKEINDEX = makeindex -s gind.ist $(subst .dtx,,$<)  $(REDIRECT)  2>&1
 
 all: $(GENERATED)
 doc: $(COMPILED)
@@ -123,7 +123,7 @@ README: README.markdown
 fontspec-testsuite.pdf: $(DTX)
 	@echo 'Compiling test suite.'
 	$(DO_PDFLATEX)
-	xelatex --interaction=batchmode fontspec-testsuite.tex
+	xelatex --interaction=nonstopmode fontspec-testsuite.tex  $(REDIRECT)
 
 .PHONY: install manifest clean mrproper
 
@@ -198,17 +198,17 @@ $(builddir)/%: %
 
 #### Generating new tests ####
 
-lonelystub = $(shell cd $(testdir); ls | egrep '($(xprefix)|$(lprefix))(.*\.ltx)|($(xprefix)|$(lprefix))(.*\.safe.pdf)' | cut -d . -f 1 | uniq -u)
+lonelystub = $(shell cd $(testdir); ls | egrep '(X|L)(.*\.ltx)|(X|L)(.*\.safe.pdf)' | cut -d . -f 1 | uniq -u)
 lonelyfile = $(addsuffix .safe.pdf,$(lonelystub))
 lonelypath = $(addprefix $(testdir)/,$(lonelyfile))
 lonelytest = $(addprefix $(builddir)/,$(addsuffix .pdf,$(lonelystub)))
 
-Xlonelystub = $(shell cd $(testdir); ls | egrep '($(both).*\.ltx)|($(both).*.Xsafe.pdf)' | cut -d . -f 1 | uniq -u)
+Xlonelystub = $(shell cd $(testdir); ls | egrep '(F.*\.ltx)|(F.*.Xsafe.pdf)' | cut -d . -f 1 | uniq -u)
 Xlonelyfile = $(addsuffix .Xsafe.pdf,$(Xlonelystub))
 Xlonelypath = $(addprefix $(testdir)/,$(Xlonelyfile))
 Xlonelytest = $(addprefix $(builddir)/,$(addsuffix -X.pdf,$(Xlonelystub)))
 
-Llonelystub = $(shell cd $(testdir); ls | egrep '($(both).*\.ltx)|($(both).*.Lsafe.pdf)' | cut -d . -f 1 | uniq -u)
+Llonelystub = $(shell cd $(testdir); ls | egrep '(F.*\.ltx)|(F.*.Lsafe.pdf)' | cut -d . -f 1 | uniq -u)
 Llonelyfile = $(addsuffix .Lsafe.pdf,$(Llonelystub))
 Llonelypath = $(addprefix $(testdir)/,$(Llonelyfile))
 Llonelytest = $(addprefix $(builddir)/,$(addsuffix -L.pdf,$(Llonelystub)))
@@ -227,82 +227,89 @@ $(Llonelypath): $(Llonelytest)
 
 #### TESTS FOR BOTH ENGINES ####
 
-$(builddir)/$(both)%-L.diff.pdf: $(builddir)/$(both)%-$(lprefix).pdf
-	@echo '$(both)$*: Comparing PDF from LuaLaTeX against reference output.'
-	@if test $(shell compare \
+$(builddir)/F%-L.diff.pdf: $(builddir)/F%-L.pdf
+	@echo 'F$*: Comparing PDF from LuaLaTeX against reference output.'
+	if test $(shell compare \
 	                $(COMPARE_OPTS) \
-	                $(builddir)/$(both)$*-$(lprefix).pdf \
-	                $(testdir)/$(both)$*.$(lprefix)safe.pdf \
-	                $(builddir)/$(both)$*-$(lprefix).diff.pdf 2>&1) -le 1 ; then \
-	  echo '$(both)$*: Test passed.' ; \
+	                $(builddir)/F$*-L.pdf \
+	                $(testdir)/F$*.Lsafe.pdf \
+	                $(builddir)/F$*-L.diff.pdf 2>&1) -le 1 ; then \
+	  echo 'F$*: Test passed.' ; \
 	else \
-	  echo '$(both)$*: Test failed.' ; \
+	  echo 'F$*: Test failed.' ; \
 	  false ; \
 	fi
 
-$(builddir)/$(both)%-X.diff.pdf: $(builddir)/$(both)%-$(xprefix).pdf
-	@echo '$(both)$*: Comparing PDF from LuaLaTeX against reference output.'
-	@if test $(shell compare \
+$(builddir)/F%-X.diff.pdf: $(builddir)/F%-X.pdf
+	@echo 'F$*: Comparing PDF from LuaLaTeX against reference output.'
+	if test $(shell compare \
 	                $(COMPARE_OPTS) \
-	                $(builddir)/$(both)$*-$(xprefix).pdf \
-	                $(testdir)/$(both)$*.$(xprefix)safe.pdf \
-	                $(builddir)/$(both)$*-$(xprefix).diff.pdf 2>&1) -le 1 ; then \
-	  echo '$(both)$*: Test passed.' ; \
+	                $(builddir)/F$*-X.pdf \
+	                $(testdir)/F$*.Xsafe.pdf \
+	                $(builddir)/F$*-X.diff.pdf 2>&1) -le 1 ; then \
+	  echo 'F$*: Test passed.' ; \
 	else \
-	  echo '$(both)$*: Test failed.' ; \
+	  echo 'F$*: Test failed.' ; \
 	  false ; \
 	fi
 
-$(builddir)/$(both)%-$(lprefix).pdf: $(BUILDSOURCE) $(BUILDSUITE) $(builddir)/$(both)%-L.ltx
-	@echo '$(both)$*: Generating PDF output with LuaLaTeX.'
-	@cd $(builddir); lualatex -interaction=nonstopmode $(both)$*-L.ltx  $(REDIRECT)
+$(builddir)/F%-L.pdf: $(BUILDSOURCE) $(BUILDSUITE) $(builddir)/F%-L.ltx
+	@echo 'F$*: Generating PDF output with LuaLaTeX.'
+	@cd $(builddir); lualatex -interaction=nonstopmode F$*-L.ltx  $(REDIRECT)
 
-$(builddir)/$(both)%-$(xprefix).pdf: $(BUILDSOURCE) $(BUILDSUITE) $(builddir)/$(both)%-X.ltx
-	@echo '$(both)$*: Generating PDF output with XeLaTeX.'
-	@cd $(builddir); xelatex -interaction=nonstopmode $(both)$*-X.ltx   $(REDIRECT)
+$(builddir)/F%-X.pdf: $(BUILDSOURCE) $(BUILDSUITE) $(builddir)/F%-X.ltx
+	@echo 'F$*: Generating PDF output with XeLaTeX.'
+	@cd $(builddir); xelatex -interaction=nonstopmode F$*-X.ltx   $(REDIRECT)
 
-$(builddir)/$(both)%-$(lprefix).ltx: $(builddir)/$(both)%.ltx
+$(builddir)/F%-L.ltx: $(builddir)/F%.ltx
 	$(COPY) $< $@
 
-$(builddir)/$(both)%-$(xprefix).ltx: $(builddir)/$(both)%.ltx
+$(builddir)/F%-X.ltx: $(builddir)/F%.ltx
 	$(COPY) $< $@
 
 
 #### TEST FOR EACH ENGINE INDIVIDUALLY ####
 
-$(builddir)/$(lprefix)%.diff.pdf: $(builddir)/$(lprefix)%.pdf
-	@echo '$(lprefix)$*: Comparing PDF against reference output.'
-	@if test $(shell compare $(COMPARE_OPTS) \
-	          $(builddir)/$(lprefix)$*.pdf $(testdir)/$(lprefix)$*.safe.pdf \
-	          $(builddir)/$(lprefix)$*.diff.pdf 2>&1) -le 1 ; then \
-	  echo '$(lprefix)$*: Test passed.' ; \
+$(builddir)/L%.diff.pdf: $(builddir)/L%.pdf
+	@echo 'L$*: Comparing PDF against reference output.'
+	if test $(shell compare $(COMPARE_OPTS) \
+	          $(builddir)/L$*.pdf $(testdir)/L$*.safe.pdf \
+	          $(builddir)/L$*.diff.pdf 2>&1) -le 1 ; then \
+	  echo 'L$*: Test passed.' ; \
 	else \
-	  echo '$(lprefix)$*: Test failed.' ; \
+	  echo 'L$*: Test failed.' ; \
 	  false ; \
 	fi
 
-$(builddir)/$(xprefix)%.diff.pdf: $(builddir)/$(xprefix)%.pdf
-	@echo '$(xprefix)$*: Comparing PDF against reference output.'
-	@if test $(shell compare \
+$(builddir)/X%.diff.pdf: $(builddir)/X%.pdf
+	@echo 'X$*: Comparing PDF against reference output.'
+	if test $(shell compare \
 	                $(COMPARE_OPTS) \
-	                $(builddir)/$(xprefix)$*.pdf \
-	                $(testdir)/$(xprefix)$*.safe.pdf \
-	                $(builddir)/$(xprefix)$*.diff.pdf 2>&1) -le 1 ; then \
-	  echo '$(xprefix)$*: Test passed.' ; \
+	                $(builddir)/X$*.pdf \
+	                $(testdir)/X$*.safe.pdf \
+	                $(builddir)/X$*.diff.pdf 2>&1) -le 1 ; then \
+	  echo 'X$*: Test passed.' ; \
 	else \
-	  echo '$(xprefix)$*: Test failed.' ; \
+	  echo 'X$*: Test failed.' ; \
 	  false ; \
 	fi
 
-$(builddir)/$(xprefix)%.pdf: $(BUILDSOURCE) $(BUILDSUITE) $(builddir)/$(xprefix)%.ltx
-	@echo '$(xprefix)$*: Generating PDF output with XeLaTeX.'
-	@cd $(builddir); xelatex -interaction=nonstopmode $(xprefix)$*.ltx $(REDIRECT)
+$(builddir)/X%.pdf: $(BUILDSOURCE) $(BUILDSUITE) $(builddir)/X%.ltx
+	@echo 'X$*: Generating PDF output with XeLaTeX.'
+	@cd $(builddir); xelatex -interaction=nonstopmode X$*.ltx $(REDIRECT)
 
-$(builddir)/$(lprefix)%.pdf: $(BUILDSOURCE) $(BUILDSUITE) $(builddir)/$(lprefix)%.ltx
-	@echo '$(lprefix)$*: Generating PDF output with LuaLaTeX.'
-	@cd $(builddir); lualatex -interaction=nonstopmode $(lprefix)$*.ltx $(REDIRECT)
+$(builddir)/L%.pdf: $(BUILDSOURCE) $(BUILDSUITE) $(builddir)/L%.ltx
+	@echo 'L$*: Generating PDF output with LuaLaTeX.'
+	@cd $(builddir); lualatex -interaction=nonstopmode L$*.ltx $(REDIRECT)
 
 #### HACK: allow `make <foobar>` run that test.
 
-%: build/%.ltx
-	make build/$*.diff.pdf
+L%: build/L%.ltx
+	make build/L$*.diff.pdf
+
+X%: build/X%.ltx
+	make build/X$*.diff.pdf
+
+F%: build/F%.ltx
+	make build/F$*-L.diff.pdf
+	make build/F$*-X.diff.pdf

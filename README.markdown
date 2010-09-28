@@ -145,6 +145,11 @@ gladly accepted!
 Change history
 --------------
 
+- v2.1b (2010/09/29)
+
+    * Fix for bug introduced in the last release:
+      small caps weren't being automatically selected correctly
+
 - v2.1a (2010/09/27)
 
     * Fix for colours bug introduced in the last update

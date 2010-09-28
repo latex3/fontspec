@@ -62,7 +62,7 @@ This work consists of this file fontspec.dtx
 %<fontspec>\ProvidesPackage{fontspec}
 %<patches>\ProvidesPackage{fontspec-patches}
 %<*fontspec|patches>
-  [2010/09/27 v2.1a Advanced font selection for XeLaTeX/LuaLaTeX]
+  [2010/09/29 v2.1b Advanced font selection for XeLaTeX/LuaLaTeX]
 %</fontspec|patches>
 %
 %<*driver>
@@ -3661,7 +3661,8 @@ This work consists of this file fontspec.dtx
     \tl_gset:cx {zf@family@fontname\zf@family} {#2}
     \tl_gset:cx {zf@family@options\zf@family} {\g_fontspec_default_fontopts_tl #1}
     \tl_gset:cx {zf@family@fontdef\zf@family} {
-      \fontspec_fullname:n {\l_fontspec_fontname_tl} : \l_fontspec_pre_feat_tl \l_fontspec_rawfeatures_sclist
+      \fontspec_fullname:n {\l_fontspec_fontname_tl} :
+        \l_fontspec_pre_feat_sclist \l_fontspec_rawfeatures_sclist
     }
     \tl_gset:cV {g_fontspec_script_num_(\zf@family)_tl} \l_fontspec_script_int
     \tl_gset:cV {g_fontspec_lang_num_(\zf@family)_tl} \l_fontspec_language_int
@@ -3913,7 +3914,7 @@ This work consists of this file fontspec.dtx
       <-> \l_fontspec_scale_tl
       \fontspec_fontwrap:n {
         \fontspec_fullname:n {\l_fontspec_fontname_tl} :
-          \l_fontspec_pre_feat_tl \l_fontspec_rawfeatures_sclist #1
+          \l_fontspec_pre_feat_sclist \l_fontspec_rawfeatures_sclist #1
       }
     }
   }
@@ -3938,7 +3939,7 @@ This work consists of this file fontspec.dtx
         <\l_fontspec_size_tl> \l_fontspec_scale_tl
         \fontspec_fontwrap:n {
           \fontspec_fullname:n { \l_fontspec_sizedfont_tl }
-          : \l_fontspec_pre_feat_tl \l_fontspec_rawfeatures_sclist #1
+          : \l_fontspec_pre_feat_sclist \l_fontspec_rawfeatures_sclist #1
         }
       }
 
@@ -3970,11 +3971,11 @@ This work consists of this file fontspec.dtx
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\l_fontspec_pre_feat_tl}
+% \begin{macro}{\l_fontspec_pre_feat_sclist}
 % These are the features always applied to a font selection before other
 % features.
 %    \begin{macrocode}
-\xetex_or_luatex:nnn { \tl_set:Nn \l_fontspec_pre_feat_tl }
+\xetex_or_luatex:nnn { \tl_set:Nn \l_fontspec_pre_feat_sclist }
   {
     \ifzf@icu
       \tl_if_empty:NF \l_fontspec_script_tl
@@ -4134,16 +4135,12 @@ This work consists of this file fontspec.dtx
 %
 % \begin{macro}{\sclist_put_right:Nn}
 % I'm hardly going to write an `sclist' module but a couple of functions are
-% necessary.
+% useful.
 %    \begin{macrocode}
 \cs_set_eq:NN \sclist_new:N \tl_new:N
 \cs_set_eq:NN \sclist_clear:N \tl_clear:N
 \cs_new:Npn \sclist_gput_right:Nn #1#2 {
-  \tl_if_empty:NTF #1 {
-    \tl_gset:Nn #1 {#2}
-  }{
-    \tl_gput_right:Nn #1 {;#2}
-  }
+  \tl_gput_right:Nn #1 {#2;}
 }
 \cs_generate_variant:Nn \sclist_gput_right:Nn {Nx}
 %    \end{macrocode}

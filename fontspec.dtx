@@ -4159,7 +4159,7 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \cs_new:Nn \fontspec_update_featstr:n {
   \unless\ifzf@firsttime
-    \sclist_gput_right:Nx \l_fontspec_rawfeatures_sclist {#1}
+    \sclist_gput_right:Nx \l_fontspec_rawfeatures_sclist {#1;}
   \fi
 }
 %    \end{macrocode}

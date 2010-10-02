@@ -1740,7 +1740,8 @@ This work consists of this file fontspec.dtx
 % the fly without editing the font file itself.
 %
 % A feature file is loaded by passing its name or path to \feat{FeatureFile};
-% OpenType features defined in the file can be then be applied as usual to the font.
+% OpenType features defined in the file can be then be applied as usual to the
+% font.
 %
 % For example, to add OpenType mapping of f-ligatures in the Times New Roman
 % font, one can define a \texttt{times-nr.fea} file with content shown in
@@ -1751,24 +1752,17 @@ This work consists of this file fontspec.dtx
 % \end{Verbatim}
 %
 % \begin{figure}
-% \caption{Addition of ligatures to a font via the \feat{FeatureFile} font feature.}
+% \caption{Addition of ligatures to a font via the \feat{FeatureFile} font
+% feature.}
 % \label{fig:featurefile}
 % \hrule
 % \begin{Verbatim}
-% lookup fligatures {
-%   lookupflag 0;
-%     sub \f \i  by \fi;
-%     sub \f \l  by \fl;
-% } fligatures;
+% languagesystem DFLT dflt;
+% languagesystem latn dflt;
 %
 % feature liga {
-%   script DFLT;
-%      language dflt ;
-%       lookup fligatures;
-%
-%   script latn;
-%      language dflt ;
-%       lookup fligatures;
+%   sub \f \i by \fi;
+%   sub \f \l by \fl;
 % } liga;
 % \end{Verbatim}
 % \hrule

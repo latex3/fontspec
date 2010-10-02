@@ -2446,7 +2446,7 @@ This work consists of this file fontspec.dtx
     \RequirePackage{luatextra}[2010/05/10]
     \luatexRequireModule{fontspec}
   }{
-    \msg_error:nn {fontspec} {not-pdftex}
+    \msg_fatal:nn {fontspec} {not-pdftex}
   }
 }
 %    \end{macrocode}
@@ -4031,9 +4031,11 @@ This work consists of this file fontspec.dtx
   \tl_set_eq:NN \l_fontspec_hexcol_tl \g_fontspec_hexcol_tl
   \tl_clear:N \l_fontspec_postadjust_tl
   \fontspec_setkeys:xx {options} {\l_fontspec_fontfeat_clist #1}
-  \tl_if_empty:NF \XKV@rm {
-    \fontspec_error:nx {unknown-options} { \exp_not:V \XKV@rm }
-  }
+  \ifzf@firsttime
+    \tl_if_empty:NF \XKV@rm {
+      \fontspec_error:nx {unknown-options} { \exp_not:V \XKV@rm }
+    }
+  \fi
 %    \end{macrocode}
 % Finish the colour specification.
 % Do not set the colour if not explicitly spec'd else \verb|\color| (using

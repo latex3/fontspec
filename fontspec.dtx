@@ -1736,34 +1736,69 @@ This work consists of this file fontspec.dtx
 % feature of a font in a human-readable format. The syntax of OpenType feature
 % files is defined by Adobe\footnote{\url{http://www.adobe.com/devnet/opentype/afdko/topic_feature_file_syntax.html}}.
 %
-% Feature files can be used to add or customise OpenType features of a font on
+% Feature files can be used to add or customize OpenType features of a font on
 % the fly without editing the font file itself.
 %
-% A feature file is loaded by passing its name or path to \feat{FeatureFile};
-% OpenType features defined in the file can be then be applied as usual to the
+% Adding a new OpenType feature is as creating a plain text file defining
+% the new feature and then loading it by passing its name or path to
+% \feat{FeatureFile}, then OpenType features defined in the file can be
+% activated as usual.
+%
+% For example, when adding one of the default features like \texttt{kern}
+% or \texttt{liga}, no special activation is needed. On the other hand,
+% an optional feature like \texttt{onum} or \texttt{smcp} will be
+% activated when old style numbers or small capitals are activated,
+% respectively. However, OpenType feature in the feature file can have any
+% and that can be used to selectively activate the feature; for example
+% defining a ligature feature called \texttt{mlig} and then activating it
+% using \feat{RawFeature} option without activating other ligatures in the
 % font.
 %
-% For example, to add OpenType mapping of f-ligatures in the Times New Roman
-% font, one can define a \texttt{times-nr.fea} file with content shown in
-% Figure~\ref{fig:featurefile}.
-% Then the font with the new ligatures can be loaded with:
-% \begin{Verbatim}
-%   \setmainfont[FeatureFile=times-nr.fea]{Times New Roman}
-% \end{Verbatim}
+% Figure~\ref{fig:featurefile} shows an example feature file. The first two
+% lines set the script and language under which the defined features will be
+% available, which the default language in both default and Latin scripts,
+% respectively.
+%
+% Then it defines a \texttt{liga} feature, which is a glyph substitution
+% feature. The names starting with backslash are glyph names that is to be
+% substituted and while the leading backslash is optional, it is used to
+% escape glyph names when they interfere with preserved keywords. It should
+% also be noted that glyph names are font specific and the same glyph can be
+% named differently in different fonts.
+%
+% Glyph positioning features like kerning can be defined in a similar way,
+% but instead of the keyword \texttt{sub(stitute)} the keyword
+% \texttt{pos(ition)} is used instead. Figure~\ref{fig:featurefile} shows
+% an example of adding kerning between \texttt{AY} and \texttt{ay}\footnote{
+% The kerning is expressed in font design units which are fractions of em
+% depending on the \emph{units per em} value of the font, usually 1000 for
+% PostScript fonts and 2048 for TrueType fonts.}.
+%
+% Lines starting with \verb|#| are comments and will be ignored.
+%
+% An OpenType feature file can have any number of features and can have a
+% mix of substitution and positioning features, please refer to the full
+% feature file specification for further documentation.
 %
 % \begin{figure}
-% \caption{Addition of ligatures to a font via the \feat{FeatureFile} font
-% feature.}
+% \caption{An example font feature file.}
 % \label{fig:featurefile}
 % \hrule
 % \begin{Verbatim}
 % languagesystem DFLT dflt;
 % languagesystem latn dflt;
 %
+% # Ligatures
 % feature liga {
 %   sub \f \i by \fi;
 %   sub \f \l by \fl;
 % } liga;
+%
+% # Kerning
+% feature kern {
+%  pos \A \Y -200;
+%  pos \a \y -80;
+% } kern;
 % \end{Verbatim}
 % \hrule
 % \end{figure}

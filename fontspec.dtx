@@ -561,7 +561,7 @@ This work consists of this file fontspec.dtx
 % freezes the maths fonts after this stage of the processing. The \pkg{fontspec}
 % package must also be loaded after any maths font packages (\eg, \pkg{euler})
 % to be successful. (Actually, it is \emph{only} \pkg{euler} that is the
-% problem.\footnote{Speaking of \pkg{euler}, if you want to use its
+% problem.\note{Speaking of \pkg{euler}, if you want to use its
 % \texttt{[mathbf]} option, it won't work, and you'll need to put this after
 % \pkg{fontspec} is loaded instead:
 % \ttfamily\cmd\AtBeginDocument\char`\{\cmd\DeclareMathAlphabet\cmd\mathbf\char`\{U\char`\}\char`\{eur\char`\}\char`\{b\char`\}\char`\{n\char`\}})
@@ -1100,7 +1100,7 @@ This work consists of this file fontspec.dtx
 % with a specially drawn glyph for functional or \ae sthetic reasons.
 % The list of options, of which multiple may be selected at one time,
 % is shown in \ref{feat:Ligatures}.
-% A demonstration with the Linux Libertine fonts\footnote{\url{http://www.linuxlibertine.org/}} is shown in \exref{lig}.
+% A demonstration with the Linux Libertine fonts\note{\url{http://www.linuxlibertine.org/}} is shown in \exref{lig}.
 %
 % Note the additional features accessed with \verb|Ligatures=TeX|. These are
 % not actually real OpenType features, but additions provided by \pkg{luaotfload} (i.e., \LuaTeX\ only) to emulate \TeX's behaviour for \textsc{ascii} input of curly quotes and punctuation. In \XeTeX\ this is achieved with the \feat{Mapping} feature (see \vref{sec:mapping}) but for consistency \verb|Ligatures=TeX| will perform the same function as \verb|Mapping=tex-text|.
@@ -1211,7 +1211,7 @@ This work consists of this file fontspec.dtx
 %
 % The \opt{Arabic} option (with tag \verb|anum|) maps regular numerals to their Arabic script or Persian equivalents
 % based on the current \opt{Language} setting (see \vref{sec:ot}), shown in
-% \exref{num-arab} using the Zar fonts\footnote{\url{http://wiki.irmug.org/index.php/X_Series_2}}.
+% \exref{num-arab} using the Zar fonts\note{\url{http://wiki.irmug.org/index.php/X_Series_2}}.
 % This option is based on a \LuaTeX\ feature of the \pkg{luaotfload} package,
 % not an OpenType feature. (Thus, this feature is unavailable in \XeTeX.)
 %
@@ -1322,7 +1322,7 @@ This work consists of this file fontspec.dtx
 % features |ss01|, |ss02|, etc.
 %
 % Two demonstrations from the Junicode
-% font\footnote{\url{http://junicode.sf.net}}
+% font\note{\url{http://junicode.sf.net}}
 % are shown in \exref{ss} and \exref{ss2}; thanks to Adam
 % Buchbinder for the suggestion.
 %
@@ -1467,7 +1467,7 @@ This work consists of this file fontspec.dtx
 % \end{features}
 %
 % As briefly mentioned previously at the end of \vref{sec:letters},
-% the \opt{Uppercase} option will add a small amount of tracking between uppercase letters, seen in \exref{kernup}, which uses the Romande fonts\footnote{\url{http://arkandis.tuxfamily.org/adffonts.html}} (thanks to Clea F. Rees for the suggestion).
+% the \opt{Uppercase} option will add a small amount of tracking between uppercase letters, seen in \exref{kernup}, which uses the Romande fonts\note{\url{http://arkandis.tuxfamily.org/adffonts.html}} (thanks to Clea F. Rees for the suggestion).
 %
 % \begin{Xexample}[firstline=2]{kernup}{Adding extra kerning for uppercase letters. (The difference is usually very small.)}
 %   \large
@@ -1637,7 +1637,7 @@ This work consists of this file fontspec.dtx
 %
 % \subsubsection{\feat{Script} and \feat{Language} examples}
 %
-% In the following examples, the Code2000 font\footnote{\url{http://www.code2000.net/}}
+% In the following examples, the Code2000 font\note{\url{http://www.code2000.net/}}
 % is used to typeset the input with and without the OpenType Script
 % applied. The text is only rendered correctly in the second case;
 % many examples of incorrect diacritic spacing as
@@ -1734,7 +1734,7 @@ This work consists of this file fontspec.dtx
 %
 % An OpenType font feature file is a plain text file describing OpenType layout
 % feature of a font in a human-readable format. The syntax of OpenType feature
-% files is defined by Adobe\footnote{\url{http://www.adobe.com/devnet/opentype/afdko/topic_feature_file_syntax.html}}.
+% files is defined by Adobe\note{\url{http://www.adobe.com/devnet/opentype/afdko/topic_feature_file_syntax.html}}.
 %
 % Feature files can be used to add or customize OpenType features of a font on
 % the fly without editing the font file itself.
@@ -1769,7 +1769,7 @@ This work consists of this file fontspec.dtx
 % Glyph positioning features like kerning can be defined in a similar way,
 % but instead of the keyword \texttt{sub(stitute)} the keyword
 % \texttt{pos(ition)} is used instead. Figure~\ref{fig:featurefile} shows
-% an example of adding kerning between \texttt{AY} and \texttt{ay}\footnote{
+% an example of adding kerning between \texttt{AY} and \texttt{ay}\note{
 % The kerning is expressed in font design units which are fractions of em
 % depending on the \emph{units per em} value of the font, usually 1000 for
 % PostScript fonts and 2048 for TrueType fonts.}.

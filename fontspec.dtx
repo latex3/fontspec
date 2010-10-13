@@ -4324,11 +4324,11 @@ This work consists of this file fontspec.dtx
   \tl_if_empty:NTF \l_tmpa_tl
   { \prg_return_false: }
   {
-    \intexpr_compare:nTF { \XeTeXisexclusivefeature\zf@basefont #1 > 0 }
+    \int_compare:nTF { \XeTeXisexclusivefeature\zf@basefont #1 > 0 }
     {
       \tl_set:Nx \l_tmpb_tl {\XeTeXselectorname\zf@basefont #1\space #2}
     }{
-      \intexpr_if_even:nTF {#2}
+      \int_if_even:nTF {#2}
       {
         \tl_set:Nx \l_tmpb_tl {\XeTeXselectorname\zf@basefont #1\space #2}
       }{
@@ -4403,7 +4403,7 @@ This work consists of this file fontspec.dtx
     \int_set:Nn \l_tmpb_int { \XeTeXOTcountscripts\zf@basefont }
     \int_zero:N \l_tmpa_int
     \@tempswafalse
-    \bool_until_do:nn { \intexpr_compare_p:nNn \l_tmpa_int = \l_tmpb_int }
+    \bool_until_do:nn { \int_compare_p:nNn \l_tmpa_int = \l_tmpb_int }
     {
       \ifnum \XeTeXOTscripttag\zf@basefont \l_tmpa_int = \l_fontspec_strnum_int
         \@tempswatrue
@@ -4436,7 +4436,7 @@ This work consists of this file fontspec.dtx
     }
     \int_zero:N \l_tmpa_int
     \@tempswafalse
-    \bool_until_do:nn { \intexpr_compare_p:nNn \l_tmpa_int = \l_tmpb_int }
+    \bool_until_do:nn { \int_compare_p:nNn \l_tmpa_int = \l_tmpb_int }
     {
       \ifnum\XeTeXOTlanguagetag\zf@basefont\l_fontspec_script_int \l_tmpa_int =\l_fontspec_strnum_int
         \@tempswatrue
@@ -4477,7 +4477,7 @@ This work consists of this file fontspec.dtx
     \fontspec_v_str_to_num:Nn \l_fontspec_strnum_int {#1}
     \int_zero:N \l_tmpa_int
     \@tempswafalse
-    \bool_until_do:nn { \intexpr_compare_p:nNn \l_tmpa_int = \l_tmpb_int }
+    \bool_until_do:nn { \int_compare_p:nNn \l_tmpa_int = \l_tmpb_int }
     {
       \ifnum\XeTeXOTfeaturetag\zf@basefont\l_fontspec_script_int\l_fontspec_language_int
            \l_tmpa_int =\l_fontspec_strnum_int
@@ -4555,7 +4555,7 @@ This work consists of this file fontspec.dtx
 \define@choicekey[zf]{preparse}{Renderer}[\l_tmpa_tl\l_tmpa_num]
     {AAT,ICU,Graphite,Full,Basic}{
   \fontspec_update_fontid:n {+rend:#1}
-  \intexpr_compare:nTF {\l_tmpa_num < 3} {
+  \int_compare:nTF {\l_tmpa_num < 3} {
     \xetex_or_luatex:nn
     {
       \tl_set:Nv \l_fontspec_renderer_tl {g_fontspec_renderer_tag_\l_tmpa_tl}
@@ -4901,10 +4901,10 @@ This work consists of this file fontspec.dtx
     \convertcolorspec{named}{#1}{HTML}\l_fontspec_hexcol_tl
   }
   {
-    \intexpr_compare:nTF { \tl_elt_count:n {#1} == 6 }
+    \int_compare:nTF { \tl_elt_count:n {#1} == 6 }
     { \tl_set:Nn \l_fontspec_hexcol_tl {#1} }
     {
-      \intexpr_compare:nTF { \tl_elt_count:n {#1} == 8 }
+      \int_compare:nTF { \tl_elt_count:n {#1} == 8 }
       { \fontspec_parse_colour:viii #1 }
       {
         \bool_if:NF \l_fontspec_firsttime_bool {
@@ -5238,7 +5238,7 @@ This work consists of this file fontspec.dtx
 %
 %    \begin{macrocode}
 \xetex_or_luatex:nnn { \cs_set:Npn \fontspec_salt:n #1 }
-  {+salt=#1} { +salt= \intexpr_eval:n {#1+1} }
+  {+salt=#1} { +salt= \int_eval:n {#1+1} }
 %    \end{macrocode}
 %
 %    \begin{macrocode}
@@ -5337,7 +5337,7 @@ This work consists of this file fontspec.dtx
 %
 %    \begin{macrocode}
 \xetex_or_luatex:nnn { \cs_set:Npn \fontspec_nalt:n #1 }
-  {+nalt=#1} { +nalt= \intexpr_eval:n {#1+1} }
+  {+nalt=#1} { +nalt= \int_eval:n {#1+1} }
 %    \end{macrocode}
 %
 % \subsubsection{Vertical}

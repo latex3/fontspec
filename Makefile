@@ -47,7 +47,7 @@ GENERATED = $(COMPILED) $(UNPACKED)
 
 TESTS = $(shell ls testsuite/*.cls testsuite/*.tex testsuite/*.ltx)
 
-DOC_EXAMPLES = $(shell ls doc/*.pdf)
+DOC_EXAMPLES = $(shell ls doc-files/*.pdf)
 
 CTAN_FILES = $(SOURCE) $(COMPILED) $(EXAMPLES) $(DOC_EXAMPLES)
 

@@ -62,7 +62,7 @@ This work consists of this file fontspec.dtx
 %<fontspec>\ProvidesPackage{fontspec}
 %<patches>\ProvidesPackage{fontspec-patches}
 %<*fontspec|patches>
-  [2010/09/29 v2.1b Advanced font selection for XeLaTeX/LuaLaTeX]
+  [2010/10/13 v2.1c Advanced font selection for XeLaTeX/LuaLaTeX]
 %</fontspec|patches>
 %
 %<*driver>
@@ -2655,10 +2655,14 @@ This work consists of this file fontspec.dtx
 {
   Option~ '#2'~ of~ font~ feature~ '#1'~ overwritten.
 }
-\msg_new:nnn {fontspec} {script-not-exist}
+\msg_new:nnn {fontspec} {script-not-exist-latn}
 {
   Font~ '\l_fontspec_fontname_tl'~ does~ not~ contain~ script~ '#1'.\\
   'Latin'~ script~ used~ instead.
+}
+\msg_new:nnn {fontspec} {script-not-exist}
+{
+  Font~ '\l_fontspec_fontname_tl'~ does~ not~ contain~ script~ '#1'.
 }
 \msg_new:nnn {fontspec} {aat-feature-not-exist}
 {
@@ -3135,8 +3139,12 @@ This work consists of this file fontspec.dtx
       \tl_set:Nn \l_fontspec_script_tl {#2}
       \int_set:Nn \l_fontspec_script_int {\l_fontspec_strnum_int}
     }{
-      \fontspec_warning:nx {script-not-exist} {#1}
-      \setkeys[zf@feat]{Script}{Latin}
+      \fontspec_check_script:nTF {latn} {
+        \fontspec_warning:nx {script-not-exist-latn} {#1}
+        \setkeys[zf@feat]{Script}{Latin}
+      }{
+        \fontspec_warning:nx {script-not-exist} {#1}
+      }
     }
   }
 }

@@ -145,6 +145,13 @@ gladly accepted!
 Change history
 --------------
 
+- v2.1c (2010/10/13)
+
+    * Fix bug when defining bold italic fonts by filename
+    * Avoid infinite loop when the Latin script is requested for a font
+      that does not contain it. TODO: a suitable fallback script should be
+      chosen; right now we just ignore the script selection.
+
 - v2.1b (2010/09/29)
 
     * Fix for bug introduced in the last release:

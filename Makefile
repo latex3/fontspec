@@ -173,7 +173,11 @@ SUITESOURCE = \
 
 TESTOUT = $(shell ls $(testdir)/*.*safe.pdf)
 BUILDTESTSRC = $(subst $(testdir)/,$(builddir)/,$(subst .safe.pdf,.ltx,$(TESTOUT)))
-BUILDTESTTARGET = $(subst $(testdir)/,$(builddir)/,$(subst .safe.pdf,.diff.pdf,$(TESTOUT)))
+BUILDTESTTARGET1 = $(TESTOUT)
+BUILDTESTTARGET2 = $(subst $(testdir)/,$(builddir)/,$(BUILDTESTTARGET1))
+BUILDTESTTARGET3 = $(subst .Xsafe.pdf,-X.diff.pdf,$(BUILDTESTTARGET2))
+BUILDTESTTARGET4 = $(subst .Lsafe.pdf,-L.diff.pdf,$(BUILDTESTTARGET3))
+BUILDTESTTARGET = $(BUILDTESTTARGET4)
 
 BUILDSOURCE = $(addprefix $(builddir)/,$(LTXSOURCE))
 BUILDSUITE  = $(subst $(testdir)/,$(builddir)/,$(SUITESOURCE))
@@ -241,7 +245,7 @@ $(builddir)/F%-L.diff.pdf: $(builddir)/F%-L.pdf
 	fi
 
 $(builddir)/F%-X.diff.pdf: $(builddir)/F%-X.pdf
-	@echo 'F$*: Comparing PDF from LuaLaTeX against reference output.'
+	@echo 'F$*: Comparing PDF from XeLaTeX against reference output.'
 	if test $(shell compare \
 	                $(COMPARE_OPTS) \
 	                $(builddir)/F$*-X.pdf \

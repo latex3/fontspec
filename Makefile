@@ -320,3 +320,18 @@ X%: build/X%.ltx
 F%: build/F%.ltx
 	make build/F$*-L.diff.pdf
 	make build/F$*-X.diff.pdf
+
+
+###### NIGHTLY BUILDS ######
+
+tdsbuild: $(TDS_ZIP)
+	cp -f $(TDS_ZIP) /tmp/
+	git checkout tds-build
+	unzip -o /tmp/$(TDS_ZIP) -d .
+	rm /tmp/$(TDS_ZIP)
+	git commit -a -m "tds build"
+	git clean -f
+	git push origin tds-build
+	git checkout master
+
+

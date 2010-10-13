@@ -87,9 +87,12 @@ gendoc: $(DTX)
 	$(DO_PDFLATEX_WRITE18)
 
 $(DOC): $(DTX)
+	@echo "Compiling documentation"
 	$(DO_PDFLATEX)
 	$(DO_MAKEINDEX)
+	@echo "Re-compiling documentation"
 	$(DO_PDFLATEX)
+	@echo "Re-re-compiling documentation"
 	$(DO_PDFLATEX)
 
 $(UNPACKED): $(DTX)

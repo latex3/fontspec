@@ -147,7 +147,9 @@ Change history
 
 - v2.1c (2010/10/13)
 
-    * Fix bug when defining bold italic fonts by filename
+    * New documentation for defining custom kerning and ligatures
+      when using LuaLaTeX.
+    * Fix bug when defining bold italic fonts by filename.
     * Avoid infinite loop when the Latin script is requested for a font
       that does not contain it. TODO: a suitable fallback script should be
       chosen; right now we just ignore the script selection.

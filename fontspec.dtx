@@ -3213,11 +3213,11 @@ This work consists of this file fontspec.dtx
 % Test whether the currently selected font has been loaded by fontspec.
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \fontspec_if_fontspec_font: {TF,T,F} {
-  \ifcsname zf@family@fontdef\f@family\endcsname
+  \cs_if_exist:cTF {g_fontspec_ \f@family _prop} {
     \prg_return_true:
-  \else
+  }{
     \prg_return_false:
-  \fi
+  }
 }
 %    \end{macrocode}
 % \end{macro}
@@ -3651,7 +3651,7 @@ This work consists of this file fontspec.dtx
     }
   }
   \tl_gset:Nv \zf@family {g_fontspec_UID_\l_fontspec_fontid_tl}
-  \cs_if_exist:cTF {zf@family@fontname\zf@family}
+  \cs_if_exist:cTF {g_fontspec_ \zf@family _prop}
     \prg_return_false: \prg_return_true:
 }
 %    \end{macrocode}
@@ -3694,7 +3694,22 @@ This work consists of this file fontspec.dtx
 % \begin{macro}{\fontspec_save_fontinfo:nn}
 % Saves the relevant font information for future processing.
 %    \begin{macrocode}
+\cs_generate_variant:Nn \prop_gput:Nnn {cnV}
+\cs_generate_variant:Nn \prop_gput:Nnn {cnx}
 \cs_new:Npn \fontspec_save_fontinfo:nn #1#2 {
+
+  \prop_new:c {g_fontspec_ \zf@family _prop}
+  \prop_gput:cnx {g_fontspec_ \zf@family _prop} {fontname} {#2}
+  \prop_gput:cnx {g_fontspec_ \zf@family _prop} {options} {\g_fontspec_default_fontopts_tl #1}
+  \prop_gput:cnx {g_fontspec_ \zf@family _prop} {fontdef} {
+        \fontspec_fullname:n {\l_fontspec_fontname_tl} :
+        \l_fontspec_pre_feat_sclist \l_fontspec_rawfeatures_sclist
+  }
+  \prop_gput:cnV {g_fontspec_ \zf@family _prop} {script-num} \l_fontspec_script_int
+  \prop_gput:cnV {g_fontspec_ \zf@family _prop} {lang-num} \l_fontspec_language_int
+  \prop_gput:cnV {g_fontspec_ \zf@family _prop} {script-tag} \l_fontspec_script_tl
+  \prop_gput:cnV {g_fontspec_ \zf@family _prop} {lang-tag} \l_fontspec_lang_tl
+
     \tl_gset:cx {zf@family@fontname\zf@family} {#2}
     \tl_gset:cx {zf@family@options\zf@family} {\g_fontspec_default_fontopts_tl #1}
     \tl_gset:cx {zf@family@fontdef\zf@family} {

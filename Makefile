@@ -343,16 +343,20 @@ hello:
 
 tdsbuild: $(TDS_ZIP)
 	cp -f $(TDS_ZIP) /tmp/
+	@echo "Constructing commit history for snapshot build"
 	date "+TDS snapshot %Y-%m-%d %H:%M" > $(LOG)
 	echo '\n\nApproximate commit history since last snapshot:\n' >> $(LOG)
 	git log --after="`git log -b tds-build -n 1 --pretty=format:"%aD"`" --pretty=format:"%+H%+s%+b" >> $(LOG)
+	@echo "Committing TDS snapshot to separate branch"
 	git checkout tds-build
 	unzip -o /tmp/$(TDS_ZIP) -d .
 	rm /tmp/$(TDS_ZIP)
 	git commit --all --file=$(LOG)
-	git clean -f
-	git push origin tds-build
+	git clean -df
+	@echo "Pushing all to Github"
 	git checkout master
+	git push origin tds-build master
+	@echo "Pinging TLContrib for automatic update"
 	curl http://tlcontrib.metatex.org/cgi-bin/package.cgi/action=notify/key=$(KEY)/check=$(CHECKSUM)?version=$(VERSION) > /dev/null 2>&1
 
 

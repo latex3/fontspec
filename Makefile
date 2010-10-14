@@ -324,14 +324,36 @@ F%: build/F%.ltx
 
 ###### NIGHTLY BUILDS ######
 
+# Mac OS X specific:
+PWSCRIPT := $(shell security 2>&1 >/dev/null find-internet-password -gs tlcontrib.metatex.org | cut -f 2 -d ' ')
+
+LOG =  /tmp/gitlog.tmp
+KEY = fontspec
+USERNAME = wspr
+PASSWORD = $(PWSCRIPT)
+VERSION := $(shell date "+%Y-%m-%d@%H:%M")
+CHECKSUM := $(shell echo $(USERNAME)/$(PASSWORD)/$(VERSION) | md5)
+
+hello:
+	echo $(USERNAME)
+	echo $(PASSWORD)
+	echo $(VERSION)
+	echo $(CHECKSUM)
+	echo http://tlcontrib.metatex.org/cgi-bin/package.cgi/action=notify/key=$(KEY)/check=$(CHECKSUM)?version=$(VERSION)
+
 tdsbuild: $(TDS_ZIP)
 	cp -f $(TDS_ZIP) /tmp/
+	date "+TDS snapshot %Y-%m-%d %H:%M" > $(LOG)
+	echo '\n\nApproximate commit history since last snapshot:\n' >> $(LOG)
+	git log --after="`git log -b tds-build -n 1 --pretty=format:"%aD"`" --pretty=format:"%+H%+s%+b" >> $(LOG)
 	git checkout tds-build
 	unzip -o /tmp/$(TDS_ZIP) -d .
 	rm /tmp/$(TDS_ZIP)
-	git commit -a -m "tds build"
+	git commit --all --file=$(LOG)
 	git clean -f
 	git push origin tds-build
 	git checkout master
+	curl http://tlcontrib.metatex.org/cgi-bin/package.cgi/action=notify/key=$(KEY)/check=$(CHECKSUM)?version=$(VERSION) > /dev/null 2>&1
+
 
 

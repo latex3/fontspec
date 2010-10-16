@@ -1,0 +1,6 @@
+
+build/
+doc-files/
+testsuite/*.pdf
+fontspec-*
+

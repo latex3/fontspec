@@ -4011,10 +4011,12 @@ This work consists of this file fontspec.dtx
   }
 %    \end{macrocode}
 % This extra stuff for the slanted shape substitution is a little bit awkward,
-% but I'd rather have it here than break out yet another macro. Alternatively,
-% one day I might just redefine \cmd\slshape. Why not, eh?
+% but I'd rather have it here than break out yet another macro.
 %    \begin{macrocode}
-  \str_if_eq:xxT {#3} {\itdefault}
+  \bool_if:nT {
+     \str_if_eq_p:xx {#3} {\itdefault}  &&
+    !(\str_if_eq_p:xx {\itdefault} {\sldefault})
+  }
   {
     \use:x {
       \exp_not:N \DeclareFontShape {\zf@enc}{\zf@family}{#2}{\sldefault}

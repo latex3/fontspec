@@ -47,7 +47,8 @@ GENERATED = $(COMPILED) $(UNPACKED)
 
 TESTS = $(shell ls testsuite/*.cls testsuite/*.tex testsuite/*.ltx)
 
-DOC_EXAMPLES = $(shell ls doc-files/*.pdf)
+DOC_DIR = doc-files
+DOC_EXAMPLES = $(shell ls $(DOC_DIR)/*.pdf)
 
 CTAN_FILES = $(SOURCE) $(COMPILED) $(EXAMPLES) $(DOC_EXAMPLES)
 
@@ -84,6 +85,7 @@ tds: $(TDS_ZIP)
 world: all ctan
 
 gendoc: $(DTX)
+	@mkdir -p $(DOC_DIR)
 	$(DO_PDFLATEX_WRITE18)
 
 $(DOC): $(DTX)
@@ -365,7 +367,7 @@ createbranch: $(TDS)
 	@echo "\nTDS branch creation was successful.\n"
 	@echo "Now create a new package at TLContrib: http://tlcontrib.metatex.org/"
 	@echo "Use the following metadata:"
-	@echo "    Package ID: $(PKG)"
+	@echo "    Package ID: $(NAME)"
 	@echo "        BRANCH: $(BRANCH)"
 	@echo "\nAfter this process, use \`make tdsbuild\` to"
 	@echo "    (a) push your recent work on the master branch,"
@@ -374,19 +376,26 @@ createbranch: $(TDS)
 
 
 ifeq ($(UNAME_S),Darwin)
-  tlclogin:  USERNAME = $(shell security find-internet-password -s tlcontrib.metatex.org | grep "acct" | cut -f 4 -d \")
-  tlclogin:  PASSWORD = $(shell security 2>&1 >/dev/null find-internet-password -gs tlcontrib.metatex.org | cut -f 2 -d ' ')
+  nightly:  USERNAME = $(shell security find-internet-password -s tlcontrib.metatex.org | grep "acct" | cut -f 4 -d \")
+  nightly:  PASSWORD = $(shell security 2>&1 >/dev/null find-internet-password -gs tlcontrib.metatex.org | cut -f 2 -d ' ')
 endif
 
 ifeq ($(UNAME_S),Linux)
-  tlclogin:  USERNAME = ""
-  tlclogin:  PASSWORD = ""
+  nightly:  USERNAME = ""
+  nightly:  PASSWORD = ""
 endif
 
-tlclogin:  VERSION = $(shell date "+%Y-%m-%d@%H:%M")
-tlclogin: ;
+nightly:  VERSION = $(shell date "+%Y-%m-%d@%H:%M")
 
-tdsbuild: checkbranch tlclogin $(TDS)
+nightly:  CHECKSUM = $(shell echo $(USERNAME)/$(PASSWORD)/$(VERSION) | $(MD5) )
+
+nightly: tdsbuild checkbranch checkpw
+	@echo "Pushing TDS and master branch"
+	git push origin $(BRANCH) master
+	@echo "Pinging TLContrib for automatic update"
+	curl http://tlcontrib.metatex.org/cgi-bin/package.cgi/action=notify/key=$(NAME)/check=$(CHECKSUM)?version=$(VERSION) > /dev/null 2>&1
+
+tdsbuild: $(TDS)
 	cp -f $(TDS) $(TMP)/
 	@echo "Constructing commit history for snapshot build"
 	date "+TDS snapshot %Y-%m-%d %H:%M" > $(LOG)
@@ -397,11 +406,16 @@ tdsbuild: checkbranch tlclogin $(TDS)
 	unzip -o $(TMP)/$(TDS) -d .
 	rm $(TMP)/$(TDS)
 	git commit --all --file=$(LOG)
-	git clean -df
-	@echo "Pushing TDS and master branch"
 	git checkout master
-	git push origin $(BRANCH) master
-	@echo "Pinging TLContrib for automatic update"
-	curl http://tlcontrib.metatex.org/cgi-bin/package.cgi/action=notify/key=$(PKG)/check=$(shell echo $(USERNAME)/$(PASSWORD)/$(VERSION) | $(MD5) )?version=$(VERSION) > /dev/null 2>&1
+	@echo "Branches 'master' and '$(BRANCH)' should now be pushed."
 
+checkpw:
+	@if test ! -n "$(PASSWORD)" ; then \
+		echo "Error: Password cannot be found for TLContrib." ; \
+		false ; \
+	fi ;
+	@echo "Username: $(USERNAME)"
+	@echo "Password: [omitted]"
+	@echo "Version: $(VERSION)"
+	@echo "Checksum: $(CHECKSUM)"
 

@@ -62,7 +62,7 @@ This work consists of this file fontspec.dtx
 %<fontspec>\ProvidesPackage{fontspec}
 %<patches>\ProvidesPackage{fontspec-patches}
 %<*fontspec|patches>
-  [2010/10/13 v2.1c Advanced font selection for XeLaTeX/LuaLaTeX]
+  [2010/10/25 v2.1c Advanced font selection for XeLaTeX/LuaLaTeX]
 %</fontspec|patches>
 %
 %<*driver>
@@ -2722,7 +2722,7 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \msg_new:nnn {fontspec} {defining-font}
 {
-  Defining~ font~ family~ for~ '#2'~ with~ options~ [\g_fontspec_default_fontopts_tl #1].
+  Defining~ font~ family~'\zf@family'~ for~ font~ '#2'~ with~ options~ [\g_fontspec_default_fontopts_tl #1].
 }
 \msg_new:nnn {fontspec} {defining-raw}
 {
@@ -4851,8 +4851,7 @@ This work consists of this file fontspec.dtx
     \dim_set:Nn \@tempdimb {#2\fontdimen3\zf@basefont}
     \dim_set:Nn \@tempdimc {#3\fontdimen4\zf@basefont}
   }
-  \tl_set:Nx \l_fontspec_postadjust_tl {
-    \l_fontspec_postadjust_tl
+  \tl_put_right:Nx \l_fontspec_postadjust_tl {
     \fontdimen2\font\the\@tempdima
     \fontdimen3\font\the\@tempdimb
     \fontdimen4\font\the\@tempdimc
@@ -4867,7 +4866,16 @@ This work consists of this file fontspec.dtx
 \define@key[zf]{options}{PunctuationSpace}{
   \fontspec_update_fontid:n {+punctspace:#1}
   \setlength\@tempdima{#1\fontdimen7\zf@basefont}
-  \tl_set:Nx \l_fontspec_postadjust_tl {\l_fontspec_postadjust_tl\fontdimen7\font\the\@tempdima}
+  \tl_put_right:Nx \l_fontspec_postadjust_tl {\fontdimen7\font\the\@tempdima}
+}
+%    \end{macrocode}
+%
+% \paragraph{Secret hook into the font-adjustment code}
+%
+%    \begin{macrocode}
+\define@key[zf]{options}{FontAdjustment}{
+  \fontspec_update_fontid:n {+fontadjust:\detokenize{#1}}
+  \tl_put_right:Nx \l_fontspec_postadjust_tl {#1}
 }
 %    \end{macrocode}
 %
@@ -5282,6 +5290,31 @@ This work consists of this file fontspec.dtx
   \clist_set_eq:NN \XKV@rm \l_fontspec_tmpa_clist
 }
 %    \end{macrocode}
+%
+%
+% \subsubsection{OpenType maths font features}
+% Used internally by \pkg{unicode-math}; their names might change:
+%    \begin{macrocode}
+\xetex_or_luatex:nnn {\define@key[zf]{options}{ScriptStyle}[]}
+{
+  \fontspec_update_fontid:n {+ssty=0}
+  \fontspec_update_featstr:n{+ssty=0}
+}
+{
+  \fontspec_update_fontid:n {+ssty=1}
+  \fontspec_update_featstr:n{+ssty=1}
+}
+\xetex_or_luatex:nnn {\define@key[zf]{options}{ScriptScriptStyle}[]}
+{
+  \fontspec_update_fontid:n {+ssty=1}
+  \fontspec_update_featstr:n{+ssty=1}
+}
+{
+  \fontspec_update_fontid:n {+ssty=2}
+  \fontspec_update_featstr:n{+ssty=2}
+}
+%    \end{macrocode}
+%
 %
 % \subsubsection{Style}
 %    \begin{macrocode}

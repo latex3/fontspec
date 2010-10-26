@@ -6114,6 +6114,21 @@ function fontspec.check_ot_feat(fnt, feat, lang, script)
     end
 end
 
+function fontspec.mathfontdimen(fnt, str)
+    local mathdimens = fonts.ids[font.id(fnt)].MathConstants
+    if mathdimens then
+        local m = mathdimens[str]
+        if m then
+            fontspec.sprint(mathdimens[str])
+            fontspec.sprint("sp")
+        else
+            fontspec.sprint("0pt")
+        end
+    else
+        fontspec.sprint("0pt")
+    end
+end
+
 %    \end{macrocode}
 %
 % \iffalse

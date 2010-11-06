@@ -2476,7 +2476,7 @@ This work consists of this file fontspec.dtx
 \xetex_if_engine:F {
   \luatex_if_engine:TF {
     \RequirePackage{luaotfload}
-    \luatexRequireModule{fontspec}
+    \RequireLuaModule{fontspec}
   }{
     \msg_fatal:nn {fontspec} {not-pdftex}
   }
@@ -6002,13 +6002,16 @@ fontspec.module   = {
     copyright     = "Khaled Hosny",
     license       = "LPPL"
 }
-luatexbase.provides_module(fontspec.module)
+
+local err, warn, info, log = luatexbase.provides_module(fontspec.module)
+
 %    \end{macrocode}
 % Some utility functions
 %    \begin{macrocode}
-function fontspec.log    (...) luatexbase.module_log    (fontspec.module.name, string.format(...)) end
-function fontspec.warning(...) luatexbase.module_warning(fontspec.module.name, string.format(...)) end
-function fontspec.error  (...) luatexbase.module_error  (fontspec.module.name, string.format(...)) end
+fontspec.log     = log
+fontspec.warning = warn
+fontspec.error   = err
+
 function fontspec.sprint (...) tex.sprint(luatexbase.catcodetables['latex-package'], ...) end
 %    \end{macrocode}
 % The following functions check for exsitence of certain script, language or

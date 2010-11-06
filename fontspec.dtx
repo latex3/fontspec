@@ -2465,6 +2465,9 @@ This work consists of this file fontspec.dtx
 \ExplSyntaxOn
 %    \end{macrocode}
 %
+%    Check engine and load specific modules. For Lua\TeX, load only
+%    \pkg{luaotfload} which loads \pkg{luatexbase} and \pkg{lualibs} too.
+%
 %    \begin{macrocode}
 \msg_new:nnn {fontspec} {not-pdftex}
 {
@@ -2472,7 +2475,7 @@ This work consists of this file fontspec.dtx
 }
 \xetex_if_engine:F {
   \luatex_if_engine:TF {
-    \RequirePackage{luatextra}[2010/05/10]
+    \RequirePackage{luaotfload}
     \luatexRequireModule{fontspec}
   }{
     \msg_fatal:nn {fontspec} {not-pdftex}

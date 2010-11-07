@@ -45,7 +45,7 @@ UNPACKED = fontspec.sty fontspec-patches.sty fontspec.lua fontspec.cfg $(EXAMPLE
 SOURCE = $(DTX) Makefile README
 GENERATED = $(COMPILED) $(UNPACKED)
 
-TESTS = $(shell ls testsuite/*.cls testsuite/*.tex testsuite/*.ltx)
+TESTS = $(wildcard testsuite/*.cls testsuite/*.tex testsuite/*.ltx)
 
 DOC_DIR = doc-files
 DOC_EXAMPLES = $(shell ls $(DOC_DIR)/*.pdf)
@@ -176,7 +176,7 @@ SUITESOURCE = \
   $(testdir)/testsuite.cls \
   $(testdir)/$(TESTLIST)
 
-TESTOUT = $(shell ls $(testdir)/*.*safe.pdf)
+TESTOUT = $(wildcard $(testdir)/*.*safe.pdf)
 BUILDTESTSRC = $(subst $(testdir)/,$(builddir)/,$(subst .safe.pdf,.ltx,$(TESTOUT)))
 BUILDTESTTARGET1 = $(TESTOUT)
 BUILDTESTTARGET2 = $(subst $(testdir)/,$(builddir)/,$(BUILDTESTTARGET1))

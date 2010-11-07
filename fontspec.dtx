@@ -5990,7 +5990,6 @@ This work consists of this file fontspec.dtx
 % First we define some metadata.
 %    \begin{macrocode}
 fontspec          = { }
-
 fontspec.module   = {
     name          = "fontspec",
     version       = 2.0,
@@ -6000,26 +5999,18 @@ fontspec.module   = {
     copyright     = "Khaled Hosny",
     license       = "LPPL"
 }
-
 luatexbase.provides_module(fontspec.module)
-
 %    \end{macrocode}
 % Some utility functions
 %    \begin{macrocode}
-
-utf = unicode.utf8
-
 function fontspec.log    (...) luatexbase.module_log    (fontspec.module.name, string.format(...)) end
 function fontspec.warning(...) luatexbase.module_warning(fontspec.module.name, string.format(...)) end
 function fontspec.error  (...) luatexbase.module_error  (fontspec.module.name, string.format(...)) end
-
 function fontspec.sprint (...) tex.sprint(luatexbase.catcodetables['latex-package'], ...) end
-
 %    \end{macrocode}
 % The following functions check for exsitence of certain script, language or
 % feature in a given font.
 %    \begin{macrocode}
-
 local function check_script(id, script)
     local s = string.lower(script)
     if id and id > 0 then
@@ -6038,7 +6029,9 @@ local function check_script(id, script)
         end
     end
 end
-
+%    \end{macrocode}
+%
+%    \begin{macrocode}
 local function check_language(id, language, script)
     local s = string.lower(script)
     local l = string.lower(language)
@@ -6058,7 +6051,9 @@ local function check_language(id, language, script)
         end
     end
 end
-
+%    \end{macrocode}
+%
+%    \begin{macrocode}
 local function check_feature(id, feature, language, script)
     local s = string.lower(script)
     local l = string.lower(language)
@@ -6079,14 +6074,14 @@ local function check_feature(id, feature, language, script)
         end
     end
 end
-
 %    \end{macrocode}
 % The following are the function that get called from \TeX\ end.
 %    \begin{macrocode}
-
 local function tempswatrue()  fontspec.sprint([[\@tempswatrue]])  end
 local function tempswafalse() fontspec.sprint([[\@tempswafalse]]) end
-
+%    \end{macrocode}
+%
+%    \begin{macrocode}
 function fontspec.check_ot_script(fnt, script)
     if check_script(font.id(fnt), script) then
         tempswatrue()
@@ -6094,7 +6089,9 @@ function fontspec.check_ot_script(fnt, script)
         tempswafalse()
     end
 end
-
+%    \end{macrocode}
+%
+%    \begin{macrocode}
 function fontspec.check_ot_lang(fnt, lang, script)
     if check_language(font.id(fnt), lang, script) then
         tempswatrue()
@@ -6102,7 +6099,9 @@ function fontspec.check_ot_lang(fnt, lang, script)
         tempswafalse()
     end
 end
-
+%    \end{macrocode}
+%
+%    \begin{macrocode}
 function fontspec.check_ot_feat(fnt, feat, lang, script)
     for _, f in ipairs { "+trep", "+tlig", "+anum" } do
         if feat == f then
@@ -6116,7 +6115,9 @@ function fontspec.check_ot_feat(fnt, feat, lang, script)
         tempswafalse()
     end
 end
-
+%    \end{macrocode}
+%
+%    \begin{macrocode}
 function fontspec.mathfontdimen(fnt, str)
     local mathdimens = fonts.ids[font.id(fnt)].MathConstants
     if mathdimens then
@@ -6131,7 +6132,6 @@ function fontspec.mathfontdimen(fnt, str)
         fontspec.sprint("0pt")
     end
 end
-
 %    \end{macrocode}
 %
 % \iffalse

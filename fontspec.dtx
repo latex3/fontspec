@@ -2737,8 +2737,11 @@ This work consists of this file fontspec.dtx
     {\bfdefault/\itdefault} {bold~ italic}
     {\bfdefault/\sidefault} {bold~ italic~ small~ caps}
   } {#1}'~
-  with~ NFSS~ specification: \\
+  with~ NFSS~ spec.: \\
   \l_fontspec_nfss_tl
+  \tl_if_empty:NF \l_fontspec_postadjust_tl {
+    \\ and~ font~ adjustment~ code: \\ \l_fontspec_postadjust_tl
+  }
 }
 \msg_new:nnn {fontspec} {no-font-shape}
 {

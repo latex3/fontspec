@@ -85,65 +85,13 @@ Features can be renamed and feature options can be renamed with
 
 
 
-Installation
-------------
-
-If you are running TeX Live 2010, you can get the latest version
-of this package by running
-
-    tlmgr install fontspec
-
-  * * *
-
-If you wish to download the latest release version from CTAN, get
-the pre-built TDS package and extract it into your local texmf tree:
-
-    http://mirror.ctan.org/install/macros/latex/contrib/fontspec.tds.zip
-
-  * * *
-
-If you wish to use the latest development version from Github,
-either use git to obtain the bleeding edge version with
-
-    git clone git://github.com/wspr/fontspec.git
-
-or if you don't have git you can download it from
-
-    http://github.com/wspr/fontspec/zipball/master
-
-Having obtained the package from Github, run
-
-    tex fontspec.dtx
-
-to extract the source then and move the necessary files into your
-local texmf tree. The documentation can be compiled by running
-
-    pdflatex fontspec.dtx
-
-These steps are automated in the Makefile; run
-
-    make install
-
-to compile the documentation and install all necessary files in your
-local texmf tree. Depending how your TeX distribution is configured
-you may then need to update the filename database with `texhash`.
-
-
-Test suite
-----------
-
-Towards the end of the development process of version 2, we started
-to add a test suite to ensure stability with any future changes. The
-output of each test is included in the distributed documentation file
-`fontspec-testsuite.pdf`.
-
-There aren't many tests yet, but we'll slowly add to them in time.
-If you would like to help put some tests together, contributions are
-gladly accepted!
-
-
 Change history
 --------------
+
+- v2.1d (2010/11/07)
+    * Bug fix when \itdefault is "sl" rather than "it".
+      E.g., when using the "slides" class.
+    * Minor internal changes, including merging some code from unicode-math.
 
 - v2.1c (2010/10/13)
 
@@ -216,6 +164,64 @@ Change history
     * Many documentation improvements, especially for LuaTeX features
       `FeatureFile=...` and `Numbers=Arabic`.
     * Add `Parsi` and `Persian` synonyms for `Language=Farsi`
+
+
+Installation
+------------
+
+If you are running TeX Live 2010, you can get the latest version
+of this package by running
+
+    tlmgr install fontspec
+
+  * * *
+
+If you wish to download the latest release version from CTAN, get
+the pre-built TDS package and extract it into your local texmf tree:
+
+    http://mirror.ctan.org/install/macros/latex/contrib/fontspec.tds.zip
+
+  * * *
+
+If you wish to use the latest development version from Github,
+either use git to obtain the bleeding edge version with
+
+    git clone git://github.com/wspr/fontspec.git
+
+or if you don't have git you can download it from
+
+    http://github.com/wspr/fontspec/zipball/master
+
+Having obtained the package from Github, run
+
+    tex fontspec.dtx
+
+to extract the source then and move the necessary files into your
+local texmf tree. The documentation can be compiled by running
+
+    pdflatex fontspec.dtx
+
+These steps are automated in the Makefile; run
+
+    make install
+
+to compile the documentation and install all necessary files in your
+local texmf tree. Depending how your TeX distribution is configured
+you may then need to update the filename database with `texhash`.
+
+
+Test suite
+----------
+
+Towards the end of the development process of version 2, we started
+to add a test suite to ensure stability with any future changes. The
+output of each test is included in the distributed documentation file
+`fontspec-testsuite.pdf`.
+
+There aren't many tests yet, but we'll slowly add to them in time.
+If you would like to help put some tests together, contributions are
+gladly accepted!
+
 
 Manifest
 --------

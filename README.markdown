@@ -88,7 +88,12 @@ Features can be renamed and feature options can be renamed with
 Change history
 --------------
 
+- v2.1e (2010/11/17)
+
+    * Internal changes for luatexbase v0.3.
+
 - v2.1d (2010/11/07)
+
     * Bug fix when \itdefault is "sl" rather than "it".
       E.g., when using the "slides" class.
     * Minor internal changes, including merging some code from unicode-math.

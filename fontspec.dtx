@@ -4200,9 +4200,10 @@ This work consists of this file fontspec.dtx
 %
 % \begin{macro}{\sclist_put_right:Nn}
 % I'm hardly going to write an `sclist' module but a couple of functions are
-% useful.
+% useful. Here, items in semi-colon lists are always followed by a semi-colon
+% (as opposed to the s.-c's being placed between elements) so we can append
+% sclists without worrying about it.
 %    \begin{macrocode}
-\cs_set_eq:NN \sclist_new:N \tl_new:N
 \cs_set_eq:NN \sclist_clear:N \tl_clear:N
 \cs_new:Npn \sclist_gput_right:Nn #1#2 {
   \tl_gput_right:Nn #1 {#2;}
@@ -4221,7 +4222,7 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \cs_new:Nn \fontspec_update_featstr:n {
   \bool_if:NF \l_fontspec_firsttime_bool {
-    \sclist_gput_right:Nx \l_fontspec_rawfeatures_sclist {#1;}
+    \sclist_gput_right:Nx \l_fontspec_rawfeatures_sclist {#1}
   }
 }
 %    \end{macrocode}

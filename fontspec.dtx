@@ -3455,9 +3455,6 @@ This work consists of this file fontspec.dtx
 %
 % \subsection{expl3 interface for font loading}
 %
-% Using |\font\1={xyz}| notation doesn't work at present with LuaLaTeX,
-% although it should be the correct way to do things. Continue to use
-% |\font\1="xyz"| for now for both engines.
 %    \begin{macrocode}
 \xetex_or_luatex:nnn { \cs_set:Npn \fontspec_fontwrap:n #1 } { "#1" } { {#1} }
 \cs_set:Npn \fontspec_fontwrap:n #1 { "#1" }

@@ -3581,7 +3581,7 @@ This work consists of this file fontspec.dtx
   \fontspec_font_set:Nnn \zf@basefont {\fontspec_fullname:n {\l_fontspec_fontname_up_tl}} {\f@size pt}
   \font_if_null:NT \zf@basefont { \fontspec_error:nx {font-not-found} {\l_fontspec_fontname_up_tl} }
   \fontspec_set_font_type:
-  \font_gset:Nnn \zf@basefont {\fontspec_fullname:n {\l_fontspec_fontname_up_tl}} {\f@size pt}
+  \fontspec_font_gset:Nnn \zf@basefont {\fontspec_fullname:n {\l_fontspec_fontname_up_tl}} {\f@size pt}
   \zf@basefont % this is necessary for LuaLaTeX to check the scripts properly
 %    \end{macrocode}
 % Continue:

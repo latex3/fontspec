@@ -3239,7 +3239,7 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \fontspec_if_aat_feature:nn {TF,T,F} {
   \fontspec_if_fontspec_font:TF {
-    \font_set:Nnn \zf@basefont {\use:c{zf@family@fontdef\f@family}} {\f@size pt}
+    \fontspec_font_set:Nnn \zf@basefont {\use:c{zf@family@fontdef\f@family}} {\f@size pt}
     \bool_if:NTF \l_fontspec_atsui_bool {
       \fontspec_make_AAT_feature_string:nnTF {#1}{#2}
         \prg_return_true: \prg_return_false:
@@ -3260,7 +3260,7 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \fontspec_if_opentype: {TF,T,F} {
   \fontspec_if_fontspec_font:TF {
-    \font_set:Nnn \zf@basefont {\csname zf@family@fontdef\f@family\endcsname} {\f@size pt}
+    \fontspec_font_set:Nnn \zf@basefont {\csname zf@family@fontdef\f@family\endcsname} {\f@size pt}
     \fontspec_set_font_type:
     \bool_if:NTF \l_fontspec_icu_bool \prg_return_true: \prg_return_false:
   }{
@@ -3278,7 +3278,7 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \fontspec_if_feature:n {TF,T,F} {
   \fontspec_if_fontspec_font:TF {
-    \font_set:Nnn \zf@basefont {\csname zf@family@fontdef\f@family\endcsname} {\f@size pt}
+    \fontspec_font_set:Nnn \zf@basefont {\csname zf@family@fontdef\f@family\endcsname} {\f@size pt}
     \fontspec_set_font_type:
     \bool_if:NTF \l_fontspec_icu_bool {
       \int_set:Nv \l_fontspec_script_int {g_fontspec_script_num_(\f@family)_tl}
@@ -3303,7 +3303,7 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \fontspec_if_feature:nnn {TF,T,F} {
   \fontspec_if_fontspec_font:TF {
-    \font_set:Nnn \zf@basefont {\csname zf@family@fontdef\f@family\endcsname} {\f@size pt}
+    \fontspec_font_set:Nnn \zf@basefont {\csname zf@family@fontdef\f@family\endcsname} {\f@size pt}
     \fontspec_set_font_type:
     \bool_if:NTF \l_fontspec_icu_bool {
       \fontspec_iv_str_to_num:Nn \l_fontspec_script_int {#1}
@@ -3327,7 +3327,7 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \fontspec_if_script:n {TF,T,F} {
   \fontspec_if_fontspec_font:TF {
-    \font_set:Nnn \zf@basefont {\csname zf@family@fontdef\f@family\endcsname} {\f@size pt}
+    \fontspec_font_set:Nnn \zf@basefont {\csname zf@family@fontdef\f@family\endcsname} {\f@size pt}
     \fontspec_set_font_type:
     \bool_if:NTF \l_fontspec_icu_bool {
       \fontspec_check_script:nTF {#1} \prg_return_true: \prg_return_false:
@@ -3349,7 +3349,7 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \fontspec_if_language:n {TF,T,F} {
   \fontspec_if_fontspec_font:TF {
-    \font_set:Nnn \zf@basefont {\csname zf@family@fontdef\f@family\endcsname} {\f@size pt}
+    \fontspec_font_set:Nnn \zf@basefont {\csname zf@family@fontdef\f@family\endcsname} {\f@size pt}
     \fontspec_set_font_type:
     \bool_if:NTF \l_fontspec_icu_bool {
       \tl_set:Nv \l_fontspec_script_tl {g_fontspec_script_(\f@family)_tl}
@@ -3373,7 +3373,7 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \fontspec_if_language:nn {TF,T,F} {
   \fontspec_if_fontspec_font:TF {
-    \font_set:Nnn \zf@basefont {\csname zf@family@fontdef\f@family\endcsname} {\f@size pt}
+    \fontspec_font_set:Nnn \zf@basefont {\csname zf@family@fontdef\f@family\endcsname} {\f@size pt}
     \fontspec_set_font_type:
     \bool_if:NTF \l_fontspec_icu_bool {
       \tl_set:Nn \l_fontspec_script_tl {#1}
@@ -3396,7 +3396,7 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \fontspec_if_current_script:n {TF,T,F} {
   \fontspec_if_fontspec_font:TF {
-    \font_set:Nnn \zf@basefont {\csname zf@family@fontdef\f@family\endcsname} {\f@size pt}
+    \fontspec_font_set:Nnn \zf@basefont {\csname zf@family@fontdef\f@family\endcsname} {\f@size pt}
     \fontspec_set_font_type:
     \bool_if:NTF \l_fontspec_icu_bool {
       \str_if_eq:nvTF {#1} {g_fontspec_script_(\f@family)_tl}
@@ -3417,7 +3417,7 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \fontspec_if_current_language:n {TF,T,F} {
   \fontspec_if_fontspec_font:TF {
-    \font_set:Nnn \zf@basefont {\csname zf@family@fontdef\f@family\endcsname} {\f@size pt}
+    \fontspec_font_set:Nnn \zf@basefont {\csname zf@family@fontdef\f@family\endcsname} {\f@size pt}
     \fontspec_set_font_type:
     \bool_if:NTF \l_fontspec_icu_bool {
       \str_if_eq:nvTF {#1} {g_fontspec_lang_(\f@family)_tl}
@@ -3469,13 +3469,37 @@ This work consists of this file fontspec.dtx
 \cs_if_free:NT \font_set_eq:NN {
   \cs_set_eq:NN \font_set_eq:NN \tex_let:D
   \cs_set:Npn \font_set:Nnn #1#2#3 {
-    \font #1 = \fontspec_fontwrap:n {#2} ~at~#3\scan_stop:
+    \font #1 = #2 ~at~ #3\scan_stop:
   }
   \cs_set:Npn \font_gset:Nnn #1#2#3 {
-    \global \font #1 = \fontspec_fontwrap:n {#2} ~at~#3\scan_stop:
+    \global \font #1 = #2 ~at~ #3 \scan_stop:
+  }
+  \xetex_or_luatex:nnn {\cs_set:Npn \font_suppress_not_found_error:}
+   {\suppressfontnotfounderror=1}
+   {\luatexsuppressfontnotfounderror=1}
+  \prg_set_conditional:Nnn \font_if_null:N {p,TF,T,F} {
+    \ifx #1 \nullfont
+      \prg_return_true:
+    \else
+      \prg_return_false:
+    \fi
   }
 }
 %    \end{macrocode}
+%
+%
+% \begin{macro}{\fontspec_set:Nnn,\fontspec_gset:Nnn}
+% Wrapper around \cs{font_set:Nnn} and \cs{font_gset:Nnn}.
+%    \begin{macrocode}
+\cs_new:Nn \fontspec_font_set:Nnn {
+  \font_set:Nnn #1 {\fontspec_fontwrap:n {#2}} {#3}
+}
+\cs_new:Nn \fontspec_font_gset:Nnn {
+  \font_gset:Nnn #1 {\fontspec_fontwrap:n {#2}} {#3}
+}
+%    \end{macrocode}
+% \end{macro}
+%
 %
 % \begin{macro}{\font_glyph_if_exist:NnTF}
 %    \begin{macrocode}
@@ -3759,7 +3783,7 @@ This work consists of this file fontspec.dtx
 \cs_new:Npn \fontspec_set_bold: {
   \bool_if:NF \l_fontspec_nobf_bool {
     \tl_if_empty:NTF \l_fontspec_fontname_bf_tl {
-      \fontspec_make_font_shapes:nnnnn \l_fontspec_fontname_tl {/B}
+      \fontspec_make_auto_font_shapes:nnnnn \l_fontspec_fontname_tl {/B}
         \bfdefault \updefault \l_fontspec_fontfeat_bf_clist
     }{
       \fontspec_make_font_shapes:nnnn \l_fontspec_fontname_bf_tl
@@ -3776,7 +3800,7 @@ This work consists of this file fontspec.dtx
 \cs_new:Npn \fontspec_set_italic: {
   \bool_if:NF \l_fontspec_noit_bool {
     \tl_if_empty:NTF \l_fontspec_fontname_it_tl
-    { \fontspec_make_font_shapes:nnnnn \l_fontspec_fontname_tl {/I} }
+    { \fontspec_make_auto_font_shapes:nnnnn \l_fontspec_fontname_tl {/I} }
     { \fontspec_make_font_shapes:nnnn  \l_fontspec_fontname_it_tl    }
         \mddefault \itdefault \l_fontspec_fontfeat_it_clist
   }
@@ -3811,14 +3835,14 @@ This work consists of this file fontspec.dtx
       {
         \tl_if_empty:NTF \l_fontspec_fontname_it_tl
         {
-          \fontspec_make_font_shapes:nnnnn \l_fontspec_fontname_tl    {/BI}
+          \fontspec_make_auto_font_shapes:nnnnn \l_fontspec_fontname_tl    {/BI}
         }
         {
-          \fontspec_make_font_shapes:nnnnn \l_fontspec_fontname_it_tl {/B}
+          \fontspec_make_auto_font_shapes:nnnnn \l_fontspec_fontname_it_tl {/B}
         }
       }
       {
-        \fontspec_make_font_shapes:nnnnn \l_fontspec_fontname_bf_tl {/I}
+        \fontspec_make_auto_font_shapes:nnnnn \l_fontspec_fontname_bf_tl {/I}
       }
     }
     {
@@ -3836,7 +3860,7 @@ This work consists of this file fontspec.dtx
 \cs_new:Npn \fontspec_set_bold_slanted: {
   \tl_if_empty:NTF \l_fontspec_fontname_bfsl_tl {
     \tl_if_empty:NF \l_fontspec_fontname_sl_tl {
-      \fontspec_make_font_shapes:nnnnn \l_fontspec_fontname_sl_tl {/B}
+      \fontspec_make_auto_font_shapes:nnnnn \l_fontspec_fontname_sl_tl {/B}
          \bfdefault \sldefault \l_fontspec_fontfeat_bfsl_clist
     }
   }{
@@ -3903,7 +3927,7 @@ This work consists of this file fontspec.dtx
 %
 %
 %
-% \begin{macro}{\fontspec_make_font_shapes:nnnn,\fontspec_make_font_shapes:nnnnn}
+% \begin{macro}{\fontspec_make_font_shapes:nnnn,\fontspec_make_auto_font_shapes:nnnnn}
 %  \darg{Font name prefix (in the 5-arg case)}
 %  \darg{Font name}
 %  \darg{Font series}
@@ -3927,9 +3951,9 @@ This work consists of this file fontspec.dtx
 % italic small caps by their own identifier. See \vref{sec:sishape}
 % for the code that enables this usage.
 %    \begin{macrocode}
-\cs_new:Nn \fontspec_make_font_shapes:nnnnn {
-  \font_set:Nnn \l_tmpa_font {\fontspec_fullname:n {#1}}   {\f@size pt}
-  \font_set:Nnn \l_tmpb_font {\fontspec_fullname:n {#1#2}} {\f@size pt}
+\cs_new:Nn \fontspec_make_auto_font_shapes:nnnnn {
+  \fontspec_font_set:Nnn \l_tmpa_font {\fontspec_fullname:n {#1}}   {\f@size pt}
+  \fontspec_font_set:Nnn \l_tmpb_font {\fontspec_fullname:n {#1#2}} {\f@size pt}
   \str_if_eq:xxTF { \fontname \l_tmpa_font } { \fontname \l_tmpb_font }
   { \fontspec_info:nx {no-font-shape} {#1#2} }
   {

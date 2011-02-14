@@ -2605,6 +2605,15 @@ This work consists of this file fontspec.dtx
   Size~ information~ must~ be~ supplied.\\
   For~ example,~ SizeFeatures={Size={8-12},...}.
 }
+\msg_new:nnnn {fontspec} {font-not-found}
+{
+  The~ font~ "#1"~ cannot~ be~ found.
+}
+{
+  A~font~might~not~be~found~for~many~reasons.\\
+  Check~the~spelling,~where~the~font~is~installed~etc.~etc.\\\\
+  When~in~doubt,~ask~someone~for~help!
+}
 \msg_new:nnnn {fontspec} {rename-feature-not-exist}
 {
   The~ feature~ #1~ doesn't~ appear~ to~ be~ defined.
@@ -3535,6 +3544,7 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \cs_set:Npn \fontspec_select:nn #1#2 {
   \group_begin:
+  \font_suppress_not_found_error:
   \fontspec_init:
 %    \end{macrocode}
 % \cmd{\l_fontspec_fontname_tl} is used as the generic name of the font being defined.
@@ -3564,6 +3574,17 @@ This work consists of this file fontspec.dtx
 % conditional.
 %    \begin{macrocode}
   \fontspec_preparse_features:nn {#1}{#2}
+%    \end{macrocode}
+% Finally save the `confirmed' font definition.
+%    \begin{macrocode}
+  \fontspec_font_set:Nnn \zf@basefont {\fontspec_fullname:n {\l_fontspec_fontname_up_tl}} {\f@size pt}
+  \font_if_null:NT \zf@basefont { \fontspec_error:nx {font-not-found} {\l_fontspec_fontname_up_tl} }
+  \fontspec_set_font_type:
+  \font_gset:Nnn \zf@basefont {\fontspec_fullname:n {\l_fontspec_fontname_up_tl}} {\f@size pt}
+  \zf@basefont % this is necessary for LuaLaTeX to check the scripts properly
+%    \end{macrocode}
+% Continue:
+%    \begin{macrocode}
   \fontspec_set_scriptlang:
   \fontspec_get_features:n {}
   \bool_set_false:N \l_fontspec_firsttime_bool
@@ -3620,13 +3641,6 @@ This work consists of this file fontspec.dtx
   \tl_set_eq:NN \l_fontspec_fontname_tl \l_fontspec_fontname_up_tl
   \fontspec_setkeys:xx {preparse} {\XKV@rm}
   \clist_set_eq:NN \l_fontspec_fontfeat_clist \XKV@rm
-%    \end{macrocode}
-% Finally save the `confirmed' font definition.
-%    \begin{macrocode}
-  \font_set:Nnn \zf@basefont {\fontspec_fullname:n {\l_fontspec_fontname_up_tl}} {\f@size pt}
-  \fontspec_set_font_type:
-  \font_gset:Nnn \zf@basefont {\fontspec_fullname:n {\l_fontspec_fontname_up_tl}} {\f@size pt}
-  \zf@basefont % this is necessary for LuaLaTeX to check the scripts properly
 }
 %    \end{macrocode}
 % \end{macro}
@@ -3963,7 +3977,8 @@ This work consists of this file fontspec.dtx
 \cs_new:Nn \fontspec_make_font_shapes:nnnn {
   \group_begin:
     \tl_set:Nx \l_fontspec_fontname_tl {#1}
-    \font_set:Nnn \zf@basefont {\fontspec_fullname:n {#1}} {\f@size pt}
+    \fontspec_font_set:Nnn \zf@basefont {\fontspec_fullname:n {#1}} {\f@size pt}
+    \font_if_null:NT \zf@basefont { \fontspec_error:nx {font-not-found} {#1} }
     \fontspec_declare_shape:nnnn {}{#2}{#3}{#4}
     \tl_if_empty:NTF \l_fontspec_fontname_sc_tl {
       \bool_if:NF \l_fontspec_nosc_bool {

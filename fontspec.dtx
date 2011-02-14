@@ -2469,16 +2469,20 @@ This work consists of this file fontspec.dtx
 %    \pkg{luaotfload} which loads \pkg{luatexbase} and \pkg{lualibs} too.
 %
 %    \begin{macrocode}
-\msg_new:nnn {fontspec} {not-pdftex}
+\msg_new:nnn {fontspec} {cannot-use-pdftex}
 {
-  Requires~ XeTeX~ or~ LuaTeX~ to~ function!
+  The~ fontspec~ package~ requires~ either~ XeTeX~ or~ LuaTeX~ to~ function.
+  \\\\
+  You~ must~ change~ your~ typesetting~ engine~ to,~
+    e.g.,~ "xelatex"~ or~ "lualatex"\\
+  instead~ of~ plain~ "latex"~ or~ "pdflatex".
 }
 \xetex_if_engine:F {
   \luatex_if_engine:TF {
     \RequirePackage{luaotfload}
     \RequireLuaModule{fontspec}
   }{
-    \msg_fatal:nn {fontspec} {not-pdftex}
+    \msg_fatal:nn {fontspec} {cannot-use-pdftex}
   }
 }
 %    \end{macrocode}

@@ -6185,6 +6185,35 @@ function fontspec.mathfontdimen(fnt, str)
 end
 %    \end{macrocode}
 %
+% Here we patch fonts tfm table to emulate \xetex's \cs{fontdimen8},
+% which stores the caps-height of the font. (Cf.\ \cs{fontdimen5} which
+% stores the x-height.)
+%
+% Falls back to measuring the glyph if the font doesn't contain the
+% necessary information.
+% This needs to be extended for fonts that don't contain an `X'.
+%
+%    \begin{macrocode}
+local function set_capheight(fontdata)
+    local capheight
+    local units     = fontdata.units
+    local size      = fontdata.size
+    local otfdata   = fontdata.shared.otfdata
+
+    if otfdata.pfminfo.os2_capheight > 0 then
+        capheight = otfdata.pfminfo.os2_capheight / units * size
+    else
+        if fontdata.characters[string.byte("X")] then
+            capheight = fontdata.characters[string.byte("X")].height
+        else
+            capheight = otfdata.metadata.ascent / units * size
+        end
+    end
+    fontdata.parameters[8] = capheight
+end
+luatexbase.add_to_callback("luaotfload.patch_font", set_capheight, "fontspec.set_capheight")
+%    \end{macrocode}
+%
 % \iffalse
 %</lua>
 % \fi

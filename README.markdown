@@ -88,6 +88,14 @@ Features can be renamed and feature options can be renamed with
 Change history
 --------------
 
+- v2.1f (2011/02/26)
+
+    * Finally add a real error message when a font cannot be found!
+    * Add "Letters=Random" feature.
+    * Fix bug in which "Unknown feature `'..." warnings
+      were shown in the log file.
+    * Some small documentation improvements.
+
 - v2.1e (2010/11/17)
 
     * Internal changes for luatexbase v0.3.

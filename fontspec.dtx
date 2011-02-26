@@ -1461,6 +1461,10 @@ This work consists of this file fontspec.dtx
 %
 % \subsection{Kerning}\label{sec:kerning}
 % Specifies how inter-glyph spacing should behave.
+% Well-made fonts include information for how differing
+% amounts of space should be inserted between separate character pairs.
+% This kerning space is inserted automatically but in rare
+% circumstances you may wish to turn it off.
 %
 % \begin{features}{Kerning}
 % \otf{Uppercase}{cpsp}
@@ -1468,7 +1472,12 @@ This work consists of this file fontspec.dtx
 % \end{features}
 %
 % As briefly mentioned previously at the end of \vref{sec:letters},
-% the \opt{Uppercase} option will add a small amount of tracking between uppercase letters, seen in \exref{kernup}, which uses the Romande fonts\note{\url{http://arkandis.tuxfamily.org/adffonts.html}} (thanks to Clea F. Rees for the suggestion).
+% the \opt{Uppercase} option will add a small amount of tracking between
+% uppercase letters, seen in \exref{kernup}, which uses the Romande
+% fonts\note{\url{http://arkandis.tuxfamily.org/adffonts.html}}
+% (thanks to Clea F. Rees for the suggestion).
+% The \opt{Uppercase} option acts separately to the regular kerning
+% controlled by the \opt{On}/\opt{Off} options.
 %
 % \begin{Xexample}[firstline=2]{kernup}{Adding extra kerning for uppercase letters. (The difference is usually very small.)}
 %   \large

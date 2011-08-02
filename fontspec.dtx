@@ -2478,6 +2478,16 @@ This work consists of this file fontspec.dtx
 \RequirePackage{expl3,xparse}
 \input binhex.tex  % before expl syntax!
 \ExplSyntaxOn
+\cs_if_exist:NF \char_set_catcode_other:N
+  {
+    \cs_set_eq:NN \c_math_toggle_token \c_math_shift_token
+    \cs_set_eq:NN \char_set_catcode_other:N \char_make_other:N
+    \cs_set_eq:NN \char_set_catcode_active:N \char_make_active:N
+    \cs_set_eq:NN \char_set_catcode_active:n \char_make_active:n
+    \cs_set_eq:NN \char_set_catcode_escape:N \char_make_escape:N
+    \cs_set_eq:NN \char_set_catcode_math_superscript:N
+                  \char_make_math_superscript:N
+  }
 %    \end{macrocode}
 %
 %    Check engine and load specific modules. For Lua\TeX, load only
@@ -6317,9 +6327,9 @@ luatexbase.add_to_callback("luaotfload.patch_font", set_capheight, "fontspec.set
 % Helper macro to turn spaces (\verb|^^20|) active and print visible space instead.
 %    \begin{macrocode}
 \group_begin:
-\char_make_active:n{"20}%
+\char_set_catcode_active:n{"20}%
 \cs_gset:Npn\fontspec_print_visible_spaces:{%
-\char_make_active:n{"20}%
+\char_set_catcode_active:n{"20}%
 \cs_set_eq:NN^^20\fontspec_visible_space:%
 }%
 \group_end:

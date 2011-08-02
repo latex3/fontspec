@@ -88,6 +88,10 @@ Features can be renamed and feature options can be renamed with
 Change history
 --------------
 
+- v2.1g
+
+    * No longer uses the binhex package, avoiding some name clashes with TIPA
+
 - v2.1f (2011/02/26)
 
     * Finally add a real error message when a font cannot be found!

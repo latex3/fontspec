@@ -2476,7 +2476,6 @@ This work consists of this file fontspec.dtx
 % \fi
 %    \begin{macrocode}
 \RequirePackage{expl3,xparse}
-\input binhex.tex  % before expl syntax!
 \ExplSyntaxOn
 \cs_if_exist:NF \char_set_catcode_other:N
   {
@@ -5037,7 +5036,10 @@ This work consists of this file fontspec.dtx
     }
    }
   \tl_set:Nx \l_fontspec_opacity_tl
-   { \nhex2 { \value{fontspec_tmp_int} } }
+   {
+     \int_compare:nT { \value{fontspec_tmp_int} <= "F } {0} % zero pad
+     \int_to_hexadecimal:n { \value{fontspec_tmp_int} }
+   }
 }
 %    \end{macrocode}
 %

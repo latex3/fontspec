@@ -1354,6 +1354,14 @@ This work consists of this file fontspec.dtx
 % I don't have a font to demonstrate this with (please suggest one if you
 % know of a free font with this feature!), but the syntax is similar to that
 % above:
+% \begin{Lexample}[firstline=2]{cv}{The \feat{CharacterVariant} feature.}
+%   \huge
+%   \fontspec{EB Garamond Italic}
+%   green eggs \& ham \\
+%   \fontspec[CharacterVariant=4]{EB Garamond Italic}
+%   green eggs \& ham
+% \end{Lexample}
+%
 % \begin{verbatim}
 %   \fontspec[CharacterVariant={1,3,5}]{...}
 % \end{verbatim}

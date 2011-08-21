@@ -2517,6 +2517,13 @@ This work consists of this file fontspec.dtx
   \cs_set_eq:NN \str_if_eq:nnT \tl_if_eq:nnT
   \cs_set_eq:NN \str_if_eq:nnF \tl_if_eq:nnF
 }
+\cs_if_exist:NF \keys_if_choice_exist:nnnTF {
+  \prg_set_conditional:Nnn \keys_if_choice_exist:nnn {T}
+    {
+      \cs_if_free:cTF {\c_keys_code_root_tl #1/#2/#3}
+        {\prg_return_true:} {\prg_return_false:}
+    }
+}
 %    \end{macrocode}
 %
 %    Check engine and load specific modules. For Lua\TeX, load only
@@ -2568,16 +2575,6 @@ This work consists of this file fontspec.dtx
 % \subsection{expl3 tools}
 %
 %
-% \begin{macro}{\keys_if_choice_exist:nnnTF}
-% Keyval conditional on whether a particular choice is available in a certain key.
-%    \begin{macrocode}
-\prg_set_conditional:Nnn \keys_if_choice_exist:nnn {p,T,F,TF}
-{
-  \cs_if_free:cTF {\c_keys_code_root_tl #1/#2/#3}
-    {\prg_return_true:} {\prg_return_false:}
-}
-%    \end{macrocode}
-% \end{macro}
 %
 %
 % \subsection{Bits and pieces}
@@ -2888,6 +2885,7 @@ This work consists of this file fontspec.dtx
 % That was the driver, and now the fun starts.
 %    \begin{macrocode}
 %<*fontspec&(xetex|luatex)>
+\ExplSyntaxOn
 %    \end{macrocode}
 %
 % \subsection{Encodings}
@@ -3184,12 +3182,19 @@ This work consists of this file fontspec.dtx
 % \begin{macro}{\aliasfontfeature}
 % \begin{macro}{\aliasfontfeatureoption}
 % User commands for renaming font features and font feature options.
-% Provided I've been consistent, they should work for everything.
 %    \begin{macrocode}
-\DeclareDocumentCommand \aliasfontfeature {mm} {\ERROR}
-\DeclareDocumentCommand \aliasfontfeatureoption {mmm} {
-  \ERROR
-}
+\DeclareDocumentCommand \aliasfontfeature {mm}
+  {
+    \keys_define:nn {fontspec}
+      {
+        #2 .code:n = { \keys_set:nn {fontspec} { #1 = ##1 } }
+      }
+  }
+\DeclareDocumentCommand \aliasfontfeatureoption {mmm}
+  {
+    \cs_set_eq:cc { \c_keys_code_root_tl fontspec/#1/#3 }
+                  { \c_keys_code_root_tl fontspec/#1/#2 }
+  }
 %    \end{macrocode}
 % \end{macro} \end{macro}
 %
@@ -3692,7 +3697,7 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
   \fontspec_if_detect_external:nT {#2}
    { \keys_set:nn {fontspec-preparse-external} {ExternalLocation} }
-  \keys_set:nx {fontspec-preparse-external}
+  \fontspec_keys_set:nx {fontspec-preparse-external}
     {\g_fontspec_default_fontopts_tl #1}
 %    \end{macrocode}
 % When \cmd{\l_fontspec_fontname_tl} is augmented with a prefix or whatever to create
@@ -3700,7 +3705,7 @@ This work consists of this file fontspec.dtx
 % font name' to use.
 %    \begin{macrocode}
   \tl_set_eq:NN \l_fontspec_fontname_tl \l_fontspec_fontname_up_tl
-  \keys_set:nV {fontspec-preparse} \l_fontspec_keys_leftover_clist
+  \fontspec_keys_set:nx {fontspec-preparse} {\l_fontspec_keys_leftover_clist}
   \clist_set_eq:NN \l_fontspec_fontfeat_clist \l_fontspec_keys_leftover_clist
 }
 %    \end{macrocode}
@@ -4094,7 +4099,7 @@ This work consists of this file fontspec.dtx
       \tl_clear:N \l_fontspec_size_tl
       \tl_set_eq:NN \l_fontspec_sizedfont_tl \l_fontspec_fontname_tl
 
-      \keys_set:nx {fontspec-sizing} { \exp_after:wN \use:n ##1 }
+      \fontspec_keys_set:nx {fontspec-sizing} { \exp_after:wN \use:n ##1 }
       \tl_if_empty:NT \l_fontspec_size_tl { \fontspec_error:n {no-size-info} }
       \fontspec_get_features:n{ #4 , \l_fontspec_keys_leftover_clist }
 
@@ -4195,7 +4200,7 @@ This work consists of this file fontspec.dtx
   \tl_set_eq:NN \l_fontspec_opacity_tl \g_fontspec_opacity_tl
   \tl_set_eq:NN \l_fontspec_hexcol_tl \g_fontspec_hexcol_tl
   \tl_clear:N \l_fontspec_postadjust_tl
-  \keys_set:nn {fontspec} {\l_fontspec_fontfeat_clist #1}
+  \fontspec_keys_set:nx {fontspec} {\l_fontspec_fontfeat_clist #1}
   \bool_if:NT \l_fontspec_firsttime_bool {
     \tl_if_empty:NF \l_fontspec_keys_leftover_clist {
       \fontspec_error:nx {unknown-options}
@@ -4640,14 +4645,20 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \keys_define:nn {fontspec-preparse}
   { unknown .code:n = { \fontspec_keys_filter:n {#1} } }
-\keys_define:nn {fontspec-preparse-exteral}
+\keys_define:nn {fontspec-preparse-external}
   { unknown .code:n = { \fontspec_keys_filter:n {#1} } }
 \cs_new:Nn \fontspec_keys_filter:n
   {
     \clist_put_right:Nx \l_fontspec_keys_leftover_clist
-      { \l_keys_key_tl = \exp_not:n {#1} }
+      { \l_keys_key_tl = { \exp_not:n {#1} } }
   }
 \clist_new:N \l_fontspec_keys_leftover_clist
+\cs_new:Nn \fontspec_keys_set:nn
+  {
+    \clist_clear:N \l_fontspec_keys_leftover_clist
+    \keys_set:nx {#1} {#2}
+  }
+\cs_generate_variant:Nn \fontspec_keys_set:nn {nx}
 %    \end{macrocode}
 %
 % \subsubsection{Pre-parsing naming information}
@@ -4699,7 +4710,7 @@ This work consists of this file fontspec.dtx
 % This feature must be processed before all others (the other font shape and features options are also pre-parsed for convenience) because the renderer determines the format of the features and even whether certain features are available.
 %    \begin{macrocode}
 \keys_define:nn {fontspec-preparse} {
-  Renderer.choice-code:n = {
+  Renderer .choice_code:n = {
   \fontspec_update_fontid:n {+rend:#1}
   \int_compare:nTF {\l_keys_choice_int < 3} {
     \xetex_or_luatex:nn
@@ -4720,7 +4731,7 @@ This work consists of this file fontspec.dtx
   }
   }
   ,
-  Renderer.generate-choices:n {AAT,ICU,Graphite,Full,Basic}
+  Renderer .generate_choices:n = {AAT,ICU,Graphite,Full,Basic}
 }
 \tl_set:cn {g_fontspec_renderer_tag_AAT} {/AAT}
 \tl_set:cn {g_fontspec_renderer_tag_ICU} {/ICU}
@@ -5051,6 +5062,7 @@ This work consists of this file fontspec.dtx
 \keys_define:nn {fontspec} { LetterSpace .code:n = {
   \fontspec_update_fontid:n {+tracking:#1}
   \fontspec_update_featstr:n{letterspace=#1}
+  }
 }
 %    \end{macrocode}
 %
@@ -5081,6 +5093,7 @@ This work consists of this file fontspec.dtx
         }
     }
     { \fontspec_error:nx {no-glyph}{#1} }
+  }
   }
 }
 %    \end{macrocode}
@@ -6189,6 +6202,7 @@ This work consists of this file fontspec.dtx
 %
 % The end! Thanks for coming.
 %    \begin{macrocode}
+\ExplSyntaxOff
 %</fontspec&(xetex|luatex)>
 %    \end{macrocode}
 %

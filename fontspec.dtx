@@ -2667,14 +2667,6 @@ This work consists of this file fontspec.dtx
 {
   '\l_fontspec_fontname_tl'~ does~ not~ contain~ glyph~ #1.
 }
-\msg_new:nnnn {fontspec} {unknown-options}
-{
-  The~ following~ font~ options~ are~ not~ recognised:\\
-  \space\space\space\space #1
-}
-{
-  There~ is~ probably~ a~ typo~ in~ the~ font~ feature~ selection.
-}
 \msg_new:nnnn {fontspec} {euler-too-late}
 {
   The~ euler~ package~ must~ be~ loaded~ BEFORE~ fontspec.
@@ -3697,16 +3689,16 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
   \fontspec_if_detect_external:nT {#2}
    { \keys_set:nn {fontspec-preparse-external} {ExternalLocation} }
-  \fontspec_keys_set:nx {fontspec-preparse-external}
-    {\g_fontspec_default_fontopts_tl #1}
+  \keys_set_known:nxN {fontspec-preparse-external}
+    {\g_fontspec_default_fontopts_tl #1} \l_fontspec_keys_leftover_clist
 %    \end{macrocode}
 % When \cmd{\l_fontspec_fontname_tl} is augmented with a prefix or whatever to create
 % the name of the upright font (\cmd{\l_fontspec_fontname_up_tl}), this latter is the new `general
 % font name' to use.
 %    \begin{macrocode}
   \tl_set_eq:NN \l_fontspec_fontname_tl \l_fontspec_fontname_up_tl
-  \fontspec_keys_set:nx {fontspec-preparse} {\l_fontspec_keys_leftover_clist}
-  \clist_set_eq:NN \l_fontspec_fontfeat_clist \l_fontspec_keys_leftover_clist
+  \keys_set_known:nxN {fontspec-preparse} {\l_fontspec_keys_leftover_clist}
+    \l_fontspec_fontfeat_clist
 }
 %    \end{macrocode}
 % \end{macro}
@@ -4099,7 +4091,9 @@ This work consists of this file fontspec.dtx
       \tl_clear:N \l_fontspec_size_tl
       \tl_set_eq:NN \l_fontspec_sizedfont_tl \l_fontspec_fontname_tl
 
-      \fontspec_keys_set:nx {fontspec-sizing} { \exp_after:wN \use:n ##1 }
+      \keys_set_known:nxN {fontspec-sizing} { \exp_after:wN \use:n ##1 }
+        \l_fontspec_keys_leftover_clist
+
       \tl_if_empty:NT \l_fontspec_size_tl { \fontspec_error:n {no-size-info} }
       \fontspec_get_features:n{ #4 , \l_fontspec_keys_leftover_clist }
 
@@ -4200,13 +4194,7 @@ This work consists of this file fontspec.dtx
   \tl_set_eq:NN \l_fontspec_opacity_tl \g_fontspec_opacity_tl
   \tl_set_eq:NN \l_fontspec_hexcol_tl \g_fontspec_hexcol_tl
   \tl_clear:N \l_fontspec_postadjust_tl
-  \fontspec_keys_set:nx {fontspec} {\l_fontspec_fontfeat_clist #1}
-  \bool_if:NT \l_fontspec_firsttime_bool {
-    \tl_if_empty:NF \l_fontspec_keys_leftover_clist {
-      \fontspec_error:nx {unknown-options}
-        { \exp_not:V \l_fontspec_keys_leftover_clist }
-    }
-  }
+  \keys_set:nx {fontspec} {\l_fontspec_fontfeat_clist #1}
 %    \end{macrocode}
 % Finish the colour specification.
 % Do not set the colour if not explicitly spec'd else \verb|\color| (using
@@ -4395,7 +4383,7 @@ This work consists of this file fontspec.dtx
 % These macros are used in order to simplify font feature definition later on.
 %    \begin{macrocode}
 \cs_new:Nn \fontspec_define_font_feature:n {
-  \keys_define:nn {fontspec} { #1 .choice: }
+  \keys_define:nn {fontspec} { #1 .multichoice: }
 }
 \cs_new:Nn \fontspec_define_feature_option:nnnnn {
   \keys_define:nn {fontspec} {
@@ -4643,22 +4631,8 @@ This work consists of this file fontspec.dtx
 % (eventually) font feature requests with their \XeTeX\ representations.
 %
 %    \begin{macrocode}
-\keys_define:nn {fontspec-preparse}
-  { unknown .code:n = { \fontspec_keys_filter:n {#1} } }
-\keys_define:nn {fontspec-preparse-external}
-  { unknown .code:n = { \fontspec_keys_filter:n {#1} } }
-\cs_new:Nn \fontspec_keys_filter:n
-  {
-    \clist_put_right:Nx \l_fontspec_keys_leftover_clist
-      { \l_keys_key_tl = { \exp_not:n {#1} } }
-  }
-\clist_new:N \l_fontspec_keys_leftover_clist
-\cs_new:Nn \fontspec_keys_set:nn
-  {
-    \clist_clear:N \l_fontspec_keys_leftover_clist
-    \keys_set:nx {#1} {#2}
-  }
-\cs_generate_variant:Nn \fontspec_keys_set:nn {nx}
+\cs_generate_variant:Nn \keys_set:nn {nx}
+\cs_generate_variant:Nn \keys_set_known:nnN {nx}
 %    \end{macrocode}
 %
 % \subsubsection{Pre-parsing naming information}
@@ -5458,9 +5432,9 @@ This work consists of this file fontspec.dtx
 % easy to process, very annoying for the user!
 %
 %    \begin{macrocode}
+\fontspec_define_font_feature:n { Alternate }
 \keys_define:nn {fontspec}
   {
-    Alternate .choice: ,
     Alternate .default:n = {0} ,
     Alternate / unknown .code:n =
     {
@@ -5476,9 +5450,9 @@ This work consists of this file fontspec.dtx
 %    \end{macrocode}
 %
 %    \begin{macrocode}
+\fontspec_define_font_feature:n { Variant }
 \keys_define:nn {fontspec}
   {
-    Variant .choice: ,
     Variant .default:n = {0} ,
     Variant / unknown .code:n =
     {
@@ -5490,9 +5464,9 @@ This work consists of this file fontspec.dtx
 %    \end{macrocode}
 %
 %    \begin{macrocode}
+\fontspec_define_font_feature:n { CharacterVariant }
 \keys_define:nn {fontspec}
   {
-   CharacterVariant .choice: ,
    CharacterVariant / unknown .code:n =
     {
       \def\XKV@tfam{CharacterVariant}% fixme
@@ -5582,9 +5556,9 @@ This work consists of this file fontspec.dtx
 %    \end{macrocode}
 %
 %    \begin{macrocode}
+\fontspec_define_font_feature:n { Annotation }
 \keys_define:nn {fontspec}
   {
-    Annotation .choice: ,
     Annotation .default:n = {0} ,
     Annotation / unknown .code:n =
     {
@@ -5599,7 +5573,6 @@ This work consists of this file fontspec.dtx
 %
 % \subsubsection{Vertical}
 %    \begin{macrocode}
-\fontspec_define_font_feature:n{Vertical}
 \keys_define:nn {fontspec}
   {
     Vertical .choice: ,

@@ -42,7 +42,7 @@ This work consists of this file fontspec.dtx
 
 \let\MetaPrefix\DoubleperCent
 \generate{\file{fontspec.sty}          {\from{fontspec.dtx}{fontspec}}}
-\generate{\file{fontspec-xetex.sty}    {\from{fontspec.dtx}{fontspec,xetex}}}
+\generate{\file{fontspec-xetex.sty}    {\from{fontspec.dtx}{fontspec,xetexx}}}
 \generate{\file{fontspec-luatex.sty}   {\from{fontspec.dtx}{fontspec,luatex}}}
 \generate{\file{fontspec-patches.sty}  {\from{fontspec.dtx}{patches}}}
 \generate{\file{fontspec-testsuite.tex}{\from{fontspec.dtx}{testsuite}}}
@@ -61,8 +61,8 @@ This work consists of this file fontspec.dtx
 %<*driver>
 \ProvidesFile{fontspec.dtx}
 %</driver>
-%<fontspec&!xetex&!luatex>\ProvidesPackage{fontspec}
-%<fontspec&xetex>\ProvidesPackage{fontspec-xetex}
+%<fontspec&!xetexx&!luatex>\ProvidesPackage{fontspec}
+%<fontspec&xetexx>\ProvidesPackage{fontspec-xetex}
 %<fontspec&luatex>\ProvidesPackage{fontspec-luatex}
 %<patches>\ProvidesPackage{fontspec-patches}
 %<*fontspec|patches>
@@ -2484,7 +2484,7 @@ This work consists of this file fontspec.dtx
 % between what we have to do in \XeLaTeX\ and \LuaLaTeX.
 %
 %    \begin{macrocode}
-%<*fontspec&!xetex&!luatex>
+%<*fontspec&!xetexx&!luatex>
 %    \end{macrocode}
 % But for now, this is the shared code.
 %    \begin{macrocode}
@@ -2869,14 +2869,14 @@ This work consists of this file fontspec.dtx
 %    \end{macrocode}
 %
 %    \begin{macrocode}
-%</fontspec&!xetex&!luatex>
+%</fontspec&!xetexx&!luatex>
 %    \end{macrocode}
 %
 % \section{The main package code}
 %
 % That was the driver, and now the fun starts.
 %    \begin{macrocode}
-%<*fontspec&(xetex|luatex)>
+%<*fontspec&(xetexx|luatex)>
 \ExplSyntaxOn
 %    \end{macrocode}
 %
@@ -2886,7 +2886,7 @@ This work consists of this file fontspec.dtx
 % Now that \XeTeX\ can find fonts in the |texmf| tree, the Latin Modern OpenType fonts
 % can be used as the defaults. See the |euenc| collection of files for how this is implemented.
 %    \begin{macrocode}
-%<xetex>\tl_set:Nn \zf@enc {EU1}
+%<xetexx>\tl_set:Nn \zf@enc {EU1}
 %<luatex>\tl_set:Nn \zf@enc {EU2}
 \tl_set:Nn \rmdefault {lmr}
 \tl_set:Nn \sfdefault {lmss}
@@ -5485,12 +5485,12 @@ This work consists of this file fontspec.dtx
 \keys_define:nn {fontspec}
   {
     ScriptStyle .code:n = {
-%<xetex>      \fontspec_update_fontid:n {+ssty=0}
+%<xetexx>      \fontspec_update_fontid:n {+ssty=0}
 %<luatex>      \fontspec_update_fontid:n {+ssty=1}
       \fontspec_update_featstr:n{+sstyle}
     },
     ScriptScriptStyle .code:n = {
-%<xetex>      \fontspec_update_fontid:n {+ssty=1}
+%<xetexx>      \fontspec_update_fontid:n {+ssty=1}
 %<luatex>      \fontspec_update_fontid:n {+ssty=2}
       \fontspec_update_featstr:n{+ssstyle}
     }
@@ -5564,7 +5564,7 @@ This work consists of this file fontspec.dtx
     {
       \def\XKV@tfam{Annotation}% fixme
       \fontspec_make_feature:nnx {}{}
-%<xetex>        { +nalt=#1 }
+%<xetexx>        { +nalt=#1 }
 %<luatex>        { +nalt= \int_eval:n {#1+1} }
     }
   }
@@ -6176,7 +6176,7 @@ This work consists of this file fontspec.dtx
 % The end! Thanks for coming.
 %    \begin{macrocode}
 \ExplSyntaxOff
-%</fontspec&(xetex|luatex)>
+%</fontspec&(xetexx|luatex)>
 %    \end{macrocode}
 %
 % \clearpage

@@ -2548,29 +2548,6 @@ This work consists of this file fontspec.dtx
 }
 %    \end{macrocode}
 %
-% \begin{macro}{\xetex_or_luatex:nn}
-% Use |#1| if \XeTeX\ or |#2| if \LuaTeX.
-%    \begin{macrocode}
-\xetex_if_engine:TF
-  { \cs_new_eq:NN \xetex_or_luatex:nn \use_i:nn }
-  { \luatex_if_engine:T
-    { \cs_new_eq:NN \xetex_or_luatex:nn \use_ii:nn }
-  }
-%    \end{macrocode}
-% \end{macro}
-%
-% \begin{macro}{\xetex_or_luatex:nnn}
-% Use |#1| and (|{#2}| if \XeTeX) or (|{#3}| if \LuaTeX).
-%    \begin{macrocode}
-\xetex_if_engine:TF
-  { \cs_new:Npn \xetex_or_luatex:nnn #1#2#3 {#1{#2}} }
-  {
-    \luatex_if_engine:T
-     { \cs_new:Npn \xetex_or_luatex:nnn #1#2#3 {#1{#3}} }
-  }
-%    \end{macrocode}
-% \end{macro}
-%
 %
 % \subsection{expl3 tools}
 %
@@ -2865,7 +2842,8 @@ This work consists of this file fontspec.dtx
 %    \end{macrocode}
 %
 %    \begin{macrocode}
-\xetex_or_luatex:nnn { \usepackage } {fontspec-xetex} {fontspec-luatex}
+\luatex_if_engine:T { \usepackage{fontspec-luatex} \endinput }
+\xetex_if_engine:T  { \usepackage{fontspec-xetex}  \endinput }
 %    \end{macrocode}
 %
 %    \begin{macrocode}
@@ -2911,16 +2889,13 @@ This work consists of this file fontspec.dtx
 % Now we load \pkg{xunicode}, working around its internal \XeTeX\ check
 % when under \LuaTeX.
 %    \begin{macrocode}
-\xetex_or_luatex:nn
-{
-  \RequirePackage{xunicode}
-}
-{
-  \cs_set_eq:NN \fontspec_tmp: \XeTeXpicfile
-  \cs_set:Npn \XeTeXpicfile {}
-  \RequirePackage{xunicode}
-  \cs_set_eq:NN \XeTeXpicfile \fontspec_tmp:
-}
+%<xetexx>\RequirePackage{xunicode}
+%<*luatex>
+\cs_set_eq:NN \fontspec_tmp: \XeTeXpicfile
+\cs_set:Npn \XeTeXpicfile {}
+\RequirePackage{xunicode}
+\cs_set_eq:NN \XeTeXpicfile \fontspec_tmp:
+%</luatex>
 %    \end{macrocode}
 %
 %
@@ -3526,7 +3501,6 @@ This work consists of this file fontspec.dtx
 % \subsection{expl3 interface for font loading}
 %
 %    \begin{macrocode}
-\xetex_or_luatex:nnn { \cs_set:Npn \fontspec_fontwrap:n #1 } { "#1" } { {#1} }
 \cs_set:Npn \fontspec_fontwrap:n #1 { "#1" }
 %    \end{macrocode}
 %
@@ -3540,9 +3514,9 @@ This work consists of this file fontspec.dtx
   \cs_set:Npn \font_gset:Nnn #1#2#3 {
     \global \font #1 = #2 ~at~ #3 \scan_stop:
   }
-  \xetex_or_luatex:nnn {\cs_set:Npn \font_suppress_not_found_error:}
-   {\suppressfontnotfounderror=1}
-   {\luatexsuppressfontnotfounderror=1}
+  \cs_set:Npn \font_suppress_not_found_error:
+%<xetexx>    {\suppressfontnotfounderror=1}
+%<luatex>    {\luatexsuppressfontnotfounderror=1}
   \prg_set_conditional:Nnn \font_if_null:N {p,TF,T,F} {
     \ifx #1 \nullfont
       \prg_return_true:
@@ -3958,7 +3932,8 @@ This work consists of this file fontspec.dtx
 % font or an OpenType font or a font with feature axes (either \AAT\ or
 % Multiple Master), respectively.
 %    \begin{macrocode}
-\xetex_or_luatex:nnn { \cs_new:Npn \fontspec_set_font_type: }
+\cs_new:Npn \fontspec_set_font_type:
+%<*xetexx>
    {
     \bool_set_false:N \l_fontspec_tfm_bool
     \bool_set_false:N \l_fontspec_atsui_bool
@@ -3991,9 +3966,12 @@ This work consists of this file fontspec.dtx
       }
     }
   }
+%</xetexx>
+%<*luatex>
   {
     \bool_set_true:N \l_fontspec_icu_bool
   }
+%</luatex>
 %    \end{macrocode}
 % \end{macro}
 %
@@ -4139,7 +4117,8 @@ This work consists of this file fontspec.dtx
 % These are the features always applied to a font selection before other
 % features.
 %    \begin{macrocode}
-\xetex_or_luatex:nnn { \tl_set:Nn \l_fontspec_pre_feat_sclist }
+\tl_set:Nn \l_fontspec_pre_feat_sclist
+%<*xetexx>
   {
     \bool_if:NT \l_fontspec_icu_bool {
       \tl_if_empty:NF \l_fontspec_script_tl
@@ -4149,6 +4128,8 @@ This work consists of this file fontspec.dtx
       }
     }
   }
+%</xetexx>
+%<*luatex>
   {
     mode     = \l_fontspec_mode_tl   ;
     \tl_if_empty:NF \l_fontspec_script_tl
@@ -4157,6 +4138,7 @@ This work consists of this file fontspec.dtx
       language = \l_fontspec_lang_tl   ;
     }
   }
+%</luatex>
 %    \end{macrocode}
 % \end{macro}
 %
@@ -4240,21 +4222,21 @@ This work consists of this file fontspec.dtx
 % (Some of these may be redundant.
 % Check whether they're assigned to globally or not.)
 %    \begin{macrocode}
-\newcommand*\fontspec_init:{
+\cs_set:Npn \fontspec_init: {
   \bool_set_false:N \l_fontspec_icu_bool
   \bool_set_true:N \l_fontspec_firsttime_bool
-  \xetex_or_luatex:nnn { \cs_set:Npn \fontspec_namewrap:n ##1 }
-    { ##1 }
-    { name:##1 }
+  \cs_set:Npn \fontspec_namewrap:n ##1
+%<xetexx>    { ##1 }
+%<luatex>    { name:##1 }
   \tl_clear:N \l_fontspec_optical_size_tl
   \tl_clear:N \l_fontspec_renderer_tl
-  \luatex_if_engine:T {
-    \tl_set:Nn \l_fontspec_mode_tl {node}
-    \luatexprehyphenchar   =`\-  % fixme
-    \luatexposthyphenchar  = 0   % fixme
-    \luatexpreexhyphenchar = 0   % fixme
-    \luatexpostexhyphenchar= 0   % fixme
-  }
+%<*luatex>
+  \tl_set:Nn \l_fontspec_mode_tl {node}
+  \luatexprehyphenchar   =`\-  % fixme
+  \luatexposthyphenchar  = 0   % fixme
+  \luatexpreexhyphenchar = 0   % fixme
+  \luatexpostexhyphenchar= 0   % fixme
+%</luatex>
 }
 %    \end{macrocode}
 % \end{macro}
@@ -4271,9 +4253,9 @@ This work consists of this file fontspec.dtx
     #1
   }
 }
-\xetex_or_luatex:nn
-{
-  \cs_set:Nn \fontspec_make_smallcaps:T {
+\cs_set:Nn \fontspec_make_smallcaps:T
+%<*xetexx>
+  {
     \bool_if:NTF \l_fontspec_icu_bool {
       \fontspec_make_ot_smallcaps:T {#1}
     }{
@@ -4287,10 +4269,12 @@ This work consists of this file fontspec.dtx
       }
     }
   }
-}
-{
-  \cs_set_eq:NN \fontspec_make_smallcaps:T \fontspec_make_ot_smallcaps:T
-}
+%</xetexx>
+%<*luatex>
+  {
+    \cs_set_eq:NN \fontspec_make_smallcaps:T \fontspec_make_ot_smallcaps:T
+  }
+%</luatex>
 %    \end{macrocode}
 % \end{macro}
 %
@@ -4332,8 +4316,8 @@ This work consists of this file fontspec.dtx
 %   This macro is called by each feature key selected, and runs
 %   according to which type of font is selected.
 %    \begin{macrocode}
-\cs_new:Npn \fontspec_make_feature:nnn #1#2#3 {
-  \xetex_or_luatex:nn
+\cs_new:Nn \fontspec_make_feature:nnn
+%<*xetexx>
   {
     \bool_if:NTF \l_fontspec_icu_bool {
       \fontspec_make_ICU_feature:n {#3}
@@ -4343,10 +4327,12 @@ This work consists of this file fontspec.dtx
       }
     }
   }
+%</xetexx>
+%<*luatex>
   {
     \fontspec_make_ICU_feature:n {#3}
   }
-}
+%</luatex>
 \cs_generate_variant:Nn \fontspec_make_feature:nnn {nnx}
 %    \end{macrocode}
 %
@@ -4520,7 +4506,8 @@ This work consists of this file fontspec.dtx
 % font. The output boolean is \cmd\@tempswatrue. \cmd\l_fontspec_strnum_int\ is used to store
 % the number corresponding to the script tag string.
 %    \begin{macrocode}
-\xetex_or_luatex:nnn {\prg_new_conditional:Nnn \fontspec_check_script:n {TF}}
+\prg_new_conditional:Nnn \fontspec_check_script:n {TF}
+%<*xetexx>
   {
     \fontspec_iv_str_to_num:Nn \l_fontspec_strnum_int {#1}
     \int_set:Nn \l_tmpb_int { \XeTeXOTcountscripts\zf@basefont }
@@ -4537,10 +4524,13 @@ This work consists of this file fontspec.dtx
     }
     \if@tempswa \prg_return_true: \else: \prg_return_false: \fi:
   }
+%</xetexx>
+%<*luatex>
   {
     \directlua{fontspec.check_ot_script("zf@basefont", "#1")}
     \if@tempswa \prg_return_true: \else: \prg_return_false: \fi:
   }
+%</luatex>
 %    \end{macrocode}
 % \end{macro}
 %
@@ -4551,7 +4541,8 @@ This work consists of this file fontspec.dtx
 % The script used is whatever's held in \cmd\l_fontspec_script_int. By default, that's the
 % number corresponding to `|latn|'.
 %    \begin{macrocode}
-\xetex_or_luatex:nnn {\prg_new_conditional:Nnn \fontspec_check_lang:n {TF}}
+\prg_new_conditional:Nnn \fontspec_check_lang:n {TF}
+%<*xetexx>
   {
     \fontspec_iv_str_to_num:Nn \l_fontspec_strnum_int {#1}
     \int_set:Nn \l_tmpb_int {
@@ -4570,12 +4561,15 @@ This work consists of this file fontspec.dtx
     }
     \if@tempswa \prg_return_true: \else: \prg_return_false: \fi:
   }
+%</xetexx>
+%<*luatex>
   {
     \directlua{
       fontspec.check_ot_lang( "zf@basefont", "#1", "\l_fontspec_script_tl" )
     }
     \if@tempswa \prg_return_true: \else: \prg_return_false: \fi:
   }
+%</luatex>
 %    \end{macrocode}
 % \end{macro}
 %
@@ -4589,8 +4583,8 @@ This work consists of this file fontspec.dtx
 % number corresponding to `|latn|'. The language used is \cmd\l_fontspec_language_int,
 % by default |0|, the `default language'.
 %    \begin{macrocode}
-\xetex_or_luatex:nnn
-   { \prg_new_conditional:Nnn \fontspec_check_ot_feat:n {TF,T} }
+\prg_new_conditional:Nnn \fontspec_check_ot_feat:n {TF,T}
+%<*xetexx>
    {
     \int_set:Nn \l_tmpb_int {
       \XeTeXOTcountfeatures \zf@basefont
@@ -4612,6 +4606,8 @@ This work consists of this file fontspec.dtx
     }
     \if@tempswa \prg_return_true: \else: \prg_return_false: \fi:
   }
+%</xetexx>
+%<*luatex>
   {
     \directlua{
       fontspec.check_ot_feat(
@@ -4621,6 +4617,7 @@ This work consists of this file fontspec.dtx
     }
     \if@tempswa \prg_return_true: \else: \prg_return_false: \fi:
   }
+%</luatex>
 %    \end{macrocode}
 % \end{macro}
 % \end{macro}
@@ -4650,10 +4647,12 @@ This work consists of this file fontspec.dtx
   \bool_set_true:N \l_fontspec_nobf_bool
   \bool_set_true:N \l_fontspec_noit_bool
   \bool_set_true:N \l_fontspec_external_bool
-  \xetex_or_luatex:nnn { \cs_gset:Npn \fontspec_namewrap:n ##1 }
-    {     [ #1 ##1 ] }
-    { file: #1 ##1   }
-  \xetex_if_engine:T { \keys_set:nn {fontspec-preparse} {Renderer=ICU} }
+  \cs_gset:Npn \fontspec_namewrap:n ##1
+%<xetexx>    {     [ #1 ##1 ] }
+%<luatex>    { file: #1 ##1   }
+%<*xetexx>
+  \keys_set:nn {fontspec-preparse} {Renderer=ICU}
+%</xetexx>
   }
 }
 \aliasfontfeature{ExternalLocation}{Path}
@@ -4687,21 +4686,21 @@ This work consists of this file fontspec.dtx
   Renderer .choice_code:n = {
   \fontspec_update_fontid:n {+rend:#1}
   \int_compare:nTF {\l_keys_choice_int < 3} {
-    \xetex_or_luatex:nn
-    {
+%<*xetexx>
       \tl_set:Nv \l_fontspec_renderer_tl
         { g_fontspec_renderer_tag_ \l_keys_choice_tl }
-    }
-    {
-      \fontspec_warning:nx {only-xetex-feature} {Renderer=AAT/ICU/Graphite}
-    }
+%</xetexx>
+%<*luatex>
+        \fontspec_warning:nx {only-xetex-feature} {Renderer=AAT/ICU/Graphite}
+%</luatex>
   }{
-    \xetex_or_luatex:nn
-    { \fontspec_warning:nx {only-luatex-feature} {Renderer=Full/Basic} }
-    {
+%<*xetexx>
+      \fontspec_warning:nx {only-luatex-feature} {Renderer=Full/Basic}
+%</xetexx>
+%<*luatex>
       \tl_set:Nv \l_fontspec_mode_tl
         { g_fontspec_mode_tag_ \l_keys_choice_tl }
-    }
+%</luatex>
   }
   }
   ,
@@ -4718,7 +4717,7 @@ This work consists of this file fontspec.dtx
 % See later for the resolutions from \pkg{fontspec} features to OpenType definitions.
 %    \begin{macrocode}
 \keys_define:nn {fontspec-preparse} { Script .code:n = {
-  \xetex_if_engine:T { \keys_set:nn {fontspec-preparse} {Renderer=ICU} }
+%<xetexx>  \keys_set:nn {fontspec-preparse} {Renderer=ICU}
   \tl_set:Nn \l_fontspec_script_name_tl {#1}
   \fontspec_update_fontid:n {+script:#1}
   }
@@ -4727,7 +4726,7 @@ This work consists of this file fontspec.dtx
 % Exactly the same:
 %    \begin{macrocode}
 \keys_define:nn {fontspec-preparse} { Language .code:n = {
-  \xetex_if_engine:T { \keys_set:nn {fontspec-preparse} {Renderer=ICU} }
+%<xetexx>  \keys_set:nn {fontspec-preparse} {Renderer=ICU}
   \tl_set:Nn \l_fontspec_lang_name_tl {#1}
   \fontspec_update_fontid:n {+language:#1}
   }
@@ -5059,12 +5058,16 @@ This work consists of this file fontspec.dtx
       { \tl_set:Nn \l_fontspec_hyphenchar_tl { #1} }
     \font_glyph_if_exist:NnTF \zf@basefont {\l_fontspec_hyphenchar_tl}
     {
-      \xetex_or_luatex:nnn { \tl_put_right:Nn \l_fontspec_postadjust_tl }
+      \tl_put_right:Nn \l_fontspec_postadjust_tl
+%<*xetexx>
         { \hyphenchar \font = \l_fontspec_hyphenchar_tl \scan_stop: }
+%</xetexx>
+%<*luatex>
         {
           \hyphenchar \font = \c_zero
           \luatexprehyphenchar = \l_fontspec_hyphenchar_tl \scan_stop:
         }
+%</luatex>
     }
     { \fontspec_error:nx {no-glyph}{#1} }
   }
@@ -5130,14 +5133,17 @@ This work consists of this file fontspec.dtx
 %
 % \paragraph{Mapping}
 %    \begin{macrocode}
-\xetex_or_luatex:nnn {
-  \keys_define:nn {fontspec}
-}{
+\keys_define:nn {fontspec}
+%<*xetexx>
+{
   Mapping .code:n = {
   \fontspec_update_fontid:n {+map:#1}
   \fontspec_update_featstr:n{mapping=#1}
   }
-}{
+}
+%</xetexx>
+%<*luatex>
+{
   Mapping .code:n = {
   \str_if_eq:nnTF {#1} {tex-text} {
     \fontspec_warning:n {no-mapping-ligtex}
@@ -5148,6 +5154,7 @@ This work consists of this file fontspec.dtx
   }
   }
 }
+%</luatex>
 %    \end{macrocode}
 %
 % \paragraph{FeatureFile}
@@ -5173,8 +5180,9 @@ This work consists of this file fontspec.dtx
   \fontspec_update_featstr:n{width=#1}
   }
 }
-\keys_define:nn {fontspec} { OpticalSize .code:n = {
-  \xetex_or_luatex:nn {
+\keys_define:nn {fontspec} { OpticalSize .code:n =
+%<*xetexx>
+  {
     \bool_if:NTF \l_fontspec_icu_bool {
       \tl_set:Nn \l_fontspec_optical_size_tl {/ S = #1}
       \fontspec_update_fontid:n {+size:#1}
@@ -5189,11 +5197,14 @@ This work consists of this file fontspec.dtx
         \fontspec_warning:n {no-opticals}
       }
     }
-  }{
+  }
+%</xetexx>
+%<*luatex>
+  {
     \tl_set:Nn \l_fontspec_optical_size_tl {/ S = #1}
     \fontspec_update_fontid:n {+size:#1}
   }
-  }
+%</luatex>
 }
 %    \end{macrocode}
 %
@@ -5303,13 +5314,10 @@ This work consists of this file fontspec.dtx
 \keys_define:nn {fontspec}
 {
   Ligatures / TeX .code:n = {
-  \xetex_or_luatex:nn {
-    \fontspec_update_fontid:n {+map:tex-text}
-    \fontspec_update_featstr:n{mapping=tex-text}
-  }{
-    \fontspec_update_fontid:n {+tlig+trep}
-    \fontspec_update_featstr:n{+tlig;+trep}
-  }
+%<xetexx>    \fontspec_update_fontid:n {+map:tex-text}
+%<xetexx>    \fontspec_update_featstr:n{mapping=tex-text}
+%<luatex>    \fontspec_update_fontid:n {+tlig+trep}
+%<luatex>    \fontspec_update_featstr:n{+tlig;+trep}
   }
 }
 %    \end{macrocode}
@@ -5445,8 +5453,9 @@ This work consists of this file fontspec.dtx
 %    \end{macrocode}
 %
 %    \begin{macrocode}
-\xetex_or_luatex:nnn { \cs_set:Npn \fontspec_salt:n #1 }
-  {+salt=#1} { +salt= \int_eval:n {#1+1} }
+\cs_set:Nn \fontspec_salt:n
+%<xetexx>  { +salt = #1 }
+%<luatex>  { +salt = \int_eval:n {#1+1} }
 %    \end{macrocode}
 %
 %    \begin{macrocode}

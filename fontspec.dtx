@@ -3181,7 +3181,7 @@ This work consists of this file fontspec.dtx
 %
 %    \begin{macrocode}
 \keys_define:nn { fontspec } { Script .choice: }
-\cs_new:Npn \fontspec_new_script:nn #1#2
+\cs_new:Nn \fontspec_new_script:nn
 {
   \keys_define:nn { fontspec } { Script / #1 .code:n =
     \fontspec_check_script:nTF {#2} {
@@ -3217,7 +3217,7 @@ This work consists of this file fontspec.dtx
 %
 %    \begin{macrocode}
 \keys_define:nn { fontspec } { Language .choice: }
-\cs_new:Npn \fontspec_new_lang:nn #1#2
+\cs_new:Nn \fontspec_new_lang:nn
 {
   \keys_define:nn { fontspec } { Language / #1 .code:n =
     \fontspec_check_lang:nTF {#2} {
@@ -3490,7 +3490,7 @@ This work consists of this file fontspec.dtx
 % Please use |\fontspec_set_family:Nnn| instead of |\fontspec_select:nn|,
 % which may change in the future.
 %    \begin{macrocode}
-\cs_new:Npn \fontspec_set_family:Nnn #1#2#3 {
+\cs_new:Nn \fontspec_set_family:Nnn {
   \fontspec_select:nn {#2}{#3}
   \tl_set_eq:NN #1 \zf@family
 }
@@ -3501,7 +3501,7 @@ This work consists of this file fontspec.dtx
 % \subsection{expl3 interface for font loading}
 %
 %    \begin{macrocode}
-\cs_set:Npn \fontspec_fontwrap:n #1 { "#1" }
+\cs_set:Nn \fontspec_fontwrap:n { "#1" }
 %    \end{macrocode}
 %
 % Beginnings of an `l3font', I guess:
@@ -3573,7 +3573,7 @@ This work consists of this file fontspec.dtx
 %
 % This macro does its processing inside a group to attempt to restrict the scope of its internal processing. This works to some degree to insulate the internal commands from having to be manually cleared.
 %    \begin{macrocode}
-\cs_set:Npn \fontspec_select:nn #1#2 {
+\cs_set:Nn \fontspec_select:nn {
   \group_begin:
   \font_suppress_not_found_error:
   \fontspec_init:
@@ -3656,7 +3656,7 @@ This work consists of this file fontspec.dtx
 % \begin{macro}{\fontspec_preparse_features:nn}
 % Perform the (multi-step) feature parsing process.
 %    \begin{macrocode}
-\cs_new:Npn \fontspec_preparse_features:nn #1#2 {
+\cs_new:Nn \fontspec_preparse_features:nn {
 %    \end{macrocode}
 % Detect if external fonts are to be used, possibly automatically, and
 % parse fontspec features for bold/italic fonts and their features.
@@ -3697,7 +3697,7 @@ This work consists of this file fontspec.dtx
 % \begin{macro}{\fontspec_fullname:n}
 % Constructs the complete font name based on a common piece of info.
 %    \begin{macrocode}
-\cs_set:Npn \fontspec_fullname:n #1 {
+\cs_set:Nn \fontspec_fullname:n {
   \fontspec_namewrap:n { #1 \l_fontspec_extension_tl }
   \l_fontspec_renderer_tl
   \l_fontspec_optical_size_tl
@@ -3741,7 +3741,7 @@ This work consists of this file fontspec.dtx
 % First check if the font supports scripts, then apply defaults if
 % none are explicitly requested. Similarly with the language settings.
 %    \begin{macrocode}
-\cs_new:Npn \fontspec_set_scriptlang: {
+\cs_new:Nn \fontspec_set_scriptlang: {
   \bool_if:NT \l_fontspec_firsttime_bool {
     \tl_if_empty:NTF \l_fontspec_script_name_tl {
       \fontspec_check_script:nTF {latn}
@@ -3775,7 +3775,7 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \cs_generate_variant:Nn \prop_gput:Nnn {cnV}
 \cs_generate_variant:Nn \prop_gput:Nnn {cnx}
-\cs_new:Npn \fontspec_save_fontinfo:nn #1#2 {
+\cs_new:Nn \fontspec_save_fontinfo:nn {
 
   \prop_new:c {g_fontspec_ \zf@family _prop}
   \prop_gput:cnx {g_fontspec_ \zf@family _prop} {fontname} {#2}
@@ -3807,7 +3807,7 @@ This work consists of this file fontspec.dtx
 % \begin{macro}{\fontspec_set_upright:}
 % Sets the upright shape.
 %    \begin{macrocode}
-\cs_new:Npn \fontspec_set_upright: {
+\cs_new:Nn \fontspec_set_upright: {
   \fontspec_make_font_shapes:nnnn \l_fontspec_fontname_tl
     \mddefault \updefault \l_fontspec_fontfeat_up_clist
 }
@@ -3826,7 +3826,7 @@ This work consists of this file fontspec.dtx
 % there actually is one; if not, the bold NFSS series is left
 % undefined) or with the font specified with the \feat{BoldFont} feature.
 %    \begin{macrocode}
-\cs_new:Npn \fontspec_set_bold: {
+\cs_new:Nn \fontspec_set_bold: {
   \bool_if:NF \l_fontspec_nobf_bool {
     \tl_if_empty:NTF \l_fontspec_fontname_bf_tl {
       \fontspec_make_auto_font_shapes:nnnnn \l_fontspec_fontname_tl {/B}
@@ -3843,7 +3843,7 @@ This work consists of this file fontspec.dtx
 % \begin{macro}{\fontspec_set_italic:}
 % And italic in the same way:
 %    \begin{macrocode}
-\cs_new:Npn \fontspec_set_italic: {
+\cs_new:Nn \fontspec_set_italic: {
   \bool_if:NF \l_fontspec_noit_bool {
     \tl_if_empty:NTF \l_fontspec_fontname_it_tl
     { \fontspec_make_auto_font_shapes:nnnnn \l_fontspec_fontname_tl {/I} }
@@ -3857,7 +3857,7 @@ This work consists of this file fontspec.dtx
 % \begin{macro}{\fontspec_set_slanted:}
 % And slanted but only if requested:
 %    \begin{macrocode}
-\cs_new:Npn \fontspec_set_slanted: {
+\cs_new:Nn \fontspec_set_slanted: {
   \tl_if_empty:NF \l_fontspec_fontname_sl_tl {
     \fontspec_make_font_shapes:nnnn
       \l_fontspec_fontname_sl_tl \mddefault \sldefault \l_fontspec_fontfeat_sl_clist
@@ -3873,7 +3873,7 @@ This work consists of this file fontspec.dtx
 % occurance, presumably), the new bold font is used to define the new
 % bold italic font.
 %    \begin{macrocode}
-\cs_new:Npn \fontspec_set_bold_italic: {
+\cs_new:Nn \fontspec_set_bold_italic: {
   \bool_if:nF {\l_fontspec_nobf_bool || \l_fontspec_nobf_bool} {
     \tl_if_empty:NTF \l_fontspec_fontname_bfit_tl
     {
@@ -3903,7 +3903,7 @@ This work consists of this file fontspec.dtx
 % \begin{macro}{\fontspec_set_bold_slanted:}
 % And bold slanted, again, only if requested:
 %    \begin{macrocode}
-\cs_new:Npn \fontspec_set_bold_slanted: {
+\cs_new:Nn \fontspec_set_bold_slanted: {
   \tl_if_empty:NTF \l_fontspec_fontname_bfsl_tl {
     \tl_if_empty:NF \l_fontspec_fontname_sl_tl {
       \fontspec_make_auto_font_shapes:nnnnn \l_fontspec_fontname_sl_tl {/B}
@@ -3932,7 +3932,7 @@ This work consists of this file fontspec.dtx
 % font or an OpenType font or a font with feature axes (either \AAT\ or
 % Multiple Master), respectively.
 %    \begin{macrocode}
-\cs_new:Npn \fontspec_set_font_type:
+\cs_new:Nn \fontspec_set_font_type:
 %<*xetexx>
    {
     \bool_set_false:N \l_fontspec_tfm_bool
@@ -4044,7 +4044,7 @@ This work consists of this file fontspec.dtx
 % \darg{Font features}
 % Wrapper for \cmd\DeclareFontShape.
 %    \begin{macrocode}
-\cs_new:Npn \fontspec_declare_shape:nnnn #1#2#3#4 {
+\cs_new:Nn \fontspec_declare_shape:nnnn {
   \clist_if_empty:NTF \l_fontspec_sizefeat_clist
   {
     \fontspec_get_features:n {#4}
@@ -4287,7 +4287,7 @@ This work consists of this file fontspec.dtx
 % sclists without worrying about it.
 %    \begin{macrocode}
 \cs_set_eq:NN \sclist_clear:N \tl_clear:N
-\cs_new:Npn \sclist_gput_right:Nn #1#2 {
+\cs_new:Nn \sclist_gput_right:Nn {
   \tl_gput_right:Nn #1 {#2;}
 }
 \cs_generate_variant:Nn \sclist_gput_right:Nn {Nx}
@@ -4337,7 +4337,7 @@ This work consists of this file fontspec.dtx
 %    \end{macrocode}
 %
 %    \begin{macrocode}
-\cs_new:Npn \fontspec_make_AAT_feature:nn #1#2 {
+\cs_new:Nn \fontspec_make_AAT_feature:nn {
   \tl_if_empty:nTF {#1}
   { \fontspec_warning:n {aat-feature-not-exist} }
   {
@@ -4349,7 +4349,7 @@ This work consists of this file fontspec.dtx
     { \fontspec_warning:nx {aat-feature-not-exist-in-font} {#1,#2} }
   }
 }
-\cs_new:Npn \fontspec_make_ICU_feature:n #1 {
+\cs_new:Nn \fontspec_make_ICU_feature:n {
   \tl_if_empty:nTF {#1}
   { \fontspec_warning:n {icu-feature-not-exist} }
   {
@@ -4903,7 +4903,7 @@ This work consists of this file fontspec.dtx
 % but allows alternate italic shapes from a separate font, say, to
 % be loaded and to be auto-scaled correctly. Even if this would be ugly.
 %    \begin{macrocode}
-\cs_new:Npn \fontspec_calc_scale:n #1 {
+\cs_new:Nn \fontspec_calc_scale:n {
   \group_begin:
     \rmfamily
     \fontspec_set_font_dimen:NnN \@tempdima {#1} \font
@@ -4924,7 +4924,7 @@ This work consists of this file fontspec.dtx
 % for a \texttt{.tfm} font), then we cheat and measure the height of a glyph.
 % We assume in this case that the font contains either an `X' or an `x'.
 %    \begin{macrocode}
-\cs_new:Npn \fontspec_set_font_dimen:NnN #1#2#3
+\cs_new:Nn \fontspec_set_font_dimen:NnN
 {
   \dim_set:Nn #1 { \fontdimen #2 #3 }
   \dim_compare:nNnT #1 = {0pt} {
@@ -6408,7 +6408,7 @@ luatexbase.add_to_callback("luaotfload.patch_font", set_capheight, "fontspec.set
 % \begin{macro}{\fontspec_visible_space:}
 % Print \unichar{2434}{Open box}, which is used to visibly display a space character.
 %    \begin{macrocode}
-\cs_new:Npn \fontspec_visible_space: {
+\cs_new:Nn \fontspec_visible_space: {
   \font_glyph_if_exist:NnTF \font {"2423}
     {\char"2423\relax}
     {\fontspec_visible_space_fallback:}
@@ -6419,7 +6419,7 @@ luatexbase.add_to_callback("luaotfload.patch_font", set_capheight, "fontspec.set
 % \begin{macro}{\fontspec_visible_space:@fallback}
 % If the current font doesn't have \unichar{2434}{Open box}, use Latin Modern Mono instead.
 %    \begin{macrocode}
-\cs_new:Npn \fontspec_visible_space_fallback: {
+\cs_new:Nn \fontspec_visible_space_fallback: {
   {
     \usefont{\zf@enc}{lmtt}{\f@series}{\f@shape}
     \textvisiblespace

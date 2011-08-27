@@ -2864,21 +2864,21 @@ This work consists of this file fontspec.dtx
 % Now that \XeTeX\ can find fonts in the |texmf| tree, the Latin Modern OpenType fonts
 % can be used as the defaults. See the |euenc| collection of files for how this is implemented.
 %    \begin{macrocode}
-%<xetexx>\tl_set:Nn \zf@enc {EU1}
-%<luatex>\tl_set:Nn \zf@enc {EU2}
+%<xetexx>\tl_set:Nn \g_fontspec_encoding_tl {EU1}
+%<luatex>\tl_set:Nn \g_fontspec_encoding_tl {EU2}
 \tl_set:Nn \rmdefault {lmr}
 \tl_set:Nn \sfdefault {lmss}
 \tl_set:Nn \ttdefault {lmtt}
-\RequirePackage[\zf@enc]{fontenc}
-\tl_set_eq:NN \UTFencname \zf@enc % for xunicode
+\RequirePackage[\g_fontspec_encoding_tl]{fontenc}
+\tl_set_eq:NN \UTFencname \g_fontspec_encoding_tl % for xunicode
 %    \end{macrocode}
 % Dealing with a couple of the problems introduced by \pkg{babel}:
 %    \begin{macrocode}
-\tl_set_eq:NN \cyrillicencoding \zf@enc
-\tl_set_eq:NN \latinencoding    \zf@enc
+\tl_set_eq:NN \cyrillicencoding \g_fontspec_encoding_tl
+\tl_set_eq:NN \latinencoding    \g_fontspec_encoding_tl
 \g@addto@macro \document {
-  \tl_set_eq:NN \cyrillicencoding \zf@enc
-  \tl_set_eq:NN \latinencoding    \zf@enc
+  \tl_set_eq:NN \cyrillicencoding \g_fontspec_encoding_tl
+  \tl_set_eq:NN \latinencoding    \g_fontspec_encoding_tl
 }
 %    \end{macrocode}
 % That latin encoding definition is repeated to suppress font warnings.
@@ -2916,7 +2916,7 @@ This work consists of this file fontspec.dtx
 %   family is selected.
 %    \begin{macrocode}
 \DeclareDocumentCommand \fontspec { O{} m } {
-  \fontencoding {\zf@enc}
+  \fontencoding {\g_fontspec_encoding_tl}
   \fontspec_set_family:Nnn \f@family {#1}{#2}
   \selectfont
   \ignorespaces
@@ -3015,7 +3015,7 @@ This work consists of this file fontspec.dtx
   \fontspec_select:nn{#2}{#3}
   \use:x {
     \exp_not:N \DeclareRobustCommand \exp_not:N #1 {
-      \exp_not:N \fontencoding {\zf@enc}
+      \exp_not:N \fontencoding {\g_fontspec_encoding_tl}
       \exp_not:N \fontfamily {\zf@family} \exp_not:N \selectfont
     }
   }
@@ -3632,7 +3632,7 @@ This work consists of this file fontspec.dtx
   \fontspec_save_family:nT {#2} {
     \fontspec_info:nxx {defining-font} {#1} {#2}
     \fontspec_save_fontinfo:nn {#1} {#2}
-    \DeclareFontFamily{\zf@enc}{\zf@family}{}
+    \DeclareFontFamily{\g_fontspec_encoding_tl}{\zf@family}{}
     \fontspec_set_upright:
     \fontspec_set_bold:
     \fontspec_set_italic:
@@ -4092,7 +4092,7 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
   \fontspec_info:nx {defining-raw} {#2/#3}
   \use:x{
-    \exp_not:N\DeclareFontShape{\zf@enc}{\zf@family}{#2}{#3}
+    \exp_not:N\DeclareFontShape{\g_fontspec_encoding_tl}{\zf@family}{#2}{#3}
       {\l_fontspec_nfss_tl}{\l_fontspec_postadjust_tl}
   }
 %    \end{macrocode}
@@ -4105,7 +4105,7 @@ This work consists of this file fontspec.dtx
   }
   {
     \use:x {
-      \exp_not:N \DeclareFontShape {\zf@enc}{\zf@family}{#2}{\sldefault}
+      \exp_not:N \DeclareFontShape {\g_fontspec_encoding_tl}{\zf@family}{#2}{\sldefault}
         {<->ssub*\zf@family/#2/\itdefault}{\l_fontspec_postadjust_tl}
     }
   }
@@ -6080,24 +6080,24 @@ This work consists of this file fontspec.dtx
 % as per usual with \cmd\setboldmathrm, which stores the appropriate
 % family name in \cmd\g_fontspec_bfmathrm_tl.
 %    \begin{macrocode}
-  \DeclareSymbolFont{operators}\zf@enc\g_fontspec_mathrm_tl\mddefault\updefault
-  \SetSymbolFont{operators}{normal}\zf@enc\g_fontspec_mathrm_tl\mddefault\updefault
-  \SetMathAlphabet\mathrm{normal}\zf@enc\g_fontspec_mathrm_tl\mddefault\updefault
-  \SetMathAlphabet\mathit{normal}\zf@enc\g_fontspec_mathrm_tl\mddefault\itdefault
-  \SetMathAlphabet\mathbf{normal}\zf@enc\g_fontspec_mathrm_tl\bfdefault\updefault
-  \SetMathAlphabet\mathsf{normal}\zf@enc\g_fontspec_mathsf_tl\mddefault\updefault
-  \SetMathAlphabet\mathtt{normal}\zf@enc\g_fontspec_mathtt_tl\mddefault\updefault
-  \SetSymbolFont{operators}{bold}\zf@enc\g_fontspec_mathrm_tl\bfdefault\updefault
+  \DeclareSymbolFont{operators}\g_fontspec_encoding_tl\g_fontspec_mathrm_tl\mddefault\updefault
+  \SetSymbolFont{operators}{normal}\g_fontspec_encoding_tl\g_fontspec_mathrm_tl\mddefault\updefault
+  \SetMathAlphabet\mathrm{normal}\g_fontspec_encoding_tl\g_fontspec_mathrm_tl\mddefault\updefault
+  \SetMathAlphabet\mathit{normal}\g_fontspec_encoding_tl\g_fontspec_mathrm_tl\mddefault\itdefault
+  \SetMathAlphabet\mathbf{normal}\g_fontspec_encoding_tl\g_fontspec_mathrm_tl\bfdefault\updefault
+  \SetMathAlphabet\mathsf{normal}\g_fontspec_encoding_tl\g_fontspec_mathsf_tl\mddefault\updefault
+  \SetMathAlphabet\mathtt{normal}\g_fontspec_encoding_tl\g_fontspec_mathtt_tl\mddefault\updefault
+  \SetSymbolFont{operators}{bold}\g_fontspec_encoding_tl\g_fontspec_mathrm_tl\bfdefault\updefault
   \tl_if_empty:NTF \g_fontspec_bfmathrm_tl {
-    \SetMathAlphabet\mathrm{bold}\zf@enc\g_fontspec_mathrm_tl\bfdefault\updefault
-    \SetMathAlphabet\mathit{bold}\zf@enc\g_fontspec_mathrm_tl\bfdefault\itdefault
+    \SetMathAlphabet\mathrm{bold}\g_fontspec_encoding_tl\g_fontspec_mathrm_tl\bfdefault\updefault
+    \SetMathAlphabet\mathit{bold}\g_fontspec_encoding_tl\g_fontspec_mathrm_tl\bfdefault\itdefault
   }{
-    \SetMathAlphabet\mathrm{bold}\zf@enc\g_fontspec_bfmathrm_tl\mddefault\updefault
-    \SetMathAlphabet\mathbf{bold}\zf@enc\g_fontspec_bfmathrm_tl\bfdefault\updefault
-    \SetMathAlphabet\mathit{bold}\zf@enc\g_fontspec_bfmathrm_tl\mddefault\itdefault
+    \SetMathAlphabet\mathrm{bold}\g_fontspec_encoding_tl\g_fontspec_bfmathrm_tl\mddefault\updefault
+    \SetMathAlphabet\mathbf{bold}\g_fontspec_encoding_tl\g_fontspec_bfmathrm_tl\bfdefault\updefault
+    \SetMathAlphabet\mathit{bold}\g_fontspec_encoding_tl\g_fontspec_bfmathrm_tl\mddefault\itdefault
   }
-  \SetMathAlphabet\mathsf{bold}\zf@enc\g_fontspec_mathsf_tl\bfdefault\updefault
-  \SetMathAlphabet\mathtt{bold}\zf@enc\g_fontspec_mathtt_tl\bfdefault\updefault
+  \SetMathAlphabet\mathsf{bold}\g_fontspec_encoding_tl\g_fontspec_mathsf_tl\bfdefault\updefault
+  \SetMathAlphabet\mathtt{bold}\g_fontspec_encoding_tl\g_fontspec_mathtt_tl\bfdefault\updefault
 }
 %    \end{macrocode}
 % \end{macro}
@@ -6421,7 +6421,7 @@ luatexbase.add_to_callback("luaotfload.patch_font", set_capheight, "fontspec.set
 %    \begin{macrocode}
 \cs_new:Nn \fontspec_visible_space_fallback: {
   {
-    \usefont{\zf@enc}{lmtt}{\f@series}{\f@shape}
+    \usefont{\g_fontspec_encoding_tl}{lmtt}{\f@series}{\f@shape}
     \textvisiblespace
   }
 }

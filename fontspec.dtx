@@ -2347,7 +2347,7 @@ This work consists of this file fontspec.dtx
 %
 % In some cases, it is useful to know what the \LaTeX\ font family
 % of a specific \pkg{fontspec} font is. After a \cmd\fontspec-like
-% command, this is stored inside the \cmd\zf@family\ macro.
+% command, this is stored inside the \cmd\l_fontspec_family_tl\ macro.
 % Otherwise, \LaTeX's own \cmd\f@family\ macro can be useful here,
 % too.
 % The raw \TeX\ font that is defined is stored temporarily
@@ -2749,7 +2749,7 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \msg_new:nnn {fontspec} {defining-font}
 {
-  Defining~ font~ family~'\zf@family'~ for~ font~ '#2'~ with~ options~ [\g_fontspec_default_fontopts_tl #1].
+  Defining~ font~ family~'\l_fontspec_family_tl'~ for~ font~ '#2'~ with~ options~ [\g_fontspec_default_fontopts_tl #1].
 }
 \msg_new:nnn {fontspec} {defining-raw}
 {
@@ -2912,7 +2912,7 @@ This work consists of this file fontspec.dtx
 %   \MacOSX\ font name and the optional requested features of that
 %   font. It simply runs \cs{zf@fontspec}, which takes the same
 %   arguments as the top level macro and puts the new-fangled font
-%   family name into the global \cmd{\zf@family}. Then this new font
+%   family name into the global \cmd{\l_fontspec_family_tl}. Then this new font
 %   family is selected.
 %    \begin{macrocode}
 \DeclareDocumentCommand \fontspec { O{} m } {
@@ -3016,7 +3016,7 @@ This work consists of this file fontspec.dtx
   \use:x {
     \exp_not:N \DeclareRobustCommand \exp_not:N #1 {
       \exp_not:N \fontencoding {\g_fontspec_encoding_tl}
-      \exp_not:N \fontfamily {\zf@family} \exp_not:N \selectfont
+      \exp_not:N \fontfamily {\l_fontspec_family_tl} \exp_not:N \selectfont
     }
   }
 }
@@ -3063,7 +3063,7 @@ This work consists of this file fontspec.dtx
 %
 %   The default options are \emph{not} applied (which is why
 %   \cs{g_fontspec_default_fontopts_tl} is emptied inside the group; this is allowed
-%   as \cmd\zf@family\ is globally defined in \cmd\fontspec_select:nn), so this
+%   as \cmd\l_fontspec_family_tl\ is globally defined in \cmd\fontspec_select:nn), so this
 %   means that the only added features to the font are strictly those
 %   specified by this command.
 %
@@ -3080,7 +3080,7 @@ This work consists of this file fontspec.dtx
           {\csname zf@family@fontname\f@family\endcsname}
       }
     \group_end:
-    \fontfamily\zf@family\selectfont
+    \fontfamily\l_fontspec_family_tl\selectfont
   \else
     \fontspec_warning:n {addfontfeatures-ignored}
   \fi
@@ -3492,7 +3492,7 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \cs_new:Nn \fontspec_set_family:Nnn {
   \fontspec_select:nn {#2}{#3}
-  \tl_set_eq:NN #1 \zf@family
+  \tl_set_eq:NN #1 \l_fontspec_family_tl
 }
 %    \end{macrocode}
 % \end{macro}
@@ -3632,7 +3632,7 @@ This work consists of this file fontspec.dtx
   \fontspec_save_family:nT {#2} {
     \fontspec_info:nxx {defining-font} {#1} {#2}
     \fontspec_save_fontinfo:nn {#1} {#2}
-    \DeclareFontFamily{\g_fontspec_encoding_tl}{\zf@family}{}
+    \DeclareFontFamily{\g_fontspec_encoding_tl}{\l_fontspec_family_tl}{}
     \fontspec_set_upright:
     \fontspec_set_bold:
     \fontspec_set_italic:
@@ -3645,12 +3645,6 @@ This work consists of this file fontspec.dtx
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\zf@fontspec}
-% For backwards compatibility. Do not use this from now on!
-%    \begin{macrocode}
-\cs_set_eq:NN \zf@fontspec \fontspec_select:nn
-%    \end{macrocode}
-% \end{macro}
 %
 %
 % \begin{macro}{\fontspec_preparse_features:nn}
@@ -3729,8 +3723,8 @@ This work consists of this file fontspec.dtx
           ( \int_use:c {g_fontspec_family_#1_int} )
     }
   }
-  \tl_gset:Nv \zf@family {g_fontspec_UID_\l_fontspec_fontid_tl}
-  \cs_if_exist:cTF {g_fontspec_ \zf@family _prop}
+  \tl_gset:Nv \l_fontspec_family_tl {g_fontspec_UID_\l_fontspec_fontid_tl}
+  \cs_if_exist:cTF {g_fontspec_ \l_fontspec_family_tl _prop}
     \prg_return_false: \prg_return_true:
 }
 %    \end{macrocode}
@@ -3777,28 +3771,28 @@ This work consists of this file fontspec.dtx
 \cs_generate_variant:Nn \prop_gput:Nnn {cnx}
 \cs_new:Nn \fontspec_save_fontinfo:nn {
 
-  \prop_new:c {g_fontspec_ \zf@family _prop}
-  \prop_gput:cnx {g_fontspec_ \zf@family _prop} {fontname} {#2}
-  \prop_gput:cnx {g_fontspec_ \zf@family _prop} {options} {\g_fontspec_default_fontopts_tl #1}
-  \prop_gput:cnx {g_fontspec_ \zf@family _prop} {fontdef} {
+  \prop_new:c {g_fontspec_ \l_fontspec_family_tl _prop}
+  \prop_gput:cnx {g_fontspec_ \l_fontspec_family_tl _prop} {fontname} {#2}
+  \prop_gput:cnx {g_fontspec_ \l_fontspec_family_tl _prop} {options} {\g_fontspec_default_fontopts_tl #1}
+  \prop_gput:cnx {g_fontspec_ \l_fontspec_family_tl _prop} {fontdef} {
         \fontspec_fullname:n {\l_fontspec_fontname_tl} :
         \l_fontspec_pre_feat_sclist \l_fontspec_rawfeatures_sclist
   }
-  \prop_gput:cnV {g_fontspec_ \zf@family _prop} {script-num} \l_fontspec_script_int
-  \prop_gput:cnV {g_fontspec_ \zf@family _prop} {lang-num} \l_fontspec_language_int
-  \prop_gput:cnV {g_fontspec_ \zf@family _prop} {script-tag} \l_fontspec_script_tl
-  \prop_gput:cnV {g_fontspec_ \zf@family _prop} {lang-tag} \l_fontspec_lang_tl
+  \prop_gput:cnV {g_fontspec_ \l_fontspec_family_tl _prop} {script-num} \l_fontspec_script_int
+  \prop_gput:cnV {g_fontspec_ \l_fontspec_family_tl _prop} {lang-num} \l_fontspec_language_int
+  \prop_gput:cnV {g_fontspec_ \l_fontspec_family_tl _prop} {script-tag} \l_fontspec_script_tl
+  \prop_gput:cnV {g_fontspec_ \l_fontspec_family_tl _prop} {lang-tag} \l_fontspec_lang_tl
 
-    \tl_gset:cx {zf@family@fontname\zf@family} {#2}
-    \tl_gset:cx {zf@family@options\zf@family} {\g_fontspec_default_fontopts_tl #1}
-    \tl_gset:cx {zf@family@fontdef\zf@family} {
+    \tl_gset:cx {zf@family@fontname\l_fontspec_family_tl} {#2}
+    \tl_gset:cx {zf@family@options\l_fontspec_family_tl} {\g_fontspec_default_fontopts_tl #1}
+    \tl_gset:cx {zf@family@fontdef\l_fontspec_family_tl} {
       \fontspec_fullname:n {\l_fontspec_fontname_tl} :
         \l_fontspec_pre_feat_sclist \l_fontspec_rawfeatures_sclist
     }
-    \tl_gset:cV {g_fontspec_script_num_(\zf@family)_tl} \l_fontspec_script_int
-    \tl_gset:cV {g_fontspec_lang_num_(\zf@family)_tl} \l_fontspec_language_int
-    \tl_gset_eq:cN {g_fontspec_script_(\zf@family)_tl} \l_fontspec_script_tl
-    \tl_gset_eq:cN {g_fontspec_lang_(\zf@family)_tl}   \l_fontspec_lang_tl
+    \tl_gset:cV {g_fontspec_script_num_(\l_fontspec_family_tl)_tl} \l_fontspec_script_int
+    \tl_gset:cV {g_fontspec_lang_num_(\l_fontspec_family_tl)_tl} \l_fontspec_language_int
+    \tl_gset_eq:cN {g_fontspec_script_(\l_fontspec_family_tl)_tl} \l_fontspec_script_tl
+    \tl_gset_eq:cN {g_fontspec_lang_(\l_fontspec_family_tl)_tl}   \l_fontspec_lang_tl
 }
 %    \end{macrocode}
 % \end{macro}
@@ -4092,7 +4086,7 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
   \fontspec_info:nx {defining-raw} {#2/#3}
   \use:x{
-    \exp_not:N\DeclareFontShape{\g_fontspec_encoding_tl}{\zf@family}{#2}{#3}
+    \exp_not:N\DeclareFontShape{\g_fontspec_encoding_tl}{\l_fontspec_family_tl}{#2}{#3}
       {\l_fontspec_nfss_tl}{\l_fontspec_postadjust_tl}
   }
 %    \end{macrocode}
@@ -4105,8 +4099,8 @@ This work consists of this file fontspec.dtx
   }
   {
     \use:x {
-      \exp_not:N \DeclareFontShape {\g_fontspec_encoding_tl}{\zf@family}{#2}{\sldefault}
-        {<->ssub*\zf@family/#2/\itdefault}{\l_fontspec_postadjust_tl}
+      \exp_not:N \DeclareFontShape {\g_fontspec_encoding_tl}{\l_fontspec_family_tl}{#2}{\sldefault}
+        {<->ssub*\l_fontspec_family_tl/#2/\itdefault}{\l_fontspec_postadjust_tl}
     }
   }
 }
@@ -6151,6 +6145,16 @@ This work consists of this file fontspec.dtx
     {\typeout{No~ fontspec.cfg~ file~ found;~ no~ configuration~ loaded.}}
 }
 %    \end{macrocode}
+%
+% \subsection{Compatibility}
+% \begin{macro}{\zf@fontspec}
+% Just in case.
+%    \begin{macrocode}
+\tl_set:Nn \zf@enc { \g_fontspec_encoding_tl }
+\tl_set:Nn \zf@family { \l_fontspec_family_tl }
+\cs_set_eq:NN \zf@fontspec \fontspec_select:nn
+%    \end{macrocode}
+% \end{macro}
 %
 % The end! Thanks for coming.
 %    \begin{macrocode}

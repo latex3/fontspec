@@ -5557,14 +5557,14 @@ This work consists of this file fontspec.dtx
     Vertical .choice: ,
     Vertical / RotatedGlyphs .code:n =
       {
-  \bool_if:NTF \l_fontspec_icu_bool {
-    \fontspec_make_feature:nnn{}{}{+vrt2}
-    \fontspec_update_fontid:n {+vert}
-    \fontspec_update_featstr:n{vertical}
-  }{
-    \fontspec_update_fontid:n {+vert}
-    \fontspec_update_featstr:n{vertical}
-  }
+        \bool_if:NTF \l_fontspec_icu_bool {
+          \fontspec_make_feature:nnn{}{}{+vrt2}
+          \fontspec_update_fontid:n {+vert}
+          \fontspec_update_featstr:n{vertical}
+        }{
+          \fontspec_update_fontid:n {+vert}
+          \fontspec_update_featstr:n{vertical}
+        }
       }
   }
 %    \end{macrocode}
@@ -5823,20 +5823,20 @@ This work consists of this file fontspec.dtx
   {
     Language / Turkish .code:n =
       {
-  \fontspec_check_lang:nTF {TRK} {
-    \int_set:Nn \l_fontspec_language_int {\l_fontspec_strnum_int}
-    \fontspec_update_fontid:n {+lang=Turkish}
-    \tl_set:Nn \l_fontspec_lang_tl {TRK}
-  }{
-    \fontspec_check_lang:nTF {TUR} {
-      \int_set:Nn \l_fontspec_language_int {\l_fontspec_strnum_int}
-      \fontspec_update_fontid:n {+lang=Turkish}
-      \tl_set:Nn \l_fontspec_lang_tl {TUR}
-    }{
-      \fontspec_warning:nx {language-not-exist} {Turkish}
-      \keys_set:nn {fontspec} {Language=Default}
-    }
-  }
+        \fontspec_check_lang:nTF {TRK} {
+          \int_set:Nn \l_fontspec_language_int {\l_fontspec_strnum_int}
+          \fontspec_update_fontid:n {+lang=Turkish}
+          \tl_set:Nn \l_fontspec_lang_tl {TRK}
+        }{
+          \fontspec_check_lang:nTF {TUR} {
+            \int_set:Nn \l_fontspec_language_int {\l_fontspec_strnum_int}
+            \fontspec_update_fontid:n {+lang=Turkish}
+            \tl_set:Nn \l_fontspec_lang_tl {TUR}
+          }{
+            \fontspec_warning:nx {language-not-exist} {Turkish}
+            \keys_set:nn {fontspec} {Language=Default}
+          }
+        }
       }
   }
 %    \end{macrocode}
@@ -5848,9 +5848,9 @@ This work consists of this file fontspec.dtx
   {
     Language / Default .code:n =
       {
-  \fontspec_update_fontid:n {+lang=dflt}
-  \tl_set:Nn \l_fontspec_lang_tl {DFLT}
-  \int_zero:N \l_fontspec_language_int
+        \fontspec_update_fontid:n {+lang=dflt}
+        \tl_set:Nn \l_fontspec_lang_tl {DFLT}
+        \int_zero:N \l_fontspec_language_int
       }
   }
 %    \end{macrocode}
@@ -5863,8 +5863,8 @@ This work consists of this file fontspec.dtx
   {
     RawFeature .code:n =
       {
-  \fontspec_update_fontid:n {+Raw:#1}
-  \fontspec_update_featstr:n{#1}
+        \fontspec_update_fontid:n {+Raw:#1}
+        \fontspec_update_featstr:n{#1}
       }
   }
 %    \end{macrocode}

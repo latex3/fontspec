@@ -4380,36 +4380,6 @@ This work consists of this file fontspec.dtx
 % \end{macro}
 % \end{macro}
 %
-% \begin{macro}{\keyval@alias@key}
-% This macro maps one \pkg{xkeyval} key to another.
-%    \begin{macrocode}
-\newcommand*\keyval@alias@key[4][KV]{
-  \cs_set_eq:cc{#1@#2@#4}{#1@#2@#3}
-  \cs_set_eq:cc{#1@#2@#4@default}{#1@#2@#3@default}
-}
-%    \end{macrocode}
-% \end{macro}
-%
-% \begin{macro}{\multi@alias@key}
-% This macro iterates through families to map one key to another,
-% regardless of which family it's contained within.
-%    \begin{macrocode}
-\newcommand*\multi@alias@key[2]{
-  \key@ifundefined[zf]{options}{#1}
-    {
-      \key@ifundefined[zf]{preparse}{#1}
-      {
-        \key@ifundefined[zf]{preparse-external}{#1}
-          { \fontspec_warning:nx {rename-feature-not-exist} {#1} }
-          { \keyval@alias@key[zf]{preparse-external}{#1}{#2} }
-      }
-      { \keyval@alias@key[zf]{preparse}{#1}{#2} }
-    }
-    { \keyval@alias@key[zf]{options}{#1}{#2} }
-}
-%    \end{macrocode}
-% \end{macro}
-%
 % \begin{macro}{\fontspec_make_AAT_feature_string:nnTF}
 %   This macro takes the numerical codes for a font feature and
 %   creates a specified macro containing the string required in the
@@ -5108,7 +5078,7 @@ This work consists of this file fontspec.dtx
    }
   \tl_set:Nn \l_fontspec_opacity_tl {#7#8}
 }
-\keyval@alias@key[zf]{options}{Color}{Colour}
+\aliasfontfeature{Color}{Colour}
 %    \end{macrocode}
 %    \begin{macrocode}
 \newcounter{fontspec_tmp_int}

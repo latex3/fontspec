@@ -20,7 +20,8 @@ help:
 	@echo '                 world  -  all & ctan'
 	@echo '                 clean  -  remove all generated and built files'
 	@echo ' '
-	@echo '                   install  -  install the package into your home texmf tree'
+	@echo '                   install  -  install the complete package into your home texmf tree'
+	@echo '               sty-install  -  install the package code only'
 	@echo ' install TEXMFROOT=<texmf>  -  install the package into the path <texmf>'
 	@echo ' '
 	@echo '                 check  -  run the test suite'
@@ -41,7 +42,7 @@ REDIRECT = > /dev/null
 # Files grouped by generation mode
 COMPILED = $(DOC) fontspec-testsuite.pdf
 EXAMPLES = fontspec-example.tex
-UNPACKED = fontspec.sty fontspec-patches.sty fontspec.lua fontspec.cfg $(EXAMPLES)
+UNPACKED = fontspec.sty fontspec-xetex.sty fontspec-luatex.sty fontspec-patches.sty fontspec.lua fontspec.cfg $(EXAMPLES)
 SOURCE = $(DTX) Makefile README
 GENERATED = $(COMPILED) $(UNPACKED)
 
@@ -112,6 +113,10 @@ define run-install
 @mkdir -p $(SRCDIR)/testsuite/ && cp $(TESTS) $(SRCDIR)/testsuite/
 endef
 
+define run-sty-install
+@mkdir -p $(RUNDIR) && cp $(RUNFILES) $(RUNDIR)
+endef
+
 $(TDS_ZIP): TEXMFROOT=./tmp-texmf
 $(TDS_ZIP): $(ALL_FILES)
 	@echo "Making TDS-ready archive $@."
@@ -140,6 +145,14 @@ install: $(ALL_FILES)
 	@echo "Installing in '$(TEXMFROOT)'."
 	$(run-install)
 
+sty-install: $(RUNFILES)
+	@if test ! -n "$(TEXMFROOT)" ; then \
+		echo "Cannot locate your home texmf tree. Specify manually with\n\n    make install TEXMFROOT=/path/to/texmf\n" ; \
+		false ; \
+	fi ;
+	@echo "Installing in '$(TEXMFROOT)'."
+	$(run-install)
+
 manifest: 
 	@echo "Source files:"
 	@for f in $(SOURCE); do echo $$f; done
@@ -150,6 +163,7 @@ manifest:
 clean:
 	@$(RM) -- *.log *.aux *.toc *.idx *.ind *.ilg *.glo *.gls *.example *.out *.synctex* *.tmp fontspec-style.sty *.ins fontspec*.pdf
 	@$(RM) -- $(GENERATED) $(ZIPS)
+	@$(RM) -- $(builddir)/*
 
 
 #############
@@ -168,7 +182,7 @@ COPY = cp -a
 MOVE = mv -f
 COMPARE_OPTS = -density 300x300 -metric ae -fuzz 35%
 
-LTXSOURCE = $(NAME).sty $(NAME).cfg $(NAME)-patches.sty
+LTXSOURCE = $(NAME).sty $(NAME)-xetex.sty $(NAME)-luatex.sty $(NAME).cfg $(NAME)-patches.sty
 
 TESTLIST = testsuite-listing.tex
 

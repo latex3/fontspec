@@ -2706,22 +2706,22 @@ This work consists of this file fontspec.dtx
 }
 \msg_new:nnn {fontspec} {aat-feature-not-exist}
 {
-  '\XKV@tfam=\XKV@tkey'~ feature~ not~ supported\\
+  '\l_keys_key_tl=\l_keys_value_tl'~ feature~ not~ supported\\
   for~ AAT~ font~ '\l_fontspec_fontname_tl'.
 }
 \msg_new:nnn {fontspec} {aat-feature-not-exist-in-font}
 {
-  AAT~ feature~ '\XKV@tfam=\XKV@tkey'~ (#1)~ not~ available\\
+  AAT~ feature~ '\l_keys_key_tl=\l_keys_value_tl'~ (#1)~ not~ available\\
   in~ font~ '\l_fontspec_fontname_tl'.
 }
 \msg_new:nnn {fontspec} {icu-feature-not-exist}
 {
-  '\XKV@tfam=\XKV@tkey'~ feature~ not~ supported\\
+  '\l_keys_key_tl=\l_keys_value_tl'~ feature~ not~ supported\\
   for~ ICU~ font~ '\l_fontspec_fontname_tl'
 }
 \msg_new:nnn {fontspec} {icu-feature-not-exist-in-font}
 {
-  OpenType~ feature~ '\XKV@tfam=\XKV@tkey'~ (#1)~ not~ available\\
+  OpenType~ feature~ '\l_keys_key_tl=\l_keys_value_tl'~ (#1)~ not~ available\\
   for~ font~ '\l_fontspec_fontname_tl', \\
   with~ script~ '\l_fontspec_script_name_tl',~ and~ language~ '\l_fontspec_lang_name_tl'.
 }
@@ -5461,7 +5461,6 @@ This work consists of this file fontspec.dtx
     Alternate .default:n = {0} ,
     Alternate / unknown .code:n =
     {
-      \def\XKV@tfam{Alternate}% fixme
       \fontspec_make_feature:nnx {17}{#1} { \fontspec_salt:n {#1} }
     }
   }
@@ -5480,7 +5479,6 @@ This work consists of this file fontspec.dtx
     Variant .default:n = {0} ,
     Variant / unknown .code:n =
     {
-      \def\XKV@tfam{Variant}% fixme
       \fontspec_make_feature:nnx {18}{#1} { +ss \two@digits {#1} }
     }
   }
@@ -5493,7 +5491,6 @@ This work consists of this file fontspec.dtx
   {
    CharacterVariant / unknown .code:n =
     {
-      \def\XKV@tfam{CharacterVariant}% fixme
       \clist_map_inline:nn {#1}
         {
           \fontspec_make_feature:nnx {}{} { +cv \two@digits {##1} }
@@ -5588,7 +5585,6 @@ This work consists of this file fontspec.dtx
     Annotation .default:n = {0} ,
     Annotation / unknown .code:n =
     {
-      \def\XKV@tfam{Annotation}% fixme
       \fontspec_make_feature:nnx {}{}
 %<xetexx>        { +nalt=#1 }
 %<luatex>        { +nalt= \int_eval:n {#1+1} }

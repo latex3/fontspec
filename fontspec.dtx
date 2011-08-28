@@ -4273,8 +4273,8 @@ This work consists of this file fontspec.dtx
     #1
   }
 }
-\cs_set:Nn \fontspec_make_smallcaps:T
 %<*xetexx>
+\cs_set:Nn \fontspec_make_smallcaps:T
   {
     \bool_if:NTF \l_fontspec_icu_bool {
       \fontspec_make_ot_smallcaps:T {#1}
@@ -4291,9 +4291,7 @@ This work consists of this file fontspec.dtx
   }
 %</xetexx>
 %<*luatex>
-  {
-    \cs_set_eq:NN \fontspec_make_smallcaps:T \fontspec_make_ot_smallcaps:T
-  }
+\cs_set_eq:NN \fontspec_make_smallcaps:T \fontspec_make_ot_smallcaps:T
 %</luatex>
 %    \end{macrocode}
 % \end{macro}
@@ -4701,16 +4699,16 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \keys_define:nn {fontspec-preparse} {
   Renderer .choice_code:n = {
-  \fontspec_update_fontid:n {+rend:#1}
-  \int_compare:nTF {\l_keys_choice_int < 3} {
+    \fontspec_update_fontid:n {+rend:\l_keys_choice_tl}
+    \int_compare:nTF {\l_keys_choice_int < 3} {
 %<*xetexx>
       \tl_set:Nv \l_fontspec_renderer_tl
         { g_fontspec_renderer_tag_ \l_keys_choice_tl }
 %</xetexx>
 %<*luatex>
-        \fontspec_warning:nx {only-xetex-feature} {Renderer=AAT/ICU/Graphite}
+      \fontspec_warning:nx {only-xetex-feature} {Renderer=AAT/ICU/Graphite}
 %</luatex>
-  }{
+    }{
 %<*xetexx>
       \fontspec_warning:nx {only-luatex-feature} {Renderer=Full/Basic}
 %</xetexx>
@@ -4718,7 +4716,7 @@ This work consists of this file fontspec.dtx
       \tl_set:Nv \l_fontspec_mode_tl
         { g_fontspec_mode_tag_ \l_keys_choice_tl }
 %</luatex>
-  }
+    }
   }
   ,
   Renderer .generate_choices:n = {AAT,ICU,Graphite,Full,Basic}

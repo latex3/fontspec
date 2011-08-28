@@ -2429,6 +2429,19 @@ This work consists of this file fontspec.dtx
 % function.
 % \end{macro}
 %
+% \begin{macro}{\fontspec_set_fontface:NNnn}
+% \darg{primitive font}
+% \darg{family}
+% \darg{fontspec features}
+% \darg{font name}
+% Variant of the above in which the primitive \TeX\ font command is stored in
+% meta{primitive font}.
+% If a family is loaded (with bold and italic shapes) the primitive font
+% command will only select the regular face.
+% This feature is designed for \LaTeX\ programmers who need to
+% perform subsequent font-related tests on the \meta{primitive font}.
+% \end{macro}
+%
 %  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % \part{The patching/improvement of \LaTeXe\ and other packages}
@@ -3496,6 +3509,19 @@ This work consists of this file fontspec.dtx
 }
 %    \end{macrocode}
 % \end{macro}
+%
+%
+% \begin{macro}{\fontspec_set_fontface:NNnn}
+%    \begin{macrocode}
+\cs_new:Nn \fontspec_set_fontface:NNnn
+  {
+    \fontspec_select:nn {#2}{#3}
+    \tl_set_eq:NN #1 \zf@basefont
+    \tl_set_eq:NN #2 \l_fontspec_family_tl
+  }
+%    \end{macrocode}
+% \end{macro}
+%
 %
 %
 % \subsection{expl3 interface for font loading}

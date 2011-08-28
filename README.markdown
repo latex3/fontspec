@@ -88,6 +88,18 @@ Features can be renamed and feature options can be renamed with
 Change history
 --------------
 
+- v2.2
+    
+    * Support alternate selections in CharacterVariant (cvxx in OpenType)
+      using new syntax `[CharacterVariant=5:2]`.
+    * Add fontspec-compatible \oldstylenums and \liningnums commands.
+    * Many internal changes, among which:
+      - "xkeyval" package no longer used for option processing
+        (expl3's l3keys used instead)
+      - Internal names changed; avoid "\zf@basefont", "\zf@family", etc.
+        from now on -- there are public interfaces now to get access to the 
+        same information
+
 - v2.1g
 
     * No longer uses the binhex package, avoiding some name clashes with TIPA

@@ -3008,7 +3008,7 @@ This work consists of this file fontspec.dtx
 %   option arguments every time.
 %
 %   \cs{fontspec_select:nn} defines a font family and saves its name in
-%   \cs{zf@family}. This family is then used in a typical NFSS \cmd\fontfamily\
+%   \cs{l_fontspec_family_tl}. This family is then used in a typical NFSS \cmd\fontfamily\
 %   declaration, saved in the macro name specified.
 %    \begin{macrocode}
 \DeclareDocumentCommand \newfontfamily { m O{} m } {
@@ -4355,11 +4355,21 @@ This work consists of this file fontspec.dtx
     { \fontspec_warning:nx {icu-feature-not-exist-in-font} {#1} }
   }
 }
+\cs_new:Nn \fontspec_make_opentype_numbered_feature:nn
+  {
+    \fontspec_check_ot_feat:nTF {#1}
+    {
+      \fontspec_update_fontid:n {#1=#2}
+      \fontspec_update_featstr:n{#1=#2}
+    }
+    { \fontspec_warning:nx {icu-feature-not-exist-in-font} {#1} }
+  }
 %    \end{macrocode}
 % \end{macro}
 %
 % \begin{macro}{\fontspec_define_font_feature:n}
 % \begin{macro}{\fontspec_define_feature_option:nnnnn}
+% \begin{macro}{\fontspec_define_numbered_feat:nnnn}
 % These macros are used in order to simplify font feature definition later on.
 %    \begin{macrocode}
 \cs_new:Nn \fontspec_define_font_feature:n {
@@ -4370,7 +4380,24 @@ This work consists of this file fontspec.dtx
     #1/#2 .code:n = { \fontspec_make_feature:nnn{#3}{#4}{#5} }
   }
 }
+\cs_new:Nn \fontspec_define_numbered_feat:nnnn
+  {
+    \keys_define:nn {fontspec}
+      {
+        #1/#2 .code:n =
+          {
+%<*xetexx>
+            \fontspec_make_opentype_numbered_feature:nn {#3}{#4}
+%</xetexx>
+%<*luatex>
+            \fontspec_make_opentype_numbered_feature:nn {#3}
+              { \int_eval:n {#4+1} }
+%</luatex>
+          }
+      }
+  }
 %    \end{macrocode}
+% \end{macro}
 % \end{macro}
 % \end{macro}
 %
@@ -4948,7 +4975,7 @@ This work consists of this file fontspec.dtx
 }
 %    \end{macrocode}
 %
-% \begin{macro}{\zf@wordspace@parse}
+% \begin{macro}{\_fontspec_parse_wordspace:w}
 % This macro determines if the input to \feat{WordSpace} is
 % of the form |{X}| or |{X,Y,Z}| and executes the font scaling.
 % If the former input, it executes |{X,X,X}|.
@@ -5453,7 +5480,7 @@ This work consists of this file fontspec.dtx
 %
 %
 % \subsubsection{OpenType maths font features}
-% Used internally by \pkg{unicode-math}; their names might change:
+% Deprecated August 2011; delete at some stage in the future.
 %    \begin{macrocode}
 \keys_define:nn {fontspec}
   {
@@ -5485,6 +5512,8 @@ This work consists of this file fontspec.dtx
 \fontspec_define_feature_option:nnnnn{Style}{TallCaps}      {19}{5}{}
 \fontspec_define_feature_option:nnnnn{Style}{HorizontalKana}{}  {} {+hkna}
 \fontspec_define_feature_option:nnnnn{Style}{VerticalKana}  {}  {} {+vkna}
+\fontspec_define_numbered_feat:nnnn {Style} {MathScript}       {+ssty} {0}
+\fontspec_define_numbered_feat:nnnn {Style} {MathScriptScript} {+ssty} {1}
 %    \end{macrocode}
 %
 % \subsubsection{CJK shape}

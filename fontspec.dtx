@@ -2482,6 +2482,16 @@ This work consists of this file fontspec.dtx
 % makes it easy to change the hyphenation character on a per font basis, it would
 % be nice if \cmd\-\ adjusted automatically --- and now it does.
 %
+% \section{Commands for old-style and lining numbers}
+%
+% \DescribeMacro{\oldstylenums}
+% \DescribeMacro{\liningnums}
+% \LaTeX's definition of \cs{oldstylenums} relies on strange font encodings.
+% We provide a \pkg{fontspec}-compatible alternative and while we're at it
+% also throw in the reverse option as well. Use \cs{oldstylenums}\marg{text}
+% to explicitly use old-style (or lowercase) numbers in \meta{text}, and
+% the reverse for \cs{liningnums}\marg{text}.
+%
 % \StopEventually{}
 %
 % \clearpage
@@ -6583,6 +6593,26 @@ luatexbase.add_to_callback("luaotfload.patch_font", set_capheight, "fontspec.set
   }{}
 }
 %    \end{macrocode}
+%
+% \subsection{\cs{oldstylenums}}
+%
+%
+% \begin{macro}{\oldstylenums}
+% \begin{macro}{\liningnums}
+% This command obviously needs a redefinition.
+% And we may as well provide the reverse command.
+%    \begin{macrocode}
+\RenewDocumentCommand \oldstylenums {m}
+  {
+    { \addfontfeature{Numbers=OldStyle} #1 }
+  }
+\NewDocumentCommand \liningnums {m}
+  {
+    { \addfontfeature{Numbers=Lining} #1 }
+  }
+%    \end{macrocode}
+% \end{macro}
+%
 %
 %    \begin{macrocode}
 %</patches>

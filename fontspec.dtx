@@ -3619,7 +3619,8 @@ This work consists of this file fontspec.dtx
 % family for that font and put the family name (globally) into \cs{zf@family}.
 % The \TeX\ `\cs{font}' command is (globally) stored in \cs{l_fontspec_font}.
 %
-% This macro does its processing inside a group to attempt to restrict the scope of its internal processing. This works to some degree to insulate the internal commands from having to be manually cleared.
+% This macro does its processing inside a group to attempt to restrict the scope of its internal processing.
+% This works to some degree to insulate the internal commands from having to be manually cleared.
 %    \begin{macrocode}
 \cs_set:Nn \fontspec_select:nn {
   \group_begin:
@@ -3632,9 +3633,7 @@ This work consists of this file fontspec.dtx
 % \cmd{\l_fontspec_fontname_up_tl} is the font specifically to be used as the upright font.
 %    \begin{macrocode}
   \tl_set:Nx \l_fontspec_fontname_tl {#2}
-  \luatex_if_engine:T {
-    \tl_replace_all_in:Nnn \l_fontspec_fontname_tl {~} {}
-  }
+%<LU>  \tl_remove_all:Nn \l_fontspec_fontname_tl {~}
   \tl_set_eq:NN \l_fontspec_fontid_tl \l_fontspec_fontname_tl
   \tl_set_eq:NN \l_fontspec_fontname_up_tl \l_fontspec_fontname_tl
 %    \end{macrocode}
@@ -3652,7 +3651,7 @@ This work consists of this file fontspec.dtx
 % this no longer needs to happen; this is indicated by the `firsttime'
 % conditional.
 %    \begin{macrocode}
-  \fontspec_preparse_features:nn {#1}{#2}
+  \exp_args:NnV \fontspec_preparse_features:nn {#1} \l_fontspec_fontname_tl
 %    \end{macrocode}
 % Finally save the `confirmed' font definition.
 %    \begin{macrocode}

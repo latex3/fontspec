@@ -3537,7 +3537,7 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \cs_new:Nn \fontspec_set_fontface:NNnn
   {
-    \fontspec_select:nn {#2}{#3}
+    \fontspec_select:nn {#3}{#4}
     \tl_set_eq:NN #1 \l_fontspec_font
     \tl_set_eq:NN #2 \l_fontspec_family_tl
   }

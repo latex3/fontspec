@@ -3743,11 +3743,12 @@ This work consists of this file fontspec.dtx
     }{
       \int_new:c {g_fontspec_family_#1_int}
     }
-    \edef\@tempa{#1~}
-    \tl_gset:cx {g_fontspec_UID_\l_fontspec_fontid_tl} {
-      \expandafter\zap@space\@tempa\@empty
-          ( \int_use:c {g_fontspec_family_#1_int} )
-    }
+    \tl_set:Nx \l_fontspec_tmp_tl {#1}
+    \tl_remove_all:Nn \l_fontspec_tmp_tl {~}
+    \tl_gset:cx {g_fontspec_UID_\l_fontspec_fontid_tl}
+      {
+        \l_fontspec_tmp_tl ( \int_use:c {g_fontspec_family_#1_int} )
+      }
   }
   \tl_gset:Nv \l_fontspec_family_tl {g_fontspec_UID_\l_fontspec_fontid_tl}
   \cs_if_exist:cTF {g_fontspec_ \l_fontspec_family_tl _prop}

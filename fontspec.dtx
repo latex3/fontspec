@@ -2911,7 +2911,7 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \tl_set_eq:NN \cyrillicencoding \g_fontspec_encoding_tl
 \tl_set_eq:NN \latinencoding    \g_fontspec_encoding_tl
-\g@addto@macro \document {
+\tl_put_right:Nn \document {
   \tl_set_eq:NN \cyrillicencoding \g_fontspec_encoding_tl
   \tl_set_eq:NN \latinencoding    \g_fontspec_encoding_tl
 }
@@ -2944,11 +2944,8 @@ This work consists of this file fontspec.dtx
 % \begin{macro}{\fontspec}
 %   This is the main command of the package that
 %   selects fonts with various features. It takes two arguments: the
-%   \MacOSX\ font name and the optional requested features of that
-%   font. It simply runs \cs{zf@fontspec}, which takes the same
-%   arguments as the top level macro and puts the new-fangled font
-%   family name into the global \cmd{\l_fontspec_family_tl}. Then this new font
-%   family is selected.
+%   font name and the optional requested features of that
+%   font. Then this new font family is selected.
 %    \begin{macrocode}
 \DeclareDocumentCommand \fontspec { O{} m } {
   \fontencoding {\g_fontspec_encoding_tl}
@@ -2963,8 +2960,7 @@ This work consists of this file fontspec.dtx
 % \begin{macro}{\setsansfont}
 % \begin{macro}{\setmonofont}
 %     The following three macros perform equivalent operations setting
-%     the default font (using \cs{let} rather than \cs{renewcommand}
-%     because \cs{zf@family} will change in the future) for a
+%     the default font for a
 %     particular family: `roman', sans serif, or typewriter
 %     (monospaced). I end them with |\normalfont| so that if they're
 %     used in the document, the change registers immediately.
@@ -3039,7 +3035,7 @@ This work consists of this file fontspec.dtx
 %   by \name{Scott Pakin}'s \textsf{newcommand.py}). This command is used
 %   when a specific font instance needs to be referred to repetitively
 %   (\eg, in a section heading) since continuously calling
-%   \cs{zf@fontspec} is inefficient because it must parse the
+%   \cs{fontspec_select:nn} is inefficient because it must parse the
 %   option arguments every time.
 %
 %   \cs{fontspec_select:nn} defines a font family and saves its name in
@@ -3274,7 +3270,8 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \DeclareDocumentCommand \DeclareFontsExtensions {m}
 {
-  \tl_set:Nx \l_fontspec_extensions_clist { \zap@space #1~\@empty }
+  \tl_set:Nn \l_fontspec_extensions_clist { #1 }
+  \clist_trim_spaces:N \l_fontspec_extensions_clist
 }
 \DeclareFontsExtensions{.otf,.ttf,.OTF,.TTF,.ttc,.TTC,.dfont}
 %    \end{macrocode}
@@ -3616,7 +3613,7 @@ This work consists of this file fontspec.dtx
 % procedure of all \cmd\fontspec-like commands. Given a
 % list of font features (|#1|) for a requested font (|#2|),
 % it will define an NFSS
-% family for that font and put the family name (globally) into \cs{zf@family}.
+% family for that font and put the family name (globally) into \cs{l_fontspec_family_tl}.
 % The \TeX\ `\cs{font}' command is (globally) stored in \cs{l_fontspec_font}.
 %
 % This macro does its processing inside a group to attempt to restrict the scope of its internal processing.
@@ -4191,7 +4188,7 @@ This work consists of this file fontspec.dtx
 % features.
 %
 % The \meta{firsttime} boolean is set true in \cmd{\fontspec_select:nn} only the first
-% time \cmd{zf@get@feature@requests} is called, so that the family
+% time \cs{fontspec_update_featstr:n} is called, so that the family
 % name is only created once.
 %    \begin{macrocode}
 \cs_new:Nn \fontspec_update_fontid:n {
@@ -4284,7 +4281,7 @@ This work consists of this file fontspec.dtx
 % \end{macro}
 %
 % \begin{macro}{\fontspec_make_smallcaps:T}
-% \label{mac:zf@make@smallcaps}
+% \label{mac:makesmallcaps}
 % This macro checks if the font contains small caps, and if so
 % creates the string for accessing them in \cmd{\l_fontspec_sc_featstr_sclist}.
 %    \begin{macrocode}
@@ -4446,7 +4443,7 @@ This work consists of this file fontspec.dtx
 %   creates a specified macro containing the string required in the
 %   font definition to turn that feature on or off. Used primarily in
 %   [...], but also used to check if small caps
-%   exists in the requested font (see page~\pageref{mac:zf@make@smallcaps}).
+%   exists in the requested font (see page~\pageref{mac:makesmallcaps}).
 %
 % For exclusive selectors, it's easy; just grab the string:
 % For \emph{non}-exclusive selectors, it's a little more complex.
@@ -4507,14 +4504,14 @@ This work consists of this file fontspec.dtx
 % simply strips off the first char of the input before calling the normal \cmd\fontspec_iv_str_to_num:n.
 %    \begin{macrocode}
 \cs_set:Npn \fontspec_iv_str_to_num:Nn #1#2 {
-  \fontspec_iv_str_to_num:w #1 \q_nil #2 \@empty \@empty \q_nil
+  \fontspec_iv_str_to_num:w #1 \q_nil #2 \c_empty_tl \c_empty_tl \q_nil
 }
 \cs_set:Npn \fontspec_iv_str_to_num:w #1 \q_nil #2#3#4#5#6 \q_nil {
   \int_set:Nn #1 {
       `#2 * "1000000
     + `#3 * "10000
-    + \ifx \@empty #4 32 \else `#4 \fi * "100
-    + \ifx \@empty #5 32 \else `#5 \fi
+    + \ifx \c_empty_tl #4 32 \else `#4 \fi * "100
+    + \ifx \c_empty_tl #5 32 \else `#5 \fi
   }
 }
 \cs_generate_variant:Nn \fontspec_iv_str_to_num:Nn {No}
@@ -4838,7 +4835,7 @@ This work consists of this file fontspec.dtx
   }{
     \bool_set_true:N \l_fontspec_nosc_bool
     \fontspec_complete_fontname:Nn \l_fontspec_fontname_sc_tl {#1}
-    \fontspec_update_fontid:n {sc:\zap@space #1~\@empty}
+    \fontspec_update_fontid:n {sc:#1}
   }
   }
 }
@@ -4899,7 +4896,7 @@ This work consists of this file fontspec.dtx
   \bool_if:NF \l_fontspec_firsttime_bool {
     \def\l_fontspec_fontfeat_sc_clist{, #1}
   }
-  \fontspec_update_fontid:n {scfeat:\zap@space #1~\@empty}
+  \fontspec_update_fontid:n {scfeat:#1}
   }
 }
 %    \end{macrocode}
@@ -4909,7 +4906,7 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \keys_define:nn {fontspec-preparse} { SizeFeatures .code:n = {
   \tl_set:Nn \l_fontspec_sizefeat_clist {#1}
-  \fontspec_update_fontid:n {sizefeat:\zap@space #1~\@empty}
+  \fontspec_update_fontid:n {sizefeat:#1}
   }
 }
 %    \end{macrocode}
@@ -5111,18 +5108,19 @@ This work consists of this file fontspec.dtx
 %    \end{macrocode}
 %
 % \paragraph{Color}
+% Hooks into pkg{xcolor}, which names its colours \texttt{\char`\\color@<name>}.
 %    \begin{macrocode}
 \keys_define:nn {fontspec} { Color .code:n = {
   \fontspec_update_fontid:n {+col:#1}
-  \cs_if_exist:cTF {\token_to_str:N\color@#1}
+  \cs_if_exist:cTF { \token_to_str:N \color@ #1 }
   {
     \convertcolorspec{named}{#1}{HTML}\l_fontspec_hexcol_tl
   }
   {
-    \int_compare:nTF { \tl_elt_count:n {#1} == 6 }
+    \int_compare:nTF { \tl_length:n {#1} == 6 }
     { \tl_set:Nn \l_fontspec_hexcol_tl {#1} }
     {
-      \int_compare:nTF { \tl_elt_count:n {#1} == 8 }
+      \int_compare:nTF { \tl_length:n {#1} == 8 }
       { \fontspec_parse_colour:viii #1 }
       {
         \bool_if:NF \l_fontspec_firsttime_bool {

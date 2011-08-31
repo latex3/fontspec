@@ -3630,7 +3630,7 @@ This work consists of this file fontspec.dtx
 % \cmd{\l_fontspec_fontname_up_tl} is the font specifically to be used as the upright font.
 %    \begin{macrocode}
   \tl_set:Nx \l_fontspec_fontname_tl {#2}
-%<LU>  \tl_remove_all:Nn \l_fontspec_fontname_tl {~}
+%<luatex>  \tl_remove_all:Nn \l_fontspec_fontname_tl {~}
   \tl_set_eq:NN \l_fontspec_fontid_tl \l_fontspec_fontname_tl
   \tl_set_eq:NN \l_fontspec_fontname_up_tl \l_fontspec_fontname_tl
 %    \end{macrocode}
@@ -4849,9 +4849,7 @@ This work consists of this file fontspec.dtx
 \cs_set:Npn \fontspec_complete_fontname:Nn #1#2 {
   \tl_set:Nn #1 {#2}
   \tl_replace_all_in:Nnx #1 {*} {\l_fontspec_fontname_tl}
-  \luatex_if_engine:T {
-    \tl_replace_all_in:Nnn #1 {~} {}
-  }
+%<luatex>  \tl_remove_all:Nn #1 {~}
 }
 \cs_generate_variant:Nn \tl_replace_all_in:Nnn {Nnx}
 %    \end{macrocode}

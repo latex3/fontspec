@@ -4050,20 +4050,21 @@ This work consists of this file fontspec.dtx
     \tl_set:Nx \l_fontspec_fontname_tl {#1}
     \fontspec_font_set:Nnn \l_fontspec_font {\fontspec_fullname:n {#1}} {\f@size pt}
     \font_if_null:NT \l_fontspec_font { \fontspec_error:nx {font-not-found} {#1} }
-    \fontspec_declare_shape:nnnn {}{#2}{#3}{#4}
+    \fontspec_declare_shape:nnn {#2}{#3}{#4}
     \tl_if_empty:NTF \l_fontspec_fontname_sc_tl {
       \bool_if:NF \l_fontspec_nosc_bool {
         \fontspec_make_smallcaps:T {
-          \fontspec_declare_shape:nnnn {\l_fontspec_sc_featstr_sclist} {#2}
+          \fontspec_declare_shape:nnn {#2}
             { \tl_if_eq:NNTF #3 \itdefault \sidefault \scdefault }
-            { #4 \l_fontspec_fontfeat_sc_clist }
+            { #4 , Letters=SmallCaps, \l_fontspec_fontfeat_sc_clist }
         }
       }
     }{
+      \fontspec_font_set:Nnn \l_fontspec_font {\fontspec_fullname:n {\l_fontspec_fontname_sc_tl}} {\f@size pt}
       \tl_set:Nx \l_fontspec_fontname_tl {\l_fontspec_fontname_sc_tl}
-      \fontspec_declare_shape:nnnn {}{#2}
+      \fontspec_declare_shape:nnn {#2}
         { \tl_if_eq:NNTF #3 \itdefault \sidefault \scdefault }
-        { #4 \l_fontspec_fontfeat_sc_clist }
+        { #4 , \l_fontspec_fontfeat_sc_clist }
     }
   \group_end:
 }
@@ -4072,22 +4073,22 @@ This work consists of this file fontspec.dtx
 % only works while \cmd\fontspec_select:nn\ passes single tokens to this macro\dots
 % \end{macro}
 %
-% \begin{macro}{\fontspec_declare_shape:nnnn}
+% \begin{macro}{\fontspec_declare_shape:nnn}
 % \darg{Raw appended font features}
 % \darg{Font series}
 % \darg{Font shape}
 % \darg{Font features}
 % Wrapper for \cmd\DeclareFontShape.
 %    \begin{macrocode}
-\cs_new:Nn \fontspec_declare_shape:nnnn {
+\cs_new:Nn \fontspec_declare_shape:nnn {
   \clist_if_empty:NTF \l_fontspec_sizefeat_clist
   {
-    \fontspec_get_features:n {#4}
+    \fontspec_get_features:n {#3}
     \tl_set:Nx \l_fontspec_nfss_tl {
       <-> \l_fontspec_scale_tl
       \fontspec_fontwrap:n {
         \fontspec_fullname:n {\l_fontspec_fontname_tl} :
-          \l_fontspec_pre_feat_sclist \l_fontspec_rawfeatures_sclist #1
+          \l_fontspec_pre_feat_sclist \l_fontspec_rawfeatures_sclist
       }
     }
   }
@@ -4108,13 +4109,13 @@ This work consists of this file fontspec.dtx
         \l_fontspec_keys_leftover_clist
 
       \tl_if_empty:NT \l_fontspec_size_tl { \fontspec_error:n {no-size-info} }
-      \fontspec_get_features:n{ #4 , \l_fontspec_keys_leftover_clist }
+      \fontspec_get_features:n{ #3 , \l_fontspec_keys_leftover_clist }
 
       \tl_put_right:Nx \l_fontspec_nfss_tl {
         <\l_fontspec_size_tl> \l_fontspec_scale_tl
         \fontspec_fontwrap:n {
           \fontspec_fullname:n { \l_fontspec_sizedfont_tl }
-          : \l_fontspec_pre_feat_sclist \l_fontspec_rawfeatures_sclist #1
+          : \l_fontspec_pre_feat_sclist \l_fontspec_rawfeatures_sclist
         }
       }
 
@@ -4126,7 +4127,7 @@ This work consists of this file fontspec.dtx
 % character and interword spacing.
 %    \begin{macrocode}
   \use:x{
-    \exp_not:N\DeclareFontShape{\g_fontspec_encoding_tl}{\l_fontspec_family_tl}{#2}{#3}
+    \exp_not:N\DeclareFontShape{\g_fontspec_encoding_tl}{\l_fontspec_family_tl}{#1}{#2}
       {\l_fontspec_nfss_tl}{\l_fontspec_postadjust_tl}
   }
 %    \end{macrocode}
@@ -4134,13 +4135,13 @@ This work consists of this file fontspec.dtx
 % but I'd rather have it here than break out yet another macro.
 %    \begin{macrocode}
   \bool_if:nT {
-     \str_if_eq_p:xx {#3} {\itdefault}  &&
+     \str_if_eq_p:xx {#2} {\itdefault}  &&
     !(\str_if_eq_p:xx {\itdefault} {\sldefault})
   }
   {
     \use:x {
       \exp_not:N \DeclareFontShape {\g_fontspec_encoding_tl}{\l_fontspec_family_tl}{#2}{\sldefault}
-        {<->ssub*\l_fontspec_family_tl/#2/\itdefault}{\l_fontspec_postadjust_tl}
+        {<->ssub*\l_fontspec_family_tl/#1/\itdefault}{\l_fontspec_postadjust_tl}
     }
   }
 %    \end{macrocode}
@@ -4148,7 +4149,7 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
   \tl_gput_right:Nx \l_fontspec_defined_shapes_tl
     { \exp_not:n { \\ \\ }
-       *~ '\exp_not:N \prg_case_str:nnn {#2/#3} {
+       *~ '\exp_not:N \prg_case_str:nnn {#1/#2} {
        {\mddefault/\updefault} {normal}
        {\mddefault/\scdefault} {small~ caps}
        {\bfdefault/\updefault} {bold}
@@ -4299,15 +4300,10 @@ This work consists of this file fontspec.dtx
 %
 % \begin{macro}{\fontspec_make_smallcaps:T}
 % \label{mac:makesmallcaps}
-% This macro checks if the font contains small caps, and if so
-% creates the string for accessing them in \cmd{\l_fontspec_sc_featstr_sclist}.
+% This macro checks if the font contains small caps.
 %    \begin{macrocode}
 \cs_set:Nn \fontspec_make_ot_smallcaps:T {
-  \tl_clear:N \l_fontspec_sc_featstr_sclist
-  \fontspec_check_ot_feat:nT {+smcp} {
-    \tl_set:Nx \l_fontspec_sc_featstr_sclist {+smcp;}
-    #1
-  }
+  \fontspec_check_ot_feat:nT {+smcp} { #1 }
 }
 %<*xetexx>
 \cs_set:Nn \fontspec_make_smallcaps:T
@@ -4316,12 +4312,7 @@ This work consists of this file fontspec.dtx
       \fontspec_make_ot_smallcaps:T {#1}
     }{
       \bool_if:NT \l_fontspec_atsui_bool {
-        \tl_clear:N \l_fontspec_sc_featstr_sclist
-        \fontspec_make_AAT_feature_string:nnT {3}{3} {
-          \tl_set:Nx \l_fontspec_sc_featstr_sclist
-              {\l_fontspec_feature_string_tl;}
-          #1
-        }
+        \fontspec_make_AAT_feature_string:nnT {3}{3} { #1 }
       }
     }
   }

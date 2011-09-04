@@ -1361,18 +1361,29 @@ This work consists of this file fontspec.dtx
 % selected, in which |5| corresponds to the character `v' for this font feature,
 % and the trailing |:|\meta{n} corresponds to which variety to choose.
 % Georg Duffner's open source Garamond revival font\footnote{\url{http://www.georgduffner.at/ebgaramond/}} is used in this example.
+% Character variants are specifically designed not to conflict with each
+% other, so you can enable them individually per character as shown in
+% \exref{cv2}. (Unlike stylistic alternates, say.)
 %
 % Note that the indexing starts from zero, which is compatible with \XeTeX\
 % but \emph{incompatible} with \texttt{luaotfload}, which starts from one.
 %
 % \begin{Lexample}[firstline=2]{cv}{The \feat{CharacterVariant} feature showing off Georg Duffner's open source Garamond revival font.}
 %   \huge
-%   \fontspec{EB Garamond Italic}                       very
-%   \fontspec[CharacterVariant=5]{EB Garamond Italic}   very
-%   \fontspec[CharacterVariant=5:0]{EB Garamond Italic} very
-%   \fontspec[CharacterVariant=5:1]{EB Garamond Italic} very
-%   \fontspec[CharacterVariant=5:2]{EB Garamond Italic} very
+%   \fontspec{EB Garamond Italic}                       very \\
+%   \fontspec[CharacterVariant=5]{EB Garamond Italic}   very \\
+%   \fontspec[CharacterVariant=5:0]{EB Garamond Italic} very \\
+%   \fontspec[CharacterVariant=5:1]{EB Garamond Italic} very \\
+%   \fontspec[CharacterVariant=5:2]{EB Garamond Italic} very \\
 %   \fontspec[CharacterVariant=5:3]{EB Garamond Italic} very
+% \end{Lexample}
+%
+% \begin{Lexample}[firstline=2]{cv2}{The \feat{CharacterVariant} feature selecting multiple variants simultaneously.}
+%   \huge
+%   \fontspec{EB Garamond Italic}                           \& violet \\
+%   \fontspec[CharacterVariant={4}]{EB Garamond Italic}     \& violet \\
+%   \fontspec[CharacterVariant={5:2}]{EB Garamond Italic}   \& violet \\
+%   \fontspec[CharacterVariant={4,5:2}]{EB Garamond Italic} \& violet
 % \end{Lexample}
 %
 % \subsection{Alternates}

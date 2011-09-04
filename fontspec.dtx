@@ -2799,26 +2799,11 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \msg_new:nnn {fontspec} {defining-font}
 {
-  Defining~ font~ family~'\l_fontspec_family_tl'~ for~ font~ '#2'~ with~ options~ [\g_fontspec_default_fontopts_tl #1].
-}
-\msg_new:nnn {fontspec} {defining-raw}
-{
-  Defining~ shape~
-  '\prg_case_str:nnn {#1} {
-    {\mddefault/\updefault} {normal}
-    {\mddefault/\scdefault} {small~ caps}
-    {\bfdefault/\updefault} {bold}
-    {\bfdefault/\scdefault} {bold~ small~ caps}
-    {\mddefault/\itdefault} {italic}
-    {\mddefault/\sidefault} {italic~ small~ caps}
-    {\bfdefault/\itdefault} {bold~ italic}
-    {\bfdefault/\sidefault} {bold~ italic~ small~ caps}
-  } {#1}'~
-  with~ NFSS~ spec.: \\
-  \l_fontspec_nfss_tl
-  \tl_if_empty:NF \l_fontspec_postadjust_tl {
-    \\ and~ font~ adjustment~ code: \\ \l_fontspec_postadjust_tl
-  }
+  Font~ family~'\l_fontspec_family_tl'~ created~ for~ font~ '#2'~
+  with~ options~ [\g_fontspec_default_fontopts_tl #1].\\
+  \\
+  This~ font~ family~ consists~ of~ the~ following~ shapes:
+  \l_fontspec_defined_shapes_tl
 }
 \msg_new:nnn {fontspec} {no-font-shape}
 {
@@ -3685,7 +3670,6 @@ This work consists of this file fontspec.dtx
 % bold shapes defined by this package will also be assigned to |b|.
 %    \begin{macrocode}
   \fontspec_save_family:nT {#2} {
-    \fontspec_info:nxx {defining-font} {#1} {#2}
     \fontspec_save_fontinfo:nn {#1} {#2}
     \DeclareFontFamily{\g_fontspec_encoding_tl}{\l_fontspec_family_tl}{}
     \fontspec_set_upright:
@@ -3695,6 +3679,7 @@ This work consists of this file fontspec.dtx
     \fontspec_set_bold_italic:
     \fontspec_set_bold_slanted:
   }
+  \fontspec_info:nxx {defining-font} {#1} {#2}
   \group_end:
 }
 %    \end{macrocode}
@@ -4140,7 +4125,6 @@ This work consists of this file fontspec.dtx
 % \cmd\l_fontspec_postadjust_tl\ is defined in various places to deal with things like the hyphenation
 % character and interword spacing.
 %    \begin{macrocode}
-  \fontspec_info:nx {defining-raw} {#2/#3}
   \use:x{
     \exp_not:N\DeclareFontShape{\g_fontspec_encoding_tl}{\l_fontspec_family_tl}{#2}{#3}
       {\l_fontspec_nfss_tl}{\l_fontspec_postadjust_tl}
@@ -4159,6 +4143,27 @@ This work consists of this file fontspec.dtx
         {<->ssub*\l_fontspec_family_tl/#2/\itdefault}{\l_fontspec_postadjust_tl}
     }
   }
+%    \end{macrocode}
+% Lastly some informative messaging.
+%    \begin{macrocode}
+  \tl_gput_right:Nx \l_fontspec_defined_shapes_tl
+    { \exp_not:n { \\ \\ }
+       *~ '\exp_not:N \prg_case_str:nnn {#2/#3} {
+       {\mddefault/\updefault} {normal}
+       {\mddefault/\scdefault} {small~ caps}
+       {\bfdefault/\updefault} {bold}
+       {\bfdefault/\scdefault} {bold~ small~ caps}
+       {\mddefault/\itdefault} {italic}
+       {\mddefault/\sidefault} {italic~ small~ caps}
+       {\bfdefault/\itdefault} {bold~ italic}
+       {\bfdefault/\sidefault} {bold~ italic~ small~ caps}
+       } {#2/#3}'~
+       with~ NFSS~ spec.: \exp_not:N \\
+       \l_fontspec_nfss_tl
+       \tl_if_empty:NF \l_fontspec_postadjust_tl {
+         \exp_not:N \\ and~ font~ adjustment~ code: \exp_not:N \\ \l_fontspec_postadjust_tl
+       }
+    }
 }
 %    \end{macrocode}
 % \end{macro}
@@ -4280,6 +4285,7 @@ This work consists of this file fontspec.dtx
 %<luatex>    { name:##1 }
   \tl_clear:N \l_fontspec_optical_size_tl
   \tl_clear:N \l_fontspec_renderer_tl
+  \tl_clear:N \l_fontspec_defined_shapes_tl
 %<*luatex>
   \tl_set:Nn \l_fontspec_mode_tl {node}
   \luatexprehyphenchar   =`\-  % fixme

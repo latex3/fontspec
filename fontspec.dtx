@@ -3282,7 +3282,7 @@ This work consists of this file fontspec.dtx
 \DeclareDocumentCommand \DeclareFontsExtensions {m}
 {
   \tl_set:Nn \l_fontspec_extensions_clist { #1 }
-  \clist_trim_spaces:N \l_fontspec_extensions_clist
+  \tl_remove_all:Nn \l_fontspec_extensions_clist {~}
 }
 \DeclareFontsExtensions{.otf,.ttf,.OTF,.TTF,.ttc,.TTC,.dfont}
 %    \end{macrocode}

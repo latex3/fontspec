@@ -3129,7 +3129,7 @@ This work consists of this file fontspec.dtx
   {
     \keys_define:nn { fontspec / options }
       {
-        #1 .code:n {
+        #1 .code:n = {
           \fontspec_update_fontid:n  {+zf-#1}
           \fontspec_update_featstr:n {#2}
         }

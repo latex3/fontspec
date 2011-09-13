@@ -3,4 +3,10 @@ build/
 doc-files/
 testsuite/*.pdf
 fontspec-*
+source/*
+test.*
 
+fontspec.sty
+fontspec.cfg
+fontspec.lua
+fontspec.pdf

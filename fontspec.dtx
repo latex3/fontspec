@@ -3862,12 +3862,15 @@ This work consists of this file fontspec.dtx
 % \begin{macro}{\fontspec_set_slanted:}
 % And slanted but only if requested:
 %    \begin{macrocode}
-\cs_new:Nn \fontspec_set_slanted: {
-  \tl_if_empty:NF \l_fontspec_fontname_sl_tl {
-    \fontspec_make_font_shapes:nnnn
-      \l_fontspec_fontname_sl_tl \mddefault \sldefault \l_fontspec_fontfeat_sl_clist
+\cs_new:Nn \fontspec_set_slanted:
+  {
+    \tl_if_empty:NF \l_fontspec_fontname_sl_tl
+      {
+        \fontspec_make_font_shapes:nnnn
+          \l_fontspec_fontname_sl_tl \mddefault \sldefault
+          \l_fontspec_fontfeat_sl_clist
+      }
   }
-}
 %    \end{macrocode}
 % \end{macro}
 %
@@ -3879,7 +3882,7 @@ This work consists of this file fontspec.dtx
 % bold italic font.
 %    \begin{macrocode}
 \cs_new:Nn \fontspec_set_bold_italic: {
-  \bool_if:nF {\l_fontspec_nobf_bool || \l_fontspec_nobf_bool} {
+  \bool_if:nF {\l_fontspec_noit_bool || \l_fontspec_nobf_bool} {
     \tl_if_empty:NTF \l_fontspec_fontname_bfit_tl
     {
       \tl_if_empty:NTF \l_fontspec_fontname_bf_tl
@@ -3908,17 +3911,19 @@ This work consists of this file fontspec.dtx
 % \begin{macro}{\fontspec_set_bold_slanted:}
 % And bold slanted, again, only if requested:
 %    \begin{macrocode}
-\cs_new:Nn \fontspec_set_bold_slanted: {
-  \tl_if_empty:NTF \l_fontspec_fontname_bfsl_tl {
-    \tl_if_empty:NF \l_fontspec_fontname_sl_tl {
-      \fontspec_make_auto_font_shapes:nnnnn \l_fontspec_fontname_sl_tl {/B}
-         \bfdefault \sldefault \l_fontspec_fontfeat_bfsl_clist
-    }
-  }{
-    \fontspec_make_font_shapes:nnnn \l_fontspec_fontname_bfsl_tl
-      \bfdefault \sldefault \l_fontspec_fontfeat_bfsl_clist
+\cs_new:Nn \fontspec_set_bold_slanted:
+  {
+    \tl_if_empty:NTF \l_fontspec_fontname_bfsl_tl
+      {
+        \tl_if_empty:NF \l_fontspec_fontname_sl_tl {
+          \fontspec_make_auto_font_shapes:nnnnn \l_fontspec_fontname_sl_tl {/B}
+             \bfdefault \sldefault \l_fontspec_fontfeat_bfsl_clist
+        }
+      }{
+        \fontspec_make_font_shapes:nnnn \l_fontspec_fontname_bfsl_tl
+          \bfdefault \sldefault \l_fontspec_fontfeat_bfsl_clist
+      }
   }
-}
 %    \end{macrocode}
 % \end{macro}
 %
@@ -4006,15 +4011,19 @@ This work consists of this file fontspec.dtx
 % italic small caps by their own identifier. See \vref{sec:sishape}
 % for the code that enables this usage.
 %    \begin{macrocode}
-\cs_new:Nn \fontspec_make_auto_font_shapes:nnnnn {
-  \fontspec_font_set:Nnn \l_tmpa_font {\fontspec_fullname:n {#1}}   {\f@size pt}
-  \fontspec_font_set:Nnn \l_tmpb_font {\fontspec_fullname:n {#1#2}} {\f@size pt}
-  \str_if_eq:xxTF { \fontname \l_tmpa_font } { \fontname \l_tmpb_font }
-  { \fontspec_info:nx {no-font-shape} {#1#2} }
+\cs_new:Nn \fontspec_make_auto_font_shapes:nnnnn
   {
-    \fontspec_make_font_shapes:nnnn {#1#2}{#3}{#4}{#5}
+    \bool_if:NF \l_fontspec_external_bool
+      {
+        \fontspec_font_set:Nnn \l_tmpa_font
+          { \fontspec_fullname:n {#1}   } {\f@size pt}
+        \fontspec_font_set:Nnn \l_tmpb_font
+          { \fontspec_fullname:n {#1#2} } {\f@size pt}
+        \str_if_eq:xxTF { \fontname \l_tmpa_font } { \fontname \l_tmpb_font }
+          { \fontspec_info:nx {no-font-shape} {#1#2} }
+          { \fontspec_make_font_shapes:nnnn {#1#2}{#3}{#4}{#5} }
+      }
   }
-}
 \cs_new:Nn \fontspec_make_font_shapes:nnnn {
   \group_begin:
     \tl_set:Nx \l_fontspec_fontname_tl {#1}
@@ -4794,11 +4803,14 @@ This work consists of this file fontspec.dtx
   \fontspec_update_fontid:n {bfit:#1}
   }
 }
-\keys_define:nn {fontspec-preparse-external} { SlantedFont .code:n = {
-  \fontspec_complete_fontname:Nn \l_fontspec_fontname_sl_tl {#1}
-  \fontspec_update_fontid:n {sl:#1}
+\keys_define:nn {fontspec-preparse-external}
+  {
+    SlantedFont .code:n =
+      {
+        \fontspec_complete_fontname:Nn \l_fontspec_fontname_sl_tl {#1}
+        \fontspec_update_fontid:n {sl:#1}
+      }
   }
-}
 \keys_define:nn {fontspec-preparse-external} { BoldSlantedFont .code:n = {
   \fontspec_complete_fontname:Nn \l_fontspec_fontname_bfsl_tl {#1}
   \fontspec_update_fontid:n {bfsl:#1}

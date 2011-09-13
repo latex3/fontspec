@@ -168,8 +168,9 @@ This work consists of this file fontspec.dtx
 % feedback over the years on feature requests, documentation queries, bug reports, font suggestions, and so on from lots of people all around the world.
 % Many thanks to you all.
 %
-% Thanks to David Perry for numerous documentation improvements and
-% contributing the text for one of the sections of this manual.
+% Thanks to David Perry and Markus Böhning for numerous documentation
+% improvements and David Perry again for contributing the text for one of the
+% sections of this manual.
 %
 % Special thanks to Khaled Hosny, who had been the driving force behind the support for \LuaLaTeX, ultimately leading to version 2.0 of the package.
 %
@@ -649,7 +650,7 @@ This work consists of this file fontspec.dtx
 % \section{Selecting font features}
 % \label{sec:selectingfeature}
 %
-% The commands discussed so far such as \cmd{fontspec} each take an optional argument for
+% The commands discussed so far such as \cs{fontspec} each take an optional argument for
 % accessing the font features of the requested font.
 % Commands are provided to set default features to be applied for all fonts, and even to change the features that a font is presently loaded with.
 % Different font shapes can be loaded with separate features, and different features can even be selected for different sizes that the font appears in.
@@ -872,7 +873,7 @@ This work consists of this file fontspec.dtx
 %   {\addfontfeature{Color=DDBB2299}P}\kern-0.8ex
 %   {\addfontfeature{Color=00BB3399}R}
 % \end{Xexample}
-% Transparency is supported by \LuaLaTeX and by \XeLaTeX\ with the \texttt{xdv2pdf}
+% Transparency is supported by \LuaLaTeX\ and by \XeLaTeX\ with the \texttt{xdv2pdf}
 % driver (\MacOSX\ only); \XeLaTeX\ with the \texttt{xdvipdfmx} driver
 % does not support this feature.
 %
@@ -888,10 +889,13 @@ This work consists of this file fontspec.dtx
 % The \pkg{color} package is \emph{not} supported; use \pkg{xcolor} instead.
 %
 % You may specify the transparency with a named colour using the \feat{Opacity}
-% feature:
+% feature which takes an decimal from zero to one corresponding to
+% transparent to opaque respectively:
 % \begin{Verbatim}
 %  \fontspec[Color=red,Opacity=0.7]{Verdana} ...
 % \end{Verbatim}
+% It is still possible to specify a colour in six-char hexadecimal form
+% while defining opacity in this way, if you like.
 %
 % \subsection{Scale}
 %
@@ -908,7 +912,7 @@ This work consists of this file fontspec.dtx
 % measure the correct dimensions of the fonts loaded and
 % calculate values to scale them automatically.
 %
-% As well as a numerical argument, \feat{Scale} feature
+% As well as a numerical argument, the \feat{Scale} feature
 % also accepts options \opt{MatchLowercase}
 % and \opt{MatchUppercase}, which will scale the font being selected to match
 % the current default roman font to either the height of the lowercase or
@@ -1025,6 +1029,7 @@ This work consists of this file fontspec.dtx
 %
 % OpenType fonts with optical scaling will exist in
 % several discrete sizes, and these will be selected by \XeTeX\
+% and Lua\TeX\
 % \emph{automatically} determined by the current font size as in
 % \exref{optsize}, in which we've scaled down some large text in order to be
 % able to compare the difference for equivalent font sizes.
@@ -1182,7 +1187,7 @@ This work consists of this file fontspec.dtx
 % not actually map letters to uppercase.
 %  \note{If you want automatic uppercase letters, look to \LaTeX's
 %       \cmd\MakeUppercase\ command.}
-% It is designed select various
+% It is designed to select various
 % uppercase forms for glyphs such as accents and dashes, such as shown
 % in \exref{letters-uppercase}; note the raised position of the hyphen
 % to better match the surrounding letters.
@@ -1307,10 +1312,12 @@ This work consists of this file fontspec.dtx
 % \end{Lexample}
 %
 % The \pkg{realscripts} package
-% (which is also loaded \pkg{xltxtra} for \XeTeX)
+% (which is also loaded by \pkg{xltxtra} for \XeTeX)
 % redefines the \cmd\textsubscript\ and
 % \cmd\textsuperscript\ commands to use the above font features automatically,
 % including for use in footnote labels.
+% If this is the only feature of \pkg{xltxtra} you wish to use, consider
+% loading \pkg{realscripts} on its own instead.
 %
 %
 % \subsection{Fractions}
@@ -1679,7 +1686,7 @@ This work consists of this file fontspec.dtx
 % When multilingual fonts are used, it is important to select which language
 % they are being used for, and more importantly what script is being used.
 %
-% The `script' refers to the alphabet in used; for example, both English
+% The `script' refers to the alphabet in use; for example, both English
 % and French use the Latin script. Similarly, the Arabic script can be used
 % to write in both the Arabic and Persian languages.
 %
@@ -2010,7 +2017,7 @@ This work consists of this file fontspec.dtx
 %
 % \subsection{Contextuals} \label{sec:contextuals}
 % This feature refers to glyph substitution that vary by their position;
-% things like contextual swashes are implemented here
+% things like contextual swashes are implemented here.
 % The options for \AAT\ fonts are
 % \opt{WordInitial}, \opt{WordFinal} (\exref{wordcx}), \opt{LineInitial},
 % \opt{LineFinal}, and \opt{Inner} (\exref{longsaat}, also called `non-final' sometimes). As
@@ -2395,7 +2402,7 @@ This work consists of this file fontspec.dtx
 % The following commands in \pkg{expl3} syntax may be used
 % for writing codes that interface with fontspec-loaded fonts.
 % All of the following conditionals also exist with |T| and |F|
-% suffices as well as |TF|.
+% as well as |TF| suffixes.
 %
 % \begin{macro}{\fontspec_if_fontspec_font:TF}
 % Test whether the currently selected font has been loaded by fontspec.

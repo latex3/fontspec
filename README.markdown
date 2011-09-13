@@ -2,9 +2,6 @@
 THE FONTSPEC PACKAGE
 ====================
 
-This is the initial generation of the fontspec package with support for
-LuaLaTeX. (Previously, fontspec was XeLaTeX-only.)
-
 The fontspec package provides an automatic and unified interface for loading
 fonts in LaTeX. XeTeX and LuaTeX (the latter through the luaotfload package)
 allows a direct interface to fonts which may be loaded by their name rather
@@ -17,25 +14,22 @@ others.
 
 See the documentation `fontspec.pdf` for full information.
 
-Release versions of fontspec are available from CTAN:  
+Release versions of fontspec are available from CTAN:
   <http://tug.ctan.org/pkg/fontspec>
-  
-Development and historical versions are available from Github:  
+
+Development and historical versions are available from Github:
   <http://github.com/wspr/fontspec>
-  
-Please offer suggestions and file bug reports in the issue tracker:  
+
+Please offer suggestions and file bug reports in the issue tracker:
   <http://github.com/wspr/fontspec/issues>
 
 
-LuaTeX requirements
--------------------
+Requirements
+------------
 
-TeXLive 2010 is recommended for running this package under LuaTeX.
-
-This package requires the luaotfload package in order to load fonts in LuaTeX.
-Version 1.10 or greater is recommended for this release. Please see
-instructions in that package for font setup. That package, in turn, requires
-a version of LuaTeX greater than that shipped with TeX Live 2009.
+The `fontspec` package requires an up-to-date TeX Live 2011 or MiKTeX 2.9,
+including the most recent version of the `l3kernel` package which provides
+the LaTeX3 programming interface known as `expl3`.
 
 
 Summary of user commands
@@ -45,7 +39,7 @@ Font families may be selected individually with the command
 
     \fontspec[<font options>]{<font name>}
 
-Commands for selecting fonts efficiently can be created with
+Commands for selecting fonts efficiently through a document are created with
 
     \newfontfamily\myfamily[<font options>]{<font name>}
     \newfontface\myfont[<font options>]{<font name>}
@@ -56,7 +50,7 @@ Default document fonts are selected with
     \setsansfont[<font options>]{<font name>}
     \setmonofont[<font options>]{<font name>}
 
-Fonts to be used in maths are defined with
+Fonts to be used in text strings in maths are defined with
 
     \setmathrm[<font options>]{<font name>}
     \setmathsf[<font options>]{<font name>}
@@ -72,35 +66,39 @@ Features may be added to the font currently in use with
     \addfontfeatures{<font options to add>}
     \addfontfeature{<...>} does the same thing
 
-Features not provided for out of the box may be defined with
-
-    \newAATfeature{<feature tag>}{<feature code>}{<selector code>}
-    \newICUfeature{<feature tag>}{[+|-]<4 letter feature string>}
-    \newfontfeature{<feature tag>}{<arbitrary XeTeX font options>}
-
-Features can be renamed and feature options can be renamed with
-
-    \aliasfontfeature{<current feature>}{<new feature>}
-    \aliasfontfeatureoption{<feature>}{<current option>}{<new option>}
-
 
 
 Change history
 --------------
 
-- v2.2
-    
+- v2.2 (2011/09/13)
+
     * Support alternate selections in CharacterVariant (cvxx in OpenType)
       using new syntax `[CharacterVariant=5:2]`.
-    * Add fontspec-compatible \oldstylenums and \liningnums commands.
+    * Add `fontspec`-compatible `\oldstylenums` and `\liningnums` commands.
+    * New programmer's function `\fontspec_set_fontface:NNnn` (for use when
+      `\zf@basefont` might previously have been queried).
+    * Log file output is slightly tidier.
+    * Some old lingering bugs squashed:
+      - Small caps font selection was broken in some cases.
+        (Thanks Enrico Gregorio.)
+      - Fonts loaded by filename with under-specified shapes threw an error
+        (e.g., asking explicitly for bold but not italic).
+        (Thanks Vafa Khalighi.)
+    * Documentation improvements largely due to Markus Böhning.
     * Many internal changes, among which:
-      - "xkeyval" package no longer used for option processing
-        (expl3's l3keys used instead)
+      - `xkeyval` package no longer used for option processing;
+        `expl3`'s `l3keys` used instead.
+        This allows `fontspec` to be loaded before `\documentclass`
+        (thanks Heiko Oberdiek for reporting the issue)
+        and fixes a potential conflict with the `preview` package
+        (thanks again Vafa).
       - Internal names changed; avoid "\zf@basefont", "\zf@family", etc.
-        from now on -- there are public interfaces now to get access to the 
+        from now on -- there are public interfaces now to get access to the
         same information
+      - Update `expl3` support to latest CTAN version.
 
-- v2.1g
+- v2.1g (2011/08/02)
 
     * No longer uses the binhex package, avoiding some name clashes with TIPA
 
@@ -156,7 +154,7 @@ Change history
       to being "native expl3".
 
 - v2.1 (2010/09/19)
-  
+
     * Now load xunicode internally for consistent behaviour in
       XeLaTeX and LuaLaTeX.
     * Font commands now include \fontencoding internally, easing their
@@ -167,7 +165,7 @@ Change history
       in the transition to v2.
     * Bug fix for a problem triggered after counters got too high.
 
-- v2.0c (2010/08/01)  
+- v2.0c (2010/08/01)
   Bug fix and documentation tune-up.
 
     * Significant bug fix reported simultaneously by Enrico Gregorio and
@@ -175,7 +173,7 @@ Change history
     * Many documentation improvements and additions due to David Perry.
     * Documentation typo thanks to John McChesney-Young
 
-- v2.0b (2010/07/14)  
+- v2.0b (2010/07/14)
   *Actually* the final release before TeX Live 2010.
 
     * Improved examples in the documentation, with fewer proprietary fonts
@@ -185,9 +183,9 @@ Change history
     * New OpenType feature `CharacterVariant` now supported
     * Minor change: `Ligatures=Historical` is now `Ligatures=Historic` for consistency
 
-- v2.0a (2010/07/11)  
+- v2.0a (2010/07/11)
   Final release before TeX Live 2010.
-  
+
     * Bug fix for the Language setting being ignored
     * Add programmer's command `\fontspec_glyph_if_exist:NnTF`
     * Many documentation improvements, especially for LuaTeX features
@@ -277,7 +275,7 @@ Test suite: (within testsuite/)
         F*.ltx                     Test file for both engines
 
 Documentation sources:
-        doc/*.pdf                  These are pre-generated example outputs for 
+        doc/*.pdf                  These are pre-generated example outputs for
                                    direct inclusion in the documentation
 
 License

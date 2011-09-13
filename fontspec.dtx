@@ -3097,7 +3097,7 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \DeclareDocumentCommand \newfontfeature {mm}
   {
-    \keys_define:nn { fontspec / options }
+    \keys_define:nn { fontspec }
       {
         #1 .code:n = {
           \fontspec_update_fontid:n  {+zf-#1}
@@ -3115,7 +3115,7 @@ This work consists of this file fontspec.dtx
 % font it's being used for.
 %    \begin{macrocode}
 \DeclareDocumentCommand \newAATfeature {mmmm} {
-  \keys_if_exist:nnF { fontspec / options } {#1}
+  \keys_if_exist:nnF { fontspec } {#1}
     { \fontspec_define_font_feature:n {#1} }
   \keys_if_choice_exist:nnnT {fontspec} {#1} {#2}
     { \fontspec_warning:nxx {feature-option-overwrite}{#1}{#2} }
@@ -6616,6 +6616,7 @@ luatexbase.add_to_callback("luaotfload.patch_font", set_capheight, "fontspec.set
     { \addfontfeature{Numbers=Lining} #1 }
   }
 %    \end{macrocode}
+% \end{macro}
 % \end{macro}
 %
 %

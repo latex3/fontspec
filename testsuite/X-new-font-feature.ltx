@@ -1,0 +1,11 @@
+
+\documentclass{testsuite}
+\usepackage{fontspec}
+\begin{document}
+\newfontfeature{AvoidD}{Special=Avoid d-collisions}
+\newfontfeature{NoAvoidD}{Special=!Avoid d-collisions}
+\fontspec[AvoidD,Variant=1]{Zapfino}
+ sockdolager rubdown               \\
+\fontspec[NoAvoidD,Variant=1]{Zapfino}
+ sockdolager rubdown
+\end{document}

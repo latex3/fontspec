@@ -1,0 +1,18 @@
+\documentclass{testsuite}
+\usepackage{fontspec}
+\begin{document}
+
+\fontspec[Numbers={Proportional,OldStyle}]
+         {TeX Gyre Adventor}
+`In 1842, 999 people sailed 97 miles in
+ 13 boats. In 1923, 111 people sailed 54
+ miles in 56 boats.'            \bigskip
+
+{\addfontfeatures{Numbers={Monospaced,Lining}}
+\begin{tabular}{@{} cccc @{}}
+          Year & People & Miles & Boats \\
+  \hline  1842 &  999   &  75   &  13   \\
+          1923 &  111   &  54   &  56
+\end{tabular}}
+
+\end{document}

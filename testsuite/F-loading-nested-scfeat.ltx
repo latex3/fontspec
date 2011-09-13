@@ -1,0 +1,19 @@
+\documentclass{testsuite}
+\usepackage{fontspec}
+\usepackage{xcolor}
+\begin{document}
+\fontspec[
+    UprightFeatures={Color = 220022,
+         SmallCapsFeatures = {Color=115511}},
+     ItalicFeatures={Color = 2244FF,
+         SmallCapsFeatures = {Color=112299}},
+       BoldFeatures={Color = FF4422,
+         SmallCapsFeatures = {Color=992211}},
+ BoldItalicFeatures={Color = 888844,
+         SmallCapsFeatures = {Color=444422}},
+         ]{TeX Gyre Termes}
+Upright {\scshape Small Caps}\\
+\itshape Italic {\scshape Italic Small Caps}\\
+\upshape\bfseries Bold {\scshape Bold Small Caps}\\
+\itshape Bold Italic {\scshape Bold Italic Small Caps}
+\end{document}

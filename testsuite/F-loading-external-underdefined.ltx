@@ -1,0 +1,22 @@
+\documentclass{testsuite}
+\usepackage{fontspec}
+\begin{document}
+% behaviour fixed Sept 2011; external
+% fonts should not search for variants
+% if they're not specified.
+
+\setmainfont
+  [ExternalLocation,
+   SlantedFont={lmroman10-italic}]
+  {lmroman10-regular}
+
+test \textsl{hello}
+
+\setmainfont
+  [ExternalLocation,
+   BoldFont={lmroman10-bold}]
+  {lmroman10-regular}
+
+test \textbf{hello}
+
+\end{document}

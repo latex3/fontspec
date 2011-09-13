@@ -1,0 +1,15 @@
+\documentclass{testsuite}
+\usepackage{fontspec}
+\begin{document}
+
+\aliasfontfeature{Numbers}{123}
+\aliasfontfeatureoption{Numbers}{Lining}{UC}
+\aliasfontfeatureoption{Numbers}{OldStyle}{LC}
+
+\fontspec[123=UC]{TeX Gyre Pagella}
+Numbers: 12345
+
+\fontspec[123=LC]{TeX Gyre Pagella}
+Numbers: 12345
+
+\end{document}

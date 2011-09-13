@@ -2550,7 +2550,8 @@ This work consists of this file fontspec.dtx
 %    \end{macrocode}
 % But for now, this is the shared code.
 %    \begin{macrocode}
-\RequirePackage{expl3,xparse}
+\RequirePackage{expl3}[2011/09/05]
+\RequirePackage{xparse}
 \ExplSyntaxOn
 %    \end{macrocode}
 %
@@ -3166,9 +3167,28 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \DeclareDocumentCommand \aliasfontfeature {mm}
   {
-    \keys_define:nn {fontspec}
+    \keys_if_exist:nnTF {fontspec} {#1}
       {
-        #2 .code:n = { \keys_set:nn {fontspec} { #1 = ##1 } }
+        \keys_define:nn {fontspec}
+          { #2 .code:n = { \keys_set:nn {fontspec} { #1 = {##1} } } }
+      }
+      {
+    \keys_if_exist:nnTF {fontspec-preparse} {#1}
+      {
+        \keys_define:nn {fontspec-preparse}
+          { #2 .code:n = { \keys_set:nn {fontspec-preparse} { #1 = {##1} } } }
+      }
+      {
+    \keys_if_exist:nnTF {fontspec-preparse-external} {#1}
+      {
+        \keys_define:nn {fontspec-preparse-external}
+          {
+            #2 .code:n =
+              { \keys_set:nn {fontspec-preparse-external} { #1 = {##1} } }
+          }
+      }
+      { \fontspec_warning:nx {rename-feature-not-exist} {#1} }
+      }
       }
   }
 \DeclareDocumentCommand \aliasfontfeatureoption {mmm}

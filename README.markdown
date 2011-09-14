@@ -71,7 +71,12 @@ Features may be added to the font currently in use with
 Change history
 --------------
 
-- v2.2 (2011/09/13)
+- v2.2a (2011/09/14)
+
+    * Bug fix: improve backwards compatibility for packages that use old
+      fontspec internals such as mathspec.
+
+- v2.2  (2011/09/13)
 
     * Support alternate selections in CharacterVariant (cvxx in OpenType)
       using new syntax `[CharacterVariant=5:2]`.

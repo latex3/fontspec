@@ -66,7 +66,7 @@ This work consists of this file fontspec.dtx
 %<fontspec&luatex>\ProvidesPackage{fontspec-luatex}
 %<patches>\ProvidesPackage{fontspec-patches}
 %<*fontspec|patches>
-  [2011/09/13 v2.2 Advanced font selection for XeLaTeX/LuaLaTeX]
+  [2011/09/14 v2.2a Advanced font selection for XeLaTeX/LuaLaTeX]
 %</fontspec|patches>
 %
 %<*driver>
@@ -6265,12 +6265,16 @@ This work consists of this file fontspec.dtx
 % \begin{macro}{\zf@family}
 % \begin{macro}{\zf@basefont}
 % \begin{macro}{\zf@fontspec}
-% Just in case.
+% Old interfaces.
+% These are needed by, at least, the \pkg{mathspec} package.
 %    \begin{macrocode}
 \tl_set:Nn \zf@enc { \g_fontspec_encoding_tl }
-\tl_set:Nn \zf@family { \l_fontspec_family_tl }
-\tl_set:Nn \zf@basefont { \l_fontspec_font }
-\cs_set_eq:NN \zf@fontspec \fontspec_select:nn
+\cs_set:Npn \zf@fontspec #1 #2
+  {
+    \fontspec_select:nn {#1} {#2}
+    \tl_set:Nn \zf@family { \l_fontspec_family_tl }
+    \tl_set:Nn \zf@basefont { \l_fontspec_font }
+  }
 %    \end{macrocode}
 % \end{macro}
 % \end{macro}

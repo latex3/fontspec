@@ -2466,22 +2466,24 @@ This work consists of this file fontspec.dtx
 % \end{macro}
 %
 % \begin{macro}{\fontspec_set_family:Nnn}
-% \darg{family}
+% \darg{\LaTeX\ family}
 % \darg{fontspec features}
 % \darg{font name}
-% Defines a new font family from given \meta{features} and \meta{font},
-% and stores the name in the variable \meta{family}.
+% Defines a new NFSS family from given \meta{features} and \meta{font},
+% and stores the family name in the variable \meta{family}.
+% This font family can then be selected with standard \LaTeX\ commands
+% \cs{fontfamily}\marg{family}\cs{selectfont}.
 % See the standard \pkg{fontspec} user commands for applications of this
 % function.
 % \end{macro}
 %
 % \begin{macro}{\fontspec_set_fontface:NNnn}
 % \darg{primitive font}
-% \darg{family}
+% \darg{\LaTeX\ family}
 % \darg{fontspec features}
 % \darg{font name}
 % Variant of the above in which the primitive \TeX\ font command is stored in
-% meta{primitive font}.
+% the variable \meta{primitive font}.
 % If a family is loaded (with bold and italic shapes) the primitive font
 % command will only select the regular face.
 % This feature is designed for \LaTeX\ programmers who need to

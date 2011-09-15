@@ -2993,6 +2993,10 @@ This work consists of this file fontspec.dtx
 % document. \cmd\setboldmathrm\ is used for specifying which
 % fonts should be used in \cmd\boldmath.
 %    \begin{macrocode}
+\tl_new:N \g_fontspec_mathrm_tl
+\tl_new:N \g_fontspec_bfmathrm_tl
+\tl_new:N \g_fontspec_mathsf_tl
+\tl_new:N \g_fontspec_mathtt_tl
 \DeclareDocumentCommand \setmathrm { O{} m } {
   \fontspec_set_family:Nnn \g_fontspec_mathrm_tl {#1}{#2}
 }
@@ -3013,10 +3017,9 @@ This work consists of this file fontspec.dtx
 % If the commands above are not executed, then \cmd\rmdefault\ (\etc)
 % will be used.
 %    \begin{macrocode}
-\def\g_fontspec_mathrm_tl{\rmdefault}
-\def\g_fontspec_mathsf_tl{\sfdefault}
-\def\g_fontspec_mathtt_tl{\ttdefault}
-\tl_clear:N \g_fontspec_bfmathrm_tl
+\tl_set:Nn \g_fontspec_mathrm_tl {\rmdefault}
+\tl_set:Nn \g_fontspec_mathsf_tl {\sfdefault}
+\tl_set:Nn \g_fontspec_mathtt_tl {\ttdefault}
 %    \end{macrocode}
 % \end{macro} \end{macro} \end{macro}
 % \end{macro}
@@ -3065,10 +3068,10 @@ This work consists of this file fontspec.dtx
 %   concatenated with the individual macro choices in the
 %   [...] macro.
 %    \begin{macrocode}
+\tl_new:N \g_fontspec_default_fontopts_tl
 \DeclareDocumentCommand \defaultfontfeatures {m} {
   \tl_set:Nn \g_fontspec_default_fontopts_tl {#1,}
 }
-\tl_clear:N \g_fontspec_default_fontopts_tl
 %    \end{macrocode}
 % \end{macro}
 %

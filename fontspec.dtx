@@ -1237,13 +1237,15 @@ This work consists of this file fontspec.dtx
 %
 % The \opt{Arabic} option (with tag \verb|anum|) maps regular numerals to their Arabic script or Persian equivalents
 % based on the current \opt{Language} setting (see \vref{sec:ot}), shown in
-% \exref{num-arab} using the Zar fonts\note{\url{http://wiki.irmug.org/index.php/X_Series_2}}.
+% \exref{num-arab} using the Persian Modern font, which is included in \TeX\ Live
+% and MiK\TeX.
 % This option is based on a \LuaTeX\ feature of the \pkg{luaotfload} package,
 % not an OpenType feature. (Thus, this feature is unavailable in \XeTeX.)
 %
 % \begin{Lexample}[firstline=2]{num-arab}{An example of number remapping to Arabic or Persian. (\LuaTeX\ only.)}
 %   \huge
-%   \fontspec[Script=Arabic,Numbers=Arabic]{XB Zar}
+%   \fontspec[Script=Arabic,Numbers=Arabic]
+%     {persian-modern-regular.ttf}
 %   {\addfontfeature{Language=Arabic}
 %    0123456789} \\
 %   {\addfontfeature{Language=Parsi}

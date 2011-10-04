@@ -6322,22 +6322,26 @@ fontspec.log     = log
 fontspec.warning = warn
 fontspec.error   = err
 
-function fontspec.sprint (...) tex.sprint(luatexbase.catcodetables['latex-package'], ...) end
+function fontspec.sprint (...)
+    tex.sprint(luatexbase.catcodetables['latex-package'], ...)
+end
 %    \end{macrocode}
 % The following functions check for exsitence of certain script, language or
 % feature in a given font.
 %    \begin{macrocode}
+local ids = fonts.hashes.identifiers
+
 local function check_script(id, script)
     local s = string.lower(script)
     if id and id > 0 then
-        local otfdata = fonts.hashes.identifiers[id].shared.rawdata
+        local otfdata = ids[id].shared.rawdata
         if otfdata then
             local features = otfdata.resources.features
             for i,_ in pairs(features) do
                 for j,_ in pairs(features[i]) do
                     if features[i][j][s] then
                         fontspec.log("script '%s' exists in font '%s'",
-                                      script, fonts.hashes.identifiers[id].fullname)
+                                      script, ids[id].fullname)
                         return true
                     end
                 end
@@ -6352,14 +6356,14 @@ local function check_language(id, language, script)
     local s = string.lower(script)
     local l = string.lower(language)
     if id and id > 0 then
-        local otfdata = fonts.hashes.identifiers[id].shared.rawdata
+        local otfdata = ids[id].shared.rawdata
         if otfdata then
             local features = otfdata.resources.features
             for i,_ in pairs(features) do
                 for j,_ in pairs(features[i]) do
                     if features[i][j][s] and features[i][j][s][l] then
                         fontspec.log("language '%s' for script '%s' exists in font '%s'",
-                                      language, script, fonts.hashes.identifiers[id].fullname)
+                                      language, script, ids[id].fullname)
                         return true
                     end
                 end
@@ -6375,14 +6379,14 @@ local function check_feature(id, feature, language, script)
     local l = string.lower(language)
     local f = string.lower(feature:gsub("^[+-]", ""))
     if id and id > 0 then
-        local otfdata = fonts.hashes.identifiers[id].shared.rawdata
+        local otfdata = ids[id].shared.rawdata
         if otfdata then
             local features = otfdata.resources.features
             for i,_ in pairs(features) do
                 if features[i][f] and features[i][f][s] then
                     if features[i][f][s][l] == true then
                         fontspec.log("feature '%s' for language '%s' and script '%s' exists in font '%s'",
-                                      feature, language, script, fonts.hashes.identifiers[id].fullname)
+                                      feature, language, script, ids[id].fullname)
                         return true
                     end
                 end
@@ -6435,7 +6439,7 @@ end
 %
 %    \begin{macrocode}
 function fontspec.mathfontdimen(fnt, str)
-    local mathdimens = fonts.hashes.identifiers[font.id(fnt)].MathConstants
+    local mathdimens = ids[font.id(fnt)].MathConstants
     if mathdimens then
         local m = mathdimens[str]
         if m then
@@ -6461,12 +6465,13 @@ end
 %    \begin{macrocode}
 local function set_capheight(fontdata)
     local capheight
-    local units     = fontdata.parameters.units
-    local size      = fontdata.parameters.size
-    local otfdata   = fontdata.shared.rawdata
+    local units   = fontdata.parameters.units
+    local size    = fontdata.parameters.size
+    local otfdata = fontdata.shared.rawdata
+    local pfminfo = otfdata.metadata.pfminfo
 
-    if otfdata.metadata.pfminfo.os2_capheight > 0 then
-        capheight = otfdata.metadata.pfminfo.os2_capheight / units * size
+    if pfminfo.os2_capheight > 0 then
+        capheight = pfminfo.os2_capheight / units * size
     else
         if fontdata.characters[string.byte("X")] then
             capheight = fontdata.characters[string.byte("X")].height

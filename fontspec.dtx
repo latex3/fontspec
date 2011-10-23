@@ -5318,7 +5318,7 @@ This work consists of this file fontspec.dtx
 \keys_define:nn {fontspec} { AutoFakeSlant .code:n = {
   \bool_if:NT \l_fontspec_firsttime_bool {
     \tl_set:Nn \l_fontspec_fake_slant_tl {#1}
-    \clist_put_right:Nn \l_fontspec_fontfeat_it_clist {,FakeSlant=#1}
+    \tl_put_right:Nn \l_fontspec_fontfeat_it_clist {,FakeSlant=#1}
     \tl_set_eq:NN \l_fontspec_fontname_it_tl \l_fontspec_fontname_tl
     \fontspec_update_fontid:n {fakeit:#1}
     \tl_if_empty:NF \l_fontspec_fake_embolden_tl {

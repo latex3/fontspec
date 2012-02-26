@@ -1,0 +1,16 @@
+\documentclass{testsuite}
+\usepackage{fontspec}
+\begin{document}
+\Large
+\def\text{ABC \textit{ABC} \textbf{ABC}
+          \textbf{\textit{ABC}}\\}
+\fontspec{Inconsolata}\text
+\fontspec[AutoFakeSlant]{Inconsolata}\text
+\fontspec[AutoFakeBold]{Inconsolata}\text
+\fontspec[AutoFakeSlant,AutoFakeBold]
+         {Inconsolata}\text
+\fontspec[AutoFakeSlant=0.4]{Inconsolata}\text
+\fontspec[AutoFakeBold=5]{Inconsolata}\text
+\fontspec[AutoFakeSlant=0.4,AutoFakeBold=5]
+         {Inconsolata}\text
+\end{document}

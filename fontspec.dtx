@@ -2650,6 +2650,16 @@ This work consists of this file fontspec.dtx
 \cs_generate_variant:Nn \keys_set:nn {nx}
 %    \end{macrocode}
 %
+% \begin{macro}{\_int_mult_truncate:Nn}
+% Missing in expl3, IMO.
+%    \begin{macrocode}
+\cs_new:Nn \_int_mult_truncate:Nn
+  {
+    \int_set:Nn #1 { \dim_eval:w #2 #1 \dim_eval_end: }
+  }
+%    \end{macrocode}
+% \end{macro}
+%
 %
 % \subsection{Error/warning/info messages}
 %
@@ -5185,10 +5195,11 @@ This work consists of this file fontspec.dtx
 \aliasfontfeature{Color}{Colour}
 %    \end{macrocode}
 %    \begin{macrocode}
-\newcounter{fontspec_tmp_int}
+\int_new:N \l_fontspec_tmp_int
 \keys_define:nn {fontspec} { Opacity .code:n = {
   \fontspec_update_fontid:n {+opac:#1}
-  \setcounter {fontspec_tmp_int} { 255*\real{#1} }
+  \int_set:Nn \l_fontspec_tmp_int {255}
+  \_int_mult_truncate:Nn \l_fontspec_tmp_int { #1 }
   \tl_if_eq:NNF \l_fontspec_opacity_tl \g_fontspec_opacity_tl
    {
     \bool_if:NF \l_fontspec_firsttime_bool {
@@ -5197,8 +5208,8 @@ This work consists of this file fontspec.dtx
    }
   \tl_set:Nx \l_fontspec_opacity_tl
    {
-     \int_compare:nT { \value{fontspec_tmp_int} <= "F } {0} % zero pad
-     \int_to_hexadecimal:n { \value{fontspec_tmp_int} }
+     \int_compare:nT { \l_fontspec_tmp_int <= "F } {0} % zero pad
+     \int_to_hexadecimal:n { \l_fontspec_tmp_int }
    }
   }
 }

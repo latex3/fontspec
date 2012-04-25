@@ -5328,11 +5328,16 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \keys_define:nn {fontspec} { AutoFakeSlant .code:n = {
   \bool_if:NT \l_fontspec_firsttime_bool {
+
     \tl_set:Nn \l_fontspec_fake_slant_tl {#1}
     \clist_put_right:Nn \l_fontspec_fontfeat_it_clist {FakeSlant=#1}
     \tl_set_eq:NN \l_fontspec_fontname_it_tl \l_fontspec_fontname_tl
+    \bool_set_false:N \l_fontspec_noit_bool
+
     \fontspec_update_fontid:n {fakeit:#1}
-    \tl_if_empty:NF \l_fontspec_fake_embolden_tl {
+
+    \tl_if_empty:NF \l_fontspec_fake_embolden_tl
+    {
       \clist_put_right:Nx \l_fontspec_fontfeat_bfit_clist
         {FakeBold=\l_fontspec_fake_embolden_tl}
       \clist_put_right:Nx \l_fontspec_fontfeat_bfit_clist {FakeSlant=#1}
@@ -5347,10 +5352,14 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \keys_define:nn {fontspec} { AutoFakeBold .code:n = {
   \bool_if:NT \l_fontspec_firsttime_bool {
+
     \tl_set:Nn \l_fontspec_fake_embolden_tl {#1}
     \clist_put_right:Nn \l_fontspec_fontfeat_bf_clist {FakeBold=#1}
     \tl_set_eq:NN \l_fontspec_fontname_bf_tl \l_fontspec_fontname_tl
+    \bool_set_false:N \l_fontspec_nobf_bool
+
     \fontspec_update_fontid:n {fakebf:#1}
+
     \tl_if_empty:NF \l_fontspec_fake_slant_tl {
       \clist_put_right:Nx \l_fontspec_fontfeat_bfit_clist
         {FakeSlant=\l_fontspec_fake_slant_tl}

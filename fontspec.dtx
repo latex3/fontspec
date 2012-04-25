@@ -1570,12 +1570,10 @@ This work consists of this file fontspec.dtx
 %   \fontspec[AutoFakeBold=1.5]{Charis SIL}
 %   \fontspec[BoldFeatures={FakeBold=1.5}]{Charis SIL}
 % \end{Verbatim}
-%
 % If both of the \feat{AutoFake...} features are used, then the bold italic
 % font will also be faked.
 %
-% Currently, \feat{FakeStretch} doesn't work in \LuaTeX\ and will be ignored
-% silently.
+% The \feat{FakeBold} and \feat{AutoFakeBold} features are only available with the \XeTeX\ engine and will be ignored in \LuaTeX.
 %
 % \subsection{Annotation}
 % Some fonts are equipped with an extensive range of
@@ -2802,6 +2800,11 @@ This work consists of this file fontspec.dtx
 \msg_new:nnn {fontspec} {cm-default-obsolete}
 {
   The~ "cm-default"~ package~ option~ is~ obsolete.
+}
+\msg_new:nnn {fontspec} {fakebold-only-xetex}
+{
+  The~ "FakeBold"~ and~ "AutoFakeBold"~ options~ are~ only~ available~ with~ XeLaTeX.\\
+  Option~ ignored.
 }
 %    \end{macrocode}
 % Info messages:
@@ -5308,12 +5311,20 @@ This work consists of this file fontspec.dtx
   },
   FakeStretch .default:n = {1.2}
 }
+%<*xetexx>
 \keys_define:nn {fontspec} { FakeBold .code:n = {
   \fontspec_update_fontid:n {+embolden:#1}
   \fontspec_update_featstr:n{embolden=#1}
   },
   FakeBold .default:n = {1.5}
 }
+%</xetexx>
+%<*luatex>
+\keys_define:nn {fontspec}
+  {
+    FakeBold .code:n = { \fontspec_warning:n {fakebold-only-xetex} }
+  }
+%</luatex>
 %    \end{macrocode}
 % These are to be given to a shape that has no real bold/italic
 % to signal that \pkg{fontspec} should automatically create `fake' shapes.

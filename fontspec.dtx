@@ -1371,9 +1371,11 @@ This work consists of this file fontspec.dtx
 %    ENLARGED Minuscules. \\
 % \end{Lexample}
 %
-% (This is a synonym of the \feat{Variant} feature for \AAT\ fonts.)
-% See \vref{sec:newfeatures} for a way to assign names to stylistic sets,
-% which should be done on a per-font basis.
+% Multiple stylistic sets may be selected simultaneously by writing, e.g.,
+% |StylisticSet={1,2,3}|.
+%
+% The |StylisticSet| feature is a synonym of the \feat{Variant} feature for \AAT\ fonts.
+% See \vref{sec:newfeatures} for a way to assign names to stylistic sets, which should be done on a per-font basis.
 %
 % \subsection{Character Variants}
 %
@@ -1427,7 +1429,7 @@ This work consists of this file fontspec.dtx
 %   \textsc{a} \& h
 % \end{Xexample}
 %
-% Note that the indexing starts from zero, which is compatible with \XeTeX\
+% Note that the indexing starts from zero, which is compatible with plain \XeTeX\
 % but \emph{incompatible} with \texttt{luaotfload}, which starts from one.
 %
 % See \vref{sec:newfeatures} for a way to assign names to alternates,
@@ -5553,7 +5555,8 @@ This work consists of this file fontspec.dtx
     Alternate .default:n = {0} ,
     Alternate / unknown .code:n =
     {
-      \fontspec_make_feature:nnx {17}{#1} { \fontspec_salt:n {#1} }
+      \clist_map_inline:nn {#1}
+        { \fontspec_make_feature:nnx {17}{##1} { \fontspec_salt:n {##1} } }
     }
   }
 %    \end{macrocode}
@@ -5571,7 +5574,8 @@ This work consists of this file fontspec.dtx
     Variant .default:n = {0} ,
     Variant / unknown .code:n =
     {
-      \fontspec_make_feature:nnx {18}{#1} { +ss \two@digits {#1} }
+      \clist_map_inline:nn {#1}
+        { \fontspec_make_feature:nnx {18}{##1} { +ss \two@digits {##1} } }
     }
   }
 \aliasfontfeature{Variant}{StylisticSet}

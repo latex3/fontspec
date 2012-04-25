@@ -2872,8 +2872,8 @@ This work consists of this file fontspec.dtx
 %    \end{macrocode}
 %
 %    \begin{macrocode}
-\luatex_if_engine:T { \usepackage{fontspec-luatex} \endinput }
-\xetex_if_engine:T  { \usepackage{fontspec-xetex}  \endinput }
+\luatex_if_engine:T { \RequirePackage{fontspec-luatex} \endinput }
+\xetex_if_engine:T  { \RequirePackage{fontspec-xetex}  \endinput }
 %    \end{macrocode}
 %
 %    \begin{macrocode}

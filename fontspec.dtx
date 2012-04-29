@@ -9,7 +9,7 @@
 
   _________________________________________
   The fontspec package for XeLaTeX/LuaLaTeX
-  (C) 2004--2011    Will Robertson and Khaled Hosny
+  (C) 2004--2012    Will Robertson and Khaled Hosny
 
   License information appended.
 
@@ -17,7 +17,7 @@
 \endpreamble
 \postamble
 
-Copyright 2004--2011 Will Robertson <wspr81@gmail.com>
+Copyright 2004--2012 Will Robertson <wspr81@gmail.com>
 Copyright 2009--2010 Khaled Hosny <khaledhosny@eglug.org>
 
 Distributable under the LaTeX Project Public License,
@@ -2648,6 +2648,7 @@ This work consists of this file fontspec.dtx
 \cs_generate_variant:Nn \int_set:Nn {Nv}
 \cs_generate_variant:Nn \tl_gset:Nn {cV}
 \cs_generate_variant:Nn \keys_set:nn {nx}
+\cs_generate_variant:Nn \keys_set_known:nnN {nx}
 %    \end{macrocode}
 %
 % \begin{macro}{\_int_mult_truncate:Nn}
@@ -4710,11 +4711,6 @@ This work consists of this file fontspec.dtx
 % This is the tedious section where we correlate all possible
 % (eventually) font feature requests with their \XeTeX\ representations.
 %
-%    \begin{macrocode}
-\cs_generate_variant:Nn \keys_set:nn {nx}
-\cs_generate_variant:Nn \keys_set_known:nnN {nx}
-%    \end{macrocode}
-%
 % \subsubsection{Pre-parsing naming information}
 %
 % These features are extracted from the font feature list before all others.
@@ -4914,34 +4910,36 @@ This work consists of this file fontspec.dtx
 % \end{macro}
 %
 % \paragraph{Features}
+% Can't use |\clist_set:Nn| below, yet, because it would strip the leading comma
+% and we use that implicitly to concatenate options.
 %    \begin{macrocode}
 \keys_define:nn {fontspec-preparse} { UprightFeatures .code:n = {
-  \def\l_fontspec_fontfeat_up_clist{, #1}
+  \tl_set:Nn \l_fontspec_fontfeat_up_clist { , #1}
   \fontspec_update_fontid:n {rmfeat:#1}
   }
 }
 \keys_define:nn {fontspec-preparse} { BoldFeatures .code:n = {
-  \def\l_fontspec_fontfeat_bf_clist{, #1}
+  \tl_set:Nn \l_fontspec_fontfeat_bf_clist {, #1}
   \fontspec_update_fontid:n {bffeat:#1}
   }
 }
 \keys_define:nn {fontspec-preparse} { ItalicFeatures .code:n = {
-  \def\l_fontspec_fontfeat_it_clist{, #1}
+  \tl_set:Nn \l_fontspec_fontfeat_it_clist {, #1}
   \fontspec_update_fontid:n {itfeat:#1}
   }
 }
 \keys_define:nn {fontspec-preparse} { BoldItalicFeatures .code:n = {
-  \def\l_fontspec_fontfeat_bfit_clist{, #1}
+  \tl_set:Nn \l_fontspec_fontfeat_bfit_clist {, #1}
   \fontspec_update_fontid:n {bfitfeat:#1}
   }
 }
 \keys_define:nn {fontspec-preparse} { SlantedFeatures .code:n = {
-  \def\l_fontspec_fontfeat_sl_clist{, #1}
+  \tl_set:Nn \l_fontspec_fontfeat_sl_clist {, #1}
   \fontspec_update_fontid:n {slfeat:#1}
   }
 }
 \keys_define:nn {fontspec-preparse} { BoldSlantedFeatures .code:n = {
-  \def\l_fontspec_fontfeat_bfsl_clist{, #1}
+  \tl_set:Nn \l_fontspec_fontfeat_bfsl_clist {, #1}
   \fontspec_update_fontid:n {bfslfeat:#1}
   }
 }
@@ -4950,7 +4948,7 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \keys_define:nn {fontspec} { SmallCapsFeatures .code:n = {
   \bool_if:NF \l_fontspec_firsttime_bool {
-    \def\l_fontspec_fontfeat_sc_clist{, #1}
+    \tl_set:Nn \l_fontspec_fontfeat_sc_clist {, #1}
   }
   \fontspec_update_fontid:n {scfeat:#1}
   }

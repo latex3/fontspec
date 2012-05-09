@@ -71,6 +71,16 @@ Features may be added to the font currently in use with
 Change history
 --------------
 
+- v2.2b (2012/05/06) "TL2012 version"
+
+    * Fix error with AutoFakeSlant/Bold (#113) and when used with external fonts (#128)
+    * Add warning when using FakeBold in LuaLaTeX, where it's not supported
+    * Fix slshape misassignment introduced in v2.2
+    * Allow fontspec to be loaded before \documentclass
+      (or rather fix the regression that broke this)
+    * Avoid using the calc package now that it's no longer loaded by expl3
+    * Allow multiple values to StylisticSet and Alternate font options
+
 - v2.2a (2011/09/14)
 
     * Bug fix: improve backwards compatibility for packages that use old

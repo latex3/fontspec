@@ -9,7 +9,7 @@
 
   _________________________________________
   The fontspec package for XeLaTeX/LuaLaTeX
-  (C) 2004--2011    Will Robertson and Khaled Hosny
+  (C) 2004--2012    Will Robertson and Khaled Hosny
 
   License information appended.
 
@@ -17,8 +17,8 @@
 \endpreamble
 \postamble
 
-Copyright 2004--2011 Will Robertson <wspr81@gmail.com>
-Copyright 2009--2011 Khaled Hosny <khaledhosny@eglug.org>
+Copyright 2004--2012 Will Robertson <wspr81@gmail.com>
+Copyright 2009--2012 Khaled Hosny <khaledhosny@eglug.org>
 
 Distributable under the LaTeX Project Public License,
 version 1.3c or higher (your choice). The latest version of
@@ -66,7 +66,7 @@ This work consists of this file fontspec.dtx
 %<fontspec&luatex>\ProvidesPackage{fontspec-luatex}
 %<patches>\ProvidesPackage{fontspec-patches}
 %<*fontspec|patches>
-  [2011/09/18 v2.2a Advanced font selection for XeLaTeX/LuaLaTeX]
+  [2012/05/06 v2.2b Advanced font selection for XeLaTeX/LuaLaTeX]
 %</fontspec|patches>
 %
 %<*driver>
@@ -1371,9 +1371,11 @@ This work consists of this file fontspec.dtx
 %    ENLARGED Minuscules. \\
 % \end{Lexample}
 %
-% (This is a synonym of the \feat{Variant} feature for \AAT\ fonts.)
-% See \vref{sec:newfeatures} for a way to assign names to stylistic sets,
-% which should be done on a per-font basis.
+% Multiple stylistic sets may be selected simultaneously by writing, e.g.,
+% |StylisticSet={1,2,3}|.
+%
+% The |StylisticSet| feature is a synonym of the \feat{Variant} feature for \AAT\ fonts.
+% See \vref{sec:newfeatures} for a way to assign names to stylistic sets, which should be done on a per-font basis.
 %
 % \subsection{Character Variants}
 %
@@ -1427,7 +1429,7 @@ This work consists of this file fontspec.dtx
 %   \textsc{a} \& h
 % \end{Xexample}
 %
-% Note that the indexing starts from zero, which is compatible with \XeTeX\
+% Note that the indexing starts from zero, which is compatible with plain \XeTeX\
 % but \emph{incompatible} with \texttt{luaotfload}, which starts from one.
 %
 % See \vref{sec:newfeatures} for a way to assign names to alternates,
@@ -1570,12 +1572,10 @@ This work consists of this file fontspec.dtx
 %   \fontspec[AutoFakeBold=1.5]{Charis SIL}
 %   \fontspec[BoldFeatures={FakeBold=1.5}]{Charis SIL}
 % \end{Verbatim}
-%
 % If both of the \feat{AutoFake...} features are used, then the bold italic
 % font will also be faked.
 %
-% Currently, \feat{FakeStretch} doesn't work in \LuaTeX\ and will be ignored
-% silently.
+% The \feat{FakeBold} and \feat{AutoFakeBold} features are only available with the \XeTeX\ engine and will be ignored in \LuaTeX.
 %
 % \subsection{Annotation}
 % Some fonts are equipped with an extensive range of
@@ -2648,7 +2648,18 @@ This work consists of this file fontspec.dtx
 \cs_generate_variant:Nn \int_set:Nn {Nv}
 \cs_generate_variant:Nn \tl_gset:Nn {cV}
 \cs_generate_variant:Nn \keys_set:nn {nx}
+\cs_generate_variant:Nn \keys_set_known:nnN {nx}
 %    \end{macrocode}
+%
+% \begin{macro}{\_int_mult_truncate:Nn}
+% Missing in expl3, IMO.
+%    \begin{macrocode}
+\cs_new:Nn \_int_mult_truncate:Nn
+  {
+    \int_set:Nn #1 { \dim_eval:w #2 #1 \dim_eval_end: }
+  }
+%    \end{macrocode}
+% \end{macro}
 %
 %
 % \subsection{Error/warning/info messages}
@@ -2793,6 +2804,11 @@ This work consists of this file fontspec.dtx
 {
   The~ "cm-default"~ package~ option~ is~ obsolete.
 }
+\msg_new:nnn {fontspec} {fakebold-only-xetex}
+{
+  The~ "FakeBold"~ and~ "AutoFakeBold"~ options~ are~ only~ available~ with~ XeLaTeX.\\
+  Option~ ignored.
+}
 %    \end{macrocode}
 % Info messages:
 %    \begin{macrocode}
@@ -2872,8 +2888,8 @@ This work consists of this file fontspec.dtx
 %    \end{macrocode}
 %
 %    \begin{macrocode}
-\luatex_if_engine:T { \usepackage{fontspec-luatex} \endinput }
-\xetex_if_engine:T  { \usepackage{fontspec-xetex}  \endinput }
+\luatex_if_engine:T { \RequirePackage{fontspec-luatex} \endinput }
+\xetex_if_engine:T  { \RequirePackage{fontspec-xetex}  \endinput }
 %    \end{macrocode}
 %
 %    \begin{macrocode}
@@ -4695,11 +4711,6 @@ This work consists of this file fontspec.dtx
 % This is the tedious section where we correlate all possible
 % (eventually) font feature requests with their \XeTeX\ representations.
 %
-%    \begin{macrocode}
-\cs_generate_variant:Nn \keys_set:nn {nx}
-\cs_generate_variant:Nn \keys_set_known:nnN {nx}
-%    \end{macrocode}
-%
 % \subsubsection{Pre-parsing naming information}
 %
 % These features are extracted from the font feature list before all others.
@@ -4899,34 +4910,36 @@ This work consists of this file fontspec.dtx
 % \end{macro}
 %
 % \paragraph{Features}
+% Can't use |\clist_set:Nn| below, yet, because it would strip the leading comma
+% and we use that implicitly to concatenate options.
 %    \begin{macrocode}
 \keys_define:nn {fontspec-preparse} { UprightFeatures .code:n = {
-  \def\l_fontspec_fontfeat_up_clist{, #1}
+  \tl_set:Nn \l_fontspec_fontfeat_up_clist { , #1}
   \fontspec_update_fontid:n {rmfeat:#1}
   }
 }
 \keys_define:nn {fontspec-preparse} { BoldFeatures .code:n = {
-  \def\l_fontspec_fontfeat_bf_clist{, #1}
+  \tl_set:Nn \l_fontspec_fontfeat_bf_clist {, #1}
   \fontspec_update_fontid:n {bffeat:#1}
   }
 }
 \keys_define:nn {fontspec-preparse} { ItalicFeatures .code:n = {
-  \def\l_fontspec_fontfeat_it_clist{, #1}
+  \tl_set:Nn \l_fontspec_fontfeat_it_clist {, #1}
   \fontspec_update_fontid:n {itfeat:#1}
   }
 }
 \keys_define:nn {fontspec-preparse} { BoldItalicFeatures .code:n = {
-  \def\l_fontspec_fontfeat_bfit_clist{, #1}
+  \tl_set:Nn \l_fontspec_fontfeat_bfit_clist {, #1}
   \fontspec_update_fontid:n {bfitfeat:#1}
   }
 }
 \keys_define:nn {fontspec-preparse} { SlantedFeatures .code:n = {
-  \def\l_fontspec_fontfeat_sl_clist{, #1}
+  \tl_set:Nn \l_fontspec_fontfeat_sl_clist {, #1}
   \fontspec_update_fontid:n {slfeat:#1}
   }
 }
 \keys_define:nn {fontspec-preparse} { BoldSlantedFeatures .code:n = {
-  \def\l_fontspec_fontfeat_bfsl_clist{, #1}
+  \tl_set:Nn \l_fontspec_fontfeat_bfsl_clist {, #1}
   \fontspec_update_fontid:n {bfslfeat:#1}
   }
 }
@@ -4935,7 +4948,7 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \keys_define:nn {fontspec} { SmallCapsFeatures .code:n = {
   \bool_if:NF \l_fontspec_firsttime_bool {
-    \def\l_fontspec_fontfeat_sc_clist{, #1}
+    \tl_set:Nn \l_fontspec_fontfeat_sc_clist {, #1}
   }
   \fontspec_update_fontid:n {scfeat:#1}
   }
@@ -5185,10 +5198,11 @@ This work consists of this file fontspec.dtx
 \aliasfontfeature{Color}{Colour}
 %    \end{macrocode}
 %    \begin{macrocode}
-\newcounter{fontspec_tmp_int}
+\int_new:N \l_fontspec_tmp_int
 \keys_define:nn {fontspec} { Opacity .code:n = {
   \fontspec_update_fontid:n {+opac:#1}
-  \setcounter {fontspec_tmp_int} { 255*\real{#1} }
+  \int_set:Nn \l_fontspec_tmp_int {255}
+  \_int_mult_truncate:Nn \l_fontspec_tmp_int { #1 }
   \tl_if_eq:NNF \l_fontspec_opacity_tl \g_fontspec_opacity_tl
    {
     \bool_if:NF \l_fontspec_firsttime_bool {
@@ -5197,8 +5211,8 @@ This work consists of this file fontspec.dtx
    }
   \tl_set:Nx \l_fontspec_opacity_tl
    {
-     \int_compare:nT { \value{fontspec_tmp_int} <= "F } {0} % zero pad
-     \int_to_hexadecimal:n { \value{fontspec_tmp_int} }
+     \int_compare:nT { \l_fontspec_tmp_int <= "F } {0} % zero pad
+     \int_to_hexadecimal:n { \l_fontspec_tmp_int }
    }
   }
 }
@@ -5297,12 +5311,20 @@ This work consists of this file fontspec.dtx
   },
   FakeStretch .default:n = {1.2}
 }
+%<*xetexx>
 \keys_define:nn {fontspec} { FakeBold .code:n = {
   \fontspec_update_fontid:n {+embolden:#1}
   \fontspec_update_featstr:n{embolden=#1}
   },
   FakeBold .default:n = {1.5}
 }
+%</xetexx>
+%<*luatex>
+\keys_define:nn {fontspec}
+  {
+    FakeBold .code:n = { \fontspec_warning:n {fakebold-only-xetex} }
+  }
+%</luatex>
 %    \end{macrocode}
 % These are to be given to a shape that has no real bold/italic
 % to signal that \pkg{fontspec} should automatically create `fake' shapes.
@@ -5317,11 +5339,16 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \keys_define:nn {fontspec} { AutoFakeSlant .code:n = {
   \bool_if:NT \l_fontspec_firsttime_bool {
+
     \tl_set:Nn \l_fontspec_fake_slant_tl {#1}
     \clist_put_right:Nn \l_fontspec_fontfeat_it_clist {FakeSlant=#1}
     \tl_set_eq:NN \l_fontspec_fontname_it_tl \l_fontspec_fontname_tl
+    \bool_set_false:N \l_fontspec_noit_bool
+
     \fontspec_update_fontid:n {fakeit:#1}
-    \tl_if_empty:NF \l_fontspec_fake_embolden_tl {
+
+    \tl_if_empty:NF \l_fontspec_fake_embolden_tl
+    {
       \clist_put_right:Nx \l_fontspec_fontfeat_bfit_clist
         {FakeBold=\l_fontspec_fake_embolden_tl}
       \clist_put_right:Nx \l_fontspec_fontfeat_bfit_clist {FakeSlant=#1}
@@ -5336,10 +5363,14 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \keys_define:nn {fontspec} { AutoFakeBold .code:n = {
   \bool_if:NT \l_fontspec_firsttime_bool {
+
     \tl_set:Nn \l_fontspec_fake_embolden_tl {#1}
     \clist_put_right:Nn \l_fontspec_fontfeat_bf_clist {FakeBold=#1}
     \tl_set_eq:NN \l_fontspec_fontname_bf_tl \l_fontspec_fontname_tl
+    \bool_set_false:N \l_fontspec_nobf_bool
+
     \fontspec_update_fontid:n {fakebf:#1}
+
     \tl_if_empty:NF \l_fontspec_fake_slant_tl {
       \clist_put_right:Nx \l_fontspec_fontfeat_bfit_clist
         {FakeSlant=\l_fontspec_fake_slant_tl}
@@ -5522,7 +5553,8 @@ This work consists of this file fontspec.dtx
     Alternate .default:n = {0} ,
     Alternate / unknown .code:n =
     {
-      \fontspec_make_feature:nnx {17}{#1} { \fontspec_salt:n {#1} }
+      \clist_map_inline:nn {#1}
+        { \fontspec_make_feature:nnx {17}{##1} { \fontspec_salt:n {##1} } }
     }
   }
 %    \end{macrocode}
@@ -5540,7 +5572,8 @@ This work consists of this file fontspec.dtx
     Variant .default:n = {0} ,
     Variant / unknown .code:n =
     {
-      \fontspec_make_feature:nnx {18}{#1} { +ss \two@digits {#1} }
+      \clist_map_inline:nn {#1}
+        { \fontspec_make_feature:nnx {18}{##1} { +ss \two@digits {##1} } }
     }
   }
 \aliasfontfeature{Variant}{StylisticSet}

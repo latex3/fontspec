@@ -6408,7 +6408,7 @@ end
 local function check_feature(id, feature, language, script)
     local s = string.lower(script)
     local l = string.lower(language)
-    local f = string.lower(feature:gsub("^[+-]", ""))
+    local f = string.lower(feature:gsub("^[+-]", ""):gsub("=.*$", ""))
     if id and id > 0 then
         local otfdata = fonts.identifiers[id].shared.otfdata
         if otfdata then

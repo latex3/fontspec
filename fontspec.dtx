@@ -1,7 +1,7 @@
 % \iffalse
 %<*internal>
 \begingroup
-\input docstrip.tex
+\input l3docstrip.tex
 \keepsilent
 \usedir{tex/latex/fontspec}
 \let\MetaPrefix\relax
@@ -2556,6 +2556,11 @@ This work consists of this file fontspec.dtx
 % engine we're running. As we'll see later, there are some minor differences
 % between what we have to do in \XeLaTeX\ and \LuaLaTeX.
 %
+% The \textsf{expl3} module is \texttt{fontspec}.
+%    \begin{macrocode}
+%<@@=fontspec>
+%    \end{macrocode}
+%
 %    \begin{macrocode}
 %<*fontspec&!xetexx&!luatex>
 %    \end{macrocode}
@@ -3087,9 +3092,39 @@ This work consists of this file fontspec.dtx
 %   [...] macro.
 %    \begin{macrocode}
 \tl_new:N \g_fontspec_default_fontopts_tl
-\DeclareDocumentCommand \defaultfontfeatures {m} {
+\prop_new:N \g_@@_fontopts_tl
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+\DeclareDocumentCommand \defaultfontfeatures { o m }
+ {
+  \IfNoValueTF {#1}
+   { \@@_set_default_features:n {#2} }
+   { \@@_set_font_default_features:nn {#1} {#2} }
+ }
+\cs_new:Nn \@@_set_default_features:n
+ {
   \tl_set:Nn \g_fontspec_default_fontopts_tl {#1,}
-}
+ }
+%    \end{macrocode}
+% The optional argument specifies a font identifier.
+% Strip spaces and file extensions to ensure consistency.
+% (Consider lowercasing?) 
+%    \begin{macrocode}
+\cs_new:Nn \@@_set_font_default_features:nn
+ {
+  \@@_sanitise_fontname:Nn \l_@@_tmp_tl {#1}
+  \tl_if_empty:nTF {#2}
+   { \prop_gremove:NV \g_@@_fontopts_tl \l_@@_tmp_tl }
+   { \prop_gput:NVn   \g_@@_fontopts_tl \l_@@_tmp_tl {#2} }
+ }
+\cs_new:Nn \@@_sanitise_fontname:Nn
+ {
+  \tl_set:Nx #1 {#2}
+  \tl_remove_all:Nn #1 {~}
+  \clist_map_inline:Nn \l_fontspec_extensions_clist
+   { \tl_remove_once:Nn #1 {##1} }
+ }
 %    \end{macrocode}
 % \end{macro}
 %
@@ -3667,19 +3702,17 @@ This work consists of this file fontspec.dtx
   \tl_set_eq:NN \l_fontspec_fontid_tl \l_fontspec_fontname_tl
   \tl_set_eq:NN \l_fontspec_fontname_up_tl \l_fontspec_fontname_tl
 %    \end{macrocode}
-% Now convert the requested features to font definition
+% Load a possible \texttt{.fontspec} font configuration file.
+% This file could set font-specific options for the font about to be loaded.
+%    \begin{macrocode}
+  \@@_sanitise_fontname:Nn \l_@@_tmp_tl {\l_fontspec_fontname_tl}
+  \exp_args:No \file_if_exist:nT {\l_@@_tmp_tl.fontspec}
+   { \file_input:n {\l_@@_tmp_tl.fontspec} }
+%    \end{macrocode}
+% Convert the requested features to font definition
 % strings. First the features are parsed for information about font
 % loading (whether it's a named font or external font, etc.), and then
 % information is extracted for the names of the other shape fonts.
-%
-% Then the mapping from user features to low-level features occurs.
-% This is performed with \cs{fontspec_get_features:n}, in
-% which \cs{keys_set:nn} retrieves the requested font features and
-% processes them. As \cs{keys_set:nn} is run multiple times, some of its
-% information storing only occurs once while we decide if the font family
-% has been defined or not. When the later processing is occuring per-shape
-% this no longer needs to happen; this is indicated by the `firsttime'
-% conditional.
 %    \begin{macrocode}
   \exp_args:NnV \fontspec_preparse_features:nn {#1} \l_fontspec_fontname_tl
 %    \end{macrocode}
@@ -3691,7 +3724,14 @@ This work consists of this file fontspec.dtx
   \fontspec_font_gset:Nnn \l_fontspec_font {\fontspec_fullname:n {\l_fontspec_fontname_up_tl}} {\f@size pt}
   \l_fontspec_font % this is necessary for LuaLaTeX to check the scripts properly
 %    \end{macrocode}
-% Continue:
+% Then the mapping from user features to low-level features occurs.
+% This is performed with \cs{fontspec_get_features:n}, in
+% which \cs{keys_set:nn} retrieves the requested font features and
+% processes them. As \cs{keys_set:nn} is run multiple times, some of its
+% information storing only occurs once while we decide if the font family
+% has been defined or not. When the later processing is occuring per-shape
+% this no longer needs to happen; this is indicated by the `firsttime'
+% conditional.
 %    \begin{macrocode}
   \fontspec_set_scriptlang:
   \fontspec_get_features:n {}
@@ -3734,8 +3774,16 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
   \fontspec_if_detect_external:nT {#2}
    { \keys_set:nn {fontspec-preparse-external} {ExternalLocation} }
+  
+  \prop_get:NVN \g_@@_fontopts_tl \l_fontspec_fontname_tl \l_@@_fontopts_clist
+  
   \keys_set_known:nxN {fontspec-preparse-external}
-    {\g_fontspec_default_fontopts_tl #1} \l_fontspec_keys_leftover_clist
+   {
+    \g_fontspec_default_fontopts_tl
+    \quark_if_no_value:NF \l_@@_fontopts_clist {\l_@@_fontopts_clist,}
+    #1
+   }
+   \l_fontspec_keys_leftover_clist
 %    \end{macrocode}
 % When \cmd{\l_fontspec_fontname_tl} is augmented with a prefix or whatever to create
 % the name of the upright font (\cmd{\l_fontspec_fontname_up_tl}), this latter is the new `general
@@ -4091,29 +4139,48 @@ This work consists of this file fontspec.dtx
           { \fontspec_make_font_shapes:nnnn {#1#2}{#3}{#4}{#5} }
       }
   }
-\cs_new:Nn \fontspec_make_font_shapes:nnnn {
+\cs_new:Nn \fontspec_make_font_shapes:nnnn
+ {
   \group_begin:
+  
     \tl_set:Nx \l_fontspec_fontname_tl {#1}
+    \prop_get:NVN \g_@@_fontopts_tl \l_fontspec_fontname_tl \l_@@_fontopts_clist
+    
     \fontspec_font_set:Nnn \l_fontspec_font {\fontspec_fullname:n {#1}} {\f@size pt}
     \font_if_null:NT \l_fontspec_font { \fontspec_error:nx {font-not-found} {#1} }
-    \fontspec_declare_shape:nnn {#2}{#3}{#4}
+    
+    \fontspec_declare_shape:nnn {#2}{#3}
+     { \quark_if_no_value:NF \l_@@_fontopts_clist {\l_@@_fontopts_clist,} #4 }
+
     \tl_if_empty:NTF \l_fontspec_fontname_sc_tl {
       \bool_if:NF \l_fontspec_nosc_bool {
         \fontspec_make_smallcaps:T {
           \fontspec_declare_shape:nnn {#2}
             { \tl_if_eq:NNTF #3 \itdefault \sidefault \scdefault }
-            { #4 , Letters=SmallCaps, \l_fontspec_fontfeat_sc_clist }
+            {
+              \quark_if_no_value:NF \l_@@_fontopts_clist {\l_@@_fontopts_clist,}
+              #4 , Letters=SmallCaps , \l_fontspec_fontfeat_sc_clist
+            }
         }
       }
-    }{
-      \fontspec_font_set:Nnn \l_fontspec_font {\fontspec_fullname:n {\l_fontspec_fontname_sc_tl}} {\f@size pt}
+    }
+    {
+      \fontspec_font_set:Nnn \l_fontspec_font
+        { \fontspec_fullname:n {\l_fontspec_fontname_sc_tl} } {\f@size pt}
+
       \tl_set:Nx \l_fontspec_fontname_tl {\l_fontspec_fontname_sc_tl}
+      
+      \prop_get:NVN \g_@@_fontopts_tl \l_fontspec_fontname_tl \l_@@_fontopts_clist
+      
       \fontspec_declare_shape:nnn {#2}
         { \tl_if_eq:NNTF #3 \itdefault \sidefault \scdefault }
-        { #4 , \l_fontspec_fontfeat_sc_clist }
+        {
+          \quark_if_no_value:NF \l_@@_fontopts_clist {\l_@@_fontopts_clist,}
+          #4 , \l_fontspec_fontfeat_sc_clist
+        }
     }
   \group_end:
-}
+ }
 %    \end{macrocode}
 % Note that the test for italics to choose the \cmd\sidefault\ shape
 % only works while \cmd\fontspec_select:nn\ passes single tokens to this macro\dots

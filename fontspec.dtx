@@ -3125,8 +3125,7 @@ This work consists of this file fontspec.dtx
  }
 %    \end{macrocode}
 % The optional argument specifies a font identifier.
-% Strip spaces and file extensions to ensure consistency.
-% (Consider lowercasing?) 
+% Strip spaces and file extensions and lower-case to ensure consistency.
 %    \begin{macrocode}
 \cs_new:Nn \@@_set_font_default_features:nn
  {
@@ -3137,7 +3136,7 @@ This work consists of this file fontspec.dtx
  }
 \cs_new:Nn \@@_sanitise_fontname:Nn
  {
-  \tl_set:Nx #1 {#2}
+  \use:x { \tl_to_lowercase:n { \tl_set:Nx \exp_not:N #1 {#2} } }
   \tl_remove_all:Nn #1 {~}
   \clist_map_inline:Nn \l_fontspec_extensions_clist
    { \tl_remove_once:Nn #1 {##1} }
@@ -3843,7 +3842,8 @@ This work consists of this file fontspec.dtx
   \fontspec_if_detect_external:nT {#2}
    { \keys_set:nn {fontspec-preparse-external} {ExternalLocation} }
   
-  \prop_get:NVN \g_@@_fontopts_prop \l_fontspec_fontname_tl \l_@@_fontopts_clist
+  \@@_sanitise_fontname:Nn \l_@@_tmp_tl {\l_fontspec_fontname_tl}
+  \prop_get:NVN \g_@@_fontopts_prop \l_@@_tmp_tl \l_@@_fontopts_clist
   \keys_set_known:nxN {fontspec-preparse-external}
    {
     \g_fontspec_default_fontopts_tl
@@ -4262,7 +4262,8 @@ This work consists of this file fontspec.dtx
  {
     \tl_set:Nx \l_fontspec_fontname_tl {#1}
     \@@_load_external_fontoptions:N \l_fontspec_fontname_tl
-    \prop_get:NVN \g_@@_fontopts_prop \l_fontspec_fontname_tl \l_@@_fontopts_clist
+    \@@_sanitise_fontname:Nn \l_@@_tmp_tl {\l_fontspec_fontname_tl}
+    \prop_get:NVN \g_@@_fontopts_prop \l_@@_tmp_tl \l_@@_fontopts_clist
     \fontspec_font_set:Nnn \l_fontspec_font {\fontspec_fullname:n {\l_fontspec_fontname_tl}} {\f@size pt}
     \font_if_null:NT \l_fontspec_font { \fontspec_error:nx {font-not-found} {#1} }
  }

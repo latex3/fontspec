@@ -66,7 +66,7 @@ This work consists of this file fontspec.dtx
 %<fontspec&luatex>\ProvidesPackage{fontspec-luatex}
 %<patches>\ProvidesPackage{fontspec-patches}
 %<*fontspec|patches>
-  [2012/05/06 v2.2b Advanced font selection for XeLaTeX/LuaLaTeX]
+  [2012/08/05 v2.3 Font selection for XeLaTeX and LuaLaTeX]
 %</fontspec|patches>
 %
 %<*driver>
@@ -87,7 +87,7 @@ This work consists of this file fontspec.dtx
 % \makeatletter                         ^^A% To document @-cmds
 % \errorcontextlines=999                ^^A% Show up all my mistakes
 %
-% \title{The \textsf{fontspec} package}
+% \title{The \textsf{fontspec} package\\Font selection for \XeLaTeX\ and \LuaLaTeX}
 % \author{
 %    \textsc{Will Robertson} and \textsc{Khaled Hosny}\\
 %    \texttt{will.robertson@latex-project.org}
@@ -676,6 +676,49 @@ This work consists of this file fontspec.dtx
 %   Now grey, with old-style figures:
 %   0123456789
 % \end{Xexample}
+%
+% \cmdbox{\cmd\defaultfontfeatures \oarg{font name} \marg{font features}}
+%
+% Default font features can be specified on a per-font and per-face basis
+% by using the optional argument to \cs{defaultfontfeatures} as shown.\footnote{Internally, \meta{font name} has all spaces removed and is converted to lowercase.}
+% \begin{Verbatim}
+%   \defaultfontfeatures[TeX Gyre Adventor]{Color=blue}
+%   \setmainfont{TeX Gyre Adventor}% will be blue
+% \end{Verbatim}
+%
+% Additionally, when a font is first loaded, a configuration file is searched
+% for with the name `\meta{fontname}\texttt{.fontspec}'.
+% The contents of this file can be used to specify default font features without
+% having to have this information present within each document.
+% \meta{fontname} is stripped of spaces and file extensions are omitted; for
+% example, the line above for \TeX\ Gyre Adventor could be placed in a file
+% called \texttt{TeXGyreAdventor.fontspec}, or for specifying options for
+% \texttt{texgyreadventor-regular.otf} (when loading by filename), the configuration
+% file would be \texttt{texgyreadventor-regular.fontspec}.
+%
+% In fact, this mechanism can be used to define custom names for your font collections.
+% If you create a file \texttt{my-charis.fontspec} containing, say,
+% \begin{Verbatim}
+%   \defaultfontfeatures[my-charis]
+%    {
+%     Extension = .ttf ,
+%     UprightFont = CharisSILR,
+%     BoldFont = CharisSILB,
+%     ItalicFont = CharisSILI,
+%     BoldItalicFont = CharisSILBI,
+%    }
+% \end{Verbatim}
+% you can load that family with \verb|\fontspec{my-charis}| and similar.
+% The optional argument to \cs{defaultfontfeatures} must match the filename
+% else the options won't take effect.
+%
+% Finally, note that options for font faces can also be defined in this way.
+% To continue the example above, here we colour the different faces:
+% \begin{Verbatim}
+%   \defaultfontfeatures[CharisSILR]{Color=blue}
+%   \defaultfontfeatures[CharisSILB]{Color=red}
+% \end{Verbatim}
+% 
 %
 % \subsection{Changing the currently selected features}
 % \label{sec:addfontfeatures}

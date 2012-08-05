@@ -3809,7 +3809,7 @@ This work consists of this file fontspec.dtx
 % loading (whether it's a named font or external font, etc.), and then
 % information is extracted for the names of the other shape fonts.
 %    \begin{macrocode}
-  \exp_args:NnV \fontspec_preparse_features:nn {#1} \l_fontspec_fontname_tl
+  \fontspec_preparse_features:nn {#1} \l_fontspec_fontname_tl
 %    \end{macrocode}
 % Finally save the `confirmed' font definition.
 %    \begin{macrocode}
@@ -3874,6 +3874,8 @@ This work consists of this file fontspec.dtx
 %
 %
 % \begin{macro}{\fontspec_preparse_features:nn}
+% \darg{feature options}
+% \darg{font name}
 % Perform the (multi-step) feature parsing process.
 %    \begin{macrocode}
 \cs_new:Nn \fontspec_preparse_features:nn
@@ -4343,13 +4345,15 @@ This work consists of this file fontspec.dtx
 \cs_new:Nn \@@_declare_shape_nosizing:n
  {
     \fontspec_get_features:n {#1}
-    \tl_set:Nx \l_fontspec_nfss_tl {
+    \tl_set:Nx \l_fontspec_nfss_tl
+     {
       <-> \l_fontspec_scale_tl
-      \fontspec_fontwrap:n {
+      \fontspec_fontwrap:n
+       {
         \fontspec_fullname:n {\l_fontspec_fontname_tl} :
           \l_fontspec_pre_feat_sclist \l_fontspec_rawfeatures_sclist
-      }
-    } 
+       }
+     } 
  }
 %    \end{macrocode}
 % On the other hand, loop through \feat{SizeFeatures} arguments, which
@@ -4369,7 +4373,7 @@ This work consists of this file fontspec.dtx
         \l_fontspec_keys_leftover_clist
 
       \tl_if_empty:NT \l_fontspec_size_tl { \fontspec_error:n {no-size-info} }
-      \fontspec_get_features:n{ #1 , \l_fontspec_keys_leftover_clist }
+      \fontspec_get_features:n { #1 , \l_fontspec_keys_leftover_clist }
 
       \tl_put_right:Nx \l_fontspec_nfss_tl
        {
@@ -4490,7 +4494,7 @@ This work consists of this file fontspec.dtx
 %   strings.
 %   Its argument is any additional features to prepend to the default.
 %    \begin{macrocode}
-\cs_set:Npn \fontspec_get_features:n #1
+\cs_set:Nn \fontspec_get_features:n
  {
   \sclist_clear:N \l_fontspec_rawfeatures_sclist
   \tl_clear:N \l_fontspec_scale_tl
@@ -4504,7 +4508,7 @@ This work consists of this file fontspec.dtx
 % specials) will not work.
 %    \begin{macrocode}
   \str_if_eq:xxF { \l_fontspec_hexcol_tl \l_fontspec_opacity_tl }
-                { \g_fontspec_hexcol_tl \g_fontspec_opacity_tl }
+                 { \g_fontspec_hexcol_tl \g_fontspec_opacity_tl }
    {
     \fontspec_update_featstr:n{color=\l_fontspec_hexcol_tl\l_fontspec_opacity_tl}
    }

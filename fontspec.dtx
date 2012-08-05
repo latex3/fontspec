@@ -3092,7 +3092,7 @@ This work consists of this file fontspec.dtx
 %   [...] macro.
 %    \begin{macrocode}
 \tl_new:N \g_fontspec_default_fontopts_tl
-\prop_new:N \g_@@_fontopts_tl
+\prop_new:N \g_@@_fontopts_prop
 %    \end{macrocode}
 %
 %    \begin{macrocode}
@@ -3115,8 +3115,8 @@ This work consists of this file fontspec.dtx
  {
   \@@_sanitise_fontname:Nn \l_@@_tmp_tl {#1}
   \tl_if_empty:nTF {#2}
-   { \prop_gremove:NV \g_@@_fontopts_tl \l_@@_tmp_tl }
-   { \prop_gput:NVn   \g_@@_fontopts_tl \l_@@_tmp_tl {#2} }
+   { \prop_gremove:NV \g_@@_fontopts_prop \l_@@_tmp_tl }
+   { \prop_gput:NVn   \g_@@_fontopts_prop \l_@@_tmp_tl {#2} }
  }
 \cs_new:Nn \@@_sanitise_fontname:Nn
  {
@@ -3705,9 +3705,7 @@ This work consists of this file fontspec.dtx
 % Load a possible \texttt{.fontspec} font configuration file.
 % This file could set font-specific options for the font about to be loaded.
 %    \begin{macrocode}
-  \@@_sanitise_fontname:Nn \l_@@_tmp_tl {\l_fontspec_fontname_tl}
-  \exp_args:No \file_if_exist:nT {\l_@@_tmp_tl.fontspec}
-   { \file_input:n {\l_@@_tmp_tl.fontspec} }
+  \@@_load_external_fontoptions:N \l_fontspec_fontname_tl
 %    \end{macrocode}
 % Convert the requested features to font definition
 % strings. First the features are parsed for information about font
@@ -3762,6 +3760,19 @@ This work consists of this file fontspec.dtx
 %    \end{macrocode}
 % \end{macro}
 %
+% \begin{macro}{}
+%    \begin{macrocode}
+\cs_new:Nn \@@_load_external_fontoptions:N
+ {
+  \@@_sanitise_fontname:Nn \l_@@_tmp_tl {#1}
+  \prop_if_in:NVF \g_@@_fontopts_prop {\l_@@_tmp_tl}
+   {
+    \exp_args:No \file_if_exist:nT {\l_@@_tmp_tl.fontspec}
+     { \file_input:n {\l_@@_tmp_tl.fontspec} }
+   }
+ }
+%    \end{macrocode}
+% \end{macro}
 %
 %
 % \begin{macro}{\fontspec_preparse_features:nn}
@@ -3775,7 +3786,7 @@ This work consists of this file fontspec.dtx
   \fontspec_if_detect_external:nT {#2}
    { \keys_set:nn {fontspec-preparse-external} {ExternalLocation} }
   
-  \prop_get:NVN \g_@@_fontopts_tl \l_fontspec_fontname_tl \l_@@_fontopts_clist
+  \prop_get:NVN \g_@@_fontopts_prop \l_fontspec_fontname_tl \l_@@_fontopts_clist
   
   \keys_set_known:nxN {fontspec-preparse-external}
    {
@@ -4143,12 +4154,7 @@ This work consists of this file fontspec.dtx
  {
   \group_begin:
   
-    \tl_set:Nx \l_fontspec_fontname_tl {#1}
-    \prop_get:NVN \g_@@_fontopts_tl \l_fontspec_fontname_tl \l_@@_fontopts_clist
-    
-    \fontspec_font_set:Nnn \l_fontspec_font {\fontspec_fullname:n {#1}} {\f@size pt}
-    \font_if_null:NT \l_fontspec_font { \fontspec_error:nx {font-not-found} {#1} }
-    
+    \@@_load_fontname:n {#1}
     \fontspec_declare_shape:nnn {#2}{#3}
      { \quark_if_no_value:NF \l_@@_fontopts_clist {\l_@@_fontopts_clist,} #4 }
 
@@ -4165,13 +4171,7 @@ This work consists of this file fontspec.dtx
       }
     }
     {
-      \fontspec_font_set:Nnn \l_fontspec_font
-        { \fontspec_fullname:n {\l_fontspec_fontname_sc_tl} } {\f@size pt}
-
-      \tl_set:Nx \l_fontspec_fontname_tl {\l_fontspec_fontname_sc_tl}
-      
-      \prop_get:NVN \g_@@_fontopts_tl \l_fontspec_fontname_tl \l_@@_fontopts_clist
-      
+      \@@_load_fontname:n {\l_fontspec_fontname_sc_tl}      
       \fontspec_declare_shape:nnn {#2}
         { \tl_if_eq:NNTF #3 \itdefault \sidefault \scdefault }
         {
@@ -4180,6 +4180,14 @@ This work consists of this file fontspec.dtx
         }
     }
   \group_end:
+ }
+\cs_new:Nn \@@_load_fontname:n
+ {
+    \tl_set:Nx \l_fontspec_fontname_tl {#1}
+    \@@_load_external_fontoptions:N \l_fontspec_fontname_tl
+    \prop_get:NVN \g_@@_fontopts_prop \l_fontspec_fontname_tl \l_@@_fontopts_clist
+    \fontspec_font_set:Nnn \l_fontspec_font {\fontspec_fullname:n {\l_fontspec_fontname_tl}} {\f@size pt}
+    \font_if_null:NT \l_fontspec_font { \fontspec_error:nx {font-not-found} {#1} }
  }
 %    \end{macrocode}
 % Note that the test for italics to choose the \cmd\sidefault\ shape

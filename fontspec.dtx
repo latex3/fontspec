@@ -3809,7 +3809,7 @@ This work consists of this file fontspec.dtx
 % loading (whether it's a named font or external font, etc.), and then
 % information is extracted for the names of the other shape fonts.
 %    \begin{macrocode}
-  \fontspec_preparse_features:nn {#1} \l_fontspec_fontname_tl
+  \fontspec_preparse_features:nN {#1} \l_fontspec_fontname_tl
 %    \end{macrocode}
 % Finally save the `confirmed' font definition.
 %    \begin{macrocode}
@@ -3873,18 +3873,18 @@ This work consists of this file fontspec.dtx
 % \end{macro}
 %
 %
-% \begin{macro}{\fontspec_preparse_features:nn}
+% \begin{macro}{\fontspec_preparse_features:nN}
 % \darg{feature options}
 % \darg{font name}
 % Perform the (multi-step) feature parsing process.
 %    \begin{macrocode}
-\cs_new:Nn \fontspec_preparse_features:nn
+\cs_new:Nn \fontspec_preparse_features:nN
  {
 %    \end{macrocode}
 % Detect if external fonts are to be used, possibly automatically, and
 % parse fontspec features for bold/italic fonts and their features.
 %    \begin{macrocode}
-  \fontspec_if_detect_external:nT {#2}
+  \exp_args:NV \fontspec_if_detect_external:nT #2
    { \keys_set:nn {fontspec-preparse-external} {ExternalLocation} }
   
   \@@_sanitise_fontname:Nn \l_@@_tmp_tl {\l_fontspec_fontname_tl}
@@ -3902,6 +3902,8 @@ This work consists of this file fontspec.dtx
 % font name' to use.
 %    \begin{macrocode}
   \tl_set_eq:NN \l_fontspec_fontname_tl \l_fontspec_fontname_up_tl
+  \keys_set_known:nxN {fontspec-renderer} {\l_fontspec_keys_leftover_clist}
+    \l_fontspec_keys_leftover_clist
   \keys_set_known:nxN {fontspec-preparse} {\l_fontspec_keys_leftover_clist}
     \l_fontspec_fontfeat_clist
  }
@@ -4501,7 +4503,10 @@ This work consists of this file fontspec.dtx
   \tl_set_eq:NN \l_fontspec_opacity_tl \g_fontspec_opacity_tl
   \tl_set_eq:NN \l_fontspec_hexcol_tl \g_fontspec_hexcol_tl
   \tl_clear:N \l_fontspec_postadjust_tl
-  \keys_set:nx {fontspec} {\l_fontspec_fontfeat_clist, #1}
+
+  \keys_set_known:nxN {fontspec-renderer} {\l_fontspec_fontfeat_clist,#1}
+    \l_fontspec_keys_leftover_clist
+  \keys_set:nx {fontspec} {\l_fontspec_keys_leftover_clist}
 %    \end{macrocode}
 % Finish the colour specification.
 % Do not set the colour if not explicitly spec'd else \verb|\color| (using
@@ -4974,7 +4979,7 @@ This work consists of this file fontspec.dtx
 %<xetexx>   {     [ #1 ##1 ] }
 %<luatex>   { file: #1 ##1   }
 %<*xetexx>
-  \keys_set:nn {fontspec-preparse} {Renderer=ICU}
+  \keys_set:nn {fontspec-renderer} {Renderer=ICU}
 %</xetexx>
  }
 \aliasfontfeature{ExternalLocation}{Path}
@@ -5004,7 +5009,7 @@ This work consists of this file fontspec.dtx
 % \paragraph{\feat{Renderer}}
 % This feature must be processed before all others (the other font shape and features options are also pre-parsed for convenience) because the renderer determines the format of the features and even whether certain features are available.
 %    \begin{macrocode}
-\keys_define:nn {fontspec-preparse}
+\keys_define:nn {fontspec-renderer}
  {
   Renderer .choice_code:n =
    {
@@ -5044,7 +5049,7 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \@@_keys_define_code:nnn {fontspec-preparse} {Script}
  {
-%<xetexx>    \keys_set:nn {fontspec-preparse} {Renderer=ICU}
+%<xetexx>    \keys_set:nn {fontspec-renderer} {Renderer=ICU}
   \tl_set:Nn \l_fontspec_script_name_tl {#1}
   \fontspec_update_fontid:n {+script:#1}
  }
@@ -5053,7 +5058,7 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \@@_keys_define_code:nnn {fontspec-preparse} {Language}
  {
-%<xetexx>    \keys_set:nn {fontspec-preparse} {Renderer=ICU}
+%<xetexx>    \keys_set:nn {fontspec-renderer} {Renderer=ICU}
   \tl_set:Nn \l_fontspec_lang_name_tl {#1}
   \fontspec_update_fontid:n {+language:#1}
  }

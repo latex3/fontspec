@@ -4764,7 +4764,7 @@ This work consists of this file fontspec.dtx
 \keys_define:nn {fontspec-preparse} {
   Renderer .choice_code:n = {
     \fontspec_update_fontid:n {+rend:\l_keys_choice_tl}
-    \int_compare:nTF {\l_keys_choice_int < 3} {
+    \int_compare:nTF {\l_keys_choice_int <= 3} {
 %<*xetexx>
       \tl_set:Nv \l_fontspec_renderer_tl
         { g_fontspec_renderer_tag_ \l_keys_choice_tl }

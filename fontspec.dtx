@@ -4086,7 +4086,7 @@ This work consists of this file fontspec.dtx
           { \fontspec_fullname:n {#1}   } {\f@size pt}
         \fontspec_font_set:Nnn \l_tmpb_font
           { \fontspec_fullname:n {#1#2} } {\f@size pt}
-        \str_if_eq:xxTF { \fontname \l_tmpa_font } { \fontname \l_tmpb_font }
+        \str_if_eq_x:nnTF { \fontname \l_tmpa_font } { \fontname \l_tmpb_font }
           { \fontspec_info:nx {no-font-shape} {#1#2} }
           { \fontspec_make_font_shapes:nnnn {#1#2}{#3}{#4}{#5} }
       }
@@ -4181,8 +4181,8 @@ This work consists of this file fontspec.dtx
 % but I'd rather have it here than break out yet another macro.
 %    \begin{macrocode}
   \bool_if:nT {
-     \str_if_eq_p:xx {#2} {\itdefault}  &&
-    !(\str_if_eq_p:xx {\itdefault} {\sldefault})
+     \str_if_eq_x_p:nn {#2} {\itdefault}  &&
+    !(\str_if_eq_x_p:nn {\itdefault} {\sldefault})
   }
   {
     \use:x {
@@ -4195,7 +4195,7 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
   \tl_gput_right:Nx \l_fontspec_defined_shapes_tl
     { \exp_not:n { \\ \\ }
-       *~ '\exp_not:N \prg_case_str:nnn {#1/#2} {
+       *~ '\exp_not:N \str_case:nnn {#1/#2} {
        {\mddefault/\updefault} {normal}
        {\mddefault/\scdefault} {small~ caps}
        {\bfdefault/\updefault} {bold}
@@ -4284,7 +4284,7 @@ This work consists of this file fontspec.dtx
 % Do not set the colour if not explicitly spec'd else \verb|\color| (using
 % specials) will not work.
 %    \begin{macrocode}
-  \str_if_eq:xxF { \l_fontspec_hexcol_tl \l_fontspec_opacity_tl }
+  \str_if_eq_x:nnF { \l_fontspec_hexcol_tl \l_fontspec_opacity_tl }
                 { \g_fontspec_hexcol_tl \g_fontspec_opacity_tl }
   {
     \fontspec_update_featstr:n{color=\l_fontspec_hexcol_tl\l_fontspec_opacity_tl}
@@ -4992,7 +4992,7 @@ This work consists of this file fontspec.dtx
 % the auto-scaling cases.
 %    \begin{macrocode}
 \keys_define:nn {fontspec} { Scale .code:n = {
-  \prg_case_str:nnn {#1}
+  \str_case:nnn {#1}
   {
     {MatchLowercase} { \fontspec_calc_scale:n {5} }
     {MatchUppercase} { \fontspec_calc_scale:n {8} }
@@ -5044,7 +5044,7 @@ This work consists of this file fontspec.dtx
   \dim_compare:nNnT #1 = {0pt} {
     \settoheight #1 {
       \str_if_eq:nnTF {#3} {\font} \rmfamily #3
-      \prg_case_int:nnn #2 {
+      \int_case:nnn #2 {
         {5} {x} % x-height
         {8} {X} % cap-height
       } {?} % "else" clause; never reached.
@@ -6049,7 +6049,7 @@ This work consists of this file fontspec.dtx
 \cs_new:Nn \fontspec_blend_shape:nnn {
   \bool_if:nTF
   {
-    \str_if_eq_p:xx {\f@shape} {#2} &&
+    \str_if_eq_x_p:nn {\f@shape} {#2} &&
     \cs_if_exist_p:c {\f@encoding/\f@family/\f@series/#3}
   }
   { \fontshape{#3}\selectfont }
@@ -6543,9 +6543,9 @@ luatexbase.add_to_callback("luaotfload.patch_font", set_capheight, "fontspec.set
 %    \begin{macrocode}
 \DeclareRobustCommand \em {
   \@nomath\em
-  \str_if_eq:xxTF \f@shape \itdefault \eminnershape
+  \str_if_eq_x:nnTF \f@shape \itdefault \eminnershape
   {
-    \str_if_eq:xxTF \f@shape \sldefault \eminnershape \emshape
+    \str_if_eq_x:nnTF \f@shape \sldefault \eminnershape \emshape
   }
 }
 \DeclareTextFontCommand{\emph}{\em}

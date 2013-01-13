@@ -3222,10 +3222,7 @@ This work consists of this file fontspec.dtx
       }
   }
 \DeclareDocumentCommand \aliasfontfeatureoption {mmm}
-  {
-    \cs_set_eq:cc { \c_keys_code_root_tl fontspec/#1/#3 }
-                  { \c_keys_code_root_tl fontspec/#1/#2 }
-  }
+  { \keys_define:nn { fontspec / #1 } { #3 .meta:n = {#2} } }
 %    \end{macrocode}
 % \end{macro} \end{macro}
 %

@@ -729,8 +729,17 @@ This work consists of this file fontspec.dtx
 % be changed without knowing what features are currently selected or even what
 % font is being used. A good example of this could be to add a hook to all
 % tabular material to use monospaced numbers, as shown in \exref{aff}.
+% Note however that the behaviour in this regard will be unreliable (subject to the font itself) if you attempt to \emph{change} an already selected feature.
+% \Eg, this sort of thing can cause troubles:
+% \begin{Verbatim}
+% \addfontfeature{Numbers=OldStyle}...
+% \addfontfeature{Numbers=Lining}...
+% 123
+% \end{Verbatim}
+% With both features active, how will the font render `123'? Depends on the font.
+% In the distant future this functionality will be re-written to avoid this issue (giving `\verb|Numbers=OldStyle|' the smarts to know to explicitly de-activate any previous instances of `\verb|Numbers=Lining|', and vice-versa, but as I hope you can imagine this requires a fair degree of elbow grease which I haven't had available for some time now.
 %
-% \begin{Lexample}{aff}{A demonstration of the \cs{addfontfeatures} command.}
+% \begin{Lexample}{aff}{A demonstration of the \cs{addfontfeatures} command. Note the caveat listed in the text regarding such usage.}
 %   \fontspec[Numbers={Proportional,OldStyle}]
 %            {TeX Gyre Adventor}
 %   `In 1842, 999 people sailed 97 miles in

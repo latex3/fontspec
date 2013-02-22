@@ -3332,10 +3332,7 @@ This work consists of this file fontspec.dtx
     }
  }
 \DeclareDocumentCommand \aliasfontfeatureoption {mmm}
- {
-  \cs_set_eq:cc { \c_keys_code_root_tl fontspec/#1/#3 }
-                { \c_keys_code_root_tl fontspec/#1/#2 }
- }
+  { \keys_define:nn { fontspec / #1 } { #3 .meta:n = {#2} } }
 %    \end{macrocode}
 % \end{macro} \end{macro}
 %
@@ -4275,13 +4272,12 @@ This work consists of this file fontspec.dtx
       { \fontspec_fullname:n {#1}   } {\f@size pt}
     \fontspec_font_set:Nnn \l_tmpb_font
       { \fontspec_fullname:n {#1#2} } {\f@size pt}
-    \str_if_eq:xxTF { \fontname \l_tmpa_font } { \fontname \l_tmpb_font }
+    \str_if_eq_x:nnTF { \fontname \l_tmpa_font } { \fontname \l_tmpb_font }
       { \fontspec_info:nx {no-font-shape} {#1#2} }
       { \fontspec_make_font_shapes:nnnn {#1#2}{#3}{#4}{#5} }
    }
  }
-\cs_new:Nn \fontspec_make_font_shapes:nnnn
- {
+\cs_new:Nn \fontspec_make_font_shapes:nnnn {
   \group_begin:
   
     \@@_load_fontname:n {#1}
@@ -4404,8 +4400,8 @@ This work consists of this file fontspec.dtx
  {
   \bool_if:nT
    {
-     \str_if_eq_p:xx {#2} {\itdefault}  &&
-    !(\str_if_eq_p:xx {\itdefault} {\sldefault})
+     \str_if_eq_x_p:nn {#2} {\itdefault}  &&
+    !(\str_if_eq_x_p:nn {\itdefault} {\sldefault})
    }
    {
     \use:x
@@ -4423,7 +4419,7 @@ This work consists of this file fontspec.dtx
   \tl_gput_right:Nx \l_fontspec_defined_shapes_tl
    {
     \exp_not:n { \\ \\ }
-    *~ '\exp_not:N \prg_case_str:nnn {#1/#2}
+    *~ '\exp_not:N \str_case:nnn {#1/#2}
      {
        {\mddefault/\updefault} {normal}
        {\mddefault/\scdefault} {small~ caps}
@@ -4521,9 +4517,9 @@ This work consists of this file fontspec.dtx
 % Do not set the colour if not explicitly spec'd else \verb|\color| (using
 % specials) will not work.
 %    \begin{macrocode}
-  \str_if_eq:xxF { \l_fontspec_hexcol_tl \l_fontspec_opacity_tl }
-                 { \g_fontspec_hexcol_tl \g_fontspec_opacity_tl }
-   {
+  \str_if_eq_x:nnF { \l_fontspec_hexcol_tl \l_fontspec_opacity_tl }
+                   { \g_fontspec_hexcol_tl \g_fontspec_opacity_tl }
+  {
     \fontspec_update_featstr:n{color=\l_fontspec_hexcol_tl\l_fontspec_opacity_tl}
    }
  }
@@ -5023,8 +5019,7 @@ This work consists of this file fontspec.dtx
   Renderer .choice_code:n =
    {
     \fontspec_update_fontid:n {+rend:\l_keys_choice_tl}
-    \int_compare:nTF {\l_keys_choice_int < 3}
-     {
+    \int_compare:nTF {\l_keys_choice_int <= 3} {
 %<*xetexx>
       \tl_set:Nv \l_fontspec_renderer_tl
         { g_fontspec_renderer_tag_ \l_keys_choice_tl }
@@ -5249,7 +5244,7 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \@@_keys_define_code:nnn {fontspec} {Scale}
  {
-  \prg_case_str:nnn {#1}
+  \str_case:nnn {#1}
    {
     {MatchLowercase} { \fontspec_calc_scale:n {5} }
     {MatchUppercase} { \fontspec_calc_scale:n {8} }
@@ -5303,7 +5298,7 @@ This work consists of this file fontspec.dtx
     \settoheight #1
      {
       \str_if_eq:nnTF {#3} {\font} \rmfamily #3
-      \prg_case_int:nnn #2
+      \int_case:nnn #2
        {
          {5} {x} % x-height
          {8} {X} % cap-height
@@ -6327,7 +6322,7 @@ This work consists of this file fontspec.dtx
  {
   \bool_if:nTF
    {
-    \str_if_eq_p:xx {\f@shape} {#2} &&
+    \str_if_eq_x_p:nn {\f@shape} {#2} &&
     \cs_if_exist_p:c {\f@encoding/\f@family/\f@series/#3}
    }
    { \fontshape{#3}\selectfont }
@@ -6706,7 +6701,7 @@ end
 local function check_feature(id, feature, language, script)
     local s = string.lower(script)
     local l = string.lower(language)
-    local f = string.lower(feature:gsub("^[+-]", ""))
+    local f = string.lower(feature:gsub("^[+-]", ""):gsub("=.*$", ""))
     if id and id > 0 then
         local otfdata = fonts.identifiers[id].shared.otfdata
         if otfdata then
@@ -6842,9 +6837,9 @@ luatexbase.add_to_callback("luaotfload.patch_font", set_capheight, "fontspec.set
 \DeclareRobustCommand \em
  {
   \@nomath\em
-  \str_if_eq:xxTF \f@shape \itdefault \eminnershape
+  \str_if_eq_x:nnTF \f@shape \itdefault \eminnershape
   {
-    \str_if_eq:xxTF \f@shape \sldefault \eminnershape \emshape
+    \str_if_eq_x:nnTF \f@shape \sldefault \eminnershape \emshape
   }
  }
 \DeclareTextFontCommand{\emph}{\em}

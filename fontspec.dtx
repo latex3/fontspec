@@ -66,7 +66,7 @@ This work consists of this file fontspec.dtx
 %<fontspec&luatex>\ProvidesPackage{fontspec-luatex}
 %<patches>\ProvidesPackage{fontspec-patches}
 %<*fontspec|patches>
-  [2012/08/05 v2.3 Font selection for XeLaTeX and LuaLaTeX]
+  [2013/02/25 v2.3 Font selection for XeLaTeX and LuaLaTeX]
 %</fontspec|patches>
 %
 %<*driver>
@@ -679,6 +679,7 @@ This work consists of this file fontspec.dtx
 %
 % \cmdbox{\cmd\defaultfontfeatures \oarg{font name} \marg{font features}}
 %
+% \textbf{New in v2.3}.
 % Default font features can be specified on a per-font and per-face basis
 % by using the optional argument to \cs{defaultfontfeatures} as shown.\footnote{Internally, \meta{font name} has all spaces removed and is converted to lowercase.}
 % \begin{Verbatim}
@@ -687,7 +688,7 @@ This work consists of this file fontspec.dtx
 % \end{Verbatim}
 %
 % Additionally, when a font is first loaded, a configuration file is searched
-% for with the name `\meta{fontname}\texttt{.fontspec}'.
+% for with the name `\meta{fontname}\texttt{.fontspec}'.\footnote{Located in the current folder or within a standard \texttt{texmf} location.}
 % The contents of this file can be used to specify default font features without
 % having to have this information present within each document.
 % \meta{fontname} is stripped of spaces and file extensions are omitted; for
@@ -696,7 +697,7 @@ This work consists of this file fontspec.dtx
 % \texttt{texgyreadventor-regular.otf} (when loading by filename), the configuration
 % file would be \texttt{texgyreadventor-regular.fontspec}.
 %
-% In fact, this mechanism can be used to define custom names for your font collections.
+% This mechanism can be used to define custom names or aliases for your font collections.
 % If you create a file \texttt{my-charis.fontspec} containing, say,
 % \begin{Verbatim}
 %   \defaultfontfeatures[my-charis]
@@ -706,6 +707,7 @@ This work consists of this file fontspec.dtx
 %     BoldFont = CharisSILB,
 %     ItalicFont = CharisSILI,
 %     BoldItalicFont = CharisSILBI,
+%     % <any other desired options>
 %    }
 % \end{Verbatim}
 % you can load that family with \verb|\fontspec{my-charis}| and similar.
@@ -718,7 +720,7 @@ This work consists of this file fontspec.dtx
 %   \defaultfontfeatures[CharisSILR]{Color=blue}
 %   \defaultfontfeatures[CharisSILB]{Color=red}
 % \end{Verbatim}
-% 
+% And such configuration lines can be stored within their own \texttt{.fontspec} files; in this way, \pkg{fontspec} is designed to handle `nested' configuration options as well.
 %
 % \subsection{Changing the currently selected features}
 % \label{sec:addfontfeatures}
@@ -860,7 +862,7 @@ This work consists of this file fontspec.dtx
 % to declare the size range, and optionally \opt{Font} to change the
 % font based on size. Other (regular) fontspec features that are added
 % are used on top of the font features that would be used anyway.
-% A demonstration to hopefully clarify these details is shown in \exref{sizefeat}.
+% A demonstration to clarify these details is shown in \exref{sizefeat}.
 % A less trivial example is shown in the context of optical font sizes
 % in \vref{sec:opticalsize}.
 %

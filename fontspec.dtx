@@ -5427,10 +5427,10 @@ This work consists of this file fontspec.dtx
     \convertcolorspec{named}{#1}{HTML}\l_fontspec_hexcol_tl
    }
    {
-    \int_compare:nTF { \tl_length:n {#1} == 6 }
+    \int_compare:nTF { \tl_count:n {#1} == 6 }
      { \tl_set:Nn \l_fontspec_hexcol_tl {#1} }
      {
-      \int_compare:nTF { \tl_length:n {#1} == 8 }
+      \int_compare:nTF { \tl_count:n {#1} == 8 }
        { \fontspec_parse_colour:viii #1 }
        {
         \bool_if:NF \l_fontspec_firsttime_bool

@@ -60,6 +60,7 @@ Fonts to be used in text strings in maths are defined with
 Features to be used for every subsequently defined font are specified with
 
     \defaultfontfeatures{<default font options>}
+    \defaultfontfeatures[<font name>]{<default font options for "font name">}
 
 Features may be added to the font currently in use with
 
@@ -70,6 +71,12 @@ Features may be added to the font currently in use with
 
 Change history
 --------------
+
+- v2.3 (2013/02/25)
+
+    * Add support for per-font options in `\defaultfontfeatures`
+    * Add support for `<fontname>.fontspec` per-font configuration files
+    * Keep up-to-date with expl3 changes
 
 - v2.2b (2012/05/06) "TL2012 version"
 

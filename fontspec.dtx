@@ -180,6 +180,7 @@ This work consists of this file fontspec.dtx
 % \begin{Verbatim}
 %   \usepackage{fontspec}
 % \end{Verbatim}
+% Package options will be introduced below; some preliminary details are discussed first:
 %
 % \paragraph{\pkg{xunicode}}
 % Ross Moore's \pkg{xunicode} package is now automatically loaded for
@@ -187,16 +188,13 @@ This work consists of this file fontspec.dtx
 % This package provides backwards compatibility with \LaTeX's methods for accessing extra
 % characters and accents (for example, |\%|, |\$|, |\textbullet|, |\"u|, and
 % so on), plus many more Unicode characters.
-% \textbf{Warning}: introduced in v2.1, this is a backwards incompatible change to previous
-% versions of \pkg{fontspec}. This change was necessary in order to provide consistent
-% support for users of \XeTeX\ and \LuaTeX. I'm not aware of any issues this
-% may cause but please let me know if you run into problems.
 %
 % \paragraph{\XeTeX\ users only}
 % The \pkg{xltxtra} package adds some minor extra features to \XeLaTeX, including, via the \pkg{metalogo} package, the
 % \cmd\XeTeX\ macro to typeset the \XeTeX\ logo. While this package was
 % previously recommended, it serves a much smaller r\^ole nowadays and generally
 % will not be required.
+% Please consult its documentation to assess whether its features are warranted before loading it.
 %
 % \paragraph{\LuaTeX\ users only}
 % In order to load fonts by their name rather than by their filename (\eg,
@@ -214,7 +212,7 @@ This work consists of this file fontspec.dtx
 % however---\pkg{fontspec} ensures at least that fonts should load correctly,
 % but hyphenation and other matters aren't guaranteed. Under \XeTeX, the
 % \pkg{polyglossia} package is recommended instead as a modern replacement for
-% \pkg{babel}.
+% \pkg{babel}. For \LuaTeX, the situation is still unresolved.
 %
 %
 %
@@ -287,7 +285,7 @@ This work consists of this file fontspec.dtx
 %
 % \subsection{By font name}
 %
-% Fonts known to \LuaTeX\ or \XeTeX\ may be loaded by their names.
+% Fonts known to \LuaTeX\ or \XeTeX\ may be loaded by their standard names as you'd speak them out loud, such as \emph{Times New Roman} or \emph{Adobe Garamond}.
 % `Known to' in this case generally means `exists in a standard fonts location'
 % such as |~/Library/Fonts| on \MacOSX, or |C:\Windows\Fonts| on Windows.
 %
@@ -315,12 +313,12 @@ This work consists of this file fontspec.dtx
 % When selecting fonts by file name, any font that can be found in the default
 % search paths may be used directly (including in the current directory)
 % without having to explicitly define the location of the font file on disk.
-%
-% \paragraph{\XeTeX\ \& Mac users only:}
+% \begin{quote}\itshape
+% \textbf{\XeTeX\ \& Mac users only:}
 % Note that \XeTeX\ can only select fonts in this way with the |xdvipdfmx| driver, but \XeTeX\ with the |xdv2pdf| driver can only select system-installed fonts
 % by font name and not file name. The |xdvipdfmx| driver is default for \XeTeX, so this is only a problem if you wish to explicitly use
 % the |xdv2pdf| driver.
-%
+% \end{quote}
 % Fonts selected by filename must include bold and italic variants explicitly.
 % \begin{Verbatim}
 %   \fontspec
@@ -2022,6 +2020,12 @@ This work consists of this file fontspec.dtx
 %
 % \section{\MacOSX's \AAT\ fonts}
 % \label{sec:aat-features}
+%
+% \begin{quote}\itshape
+% \textbf{Warning!}
+% \XeTeX's implementation on \MacOSX\ is currently in a state of flux and the information contained below may well be wrong from 2013 onwards.
+% There is a good chance that the features described in this section will not be available any more as \XeTeX's completes its transition to a cross-platform--only application.
+% \end{quote}
 %
 % \MacOSX's font technology began life before the ubiquitous-OpenType era
 % and revolved around the Apple-invented `\AAT' font format. This format
@@ -3866,7 +3870,7 @@ This work consists of this file fontspec.dtx
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{}
+% \begin{macro}{\@@_load_external_fontoptions:N}
 %    \begin{macrocode}
 \cs_new:Nn \@@_load_external_fontoptions:N
  {
@@ -7200,7 +7204,7 @@ If you want to run just a single test, use
 
 % ToC formatting:
 \setlength\cftsubsecnumwidth{1.4\cftsubsecnumwidth}
-\def\@cfttocstart{\begin{multicols}{2}}
+\def\@cfttocstart{\small\begin{multicols}{2}}
 \def\@cfttocfinish{\end{multicols}}
 
 \fvset{gobble=2}

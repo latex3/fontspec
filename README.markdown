@@ -72,6 +72,10 @@ Features may be added to the font currently in use with
 Change history
 --------------
 
+- v2.3a (2013/03/16)
+
+    * Bug fix update to retain compatibility with new expl3
+
 - v2.3 (2013/02/25)
 
     * Add support for per-font options in `\defaultfontfeatures`

@@ -1,7 +1,7 @@
 % \iffalse
 %<*internal>
 \begingroup
-\input docstrip.tex
+\input l3docstrip.tex
 \keepsilent
 \usedir{tex/latex/fontspec}
 \let\MetaPrefix\relax
@@ -9,7 +9,7 @@
 
   _________________________________________
   The fontspec package for XeLaTeX/LuaLaTeX
-  (C) 2004--2012    Will Robertson and Khaled Hosny
+  (C) 2004--2013    Will Robertson and Khaled Hosny
 
   License information appended.
 
@@ -17,8 +17,8 @@
 \endpreamble
 \postamble
 
-Copyright 2004--2012 Will Robertson <wspr81@gmail.com>
-Copyright 2009--2012 Khaled Hosny <khaledhosny@eglug.org>
+Copyright 2004--2013 Will Robertson <wspr81@gmail.com>
+Copyright 2009--2013   Khaled Hosny <khaledhosny@eglug.org>
 
 Distributable under the LaTeX Project Public License,
 version 1.3c or higher (your choice). The latest version of
@@ -66,7 +66,7 @@ This work consists of this file fontspec.dtx
 %<fontspec&luatex>\ProvidesPackage{fontspec-luatex}
 %<patches>\ProvidesPackage{fontspec-patches}
 %<*fontspec|patches>
-  [2012/05/06 v2.2b Advanced font selection for XeLaTeX/LuaLaTeX]
+  [2013/03/16 v2.3a Font selection for XeLaTeX and LuaLaTeX]
 %</fontspec|patches>
 %
 %<*driver>
@@ -87,7 +87,7 @@ This work consists of this file fontspec.dtx
 % \makeatletter                         ^^A% To document @-cmds
 % \errorcontextlines=999                ^^A% Show up all my mistakes
 %
-% \title{The \textsf{fontspec} package}
+% \title{The \textsf{fontspec} package\\Font selection for \XeLaTeX\ and \LuaLaTeX}
 % \author{
 %    \textsc{Will Robertson} and \textsc{Khaled Hosny}\\
 %    \texttt{will.robertson@latex-project.org}
@@ -180,6 +180,7 @@ This work consists of this file fontspec.dtx
 % \begin{Verbatim}
 %   \usepackage{fontspec}
 % \end{Verbatim}
+% Package options will be introduced below; some preliminary details are discussed first:
 %
 % \paragraph{\pkg{xunicode}}
 % Ross Moore's \pkg{xunicode} package is now automatically loaded for
@@ -187,16 +188,13 @@ This work consists of this file fontspec.dtx
 % This package provides backwards compatibility with \LaTeX's methods for accessing extra
 % characters and accents (for example, |\%|, |\$|, |\textbullet|, |\"u|, and
 % so on), plus many more Unicode characters.
-% \textbf{Warning}: introduced in v2.1, this is a backwards incompatible change to previous
-% versions of \pkg{fontspec}. This change was necessary in order to provide consistent
-% support for users of \XeTeX\ and \LuaTeX. I'm not aware of any issues this
-% may cause but please let me know if you run into problems.
 %
 % \paragraph{\XeTeX\ users only}
 % The \pkg{xltxtra} package adds some minor extra features to \XeLaTeX, including, via the \pkg{metalogo} package, the
 % \cmd\XeTeX\ macro to typeset the \XeTeX\ logo. While this package was
 % previously recommended, it serves a much smaller r\^ole nowadays and generally
 % will not be required.
+% Please consult its documentation to assess whether its features are warranted before loading it.
 %
 % \paragraph{\LuaTeX\ users only}
 % In order to load fonts by their name rather than by their filename (\eg,
@@ -214,7 +212,7 @@ This work consists of this file fontspec.dtx
 % however---\pkg{fontspec} ensures at least that fonts should load correctly,
 % but hyphenation and other matters aren't guaranteed. Under \XeTeX, the
 % \pkg{polyglossia} package is recommended instead as a modern replacement for
-% \pkg{babel}.
+% \pkg{babel}. For \LuaTeX, the situation is still unresolved.
 %
 %
 %
@@ -287,7 +285,7 @@ This work consists of this file fontspec.dtx
 %
 % \subsection{By font name}
 %
-% Fonts known to \LuaTeX\ or \XeTeX\ may be loaded by their names.
+% Fonts known to \LuaTeX\ or \XeTeX\ may be loaded by their standard names as you'd speak them out loud, such as \emph{Times New Roman} or \emph{Adobe Garamond}.
 % `Known to' in this case generally means `exists in a standard fonts location'
 % such as |~/Library/Fonts| on \MacOSX, or |C:\Windows\Fonts| on Windows.
 %
@@ -315,12 +313,12 @@ This work consists of this file fontspec.dtx
 % When selecting fonts by file name, any font that can be found in the default
 % search paths may be used directly (including in the current directory)
 % without having to explicitly define the location of the font file on disk.
-%
-% \paragraph{\XeTeX\ \& Mac users only:}
+% \begin{quote}\itshape
+% \textbf{\XeTeX\ \& Mac users only:}
 % Note that \XeTeX\ can only select fonts in this way with the |xdvipdfmx| driver, but \XeTeX\ with the |xdv2pdf| driver can only select system-installed fonts
 % by font name and not file name. The |xdvipdfmx| driver is default for \XeTeX, so this is only a problem if you wish to explicitly use
 % the |xdv2pdf| driver.
-%
+% \end{quote}
 % Fonts selected by filename must include bold and italic variants explicitly.
 % \begin{Verbatim}
 %   \fontspec
@@ -677,6 +675,51 @@ This work consists of this file fontspec.dtx
 %   0123456789
 % \end{Xexample}
 %
+% \cmdbox{\cmd\defaultfontfeatures \oarg{font name} \marg{font features}}
+%
+% \textbf{New in v2.3}.
+% Default font features can be specified on a per-font and per-face basis
+% by using the optional argument to \cs{defaultfontfeatures} as shown.\footnote{Internally, \meta{font name} has all spaces removed and is converted to lowercase.}
+% \begin{Verbatim}
+%   \defaultfontfeatures[TeX Gyre Adventor]{Color=blue}
+%   \setmainfont{TeX Gyre Adventor}% will be blue
+% \end{Verbatim}
+%
+% Additionally, when a font is first loaded, a configuration file is searched
+% for with the name `\meta{fontname}\texttt{.fontspec}'.\footnote{Located in the current folder or within a standard \texttt{texmf} location.}
+% The contents of this file can be used to specify default font features without
+% having to have this information present within each document.
+% \meta{fontname} is stripped of spaces and file extensions are omitted; for
+% example, the line above for \TeX\ Gyre Adventor could be placed in a file
+% called \texttt{TeXGyreAdventor.fontspec}, or for specifying options for
+% \texttt{texgyreadventor-regular.otf} (when loading by filename), the configuration
+% file would be \texttt{texgyreadventor-regular.fontspec}.
+%
+% This mechanism can be used to define custom names or aliases for your font collections.
+% If you create a file \texttt{my-charis.fontspec} containing, say,
+% \begin{Verbatim}
+%   \defaultfontfeatures[my-charis]
+%    {
+%     Extension = .ttf ,
+%     UprightFont = CharisSILR,
+%     BoldFont = CharisSILB,
+%     ItalicFont = CharisSILI,
+%     BoldItalicFont = CharisSILBI,
+%     % <any other desired options>
+%    }
+% \end{Verbatim}
+% you can load that family with \verb|\fontspec{my-charis}| and similar.
+% The optional argument to \cs{defaultfontfeatures} must match the filename
+% else the options won't take effect.
+%
+% Finally, note that options for font faces can also be defined in this way.
+% To continue the example above, here we colour the different faces:
+% \begin{Verbatim}
+%   \defaultfontfeatures[CharisSILR]{Color=blue}
+%   \defaultfontfeatures[CharisSILB]{Color=red}
+% \end{Verbatim}
+% And such configuration lines can be stored within their own \texttt{.fontspec} files; in this way, \pkg{fontspec} is designed to handle `nested' configuration options as well.
+%
 % \subsection{Changing the currently selected features}
 % \label{sec:addfontfeatures}
 %
@@ -686,8 +729,17 @@ This work consists of this file fontspec.dtx
 % be changed without knowing what features are currently selected or even what
 % font is being used. A good example of this could be to add a hook to all
 % tabular material to use monospaced numbers, as shown in \exref{aff}.
+% Note however that the behaviour in this regard will be unreliable (subject to the font itself) if you attempt to \emph{change} an already selected feature.
+% \Eg, this sort of thing can cause troubles:
+% \begin{Verbatim}
+% \addfontfeature{Numbers=OldStyle}...
+% \addfontfeature{Numbers=Lining}...
+% 123
+% \end{Verbatim}
+% With both features active, how will the font render `123'? Depends on the font.
+% In the distant future this functionality will be re-written to avoid this issue (giving `\verb|Numbers=OldStyle|' the smarts to know to explicitly de-activate any previous instances of `\verb|Numbers=Lining|', and vice-versa, but as I hope you can imagine this requires a fair degree of elbow grease which I haven't had available for some time now.
 %
-% \begin{Lexample}{aff}{A demonstration of the \cs{addfontfeatures} command.}
+% \begin{Lexample}{aff}{A demonstration of the \cs{addfontfeatures} command. Note the caveat listed in the text regarding such usage.}
 %   \fontspec[Numbers={Proportional,OldStyle}]
 %            {TeX Gyre Adventor}
 %   `In 1842, 999 people sailed 97 miles in
@@ -808,7 +860,7 @@ This work consists of this file fontspec.dtx
 % to declare the size range, and optionally \opt{Font} to change the
 % font based on size. Other (regular) fontspec features that are added
 % are used on top of the font features that would be used anyway.
-% A demonstration to hopefully clarify these details is shown in \exref{sizefeat}.
+% A demonstration to clarify these details is shown in \exref{sizefeat}.
 % A less trivial example is shown in the context of optical font sizes
 % in \vref{sec:opticalsize}.
 %
@@ -1969,6 +2021,12 @@ This work consists of this file fontspec.dtx
 % \section{\MacOSX's \AAT\ fonts}
 % \label{sec:aat-features}
 %
+% \begin{quote}\itshape
+% \textbf{Warning!}
+% \XeTeX's implementation on \MacOSX\ is currently in a state of flux and the information contained below may well be wrong from 2013 onwards.
+% There is a good chance that the features described in this section will not be available any more as \XeTeX's completes its transition to a cross-platform--only application.
+% \end{quote}
+%
 % \MacOSX's font technology began life before the ubiquitous-OpenType era
 % and revolved around the Apple-invented `\AAT' font format. This format
 % had some advantages (and other disadvantages) but it never became widely
@@ -2556,6 +2614,11 @@ This work consists of this file fontspec.dtx
 % engine we're running. As we'll see later, there are some minor differences
 % between what we have to do in \XeLaTeX\ and \LuaLaTeX.
 %
+% The \textsf{expl3} module is \texttt{fontspec}.
+%    \begin{macrocode}
+%<@@=fontspec>
+%    \end{macrocode}
+%
 %    \begin{macrocode}
 %<*fontspec&!xetexx&!luatex>
 %    \end{macrocode}
@@ -2571,21 +2634,24 @@ This work consists of this file fontspec.dtx
 %
 %    \begin{macrocode}
 \msg_new:nnn {fontspec} {cannot-use-pdftex}
-{
+ {
   The~ fontspec~ package~ requires~ either~ XeTeX~ or~ LuaTeX~ to~ function.
   \\\\
   You~ must~ change~ your~ typesetting~ engine~ to,~
     e.g.,~ "xelatex"~ or~ "lualatex"\\
   instead~ of~ plain~ "latex"~ or~ "pdflatex".
-}
-\xetex_if_engine:F {
-  \luatex_if_engine:TF {
+ }
+\xetex_if_engine:F
+ {
+  \luatex_if_engine:TF
+   {
     \RequirePackage{luaotfload}[2011/10/06]
     \RequireLuaModule{fontspec}
-  }{
+   }
+   {
     \msg_fatal:nn {fontspec} {cannot-use-pdftex}
-  }
-}
+   }
+ }
 %    \end{macrocode}
 %
 %
@@ -2680,200 +2746,201 @@ This work consists of this file fontspec.dtx
 % Errors:
 %    \begin{macrocode}
 \msg_new:nnn {fontspec} {no-size-info}
-{
+ {
   Size~ information~ must~ be~ supplied.\\
   For~ example,~ SizeFeatures={Size={8-12},...}.
-}
+ }
 \msg_new:nnnn {fontspec} {font-not-found}
-{
+ {
   The~ font~ "#1"~ cannot~ be~ found.
-}
-{
+ }
+ {
   A~font~might~not~be~found~for~many~reasons.\\
   Check~the~spelling,~where~the~font~is~installed~etc.~etc.\\\\
   When~in~doubt,~ask~someone~for~help!
-}
+ }
 \msg_new:nnnn {fontspec} {rename-feature-not-exist}
-{
+ {
   The~ feature~ #1~ doesn't~ appear~ to~ be~ defined.
-}
-{
+ }
+ {
   It~ looks~ like~ you're~ trying~ to~ rename~ a~ feature~ that~ doesn't~ exist.
-}
+ }
 \msg_new:nnn {fontspec} {no-glyph}
-{
+ {
   '\l_fontspec_fontname_tl'~ does~ not~ contain~ glyph~ #1.
-}
+ }
 \msg_new:nnnn {fontspec} {euler-too-late}
-{
+ {
   The~ euler~ package~ must~ be~ loaded~ BEFORE~ fontspec.
-}
-{
+ }
+ {
   fontspec~ only~ overwrites~ euler's~ attempt~ to~
   define~ the~ maths~ text~ fonts~ if~ fontspec~ is~
   loaded~ after~ euler.~ Type~ <return>~ to~ proceed~
   with~ incorrect~ \string\mathit,~ \string\mathbf,~ etc.
-}
+ }
 \msg_new:nnnn {fontspec} {no-xcolor}
-{
+ {
   Cannot~ load~ named~ colours~ without~ the~ xcolor~ package.
-}
-{
+ }
+ {
   Sorry,~ I~ can't~ do~ anything~ to~ help.~ Instead~ of~ loading~
   the~ color~ package,~ use~ xcolor~ instead.~ It's~ better.
-}
+ }
 \msg_new:nnnn {fontspec} {unknown-color-model}
-{
+ {
   Error~ loading~ colour~ `#1';~ unknown~ colour~ model.
-}
-{
+ }
+ {
   Sorry,~ I~ can't~ do~ anything~ to~ help.~ Please~ report~ this~ error~
   to~ my~ developer~ with~ a~ minimal~ example~ that~ causes~ the~ problem.
-}
+ }
 %    \end{macrocode}
 % Warnings:
 %    \begin{macrocode}
 \msg_new:nnn {fontspec} {addfontfeatures-ignored}
-{
+ {
   \string\addfontfeature (s)~ ignored;~
   it~ cannot~ be~ used~ with~ a~ font~ that~ wasn't~ selected~ by~ fontspec.
-}
+ }
 \msg_new:nnn {fontspec} {feature-option-overwrite}
-{
+ {
   Option~ '#2'~ of~ font~ feature~ '#1'~ overwritten.
-}
+ }
 \msg_new:nnn {fontspec} {script-not-exist-latn}
-{
+ {
   Font~ '\l_fontspec_fontname_tl'~ does~ not~ contain~ script~ '#1'.\\
   'Latin'~ script~ used~ instead.
-}
+ }
 \msg_new:nnn {fontspec} {script-not-exist}
-{
+ {
   Font~ '\l_fontspec_fontname_tl'~ does~ not~ contain~ script~ '#1'.
-}
+ }
 \msg_new:nnn {fontspec} {aat-feature-not-exist}
-{
+ {
   '\l_keys_key_tl=\l_keys_value_tl'~ feature~ not~ supported~
   for~ AAT~ font~ '\l_fontspec_fontname_tl'.
-}
+ }
 \msg_new:nnn {fontspec} {aat-feature-not-exist-in-font}
-{
+ {
   AAT~ feature~ '\l_keys_key_tl=\l_keys_value_tl'~ (#1)~ not~ available~
   in~ font~ '\l_fontspec_fontname_tl'.
-}
+ }
 \msg_new:nnn {fontspec} {icu-feature-not-exist}
-{
+ {
   '\l_keys_key_tl=\l_keys_value_tl'~ feature~ not~ supported~
   for~ ICU~ font~ '\l_fontspec_fontname_tl'
-}
+ }
 \msg_new:nnn {fontspec} {icu-feature-not-exist-in-font}
-{
+ {
   OpenType~ feature~ '\l_keys_key_tl=\l_keys_value_tl'~ (#1)~ not~ available~
   for~ font~ '\l_fontspec_fontname_tl'~
   with~ script~ '\l_fontspec_script_name_tl'~ and~ language~ '\l_fontspec_lang_name_tl'.
-}
+ }
 \msg_new:nnn {fontspec} {no-opticals}
-{
+ {
   '\l_fontspec_fontname_tl'~ doesn't~ appear~ to~ have~ an~ Optical~ Size~ axis.
-}
+ }
 \msg_new:nnn {fontspec} {language-not-exist}
-{
+ {
   Language~ '#1'~ not~ available~
   for~ font~ '\l_fontspec_fontname_tl'~
   with~ script~ '\l_fontspec_script_name_tl'.\\
   'Default'~ language~ used~ instead.
-}
+ }
 \msg_new:nnn {fontspec} {only-xetex-feature}
-{
+ {
   Ignored~ XeTeX~ only~ feature:~ '#1'.
-}
+ }
 \msg_new:nnn {fontspec} {only-luatex-feature}
-{
+ {
   Ignored~ LuaTeX~ only~ feature:~ '#1'.
-}
+ }
 \msg_new:nnn {fontspec} {no-mapping}
-{
+ {
   Input~ mapping~ not~ (yet?)~ supported~ in~ LuaTeX.
-}
+ }
 \msg_new:nnn {fontspec} {no-mapping-ligtex}
-{
+ {
   Input~ mapping~ not~ (yet?)~ supported~ in~ LuaTeX.\\
   Use~ "Ligatures=TeX"~ instead~ of~ "Mapping=tex-text".
-}
+ }
 \msg_new:nnn {fontspec} {cm-default-obsolete}
-{
+ {
   The~ "cm-default"~ package~ option~ is~ obsolete.
-}
+ }
 \msg_new:nnn {fontspec} {fakebold-only-xetex}
-{
+ {
   The~ "FakeBold"~ and~ "AutoFakeBold"~ options~ are~ only~ available~ with~ XeLaTeX.\\
   Option~ ignored.
-}
+ }
 %    \end{macrocode}
 % Info messages:
 %    \begin{macrocode}
 \msg_new:nnn {fontspec} {defining-font}
-{
+ {
   Font~ family~'\l_fontspec_family_tl'~ created~ for~ font~ '#2'~
   with~ options~ [\g_fontspec_default_fontopts_tl #1].\\
   \\
   This~ font~ family~ consists~ of~ the~ following~ shapes:
   \l_fontspec_defined_shapes_tl
-}
+ }
 \msg_new:nnn {fontspec} {no-font-shape}
-{
+ {
   Could~ not~ resolve~ font~ #1~ (it~ probably~ doesn't~ exist).
-}
+ }
 \msg_new:nnn {fontspec} {set-scale}
-{
+ {
   \l_fontspec_fontname_tl\space scale ~=~ \l_fontspec_scale_tl.
-}
+ }
 \msg_new:nnn {fontspec} {setup-math}
-{
+ {
   Adjusting~ the~ maths~ setup~ (use~ [no-math]~ to~ avoid~ this).
-}
+ }
 \msg_new:nnn {fontspec} {no-scripts}
-{
+ {
   Font~ \l_fontspec_fontname_tl\space does~ not~ contain~ any~ OpenType~ `Script'~ information.
-}
+ }
 \msg_new:nnn {fontspec} {opa-twice}
-{
+ {
   Opacity~ set~ twice,~ in~ both~ Colour~ and~ Opacity.\\
   Using~ specification~ "Opacity=#1".
-}
+ }
 \msg_new:nnn {fontspec} {opa-twice-col}
-{
+ {
   Opacity~ set~ twice,~ in~ both~ Opacity~ and~ Colour.\\
   Using~ an~ opacity~ specification~ in~ hex~ of~ "#1/FF".
-}
+ }
 \msg_new:nnn {fontspec} {bad-colour}
-{
+ {
   Bad~ colour~ declaration~ "#1".~
   Colour~ must~ be~ one~ of:\\
   *~ a~ named~ xcolor~ colour\\
   *~ a~ six-digit~ hex~ colour~ RRGGBB\\
   *~ an~ eight-digit~ hex~ colour~ RRGGBBTT~ with~ opacity
-}
+ }
 %    \end{macrocode}
 %
 % \subsection{Option processing}
 %
 %    \begin{macrocode}
-\DeclareOption{cm-default}{
-  \fontspec_warning:n {cm-default-obsolete}
-}
+\DeclareOption{cm-default}
+ { \fontspec_warning:n {cm-default-obsolete} }
 \DeclareOption{math}{\bool_set_true:N \g_fontspec_math_bool}
 \DeclareOption{no-math}{\bool_set_false:N \g_fontspec_math_bool}
 \DeclareOption{config}{\bool_set_true:N \g_fontspec_cfg_bool}
 \DeclareOption{no-config}{\bool_set_false:N \g_fontspec_cfg_bool}
-\DeclareOption{quiet}{
+\DeclareOption{quiet}
+ {
   \msg_redirect_module:nnn { fontspec } { warning } { info }
   \msg_redirect_module:nnn { fontspec } { info } { none }
-}
-\DeclareOption{silent}{
+ }
+\DeclareOption{silent}
+ {
   \msg_redirect_module:nnn { fontspec } { warning } { none }
   \msg_redirect_module:nnn { fontspec } { info } { none }
-}
+ }
 \ExecuteOptions{config,math}
 \ProcessOptions*
 %    \end{macrocode}
@@ -2922,10 +2989,11 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \tl_set_eq:NN \cyrillicencoding \g_fontspec_encoding_tl
 \tl_set_eq:NN \latinencoding    \g_fontspec_encoding_tl
-\tl_put_right:Nn \document {
+\tl_put_right:Nn \document
+ {
   \tl_set_eq:NN \cyrillicencoding \g_fontspec_encoding_tl
   \tl_set_eq:NN \latinencoding    \g_fontspec_encoding_tl
-}
+ }
 %    \end{macrocode}
 % That latin encoding definition is repeated to suppress font warnings.
 % Something to do with \cmd\select@language\ ending up in the \texttt{.aux}
@@ -2958,12 +3026,13 @@ This work consists of this file fontspec.dtx
 %   font name and the optional requested features of that
 %   font. Then this new font family is selected.
 %    \begin{macrocode}
-\DeclareDocumentCommand \fontspec { O{} m } {
+\DeclareDocumentCommand \fontspec { O{} m }
+ {
   \fontencoding {\g_fontspec_encoding_tl}
   \fontspec_set_family:Nnn \f@family {#1}{#2}
   \selectfont
   \ignorespaces
-}
+ }
 %    \end{macrocode}
 % \end{macro}
 %
@@ -2976,18 +3045,21 @@ This work consists of this file fontspec.dtx
 %     (monospaced). I end them with |\normalfont| so that if they're
 %     used in the document, the change registers immediately.
 %    \begin{macrocode}
-\DeclareDocumentCommand \setmainfont { O{} m } {
+\DeclareDocumentCommand \setmainfont { O{} m }
+ {
   \fontspec_set_family:Nnn \rmdefault {#1}{#2}
   \normalfont
-}
-\DeclareDocumentCommand \setsansfont { O{} m } {
+ }
+\DeclareDocumentCommand \setsansfont { O{} m }
+ {
   \fontspec_set_family:Nnn \sfdefault {#1}{#2}
   \normalfont
-}
-\DeclareDocumentCommand \setmonofont { O{} m } {
+ }
+\DeclareDocumentCommand \setmonofont { O{} m }
+ {
   \fontspec_set_family:Nnn \ttdefault {#1}{#2}
   \normalfont
-}
+ }
 %    \end{macrocode}
 % \end{macro} \end{macro} \end{macro}
 %
@@ -3015,18 +3087,22 @@ This work consists of this file fontspec.dtx
 \tl_new:N \g_fontspec_bfmathrm_tl
 \tl_new:N \g_fontspec_mathsf_tl
 \tl_new:N \g_fontspec_mathtt_tl
-\DeclareDocumentCommand \setmathrm { O{} m } {
+\DeclareDocumentCommand \setmathrm { O{} m }
+ {
   \fontspec_set_family:Nnn \g_fontspec_mathrm_tl {#1}{#2}
-}
-\DeclareDocumentCommand \setboldmathrm { O{} m } {
+ }
+\DeclareDocumentCommand \setboldmathrm { O{} m }
+ {
   \fontspec_set_family:Nnn \g_fontspec_bfmathrm_tl {#1}{#2}
-}
-\DeclareDocumentCommand \setmathsf { O{} m } {
+ }
+\DeclareDocumentCommand \setmathsf { O{} m }
+ {
   \fontspec_set_family:Nnn \g_fontspec_mathsf_tl {#1}{#2}
-}
-\DeclareDocumentCommand \setmathtt { O{} m } {
+ }
+\DeclareDocumentCommand \setmathtt { O{} m }
+ {
   \fontspec_set_family:Nnn \g_fontspec_mathtt_tl {#1}{#2}
-}
+ }
 \@onlypreamble\setmathrm
 \@onlypreamble\setboldmathrm
 \@onlypreamble\setmathsf
@@ -3056,23 +3132,27 @@ This work consists of this file fontspec.dtx
 %   \cs{l_fontspec_family_tl}. This family is then used in a typical NFSS \cmd\fontfamily\
 %   declaration, saved in the macro name specified.
 %    \begin{macrocode}
-\DeclareDocumentCommand \newfontfamily { m O{} m } {
+\DeclareDocumentCommand \newfontfamily { m O{} m }
+ {
   \fontspec_select:nn{#2}{#3}
-  \use:x {
-    \exp_not:N \DeclareRobustCommand \exp_not:N #1 {
+  \use:x
+   {
+    \exp_not:N \DeclareRobustCommand \exp_not:N #1
+     {
       \exp_not:N \fontencoding {\g_fontspec_encoding_tl}
       \exp_not:N \fontfamily {\l_fontspec_family_tl} \exp_not:N \selectfont
-    }
-  }
-}
+     }
+   }
+ }
 %    \end{macrocode}
 % \cmd\newfontface\ uses an undocumented feature of the \feat{BoldFont}
 % feature; if its argument is empty (\ie, |BoldFont={}|), then no bold
 % font is searched for.
 %    \begin{macrocode}
-\DeclareDocumentCommand \newfontface { m O{} m } {
+\DeclareDocumentCommand \newfontface { m O{} m }
+ {
   \newfontfamily #1 [ BoldFont={},ItalicFont={},SmallCapsFont={},#2 ] {#3}
-}
+ }
 %    \end{macrocode}
 % \end{macro} \end{macro}
 %
@@ -3087,9 +3167,38 @@ This work consists of this file fontspec.dtx
 %   [...] macro.
 %    \begin{macrocode}
 \tl_new:N \g_fontspec_default_fontopts_tl
-\DeclareDocumentCommand \defaultfontfeatures {m} {
+\prop_new:N \g_@@_fontopts_prop
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+\DeclareDocumentCommand \defaultfontfeatures { o m }
+ {
+  \IfNoValueTF {#1}
+   { \@@_set_default_features:n {#2} }
+   { \@@_set_font_default_features:nn {#1} {#2} }
+ }
+\cs_new:Nn \@@_set_default_features:n
+ {
   \tl_set:Nn \g_fontspec_default_fontopts_tl {#1,}
-}
+ }
+%    \end{macrocode}
+% The optional argument specifies a font identifier.
+% Strip spaces and file extensions and lower-case to ensure consistency.
+%    \begin{macrocode}
+\cs_new:Nn \@@_set_font_default_features:nn
+ {
+  \@@_sanitise_fontname:Nn \l_@@_tmp_tl {#1}
+  \tl_if_empty:nTF {#2}
+   { \prop_gremove:NV \g_@@_fontopts_prop \l_@@_tmp_tl }
+   { \prop_gput:NVn   \g_@@_fontopts_prop \l_@@_tmp_tl {#2} }
+ }
+\cs_new:Nn \@@_sanitise_fontname:Nn
+ {
+  \use:x { \tl_to_lowercase:n { \tl_set:Nx \exp_not:N #1 {#2} } }
+  \tl_remove_all:Nn #1 {~}
+  \clist_map_inline:Nn \l_fontspec_extensions_clist
+   { \tl_remove_once:Nn #1 {##1} }
+ }
 %    \end{macrocode}
 % \end{macro}
 %
@@ -3115,22 +3224,24 @@ This work consists of this file fontspec.dtx
 %   \cs{addfontfeature} is defined as an alias, as I found that I
 %   often typed this instead when adding only a single font feature.
 %    \begin{macrocode}
-\DeclareDocumentCommand \addfontfeatures {m} {
+\DeclareDocumentCommand \addfontfeatures {m}
+ {
   \ifcsname zf@family@fontdef\f@family\endcsname
     \group_begin:
       \tl_clear:N \g_fontspec_default_fontopts_tl
-      \use:x {
+      \use:x
+       {
         \exp_not:N\fontspec_select:nn
           {\csname zf@family@options\f@family\endcsname,#1}
           {\csname zf@family@fontname\f@family\endcsname}
-      }
+       }
     \group_end:
     \fontfamily\l_fontspec_family_tl\selectfont
   \else
     \fontspec_warning:n {addfontfeatures-ignored}
   \fi
   \ignorespaces
-}
+ }
 \cs_set_eq:NN \addfontfeature \addfontfeatures
 %    \end{macrocode}
 % \end{macro}
@@ -3144,15 +3255,16 @@ This work consists of this file fontspec.dtx
 %   select the font feature.
 %    \begin{macrocode}
 \DeclareDocumentCommand \newfontfeature {mm}
-  {
-    \keys_define:nn { fontspec }
-      {
-        #1 .code:n = {
-          \fontspec_update_fontid:n  {+zf-#1}
-          \fontspec_update_featstr:n {#2}
-        }
-      }
-  }
+ {
+  \keys_define:nn { fontspec }
+   {
+    #1 .code:n =
+     {
+      \fontspec_update_fontid:n  {+zf-#1}
+      \fontspec_update_featstr:n {#2}
+     }
+   }
+ }
 %    \end{macrocode}
 % \end{macro}
 %
@@ -3162,13 +3274,14 @@ This work consists of this file fontspec.dtx
 % Better than \cmd\newfontfeature\ because it checks if the feature exists in the
 % font it's being used for.
 %    \begin{macrocode}
-\DeclareDocumentCommand \newAATfeature {mmmm} {
+\DeclareDocumentCommand \newAATfeature {mmmm}
+ {
   \keys_if_exist:nnF { fontspec } {#1}
     { \fontspec_define_font_feature:n {#1} }
   \keys_if_choice_exist:nnnT {fontspec} {#1} {#2}
     { \fontspec_warning:nxx {feature-option-overwrite}{#1}{#2} }
   \fontspec_define_feature_option:nnnnn{#1}{#2}{#3}{#4}{}
-}
+ }
 %    \end{macrocode}
 % \end{macro}
 %
@@ -3178,13 +3291,14 @@ This work consists of this file fontspec.dtx
 % Better than \cmd\newfontfeature\ because it checks if the feature exists in the
 % font it's being used for.
 %    \begin{macrocode}
-\DeclareDocumentCommand \newICUfeature {mmm} {
+\DeclareDocumentCommand \newICUfeature {mmm}
+ {
   \keys_if_exist:nnF { fontspec / options } {#1}
     { \fontspec_define_font_feature:n{#1} }
   \keys_if_choice_exist:nnnT {fontspec} {#1} {#2}
     { \fontspec_warning:nxx {feature-option-overwrite}{#1}{#2} }
   \fontspec_define_feature_option:nnnnn{#1}{#2}{}{}{#3}
-}
+ }
 \cs_set_eq:NN \newopentypefeature \newICUfeature
 %    \end{macrocode}
 % \end{macro}
@@ -3196,36 +3310,35 @@ This work consists of this file fontspec.dtx
 % User commands for renaming font features and font feature options.
 %    \begin{macrocode}
 \DeclareDocumentCommand \aliasfontfeature {mm}
-  {
-    \keys_if_exist:nnTF {fontspec} {#1}
+ {
+  \keys_if_exist:nnTF {fontspec} {#1}
+    {
+     \keys_define:nn {fontspec}
+      { #2 .code:n = { \keys_set:nn {fontspec} { #1 = {##1} } } }
+    }
+    {
+     \keys_if_exist:nnTF {fontspec-preparse} {#1}
       {
-        \keys_define:nn {fontspec}
-          { #2 .code:n = { \keys_set:nn {fontspec} { #1 = {##1} } } }
+       \keys_define:nn {fontspec-preparse}
+        { #2 .code:n = { \keys_set:nn {fontspec-preparse} { #1 = {##1} } } }
       }
       {
-    \keys_if_exist:nnTF {fontspec-preparse} {#1}
-      {
-        \keys_define:nn {fontspec-preparse}
-          { #2 .code:n = { \keys_set:nn {fontspec-preparse} { #1 = {##1} } } }
-      }
-      {
-    \keys_if_exist:nnTF {fontspec-preparse-external} {#1}
-      {
-        \keys_define:nn {fontspec-preparse-external}
+       \keys_if_exist:nnTF {fontspec-preparse-external} {#1}
+        {
+         \keys_define:nn {fontspec-preparse-external}
           {
-            #2 .code:n =
-              { \keys_set:nn {fontspec-preparse-external} { #1 = {##1} } }
+           #2 .code:n =
+            { \keys_set:nn {fontspec-preparse-external} { #1 = {##1} } }
           }
+        }
+        {
+         \fontspec_warning:nx {rename-feature-not-exist} {#1}
+        }
       }
-      { \fontspec_warning:nx {rename-feature-not-exist} {#1} }
-      }
-      }
-  }
+    }
+ }
 \DeclareDocumentCommand \aliasfontfeatureoption {mmm}
-  {
-    \cs_set_eq:cc { \c_keys_code_root_tl fontspec/#1/#3 }
-                  { \c_keys_code_root_tl fontspec/#1/#2 }
-  }
+  { \keys_define:nn { fontspec / #1 } { #3 .meta:n = {#2} } }
 %    \end{macrocode}
 % \end{macro} \end{macro}
 %
@@ -3237,31 +3350,35 @@ This work consists of this file fontspec.dtx
 % script selection tag.
 %    \begin{macrocode}
 \DeclareDocumentCommand \newfontscript {mm}
-{
+ {
   \fontspec_new_script:nn {#1} {#2}
   \fontspec_new_script:nn {#2} {#2}
-}
+ }
 %    \end{macrocode}
 %
 %    \begin{macrocode}
 \keys_define:nn { fontspec } { Script .choice: }
 \cs_new:Nn \fontspec_new_script:nn
-{
+ {
   \keys_define:nn { fontspec } { Script / #1 .code:n =
-    \fontspec_check_script:nTF {#2} {
+    \fontspec_check_script:nTF {#2}
+     {
       \fontspec_update_fontid:n {+script=#1}
       \tl_set:Nn \l_fontspec_script_tl {#2}
       \int_set:Nn \l_fontspec_script_int {\l_fontspec_strnum_int}
-    }{
-      \fontspec_check_script:nTF {latn} {
+     }
+     {
+      \fontspec_check_script:nTF {latn}
+       {
         \fontspec_warning:nx {script-not-exist-latn} {#1}
         \keys_set:nn {fontspec} {Script=Latin}
-      }{
+       }
+       {
         \fontspec_warning:nx {script-not-exist} {#1}
-      }
-    }
-  }
-}
+       }
+     }
+   }
+ }
 %    \end{macrocode}
 % \end{macro}
 %
@@ -3273,27 +3390,29 @@ This work consists of this file fontspec.dtx
 % language selection tag.
 %    \begin{macrocode}
 \DeclareDocumentCommand \newfontlanguage {mm}
-{
+ {
   \fontspec_new_lang:nn {#1} {#2}
   \fontspec_new_lang:nn {#2} {#2}
-}
+ }
 %    \end{macrocode}
 %
 %    \begin{macrocode}
 \keys_define:nn { fontspec } { Language .choice: }
 \cs_new:Nn \fontspec_new_lang:nn
-{
+ {
   \keys_define:nn { fontspec } { Language / #1 .code:n =
-    \fontspec_check_lang:nTF {#2} {
+    \fontspec_check_lang:nTF {#2}
+     {
       \fontspec_update_fontid:n {+lang=#1}
       \tl_set:Nn \l_fontspec_lang_tl {#2}
       \int_set:Nn \l_fontspec_language_int {\l_fontspec_strnum_int}
-    }{
+     }
+     {
       \fontspec_warning:nx {language-not-exist} {#1}
       \keys_set:nn { fontspec } { Language = Default }
-    }
+     }
   }
-}
+ }
 %    \end{macrocode}
 % \end{macro}
 %
@@ -3302,10 +3421,10 @@ This work consists of this file fontspec.dtx
 % \texttt{dfont} would never be uppercase, right?
 %    \begin{macrocode}
 \DeclareDocumentCommand \DeclareFontsExtensions {m}
-{
+ {
   \tl_set:Nn \l_fontspec_extensions_clist { #1 }
   \tl_remove_all:Nn \l_fontspec_extensions_clist {~}
-}
+ }
 \DeclareFontsExtensions{.otf,.ttf,.OTF,.TTF,.ttc,.TTC,.dfont}
 %    \end{macrocode}
 % \end{macro}
@@ -3328,13 +3447,10 @@ This work consists of this file fontspec.dtx
 % \begin{macro}{\fontspec_if_fontspec_font:TF}
 % Test whether the currently selected font has been loaded by fontspec.
 %    \begin{macrocode}
-\prg_new_conditional:Nnn \fontspec_if_fontspec_font: {TF,T,F} {
-  \cs_if_exist:cTF {g_fontspec_ \f@family _prop} {
-    \prg_return_true:
-  }{
-    \prg_return_false:
-  }
-}
+\prg_new_conditional:Nnn \fontspec_if_fontspec_font: {TF,T,F}
+ {
+  \cs_if_exist:cTF {g_fontspec_ \f@family _prop} \prg_return_true: \prg_return_false:
+ }
 %    \end{macrocode}
 % \end{macro}
 %
@@ -3343,19 +3459,24 @@ This work consists of this file fontspec.dtx
 % Conditional to test if the currently selected font contains the \AAT\
 % feature (|#1|,|#2|).
 %    \begin{macrocode}
-\prg_new_conditional:Nnn \fontspec_if_aat_feature:nn {TF,T,F} {
-  \fontspec_if_fontspec_font:TF {
+\prg_new_conditional:Nnn \fontspec_if_aat_feature:nn {TF,T,F}
+ {
+  \fontspec_if_fontspec_font:TF
+   {
     \fontspec_font_set:Nnn \l_fontspec_font {\use:c{zf@family@fontdef\f@family}} {\f@size pt}
-    \bool_if:NTF \l_fontspec_atsui_bool {
+    \bool_if:NTF \l_fontspec_atsui_bool
+     {
       \fontspec_make_AAT_feature_string:nnTF {#1}{#2}
         \prg_return_true: \prg_return_false:
-    }{
+     }
+     {
       \prg_return_false:
-    }
-  }{
+     }
+   }
+   {
     \prg_return_false:
-  }
-}
+   }
+ }
 %    \end{macrocode}
 % \end{macro}
 %
@@ -3364,15 +3485,18 @@ This work consists of this file fontspec.dtx
 % Test whether the currently selected font is an OpenType font.
 % Always true for LuaTeX fonts.
 %    \begin{macrocode}
-\prg_new_conditional:Nnn \fontspec_if_opentype: {TF,T,F} {
-  \fontspec_if_fontspec_font:TF {
+\prg_new_conditional:Nnn \fontspec_if_opentype: {TF,T,F}
+ {
+  \fontspec_if_fontspec_font:TF
+   {
     \fontspec_font_set:Nnn \l_fontspec_font {\csname zf@family@fontdef\f@family\endcsname} {\f@size pt}
     \fontspec_set_font_type:
     \bool_if:NTF \l_fontspec_icu_bool \prg_return_true: \prg_return_false:
-  }{
+   }
+   {
     \prg_return_false:
-  }
-}
+   }
+ }
 %    \end{macrocode}
 % \end{macro}
 %
@@ -3382,23 +3506,28 @@ This work consists of this file fontspec.dtx
 % Returns false if the font is not loaded by fontspec or is not an OpenType
 % font.
 %    \begin{macrocode}
-\prg_new_conditional:Nnn \fontspec_if_feature:n {TF,T,F} {
-  \fontspec_if_fontspec_font:TF {
+\prg_new_conditional:Nnn \fontspec_if_feature:n {TF,T,F}
+ {
+  \fontspec_if_fontspec_font:TF
+   {
     \fontspec_font_set:Nnn \l_fontspec_font {\csname zf@family@fontdef\f@family\endcsname} {\f@size pt}
     \fontspec_set_font_type:
-    \bool_if:NTF \l_fontspec_icu_bool {
+    \bool_if:NTF \l_fontspec_icu_bool
+     {
       \int_set:Nv \l_fontspec_script_int {g_fontspec_script_num_(\f@family)_tl}
       \int_set:Nv \l_fontspec_language_int {g_fontspec_lang_num_(\f@family)_tl}
       \tl_set:Nv \l_fontspec_script_tl {g_fontspec_script_(\f@family)_tl}
       \tl_set:Nv \l_fontspec_lang_tl   {g_fontspec_lang_(\f@family)_tl}
       \fontspec_check_ot_feat:nTF {#1} {\prg_return_true:} {\prg_return_false:}
-    }{
+     }
+     {
       \prg_return_false:
-    }
-  }{
+     }
+   }
+   {
     \prg_return_false:
-  }
-}
+   }
+ }
 %    \end{macrocode}
 % \end{macro}
 %
@@ -3407,21 +3536,22 @@ This work consists of this file fontspec.dtx
 % Returns false if the font is not loaded by fontspec or is not an OpenType
 % font.
 %    \begin{macrocode}
-\prg_new_conditional:Nnn \fontspec_if_feature:nnn {TF,T,F} {
-  \fontspec_if_fontspec_font:TF {
+\prg_new_conditional:Nnn \fontspec_if_feature:nnn {TF,T,F}
+ {
+  \fontspec_if_fontspec_font:TF
+   {
     \fontspec_font_set:Nnn \l_fontspec_font {\csname zf@family@fontdef\f@family\endcsname} {\f@size pt}
     \fontspec_set_font_type:
-    \bool_if:NTF \l_fontspec_icu_bool {
+    \bool_if:NTF \l_fontspec_icu_bool
+     {
       \fontspec_iv_str_to_num:Nn \l_fontspec_script_int {#1}
       \fontspec_iv_str_to_num:Nn \l_fontspec_language_int {#2}
       \fontspec_check_ot_feat:nTF {#3} \prg_return_true: \prg_return_false:
-    }{
-      \prg_return_false:
-    }
-  }{
-    \prg_return_false:
-  }
-}
+     }
+     { \prg_return_false: }
+   }
+   { \prg_return_false: }
+ }
 %    \end{macrocode}
 % \end{macro}
 %
@@ -3431,19 +3561,20 @@ This work consists of this file fontspec.dtx
 % Returns false if the font is not loaded by fontspec or is not an OpenType
 % font.
 %    \begin{macrocode}
-\prg_new_conditional:Nnn \fontspec_if_script:n {TF,T,F} {
-  \fontspec_if_fontspec_font:TF {
+\prg_new_conditional:Nnn \fontspec_if_script:n {TF,T,F}
+ {
+  \fontspec_if_fontspec_font:TF
+   {
     \fontspec_font_set:Nnn \l_fontspec_font {\csname zf@family@fontdef\f@family\endcsname} {\f@size pt}
     \fontspec_set_font_type:
-    \bool_if:NTF \l_fontspec_icu_bool {
+    \bool_if:NTF \l_fontspec_icu_bool
+     {
       \fontspec_check_script:nTF {#1} \prg_return_true: \prg_return_false:
-    }{
-      \prg_return_false:
-    }
-  }{
-    \prg_return_false:
-  }
-}
+     }
+     { \prg_return_false: }
+   }
+   { \prg_return_false: }
+ }
 %    \end{macrocode}
 % \end{macro}
 %
@@ -3453,21 +3584,22 @@ This work consists of this file fontspec.dtx
 % Returns false if the font is not loaded by fontspec or is not an OpenType
 % font.
 %    \begin{macrocode}
-\prg_new_conditional:Nnn \fontspec_if_language:n {TF,T,F} {
-  \fontspec_if_fontspec_font:TF {
+\prg_new_conditional:Nnn \fontspec_if_language:n {TF,T,F}
+ {
+  \fontspec_if_fontspec_font:TF
+   {
     \fontspec_font_set:Nnn \l_fontspec_font {\csname zf@family@fontdef\f@family\endcsname} {\f@size pt}
     \fontspec_set_font_type:
-    \bool_if:NTF \l_fontspec_icu_bool {
+    \bool_if:NTF \l_fontspec_icu_bool
+     {
       \tl_set:Nv \l_fontspec_script_tl {g_fontspec_script_(\f@family)_tl}
       \int_set:Nv \l_fontspec_script_int {g_fontspec_script_num_(\f@family)_tl}
       \fontspec_check_lang:nTF {#1} \prg_return_true: \prg_return_false:
-    }{
-      \prg_return_false:
-    }
-  }{
-    \prg_return_false:
-  }
-}
+     }
+     { \prg_return_false: }
+   }
+   { \prg_return_false: }
+ }
 %    \end{macrocode}
 % \end{macro}
 %
@@ -3477,21 +3609,22 @@ This work consists of this file fontspec.dtx
 % Returns false if the font is not loaded by fontspec or is not an OpenType
 % font.
 %    \begin{macrocode}
-\prg_new_conditional:Nnn \fontspec_if_language:nn {TF,T,F} {
-  \fontspec_if_fontspec_font:TF {
+\prg_new_conditional:Nnn \fontspec_if_language:nn {TF,T,F}
+ {
+  \fontspec_if_fontspec_font:TF
+   {
     \fontspec_font_set:Nnn \l_fontspec_font {\csname zf@family@fontdef\f@family\endcsname} {\f@size pt}
     \fontspec_set_font_type:
-    \bool_if:NTF \l_fontspec_icu_bool {
+    \bool_if:NTF \l_fontspec_icu_bool
+     {
       \tl_set:Nn \l_fontspec_script_tl {#1}
       \fontspec_iv_str_to_num:Nn \l_fontspec_script_int {#1}
       \fontspec_check_lang:nTF {#2} \prg_return_true: \prg_return_false:
-    }{
-      \prg_return_false:
-    }
-  }{
-    \prg_return_false:
-  }
-}
+     }
+     { \prg_return_false: }
+   }
+   { \prg_return_false: }
+ }
 %    \end{macrocode}
 % \end{macro}
 %
@@ -3500,20 +3633,21 @@ This work consists of this file fontspec.dtx
 % Test whether the currently loaded font is using the specified raw
 % OpenType script tag |#1|.
 %    \begin{macrocode}
-\prg_new_conditional:Nnn \fontspec_if_current_script:n {TF,T,F} {
-  \fontspec_if_fontspec_font:TF {
+\prg_new_conditional:Nnn \fontspec_if_current_script:n {TF,T,F}
+ {
+  \fontspec_if_fontspec_font:TF
+   {
     \fontspec_font_set:Nnn \l_fontspec_font {\csname zf@family@fontdef\f@family\endcsname} {\f@size pt}
     \fontspec_set_font_type:
-    \bool_if:NTF \l_fontspec_icu_bool {
+    \bool_if:NTF \l_fontspec_icu_bool
+     {
       \str_if_eq:nvTF {#1} {g_fontspec_script_(\f@family)_tl}
         {\prg_return_true:} {\prg_return_false:}
-    }{
-      \prg_return_false:
-    }
-  }{
-    \prg_return_false:
-  }
-}
+     }
+     { \prg_return_false: }
+   }
+   { \prg_return_false: }
+ }
 %    \end{macrocode}
 % \end{macro}
 %
@@ -3521,20 +3655,21 @@ This work consists of this file fontspec.dtx
 % Test whether the currently loaded font is using the specified raw
 % OpenType language tag |#1|.
 %    \begin{macrocode}
-\prg_new_conditional:Nnn \fontspec_if_current_language:n {TF,T,F} {
-  \fontspec_if_fontspec_font:TF {
+\prg_new_conditional:Nnn \fontspec_if_current_language:n {TF,T,F}
+ {
+  \fontspec_if_fontspec_font:TF
+   {
     \fontspec_font_set:Nnn \l_fontspec_font {\csname zf@family@fontdef\f@family\endcsname} {\f@size pt}
     \fontspec_set_font_type:
-    \bool_if:NTF \l_fontspec_icu_bool {
+    \bool_if:NTF \l_fontspec_icu_bool
+     {
       \str_if_eq:nvTF {#1} {g_fontspec_lang_(\f@family)_tl}
         {\prg_return_true:} {\prg_return_false:}
-    }{
-      \prg_return_false:
-    }
-  }{
-    \prg_return_false:
-  }
-}
+     }
+     { \prg_return_false: }
+   }
+   { \prg_return_false: }
+ }
 %    \end{macrocode}
 % \end{macro}
 %
@@ -3555,10 +3690,11 @@ This work consists of this file fontspec.dtx
 % Please use |\fontspec_set_family:Nnn| instead of |\fontspec_select:nn|,
 % which may change in the future.
 %    \begin{macrocode}
-\cs_new:Nn \fontspec_set_family:Nnn {
+\cs_new:Nn \fontspec_set_family:Nnn
+ {
   \fontspec_select:nn {#2}{#3}
   \tl_set_eq:NN #1 \l_fontspec_family_tl
-}
+ }
 %    \end{macrocode}
 % \end{macro}
 %
@@ -3566,11 +3702,11 @@ This work consists of this file fontspec.dtx
 % \begin{macro}{\fontspec_set_fontface:NNnn}
 %    \begin{macrocode}
 \cs_new:Nn \fontspec_set_fontface:NNnn
-  {
-    \fontspec_select:nn {#3}{#4}
-    \tl_set_eq:NN #1 \l_fontspec_font
-    \tl_set_eq:NN #2 \l_fontspec_family_tl
-  }
+ {
+  \fontspec_select:nn {#3}{#4}
+  \tl_set_eq:NN #1 \l_fontspec_font
+  \tl_set_eq:NN #2 \l_fontspec_family_tl
+ }
 %    \end{macrocode}
 % \end{macro}
 %
@@ -3584,50 +3720,57 @@ This work consists of this file fontspec.dtx
 %
 % Beginnings of an `l3font', I guess:
 %    \begin{macrocode}
-\cs_if_free:NT \font_set_eq:NN {
+\cs_if_free:NT \font_set_eq:NN
+ {
   \cs_set_eq:NN \font_set_eq:NN \tex_let:D
-  \cs_set:Npn \font_set:Nnn #1#2#3 {
+  \cs_set:Npn \font_set:Nnn #1#2#3
+   {
     \font #1 = #2 ~at~ #3\scan_stop:
-  }
-  \cs_set:Npn \font_gset:Nnn #1#2#3 {
+   }
+  \cs_set:Npn \font_gset:Nnn #1#2#3
+   {
     \global \font #1 = #2 ~at~ #3 \scan_stop:
-  }
+   }
   \cs_set:Npn \font_suppress_not_found_error:
 %<xetexx>    {\suppressfontnotfounderror=1}
 %<luatex>    {\luatexsuppressfontnotfounderror=1}
-  \prg_set_conditional:Nnn \font_if_null:N {p,TF,T,F} {
+  \prg_set_conditional:Nnn \font_if_null:N {p,TF,T,F}
+   {
     \ifx #1 \nullfont
       \prg_return_true:
     \else
       \prg_return_false:
     \fi
-  }
-}
+   }
+ }
 %    \end{macrocode}
 %
 %
 % \begin{macro}{\fontspec_set:Nnn,\fontspec_gset:Nnn}
 % Wrapper around \cs{font_set:Nnn} and \cs{font_gset:Nnn}.
 %    \begin{macrocode}
-\cs_new:Nn \fontspec_font_set:Nnn {
+\cs_new:Nn \fontspec_font_set:Nnn
+ {
   \font_set:Nnn #1 {\fontspec_fontwrap:n {#2}} {#3}
-}
-\cs_new:Nn \fontspec_font_gset:Nnn {
+ }
+\cs_new:Nn \fontspec_font_gset:Nnn
+ {
   \font_gset:Nnn #1 {\fontspec_fontwrap:n {#2}} {#3}
-}
+ }
 %    \end{macrocode}
 % \end{macro}
 %
 %
 % \begin{macro}{\font_glyph_if_exist:NnTF}
 %    \begin{macrocode}
-\prg_new_conditional:Nnn \font_glyph_if_exist:Nn {p,TF,T,F} {
+\prg_new_conditional:Nnn \font_glyph_if_exist:Nn {p,TF,T,F}
+ {
   \etex_iffontchar:D #1 #2 \scan_stop:
     \prg_return_true:
   \else:
     \prg_return_false:
   \fi:
-}
+ }
 %    \end{macrocode}
 % \end{macro}
 %
@@ -3652,7 +3795,8 @@ This work consists of this file fontspec.dtx
 % This macro does its processing inside a group to attempt to restrict the scope of its internal processing.
 % This works to some degree to insulate the internal commands from having to be manually cleared.
 %    \begin{macrocode}
-\cs_set:Nn \fontspec_select:nn {
+\cs_set:Nn \fontspec_select:nn
+ {
   \group_begin:
   \font_suppress_not_found_error:
   \fontspec_init:
@@ -3667,21 +3811,17 @@ This work consists of this file fontspec.dtx
   \tl_set_eq:NN \l_fontspec_fontid_tl \l_fontspec_fontname_tl
   \tl_set_eq:NN \l_fontspec_fontname_up_tl \l_fontspec_fontname_tl
 %    \end{macrocode}
-% Now convert the requested features to font definition
+% Load a possible \texttt{.fontspec} font configuration file.
+% This file could set font-specific options for the font about to be loaded.
+%    \begin{macrocode}
+  \@@_load_external_fontoptions:N \l_fontspec_fontname_tl
+%    \end{macrocode}
+% Convert the requested features to font definition
 % strings. First the features are parsed for information about font
 % loading (whether it's a named font or external font, etc.), and then
 % information is extracted for the names of the other shape fonts.
-%
-% Then the mapping from user features to low-level features occurs.
-% This is performed with \cs{fontspec_get_features:n}, in
-% which \cs{keys_set:nn} retrieves the requested font features and
-% processes them. As \cs{keys_set:nn} is run multiple times, some of its
-% information storing only occurs once while we decide if the font family
-% has been defined or not. When the later processing is occuring per-shape
-% this no longer needs to happen; this is indicated by the `firsttime'
-% conditional.
 %    \begin{macrocode}
-  \exp_args:NnV \fontspec_preparse_features:nn {#1} \l_fontspec_fontname_tl
+  \fontspec_preparse_features:nN {#1} \l_fontspec_fontname_tl
 %    \end{macrocode}
 % Finally save the `confirmed' font definition.
 %    \begin{macrocode}
@@ -3691,7 +3831,14 @@ This work consists of this file fontspec.dtx
   \fontspec_font_gset:Nnn \l_fontspec_font {\fontspec_fullname:n {\l_fontspec_fontname_up_tl}} {\f@size pt}
   \l_fontspec_font % this is necessary for LuaLaTeX to check the scripts properly
 %    \end{macrocode}
-% Continue:
+% Then the mapping from user features to low-level features occurs.
+% This is performed with \cs{fontspec_get_features:n}, in
+% which \cs{keys_set:nn} retrieves the requested font features and
+% processes them. As \cs{keys_set:nn} is run multiple times, some of its
+% information storing only occurs once while we decide if the font family
+% has been defined or not. When the later processing is occuring per-shape
+% this no longer needs to happen; this is indicated by the `firsttime'
+% conditional.
 %    \begin{macrocode}
   \fontspec_set_scriptlang:
   \fontspec_get_features:n {}
@@ -3706,7 +3853,8 @@ This work consists of this file fontspec.dtx
 % current state. For example, if \cmd\bfdefault\ is redefined to |b|, all
 % bold shapes defined by this package will also be assigned to |b|.
 %    \begin{macrocode}
-  \fontspec_save_family:nT {#2} {
+  \fontspec_save_family:nT {#2}
+   {
     \fontspec_save_fontinfo:nn {#1} {#2}
     \DeclareFontFamily{\g_fontspec_encoding_tl}{\l_fontspec_family_tl}{}
     \fontspec_set_upright:
@@ -3715,36 +3863,62 @@ This work consists of this file fontspec.dtx
     \fontspec_set_slanted:
     \fontspec_set_bold_italic:
     \fontspec_set_bold_slanted:
-  }
+   }
   \fontspec_info:nxx {defining-font} {#1} {#2}
   \group_end:
-}
+ }
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@@_load_external_fontoptions:N}
+%    \begin{macrocode}
+\cs_new:Nn \@@_load_external_fontoptions:N
+ {
+  \@@_sanitise_fontname:Nn \l_@@_tmp_tl {#1}
+  \prop_if_in:NVF \g_@@_fontopts_prop {\l_@@_tmp_tl}
+   {
+    \exp_args:No \file_if_exist:nT {\l_@@_tmp_tl.fontspec}
+     { \file_input:n {\l_@@_tmp_tl.fontspec} }
+   }
+ }
 %    \end{macrocode}
 % \end{macro}
 %
 %
-%
-% \begin{macro}{\fontspec_preparse_features:nn}
+% \begin{macro}{\fontspec_preparse_features:nN}
+% \darg{feature options}
+% \darg{font name}
 % Perform the (multi-step) feature parsing process.
 %    \begin{macrocode}
-\cs_new:Nn \fontspec_preparse_features:nn {
+\cs_new:Nn \fontspec_preparse_features:nN
+ {
 %    \end{macrocode}
 % Detect if external fonts are to be used, possibly automatically, and
 % parse fontspec features for bold/italic fonts and their features.
 %    \begin{macrocode}
-  \fontspec_if_detect_external:nT {#2}
+  \exp_args:NV \fontspec_if_detect_external:nT #2
    { \keys_set:nn {fontspec-preparse-external} {ExternalLocation} }
+  
+  \@@_sanitise_fontname:Nn \l_@@_tmp_tl {\l_fontspec_fontname_tl}
+  \prop_get:NVN \g_@@_fontopts_prop \l_@@_tmp_tl \l_@@_fontopts_clist
   \keys_set_known:nxN {fontspec-preparse-external}
-    {\g_fontspec_default_fontopts_tl #1} \l_fontspec_keys_leftover_clist
+   {
+    \g_fontspec_default_fontopts_tl
+    \quark_if_no_value:NF \l_@@_fontopts_clist {\l_@@_fontopts_clist,}
+    #1
+   }
+   \l_fontspec_keys_leftover_clist
 %    \end{macrocode}
 % When \cmd{\l_fontspec_fontname_tl} is augmented with a prefix or whatever to create
 % the name of the upright font (\cmd{\l_fontspec_fontname_up_tl}), this latter is the new `general
 % font name' to use.
 %    \begin{macrocode}
   \tl_set_eq:NN \l_fontspec_fontname_tl \l_fontspec_fontname_up_tl
+  \keys_set_known:nxN {fontspec-renderer} {\l_fontspec_keys_leftover_clist}
+    \l_fontspec_keys_leftover_clist
   \keys_set_known:nxN {fontspec-preparse} {\l_fontspec_keys_leftover_clist}
     \l_fontspec_fontfeat_clist
-}
+ }
 %    \end{macrocode}
 % \end{macro}
 %
@@ -3768,11 +3942,12 @@ This work consists of this file fontspec.dtx
 % \begin{macro}{\fontspec_fullname:n}
 % Constructs the complete font name based on a common piece of info.
 %    \begin{macrocode}
-\cs_set:Nn \fontspec_fullname:n {
+\cs_set:Nn \fontspec_fullname:n
+ {
   \fontspec_namewrap:n { #1 \l_fontspec_extension_tl }
   \l_fontspec_renderer_tl
   \l_fontspec_optical_size_tl
-}
+ }
 %    \end{macrocode}
 % \end{macro}
 %
@@ -3786,25 +3961,24 @@ This work consists of this file fontspec.dtx
 %
 % The font name is fully expanded, in case it's defined in terms of macros, before having its spaces zapped.
 %    \begin{macrocode}
-\prg_new_conditional:Nnn \fontspec_save_family:n {T} {
+\prg_new_conditional:Nnn \fontspec_save_family:n {T}
+ {
   \cs_if_exist:cF {g_fontspec_UID_\l_fontspec_fontid_tl}
-  {
-    \cs_if_exist:cTF {g_fontspec_family_#1_int} {
-      \int_gincr:c {g_fontspec_family_#1_int}
-    }{
-      \int_new:c {g_fontspec_family_#1_int}
-    }
+   {
+    \cs_if_exist:cTF {g_fontspec_family_#1_int}
+     { \int_gincr:c  {g_fontspec_family_#1_int} }
+     { \int_new:c    {g_fontspec_family_#1_int} }
     \tl_set:Nx \l_fontspec_tmp_tl {#1}
     \tl_remove_all:Nn \l_fontspec_tmp_tl {~}
     \tl_gset:cx {g_fontspec_UID_\l_fontspec_fontid_tl}
-      {
-        \l_fontspec_tmp_tl ( \int_use:c {g_fontspec_family_#1_int} )
-      }
-  }
+     {
+      \l_fontspec_tmp_tl ( \int_use:c {g_fontspec_family_#1_int} )
+     }
+   }
   \tl_gset:Nv \l_fontspec_family_tl {g_fontspec_UID_\l_fontspec_fontid_tl}
   \cs_if_exist:cTF {g_fontspec_ \l_fontspec_family_tl _prop}
     \prg_return_false: \prg_return_true:
-}
+ }
 %    \end{macrocode}
 % \end{macro}
 %
@@ -3813,31 +3987,36 @@ This work consists of this file fontspec.dtx
 % First check if the font supports scripts, then apply defaults if
 % none are explicitly requested. Similarly with the language settings.
 %    \begin{macrocode}
-\cs_new:Nn \fontspec_set_scriptlang: {
-  \bool_if:NT \l_fontspec_firsttime_bool {
-    \tl_if_empty:NTF \l_fontspec_script_name_tl {
+\cs_new:Nn \fontspec_set_scriptlang:
+ {
+  \bool_if:NT \l_fontspec_firsttime_bool
+   {
+    \tl_if_empty:NTF \l_fontspec_script_name_tl
+     {
       \fontspec_check_script:nTF {latn}
-      {
+       {
         \tl_set:Nn \l_fontspec_script_name_tl {Latin}
-        \tl_if_empty:NT \l_fontspec_lang_name_tl {
+        \tl_if_empty:NT \l_fontspec_lang_name_tl
+         {
           \tl_set:Nn \l_fontspec_lang_name_tl {Default}
-        }
+         }
         \keys_set:nx {fontspec} {Script=\l_fontspec_script_name_tl}
         \keys_set:nx {fontspec} {Language=\l_fontspec_lang_name_tl}
-      }
-      {
+       }
+       {
         \fontspec_info:n {no-scripts}
-      }
-    }
-    {
-      \tl_if_empty:NT \l_fontspec_lang_name_tl {
+       }
+     }
+     {
+      \tl_if_empty:NT \l_fontspec_lang_name_tl
+       {
         \tl_set:Nn \l_fontspec_lang_name_tl {Default}
-      }
+       }
       \keys_set:nx {fontspec} {Script=\l_fontspec_script_name_tl}
       \keys_set:nx {fontspec} {Language=\l_fontspec_lang_name_tl}
-    }
-  }
-}
+     }
+   }
+ }
 %    \end{macrocode}
 % \end{macro}
 %
@@ -3847,31 +4026,33 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \cs_generate_variant:Nn \prop_gput:Nnn {cnV}
 \cs_generate_variant:Nn \prop_gput:Nnn {cnx}
-\cs_new:Nn \fontspec_save_fontinfo:nn {
-
+\cs_new:Nn \fontspec_save_fontinfo:nn
+ {
   \prop_new:c {g_fontspec_ \l_fontspec_family_tl _prop}
   \prop_gput:cnx {g_fontspec_ \l_fontspec_family_tl _prop} {fontname} {#2}
   \prop_gput:cnx {g_fontspec_ \l_fontspec_family_tl _prop} {options} {\g_fontspec_default_fontopts_tl #1}
-  \prop_gput:cnx {g_fontspec_ \l_fontspec_family_tl _prop} {fontdef} {
-        \fontspec_fullname:n {\l_fontspec_fontname_tl} :
-        \l_fontspec_pre_feat_sclist \l_fontspec_rawfeatures_sclist
-  }
+  \prop_gput:cnx {g_fontspec_ \l_fontspec_family_tl _prop} {fontdef}
+   {
+    \fontspec_fullname:n {\l_fontspec_fontname_tl} :
+    \l_fontspec_pre_feat_sclist \l_fontspec_rawfeatures_sclist
+   }
   \prop_gput:cnV {g_fontspec_ \l_fontspec_family_tl _prop} {script-num} \l_fontspec_script_int
   \prop_gput:cnV {g_fontspec_ \l_fontspec_family_tl _prop} {lang-num} \l_fontspec_language_int
   \prop_gput:cnV {g_fontspec_ \l_fontspec_family_tl _prop} {script-tag} \l_fontspec_script_tl
   \prop_gput:cnV {g_fontspec_ \l_fontspec_family_tl _prop} {lang-tag} \l_fontspec_lang_tl
 
-    \tl_gset:cx {zf@family@fontname\l_fontspec_family_tl} {#2}
-    \tl_gset:cx {zf@family@options\l_fontspec_family_tl} {\g_fontspec_default_fontopts_tl #1}
-    \tl_gset:cx {zf@family@fontdef\l_fontspec_family_tl} {
-      \fontspec_fullname:n {\l_fontspec_fontname_tl} :
-        \l_fontspec_pre_feat_sclist \l_fontspec_rawfeatures_sclist
-    }
-    \tl_gset:cV {g_fontspec_script_num_(\l_fontspec_family_tl)_tl} \l_fontspec_script_int
-    \tl_gset:cV {g_fontspec_lang_num_(\l_fontspec_family_tl)_tl} \l_fontspec_language_int
-    \tl_gset_eq:cN {g_fontspec_script_(\l_fontspec_family_tl)_tl} \l_fontspec_script_tl
-    \tl_gset_eq:cN {g_fontspec_lang_(\l_fontspec_family_tl)_tl}   \l_fontspec_lang_tl
-}
+  \tl_gset:cx {zf@family@fontname\l_fontspec_family_tl} {#2}
+  \tl_gset:cx {zf@family@options\l_fontspec_family_tl} {\g_fontspec_default_fontopts_tl #1}
+  \tl_gset:cx {zf@family@fontdef\l_fontspec_family_tl}
+   {
+    \fontspec_fullname:n {\l_fontspec_fontname_tl} :
+    \l_fontspec_pre_feat_sclist \l_fontspec_rawfeatures_sclist
+   }
+  \tl_gset:cV {g_fontspec_script_num_(\l_fontspec_family_tl)_tl} \l_fontspec_script_int
+  \tl_gset:cV {g_fontspec_lang_num_(\l_fontspec_family_tl)_tl} \l_fontspec_language_int
+  \tl_gset_eq:cN {g_fontspec_script_(\l_fontspec_family_tl)_tl} \l_fontspec_script_tl
+  \tl_gset_eq:cN {g_fontspec_lang_(\l_fontspec_family_tl)_tl}   \l_fontspec_lang_tl
+ }
 %    \end{macrocode}
 % \end{macro}
 %
@@ -3879,10 +4060,11 @@ This work consists of this file fontspec.dtx
 % \begin{macro}{\fontspec_set_upright:}
 % Sets the upright shape.
 %    \begin{macrocode}
-\cs_new:Nn \fontspec_set_upright: {
+\cs_new:Nn \fontspec_set_upright:
+ {
   \fontspec_make_font_shapes:nnnn \l_fontspec_fontname_tl
     \mddefault \updefault \l_fontspec_fontfeat_up_clist
-}
+ }
 %    \end{macrocode}
 % \end{macro}
 %
@@ -3898,31 +4080,37 @@ This work consists of this file fontspec.dtx
 % there actually is one; if not, the bold NFSS series is left
 % undefined) or with the font specified with the \feat{BoldFont} feature.
 %    \begin{macrocode}
-\cs_new:Nn \fontspec_set_bold: {
-  \bool_if:NF \l_fontspec_nobf_bool {
-    \tl_if_empty:NTF \l_fontspec_fontname_bf_tl {
+\cs_new:Nn \fontspec_set_bold:
+ {
+  \bool_if:NF \l_fontspec_nobf_bool
+   {
+    \tl_if_empty:NTF \l_fontspec_fontname_bf_tl
+     {
       \fontspec_make_auto_font_shapes:nnnnn \l_fontspec_fontname_tl {/B}
         \bfdefault \updefault \l_fontspec_fontfeat_bf_clist
-    }{
+     }
+     {
       \fontspec_make_font_shapes:nnnn \l_fontspec_fontname_bf_tl
         \bfdefault \updefault \l_fontspec_fontfeat_bf_clist
-    }
-  }
-}
+     }
+   }
+ }
 %    \end{macrocode}
 % \end{macro}
 %
 % \begin{macro}{\fontspec_set_italic:}
 % And italic in the same way:
 %    \begin{macrocode}
-\cs_new:Nn \fontspec_set_italic: {
-  \bool_if:NF \l_fontspec_noit_bool {
+\cs_new:Nn \fontspec_set_italic:
+ {
+  \bool_if:NF \l_fontspec_noit_bool
+   {
     \tl_if_empty:NTF \l_fontspec_fontname_it_tl
-    { \fontspec_make_auto_font_shapes:nnnnn \l_fontspec_fontname_tl {/I} }
-    { \fontspec_make_font_shapes:nnnn  \l_fontspec_fontname_it_tl    }
-        \mddefault \itdefault \l_fontspec_fontfeat_it_clist
-  }
-}
+      { \fontspec_make_auto_font_shapes:nnnnn \l_fontspec_fontname_tl {/I} }
+      { \fontspec_make_font_shapes:nnnn  \l_fontspec_fontname_it_tl    }
+          \mddefault \itdefault \l_fontspec_fontfeat_it_clist
+   }
+ }
 %    \end{macrocode}
 % \end{macro}
 %
@@ -3930,14 +4118,14 @@ This work consists of this file fontspec.dtx
 % And slanted but only if requested:
 %    \begin{macrocode}
 \cs_new:Nn \fontspec_set_slanted:
-  {
-    \tl_if_empty:NF \l_fontspec_fontname_sl_tl
-      {
-        \fontspec_make_font_shapes:nnnn
-          \l_fontspec_fontname_sl_tl \mddefault \sldefault
-          \l_fontspec_fontfeat_sl_clist
-      }
-  }
+ {
+  \tl_if_empty:NF \l_fontspec_fontname_sl_tl
+   {
+    \fontspec_make_font_shapes:nnnn
+      \l_fontspec_fontname_sl_tl \mddefault \sldefault
+      \l_fontspec_fontfeat_sl_clist
+   }
+ }
 %    \end{macrocode}
 % \end{macro}
 %
@@ -3948,30 +4136,32 @@ This work consists of this file fontspec.dtx
 % occurance, presumably), the new bold font is used to define the new
 % bold italic font.
 %    \begin{macrocode}
-\cs_new:Nn \fontspec_set_bold_italic: {
-  \bool_if:nF {\l_fontspec_noit_bool || \l_fontspec_nobf_bool} {
+\cs_new:Nn \fontspec_set_bold_italic:
+ {
+  \bool_if:nF {\l_fontspec_noit_bool || \l_fontspec_nobf_bool}
+   {
     \tl_if_empty:NTF \l_fontspec_fontname_bfit_tl
-    {
+     {
       \tl_if_empty:NTF \l_fontspec_fontname_bf_tl
-      {
+       {
         \tl_if_empty:NTF \l_fontspec_fontname_it_tl
-        {
+         {
           \fontspec_make_auto_font_shapes:nnnnn \l_fontspec_fontname_tl    {/BI}
-        }
-        {
+         }
+         {
           \fontspec_make_auto_font_shapes:nnnnn \l_fontspec_fontname_it_tl {/B}
-        }
-      }
-      {
+         }
+       }
+       {
         \fontspec_make_auto_font_shapes:nnnnn \l_fontspec_fontname_bf_tl {/I}
-      }
-    }
-    {
+       }
+     }
+     {
       \fontspec_make_font_shapes:nnnn  \l_fontspec_fontname_bfit_tl
-    }
+     }
     \bfdefault \itdefault \l_fontspec_fontfeat_bfit_clist
-  }
-}
+   }
+ }
 %    \end{macrocode}
 % \end{macro}
 %
@@ -3979,18 +4169,20 @@ This work consists of this file fontspec.dtx
 % And bold slanted, again, only if requested:
 %    \begin{macrocode}
 \cs_new:Nn \fontspec_set_bold_slanted:
-  {
-    \tl_if_empty:NTF \l_fontspec_fontname_bfsl_tl
-      {
-        \tl_if_empty:NF \l_fontspec_fontname_sl_tl {
-          \fontspec_make_auto_font_shapes:nnnnn \l_fontspec_fontname_sl_tl {/B}
-             \bfdefault \sldefault \l_fontspec_fontfeat_bfsl_clist
-        }
-      }{
-        \fontspec_make_font_shapes:nnnn \l_fontspec_fontname_bfsl_tl
-          \bfdefault \sldefault \l_fontspec_fontfeat_bfsl_clist
-      }
-  }
+ {
+  \tl_if_empty:NTF \l_fontspec_fontname_bfsl_tl
+   {
+    \tl_if_empty:NF \l_fontspec_fontname_sl_tl
+     {
+      \fontspec_make_auto_font_shapes:nnnnn \l_fontspec_fontname_sl_tl {/B}
+         \bfdefault \sldefault \l_fontspec_fontfeat_bfsl_clist
+     }
+   }
+   {
+    \fontspec_make_font_shapes:nnnn \l_fontspec_fontname_bfsl_tl
+      \bfdefault \sldefault \l_fontspec_fontfeat_bfsl_clist
+   }
+ }
 %    \end{macrocode}
 % \end{macro}
 %
@@ -4011,43 +4203,43 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \cs_new:Nn \fontspec_set_font_type:
 %<*xetexx>
-   {
-    \bool_set_false:N \l_fontspec_tfm_bool
-    \bool_set_false:N \l_fontspec_atsui_bool
-    \bool_set_false:N \l_fontspec_icu_bool
-    \bool_set_false:N \l_fontspec_mm_bool
-    \bool_set_false:N \l_fontspec_graphite_bool
-    \ifcase\XeTeXfonttype\l_fontspec_font
-      \bool_set_true:N \l_fontspec_tfm_bool
-    \or
-      \bool_set_true:N \l_fontspec_atsui_bool
-      \ifnum\XeTeXcountvariations\l_fontspec_font > \c_zero
-        \bool_set_true:N \l_fontspec_mm_bool
-      \fi
-    \or
-      \bool_set_true:N \l_fontspec_icu_bool
+ {
+  \bool_set_false:N \l_fontspec_tfm_bool
+  \bool_set_false:N \l_fontspec_atsui_bool
+  \bool_set_false:N \l_fontspec_icu_bool
+  \bool_set_false:N \l_fontspec_mm_bool
+  \bool_set_false:N \l_fontspec_graphite_bool
+  \ifcase\XeTeXfonttype\l_fontspec_font
+    \bool_set_true:N \l_fontspec_tfm_bool
+  \or
+    \bool_set_true:N \l_fontspec_atsui_bool
+    \ifnum\XeTeXcountvariations\l_fontspec_font > \c_zero
+      \bool_set_true:N \l_fontspec_mm_bool
     \fi
+  \or
+    \bool_set_true:N \l_fontspec_icu_bool
+  \fi
 %    \end{macrocode}
 % If automatic, the \cmd{\l_fontspec_renderer_tl} token list will still be
 % empty (other suffices that could be added will be later in the feature
 % processing), and if it is indeed still empty, assign it a value so that the
 % other weights of the font are specifically loaded with the same renderer.
 %    \begin{macrocode}
-    \tl_if_empty:NT \l_fontspec_renderer_tl {
-      \bool_if:NTF \l_fontspec_atsui_bool {
-        \tl_set:Nn \l_fontspec_renderer_tl {/AAT}
-      }{
-        \bool_if:NT \l_fontspec_icu_bool {
-          \tl_set:Nn \l_fontspec_renderer_tl {/ICU}
-        }
-      }
-    }
-  }
+  \tl_if_empty:NT \l_fontspec_renderer_tl
+   {
+    \bool_if:NTF \l_fontspec_atsui_bool
+     { \tl_set:Nn \l_fontspec_renderer_tl {/AAT} }
+     {
+       \bool_if:NT \l_fontspec_icu_bool
+        { \tl_set:Nn \l_fontspec_renderer_tl {/ICU} }
+     }
+   }
+ }
 %</xetexx>
 %<*luatex>
-  {
-    \bool_set_true:N \l_fontspec_icu_bool
-  }
+ {
+  \bool_set_true:N \l_fontspec_icu_bool
+ }
 %</luatex>
 %    \end{macrocode}
 % \end{macro}
@@ -4079,74 +4271,113 @@ This work consists of this file fontspec.dtx
 % for the code that enables this usage.
 %    \begin{macrocode}
 \cs_new:Nn \fontspec_make_auto_font_shapes:nnnnn
-  {
-    \bool_if:NF \l_fontspec_external_bool
-      {
-        \fontspec_font_set:Nnn \l_tmpa_font
-          { \fontspec_fullname:n {#1}   } {\f@size pt}
-        \fontspec_font_set:Nnn \l_tmpb_font
-          { \fontspec_fullname:n {#1#2} } {\f@size pt}
-        \str_if_eq:xxTF { \fontname \l_tmpa_font } { \fontname \l_tmpb_font }
-          { \fontspec_info:nx {no-font-shape} {#1#2} }
-          { \fontspec_make_font_shapes:nnnn {#1#2}{#3}{#4}{#5} }
-      }
-  }
+ {
+  \bool_if:NF \l_fontspec_external_bool
+   {
+    \fontspec_font_set:Nnn \l_tmpa_font
+      { \fontspec_fullname:n {#1}   } {\f@size pt}
+    \fontspec_font_set:Nnn \l_tmpb_font
+      { \fontspec_fullname:n {#1#2} } {\f@size pt}
+    \str_if_eq_x:nnTF { \fontname \l_tmpa_font } { \fontname \l_tmpb_font }
+      { \fontspec_info:nx {no-font-shape} {#1#2} }
+      { \fontspec_make_font_shapes:nnnn {#1#2}{#3}{#4}{#5} }
+   }
+ }
 \cs_new:Nn \fontspec_make_font_shapes:nnnn {
   \group_begin:
-    \tl_set:Nx \l_fontspec_fontname_tl {#1}
-    \fontspec_font_set:Nnn \l_fontspec_font {\fontspec_fullname:n {#1}} {\f@size pt}
-    \font_if_null:NT \l_fontspec_font { \fontspec_error:nx {font-not-found} {#1} }
-    \fontspec_declare_shape:nnn {#2}{#3}{#4}
-    \tl_if_empty:NTF \l_fontspec_fontname_sc_tl {
-      \bool_if:NF \l_fontspec_nosc_bool {
-        \fontspec_make_smallcaps:T {
+  
+    \@@_load_fontname:n {#1}
+    \fontspec_declare_shape:nnn {#2}{#3}
+     { \quark_if_no_value:NF \l_@@_fontopts_clist {\l_@@_fontopts_clist,} #4 }
+
+    \tl_if_empty:NTF \l_fontspec_fontname_sc_tl
+     {
+      \bool_if:NF \l_fontspec_nosc_bool
+       {
+        \fontspec_make_smallcaps:T
+         {
           \fontspec_declare_shape:nnn {#2}
             { \tl_if_eq:NNTF #3 \itdefault \sidefault \scdefault }
-            { #4 , Letters=SmallCaps, \l_fontspec_fontfeat_sc_clist }
-        }
-      }
-    }{
-      \fontspec_font_set:Nnn \l_fontspec_font {\fontspec_fullname:n {\l_fontspec_fontname_sc_tl}} {\f@size pt}
-      \tl_set:Nx \l_fontspec_fontname_tl {\l_fontspec_fontname_sc_tl}
+            {
+              \quark_if_no_value:NF \l_@@_fontopts_clist {\l_@@_fontopts_clist,}
+              #4 , Letters=SmallCaps , \l_fontspec_fontfeat_sc_clist
+            }
+         }
+       }
+     }
+     {
+      \@@_load_fontname:n {\l_fontspec_fontname_sc_tl}      
       \fontspec_declare_shape:nnn {#2}
-        { \tl_if_eq:NNTF #3 \itdefault \sidefault \scdefault }
-        { #4 , \l_fontspec_fontfeat_sc_clist }
-    }
+       { \tl_if_eq:NNTF #3 \itdefault \sidefault \scdefault }
+       {
+         \quark_if_no_value:NF \l_@@_fontopts_clist {\l_@@_fontopts_clist,}
+         #4 , \l_fontspec_fontfeat_sc_clist
+       }
+     }
   \group_end:
-}
+ }
+\cs_new:Nn \@@_load_fontname:n
+ {
+    \tl_set:Nx \l_fontspec_fontname_tl {#1}
+    \@@_load_external_fontoptions:N \l_fontspec_fontname_tl
+    \@@_sanitise_fontname:Nn \l_@@_tmp_tl {\l_fontspec_fontname_tl}
+    \prop_get:NVN \g_@@_fontopts_prop \l_@@_tmp_tl \l_@@_fontopts_clist
+    \fontspec_font_set:Nnn \l_fontspec_font {\fontspec_fullname:n {\l_fontspec_fontname_tl}} {\f@size pt}
+    \font_if_null:NT \l_fontspec_font { \fontspec_error:nx {font-not-found} {#1} }
+ }
 %    \end{macrocode}
 % Note that the test for italics to choose the \cmd\sidefault\ shape
 % only works while \cmd\fontspec_select:nn\ passes single tokens to this macro\dots
 % \end{macro}
 %
 % \begin{macro}{\fontspec_declare_shape:nnn}
-% \darg{Raw appended font features}
 % \darg{Font series}
 % \darg{Font shape}
 % \darg{Font features}
 % Wrapper for \cmd\DeclareFontShape.
+% And finally the actual font shape declaration using \cmd\l_fontspec_nfss_tl\ defined above.
+% \cmd\l_fontspec_postadjust_tl\ is defined in various places to deal with things like the hyphenation
+% character and interword spacing.
 %    \begin{macrocode}
-\cs_new:Nn \fontspec_declare_shape:nnn {
+\cs_new:Nn \fontspec_declare_shape:nnn
+ {
   \clist_if_empty:NTF \l_fontspec_sizefeat_clist
-  {
-    \fontspec_get_features:n {#3}
-    \tl_set:Nx \l_fontspec_nfss_tl {
+   { \@@_declare_shape_nosizing:n   {#3} }
+   { \@@_declare_shape_withsizing:n {#3} }
+  \use:x
+   {
+    \exp_not:N \DeclareFontShape {\g_fontspec_encoding_tl} {\l_fontspec_family_tl}
+      {#1} {#2} {\l_fontspec_nfss_tl}{\l_fontspec_postadjust_tl}
+   }
+  \@@_declare_shape_slanted:nn  {#1} {#2}
+  \@@_declare_shape_loginfo:nnn {#1} {#2} {#3}
+ }
+%    \end{macrocode}
+% Default code; sets things up for no optical size fonts or features.
+%    \begin{macrocode}
+\cs_new:Nn \@@_declare_shape_nosizing:n
+ {
+    \fontspec_get_features:n {#1}
+    \tl_set:Nx \l_fontspec_nfss_tl
+     {
       <-> \l_fontspec_scale_tl
-      \fontspec_fontwrap:n {
+      \fontspec_fontwrap:n
+       {
         \fontspec_fullname:n {\l_fontspec_fontname_tl} :
           \l_fontspec_pre_feat_sclist \l_fontspec_rawfeatures_sclist
-      }
-    }
-  }
+       }
+     } 
+ }
 %    \end{macrocode}
-% Default code, above, sets things up for no optical size fonts or features.
 % On the other hand, loop through \feat{SizeFeatures} arguments, which
 % are of the form
 % {\par\centering |SizeFeatures={{<one>},{<two>},{<three>}}|.\par}
 %    \begin{macrocode}
-  {
+\cs_new:Nn \@@_declare_shape_withsizing:n
+ {
     \tl_clear:N \l_fontspec_nfss_tl
-    \clist_map_inline:Nn \l_fontspec_sizefeat_clist {
+    \clist_map_inline:Nn \l_fontspec_sizefeat_clist
+     {
 
       \tl_clear:N \l_fontspec_size_tl
       \tl_set_eq:NN \l_fontspec_sizedfont_tl \l_fontspec_fontname_tl
@@ -4155,47 +4386,47 @@ This work consists of this file fontspec.dtx
         \l_fontspec_keys_leftover_clist
 
       \tl_if_empty:NT \l_fontspec_size_tl { \fontspec_error:n {no-size-info} }
-      \fontspec_get_features:n{ #3 , \l_fontspec_keys_leftover_clist }
+      \fontspec_get_features:n { #1 , \l_fontspec_keys_leftover_clist }
 
-      \tl_put_right:Nx \l_fontspec_nfss_tl {
+      \tl_put_right:Nx \l_fontspec_nfss_tl
+       {
         <\l_fontspec_size_tl> \l_fontspec_scale_tl
-        \fontspec_fontwrap:n {
+        \fontspec_fontwrap:n
+         {
           \fontspec_fullname:n { \l_fontspec_sizedfont_tl }
           : \l_fontspec_pre_feat_sclist \l_fontspec_rawfeatures_sclist
-        }
-      }
-
-    }
-  }
+         }
+       }
+     } 
+ }
 %    \end{macrocode}
-% And finally the actual font shape declaration using \cmd\l_fontspec_nfss_tl\ defined above.
-% \cmd\l_fontspec_postadjust_tl\ is defined in various places to deal with things like the hyphenation
-% character and interword spacing.
+% This extra stuff for the slanted shape substitution is a little bit awkward.
 %    \begin{macrocode}
-  \use:x{
-    \exp_not:N\DeclareFontShape{\g_fontspec_encoding_tl}{\l_fontspec_family_tl}{#1}{#2}
-      {\l_fontspec_nfss_tl}{\l_fontspec_postadjust_tl}
-  }
-%    \end{macrocode}
-% This extra stuff for the slanted shape substitution is a little bit awkward,
-% but I'd rather have it here than break out yet another macro.
-%    \begin{macrocode}
-  \bool_if:nT {
-     \str_if_eq_p:xx {#2} {\itdefault}  &&
-    !(\str_if_eq_p:xx {\itdefault} {\sldefault})
-  }
-  {
-    \use:x {
+\cs_new:Nn \@@_declare_shape_slanted:nn
+ {
+  \bool_if:nT
+   {
+     \str_if_eq_x_p:nn {#2} {\itdefault}  &&
+    !(\str_if_eq_x_p:nn {\itdefault} {\sldefault})
+   }
+   {
+    \use:x
+     {
       \exp_not:N \DeclareFontShape {\g_fontspec_encoding_tl}{\l_fontspec_family_tl}{#1}{\sldefault}
         {<->ssub*\l_fontspec_family_tl/#1/\itdefault}{\l_fontspec_postadjust_tl}
-    }
-  }
+     }
+   }
+ }
 %    \end{macrocode}
 % Lastly some informative messaging.
 %    \begin{macrocode}
+\cs_new:Nn \@@_declare_shape_loginfo:nnn
+ {
   \tl_gput_right:Nx \l_fontspec_defined_shapes_tl
-    { \exp_not:n { \\ \\ }
-       *~ '\exp_not:N \prg_case_str:nnn {#1/#2} {
+   {
+    \exp_not:n { \\ \\ }
+    *~ '\exp_not:N \str_case:nnn {#1/#2}
+     {
        {\mddefault/\updefault} {normal}
        {\mddefault/\scdefault} {small~ caps}
        {\bfdefault/\updefault} {bold}
@@ -4204,14 +4435,15 @@ This work consists of this file fontspec.dtx
        {\mddefault/\sidefault} {italic~ small~ caps}
        {\bfdefault/\itdefault} {bold~ italic}
        {\bfdefault/\sidefault} {bold~ italic~ small~ caps}
-       } {#2/#3}'~
-       with~ NFSS~ spec.: \exp_not:N \\
-       \l_fontspec_nfss_tl
-       \tl_if_empty:NF \l_fontspec_postadjust_tl {
-         \exp_not:N \\ and~ font~ adjustment~ code: \exp_not:N \\ \l_fontspec_postadjust_tl
-       }
-    }
-}
+     } {#2/#3}'~
+    with~ NFSS~ spec.: \exp_not:N \\
+    \l_fontspec_nfss_tl
+    \tl_if_empty:NF \l_fontspec_postadjust_tl
+     {
+      \exp_not:N \\ and~ font~ adjustment~ code: \exp_not:N \\ \l_fontspec_postadjust_tl
+     }
+   }
+ }
 %    \end{macrocode}
 % \end{macro}
 %
@@ -4221,25 +4453,26 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \tl_set:Nn \l_fontspec_pre_feat_sclist
 %<*xetexx>
-  {
-    \bool_if:NT \l_fontspec_icu_bool {
-      \tl_if_empty:NF \l_fontspec_script_tl
-      {
-        script   = \l_fontspec_script_tl ;
-        language = \l_fontspec_lang_tl   ;
-      }
-    }
-  }
-%</xetexx>
-%<*luatex>
-  {
-    mode     = \l_fontspec_mode_tl   ;
+ {
+  \bool_if:NT \l_fontspec_icu_bool
+   {
     \tl_if_empty:NF \l_fontspec_script_tl
-    {
+     {
       script   = \l_fontspec_script_tl ;
       language = \l_fontspec_lang_tl   ;
-    }
-  }
+     }
+   }
+ }
+%</xetexx>
+%<*luatex>
+ {
+  mode     = \l_fontspec_mode_tl   ;
+  \tl_if_empty:NF \l_fontspec_script_tl
+   {
+    script   = \l_fontspec_script_tl ;
+    language = \l_fontspec_lang_tl   ;
+   }
+ }
 %</luatex>
 %    \end{macrocode}
 % \end{macro}
@@ -4254,11 +4487,13 @@ This work consists of this file fontspec.dtx
 % time \cs{fontspec_update_featstr:n} is called, so that the family
 % name is only created once.
 %    \begin{macrocode}
-\cs_new:Nn \fontspec_update_fontid:n {
-  \bool_if:NT \l_fontspec_firsttime_bool {
+\cs_new:Nn \fontspec_update_fontid:n
+ {
+  \bool_if:NT \l_fontspec_firsttime_bool
+   {
     \tl_gput_right:Nx \l_fontspec_fontid_tl {#1}
-  }
-}
+   }
+ }
 %    \end{macrocode}
 % \end{macro}
 %
@@ -4272,24 +4507,28 @@ This work consists of this file fontspec.dtx
 %   strings.
 %   Its argument is any additional features to prepend to the default.
 %    \begin{macrocode}
-\cs_set:Npn \fontspec_get_features:n #1 {
+\cs_set:Nn \fontspec_get_features:n
+ {
   \sclist_clear:N \l_fontspec_rawfeatures_sclist
   \tl_clear:N \l_fontspec_scale_tl
   \tl_set_eq:NN \l_fontspec_opacity_tl \g_fontspec_opacity_tl
   \tl_set_eq:NN \l_fontspec_hexcol_tl \g_fontspec_hexcol_tl
   \tl_clear:N \l_fontspec_postadjust_tl
-  \keys_set:nx {fontspec} {\l_fontspec_fontfeat_clist, #1}
+
+  \keys_set_known:nxN {fontspec-renderer} {\l_fontspec_fontfeat_clist,#1}
+    \l_fontspec_keys_leftover_clist
+  \keys_set:nx {fontspec} {\l_fontspec_keys_leftover_clist}
 %    \end{macrocode}
 % Finish the colour specification.
 % Do not set the colour if not explicitly spec'd else \verb|\color| (using
 % specials) will not work.
 %    \begin{macrocode}
-  \str_if_eq:xxF { \l_fontspec_hexcol_tl \l_fontspec_opacity_tl }
-                { \g_fontspec_hexcol_tl \g_fontspec_opacity_tl }
+  \str_if_eq_x:nnF { \l_fontspec_hexcol_tl \l_fontspec_opacity_tl }
+                   { \g_fontspec_hexcol_tl \g_fontspec_opacity_tl }
   {
     \fontspec_update_featstr:n{color=\l_fontspec_hexcol_tl\l_fontspec_opacity_tl}
-  }
-}
+   }
+ }
 %    \end{macrocode}
 % \end{macro}
 %
@@ -4326,7 +4565,8 @@ This work consists of this file fontspec.dtx
 % (Some of these may be redundant.
 % Check whether they're assigned to globally or not.)
 %    \begin{macrocode}
-\cs_set:Npn \fontspec_init: {
+\cs_set:Npn \fontspec_init:
+ {
   \bool_set_false:N \l_fontspec_icu_bool
   \bool_set_true:N \l_fontspec_firsttime_bool
   \cs_set:Npn \fontspec_namewrap:n ##1
@@ -4342,7 +4582,7 @@ This work consists of this file fontspec.dtx
   \luatexpreexhyphenchar = 0   % fixme
   \luatexpostexhyphenchar= 0   % fixme
 %</luatex>
-}
+ }
 %    \end{macrocode}
 % \end{macro}
 %
@@ -4350,20 +4590,20 @@ This work consists of this file fontspec.dtx
 % \label{mac:makesmallcaps}
 % This macro checks if the font contains small caps.
 %    \begin{macrocode}
-\cs_set:Nn \fontspec_make_ot_smallcaps:T {
+\cs_set:Nn \fontspec_make_ot_smallcaps:T
+ {
   \fontspec_check_ot_feat:nT {+smcp} { #1 }
-}
+ }
 %<*xetexx>
 \cs_set:Nn \fontspec_make_smallcaps:T
-  {
-    \bool_if:NTF \l_fontspec_icu_bool {
-      \fontspec_make_ot_smallcaps:T {#1}
-    }{
-      \bool_if:NT \l_fontspec_atsui_bool {
-        \fontspec_make_AAT_feature_string:nnT {3}{3} { #1 }
-      }
-    }
-  }
+ {
+  \bool_if:NTF \l_fontspec_icu_bool
+   { \fontspec_make_ot_smallcaps:T {#1} }
+   {
+     \bool_if:NT \l_fontspec_atsui_bool
+      { \fontspec_make_AAT_feature_string:nnT {3}{3} { #1 } }
+   }
+ }
 %</xetexx>
 %<*luatex>
 \cs_set_eq:NN \fontspec_make_smallcaps:T \fontspec_make_ot_smallcaps:T
@@ -4380,9 +4620,8 @@ This work consists of this file fontspec.dtx
 % sclists without worrying about it.
 %    \begin{macrocode}
 \cs_set_eq:NN \sclist_clear:N \tl_clear:N
-\cs_new:Nn \sclist_gput_right:Nn {
-  \tl_gput_right:Nn #1 {#2;}
-}
+\cs_new:Nn \sclist_gput_right:Nn
+ { \tl_gput_right:Nn #1 {#2;} }
 \cs_generate_variant:Nn \sclist_gput_right:Nn {Nx}
 %    \end{macrocode}
 % \end{macro}
@@ -4395,11 +4634,13 @@ This work consists of this file fontspec.dtx
 % macro is used to add that feature to the list. Font features are
 % separated by semicolons.
 %    \begin{macrocode}
-\cs_new:Nn \fontspec_update_featstr:n {
-  \bool_if:NF \l_fontspec_firsttime_bool {
+\cs_new:Nn \fontspec_update_featstr:n
+ {
+  \bool_if:NF \l_fontspec_firsttime_bool
+   {
     \sclist_gput_right:Nx \l_fontspec_rawfeatures_sclist {#1}
-  }
-}
+   }
+ }
 %    \end{macrocode}
 % \end{macro}
 %
@@ -4411,59 +4652,58 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \cs_new:Nn \fontspec_make_feature:nnn
 %<*xetexx>
-  {
-    \bool_if:NTF \l_fontspec_icu_bool {
-      \fontspec_make_ICU_feature:n {#3}
-    }{
-      \bool_if:NT \l_fontspec_atsui_bool {
-        \fontspec_make_AAT_feature:nn {#1}{#2}
-      }
-    }
-  }
+ {
+  \bool_if:NTF \l_fontspec_icu_bool
+   { \fontspec_make_ICU_feature:n {#3} }
+   {
+     \bool_if:NT \l_fontspec_atsui_bool
+      { \fontspec_make_AAT_feature:nn {#1}{#2} }
+   }
+ }
 %</xetexx>
 %<*luatex>
-  {
-    \fontspec_make_ICU_feature:n {#3}
-  }
+ { \fontspec_make_ICU_feature:n {#3} }
 %</luatex>
 \cs_generate_variant:Nn \fontspec_make_feature:nnn {nnx}
 %    \end{macrocode}
 %
 %    \begin{macrocode}
-\cs_new:Nn \fontspec_make_AAT_feature:nn {
+\cs_new:Nn \fontspec_make_AAT_feature:nn
+ {
   \tl_if_empty:nTF {#1}
-  { \fontspec_warning:n {aat-feature-not-exist} }
-  {
-    \fontspec_make_AAT_feature_string:nnTF {#1}{#2}
-    {
-      \fontspec_update_fontid:n {+#1,#2}
-      \fontspec_update_featstr:n {\l_fontspec_feature_string_tl}
-    }
-    { \fontspec_warning:nx {aat-feature-not-exist-in-font} {#1,#2} }
-  }
-}
-\cs_new:Nn \fontspec_make_ICU_feature:n {
+   { \fontspec_warning:n {aat-feature-not-exist} }
+   {
+     \fontspec_make_AAT_feature_string:nnTF {#1}{#2}
+      {
+       \fontspec_update_fontid:n {+#1,#2}
+       \fontspec_update_featstr:n {\l_fontspec_feature_string_tl}
+     }
+     { \fontspec_warning:nx {aat-feature-not-exist-in-font} {#1,#2} }
+   }
+ }
+\cs_new:Nn \fontspec_make_ICU_feature:n
+ {
   \tl_if_empty:nTF {#1}
-  { \fontspec_warning:n {icu-feature-not-exist} }
-  {
-    \fontspec_check_ot_feat:nTF {#1}
-    {
-      \fontspec_update_fontid:n {#1}
-      \fontspec_update_featstr:n{#1}
-    }
-    { \fontspec_warning:nx {icu-feature-not-exist-in-font} {#1} }
-  }
-}
+   { \fontspec_warning:n {icu-feature-not-exist} }
+   {
+     \fontspec_check_ot_feat:nTF {#1}
+      {
+       \fontspec_update_fontid:n {#1}
+       \fontspec_update_featstr:n{#1}
+      }
+      { \fontspec_warning:nx {icu-feature-not-exist-in-font} {#1} }
+   }
+ }
 \cs_new_protected:Nn \fontspec_make_numbered_feature:nn
-  {
-    \fontspec_check_ot_feat:nTF {#1}
-    {
-      \fontspec_update_fontid:n {#1=#2}
+ {
+  \fontspec_check_ot_feat:nTF {#1}
+   {
+    \fontspec_update_fontid:n {#1=#2}
 %<xetexx>      \fontspec_update_featstr:n { #1 = #2 }
 %<luatex>      \fontspec_update_featstr:n { #1 = \int_eval:n {#2+1} }
-    }
-    { \fontspec_warning:nx {icu-feature-not-exist-in-font} {#1} }
-  }
+   }
+   { \fontspec_warning:nx {icu-feature-not-exist-in-font} {#1} }
+ }
 \cs_generate_variant:Nn \fontspec_make_numbered_feature:nn {xn}
 %    \end{macrocode}
 % \end{macro}
@@ -4473,22 +4713,25 @@ This work consists of this file fontspec.dtx
 % \begin{macro}{\fontspec_define_numbered_feat:nnnn}
 % These macros are used in order to simplify font feature definition later on.
 %    \begin{macrocode}
-\cs_new:Nn \fontspec_define_font_feature:n {
+\cs_new:Nn \fontspec_define_font_feature:n
+ {
   \keys_define:nn {fontspec} { #1 .multichoice: }
-}
-\cs_new:Nn \fontspec_define_feature_option:nnnnn {
-  \keys_define:nn {fontspec} {
+ }
+\cs_new:Nn \fontspec_define_feature_option:nnnnn
+ {
+  \keys_define:nn {fontspec}
+   {
     #1/#2 .code:n = { \fontspec_make_feature:nnn{#3}{#4}{#5} }
-  }
-}
+   }
+ }
 \cs_new:Nn \fontspec_define_numbered_feat:nnnn
-  {
-    \keys_define:nn {fontspec}
-      {
-        #1/#2 .code:n =
-          { \fontspec_make_numbered_feature:nn {#3}{#4} }
-      }
-  }
+ {
+  \keys_define:nn {fontspec}
+   {
+    #1/#2 .code:n =
+      { \fontspec_make_numbered_feature:nn {#3}{#4} }
+   }
+ }
 %    \end{macrocode}
 % \end{macro}
 % \end{macro}
@@ -4512,33 +4755,37 @@ This work consists of this file fontspec.dtx
 %
 % Finally, save out the complete feature string in \cmd\l_fontspec_feature_string_tl.
 %    \begin{macrocode}
-\prg_new_conditional:Nnn \fontspec_make_AAT_feature_string:nn {TF,T,F} {
+\prg_new_conditional:Nnn \fontspec_make_AAT_feature_string:nn {TF,T,F}
+ {
   \tl_set:Nx \l_tmpa_tl { \XeTeXfeaturename \l_fontspec_font #1 }
   \tl_if_empty:NTF \l_tmpa_tl
-  { \prg_return_false: }
-  {
+   { \prg_return_false: }
+   {
     \int_compare:nTF { \XeTeXisexclusivefeature\l_fontspec_font #1 > 0 }
-    {
+     {
       \tl_set:Nx \l_tmpb_tl {\XeTeXselectorname\l_fontspec_font #1\space #2}
-    }{
+     }
+     {
       \int_if_even:nTF {#2}
-      {
+       {
         \tl_set:Nx \l_tmpb_tl {\XeTeXselectorname\l_fontspec_font #1\space #2}
-      }{
-        \tl_set:Nx \l_tmpb_tl {
+       }
+       {
+        \tl_set:Nx \l_tmpb_tl
+         {
           \XeTeXselectorname\l_fontspec_font #1\space \numexpr#2-1\relax
-        }
+         }
         \tl_if_empty:NF \l_tmpb_tl { \tl_put_left:Nn \l_tmpb_tl {!} }
-      }
+       }
     }
     \tl_if_empty:NTF \l_tmpb_tl
-    { \prg_return_false: }
-    {
+     { \prg_return_false: }
+     {
       \tl_set:Nx \l_fontspec_feature_string_tl { \l_tmpa_tl = \l_tmpb_tl }
       \prg_return_true:
-    }
-  }
-}
+     }
+   }
+ }
 %    \end{macrocode}
 % \end{macro}
 %
@@ -4559,27 +4806,31 @@ This work consists of this file fontspec.dtx
 % with prepended plus and minus signs (\eg, \texttt{+liga}, \texttt{-dlig}); it
 % simply strips off the first char of the input before calling the normal \cmd\fontspec_iv_str_to_num:n.
 %    \begin{macrocode}
-\cs_set:Npn \fontspec_iv_str_to_num:Nn #1#2 {
+\cs_set:Nn \fontspec_iv_str_to_num:Nn
+ {
   \fontspec_iv_str_to_num:w #1 \q_nil #2 \c_empty_tl \c_empty_tl \q_nil
-}
-\cs_set:Npn \fontspec_iv_str_to_num:w #1 \q_nil #2#3#4#5#6 \q_nil {
-  \int_set:Nn #1 {
+ }
+\cs_set:Npn \fontspec_iv_str_to_num:w #1 \q_nil #2#3#4#5#6 \q_nil
+ {
+  \int_set:Nn #1
+   {
       `#2 * "1000000
     + `#3 * "10000
     + \ifx \c_empty_tl #4 32 \else `#4 \fi * "100
     + \ifx \c_empty_tl #5 32 \else `#5 \fi
-  }
-}
+   }
+ }
 \cs_generate_variant:Nn \fontspec_iv_str_to_num:Nn {No}
-\cs_set:Npn \fontspec_v_str_to_num:Nn #1#2 {
+\cs_set:Nn \fontspec_v_str_to_num:Nn
+ {
   \bool_if:nTF
-    {
-      \tl_if_head_eq_charcode_p:nN {#2} {+} ||
-      \tl_if_head_eq_charcode_p:nN {#2} {-}
-    }
-    { \fontspec_iv_str_to_num:No #1 { \use_none:n #2 } }
-    { \fontspec_iv_str_to_num:Nn #1 {#2} }
-}
+   {
+    \tl_if_head_eq_charcode_p:nN {#2} {+} ||
+    \tl_if_head_eq_charcode_p:nN {#2} {-}
+   }
+   { \fontspec_iv_str_to_num:No #1 { \use_none:n #2 } }
+   { \fontspec_iv_str_to_num:Nn #1 {#2} }
+ }
 %    \end{macrocode}
 % \end{macro}
 % \end{macro}
@@ -4592,28 +4843,28 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \fontspec_check_script:n {TF}
 %<*xetexx>
-  {
-    \fontspec_iv_str_to_num:Nn \l_fontspec_strnum_int {#1}
-    \int_set:Nn \l_tmpb_int { \XeTeXOTcountscripts\l_fontspec_font }
-    \int_zero:N \l_tmpa_int
-    \@tempswafalse
-    \bool_until_do:nn { \int_compare_p:nNn \l_tmpa_int = \l_tmpb_int }
-    {
-      \ifnum \XeTeXOTscripttag\l_fontspec_font \l_tmpa_int = \l_fontspec_strnum_int
-        \@tempswatrue
-        \int_set:Nn \l_tmpa_int {\l_tmpb_int}
-      \else
-        \int_incr:N \l_tmpa_int
-      \fi
-    }
-    \if@tempswa \prg_return_true: \else: \prg_return_false: \fi:
-  }
+ {
+  \fontspec_iv_str_to_num:Nn \l_fontspec_strnum_int {#1}
+  \int_set:Nn \l_tmpb_int { \XeTeXOTcountscripts \l_fontspec_font }
+  \int_zero:N \l_tmpa_int
+  \@tempswafalse
+  \bool_until_do:nn { \int_compare_p:nNn \l_tmpa_int = \l_tmpb_int }
+   {
+    \ifnum \XeTeXOTscripttag\l_fontspec_font \l_tmpa_int = \l_fontspec_strnum_int
+      \@tempswatrue
+      \int_set:Nn \l_tmpa_int {\l_tmpb_int}
+    \else
+      \int_incr:N \l_tmpa_int
+    \fi
+   }
+  \if@tempswa \prg_return_true: \else: \prg_return_false: \fi:
+ }
 %</xetexx>
 %<*luatex>
-  {
-    \directlua{fontspec.check_ot_script("l_fontspec_font", "#1")}
-    \if@tempswa \prg_return_true: \else: \prg_return_false: \fi:
-  }
+ {
+  \directlua{fontspec.check_ot_script("l_fontspec_font", "#1")}
+  \if@tempswa \prg_return_true: \else: \prg_return_false: \fi:
+ }
 %</luatex>
 %    \end{macrocode}
 % \end{macro}
@@ -4627,32 +4878,32 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \fontspec_check_lang:n {TF}
 %<*xetexx>
-  {
-    \fontspec_iv_str_to_num:Nn \l_fontspec_strnum_int {#1}
-    \int_set:Nn \l_tmpb_int {
-      \XeTeXOTcountlanguages \l_fontspec_font \l_fontspec_script_int
-    }
-    \int_zero:N \l_tmpa_int
-    \@tempswafalse
-    \bool_until_do:nn { \int_compare_p:nNn \l_tmpa_int = \l_tmpb_int }
-    {
-      \ifnum\XeTeXOTlanguagetag\l_fontspec_font\l_fontspec_script_int \l_tmpa_int =\l_fontspec_strnum_int
-        \@tempswatrue
-        \int_set:Nn \l_tmpa_int {\l_tmpb_int}
-      \else
-        \int_incr:N \l_tmpa_int
-      \fi
-    }
-    \if@tempswa \prg_return_true: \else: \prg_return_false: \fi:
-  }
+ {
+  \fontspec_iv_str_to_num:Nn \l_fontspec_strnum_int {#1}
+  \int_set:Nn \l_tmpb_int
+   { \XeTeXOTcountlanguages \l_fontspec_font \l_fontspec_script_int }
+  \int_zero:N \l_tmpa_int
+  \@tempswafalse
+  \bool_until_do:nn { \int_compare_p:nNn \l_tmpa_int = \l_tmpb_int }
+   {
+    \ifnum\XeTeXOTlanguagetag\l_fontspec_font\l_fontspec_script_int \l_tmpa_int =\l_fontspec_strnum_int
+      \@tempswatrue
+      \int_set:Nn \l_tmpa_int {\l_tmpb_int}
+    \else
+      \int_incr:N \l_tmpa_int
+    \fi
+   }
+  \if@tempswa \prg_return_true: \else: \prg_return_false: \fi:
+ }
 %</xetexx>
 %<*luatex>
-  {
-    \directlua{
-      fontspec.check_ot_lang( "l_fontspec_font", "#1", "\l_fontspec_script_tl" )
-    }
-    \if@tempswa \prg_return_true: \else: \prg_return_false: \fi:
-  }
+ {
+  \directlua
+   {
+    fontspec.check_ot_lang( "l_fontspec_font", "#1", "\l_fontspec_script_tl" )
+   }
+  \if@tempswa \prg_return_true: \else: \prg_return_false: \fi:
+ }
 %</luatex>
 %    \end{macrocode}
 % \end{macro}
@@ -4669,38 +4920,40 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \fontspec_check_ot_feat:n {TF,T}
 %<*xetexx>
+ {
+  \int_set:Nn \l_tmpb_int
    {
-    \int_set:Nn \l_tmpb_int {
-      \XeTeXOTcountfeatures \l_fontspec_font
-                            \l_fontspec_script_int
-                            \l_fontspec_language_int
-    }
-    \fontspec_v_str_to_num:Nn \l_fontspec_strnum_int {#1}
-    \int_zero:N \l_tmpa_int
-    \@tempswafalse
-    \bool_until_do:nn { \int_compare_p:nNn \l_tmpa_int = \l_tmpb_int }
-    {
-      \ifnum\XeTeXOTfeaturetag\l_fontspec_font\l_fontspec_script_int\l_fontspec_language_int
-           \l_tmpa_int =\l_fontspec_strnum_int
-        \@tempswatrue
-        \int_set:Nn \l_tmpa_int {\l_tmpb_int}
-      \else
-        \int_incr:N \l_tmpa_int
-      \fi
-    }
-    \if@tempswa \prg_return_true: \else: \prg_return_false: \fi:
-  }
+    \XeTeXOTcountfeatures \l_fontspec_font
+                          \l_fontspec_script_int
+                          \l_fontspec_language_int
+   }
+  \fontspec_v_str_to_num:Nn \l_fontspec_strnum_int {#1}
+  \int_zero:N \l_tmpa_int
+  \@tempswafalse
+  \bool_until_do:nn { \int_compare_p:nNn \l_tmpa_int = \l_tmpb_int }
+   {
+    \ifnum\XeTeXOTfeaturetag\l_fontspec_font\l_fontspec_script_int\l_fontspec_language_int
+         \l_tmpa_int =\l_fontspec_strnum_int
+      \@tempswatrue
+      \int_set:Nn \l_tmpa_int {\l_tmpb_int}
+    \else
+      \int_incr:N \l_tmpa_int
+    \fi
+   }
+  \if@tempswa \prg_return_true: \else: \prg_return_false: \fi:
+ }
 %</xetexx>
 %<*luatex>
-  {
-    \directlua{
-      fontspec.check_ot_feat(
-                              "l_fontspec_font", "#1",
-                              "\l_fontspec_lang_tl", "\l_fontspec_script_tl"
-                            )
-    }
-    \if@tempswa \prg_return_true: \else: \prg_return_false: \fi:
-  }
+ {
+  \directlua
+   {
+    fontspec.check_ot_feat(
+                           "l_fontspec_font", "#1",
+                           "\l_fontspec_lang_tl", "\l_fontspec_script_tl"
+                          )
+   }
+  \if@tempswa \prg_return_true: \else: \prg_return_false: \fi:
+ }
 %</luatex>
 %    \end{macrocode}
 % \end{macro}
@@ -4710,6 +4963,13 @@ This work consists of this file fontspec.dtx
 %
 % This is the tedious section where we correlate all possible
 % (eventually) font feature requests with their \XeTeX\ representations.
+%
+%    \begin{macrocode}
+\cs_new:Nn \@@_keys_define_code:nnn
+ {
+  \keys_define:nn {#1} { #2 .code:n = {#3} } 
+ }
+%    \end{macrocode}
 %
 % \subsubsection{Pre-parsing naming information}
 %
@@ -4721,19 +4981,18 @@ This work consists of this file fontspec.dtx
 % argument given defines the file path of the font.
 %    \begin{macrocode}
 \bool_new:N \l_fontspec_external_bool
-\keys_define:nn {fontspec-preparse-external} {
-  ExternalLocation .code:n = {
+\@@_keys_define_code:nnn {fontspec-preparse-external} {ExternalLocation}
+ {
   \bool_set_true:N \l_fontspec_nobf_bool
   \bool_set_true:N \l_fontspec_noit_bool
   \bool_set_true:N \l_fontspec_external_bool
   \cs_gset:Npn \fontspec_namewrap:n ##1
-%<xetexx>    {     [ #1 ##1 ] }
-%<luatex>    { file: #1 ##1   }
+%<xetexx>   {     [ #1 ##1 ] }
+%<luatex>   { file: #1 ##1   }
 %<*xetexx>
-  \keys_set:nn {fontspec-preparse} {Renderer=ICU}
+  \keys_set:nn {fontspec-renderer} {Renderer=ICU}
 %</xetexx>
-  }
-}
+ }
 \aliasfontfeature{ExternalLocation}{Path}
 %    \end{macrocode}
 %
@@ -4741,14 +5000,14 @@ This work consists of this file fontspec.dtx
 % For fonts that aren't installed in the system. Specifies the font extension
 % to use.
 %    \begin{macrocode}
-\keys_define:nn {fontspec-preparse-external} {
-  Extension .code:n = {
+\@@_keys_define_code:nnn {fontspec-preparse-external} {Extension}
+ {
   \tl_set:Nn \l_fontspec_extension_tl {#1}
-  \bool_if:NF \l_fontspec_external_bool {
+  \bool_if:NF \l_fontspec_external_bool
+   {
     \keys_set:nn {fontspec-preparse-external} {ExternalLocation}
-  }
-}
-}
+   }
+ }
 \tl_clear:N \l_fontspec_extension_tl
 %    \end{macrocode}
 %
@@ -4761,8 +5020,10 @@ This work consists of this file fontspec.dtx
 % \paragraph{\feat{Renderer}}
 % This feature must be processed before all others (the other font shape and features options are also pre-parsed for convenience) because the renderer determines the format of the features and even whether certain features are available.
 %    \begin{macrocode}
-\keys_define:nn {fontspec-preparse} {
-  Renderer .choice_code:n = {
+\keys_define:nn {fontspec-renderer}
+ {
+  Renderer .choice_code:n =
+   {
     \fontspec_update_fontid:n {+rend:\l_keys_choice_tl}
     \int_compare:nTF {\l_keys_choice_int <= 3} {
 %<*xetexx>
@@ -4772,7 +5033,8 @@ This work consists of this file fontspec.dtx
 %<*luatex>
       \fontspec_warning:nx {only-xetex-feature} {Renderer=AAT/ICU/Graphite}
 %</luatex>
-    }{
+     }
+     {
 %<*xetexx>
       \fontspec_warning:nx {only-luatex-feature} {Renderer=Full/Basic}
 %</xetexx>
@@ -4780,11 +5042,11 @@ This work consists of this file fontspec.dtx
       \tl_set:Nv \l_fontspec_mode_tl
         { g_fontspec_mode_tag_ \l_keys_choice_tl }
 %</luatex>
-    }
-  }
+     }
+   }
   ,
   Renderer .generate_choices:n = {AAT,ICU,Graphite,Full,Basic}
-}
+ }
 \tl_set:cn {g_fontspec_renderer_tag_AAT} {/AAT}
 \tl_set:cn {g_fontspec_renderer_tag_ICU} {/ICU}
 \tl_set:cn {g_fontspec_renderer_tag_Graphite} {/GR}
@@ -4795,21 +5057,21 @@ This work consists of this file fontspec.dtx
 % \paragraph{OpenType script/language}
 % See later for the resolutions from \pkg{fontspec} features to OpenType definitions.
 %    \begin{macrocode}
-\keys_define:nn {fontspec-preparse} { Script .code:n = {
-%<xetexx>  \keys_set:nn {fontspec-preparse} {Renderer=ICU}
+\@@_keys_define_code:nnn {fontspec-preparse} {Script}
+ {
+%<xetexx>    \keys_set:nn {fontspec-renderer} {Renderer=ICU}
   \tl_set:Nn \l_fontspec_script_name_tl {#1}
   \fontspec_update_fontid:n {+script:#1}
-  }
-}
+ }
 %    \end{macrocode}
 % Exactly the same:
 %    \begin{macrocode}
-\keys_define:nn {fontspec-preparse} { Language .code:n = {
-%<xetexx>  \keys_set:nn {fontspec-preparse} {Renderer=ICU}
+\@@_keys_define_code:nnn {fontspec-preparse} {Language}
+ {
+%<xetexx>    \keys_set:nn {fontspec-renderer} {Renderer=ICU}
   \tl_set:Nn \l_fontspec_lang_name_tl {#1}
   \fontspec_update_fontid:n {+language:#1}
-  }
-}
+ }
 %    \end{macrocode}
 %
 % \subsubsection{Bold/italic choosing options}
@@ -4821,78 +5083,77 @@ This work consists of this file fontspec.dtx
 % \paragraph{Fonts}
 % Upright:
 %    \begin{macrocode}
-\keys_define:nn {fontspec-preparse-external} { UprightFont .code:n = {
+\@@_keys_define_code:nnn {fontspec-preparse-external} {UprightFont}
+ {
   \fontspec_complete_fontname:Nn \l_fontspec_fontname_up_tl {#1}
   \fontspec_update_fontid:n {up:#1}
-  }
-}
+ }
 %    \end{macrocode}
 % Bold:
 %    \begin{macrocode}
-\keys_define:nn {fontspec-preparse-external} { BoldFont .code:n = {
+\@@_keys_define_code:nnn {fontspec-preparse-external} {BoldFont}
+ {
   \tl_if_empty:nTF {#1}
-  {
+   {
     \bool_set_true:N \l_fontspec_nobf_bool
     \fontspec_update_fontid:n {nobf}
-  }
-  {
+   }
+   {
     \bool_set_false:N \l_fontspec_nobf_bool
     \fontspec_complete_fontname:Nn \l_fontspec_fontname_bf_tl {#1}
     \fontspec_update_fontid:n {bf:#1}
-  }
-  }
-}
+   }
+ }
 %    \end{macrocode}
 % Same for italic:
 %    \begin{macrocode}
-\keys_define:nn {fontspec-preparse-external} { ItalicFont .code:n = {
+\@@_keys_define_code:nnn {fontspec-preparse-external} {ItalicFont}
+ {
   \tl_if_empty:nTF {#1}
-  {
+   {
     \bool_set_true:N \l_fontspec_noit_bool
     \fontspec_update_fontid:n {noit}
-  }{
+   }
+   {
     \bool_set_false:N \l_fontspec_noit_bool
     \fontspec_complete_fontname:Nn \l_fontspec_fontname_it_tl {#1}
     \fontspec_update_fontid:n {it:#1}
-  }
-  }
-}
+   }
+ }
 %    \end{macrocode}
 % Simpler for bold+italic \& slanted:
 %    \begin{macrocode}
-\keys_define:nn {fontspec-preparse-external} { BoldItalicFont .code:n = {
+\@@_keys_define_code:nnn {fontspec-preparse-external} {BoldItalicFont}
+ {
   \fontspec_complete_fontname:Nn \l_fontspec_fontname_bfit_tl {#1}
   \fontspec_update_fontid:n {bfit:#1}
-  }
-}
-\keys_define:nn {fontspec-preparse-external}
-  {
-    SlantedFont .code:n =
-      {
-        \fontspec_complete_fontname:Nn \l_fontspec_fontname_sl_tl {#1}
-        \fontspec_update_fontid:n {sl:#1}
-      }
-  }
-\keys_define:nn {fontspec-preparse-external} { BoldSlantedFont .code:n = {
+ }
+\@@_keys_define_code:nnn {fontspec-preparse-external} {SlantedFont}
+ {
+  \fontspec_complete_fontname:Nn \l_fontspec_fontname_sl_tl {#1}
+  \fontspec_update_fontid:n {sl:#1}
+ }
+\@@_keys_define_code:nnn {fontspec-preparse-external} {BoldSlantedFont}
+ {
   \fontspec_complete_fontname:Nn \l_fontspec_fontname_bfsl_tl {#1}
   \fontspec_update_fontid:n {bfsl:#1}
-  }
-}
+ }
 %    \end{macrocode}
 % Small caps isn't pre-parsed because it can vary with others above:
 %    \begin{macrocode}
-\keys_define:nn {fontspec} { SmallCapsFont .code:n = {
+\@@_keys_define_code:nnn {fontspec} {SmallCapsFont}
+ {
   \tl_if_empty:nTF {#1}
-  {
+   {
     \bool_set_true:N \l_fontspec_nosc_bool
     \fontspec_update_fontid:n {nosc}
-  }{
+   }
+   {
     \bool_set_true:N \l_fontspec_nosc_bool
     \fontspec_complete_fontname:Nn \l_fontspec_fontname_sc_tl {#1}
     \fontspec_update_fontid:n {sc:#1}
-  }
-  }
-}
+   }
+ }
 %    \end{macrocode}
 %
 % \begin{macro}{\fontspec_complete_fontname:Nn}
@@ -4900,11 +5161,12 @@ This work consists of this file fontspec.dtx
 % replaced by the font name. This lets us define supplementary fonts in full
 % (``\texttt{Baskerville Semibold}'') or in abbreviation (``\texttt{* Semibold}'').
 %    \begin{macrocode}
-\cs_set:Npn \fontspec_complete_fontname:Nn #1#2 {
+\cs_set:Nn \fontspec_complete_fontname:Nn
+ {
   \tl_set:Nn #1 {#2}
   \tl_replace_all:Nnx #1 {*} {\l_fontspec_fontname_tl}
 %<luatex>  \tl_remove_all:Nn #1 {~}
-}
+ }
 \cs_generate_variant:Nn \tl_replace_all:Nnn {Nnx}
 %    \end{macrocode}
 % \end{macro}
@@ -4913,73 +5175,68 @@ This work consists of this file fontspec.dtx
 % Can't use |\clist_set:Nn| below, yet, because it would strip the leading comma
 % and we use that implicitly to concatenate options.
 %    \begin{macrocode}
-\keys_define:nn {fontspec-preparse} { UprightFeatures .code:n = {
+\@@_keys_define_code:nnn {fontspec-preparse} {UprightFeatures}
+ {
   \tl_set:Nn \l_fontspec_fontfeat_up_clist { , #1}
   \fontspec_update_fontid:n {rmfeat:#1}
-  }
-}
-\keys_define:nn {fontspec-preparse} { BoldFeatures .code:n = {
+ }
+\@@_keys_define_code:nnn {fontspec-preparse} {BoldFeatures}
+ {
   \tl_set:Nn \l_fontspec_fontfeat_bf_clist {, #1}
   \fontspec_update_fontid:n {bffeat:#1}
-  }
-}
-\keys_define:nn {fontspec-preparse} { ItalicFeatures .code:n = {
+ }
+\@@_keys_define_code:nnn {fontspec-preparse} {ItalicFeatures}
+ {
   \tl_set:Nn \l_fontspec_fontfeat_it_clist {, #1}
   \fontspec_update_fontid:n {itfeat:#1}
-  }
-}
-\keys_define:nn {fontspec-preparse} { BoldItalicFeatures .code:n = {
+ }
+\@@_keys_define_code:nnn {fontspec-preparse} {BoldItalicFeatures}
+ {
   \tl_set:Nn \l_fontspec_fontfeat_bfit_clist {, #1}
   \fontspec_update_fontid:n {bfitfeat:#1}
-  }
-}
-\keys_define:nn {fontspec-preparse} { SlantedFeatures .code:n = {
+ }
+\@@_keys_define_code:nnn {fontspec-preparse} {SlantedFeatures}
+ {
   \tl_set:Nn \l_fontspec_fontfeat_sl_clist {, #1}
   \fontspec_update_fontid:n {slfeat:#1}
-  }
-}
-\keys_define:nn {fontspec-preparse} { BoldSlantedFeatures .code:n = {
+ }
+\@@_keys_define_code:nnn {fontspec-preparse} {BoldSlantedFeatures}
+ {
   \tl_set:Nn \l_fontspec_fontfeat_bfsl_clist {, #1}
   \fontspec_update_fontid:n {bfslfeat:#1}
-  }
-}
+ }
 %    \end{macrocode}
 % Note that small caps features can vary by shape, so these in fact \emph{aren't} pre-parsed.
 %    \begin{macrocode}
-\keys_define:nn {fontspec} { SmallCapsFeatures .code:n = {
-  \bool_if:NF \l_fontspec_firsttime_bool {
+\@@_keys_define_code:nnn {fontspec} {SmallCapsFeatures}
+ {
+  \bool_if:NF \l_fontspec_firsttime_bool
+   {
     \tl_set:Nn \l_fontspec_fontfeat_sc_clist {, #1}
-  }
+   }
   \fontspec_update_fontid:n {scfeat:#1}
-  }
-}
+ }
 %    \end{macrocode}
 %
 % paragraph{Features varying by size}
 % TODO: sizezfeatures and italicfont (etc) don't play nice
 %    \begin{macrocode}
-\keys_define:nn {fontspec-preparse} { SizeFeatures .code:n = {
+\@@_keys_define_code:nnn {fontspec-preparse} {SizeFeatures}
+ {
   \tl_set:Nn \l_fontspec_sizefeat_clist {#1}
   \fontspec_update_fontid:n {sizefeat:#1}
-  }
-}
+ }
 %    \end{macrocode}
 %
 %    \begin{macrocode}
-\keys_define:nn {fontspec-sizing}
-  {
-    Size .code:n =
-      {
-        \tl_set:Nn \l_fontspec_size_tl {#1}
-      }
-  }
-\keys_define:nn {fontspec-sizing}
-  {
-    Font .code:n =
-      {
-        \fontspec_complete_fontname:Nn \l_fontspec_sizedfont_tl {#1}
-      }
-  }
+\@@_keys_define_code:nnn {fontspec-sizing} {Size}
+ {
+  \tl_set:Nn \l_fontspec_size_tl {#1}
+ }
+\@@_keys_define_code:nnn {fontspec-sizing} {Font}
+ {
+   \fontspec_complete_fontname:Nn \l_fontspec_sizedfont_tl {#1}
+ }
 %    \end{macrocode}
 %
 % \subsubsection{Font-independent features}
@@ -4991,17 +5248,17 @@ This work consists of this file fontspec.dtx
 % it's gotta be numerical. \cs{fontspec_calc_scale:n} does all the work in
 % the auto-scaling cases.
 %    \begin{macrocode}
-\keys_define:nn {fontspec} { Scale .code:n = {
-  \prg_case_str:nnn {#1}
-  {
+\@@_keys_define_code:nnn {fontspec} {Scale}
+ {
+  \str_case:nnn {#1}
+   {
     {MatchLowercase} { \fontspec_calc_scale:n {5} }
     {MatchUppercase} { \fontspec_calc_scale:n {8} }
-  }
-  { \tl_set:Nx \l_fontspec_scale_tl {#1} }
+   }
+   { \tl_set:Nx \l_fontspec_scale_tl {#1} }
   \fontspec_update_fontid:n {+scale:\l_fontspec_scale_tl}
   \tl_set:Nx \l_fontspec_scale_tl { s*[\l_fontspec_scale_tl] }
-  }
-}
+ }
 %    \end{macrocode}
 %
 % \begin{macro}{\fontspec_calc_scale:n}
@@ -5015,7 +5272,8 @@ This work consists of this file fontspec.dtx
 % but allows alternate italic shapes from a separate font, say, to
 % be loaded and to be auto-scaled correctly. Even if this would be ugly.
 %    \begin{macrocode}
-\cs_new:Nn \fontspec_calc_scale:n {
+\cs_new:Nn \fontspec_calc_scale:n
+ {
   \group_begin:
     \rmfamily
     \fontspec_set_font_dimen:NnN \l_fontspec_tmpa_dim {#1} \font
@@ -5026,7 +5284,7 @@ This work consists of this file fontspec.dtx
     \tl_gset:Nx \l_fontspec_scale_tl { \fp_use:N \l_fontspec_tmpa_fp }
     \fontspec_info:n {set-scale}
   \group_end:
-}
+ }
 %    \end{macrocode}
 % \end{macro}
 %
@@ -5039,18 +5297,21 @@ This work consists of this file fontspec.dtx
 % We assume in this case that the font contains either an `X' or an `x'.
 %    \begin{macrocode}
 \cs_new:Nn \fontspec_set_font_dimen:NnN
-{
+ {
   \dim_set:Nn #1 { \fontdimen #2 #3 }
-  \dim_compare:nNnT #1 = {0pt} {
-    \settoheight #1 {
+  \dim_compare:nNnT #1 = {0pt}
+   {
+    \settoheight #1
+     {
       \str_if_eq:nnTF {#3} {\font} \rmfamily #3
-      \prg_case_int:nnn #2 {
-        {5} {x} % x-height
-        {8} {X} % cap-height
-      } {?} % "else" clause; never reached.
-    }
-  }
-}
+      \int_case:nnn #2
+       {
+         {5} {x} % x-height
+         {8} {X} % cap-height
+       } {?} % "else" clause; never reached.
+     }
+   }
+ }
 %    \end{macrocode}
 % \end{macro}
 %
@@ -5059,13 +5320,12 @@ This work consists of this file fontspec.dtx
 % These options set the relevant \cmd\fontdimen s for the
 % font being loaded.
 %    \begin{macrocode}
-\keys_define:nn {fontspec} { WordSpace .code:n = {
+\@@_keys_define_code:nnn {fontspec} {WordSpace}
+ {
   \fontspec_update_fontid:n {+wordspace:#1}
-  \bool_if:NF \l_fontspec_firsttime_bool {
-    \_fontspec_parse_wordspace:w #1,,,\q_stop
-  }
-  }
-}
+  \bool_if:NF \l_fontspec_firsttime_bool
+   { \_fontspec_parse_wordspace:w #1,,,\q_stop }
+ }
 %    \end{macrocode}
 %
 % \begin{macro}{\_fontspec_parse_wordspace:w}
@@ -5073,56 +5333,57 @@ This work consists of this file fontspec.dtx
 % of the form |{X}| or |{X,Y,Z}| and executes the font scaling.
 % If the former input, it executes |{X,X,X}|.
 %    \begin{macrocode}
-\cs_set:Npn \_fontspec_parse_wordspace:w #1,#2,#3,#4 \q_stop {
+\cs_set:Npn \_fontspec_parse_wordspace:w #1,#2,#3,#4 \q_stop
+ {
   \tl_if_empty:nTF {#4}
-  {
-    \tl_put_right:Nn \l_fontspec_postadjust_tl {
+   {
+    \tl_put_right:Nn \l_fontspec_postadjust_tl
+     {
       \fontdimen 2 \font = #1 \fontdimen 2 \font
       \fontdimen 3 \font = #1 \fontdimen 3 \font
       \fontdimen 4 \font = #1 \fontdimen 4 \font
-    }
-  }{
-    \tl_put_right:Nn \l_fontspec_postadjust_tl {
+     }
+   }
+   {
+    \tl_put_right:Nn \l_fontspec_postadjust_tl
+     {
       \fontdimen 2 \font = #1 \fontdimen 2 \font
       \fontdimen 3 \font = #2 \fontdimen 3 \font
       \fontdimen 4 \font = #3 \fontdimen 4 \font
-    }
-  }
-}
+     }
+   }
+ }
 %    \end{macrocode}
 % \end{macro}
 %
 % \paragraph{Punctuation space}
 % Scaling factor for the nominal \cmd\fontdimen \#7.
 %    \begin{macrocode}
-\keys_define:nn {fontspec}
-  {
-    PunctuationSpace .code:n =
-    {
-      \fontspec_update_fontid:n {+punctspace:#1}
-      \tl_put_right:Nx \l_fontspec_postadjust_tl
-        { \fontdimen 7 \font = #1 \fontdimen 7 \font }
-    }
-  }
+\@@_keys_define_code:nnn {fontspec} {PunctuationSpace}
+ {
+   \fontspec_update_fontid:n {+punctspace:#1}
+   \tl_put_right:Nx \l_fontspec_postadjust_tl
+    { \fontdimen 7 \font = #1 \fontdimen 7 \font }
+ }
 %    \end{macrocode}
 %
 % \paragraph{Secret hook into the font-adjustment code}
 %
 %    \begin{macrocode}
-\keys_define:nn {fontspec} { FontAdjustment .code:n = {
+\@@_keys_define_code:nnn {fontspec} {FontAdjustment}
+ {
   \fontspec_update_fontid:n {+fontadjust:\detokenize{#1}}
   \tl_put_right:Nx \l_fontspec_postadjust_tl {#1}
-  }
-}
+ }
 %    \end{macrocode}
 %
 % \paragraph{Letterspacing}
 %    \begin{macrocode}
-\keys_define:nn {fontspec} { LetterSpace .code:n = {
+\@@_keys_define_code:nnn {fontspec} {LetterSpace}
+ {
   \fontspec_update_fontid:n {+tracking:#1}
   \fontspec_update_featstr:n{letterspace=#1}
-  }
-}
+ }
 %    \end{macrocode}
 %
 % \paragraph{Hyphenation character}
@@ -5131,19 +5392,20 @@ This work consists of this file fontspec.dtx
 % and it's one character, then it's the second; otherwise, it's
 % the third.
 %    \begin{macrocode}
-\keys_define:nn {fontspec} { HyphenChar .code:n = {
+\@@_keys_define_code:nnn {fontspec} {HyphenChar}
+ {
   \fontspec_update_fontid:n {+hyphenchar:#1}
   \str_if_eq:nnTF {#1} {None}
-  {
+   {
     \tl_put_right:Nn \l_fontspec_postadjust_tl
       { \hyphenchar \font = \c_minus_one }
-  }
-  {
+   }
+   {
     \tl_if_single:nTF {#1}
-      { \tl_set:Nn \l_fontspec_hyphenchar_tl {`#1} }
-      { \tl_set:Nn \l_fontspec_hyphenchar_tl { #1} }
+     { \tl_set:Nn \l_fontspec_hyphenchar_tl {`#1} }
+     { \tl_set:Nn \l_fontspec_hyphenchar_tl { #1} }
     \font_glyph_if_exist:NnTF \l_fontspec_font {\l_fontspec_hyphenchar_tl}
-    {
+     {
       \tl_put_right:Nn \l_fontspec_postadjust_tl
 %<*xetexx>
         { \hyphenchar \font = \l_fontspec_hyphenchar_tl \scan_stop: }
@@ -5154,176 +5416,180 @@ This work consists of this file fontspec.dtx
           \luatexprehyphenchar = \l_fontspec_hyphenchar_tl \scan_stop:
         }
 %</luatex>
-    }
-    { \fontspec_error:nx {no-glyph}{#1} }
-  }
-  }
-}
+     }
+     { \fontspec_error:nx {no-glyph}{#1} }
+   }
+ }
 %    \end{macrocode}
 %
 % \paragraph{Color}
 % Hooks into pkg{xcolor}, which names its colours \texttt{\char`\\color@<name>}.
 %    \begin{macrocode}
-\keys_define:nn {fontspec} { Color .code:n = {
+\@@_keys_define_code:nnn {fontspec} {Color}
+ {
   \fontspec_update_fontid:n {+col:#1}
   \cs_if_exist:cTF { \token_to_str:N \color@ #1 }
-  {
+   {
     \convertcolorspec{named}{#1}{HTML}\l_fontspec_hexcol_tl
-  }
-  {
-    \int_compare:nTF { \tl_length:n {#1} == 6 }
-    { \tl_set:Nn \l_fontspec_hexcol_tl {#1} }
-    {
-      \int_compare:nTF { \tl_length:n {#1} == 8 }
-      { \fontspec_parse_colour:viii #1 }
-      {
-        \bool_if:NF \l_fontspec_firsttime_bool {
-          \fontspec_warning:nx {bad-colour} {#1}
-        }
-      }
-    }
-  }
-  }
-}
-\cs_set:Npn \fontspec_parse_colour:viii #1#2#3#4#5#6#7#8 {
+   }
+   {
+    \int_compare:nTF { \tl_count:n {#1} == 6 }
+     { \tl_set:Nn \l_fontspec_hexcol_tl {#1} }
+     {
+      \int_compare:nTF { \tl_count:n {#1} == 8 }
+       { \fontspec_parse_colour:viii #1 }
+       {
+        \bool_if:NF \l_fontspec_firsttime_bool
+         { \fontspec_warning:nx {bad-colour} {#1} }
+       }
+     }
+   }
+ }
+\cs_set:Npn \fontspec_parse_colour:viii #1#2#3#4#5#6#7#8
+ {
   \tl_set:Nn \l_fontspec_hexcol_tl {#1#2#3#4#5#6}
   \tl_if_eq:NNF \l_fontspec_opacity_tl \g_fontspec_opacity_tl
    {
-    \bool_if:NF \l_fontspec_firsttime_bool {
-      \fontspec_warning:nx {opa-twice-col} {#7#8}
-    }
+    \bool_if:NF \l_fontspec_firsttime_bool
+     { \fontspec_warning:nx {opa-twice-col} {#7#8} }
    }
   \tl_set:Nn \l_fontspec_opacity_tl {#7#8}
-}
+ }
 \aliasfontfeature{Color}{Colour}
 %    \end{macrocode}
 %    \begin{macrocode}
 \int_new:N \l_fontspec_tmp_int
-\keys_define:nn {fontspec} { Opacity .code:n = {
+\@@_keys_define_code:nnn {fontspec} {Opacity}
+ {
   \fontspec_update_fontid:n {+opac:#1}
   \int_set:Nn \l_fontspec_tmp_int {255}
   \_int_mult_truncate:Nn \l_fontspec_tmp_int { #1 }
   \tl_if_eq:NNF \l_fontspec_opacity_tl \g_fontspec_opacity_tl
    {
-    \bool_if:NF \l_fontspec_firsttime_bool {
-      \fontspec_warning:nx {opa-twice} {#1}
-    }
+    \bool_if:NF \l_fontspec_firsttime_bool
+     { \fontspec_warning:nx {opa-twice} {#1} }
    }
   \tl_set:Nx \l_fontspec_opacity_tl
    {
      \int_compare:nT { \l_fontspec_tmp_int <= "F } {0} % zero pad
      \int_to_hexadecimal:n { \l_fontspec_tmp_int }
    }
-  }
-}
+ }
 %    \end{macrocode}
 %
 %
 % \paragraph{Mapping}
 %    \begin{macrocode}
-\keys_define:nn {fontspec}
+\@@_keys_define_code:nnn {fontspec} {Mapping}
 %<*xetexx>
-{
-  Mapping .code:n = {
+ {
   \fontspec_update_fontid:n {+map:#1}
   \fontspec_update_featstr:n{mapping=#1}
-  }
-}
+ }
 %</xetexx>
 %<*luatex>
-{
-  Mapping .code:n = {
-  \str_if_eq:nnTF {#1} {tex-text} {
+ {
+  \str_if_eq:nnTF {#1} {tex-text}
+   {
     \fontspec_warning:n {no-mapping-ligtex}
     \msg_redirect_name:nnn {fontspec} {no-mapping-ligtex} {none}
     \keys_set:nn {fontspec} { Ligatures=TeX }
-  }{
-    \fontspec_warning:n {no-mapping}
-  }
-  }
-}
+   }
+   { \fontspec_warning:n {no-mapping} }
+ }
 %</luatex>
 %    \end{macrocode}
 %
 % \paragraph{FeatureFile}
 %    \begin{macrocode}
-\keys_define:nn {fontspec} { FeatureFile .code:n = {
+\@@_keys_define_code:nnn {fontspec} {FeatureFile}
+ {
   \fontspec_update_fontid:n {+fea:#1}
   \fontspec_update_featstr:n{featurefile=#1}
-  }
-}
+ }
 %    \end{macrocode}
 %
 %
 % \subsubsection{Continuous font axes}
 %
 %    \begin{macrocode}
-\keys_define:nn {fontspec} { Weight .code:n = {
+\@@_keys_define_code:nnn {fontspec} {Weight}
+ {
   \fontspec_update_fontid:n {+weight:#1}
   \fontspec_update_featstr:n{weight=#1}
-  }
-}
-\keys_define:nn {fontspec} { Width .code:n = {
+ }
+\@@_keys_define_code:nnn {fontspec} {Width}
+ {
   \fontspec_update_fontid:n {+width:#1}
   \fontspec_update_featstr:n{width=#1}
-  }
-}
-\keys_define:nn {fontspec} { OpticalSize .code:n =
+ }
+\@@_keys_define_code:nnn {fontspec} {OpticalSize}
 %<*xetexx>
-  {
-    \bool_if:NTF \l_fontspec_icu_bool {
-      \tl_set:Nn \l_fontspec_optical_size_tl {/ S = #1}
-      \fontspec_update_fontid:n {+size:#1}
-    }{
-      \bool_if:NT \l_fontspec_mm_bool {
-        \fontspec_update_fontid:n {+size:#1}
-        \fontspec_update_featstr:n{optical size=#1}
-      }
-    }
-    \bool_if:nT { !\l_fontspec_icu_bool && !\l_fontspec_mm_bool }{
-      \bool_if:NT \l_fontspec_firsttime_bool {
-        \fontspec_warning:n {no-opticals}
-      }
-    }
-  }
-%</xetexx>
-%<*luatex>
-  {
+ {
+  \bool_if:NTF \l_fontspec_icu_bool
+   {
     \tl_set:Nn \l_fontspec_optical_size_tl {/ S = #1}
     \fontspec_update_fontid:n {+size:#1}
-  }
+   }
+   {
+    \bool_if:NT \l_fontspec_mm_bool
+     {
+      \fontspec_update_fontid:n {+size:#1}
+      \fontspec_update_featstr:n{optical size=#1}
+     }
+   }
+  \bool_if:nT { !\l_fontspec_icu_bool && !\l_fontspec_mm_bool }
+   {
+    \bool_if:NT \l_fontspec_firsttime_bool
+     { \fontspec_warning:n {no-opticals} }
+   }
+ }
+%</xetexx>
+%<*luatex>
+ {
+  \tl_set:Nn \l_fontspec_optical_size_tl {/ S = #1}
+  \fontspec_update_fontid:n {+size:#1}
+ }
 %</luatex>
-}
 %    \end{macrocode}
 %
 % \subsubsection{Font transformations}
 % These are to be specified to apply directly to a font shape:
 %    \begin{macrocode}
-\keys_define:nn {fontspec} { FakeSlant .code:n = {
-  \fontspec_update_fontid:n {+slant:#1}
-  \fontspec_update_featstr:n{slant=#1}
-  },
+\keys_define:nn {fontspec}
+ {
+  FakeSlant .code:n =
+   {
+    \fontspec_update_fontid:n {+slant:#1}
+    \fontspec_update_featstr:n{slant=#1}
+   },
   FakeSlant .default:n = {0.2}
 }
-\keys_define:nn {fontspec} { FakeStretch .code:n = {
-  \fontspec_update_fontid:n {+extend:#1}
-  \fontspec_update_featstr:n{extend=#1}
-  },
+\keys_define:nn {fontspec}
+ {
+  FakeStretch .code:n =
+   {
+    \fontspec_update_fontid:n {+extend:#1}
+    \fontspec_update_featstr:n{extend=#1}
+   },
   FakeStretch .default:n = {1.2}
 }
 %<*xetexx>
-\keys_define:nn {fontspec} { FakeBold .code:n = {
-  \fontspec_update_fontid:n {+embolden:#1}
-  \fontspec_update_featstr:n{embolden=#1}
-  },
+\keys_define:nn {fontspec}
+ {
+  FakeBold .code:n =
+   {
+    \fontspec_update_fontid:n {+embolden:#1}
+    \fontspec_update_featstr:n{embolden=#1}
+   },
   FakeBold .default:n = {1.5}
-}
+ }
 %</xetexx>
 %<*luatex>
 \keys_define:nn {fontspec}
-  {
-    FakeBold .code:n = { \fontspec_warning:n {fakebold-only-xetex} }
-  }
+ {
+  FakeBold .code:n = { \fontspec_warning:n {fakebold-only-xetex} }
+ }
 %</luatex>
 %    \end{macrocode}
 % These are to be given to a shape that has no real bold/italic
@@ -5337,48 +5603,55 @@ This work consists of this file fontspec.dtx
 % (This is just a bit harder to program in the current design of
 % \pkg{fontspec}.)
 %    \begin{macrocode}
-\keys_define:nn {fontspec} { AutoFakeSlant .code:n = {
-  \bool_if:NT \l_fontspec_firsttime_bool {
+\keys_define:nn {fontspec}
+ {
+  AutoFakeSlant .code:n =
+   {
+    \bool_if:NT \l_fontspec_firsttime_bool
+     {
+      \tl_set:Nn \l_fontspec_fake_slant_tl {#1}
+      \clist_put_right:Nn \l_fontspec_fontfeat_it_clist {FakeSlant=#1}
+      \tl_set_eq:NN \l_fontspec_fontname_it_tl \l_fontspec_fontname_tl
+      \bool_set_false:N \l_fontspec_noit_bool
 
-    \tl_set:Nn \l_fontspec_fake_slant_tl {#1}
-    \clist_put_right:Nn \l_fontspec_fontfeat_it_clist {FakeSlant=#1}
-    \tl_set_eq:NN \l_fontspec_fontname_it_tl \l_fontspec_fontname_tl
-    \bool_set_false:N \l_fontspec_noit_bool
+      \fontspec_update_fontid:n {fakeit:#1}
 
-    \fontspec_update_fontid:n {fakeit:#1}
-
-    \tl_if_empty:NF \l_fontspec_fake_embolden_tl
-    {
-      \clist_put_right:Nx \l_fontspec_fontfeat_bfit_clist
-        {FakeBold=\l_fontspec_fake_embolden_tl}
-      \clist_put_right:Nx \l_fontspec_fontfeat_bfit_clist {FakeSlant=#1}
-      \tl_set_eq:NN \l_fontspec_fontname_bfit_tl \l_fontspec_fontname_tl
-    }
-  }
-  },
+      \tl_if_empty:NF \l_fontspec_fake_embolden_tl
+       {
+        \clist_put_right:Nx \l_fontspec_fontfeat_bfit_clist
+         {FakeBold=\l_fontspec_fake_embolden_tl}
+        \clist_put_right:Nx \l_fontspec_fontfeat_bfit_clist {FakeSlant=#1}
+        \tl_set_eq:NN \l_fontspec_fontname_bfit_tl \l_fontspec_fontname_tl
+       }
+     }
+   },
   AutoFakeSlant .default:n = {0.2}
 }
 %    \end{macrocode}
 % Same but reversed:
 %    \begin{macrocode}
-\keys_define:nn {fontspec} { AutoFakeBold .code:n = {
-  \bool_if:NT \l_fontspec_firsttime_bool {
+\keys_define:nn {fontspec}
+ {
+  AutoFakeBold .code:n =
+   {
+    \bool_if:NT \l_fontspec_firsttime_bool
+     {
+      \tl_set:Nn \l_fontspec_fake_embolden_tl {#1}
+      \clist_put_right:Nn \l_fontspec_fontfeat_bf_clist {FakeBold=#1}
+      \tl_set_eq:NN \l_fontspec_fontname_bf_tl \l_fontspec_fontname_tl
+      \bool_set_false:N \l_fontspec_nobf_bool
 
-    \tl_set:Nn \l_fontspec_fake_embolden_tl {#1}
-    \clist_put_right:Nn \l_fontspec_fontfeat_bf_clist {FakeBold=#1}
-    \tl_set_eq:NN \l_fontspec_fontname_bf_tl \l_fontspec_fontname_tl
-    \bool_set_false:N \l_fontspec_nobf_bool
+      \fontspec_update_fontid:n {fakebf:#1}
 
-    \fontspec_update_fontid:n {fakebf:#1}
-
-    \tl_if_empty:NF \l_fontspec_fake_slant_tl {
-      \clist_put_right:Nx \l_fontspec_fontfeat_bfit_clist
-        {FakeSlant=\l_fontspec_fake_slant_tl}
-      \clist_put_right:Nx \l_fontspec_fontfeat_bfit_clist {FakeBold=#1}
-      \tl_set_eq:NN \l_fontspec_fontname_bfit_tl \l_fontspec_fontname_tl
-    }
-  }
-  },
+      \tl_if_empty:NF \l_fontspec_fake_slant_tl
+       {
+        \clist_put_right:Nx \l_fontspec_fontfeat_bfit_clist
+         {FakeSlant=\l_fontspec_fake_slant_tl}
+        \clist_put_right:Nx \l_fontspec_fontfeat_bfit_clist {FakeBold=#1}
+        \tl_set_eq:NN \l_fontspec_fontname_bfit_tl \l_fontspec_fontname_tl
+       }
+     }
+   },
   AutoFakeBold .default:n = {1.5}
 }
 %    \end{macrocode}
@@ -5419,14 +5692,15 @@ This work consists of this file fontspec.dtx
 % Emulate CM extra ligatures.
 %    \begin{macrocode}
 \keys_define:nn {fontspec}
-{
-  Ligatures / TeX .code:n = {
+ {
+  Ligatures / TeX .code:n =
+   {
 %<xetexx>    \fontspec_update_fontid:n {+map:tex-text}
 %<xetexx>    \fontspec_update_featstr:n{mapping=tex-text}
 %<luatex>    \fontspec_update_fontid:n {+tlig+trep}
 %<luatex>    \fontspec_update_featstr:n{+tlig;+trep}
-  }
-}
+   }
+ }
 %    \end{macrocode}
 %
 % \subsubsection{Letters}
@@ -5469,9 +5743,10 @@ This work consists of this file fontspec.dtx
 % maps to Farsi (Persian) numbers if font language is Farsi.
 %
 %    \begin{macrocode}
-\luatex_if_engine:T {
+\luatex_if_engine:T
+ {
   \fontspec_define_feature_option:nnnnn{Numbers}{Arabic}{}{}{+anum}
-}
+ }
 %    \end{macrocode}
 %
 % \subsubsection{Contextuals}
@@ -5549,14 +5824,14 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \fontspec_define_font_feature:n { Alternate }
 \keys_define:nn {fontspec}
-  {
-    Alternate .default:n = {0} ,
-    Alternate / unknown .code:n =
-    {
-      \clist_map_inline:nn {#1}
-        { \fontspec_make_feature:nnx {17}{##1} { \fontspec_salt:n {##1} } }
-    }
-  }
+ {
+  Alternate .default:n = {0} ,
+  Alternate / unknown .code:n =
+   {
+    \clist_map_inline:nn {#1}
+      { \fontspec_make_feature:nnx {17}{##1} { \fontspec_salt:n {##1} } }
+   }
+ }
 %    \end{macrocode}
 %
 %    \begin{macrocode}
@@ -5566,41 +5841,41 @@ This work consists of this file fontspec.dtx
 %    \end{macrocode}
 %
 %    \begin{macrocode}
-\fontspec_define_font_feature:n { Variant }
+\fontspec_define_font_feature:n {Variant}
 \keys_define:nn {fontspec}
-  {
-    Variant .default:n = {0} ,
-    Variant / unknown .code:n =
-    {
-      \clist_map_inline:nn {#1}
-        { \fontspec_make_feature:nnx {18}{##1} { +ss \two@digits {##1} } }
-    }
-  }
+ {
+  Variant .default:n = {0} ,
+  Variant / unknown .code:n =
+   {
+    \clist_map_inline:nn {#1}
+      { \fontspec_make_feature:nnx {18}{##1} { +ss \two@digits {##1} } }
+   }
+ }
 \aliasfontfeature{Variant}{StylisticSet}
 %    \end{macrocode}
 %
 %    \begin{macrocode}
 \fontspec_define_font_feature:n { CharacterVariant }
 \use:x
-  {
-    \cs_new:Npn \exp_not:N \fontspec_parse_cv:w
-        ##1 \c_colon_str ##2 \c_colon_str ##3 \exp_not:N \q_nil
-      {
-        \fontspec_make_numbered_feature:xn
-          { +cv \exp_not:N \two@digits {##1} } {##2}
-      }
-    \keys_define:nn {fontspec}
-      {
-       CharacterVariant / unknown .code:n =
-        {
-          \clist_map_inline:nn {##1}
-            {
-              \exp_not:N \fontspec_parse_cv:w
-                ####1 \c_colon_str 0 \c_colon_str \exp_not:N \q_nil
-            }
-        }
-      }
-  }
+ {
+  \cs_new:Npn \exp_not:N \fontspec_parse_cv:w
+      ##1 \c_colon_str ##2 \c_colon_str ##3 \exp_not:N \q_nil
+   {
+     \fontspec_make_numbered_feature:xn
+       { +cv \exp_not:N \two@digits {##1} } {##2}
+   }
+  \keys_define:nn {fontspec}
+   {
+    CharacterVariant / unknown .code:n =
+     {
+      \clist_map_inline:nn {##1}
+       {
+        \exp_not:N \fontspec_parse_cv:w
+          ####1 \c_colon_str 0 \c_colon_str \exp_not:N \q_nil
+       }
+     }
+   }
+ }
 %    \end{macrocode}
 % Possibilities: \verb|a:0:\q_nil| or \verb|a:b:0:\q_nil|.
 %
@@ -5609,18 +5884,20 @@ This work consists of this file fontspec.dtx
 % Deprecated August 2011; delete at some stage in the future.
 %    \begin{macrocode}
 \keys_define:nn {fontspec}
-  {
-    ScriptStyle .code:n = {
-%<xetexx>      \fontspec_update_fontid:n {+ssty=0}
-%<luatex>      \fontspec_update_fontid:n {+ssty=1}
-      \fontspec_update_featstr:n{+sstyle}
-    },
-    ScriptScriptStyle .code:n = {
-%<xetexx>      \fontspec_update_fontid:n {+ssty=1}
-%<luatex>      \fontspec_update_fontid:n {+ssty=2}
-      \fontspec_update_featstr:n{+ssstyle}
-    }
-  }
+ {
+  ScriptStyle .code:n =
+   {
+%<xetexx>    \fontspec_update_fontid:n {+ssty=0}
+%<luatex>    \fontspec_update_fontid:n {+ssty=1}
+    \fontspec_update_featstr:n{+sstyle}
+   },
+  ScriptScriptStyle .code:n =
+   {
+%<xetexx>    \fontspec_update_fontid:n {+ssty=1}
+%<luatex>    \fontspec_update_fontid:n {+ssty=2}
+    \fontspec_update_featstr:n{+ssstyle}
+   }
+ }
 %    \end{macrocode}
 %
 %
@@ -5686,35 +5963,37 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \fontspec_define_font_feature:n { Annotation }
 \keys_define:nn {fontspec}
-  {
-    Annotation .default:n = {0} ,
-    Annotation / unknown .code:n =
-    {
-      \fontspec_make_feature:nnx {}{}
-%<xetexx>        { +nalt=#1 }
-%<luatex>        { +nalt= \int_eval:n {#1+1} }
-    }
-  }
+ {
+  Annotation .default:n = {0} ,
+  Annotation / unknown .code:n =
+   {
+    \fontspec_make_feature:nnx {}{}
+%<xetexx>    { +nalt=#1 }
+%<luatex>    { +nalt= \int_eval:n {#1+1} }
+   }
+ }
 %    \end{macrocode}
 %
 %
 % \subsubsection{Vertical}
 %    \begin{macrocode}
 \keys_define:nn {fontspec}
-  {
-    Vertical .choice: ,
-    Vertical / RotatedGlyphs .code:n =
-      {
-        \bool_if:NTF \l_fontspec_icu_bool {
-          \fontspec_make_feature:nnn{}{}{+vrt2}
-          \fontspec_update_fontid:n {+vert}
-          \fontspec_update_featstr:n{vertical}
-        }{
-          \fontspec_update_fontid:n {+vert}
-          \fontspec_update_featstr:n{vertical}
-        }
-      }
-  }
+ {
+  Vertical .choice: ,
+  Vertical / RotatedGlyphs .code:n =
+   {
+    \bool_if:NTF \l_fontspec_icu_bool
+     {
+      \fontspec_make_feature:nnn{}{}{+vrt2}
+      \fontspec_update_fontid:n {+vert}
+      \fontspec_update_featstr:n{vertical}
+     }
+     {
+      \fontspec_update_fontid:n {+vert}
+      \fontspec_update_featstr:n{vertical}
+     }
+   }
+ }
 %    \end{macrocode}
 %
 % \subsubsection{Script}
@@ -5968,53 +6247,51 @@ This work consists of this file fontspec.dtx
 % \paragraph{Turkish} Turns out that many fonts use `TUR' as their Turkish language tag rather than the specified `TRK'. So we check for both:
 %    \begin{macrocode}
 \keys_define:nn {fontspec}
-  {
-    Language / Turkish .code:n =
-      {
-        \fontspec_check_lang:nTF {TRK} {
-          \int_set:Nn \l_fontspec_language_int {\l_fontspec_strnum_int}
-          \fontspec_update_fontid:n {+lang=Turkish}
-          \tl_set:Nn \l_fontspec_lang_tl {TRK}
-        }{
-          \fontspec_check_lang:nTF {TUR} {
-            \int_set:Nn \l_fontspec_language_int {\l_fontspec_strnum_int}
-            \fontspec_update_fontid:n {+lang=Turkish}
-            \tl_set:Nn \l_fontspec_lang_tl {TUR}
-          }{
-            \fontspec_warning:nx {language-not-exist} {Turkish}
-            \keys_set:nn {fontspec} {Language=Default}
-          }
-        }
-      }
-  }
+ {
+  Language / Turkish .code:n =
+   {
+    \fontspec_check_lang:nTF {TRK}
+     {
+      \int_set:Nn \l_fontspec_language_int {\l_fontspec_strnum_int}
+      \fontspec_update_fontid:n {+lang=Turkish}
+      \tl_set:Nn \l_fontspec_lang_tl {TRK}
+     }
+     {
+      \fontspec_check_lang:nTF {TUR}
+       {
+        \int_set:Nn \l_fontspec_language_int {\l_fontspec_strnum_int}
+        \fontspec_update_fontid:n {+lang=Turkish}
+        \tl_set:Nn \l_fontspec_lang_tl {TUR}
+       }
+       {
+        \fontspec_warning:nx {language-not-exist} {Turkish}
+        \keys_set:nn {fontspec} {Language=Default}
+       }
+     }
+   }
+ }
 %    \end{macrocode}
 %
 % \paragraph{Default}
 %
 %    \begin{macrocode}
-\keys_define:nn {fontspec}
-  {
-    Language / Default .code:n =
-      {
-        \fontspec_update_fontid:n {+lang=dflt}
-        \tl_set:Nn \l_fontspec_lang_tl {DFLT}
-        \int_zero:N \l_fontspec_language_int
-      }
-  }
+\@@_keys_define_code:nnn {fontspec}{ Language / Default }
+ {
+  \fontspec_update_fontid:n {+lang=dflt}
+  \tl_set:Nn \l_fontspec_lang_tl {DFLT}
+  \int_zero:N \l_fontspec_language_int
+ }
 %    \end{macrocode}
 %
 % \subsubsection{Raw feature string}
 % This allows savvy \XeTeX-ers to input font features manually if they have
 % already memorised the OpenType abbreviations and don't mind not having error checking.
 %    \begin{macrocode}
-\keys_define:nn {fontspec}
-  {
-    RawFeature .code:n =
-      {
-        \fontspec_update_fontid:n {+Raw:#1}
-        \fontspec_update_featstr:n{#1}
-      }
-  }
+\@@_keys_define_code:nnn {fontspec} {RawFeature}
+ {
+  \fontspec_update_fontid:n {+Raw:#1}
+  \fontspec_update_featstr:n{#1}
+ }
 %    \end{macrocode}
 %
 %
@@ -6033,10 +6310,11 @@ This work consists of this file fontspec.dtx
 %     redefined to one of these if required for compatibility.
 %    \begin{macrocode}
 \providecommand*{\sidefault}{si}
-\DeclareRobustCommand{\sishape}{
+\DeclareRobustCommand{\sishape}
+ {
   \not@math@alphabet\sishape\relax
   \fontshape\sidefault\selectfont
-}
+ }
 \DeclareTextFontCommand{\textsi}{\sishape}
 %    \end{macrocode}
 % \end{macro} \end{macro}
@@ -6046,37 +6324,42 @@ This work consists of this file fontspec.dtx
 %   selects the first argument, unless the second argument is already
 %   selected, in which case it selects the third.
 %    \begin{macrocode}
-\cs_new:Nn \fontspec_blend_shape:nnn {
+\cs_new:Nn \fontspec_blend_shape:nnn
+ {
   \bool_if:nTF
-  {
-    \str_if_eq_p:xx {\f@shape} {#2} &&
+   {
+    \str_if_eq_x_p:nn {\f@shape} {#2} &&
     \cs_if_exist_p:c {\f@encoding/\f@family/\f@series/#3}
-  }
-  { \fontshape{#3}\selectfont }
-  { \fontshape{#1}\selectfont }
-}
+   }
+   { \fontshape{#3}\selectfont }
+   { \fontshape{#1}\selectfont }
+ }
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\itshape} \begin{macro}{\scshape} \begin{macro}{\upshape}
 %       Here the original |\..shape| commands are redefined to use the
 %       merge shape macro.
 %    \begin{macrocode}
-\DeclareRobustCommand \itshape {
+\DeclareRobustCommand \itshape
+ {
   \not@math@alphabet\itshape\mathit
   \fontspec_blend_shape:nnn\itdefault\scdefault\sidefault
-}
-\DeclareRobustCommand \slshape {
+ }
+\DeclareRobustCommand \slshape
+ {
   \not@math@alphabet\slshape\relax
   \fontspec_blend_shape:nnn\sldefault\scdefault\sidefault
-}
-\DeclareRobustCommand \scshape {
+ }
+\DeclareRobustCommand \scshape
+ {
   \not@math@alphabet\scshape\relax
   \fontspec_blend_shape:nnn\scdefault\itdefault\sidefault
-}
-\DeclareRobustCommand \upshape {
+ }
+\DeclareRobustCommand \upshape
+ {
   \not@math@alphabet\upshape\relax
   \fontspec_blend_shape:nnn\updefault\sidefault\scdefault
-}
+ }
 %    \end{macrocode}
 % \end{macro} \end{macro} \end{macro}
 %
@@ -6097,19 +6380,22 @@ This work consists of this file fontspec.dtx
 % maths font package has been loaded.
 %
 %    \begin{macrocode}
-\@ifpackageloaded{euler}{
+\@ifpackageloaded{euler}
+ {
   \bool_set_true:N \g_fontspec_package_euler_loaded_bool
-}{
+ }
+ {
   \bool_set_false:N \g_fontspec_package_euler_loaded_bool
-}
-\cs_set:Nn \fontspec_setup_maths: {
-  \@ifpackageloaded{euler}{
-    \bool_if:NTF \g_fontspec_package_euler_loaded_bool {
-      \bool_set_true:N \g_fontspec_math_euler_bool
-    }{
-      \fontspec_error:n {euler-too-late}
-    }
-  }{}
+ }
+\cs_set:Nn \fontspec_setup_maths:
+ {
+  \@ifpackageloaded{euler}
+   {
+    \bool_if:NTF \g_fontspec_package_euler_loaded_bool
+     { \bool_set_true:N \g_fontspec_math_euler_bool }
+     { \fontspec_error:n {euler-too-late} }
+   }
+   {}
   \@ifpackageloaded{lucbmath}{\bool_set_true:N \g_fontspec_math_lucida_bool}{}
   \@ifpackageloaded{lucidabr}{\bool_set_true:N \g_fontspec_math_lucida_bool}{}
   \@ifpackageloaded{lucimatx}{\bool_set_true:N \g_fontspec_math_lucida_bool}{}
@@ -6175,7 +6461,8 @@ This work consists of this file fontspec.dtx
 % The following symbols are only defined specifically in \pkg{euler}, so skip them
 % if that package is loaded.
 %    \begin{macrocode}
-  \bool_if:NF \g_fontspec_math_euler_bool {
+  \bool_if:NF \g_fontspec_math_euler_bool
+   {
     \DeclareMathSymbol{!}{\mathclose}{legacymaths}{33}
     \DeclareMathSymbol{:}{\mathrel}  {legacymaths}{58}
     \DeclareMathSymbol{;}{\mathpunct}{legacymaths}{59}
@@ -6185,7 +6472,8 @@ This work consists of this file fontspec.dtx
 % so we only need to run this code if no extra maths package has been
 % loaded.
 %    \begin{macrocode}
-    \bool_if:NF \g_fontspec_math_lucida_bool {
+    \bool_if:NF \g_fontspec_math_lucida_bool
+     {
       \DeclareMathSymbol{0}{\mathalpha}{legacymaths}{`0}
       \DeclareMathSymbol{1}{\mathalpha}{legacymaths}{`1}
       \DeclareMathSymbol{2}{\mathalpha}{legacymaths}{`2}
@@ -6236,17 +6524,19 @@ This work consists of this file fontspec.dtx
   \SetMathAlphabet\mathsf{normal}\g_fontspec_encoding_tl\g_fontspec_mathsf_tl\mddefault\updefault
   \SetMathAlphabet\mathtt{normal}\g_fontspec_encoding_tl\g_fontspec_mathtt_tl\mddefault\updefault
   \SetSymbolFont{operators}{bold}\g_fontspec_encoding_tl\g_fontspec_mathrm_tl\bfdefault\updefault
-  \tl_if_empty:NTF \g_fontspec_bfmathrm_tl {
+  \tl_if_empty:NTF \g_fontspec_bfmathrm_tl
+   {
     \SetMathAlphabet\mathrm{bold}\g_fontspec_encoding_tl\g_fontspec_mathrm_tl\bfdefault\updefault
     \SetMathAlphabet\mathit{bold}\g_fontspec_encoding_tl\g_fontspec_mathrm_tl\bfdefault\itdefault
-  }{
+   }
+   {
     \SetMathAlphabet\mathrm{bold}\g_fontspec_encoding_tl\g_fontspec_bfmathrm_tl\mddefault\updefault
     \SetMathAlphabet\mathbf{bold}\g_fontspec_encoding_tl\g_fontspec_bfmathrm_tl\bfdefault\updefault
     \SetMathAlphabet\mathit{bold}\g_fontspec_encoding_tl\g_fontspec_bfmathrm_tl\mddefault\itdefault
-  }
+   }
   \SetMathAlphabet\mathsf{bold}\g_fontspec_encoding_tl\g_fontspec_mathsf_tl\bfdefault\updefault
   \SetMathAlphabet\mathtt{bold}\g_fontspec_encoding_tl\g_fontspec_mathtt_tl\bfdefault\updefault
-}
+ }
 %    \end{macrocode}
 % \end{macro}
 %
@@ -6256,9 +6546,12 @@ This work consists of this file fontspec.dtx
 % Untested: would |\unless\ifnum\Gamma=28672\relax\bool_set_false:N \g_fontspec_math_bool\fi| be a better test?
 % This needs more cooperation with euler and lucida, I think.
 %    \begin{macrocode}
-\cs_new:Nn \fontspec_maybe_setup_maths: {
-  \@ifpackageloaded{anttor}{
-    \ifx\define@antt@mathversions a\bool_set_false:N \g_fontspec_math_bool\fi}{}
+\cs_new:Nn \fontspec_maybe_setup_maths:
+ {
+  \@ifpackageloaded{anttor}
+   {
+    \ifx\define@antt@mathversions a\bool_set_false:N \g_fontspec_math_bool\fi
+   }{}
   \@ifpackageloaded{arev}{\bool_set_false:N \g_fontspec_math_bool}{}
   \@ifpackageloaded{eulervm}{\bool_set_false:N \g_fontspec_math_bool}{}
   \@ifpackageloaded{mathdesign}{\bool_set_false:N \g_fontspec_math_bool}{}
@@ -6267,12 +6560,16 @@ This work consists of this file fontspec.dtx
   \@ifpackageloaded{mathesf}{\bool_set_false:N \g_fontspec_math_bool}{}
   \@ifpackageloaded{gfsartemisia}{\bool_set_false:N \g_fontspec_math_bool}{}
   \@ifpackageloaded{gfsneohellenic}{\bool_set_false:N \g_fontspec_math_bool}{}
-  \@ifpackageloaded{iwona}{
-    \ifx\define@iwona@mathversions a\bool_set_false:N \g_fontspec_math_bool\fi}{}
+  \@ifpackageloaded{iwona}
+   {
+    \ifx\define@iwona@mathversions a\bool_set_false:N \g_fontspec_math_bool\fi
+   }{}
   \@ifpackageloaded{kpfonts}{\bool_set_false:N \g_fontspec_math_bool}{}
   \@ifpackageloaded{kmath}{\bool_set_false:N \g_fontspec_math_bool}{}
-  \@ifpackageloaded{kurier}{
-    \ifx\define@kurier@mathversions a\bool_set_false:N \g_fontspec_math_bool\fi}{}
+  \@ifpackageloaded{kurier}
+   {
+    \ifx\define@kurier@mathversions a\bool_set_false:N \g_fontspec_math_bool\fi
+   }{}
   \@ifpackageloaded{fouriernc}{\bool_set_false:N \g_fontspec_math_bool}{}
   \@ifpackageloaded{fourier}{\bool_set_false:N \g_fontspec_math_bool}{}
   \@ifpackageloaded{lmodern}{\bool_set_false:N \g_fontspec_math_bool}{}
@@ -6281,11 +6578,12 @@ This work consists of this file fontspec.dtx
   \@ifpackageloaded{MinionPro}{\bool_set_false:N \g_fontspec_math_bool}{}
   \@ifpackageloaded{unicode-math}{\bool_set_false:N \g_fontspec_math_bool}{}
   \@ifpackageloaded{breqn}{\bool_set_false:N \g_fontspec_math_bool}{}
-  \bool_if:NT \g_fontspec_math_bool {
+  \bool_if:NT \g_fontspec_math_bool
+   {
     \fontspec_info:n {setup-math}
     \fontspec_setup_maths:
-  }
-}
+   }
+ }
 \AtBeginDocument{\fontspec_maybe_setup_maths:}
 %    \end{macrocode}
 % \end{macro}
@@ -6294,11 +6592,12 @@ This work consists of this file fontspec.dtx
 % \subsection{Finishing up}
 % Now we just want to set up loading the \texttt{.cfg} file, if it exists.
 %    \begin{macrocode}
-\bool_if:NT \g_fontspec_cfg_bool {
+\bool_if:NT \g_fontspec_cfg_bool
+ {
   \InputIfFileExists{fontspec.cfg}
     {}
     {\typeout{No~ fontspec.cfg~ file~ found;~ no~ configuration~ loaded.}}
-}
+ }
 %    \end{macrocode}
 %
 % \subsection{Compatibility}
@@ -6312,11 +6611,11 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \tl_set:Nn \zf@enc { \g_fontspec_encoding_tl }
 \cs_set:Npn \zf@fontspec #1 #2
-  {
-    \fontspec_select:nn {#1} {#2}
-    \tl_set:Nn \zf@family { \l_fontspec_family_tl }
-    \tl_set:Nn \zf@basefont { \l_fontspec_font }
-  }
+ {
+  \fontspec_select:nn {#1} {#2}
+  \tl_set:Nn \zf@family { \l_fontspec_family_tl }
+  \tl_set:Nn \zf@basefont { \l_fontspec_font }
+ }
 %    \end{macrocode}
 % \end{macro}
 % \end{macro}
@@ -6552,13 +6851,14 @@ luatexbase.add_to_callback("luaotfload.patch_font", set_capheight, "fontspec.set
 % \begin{macro}{\eminnershape}
 % Redefinition of |{\em ...}| and |\emph{...}| to use \textsc{nfss} info to detect when the inner shape should be used.
 %    \begin{macrocode}
-\DeclareRobustCommand \em {
+\DeclareRobustCommand \em
+ {
   \@nomath\em
-  \str_if_eq:xxTF \f@shape \itdefault \eminnershape
+  \str_if_eq_x:nnTF \f@shape \itdefault \eminnershape
   {
-    \str_if_eq:xxTF \f@shape \sldefault \eminnershape \emshape
+    \str_if_eq_x:nnTF \f@shape \sldefault \eminnershape \emshape
   }
-}
+ }
 \DeclareTextFontCommand{\emph}{\em}
 \cs_set_eq:NN \emshape \itshape
 \cs_set_eq:NN \eminnershape \upshape
@@ -6571,13 +6871,17 @@ luatexbase.add_to_callback("luaotfload.patch_font", set_capheight, "fontspec.set
 % \begin{macro}{\-}
 % This macro is courtesy of Frank Mittelbach and the \LaTeXe\ source code.
 %    \begin{macrocode}
-\DeclareRobustCommand{\-}{%
-  \discretionary{%
+\DeclareRobustCommand{\-}
+ {
+  \discretionary
+   {
     \char\ifnum\hyphenchar\font<\z@
            \xlx@defaulthyphenchar
          \else
            \hyphenchar\font
-         \fi}{}{}}
+         \fi
+   }{}{}
+ }
 \def\xlx@defaulthyphenchar{`\-}
 %    \end{macrocode}
 % \end{macro}
@@ -6590,23 +6894,25 @@ luatexbase.add_to_callback("luaotfload.patch_font", set_capheight, "fontspec.set
 % \begin{macro}{\fontspec_visible_space:}
 % Print \unichar{2434}{Open box}, which is used to visibly display a space character.
 %    \begin{macrocode}
-\cs_new:Nn \fontspec_visible_space: {
+\cs_new:Nn \fontspec_visible_space:
+ {
   \font_glyph_if_exist:NnTF \font {"2423}
-    {\char"2423\relax}
-    {\fontspec_visible_space_fallback:}
-}
+   { \char"2423\scan_stop: }
+   { \fontspec_visible_space_fallback: }
+ }
 %    \end{macrocode}
 % \end{macro}
 %
 % \begin{macro}{\fontspec_visible_space:@fallback}
 % If the current font doesn't have \unichar{2434}{Open box}, use Latin Modern Mono instead.
 %    \begin{macrocode}
-\cs_new:Nn \fontspec_visible_space_fallback: {
+\cs_new:Nn \fontspec_visible_space_fallback:
+ {
   {
-    \usefont{\g_fontspec_encoding_tl}{lmtt}{\f@series}{\f@shape}
-    \textvisiblespace
+   \usefont{\g_fontspec_encoding_tl}{lmtt}{\f@series}{\f@shape}
+   \textvisiblespace
   }
-}
+ }
 %    \end{macrocode}
 % \end{macro}
 %
@@ -6627,13 +6933,14 @@ luatexbase.add_to_callback("luaotfload.patch_font", set_capheight, "fontspec.set
 % \begin{macro}{\verb*}
 % Redefine \cmd\verb\ to use \cmd\fontspec_print_visible_spaces:.
 %    \begin{macrocode}
-\def\verb{
+\def\verb
+ {
   \relax\ifmmode\hbox\else\leavevmode\null\fi
   \bgroup
     \verb@eol@error \let\do\@makeother \dospecials
     \verbatim@font\@noligs
     \@ifstar\@@sverb\@verb
-}
+ }
 \def\@@sverb{\fontspec_print_visible_spaces:\@sverb}
 %    \end{macrocode}
 % \end{macro}
@@ -6641,31 +6948,37 @@ luatexbase.add_to_callback("luaotfload.patch_font", set_capheight, "fontspec.set
 %
 % It's better to put small things into \cmd\AtBeginDocument, so here we go:
 %    \begin{macrocode}
-\AtBeginDocument{
+\AtBeginDocument
+ {
   \fontspec_patch_verbatim:
   \fontspec_patch_moreverb:
   \fontspec_patch_fancyvrb:
   \fontspec_patch_listings:
-}
+ }
 %    \end{macrocode}
 %
 % \begin{environment}{verbatim*}
 % With the \pkg{verbatim} package.
 %    \begin{macrocode}
-\cs_set:Npn \fontspec_patch_verbatim: {
-  \@ifpackageloaded{verbatim}{
-    \cs_set:cpn {verbatim*} {
+\cs_set:Npn \fontspec_patch_verbatim:
+ {
+  \@ifpackageloaded{verbatim}
+   {
+    \cs_set:cpn {verbatim*}
+     {
       \group_begin: \@verbatim \fontspec_print_visible_spaces: \verbatim@start
-    }
-  }{
+     }
+   }
 %    \end{macrocode}
 % This is for vanilla \LaTeX.
 %    \begin{macrocode}
-    \cs_set:cpn {verbatim*} {
+   {
+    \cs_set:cpn {verbatim*}
+     {
       \@verbatim \fontspec_print_visible_spaces: \@sxverbatim
-    }
-  }
-}
+     }
+   }
+ }
 %    \end{macrocode}
 % \end{environment}
 %
@@ -6673,35 +6986,42 @@ luatexbase.add_to_callback("luaotfload.patch_font", set_capheight, "fontspec.set
 % This is for \pkg{moreverb}.
 % The main |listing*| environment inherits this definition.
 %    \begin{macrocode}
-\cs_set:Npn \fontspec_patch_moreverb: {
+\cs_set:Npn \fontspec_patch_moreverb:
+ {
   \@ifpackageloaded{moreverb}{
-    \cs_set:cpn {listingcont*} {
-      \cs_set:Npn \verbatim@processline {
+    \cs_set:cpn {listingcont*}
+     {
+      \cs_set:Npn \verbatim@processline
+       {
         \thelisting@line \global\advance\listing@line\c_one
         \the\verbatim@line\par
-      }
+       }
       \@verbatim \fontspec_print_visible_spaces: \verbatim@start
-    }
+     }
   }{}
-}
+ }
 %    \end{macrocode}
 % \end{environment}
 %
 % \pkg{listings} and \pkg{fancvrb} make things nice and easy:
 %    \begin{macrocode}
-\cs_set:Npn \fontspec_patch_fancyvrb: {
-  \@ifpackageloaded{fancyvrb}{
+\cs_set:Npn \fontspec_patch_fancyvrb:
+ {
+  \@ifpackageloaded{fancyvrb}
+   {
     \cs_set_eq:NN \FancyVerbSpace \fontspec_visible_space:
-  }{}
-}
+   }{}
+ }
 %    \end{macrocode}
 %
 %    \begin{macrocode}
-\cs_set:Npn \fontspec_patch_listings: {
-  \@ifpackageloaded{listings}{
+\cs_set:Npn \fontspec_patch_listings:
+ {
+  \@ifpackageloaded{listings}
+   {
     \cs_set_eq:NN \lst@visiblespace \fontspec_visible_space:
-  }{}
-}
+   }{}
+ }
 %    \end{macrocode}
 %
 % \subsection{\cs{oldstylenums}}
@@ -6713,13 +7033,13 @@ luatexbase.add_to_callback("luaotfload.patch_font", set_capheight, "fontspec.set
 % And we may as well provide the reverse command.
 %    \begin{macrocode}
 \RenewDocumentCommand \oldstylenums {m}
-  {
-    { \addfontfeature{Numbers=OldStyle} #1 }
-  }
+ {
+  { \addfontfeature{Numbers=OldStyle} #1 }
+ }
 \NewDocumentCommand \liningnums {m}
-  {
-    { \addfontfeature{Numbers=Lining} #1 }
-  }
+ {
+  { \addfontfeature{Numbers=Lining} #1 }
+ }
 %    \end{macrocode}
 % \end{macro}
 % \end{macro}
@@ -6895,7 +7215,7 @@ If you want to run just a single test, use
 
 % ToC formatting:
 \setlength\cftsubsecnumwidth{1.4\cftsubsecnumwidth}
-\def\@cfttocstart{\begin{multicols}{2}}
+\def\@cfttocstart{\small\begin{multicols}{2}}
 \def\@cfttocfinish{\end{multicols}}
 
 \fvset{gobble=2}

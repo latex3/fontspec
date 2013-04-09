@@ -6663,7 +6663,7 @@ end
 % The following functions check for exsitence of certain script, language or
 % feature in a given font.
 %    \begin{macrocode}
-local ids = fonts.hashes.identifiers
+local ids = fonts.identifiers or fonts.ids or fonts.hashes.identifiers -- first twos are for backward compatibility
 
 local function check_script(id, script)
     local s = string.lower(script)
@@ -6800,10 +6800,10 @@ end
 local function set_capheight(fontdata)
     if fontdata.shared then
         local capheight
-        local units   = fontdata.parameters.units
-        local size    = fontdata.parameters.size
-        local otfdata = fontdata.shared.rawdata
-        local pfminfo = otfdata.metadata.pfminfo
+        local units   = fontdata.parameters.units or fontdata.units -- last is for backward compatibility
+        local size    = fontdata.parameters.size or fontdata.size -- last is for backward compatibility
+        local otfdata = fontdata.shared.rawdata or fontdata.shared.otfdata -- last is for backward compatibility
+        local pfminfo = otfdata.pfminfo or otfdata.metadata.pfminfo -- first is for backward compatibility
 
         if pfminfo.os2_capheight > 0 then
             capheight = pfminfo.os2_capheight / units * size

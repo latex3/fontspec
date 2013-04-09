@@ -6664,14 +6664,14 @@ function fontspec.sprint (...) tex.sprint(luatexbase.catcodetables['latex-packag
 local function check_script(id, script)
     local s = string.lower(script)
     if id and id > 0 then
-        local otfdata = fonts.identifiers[id].shared.otfdata
+        local otfdata = fonts.hashes.identifiers[id].shared.otfdata
         if otfdata then
             local features = otfdata.luatex.features
             for i,_ in pairs(features) do
                 for j,_ in pairs(features[i]) do
                     if features[i][j][s] then
                         fontspec.log("script '%s' exists in font '%s'",
-                                      script, fonts.identifiers[id].fullname)
+                                      script, fonts.hashes.identifiers[id].fullname)
                         return true
                     end
                 end
@@ -6686,14 +6686,14 @@ local function check_language(id, language, script)
     local s = string.lower(script)
     local l = string.lower(language)
     if id and id > 0 then
-        local otfdata = fonts.identifiers[id].shared.otfdata
+        local otfdata = fonts.hashes.identifiers[id].shared.otfdata
         if otfdata then
             local features = otfdata.luatex.features
             for i,_ in pairs(features) do
                 for j,_ in pairs(features[i]) do
                     if features[i][j][s] and features[i][j][s][l] then
                         fontspec.log("language '%s' for script '%s' exists in font '%s'",
-                                      language, script, fonts.identifiers[id].fullname)
+                                      language, script, fonts.hashes.identifiers[id].fullname)
                         return true
                     end
                 end
@@ -6709,14 +6709,14 @@ local function check_feature(id, feature, language, script)
     local l = string.lower(language)
     local f = string.lower(feature:gsub("^[+-]", ""):gsub("=.*$", ""))
     if id and id > 0 then
-        local otfdata = fonts.identifiers[id].shared.otfdata
+        local otfdata = fonts.hashes.identifiers[id].shared.otfdata
         if otfdata then
             local features = otfdata.luatex.features
             for i,_ in pairs(features) do
                 if features[i][f] and features[i][f][s] then
                     if features[i][f][s][l] == true then
                         fontspec.log("feature '%s' for language '%s' and script '%s' exists in font '%s'",
-                                      feature, language, script, fonts.identifiers[id].fullname)
+                                      feature, language, script, fonts.hashes.identifiers[id].fullname)
                         return true
                     end
                 end
@@ -6769,7 +6769,7 @@ end
 %
 %    \begin{macrocode}
 function fontspec.mathfontdimen(fnt, str)
-    local mathdimens = fonts.identifiers[font.id(fnt)].MathConstants
+    local mathdimens = fonts.hashes.identifiers[font.id(fnt)].MathConstants
     if mathdimens then
         local m = mathdimens[str]
         if m then

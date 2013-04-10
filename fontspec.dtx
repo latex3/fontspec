@@ -6795,17 +6795,18 @@ end
 %    \begin{macrocode}
 local function set_capheight(fontdata)
     local capheight
-    local units     = fontdata.units
-    local size      = fontdata.size
-    local otfdata   = fontdata.shared.otfdata
+    local size         = fontdata.size
+    local metadata     = fontdata.shared.rawdata.metadata
+    local units_per_em = metadata.units_per_em
+    local pfminfo      = metadata.pfminfo
 
-    if otfdata.pfminfo.os2_capheight > 0 then
-        capheight = otfdata.pfminfo.os2_capheight / units * size
+    if pfminfo.os2_capheight > 0 then
+        capheight = pfminfo.os2_capheight / units_per_em * size
     else
         if fontdata.characters[string.byte("X")] then
             capheight = fontdata.characters[string.byte("X")].height
         else
-            capheight = otfdata.metadata.ascent / units * size
+            capheight = metadata.ascent / units_per_em * size
         end
     end
     fontdata.parameters[8] = capheight

@@ -6816,8 +6816,6 @@ local function set_capheight(fontdata)
         else
             capheight = metadata.ascent / units_per_em * size
         end
-    elseif fontdata.characters[string.byte("X")] then
-        capheight = fontdata.characters[string.byte("X")].height
     end
     if capheight then
         fontdata.parameters[8] = capheight

@@ -6804,7 +6804,7 @@ local function set_capheight(fontdata)
       local metadata
       local units_per_em
       local os2_capheight
-      local size = fontdata.size
+      local size = fontdata.size or fontdata.parameters.size
 
       if shared.rawdata then --- new otfl
           metadata      = shared.rawdata.metadata
@@ -6813,6 +6813,7 @@ local function set_capheight(fontdata)
       else --- legacy
           metadata      = shared.otfdata.metadata
           units_per_em  = fontdata.units_per_em or fontdata.units
+                       or fontdata.parameters.units
           os2_capheight = shared.otfdata.pfminfo.os2_capheight
       end
 

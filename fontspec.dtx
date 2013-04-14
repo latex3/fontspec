@@ -6798,21 +6798,30 @@ end
 %
 %    \begin{macrocode}
 local function set_capheight(fontdata)
-    if not fontdata.shared or not fontdata.shared.rawdata.metadata then return end
+    local shared = fontdata.shared
+    if not shared then return end
+    local metadata
     local capheight
-    local size         = fontdata.size
-    local metadata     = fontdata.shared.rawdata.metadata
-    local units_per_em = fontdata.units_per_em
-    if not units_per_em then
-        units_per_em = fontdata.shared.rawdata.metadata.units_per_em
+    local units_per_em
+    local os2_capheight
+    local size = fontdata.size
+
+    if shared.rawdata then --- new otfl
+        metadata      = shared.rawdata.metadata
+        units_per_em  = shared.rawdata.metadata.units_per_em
+        os2_capheight = metadata.pfminfo.os2_capheight
+    else --- legacy
+        metadata      = shared.otfdata.metadata
+        units_per_em  = fontdata.units_per_em or fontdata.units
+        os2_capheight = shared.otfdata.pfminfo.os2_capheight
     end
-    local os2_capheight = metadata.pfminfo.os2_capheight
 
     if os2_capheight > 0 then
         capheight = os2_capheight / units_per_em * size
     else
-        if fontdata.characters[string.byte("X")] then
-            capheight = fontdata.characters[string.byte("X")].height
+        local X8 = stringbyte"X"
+        if fontdata.characters[X8] then
+            capheight = fontdata.characters[X8].height
         else
             capheight = metadata.ascent / units_per_em * size
         end

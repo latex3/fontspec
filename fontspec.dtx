@@ -6798,32 +6798,38 @@ end
 %
 %    \begin{macrocode}
 local function set_capheight(fontdata)
-    local shared = fontdata.shared
-    if not shared then return end
-    local metadata
     local capheight
-    local units_per_em
-    local os2_capheight
-    local size = fontdata.size
+    local shared = fontdata.shared
+    if shared then
+      local metadata
+      local units_per_em
+      local os2_capheight
+      local size = fontdata.size
 
-    if shared.rawdata then --- new otfl
-        metadata      = shared.rawdata.metadata
-        units_per_em  = shared.rawdata.metadata.units_per_em
-        os2_capheight = metadata.pfminfo.os2_capheight
-    else --- legacy
-        metadata      = shared.otfdata.metadata
-        units_per_em  = fontdata.units_per_em or fontdata.units
-        os2_capheight = shared.otfdata.pfminfo.os2_capheight
-    end
+      if shared.rawdata then --- new otfl
+          metadata      = shared.rawdata.metadata
+          units_per_em  = shared.rawdata.metadata.units_per_em
+          os2_capheight = metadata.pfminfo.os2_capheight
+      else --- legacy
+          metadata      = shared.otfdata.metadata
+          units_per_em  = fontdata.units_per_em or fontdata.units
+          os2_capheight = shared.otfdata.pfminfo.os2_capheight
+      end
 
-    if os2_capheight > 0 then
-        capheight = os2_capheight / units_per_em * size
+      if os2_capheight > 0 then
+          capheight = os2_capheight / units_per_em * size
+      else
+          local X8 = string.byte"X"
+          if fontdata.characters[X8] then
+              capheight = fontdata.characters[X8].height
+          else
+              capheight = metadata.ascent / units_per_em * size
+          end
+      end
     else
-        local X8 = stringbyte"X"
+        local X8 = string.byte"X"
         if fontdata.characters[X8] then
             capheight = fontdata.characters[X8].height
-        else
-            capheight = metadata.ascent / units_per_em * size
         end
     end
     if capheight then

@@ -6706,7 +6706,7 @@ else
             end
         end
     end
-    function check_language(id, language, script)
+    function check_language(id, script, language)
         local s = string.lower(script)
         local l = string.lower(language)
         if id and id > 0 then
@@ -6765,7 +6765,7 @@ end
 %
 %    \begin{macrocode}
 function fontspec.check_ot_lang(fnt, lang, script)
-    if check_language(font.id(fnt), lang, script) then
+    if check_language(font.id(fnt), script, lang) then
         tempswatrue()
     else
         tempswafalse()

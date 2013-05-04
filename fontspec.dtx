@@ -6677,7 +6677,7 @@ else
   luaotfload_aux = false
 end
 
-local check_script, check_language, check_feature
+local check_script, check_language, check_feature, ids
 
 if luaotfload_aux then
   check_script   = luaotfload.aux.provides_script
@@ -6687,7 +6687,7 @@ else
 %    \end{macrocode}
 % This else will be removed in the next version.
 %    \begin{macrocode}
-    local ids = fonts.identifiers or fonts.ids or fonts.hashes.identifiers -- first two are for backward compatibility
+    ids = fonts.identifiers or fonts.ids or fonts.hashes.identifiers -- first two are for backward compatibility
     function check_script(id, script)
         local s = string.lower(script)
         if id and id > 0 then
@@ -6790,16 +6790,24 @@ end
 %    \end{macrocode}
 %
 %    \begin{macrocode}
-function fontspec.mathfontdimen(fnt, str)
-    local mathdimens = ids[font.id(fnt)].MathConstants
-    if mathdimens then
-        local m = mathdimens[str]
-        if m then
-            fontspec.sprint(mathdimens[str])
-            fontspec.sprint("sp")
+local get_math_dimension
+if luaotfload_aux then
+    get_math_dimension = luaotfload.aux.get_math_dimension
+else
+    get_math_dimension = function(fnt, str)
+        local mathdimens = ids[font.id(fnt)].MathConstants
+        if mathdimens then
+            return mathdimens[str]
         else
-            fontspec.sprint("0pt")
+            return nil
         end
+    end
+end
+function fontspec.mathfontdimen(fnt, str)
+    local mathdimens = get_math_dimension(fnt, str)
+    if mathdimens then
+        fontspec.sprint(mathdimens)
+        fontspec.sprint("sp")
     else
         fontspec.sprint("0pt")
     end

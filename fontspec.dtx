@@ -6661,11 +6661,11 @@ function fontspec.sprint (...)
     tex.sprint(luatexbase.catcodetables['latex-package'], ...)
 end
 %    \end{macrocode}
-% The following lines check for exsitence of certain script, language or
+% The following lines check for existence of a certain script, language or
 % feature in a given font.
 %
-% |luaotfload| takes provides basic functions for this starting with version
-% 2.2, we use them if they are available, otherwise we still provide the code
+% |luaotfload| provides basic functions for this, starting with version
+% 2.2. We use them if they are available, otherwise we still provide the code
 % for backward-compatibility with old versions of |luaotfload|.
 % 
 % The first thing is to test for the presence of these functions.
@@ -6687,7 +6687,7 @@ else
 %    \end{macrocode}
 % This else will be removed in the next version.
 %    \begin{macrocode}
-    local ids = fonts.identifiers or fonts.ids or fonts.hashes.identifiers -- first twos are for backward compatibility
+    local ids = fonts.identifiers or fonts.ids or fonts.hashes.identifiers -- first two are for backward compatibility
     function check_script(id, script)
         local s = string.lower(script)
         if id and id > 0 then

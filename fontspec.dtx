@@ -66,7 +66,7 @@ This work consists of this file fontspec.dtx
 %<fontspec&luatex>\ProvidesPackage{fontspec-luatex}
 %<patches>\ProvidesPackage{fontspec-patches}
 %<*fontspec|patches>
-  [2013/03/16 v2.3a Font selection for XeLaTeX and LuaLaTeX]
+  [2013/05/03 v2.3b Font selection for XeLaTeX and LuaLaTeX]
 %</fontspec|patches>
 %
 %<*driver>
@@ -2645,7 +2645,7 @@ This work consists of this file fontspec.dtx
  {
   \luatex_if_engine:TF
    {
-    \RequirePackage{luaotfload}
+    \RequirePackage{luaotfload}[2011/10/06]
     \RequireLuaModule{fontspec}
    }
    {
@@ -6636,14 +6636,15 @@ This work consists of this file fontspec.dtx
 %    \end{macrocode}
 % First we define some metadata.
 %    \begin{macrocode}
-fontspec          = { }
+fontspec          = fontspec or {}
+local fontspec    = fontspec
 fontspec.module   = {
     name          = "fontspec",
-    version       = 2.0,
-    date          = "2009/12/04",
+    version       = 2.2,
+    date          = "2013/05/03",
     description   = "Advanced font selection for LuaLaTeX.",
-    author        = "Khaled Hosny",
-    copyright     = "Khaled Hosny",
+    author        = "Khaled Hosny, Philipp Gesang",
+    copyright     = "Khaled Hosny, Philipp Gesang",
     license       = "LPPL"
 }
 
@@ -6656,68 +6657,89 @@ fontspec.log     = log
 fontspec.warning = warn
 fontspec.error   = err
 
-function fontspec.sprint (...) tex.sprint(luatexbase.catcodetables['latex-package'], ...) end
+function fontspec.sprint (...)
+    tex.sprint(luatexbase.catcodetables['latex-package'], ...)
+end
 %    \end{macrocode}
-% The following functions check for exsitence of certain script, language or
+% The following lines check for existence of a certain script, language or
 % feature in a given font.
+%
+% |luaotfload| provides basic functions for this, starting with version
+% 2.2. We use them if they are available, otherwise we still provide the code
+% for backward-compatibility with old versions of |luaotfload|.
+% 
+% The first thing is to test for the presence of these functions.
 %    \begin{macrocode}
-local function check_script(id, script)
-    local s = string.lower(script)
-    if id and id > 0 then
-        local otfdata = fonts.identifiers[id].shared.otfdata
-        if otfdata then
-            local features = otfdata.luatex.features
-            for i,_ in pairs(features) do
-                for j,_ in pairs(features[i]) do
-                    if features[i][j][s] then
-                        fontspec.log("script '%s' exists in font '%s'",
-                                      script, fonts.identifiers[id].fullname)
-                        return true
+local luaotfload_aux
+if luaotfload and luaotfload.aux and luaotfload.aux.slot_of_name then
+  luaotfload_aux = true
+else
+  luaotfload_aux = false
+end
+
+local check_script, check_language, check_feature, ids
+
+if luaotfload_aux then
+  check_script   = luaotfload.aux.provides_script
+  check_language = luaotfload.aux.provides_language
+  check_feature  = luaotfload.aux.provides_feature
+else
+%    \end{macrocode}
+% This else will be removed in the next version.
+%    \begin{macrocode}
+    ids = fonts.identifiers or fonts.ids or fonts.hashes.identifiers -- first two are for backward compatibility
+    function check_script(id, script)
+        local s = string.lower(script)
+        if id and id > 0 then
+            local otfdata = ids[id].shared.rawdata
+            if otfdata then
+                local features = otfdata.resources.features
+                for i,_ in pairs(features) do
+                    for j,_ in pairs(features[i]) do
+                        if features[i][j][s] then
+                            fontspec.log("script '%s' exists in font '%s'",
+                                          script, ids[id].fullname)
+                            return true
+                        end
                     end
                 end
             end
         end
     end
-end
-%    \end{macrocode}
-%
-%    \begin{macrocode}
-local function check_language(id, language, script)
-    local s = string.lower(script)
-    local l = string.lower(language)
-    if id and id > 0 then
-        local otfdata = fonts.identifiers[id].shared.otfdata
-        if otfdata then
-            local features = otfdata.luatex.features
-            for i,_ in pairs(features) do
-                for j,_ in pairs(features[i]) do
-                    if features[i][j][s] and features[i][j][s][l] then
-                        fontspec.log("language '%s' for script '%s' exists in font '%s'",
-                                      language, script, fonts.identifiers[id].fullname)
-                        return true
+    function check_language(id, script, language)
+        local s = string.lower(script)
+        local l = string.lower(language)
+        if id and id > 0 then
+            local otfdata = ids[id].shared.rawdata
+            if otfdata then
+                local features = otfdata.resources.features
+                for i,_ in pairs(features) do
+                    for j,_ in pairs(features[i]) do
+                        if features[i][j][s] and features[i][j][s][l] then
+                            fontspec.log("language '%s' for script '%s' exists in font '%s'",
+                                          language, script, ids[id].fullname)
+                            return true
+                        end
                     end
                 end
             end
         end
     end
-end
-%    \end{macrocode}
-%
-%    \begin{macrocode}
-local function check_feature(id, feature, language, script)
-    local s = string.lower(script)
-    local l = string.lower(language)
-    local f = string.lower(feature:gsub("^[+-]", ""):gsub("=.*$", ""))
-    if id and id > 0 then
-        local otfdata = fonts.identifiers[id].shared.otfdata
-        if otfdata then
-            local features = otfdata.luatex.features
-            for i,_ in pairs(features) do
-                if features[i][f] and features[i][f][s] then
-                    if features[i][f][s][l] == true then
-                        fontspec.log("feature '%s' for language '%s' and script '%s' exists in font '%s'",
-                                      feature, language, script, fonts.identifiers[id].fullname)
-                        return true
+    function check_feature(id, script, language, feature)
+        local s = string.lower(script)
+        local l = string.lower(language)
+        local f = string.lower(feature:gsub("^[+-]", ""):gsub("=.*$", ""))
+        if id and id > 0 then
+            local otfdata = ids[id].shared.rawdata
+            if otfdata then
+                local features = otfdata.resources.features
+                for i,_ in pairs(features) do
+                    if features[i][f] and features[i][f][s] then
+                        if features[i][f][s][l] == true then
+                            fontspec.log("feature '%s' for language '%s' and script '%s' exists in font '%s'",
+                                          feature, language, script, ids[id].fullname)
+                            return true
+                        end
                     end
                 end
             end
@@ -6743,7 +6765,7 @@ end
 %
 %    \begin{macrocode}
 function fontspec.check_ot_lang(fnt, lang, script)
-    if check_language(font.id(fnt), lang, script) then
+    if check_language(font.id(fnt), script, lang) then
         tempswatrue()
     else
         tempswafalse()
@@ -6759,7 +6781,7 @@ function fontspec.check_ot_feat(fnt, feat, lang, script)
             return
         end
     end
-    if check_feature(font.id(fnt), feat, lang, script) then
+    if check_feature(font.id(fnt), script, lang, feat) then
         tempswatrue()
     else
         tempswafalse()
@@ -6768,49 +6790,77 @@ end
 %    \end{macrocode}
 %
 %    \begin{macrocode}
-function fontspec.mathfontdimen(fnt, str)
-    local mathdimens = fonts.identifiers[font.id(fnt)].MathConstants
-    if mathdimens then
-        local m = mathdimens[str]
-        if m then
-            fontspec.sprint(mathdimens[str])
-            fontspec.sprint("sp")
+local get_math_dimension
+if luaotfload_aux then
+    get_math_dimension = luaotfload.aux.get_math_dimension
+else
+    get_math_dimension = function(fnt, str)
+        local mathdimens = ids[font.id(fnt)].MathConstants
+        if mathdimens then
+            return mathdimens[str]
         else
-            fontspec.sprint("0pt")
+            return nil
         end
+    end
+end
+function fontspec.mathfontdimen(fnt, str)
+    local mathdimens = get_math_dimension(fnt, str)
+    if mathdimens then
+        fontspec.sprint(mathdimens)
+        fontspec.sprint("sp")
     else
         fontspec.sprint("0pt")
     end
 end
 %    \end{macrocode}
 %
-% Here we patch fonts tfm table to emulate \XeTeX's \cs{fontdimen8},
-% which stores the caps-height of the font. (Cf.\ \cs{fontdimen5} which
-% stores the x-height.)
-%
-% Falls back to measuring the glyph if the font doesn't contain the
-% necessary information.
-% This needs to be extended for fonts that don't contain an `X'.
+% |luaotfload| takes care of setting |\fontdimen8| starting from version 2.2,
+% the following code is just for backward compatibility with old version.
 %
 %    \begin{macrocode}
-local function set_capheight(fontdata)
-    local capheight
-    local units     = fontdata.units
-    local size      = fontdata.size
-    local otfdata   = fontdata.shared.otfdata
+if not luaotfload_aux then
+    local function set_capheight(fontdata)
+        local capheight
+        local shared = fontdata.shared
+        if shared then
+          local metadata
+          local units_per_em
+          local os2_capheight
+          local size = fontdata.size or fontdata.parameters.size
 
-    if otfdata.pfminfo.os2_capheight > 0 then
-        capheight = otfdata.pfminfo.os2_capheight / units * size
-    else
-        if fontdata.characters[string.byte("X")] then
-            capheight = fontdata.characters[string.byte("X")].height
+          if shared.rawdata then --- new otfl
+              metadata      = shared.rawdata.metadata
+              units_per_em  = shared.rawdata.metadata.units_per_em
+              os2_capheight = metadata.pfminfo.os2_capheight
+          else --- legacy
+              metadata      = shared.otfdata.metadata
+              units_per_em  = fontdata.units_per_em or fontdata.units
+                           or fontdata.parameters.units
+              os2_capheight = shared.otfdata.pfminfo.os2_capheight
+          end
+
+          if os2_capheight > 0 then
+              capheight = os2_capheight / units_per_em * size
+          else
+              local X8 = string.byte"X"
+              if fontdata.characters[X8] then
+                  capheight = fontdata.characters[X8].height
+              else
+                  capheight = metadata.ascent / units_per_em * size
+              end
+          end
         else
-            capheight = otfdata.metadata.ascent / units * size
+            local X8 = string.byte"X"
+            if fontdata.characters[X8] then
+                capheight = fontdata.characters[X8].height
+            end
+        end
+        if capheight then
+            fontdata.parameters[8] = capheight
         end
     end
-    fontdata.parameters[8] = capheight
+    luatexbase.add_to_callback("luaotfload.patch_font", set_capheight, "fontspec.set_capheight")
 end
-luatexbase.add_to_callback("luaotfload.patch_font", set_capheight, "fontspec.set_capheight")
 %    \end{macrocode}
 %
 %    \begin{macrocode}
@@ -7095,8 +7145,8 @@ The basic command is
 {\centering \verb|\fontspec[font features]{font display name}|.\par}
 
 The default, sans serif, and typewriter fonts may be set with the
-\verb|\setmainfont|, \verb|\setsansfont| and \verb|\setmonofont|
-commands, respectively, as shown in the preamble. They take the
+commands \verb|\setmainfont|, \verb|\setsansfont| and \verb|\setmonofont|,
+respectively, as shown in the preamble. They take the
 same syntax as the \verb|\fontspec| package. All expected font
 shapes are available:
 

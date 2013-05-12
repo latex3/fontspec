@@ -66,7 +66,7 @@ This work consists of this file fontspec.dtx
 %<fontspec&luatex>\ProvidesPackage{fontspec-luatex}
 %<patches>\ProvidesPackage{fontspec-patches}
 %<*fontspec|patches>
-  [2013/05/03 v2.3b Font selection for XeLaTeX and LuaLaTeX]
+  [2013/05/12 v2.4 Font selection for XeLaTeX and LuaLaTeX]
 %</fontspec|patches>
 %
 %<*driver>
@@ -307,7 +307,7 @@ This work consists of this file fontspec.dtx
 % When you have a very large collection of fonts, you will sometimes not
 % wish to have them all installed in your system's font directories.
 % In this case, it is more convenient to load them from a different location on your disk.
-% This technique is also necessary in \XeTeX\ when loading OpenType fonts that are present within your \TeX\ distribution, such as \path{/usr/local/texlive/2010/texmf-dist/fonts/opentype/public}.
+% This technique is also necessary in \XeTeX\ when loading OpenType fonts that are present within your \TeX\ distribution, such as \path{/usr/local/texlive/2013/texmf-dist/fonts/opentype/public}.
 % Fonts in such locations are visible to \XeTeX\ but cannot be loaded by font name, only file name; \LuaTeX\ does not have this restriction.
 %
 % When selecting fonts by file name, any font that can be found in the default
@@ -6640,8 +6640,8 @@ fontspec          = fontspec or {}
 local fontspec    = fontspec
 fontspec.module   = {
     name          = "fontspec",
-    version       = 2.2,
-    date          = "2013/05/03",
+    version       = 2.4,
+    date          = "2013/05/12",
     description   = "Advanced font selection for LuaLaTeX.",
     author        = "Khaled Hosny, Philipp Gesang",
     copyright     = "Khaled Hosny, Philipp Gesang",

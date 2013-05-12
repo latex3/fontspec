@@ -112,8 +112,7 @@ This work consists of this file fontspec.dtx
 % \LuaTeX's features including font support; a kernel of his work in this area
 % has been extracted to be useful for other \TeX\ macro systems as well, and
 % this has enabled \pkg{fontspec} to be adapted for \LaTeX\ when run with the
-% \LuaTeX\ engine. Elie Roux and Khaled Hosny have been instrumental and
-% invaluable with this development work.
+% \LuaTeX\ engine.
 %
 % \section{Introduction}
 %
@@ -199,7 +198,7 @@ This work consists of this file fontspec.dtx
 % \paragraph{\LuaTeX\ users only}
 % In order to load fonts by their name rather than by their filename (\eg,
 % `Latin Modern Roman' instead of `ec-lmr10'), you may need to run the script
-% \texttt{mkluatexfontdb}, which is distributed with the \pkg{luaotfload}
+% \texttt{luaotfload-tool}, which is distributed with the \pkg{luaotfload}
 % package. Note that if you do not execute this script beforehand, the first
 % time you attempt to typeset the process will pause for (up to) several
 % minutes. (But only the first time.)
@@ -209,10 +208,9 @@ This work consists of this file fontspec.dtx
 % \emph{The \pkg{babel} package is not really supported!} Especially Vietnamese,
 % Greek, and Hebrew at least might not work correctly, as far as I can tell.
 % There's a better chance with Cyrillic and Latin-based languages,
-% however---\pkg{fontspec} ensures at least that fonts should load correctly,
-% but hyphenation and other matters aren't guaranteed. Under \XeTeX, the
-% \pkg{polyglossia} package is recommended instead as a modern replacement for
-% \pkg{babel}. For \LuaTeX, the situation is still unresolved.
+% however---\pkg{fontspec} ensures at least that fonts should load correctly. 
+% The \pkg{polyglossia} package is recommended instead as a modern replacement 
+% for \pkg{babel}.
 %
 %
 %
@@ -285,7 +283,9 @@ This work consists of this file fontspec.dtx
 %
 % \subsection{By font name}
 %
-% Fonts known to \LuaTeX\ or \XeTeX\ may be loaded by their standard names as you'd speak them out loud, such as \emph{Times New Roman} or \emph{Adobe Garamond}.
+% Fonts known to \LuaTeX\ or \XeTeX\ may be loaded by their standard names as 
+% you'd speak them out loud, such as \emph{Times New Roman} or 
+% \emph{Adobe Garamond}.
 % `Known to' in this case generally means `exists in a standard fonts location'
 % such as |~/Library/Fonts| on \MacOSX, or |C:\Windows\Fonts| on Windows.
 %
@@ -2477,7 +2477,7 @@ This work consists of this file fontspec.dtx
 %
 % \begin{macro}{\fontspec_if_opentype:TF}
 % Test whether the currently selected font is an OpenType font.
-% Always true for LuaTeX fonts.
+% Always true for \LuaTeX{} fonts.
 % \end{macro}
 %
 % \begin{macro}{\fontspec_if_feature:nTF}

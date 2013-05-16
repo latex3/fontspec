@@ -66,7 +66,7 @@ This work consists of this file fontspec.dtx
 %<fontspec&luatex>\ProvidesPackage{fontspec-luatex}
 %<patches>\ProvidesPackage{fontspec-patches}
 %<*fontspec|patches>
-  [2013/05/03 v2.3b Font selection for XeLaTeX and LuaLaTeX]
+  [2013/05/12 v2.4 Font selection for XeLaTeX and LuaLaTeX]
 %</fontspec|patches>
 %
 %<*driver>
@@ -112,8 +112,7 @@ This work consists of this file fontspec.dtx
 % \LuaTeX's features including font support; a kernel of his work in this area
 % has been extracted to be useful for other \TeX\ macro systems as well, and
 % this has enabled \pkg{fontspec} to be adapted for \LaTeX\ when run with the
-% \LuaTeX\ engine. Elie Roux and Khaled Hosny have been instrumental and
-% invaluable with this development work.
+% \LuaTeX\ engine.
 %
 % \section{Introduction}
 %
@@ -199,7 +198,7 @@ This work consists of this file fontspec.dtx
 % \paragraph{\LuaTeX\ users only}
 % In order to load fonts by their name rather than by their filename (\eg,
 % `Latin Modern Roman' instead of `ec-lmr10'), you may need to run the script
-% \texttt{mkluatexfontdb}, which is distributed with the \pkg{luaotfload}
+% \texttt{luaotfload-tool}, which is distributed with the \pkg{luaotfload}
 % package. Note that if you do not execute this script beforehand, the first
 % time you attempt to typeset the process will pause for (up to) several
 % minutes. (But only the first time.)
@@ -209,10 +208,9 @@ This work consists of this file fontspec.dtx
 % \emph{The \pkg{babel} package is not really supported!} Especially Vietnamese,
 % Greek, and Hebrew at least might not work correctly, as far as I can tell.
 % There's a better chance with Cyrillic and Latin-based languages,
-% however---\pkg{fontspec} ensures at least that fonts should load correctly,
-% but hyphenation and other matters aren't guaranteed. Under \XeTeX, the
-% \pkg{polyglossia} package is recommended instead as a modern replacement for
-% \pkg{babel}. For \LuaTeX, the situation is still unresolved.
+% however---\pkg{fontspec} ensures at least that fonts should load correctly. 
+% The \pkg{polyglossia} package is recommended instead as a modern replacement 
+% for \pkg{babel}.
 %
 %
 %
@@ -285,7 +283,9 @@ This work consists of this file fontspec.dtx
 %
 % \subsection{By font name}
 %
-% Fonts known to \LuaTeX\ or \XeTeX\ may be loaded by their standard names as you'd speak them out loud, such as \emph{Times New Roman} or \emph{Adobe Garamond}.
+% Fonts known to \LuaTeX\ or \XeTeX\ may be loaded by their standard names as 
+% you'd speak them out loud, such as \emph{Times New Roman} or 
+% \emph{Adobe Garamond}.
 % `Known to' in this case generally means `exists in a standard fonts location'
 % such as |~/Library/Fonts| on \MacOSX, or |C:\Windows\Fonts| on Windows.
 %
@@ -307,7 +307,7 @@ This work consists of this file fontspec.dtx
 % When you have a very large collection of fonts, you will sometimes not
 % wish to have them all installed in your system's font directories.
 % In this case, it is more convenient to load them from a different location on your disk.
-% This technique is also necessary in \XeTeX\ when loading OpenType fonts that are present within your \TeX\ distribution, such as \path{/usr/local/texlive/2010/texmf-dist/fonts/opentype/public}.
+% This technique is also necessary in \XeTeX\ when loading OpenType fonts that are present within your \TeX\ distribution, such as \path{/usr/local/texlive/2013/texmf-dist/fonts/opentype/public}.
 % Fonts in such locations are visible to \XeTeX\ but cannot be loaded by font name, only file name; \LuaTeX\ does not have this restriction.
 %
 % When selecting fonts by file name, any font that can be found in the default
@@ -2477,7 +2477,7 @@ This work consists of this file fontspec.dtx
 %
 % \begin{macro}{\fontspec_if_opentype:TF}
 % Test whether the currently selected font is an OpenType font.
-% Always true for LuaTeX fonts.
+% Always true for \LuaTeX{} fonts.
 % \end{macro}
 %
 % \begin{macro}{\fontspec_if_feature:nTF}
@@ -6640,8 +6640,8 @@ fontspec          = fontspec or {}
 local fontspec    = fontspec
 fontspec.module   = {
     name          = "fontspec",
-    version       = 2.2,
-    date          = "2013/05/03",
+    version       = 2.4,
+    date          = "2013/05/12",
     description   = "Advanced font selection for LuaLaTeX.",
     author        = "Khaled Hosny, Philipp Gesang",
     copyright     = "Khaled Hosny, Philipp Gesang",
@@ -7181,7 +7181,7 @@ information.
 \usepackage{fontspec,fancyvrb,geometry,graphicx,calc,multicol}
 \geometry{margin=2cm,a4paper}
 \setmainfont[Ligatures=TeX]{TeX Gyre Pagella}
-\setmonofont{Consolas}
+\setmonofont{Inconsolata}
 
 \newcommand\meta[1]{$\langle$\emph{#1}$\rangle$}
 
@@ -7250,6 +7250,7 @@ If you want to run just a single test, use
 %    \begin{macrocode}
 \ProvidesPackage{fontspec-style}
 
+\usepackage{fontspec}
 \usepackage{booktabs,calc,caption,color,enumitem,fancyvrb,hologo,graphicx,ifthen,url,varioref,varwidth,microtype,tocloft}
 
 % ToC formatting:
@@ -7266,8 +7267,9 @@ If you want to run just a single test, use
 \newcommand\XeLaTeX{\hologo{XeLaTeX}}
 \newcommand\LuaTeX{\hologo{LuaTeX}}
 \newcommand\LuaLaTeX{\hologo{LuaLaTeX}}
-\usepackage{tgpagella,eulervm}
-\usepackage{inconsolata}
+\setmainfont[Ligatures=TeX]{TeX Gyre Pagella}
+\setsansfont[Scale=MatchLowercase,Ligatures=TeX]{Iwona}
+\setmonofont[Scale=MatchLowercase]{Inconsolata}
 \usepackage[
   bookmarks=true,
   colorlinks=true,

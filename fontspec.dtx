@@ -4699,8 +4699,7 @@ This work consists of this file fontspec.dtx
   \fontspec_check_ot_feat:nTF {#1}
    {
     \fontspec_update_fontid:n {#1=#2}
-%<xetexx>      \fontspec_update_featstr:n { #1 = #2 }
-%<luatex>      \fontspec_update_featstr:n { #1 = \int_eval:n {#2+1} }
+    \fontspec_update_featstr:n { #1 = #2 }
    }
    { \fontspec_warning:nx {icu-feature-not-exist-in-font} {#1} }
  }
@@ -5835,9 +5834,7 @@ This work consists of this file fontspec.dtx
 %    \end{macrocode}
 %
 %    \begin{macrocode}
-\cs_set:Nn \fontspec_salt:n
-%<xetexx>  { +salt = #1 }
-%<luatex>  { +salt = \int_eval:n {#1+1} }
+\cs_set:Nn \fontspec_salt:n { +salt = #1 }
 %    \end{macrocode}
 %
 %    \begin{macrocode}
@@ -5887,14 +5884,12 @@ This work consists of this file fontspec.dtx
  {
   ScriptStyle .code:n =
    {
-%<xetexx>    \fontspec_update_fontid:n {+ssty=0}
-%<luatex>    \fontspec_update_fontid:n {+ssty=1}
+    \fontspec_update_fontid:n {+ssty=0}
     \fontspec_update_featstr:n{+sstyle}
    },
   ScriptScriptStyle .code:n =
    {
-%<xetexx>    \fontspec_update_fontid:n {+ssty=1}
-%<luatex>    \fontspec_update_fontid:n {+ssty=2}
+    \fontspec_update_fontid:n {+ssty=1}
     \fontspec_update_featstr:n{+ssstyle}
    }
  }
@@ -5967,9 +5962,7 @@ This work consists of this file fontspec.dtx
   Annotation .default:n = {0} ,
   Annotation / unknown .code:n =
    {
-    \fontspec_make_feature:nnx {}{}
-%<xetexx>    { +nalt=#1 }
-%<luatex>    { +nalt= \int_eval:n {#1+1} }
+    \fontspec_make_feature:nnx {}{}{ +nalt=#1 }
    }
  }
 %    \end{macrocode}

@@ -73,8 +73,8 @@ CTAN_ZIP = $(NAME).zip
 TDS_ZIP = $(NAME).tds.zip
 ZIPS = $(CTAN_ZIP) $(TDS_ZIP)
 
-DO_PDFLATEX = pdflatex --interaction=nonstopmode $<  $(REDIRECT)
-DO_PDFLATEX_WRITE18 = pdflatex --shell-escape --interaction=nonstopmode $<  $(REDIRECT)
+DO_PDFLATEX = lualatex --interaction=nonstopmode $<  $(REDIRECT)
+DO_PDFLATEX_WRITE18 = lualatex --shell-escape --interaction=nonstopmode $<  $(REDIRECT)
 DO_TEX = tex --interaction=nonstopmode $<  $(REDIRECT)
 DO_MAKEINDEX = makeindex -s gind.ist $(subst .dtx,,$<)  $(REDIRECT)  2>&1
 

@@ -72,12 +72,12 @@ Features may be added to the font currently in use with
 Change history
 --------------
 
-- v2.5 (2013/05/20)
+- v2.3c (2013/05/20)
 
     * Compatbility with luaotfload 2013/05/20 2.2c, support for older version
       removed.
 
-- v2.4 (2013/05/12)
+- v2.3b (2013/05/12)
 
     * Compatibility with new (and future) version of luaotfload
 

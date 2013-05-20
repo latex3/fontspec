@@ -7101,7 +7101,6 @@ If you want to run just a single test, use
 %    \begin{macrocode}
 \ProvidesPackage{fontspec-style}
 
-\usepackage{fontspec}
 \usepackage{booktabs,calc,caption,color,enumitem,fancyvrb,hologo,graphicx,ifthen,url,varioref,varwidth,microtype,tocloft}
 
 % ToC formatting:
@@ -7118,9 +7117,8 @@ If you want to run just a single test, use
 \newcommand\XeLaTeX{\hologo{XeLaTeX}}
 \newcommand\LuaTeX{\hologo{LuaTeX}}
 \newcommand\LuaLaTeX{\hologo{LuaLaTeX}}
-\setmainfont[Ligatures=TeX]{TeX Gyre Pagella}
-\setsansfont[Scale=MatchLowercase,Ligatures=TeX]{Iwona}
-\setmonofont[Scale=MatchLowercase]{Inconsolata}
+\usepackage{tgpagella,eulervm}
+\usepackage{inconsolata}
 \usepackage[
   bookmarks=true,
   colorlinks=true,

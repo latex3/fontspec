@@ -4569,9 +4569,7 @@ This work consists of this file fontspec.dtx
  {
   \bool_set_false:N \l_fontspec_icu_bool
   \bool_set_true:N \l_fontspec_firsttime_bool
-  \cs_set:Npn \fontspec_namewrap:n ##1
-%<xetexx>    { ##1 }
-%<luatex>    { name:##1 }
+  \cs_set:Npn \fontspec_namewrap:n ##1 { ##1 }
   \tl_clear:N \l_fontspec_optical_size_tl
   \tl_clear:N \l_fontspec_renderer_tl
   \tl_clear:N \l_fontspec_defined_shapes_tl
@@ -4985,9 +4983,7 @@ This work consists of this file fontspec.dtx
   \bool_set_true:N \l_fontspec_nobf_bool
   \bool_set_true:N \l_fontspec_noit_bool
   \bool_set_true:N \l_fontspec_external_bool
-  \cs_gset:Npn \fontspec_namewrap:n ##1
-%<xetexx>   {     [ #1 ##1 ] }
-%<luatex>   { file: #1 ##1   }
+  \cs_gset:Npn \fontspec_namewrap:n ##1 { [ #1 ##1 ] }
 %<*xetexx>
   \keys_set:nn {fontspec-renderer} {Renderer=ICU}
 %</xetexx>

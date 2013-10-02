@@ -15,7 +15,7 @@ others.
 See the documentation `fontspec.pdf` for full information.
 
 Release versions of fontspec are available from CTAN:
-  <http://tug.ctan.org/pkg/fontspec>
+  <http://www.ctan.org/pkg/fontspec>
 
 Development and historical versions are available from Github:
   <http://github.com/wspr/fontspec>

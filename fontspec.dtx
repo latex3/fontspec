@@ -2989,7 +2989,7 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \tl_set_eq:NN \cyrillicencoding \g_fontspec_encoding_tl
 \tl_set_eq:NN \latinencoding    \g_fontspec_encoding_tl
-\tl_put_right:Nn \document
+\AtBeginDocument
  {
   \tl_set_eq:NN \cyrillicencoding \g_fontspec_encoding_tl
   \tl_set_eq:NN \latinencoding    \g_fontspec_encoding_tl

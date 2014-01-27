@@ -5889,24 +5889,6 @@ This work consists of this file fontspec.dtx
 % Possibilities: \verb|a:0:\q_nil| or \verb|a:b:0:\q_nil|.
 %
 %
-% \subsubsection{OpenType maths font features}
-% Deprecated August 2011; delete at some stage in the future.
-%    \begin{macrocode}
-\keys_define:nn {fontspec}
- {
-  ScriptStyle .code:n =
-   {
-    \fontspec_update_fontid:n {+ssty=0}
-    \fontspec_update_featstr:n{+sstyle}
-   },
-  ScriptScriptStyle .code:n =
-   {
-    \fontspec_update_fontid:n {+ssty=1}
-    \fontspec_update_featstr:n{+ssstyle}
-   }
- }
-%    \end{macrocode}
-%
 %
 % \subsubsection{Style}
 %    \begin{macrocode}

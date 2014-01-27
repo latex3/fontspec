@@ -3852,17 +3852,19 @@ This work consists of this file fontspec.dtx
 % are redefined, the shapes will be selected to fit in with the
 % current state. For example, if \cmd\bfdefault\ is redefined to |b|, all
 % bold shapes defined by this package will also be assigned to |b|.
+%
+% The combination shapes are defined first because the use information that may be redefined in the single cases. E.g., if no bold font is specified then |set_bold| will attempt to set it. This has subtle/small ramifications on the logic of choosing the bold italic font.
 %    \begin{macrocode}
   \fontspec_save_family:nT {#2}
    {
     \fontspec_save_fontinfo:nn {#1} {#2}
     \DeclareFontFamily{\g_fontspec_encoding_tl}{\l_fontspec_family_tl}{}
     \fontspec_set_upright:
+    \fontspec_set_bold_italic:
+    \fontspec_set_bold_slanted:
     \fontspec_set_bold:
     \fontspec_set_italic:
     \fontspec_set_slanted:
-    \fontspec_set_bold_italic:
-    \fontspec_set_bold_slanted:
    }
   \fontspec_info:nxx {defining-font} {#1} {#2}
   \group_end:
@@ -4064,7 +4066,7 @@ This work consists of this file fontspec.dtx
 \cs_new:Nn \fontspec_set_upright:
  {
   \clist_set_eq:NN \l_fontspec_sizefeat_clist \l_fontspec_sizefeat_up_clist
-  \fontspec_make_font_shapes:nnnn \l_fontspec_fontname_tl
+  \@@_make_font_shapes:NNNN \l_fontspec_fontname_tl
     \mddefault \updefault \l_fontspec_fontfeat_up_clist
  }
 %    \end{macrocode}
@@ -4087,15 +4089,9 @@ This work consists of this file fontspec.dtx
   \clist_set_eq:NN \l_fontspec_sizefeat_clist \l_fontspec_sizefeat_bf_clist
   \bool_if:NF \l_fontspec_nobf_bool
    {
-    \tl_if_empty:NTF \l_fontspec_fontname_bf_tl
-     {
-      \fontspec_make_auto_font_shapes:nnnnn \l_fontspec_fontname_tl {/B}
-        \bfdefault \updefault \l_fontspec_fontfeat_bf_clist
-     }
-     {
-      \fontspec_make_font_shapes:nnnn \l_fontspec_fontname_bf_tl
-        \bfdefault \updefault \l_fontspec_fontfeat_bf_clist
-     }
+    \@@_set_autofont:Nnn \l_fontspec_fontname_bf_tl {\l_fontspec_fontname_tl} {/B}
+    \@@_make_font_shapes:NNNN \l_fontspec_fontname_bf_tl
+      \bfdefault \updefault \l_fontspec_fontfeat_bf_clist
    }
  }
 %    \end{macrocode}
@@ -4109,10 +4105,9 @@ This work consists of this file fontspec.dtx
   \clist_set_eq:NN \l_fontspec_sizefeat_clist \l_fontspec_sizefeat_it_clist
   \bool_if:NF \l_fontspec_noit_bool
    {
-    \tl_if_empty:NTF \l_fontspec_fontname_it_tl
-      { \fontspec_make_auto_font_shapes:nnnnn \l_fontspec_fontname_tl {/I} }
-      { \fontspec_make_font_shapes:nnnn  \l_fontspec_fontname_it_tl    }
-          \mddefault \itdefault \l_fontspec_fontfeat_it_clist
+    \@@_set_autofont:Nnn \l_fontspec_fontname_it_tl {\l_fontspec_fontname_tl} {/I}
+    \@@_make_font_shapes:NNNN \l_fontspec_fontname_it_tl
+      \mddefault \itdefault \l_fontspec_fontfeat_it_clist
    }
  }
 %    \end{macrocode}
@@ -4126,7 +4121,7 @@ This work consists of this file fontspec.dtx
   \clist_set_eq:NN \l_fontspec_sizefeat_clist \l_fontspec_sizefeat_sl_clist
   \tl_if_empty:NF \l_fontspec_fontname_sl_tl
    {
-    \fontspec_make_font_shapes:nnnn
+    \@@_make_font_shapes:NNNN
       \l_fontspec_fontname_sl_tl \mddefault \sldefault
       \l_fontspec_fontfeat_sl_clist
    }
@@ -4135,7 +4130,7 @@ This work consists of this file fontspec.dtx
 % \end{macro}
 %
 % \begin{macro}{\fontspec_set_bold_italic:}
-% % If requested, the custom fonts take precedence when choosing the
+% If requested, the custom fonts take precedence when choosing the
 % bold italic font. When both italic and bold fonts are requested and
 % the bold italic font hasn't been explicitly specified (a rare
 % occurance, presumably), the new bold font is used to define the new
@@ -4144,29 +4139,13 @@ This work consists of this file fontspec.dtx
 \cs_new:Nn \fontspec_set_bold_italic:
  {
   \clist_set_eq:NN \l_fontspec_sizefeat_clist \l_fontspec_sizefeat_bfit_clist
-  
   \bool_if:nF {\l_fontspec_noit_bool || \l_fontspec_nobf_bool}
    {
-    \tl_if_empty:NTF \l_fontspec_fontname_bfit_tl
-     {
-      \tl_if_empty:NTF \l_fontspec_fontname_bf_tl
-       {
-        \tl_if_empty:NTF \l_fontspec_fontname_it_tl
-         {
-          \fontspec_make_auto_font_shapes:nnnnn \l_fontspec_fontname_tl    {/BI}
-         }
-         {
-          \fontspec_make_auto_font_shapes:nnnnn \l_fontspec_fontname_it_tl {/B}
-         }
-       }
-       {
-        \fontspec_make_auto_font_shapes:nnnnn \l_fontspec_fontname_bf_tl {/I}
-       }
-     }
-     {
-      \fontspec_make_font_shapes:nnnn  \l_fontspec_fontname_bfit_tl
-     }
-    \bfdefault \itdefault \l_fontspec_fontfeat_bfit_clist
+    \@@_set_autofont:Nnn \l_fontspec_fontname_bfit_tl {\l_fontspec_fontname_it_tl} {/B}
+    \@@_set_autofont:Nnn \l_fontspec_fontname_bfit_tl {\l_fontspec_fontname_bf_tl} {/I}
+    \@@_set_autofont:Nnn \l_fontspec_fontname_bfit_tl {\l_fontspec_fontname_tl} {/BI}
+    \@@_make_font_shapes:NNNN  \l_fontspec_fontname_bfit_tl
+      \bfdefault \itdefault \l_fontspec_fontfeat_bfit_clist
    }
  }
 %    \end{macrocode}
@@ -4180,14 +4159,12 @@ This work consists of this file fontspec.dtx
   \clist_set_eq:NN \l_fontspec_sizefeat_clist \l_fontspec_sizefeat_bfsl_clist
   \tl_if_empty:NTF \l_fontspec_fontname_bfsl_tl
    {
-    \tl_if_empty:NF \l_fontspec_fontname_sl_tl
-     {
-      \fontspec_make_auto_font_shapes:nnnnn \l_fontspec_fontname_sl_tl {/B}
-         \bfdefault \sldefault \l_fontspec_fontfeat_bfsl_clist
-     }
+    \@@_set_autofont:Nnn \l_fontspec_fontname_bfsl_tl {\l_fontspec_fontname_sl_tl} {/B}
+    \@@_make_font_shapes:NNNN \l_fontspec_fontname_bfsl_tl
+      \bfdefault \sldefault \l_fontspec_fontfeat_bfsl_clist
    }
    {
-    \fontspec_make_font_shapes:nnnn \l_fontspec_fontname_bfsl_tl
+    \@@_make_font_shapes:NNNN \l_fontspec_fontname_bfsl_tl
       \bfdefault \sldefault \l_fontspec_fontfeat_bfsl_clist
    }
  }
@@ -4254,7 +4231,7 @@ This work consists of this file fontspec.dtx
 %
 %
 %
-% \begin{macro}{\fontspec_make_font_shapes:nnnn,\fontspec_make_auto_font_shapes:nnnnn}
+% \begin{macro}{\@@_make_font_shapes:NNNN}
 %  \darg{Font name prefix (in the 5-arg case)}
 %  \darg{Font name}
 %  \darg{Font series}
@@ -4278,30 +4255,40 @@ This work consists of this file fontspec.dtx
 % italic small caps by their own identifier. See \vref{sec:sishape}
 % for the code that enables this usage.
 %    \begin{macrocode}
-\prg_new_conditional:Nnn \@@_if_autofont:nn {TF}
+\cs_new:Nn \@@_set_autofont:Nnn
  {
-  \bool_if:NTF \l_fontspec_external_bool
+  \tl_if_empty:NT #1
+   {
+    \@@_if_autofont:nnTF {#2} {#3}
+     { \tl_set:Nx #1 {#2#3} }
+     { \fontspec_info:nx {no-font-shape} {#2#3} }
+   }
+ }
+
+\prg_new_conditional:Nnn \@@_if_autofont:nn {T,TF}
+ {
+  \exp_args:Nx \tl_if_empty:nTF {#1}
    { \prg_return_false: }
    {
-    \fontspec_font_set:Nnn \l_tmpa_font
-      { \fontspec_fullname:n {#1}   } {\f@size pt}
-    \fontspec_font_set:Nnn \l_tmpb_font
-      { \fontspec_fullname:n {#1#2} } {\f@size pt}
-    \str_if_eq_x:nnTF { \fontname \l_tmpa_font } { \fontname \l_tmpb_font }
-      { \prg_return_false: }
-      { \prg_return_true: }
-   } 
+    \bool_if:NTF \l_fontspec_external_bool
+     { \prg_return_false: }
+     {
+      \fontspec_font_set:Nnn \l_tmpa_font
+       { \fontspec_fullname:n {#1}   } {\f@size pt}
+      \fontspec_font_set:Nnn \l_tmpb_font
+       { \fontspec_fullname:n {#1#2} } {\f@size pt}
+      \str_if_eq_x:nnTF { \fontname \l_tmpa_font } { \fontname \l_tmpb_font }
+       { \prg_return_false: }
+       { \prg_return_true: }
+     }
+   }
  }
 
-\cs_new:Nn \fontspec_make_auto_font_shapes:nnnnn
+\cs_new:Nn \@@_make_font_shapes:NNNN
  {
-  \@@_if_autofont:nnTF {#1}{#2}
-   { \fontspec_make_font_shapes:nnnn {#1#2}{#3}{#4}{#5} }
-   { \fontspec_info:nx {no-font-shape} {#1#2} }
- }
-
-\cs_new:Nn \fontspec_make_font_shapes:nnnn {
-  \group_begin:
+  \tl_if_empty:NF #1
+  {
+   \group_begin:
   
     \@@_load_fontname:n {#1}
     \exp_args:Nnnx \fontspec_declare_shape:nnn {#2}{#3}
@@ -4331,7 +4318,8 @@ This work consists of this file fontspec.dtx
          #4 , \l_fontspec_fontfeat_sc_clist
        }
      }
-  \group_end:
+   \group_end:
+  }
  }
 
 \cs_new:Nn \@@_load_fontname:n
@@ -5163,7 +5151,7 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \cs_set:Nn \fontspec_complete_fontname:Nn
  {
-  \tl_set:Nn #1 {#2}
+  \tl_set:Nx #1 {#2}
   \tl_replace_all:Nnx #1 {*} {\l_fontspec_fontname_tl}
 %<luatex>  \tl_remove_all:Nn #1 {~}
  }

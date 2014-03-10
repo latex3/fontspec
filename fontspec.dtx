@@ -159,7 +159,7 @@ This work consists of this file fontspec.dtx
 %
 % \subsection{Acknowledgements}
 %
-% This package couldn't be possible without the early and continued support
+% This package could not have been possible without the early and continued support
 % the author of \XeTeX, Jonathan Kew. When I started this package, he steered
 % me many times in the right direction.
 %
@@ -3966,6 +3966,7 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \fontspec_save_family:n {T}
  {
+  \show \l_fontspec_nfss_fam_tl
   \cs_if_exist:cF {g_fontspec_UID_\l_fontspec_fontid_tl}
    {
     \cs_if_exist:cTF {g_fontspec_family_#1_int}
@@ -5253,6 +5254,17 @@ This work consists of this file fontspec.dtx
 % \subsubsection{Font-independent features}
 %
 % These features can be applied to any font.
+%
+% \paragraph{NFSS family}
+% Interactions with other packages will sometimes require setting the NFSS family explicitly.
+% (By default \pkg{fontspec} auto-generates one based on the font name.)
+%    \begin{macrocode}
+\@@_keys_define_code:nnn {fontspec} {NFSSFamily}
+ {
+  \fontspec_update_fontid:n {+nfssfam:#1}
+  \tl_set:Nx \l_fontspec_nfss_fam_tl { #1 }
+ }
+%    \end{macrocode}
 %
 % \paragraph{Scale}
 % If the input isn't one of the pre-defined string options, then

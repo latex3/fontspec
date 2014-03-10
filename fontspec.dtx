@@ -621,6 +621,35 @@ This work consists of this file fontspec.dtx
 % \end{Verbatim}
 %
 %
+% \subsection{Specifically choosing the NFSS family}
+%
+% In \LaTeX's NFSS, font families are defined with names such as `\texttt{ppl}' (Palatino), `\texttt{cmr}' (Computer Modern Roman), and so on, which are selected with the \cs{fontfamily} command:
+% \begin{Verbatim}
+%   \fontfamily{ppl}\selectfont
+% \end{Verbatim}
+% In \pkg{fontspec}, the family names are auto-generated based on the fontname of the font; for example, writing |\fontspec{Times New Roman}| for the first time would generate an internal font family name of `\texttt{TimesNewRoman(1)}'.
+%
+% In certain cases it is desirable to be able to choose this internal font family name so it can be re-used elsewhere for interacting with other packages that use the \LaTeX's font selection interface; an example might be
+% \begin{Verbatim}
+%   \usepackage{fancyvrb}
+%   \fvset{fontfamily=myverbatimfont}
+% \end{Verbatim}
+% To select a font for use in this way in \pkg{fontspec} use the \feat{NFSSFamily} feature:\footnote{Thanks to Luca Fascione for the example and motivation for finally implementing this feature.}
+% \begin{Verbatim}
+%   \newfontfamily\verbatimfont[NFSSFamily=myverbatimfont]{Inconsolata}
+% \end{Verbatim}
+% It is then possible to write commands such as:
+% \begin{Verbatim}
+%   \fontfamily{myverbatimfont}\selectfont
+% \end{Verbatim}
+% which is essentially the same as writing |\verbatimfont|, or to go back to the orginal example:
+% \begin{Verbatim}
+%   \fvset{fontfamily=myverbatimfont}
+% \end{Verbatim}
+% Only use this feature when necessary; the in-built font switching commands that \pkg{fontspec} generates (such as |\verbatimfont| in the example above) are recommended in all other cases.
+%
+% If you don't wish to explicitly set the NFSS family but you would like to know what it is, an alternative mechanism for package writers is introduced as part of the \pkg{fontspec} programming interface; see the function \cs{fontspec_set_family:Nnn} for details (\vref*{sec:api}).
+%
 % \subsection{Miscellaneous font selecting details}
 %
 % \paragraph{Spaces}
@@ -2450,6 +2479,7 @@ This work consists of this file fontspec.dtx
 % implemented. But you get the idea.
 %
 % \section{Programming details}
+% \label{sec:api}
 %
 % In some cases, it is useful to know what the \LaTeX\ font family
 % of a specific \pkg{fontspec} font is. After a \cmd\fontspec-like
@@ -2460,7 +2490,7 @@ This work consists of this file fontspec.dtx
 % in \cmd{\l_fontspec_font}.
 %
 % The following commands in \pkg{expl3} syntax may be used
-% for writing codes that interface with fontspec-loaded fonts.
+% for writing code that interfaces with fontspec-loaded fonts.
 % All of the following conditionals also exist with |T| and |F|
 % as well as |TF| suffixes.
 %
@@ -3966,7 +3996,7 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \fontspec_save_family:n {T}
  {
-  \show \l_fontspec_nfss_fam_tl
+  \cs_set_eq:cN {g_fontspec_UID_\l_fontspec_fontid_tl} \l_fontspec_nfss_fam_tl
   \cs_if_exist:cF {g_fontspec_UID_\l_fontspec_fontid_tl}
    {
     \cs_if_exist:cTF {g_fontspec_family_#1_int}

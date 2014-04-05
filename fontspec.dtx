@@ -917,7 +917,7 @@ This work consists of this file fontspec.dtx
 %      {Size=-10,Numbers=Uppercase},
 %      {Size=10-}}
 % \end{Verbatim}
-% Otherwise, the font sizes greater than 10 won't be defined!
+% Otherwise, the font sizes greater than 10 won't be defined at all!
 %
 % \begin{table}
 % \caption{Syntax for specifying the size to apply custom font features.}\label{tab:sizing}
@@ -2605,7 +2605,7 @@ This work consists of this file fontspec.dtx
 % \section{Verbatim}
 % \label{sec:verb}
 %
-% Many verbatim mechanisms assume the existence of a `visible space' character that exists in the \textsc{ascii} space slot of the typewriter font. This character is known in Unicode as \unichar{2434}{box open}, which looks like this: `\verb*| |'.
+% Many verbatim mechanisms assume the existence of a `visible space' character that exists in the \textsc{ascii} space slot of the typewriter font. This character is known in Unicode as \unichar{2423}{box open}, which looks like this: `\verb*| |'.
 %
 % When a Unicode typewriter font is used, \LaTeX\ no longer prints visible spaces for the |verbatim*| environment and |\verb*| command. This problem is fixed by using the correct Unicode glyph, and the following packages are patched to do the same:
 % \pkg{listings}, \pkg{fancyvrb}, \pkg{moreverb}, and \pkg{verbatim}.

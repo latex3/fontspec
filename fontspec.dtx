@@ -3851,7 +3851,7 @@ This work consists of this file fontspec.dtx
 % loading (whether it's a named font or external font, etc.), and then
 % information is extracted for the names of the other shape fonts.
 %    \begin{macrocode}
-  \fontspec_preparse_features:nN {#1} \l_fontspec_fontname_tl
+  \@@_preparse_features:nN {#1} \l_fontspec_fontname_tl
 %    \end{macrocode}
 % Finally save the `confirmed' font definition.
 %    \begin{macrocode}
@@ -3871,7 +3871,7 @@ This work consists of this file fontspec.dtx
 % conditional.
 %    \begin{macrocode}
   \fontspec_set_scriptlang:
-  \fontspec_get_features:n {}
+  \@@_get_features:Nn \l_fontspec_rawfeatures_sclist {}
   \bool_set_false:N \l_fontspec_firsttime_bool
 %    \end{macrocode}
 % Check if the family is unique and, if so, save its information.
@@ -3917,12 +3917,12 @@ This work consists of this file fontspec.dtx
 % \end{macro}
 %
 %
-% \begin{macro}{\fontspec_preparse_features:nN}
+% \begin{macro}{\@@_preparse_features:nN}
 % \darg{feature options}
 % \darg{font name}
 % Perform the (multi-step) feature parsing process.
 %    \begin{macrocode}
-\cs_new:Nn \fontspec_preparse_features:nN
+\cs_new:Nn \@@_preparse_features:nN
  {
 %    \end{macrocode}
 % Detect if external fonts are to be used, possibly automatically, and
@@ -4322,16 +4322,15 @@ This work consists of this file fontspec.dtx
    \group_begin:
   
     \@@_load_fontname:n {#1}
-    \exp_args:Nnnx \fontspec_declare_shape:nnn {#2}{#3}
+    \exp_args:Nnnx \@@_declare_shape:nnn {#2}{#3}
      { \l_@@_fontopts_clist, #4 }
-
     \tl_if_empty:NTF \l_fontspec_fontname_sc_tl
      {
       \bool_if:NF \l_fontspec_nosc_bool
        {
         \fontspec_make_smallcaps:T
          {
-          \exp_args:Nnnx \fontspec_declare_shape:nnn {#2}
+          \exp_args:Nnnx \@@_declare_shape:nnn {#2}
             { \tl_if_eq:NNTF #3 \itdefault \sidefault \scdefault }
             {
               \l_@@_fontopts_clist,
@@ -4342,7 +4341,7 @@ This work consists of this file fontspec.dtx
      }
      {
       \@@_load_fontname:n {\l_fontspec_fontname_sc_tl}      
-      \exp_args:Nnnx \fontspec_declare_shape:nnn {#2}
+      \exp_args:Nnnx \@@_declare_shape:nnn {#2}
        { \tl_if_eq:NNTF #3 \itdefault \sidefault \scdefault }
        {
          \l_@@_fontopts_clist ,
@@ -4368,7 +4367,7 @@ This work consists of this file fontspec.dtx
 % only works while \cmd\fontspec_select:nn\ passes single tokens to this macro\dots
 % \end{macro}
 %
-% \begin{macro}{\fontspec_declare_shape:nnn}
+% \begin{macro}{\@@_declare_shape:nnn}
 % \darg{Font series}
 % \darg{Font shape}
 % \darg{Font features}
@@ -4380,7 +4379,7 @@ This work consists of this file fontspec.dtx
 % The main part is to loop through \feat{SizeFeatures} arguments, which are of the form
 % {\par\centering |SizeFeatures={{<one>},{<two>},{<three>}}|.\par}
 %    \begin{macrocode}
-\cs_new:Nn \fontspec_declare_shape:nnn
+\cs_new:Nn \@@_declare_shape:nnn
  {
   \tl_clear:N \l_fontspec_nfss_tl
   \tl_set_eq:NN \l_@@_saved_fontname_tl \l_fontspec_fontname_tl
@@ -4394,8 +4393,8 @@ This work consists of this file fontspec.dtx
       \l_fontspec_keys_leftover_clist
     \tl_if_empty:NT \l_fontspec_size_tl { \fontspec_error:n {no-size-info} }
 
-    \@@_load_fontname:n {\l_fontspec_sizedfont_tl}   
-    \fontspec_get_features:n { #3 , \l_fontspec_keys_leftover_clist }
+    \@@_load_fontname:n {\l_fontspec_sizedfont_tl}
+    \@@_get_features:Nn \l_fontspec_rawfeatures_sclist { #3 , \l_fontspec_keys_leftover_clist }
 
     \tl_put_right:Nx \l_fontspec_nfss_tl
      {
@@ -4406,12 +4405,18 @@ This work consists of this file fontspec.dtx
         : \l_fontspec_pre_feat_sclist \l_fontspec_rawfeatures_sclist
        }
      }
+    
+    % now:
+    % 1. load the scfont for this size, if necessary
+    % 2. get_features for the scfont with any additional scfeatures specified
+    % 3. tl_put_right for \l_fontspec_nfss_sc_tl
    }
 
   \use:x
    {
     \exp_not:N \DeclareFontShape {\g_fontspec_encoding_tl} {\l_fontspec_family_tl}
       {#1} {#2} {\l_fontspec_nfss_tl}{\l_fontspec_postadjust_tl}
+    % add a similar line for small caps
    }
 
   \@@_declare_shape_slanted:nn  {#1} {#2}
@@ -4518,14 +4523,14 @@ This work consists of this file fontspec.dtx
 %
 % \subsubsection{Features}
 %
-% \begin{macro}{\fontspec_get_features:n}
+% \begin{macro}{\@@_get_features:Nn}
 %   This macro is a wrapper for |\keys_set:nn| which expands and adds a
 %   default specification to the original passed options. It begins by
 %   initialising the commands used to hold font-feature specific
 %   strings.
 %   Its argument is any additional features to prepend to the default.
 %    \begin{macrocode}
-\cs_set:Nn \fontspec_get_features:n
+\cs_set:Nn \@@_get_features:Nn
  {
   \sclist_clear:N \l_fontspec_rawfeatures_sclist
   \tl_clear:N \l_fontspec_scale_tl
@@ -4533,7 +4538,7 @@ This work consists of this file fontspec.dtx
   \tl_set_eq:NN \l_fontspec_hexcol_tl \g_fontspec_hexcol_tl
   \tl_clear:N \l_fontspec_postadjust_tl
 
-  \keys_set_known:nxN {fontspec-renderer} {\l_fontspec_fontfeat_clist,#1}
+  \keys_set_known:nxN {fontspec-renderer} {\l_fontspec_fontfeat_clist,#2}
     \l_fontspec_keys_leftover_clist
   \keys_set:nx {fontspec} {\l_fontspec_keys_leftover_clist}
 %    \end{macrocode}
@@ -4543,9 +4548,11 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
   \str_if_eq_x:nnF { \l_fontspec_hexcol_tl \l_fontspec_opacity_tl }
                    { \g_fontspec_hexcol_tl \g_fontspec_opacity_tl }
-  {
+   {
     \fontspec_update_featstr:n{color=\l_fontspec_hexcol_tl\l_fontspec_opacity_tl}
    }
+  
+  \tl_set_eq:NN #1 \l_fontspec_rawfeatures_sclist
  }
 %    \end{macrocode}
 % \end{macro}
@@ -5251,7 +5258,6 @@ This work consists of this file fontspec.dtx
 %    \end{macrocode}
 %
 % paragraph{Features varying by size}
-% TODO: sizezfeatures and italicfont (etc) don't play nice
 %    \begin{macrocode}
 \@@_keys_define_code:nnn {fontspec-preparse} {SizeFeatures}
  {

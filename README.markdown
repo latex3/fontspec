@@ -72,6 +72,24 @@ Features may be added to the font currently in use with
 Change history
 --------------
 
+- v2.4 ()
+
+    * Changes to the default settings: "Ligatures=TeX" is now enabled by default with
+      \setmainfont and \setsansfont.
+    * Defaults for symbolic font families like this can now be specified with
+
+        \defaultfontfeatures[\rmfamily]{...}
+
+      or
+
+        \defaultfontfeatures[\headingsfont]{...}
+        \setfontfamily\headingsfont{...}
+
+    * SizeFeatures can now be nested inside ItalicFeatures (etc.) and behaves correctly.
+      This has been a very long overdue bug!
+    * New feature [NFSSFamily=ABC] to set the NFSS family of a font to `ABC'. Useful
+      when other packages use the `\fontfamily{ABC}\selectfont` interface.
+
 - v2.3c (2013/05/20)
 
     * Compatbility with luaotfload 2013/05/20 2.2c, support for older version

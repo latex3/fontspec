@@ -66,7 +66,7 @@ This work consists of this file fontspec.dtx
 %<fontspec&luatex>\ProvidesPackage{fontspec-luatex}
 %<patches>\ProvidesPackage{fontspec-patches}
 %<*fontspec|patches>
-  [2013/05/20 v2.3c Font selection for XeLaTeX and LuaLaTeX]
+  [2014/04/21 v2.4 Font selection for XeLaTeX and LuaLaTeX]
 %</fontspec|patches>
 %
 %<*driver>
@@ -706,16 +706,34 @@ This work consists of this file fontspec.dtx
 %
 % \cmdbox{\cmd\defaultfontfeatures \oarg{font name} \marg{font features}}
 %
-% \textbf{New in v2.3}.
 % Default font features can be specified on a per-font and per-face basis
 % by using the optional argument to \cs{defaultfontfeatures} as shown.\footnote{Internally, \meta{font name} has all spaces removed and is converted to lowercase.}
 % \begin{Verbatim}
 %   \defaultfontfeatures[TeX Gyre Adventor]{Color=blue}
 %   \setmainfont{TeX Gyre Adventor}% will be blue
 % \end{Verbatim}
+% Multiple fonts may be affected by using a comma separated list of font names.
 %
-% Additionally, when a font is first loaded, a configuration file is searched
+% \cmdbox{\cmd\defaultfontfeatures \oarg{\cs{font-switch}} \marg{font features}}
+%
+% \textbf{New in v2.4}.
+% Defaults can also be applied to symbolic families such as those created with the |\newfontfamily| command and for |\rmfamily|, |\sffamily|, and |\ttfamily|:
+% \begin{Verbatim}
+%   \defaultfontfeatures[\rmfamily,\sffamily]{Ligatures=TeX}
+%   \setmainfont{TeX Gyre Adventor}% will use standard TeX ligatures
+% \end{Verbatim}
+% The line above to set \TeX-like ligatures is now activated by \emph{default}.
+% To reset default font features, simply call the command with an empty argument:
+% \begin{Verbatim}
+%   \defaultfontfeatures[\rmfamily,\sffamily]{}
+%   \setmainfont{TeX Gyre Adventor}% will no longer use standard TeX ligatures
+% \end{Verbatim}
+%
+% \subsection{Default settings from a file}
+%
+% In addition to the defaults that may be specified in the document as described above, when a font is first loaded, a configuration file is searched
 % for with the name `\meta{fontname}\texttt{.fontspec}'.\footnote{Located in the current folder or within a standard \texttt{texmf} location.}
+%
 % The contents of this file can be used to specify default font features without
 % having to have this information present within each document.
 % \meta{fontname} is stripped of spaces and file extensions are omitted; for
@@ -933,6 +951,25 @@ This work consists of this file fontspec.dtx
 % \bottomrule
 % \end{tabular}
 % \end{table}
+%
+% \paragraph{Interaction with other features}
+% For \feat{SizeFeatures} to work with \feat{ItalicFeatures}, \feat{BoldFeatures}, etc., and \feat{SmallCapsFeatures}, a strict heirarchy is required:
+% \begin{Verbatim}
+%  UprightFeatures =
+%   {
+%    SizeFeatures =
+%     {
+%      {
+%       Size = -10,
+%       Font = ..., % if necessary
+%       SmallCapsFeatures = {...},
+%       ... % other features for this size range
+%      },
+%      ... % other size ranges
+%     }
+%   }
+% \end{Verbatim}
+% Suggestions on simplifying this interface welcome.
 %
 %
 % \section{Font independent options} \label{sec:font-ind-features}
@@ -3107,7 +3144,7 @@ This work consists of this file fontspec.dtx
 % \begin{macro}{\setmathsf}
 % \begin{macro}{\setboldmathrm}
 % \begin{macro}{\setmathtt}
-% These commands are analogous to \cmd\setromanfont\ and others,
+% These commands are analogous to \cmd\setmainfont\ and others,
 % but for selecting the font used for \cmd\mathrm, \etc. They
 % can only be used in the preamble of the
 % document. \cmd\setboldmathrm\ is used for specifying which
@@ -3151,8 +3188,7 @@ This work consists of this file fontspec.dtx
 % \begin{macro}{\newfontfamily}
 % \begin{macro}{\newfontface}
 %   This macro takes the arguments of \cs{fontspec} with a prepended
-%   \meta{instance cmd} (code for middle optional argument generated
-%   by \name{Scott Pakin}'s \textsf{newcommand.py}). This command is used
+%   \meta{instance cmd}. This command is used
 %   when a specific font instance needs to be referred to repetitively
 %   (\eg, in a section heading) since continuously calling
 %   \cs{fontspec_select:nn} is inefficient because it must parse the

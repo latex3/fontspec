@@ -6,13 +6,13 @@
 LM~is
 \fontspec_if_fontspec_font:TF {\ERROR}{~not~a~fontspec~font.\par}
 
-\setmainfont{TeX~ Gyre~ Pagella}
+\setmainfont{texgyrepagella-regular.otf}
 TeX Gyre Pagella
 \fontspec_if_fontspec_font:TF {~is~a~fontspec~font}{\ERROR}
 
 \fontspec_if_opentype:TF {,~is~OpenType}{\ERROR}
 
-\fontspec_if_feature:nTF {smcp}{,~has~small~caps}{\ERROR}
+\fontspec_if_feature:nTF {smcp}{,~has~\textsc{small~caps}}{\ERROR}
 
 \fontspec_if_current_script:nTF {latn}{,~is~using~Latin~script}{\ERROR}
 

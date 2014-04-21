@@ -1,0 +1,20 @@
+\documentclass{testsuite}
+\usepackage{xcolor,fontspec}
+\begin{document}
+
+\defaultfontfeatures[\ttfamily]{Color=red}
+\setmainfont{texgyrepagella-regular.otf}
+\setsansfont{texgyreheros-regular.otf}
+\setmonofont{Inconsolata}
+\defaultfontfeatures[\codefont]{Color=blue}
+\newfontfamily\codefont{Inconsolata}
+
+`hello' 123
+\sffamily
+`hello' 123
+\ttfamily
+`hello' 123
+\codefont
+hello again
+
+\end{document}

@@ -1,0 +1,15 @@
+\documentclass{testsuite}
+\usepackage{fontspec}
+\begin{document}
+
+\defaultfontfeatures[\codefont]{Color=FF0000}
+\newfontfamily\codefont[NFSSFamily=ABC]{Inconsolata}
+
+`hello' 123
+\codefont
+hello again
+
+\normalfont bleah
+\fontfamily{ABC}\selectfont hi
+
+\end{document}

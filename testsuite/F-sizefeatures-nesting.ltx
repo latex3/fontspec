@@ -1,0 +1,59 @@
+\documentclass{article}
+\usepackage{fontspec}
+
+\begin{document}
+\setmainfont
+ [
+  Extension={.otf},
+  UprightFont={*-regular},
+  UprightFeatures=
+   {
+    SizeFeatures=
+     {
+      {Size=-10,SmallCapsFont=texgyreheros-regular,SmallCapsFeatures={Letters=SmallCaps,Color=0000FF},Color=FF0000},
+      {Size=10-,SmallCapsFont=texgyreheros-regular,SmallCapsFeatures={Letters=SmallCaps,Color=FF00FF},Color=00FF00}
+     },
+   },
+  ItalicFont={*-italic},
+  ItalicFeatures={
+    SizeFeatures=
+     {
+      {Size=-10,Font=texgyretermes-italic,SmallCapsFeatures={Color=0000AA},Color=AA0000},
+      {Size=10-,SmallCapsFeatures={Color=AA00AA},Color=00AA00}
+     },
+  },
+  BoldFont={*-bold},
+  BoldFeatures={
+    SizeFeatures=
+     {
+      {Size=-10,SmallCapsFeatures={Color=000077},Color=770000},
+      {Size=10-,SmallCapsFeatures={Color=770077},Color=007700}
+     },
+  },
+  BoldItalicFont={*-bolditalic},
+  BoldItalicFeatures={
+    SizeFeatures=
+     {
+      {Size=-10,SmallCapsFeatures={Color=000044},Color=440000},
+      {Size=10-,SmallCapsFeatures={Color=440044},Color=004400}
+     },
+  },
+ ]
+ {texgyrepagella}
+
+\small hello \textsc{hello}
+\large hello \textsc{hello}
+
+\itshape
+\small hello \textsc{hello}
+\large hello \textsc{hello}
+
+\upshape\bfseries
+\small hello \textsc{hello}
+\large hello \textsc{hello}
+
+\itshape
+\small hello \textsc{hello}
+\large hello \textsc{hello}
+
+\end{document}

@@ -3164,13 +3164,13 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \DeclareDocumentCommand \newfontfamily { m O{} m }
  {
-  \fontspec_select:nn{#2}{#3}
+  \fontspec_set_family:cnn { g_fontspec_ \cs_to_str:N #1 _family } {#2} {#3}
   \use:x
    {
     \exp_not:N \DeclareRobustCommand \exp_not:N #1
      {
       \exp_not:N \fontencoding {\g_fontspec_encoding_tl}
-      \exp_not:N \fontfamily {\l_fontspec_family_tl} \exp_not:N \selectfont
+      \exp_not:N \fontfamily { \use:c {g_fontspec_ \cs_to_str:N #1 _family} } \exp_not:N \selectfont
      }
    }
  }
@@ -3213,15 +3213,22 @@ This work consists of this file fontspec.dtx
  }
 %    \end{macrocode}
 % The optional argument specifies a font identifier.
-% Strip spaces and file extensions and lower-case to ensure consistency.
+% Branch for either (a)~single token input such as \verb|\rmdefault|, or (b)~otherwise assume its a fontname.
+% In that case, strip spaces and file extensions and lower-case to ensure consistency.
 %    \begin{macrocode}
 \cs_new:Nn \@@_set_font_default_features:nn
  {
-  \@@_sanitise_fontname:Nn \l_@@_tmp_tl {#1}
-  \tl_if_empty:nTF {#2}
-   { \prop_gremove:NV \g_@@_fontopts_prop \l_@@_tmp_tl }
-   { \prop_gput:NVn   \g_@@_fontopts_prop \l_@@_tmp_tl {#2} }
+  \clist_map_inline:nn {#1}
+   {
+    \tl_if_single:nTF {##1}
+     { \tl_set:No \l_@@_tmp_tl { \cs:w g_fontspec_ \cs_to_str:N ##1 _family\cs_end: } }
+     { \@@_sanitise_fontname:Nn \l_@@_tmp_tl {##1} }
+    \tl_if_empty:nTF {#2}
+     { \prop_gremove:NV \g_@@_fontopts_prop \l_@@_tmp_tl }
+     { \prop_gput:NVn   \g_@@_fontopts_prop \l_@@_tmp_tl {#2} }
+   }
  }
+
 \cs_new:Nn \@@_sanitise_fontname:Nn
  {
   \use:x { \tl_to_lowercase:n { \tl_set:Nx \exp_not:N #1 {#2} } }
@@ -3722,9 +3729,11 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \cs_new:Nn \fontspec_set_family:Nnn
  {
+  \tl_set:Nn \l_@@_family_label_tl { #1 }
   \fontspec_select:nn {#2}{#3}
   \tl_set_eq:NN #1 \l_fontspec_family_tl
  }
+\cs_generate_variant:Nn \fontspec_set_family:Nnn {c}
 %    \end{macrocode}
 % \end{macro}
 %
@@ -3733,6 +3742,7 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \cs_new:Nn \fontspec_set_fontface:NNnn
  {
+  \tl_set:Nn \l_@@_family_label_tl { #1 }
   \fontspec_select:nn {#3}{#4}
   \tl_set_eq:NN #1 \l_fontspec_font
   \tl_set_eq:NN #2 \l_fontspec_family_tl
@@ -3934,9 +3944,15 @@ This work consists of this file fontspec.dtx
   \@@_sanitise_fontname:Nn \l_@@_tmp_tl {\l_fontspec_fontname_tl}
   \prop_get:NVNF \g_@@_fontopts_prop \l_@@_tmp_tl \l_@@_fontopts_clist
    { \clist_clear:N \l_@@_fontopts_clist }
+
+  \prop_get:NVNF \g_@@_fontopts_prop \l_@@_family_label_tl \l_@@_family_fontopts_clist
+   { \clist_clear:N \l_@@_family_fontopts_clist }
+  \tl_clear:N \l_@@_family_label_tl
+
   \keys_set_known:nxN {fontspec-preparse-external}
    {
-    \g_fontspec_default_fontopts_tl
+    \g_fontspec_default_fontopts_tl,
+    \l_@@_family_fontopts_clist,
     \l_@@_fontopts_clist,
     #1
    }
@@ -4583,6 +4599,7 @@ This work consists of this file fontspec.dtx
 % Initialisations that either need to occur globally:
 % (all setting of these variables is done locally inside a group)
 %    \begin{macrocode}
+\tl_clear:N \l_@@_family_label_tl
 \tl_clear:N \l_fontspec_fontname_bf_tl
 \tl_clear:N \l_fontspec_fontname_it_tl
 \tl_clear:N \l_fontspec_fake_slant_tl
@@ -4626,6 +4643,16 @@ This work consists of this file fontspec.dtx
   \tl_clear:N \l_fontspec_optical_size_tl
   \tl_clear:N \l_fontspec_renderer_tl
   \tl_clear:N \l_fontspec_defined_shapes_tl
+
+  % This is for detecting font families when assigning default features.
+  % Replace defaults for the standard families because they're not set in the usual way:
+  \exp_args:NV \str_case:nnn {\l_@@_family_label_tl}
+   {
+    {\rmdefault} { \tl_set:Nn \l_@@_family_label_tl {\g_fontspec_rmfamily_family} }
+    {\sfdefault} { \tl_set:Nn \l_@@_family_label_tl {\g_fontspec_sffamily_family} }
+    {\ttdefault} { \tl_set:Nn \l_@@_family_label_tl {\g_fontspec_ttfamily_family} }
+   }{}
+
 %<*luatex>
   \tl_set:Nn \l_fontspec_mode_tl {node}
   \luatexprehyphenchar   =`\-  % fixme

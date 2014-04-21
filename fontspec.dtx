@@ -4324,30 +4324,7 @@ This work consists of this file fontspec.dtx
     \@@_load_fontname:n {#1}
     \exp_args:Nnnx \@@_declare_shape:nnn {#2}{#3}
      { \l_@@_fontopts_clist, #4 }
-    \tl_if_empty:NTF \l_fontspec_fontname_sc_tl
-     {
-      \bool_if:NF \l_fontspec_nosc_bool
-       {
-        \fontspec_make_smallcaps:T
-         {
-          \exp_args:Nnnx \@@_declare_shape:nnn {#2}
-            { \tl_if_eq:NNTF #3 \itdefault \sidefault \scdefault }
-            {
-              \l_@@_fontopts_clist,
-              #4 , Letters=SmallCaps , \l_fontspec_fontfeat_sc_clist
-            }
-         }
-       }
-     }
-     {
-      \@@_load_fontname:n {\l_fontspec_fontname_sc_tl}      
-      \exp_args:Nnnx \@@_declare_shape:nnn {#2}
-       { \tl_if_eq:NNTF #3 \itdefault \sidefault \scdefault }
-       {
-         \l_@@_fontopts_clist ,
-         #4 , \l_fontspec_fontfeat_sc_clist
-       }
-     }
+
    \group_end:
   }
  }
@@ -4382,6 +4359,7 @@ This work consists of this file fontspec.dtx
 \cs_new:Nn \@@_declare_shape:nnn
  {
   \tl_clear:N \l_fontspec_nfss_tl
+  \tl_clear:N \l_fontspec_nfss_sc_tl
   \tl_set_eq:NN \l_@@_saved_fontname_tl \l_fontspec_fontname_tl
 
   \clist_map_inline:Nn \l_fontspec_sizefeat_clist
@@ -4396,6 +4374,7 @@ This work consists of this file fontspec.dtx
     \@@_load_fontname:n {\l_fontspec_sizedfont_tl}
     \@@_get_features:Nn \l_fontspec_rawfeatures_sclist { #3 , \l_fontspec_keys_leftover_clist }
 
+    % "normal"
     \tl_put_right:Nx \l_fontspec_nfss_tl
      {
       <\l_fontspec_size_tl> \l_fontspec_scale_tl
@@ -4406,17 +4385,56 @@ This work consists of this file fontspec.dtx
        }
      }
     
-    % now:
-    % 1. load the scfont for this size, if necessary
-    % 2. get_features for the scfont with any additional scfeatures specified
-    % 3. tl_put_right for \l_fontspec_nfss_sc_tl
-   }
+    % small caps    
+    \tl_if_empty:NTF \l_fontspec_fontname_sc_tl
+     {
+      \bool_if:NF \l_fontspec_nosc_bool
+       {
+        \fontspec_make_smallcaps:T
+         {
+          \@@_get_features:Nn \l_fontspec_rawfeatures_sclist
+           { #3 , \l_fontspec_keys_leftover_clist , Letters=SmallCaps , \l_fontspec_fontfeat_sc_clist }
+
+          \tl_put_right:Nx \l_fontspec_nfss_sc_tl
+           {
+            <\l_fontspec_size_tl> \l_fontspec_scale_tl
+            \fontspec_fontwrap:n
+             {
+              \fontspec_fullname:n { \l_fontspec_fontname_tl }
+              : \l_fontspec_pre_feat_sclist \l_fontspec_rawfeatures_sclist
+             }
+           }
+         }
+       }
+     }
+     {
+     
+      \@@_load_fontname:n {\l_fontspec_fontname_sc_tl}      
+      \@@_get_features:Nn \l_fontspec_rawfeatures_sclist
+       { #3 , \l_fontspec_keys_leftover_clist , \l_fontspec_fontfeat_sc_clist }
+
+      \tl_put_right:Nx \l_fontspec_nfss_sc_tl
+       {
+        <\l_fontspec_size_tl> \l_fontspec_scale_tl
+        \fontspec_fontwrap:n
+         {
+          \fontspec_fullname:n { \l_fontspec_fontname_tl }
+          : \l_fontspec_pre_feat_sclist \l_fontspec_rawfeatures_sclist
+         }
+       }
+       
+     }
+    }
 
   \use:x
    {
     \exp_not:N \DeclareFontShape {\g_fontspec_encoding_tl} {\l_fontspec_family_tl}
       {#1} {#2} {\l_fontspec_nfss_tl}{\l_fontspec_postadjust_tl}
-    % add a similar line for small caps
+      
+    \exp_not:N \DeclareFontShape {\g_fontspec_encoding_tl} {\l_fontspec_family_tl}
+      {#1}
+      {\tl_if_eq:NNTF #2 \itdefault \sidefault \scdefault}
+      {\l_fontspec_nfss_sc_tl}{\l_fontspec_postadjust_tl}
    }
 
   \@@_declare_shape_slanted:nn  {#1} {#2}
@@ -4424,6 +4442,10 @@ This work consists of this file fontspec.dtx
  }
 %    \end{macrocode}
 % This extra stuff for the slanted shape substitution is a little bit awkward.
+% We define the slanted shape to be a synonym for it when (a)~we're defining an italic font, but also (b)~when the default slanted shape isn't `it'.
+% (Presumably this turned up once in a test and I realised it caused problems. I doubt this would happen much.)
+%
+% We should test when a slanted font has been specified and not run this code if so, but the \verb|\@@_set_slanted:| code will overwrite this anyway if necessary.
 %    \begin{macrocode}
 \cs_new:Nn \@@_declare_shape_slanted:nn
  {

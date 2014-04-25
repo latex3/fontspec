@@ -3901,10 +3901,12 @@ This work consists of this file fontspec.dtx
 % \cmd{\l_fontspec_fontid_tl} is the unique identifier of the font with all its
 % features.
 % \cmd{\l_fontspec_fontname_up_tl} is the font specifically to be used as the upright font.
+% \cmd{\l_@@_basename_tl} is the (immutable) original argument used for |*|-replacing.
 %    \begin{macrocode}
   \tl_set:Nx \l_fontspec_fontname_tl {#2}
 %<luatex>  \tl_remove_all:Nn \l_fontspec_fontname_tl {~}
   \tl_set_eq:NN \l_fontspec_fontname_up_tl \l_fontspec_fontname_tl
+  \tl_set_eq:NN \l_@@_basename_tl    \l_fontspec_fontname_tl
 %    \end{macrocode}
 % Load a possible \texttt{.fontspec} font configuration file.
 % This file could set font-specific options for the font about to be loaded.
@@ -5258,7 +5260,7 @@ This work consists of this file fontspec.dtx
 \cs_set:Nn \fontspec_complete_fontname:Nn
  {
   \tl_set:Nx #1 {#2}
-  \tl_replace_all:Nnx #1 {*} {\l_fontspec_fontname_tl}
+  \tl_replace_all:Nnx #1 {*} {\l_@@_basename_tl}
 %<luatex>  \tl_remove_all:Nn #1 {~}
  }
 \cs_generate_variant:Nn \tl_replace_all:Nnn {Nnx}

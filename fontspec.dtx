@@ -3123,16 +3123,19 @@ This work consists of this file fontspec.dtx
  {
   \fontspec_set_family:Nnn \rmdefault {#1}{#2}
   \normalfont
+  \ignorespaces
  }
 \DeclareDocumentCommand \setsansfont { O{} m }
  {
   \fontspec_set_family:Nnn \sfdefault {#1}{#2}
   \normalfont
+  \ignorespaces
  }
 \DeclareDocumentCommand \setmonofont { O{} m }
  {
   \fontspec_set_family:Nnn \ttdefault {#1}{#2}
   \normalfont
+  \ignorespaces
  }
 %    \end{macrocode}
 % \end{macro} \end{macro} \end{macro}

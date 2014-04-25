@@ -87,8 +87,13 @@ Change history
 
     * SizeFeatures can now be nested inside ItalicFeatures (etc.) and behaves correctly.
       This has been a very long overdue bug!
+
     * New feature [NFSSFamily=ABC] to set the NFSS family of a font to `ABC'. Useful
       when other packages use the `\fontfamily{ABC}\selectfont` interface.
+
+    * `\defaultfontfeatures+` can be used to append to the default font feature set.
+
+    * Setting the SmallCapsFont using the *-replacement notation has been improved/fixed.
 
 - v2.3c (2013/05/20)
 

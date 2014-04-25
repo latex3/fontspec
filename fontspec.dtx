@@ -687,11 +687,11 @@ This work consists of this file fontspec.dtx
 %
 % \cmdbox{\cmd\defaultfontfeatures \marg{font features}}
 %
-% It is desirable to define
-% options that are applied to every subsequent font selection command:
-% a default feature set, so to speak. This may be defined with the
+% It is sometimes useful to define
+% font features that are applied to every subsequent font selection command.
+% This may be defined with the
 % \cmd{\defaultfontfeatures} command, shown in \exref{dff}.
-% New calls of \cs{defaultfontfeatures} overwrite previous ones.
+% New calls of \cs{defaultfontfeatures} overwrite previous ones, and defaults can be reset by calling the command with an empty argument.
 %
 % \begin{Xexample}{dff}{A demonstration of the \cs{defaultfontfeatures} command.}
 %   \fontspec{TeX Gyre Adventor}
@@ -728,6 +728,13 @@ This work consists of this file fontspec.dtx
 %   \defaultfontfeatures[\rmfamily,\sffamily]{}
 %   \setmainfont{TeX Gyre Adventor}% will no longer use standard TeX ligatures
 % \end{Verbatim}
+%
+% \cmdbox{\cmd\defaultfontfeatures\ \texttt{+} \marg{font features}\\
+%         \cmd\defaultfontfeatures\ \texttt{+} \oarg{font name} \marg{font features}}
+%
+% \textbf{New in v2.4}.
+% Using the |+| form of the command appends the \meta{font features} to any already-selected defaults.
+% 
 %
 % \subsection{Default settings from a file}
 %
@@ -3237,31 +3244,43 @@ This work consists of this file fontspec.dtx
 %    \end{macrocode}
 %
 %    \begin{macrocode}
-\DeclareDocumentCommand \defaultfontfeatures { o m }
+\DeclareDocumentCommand \defaultfontfeatures { t+ o m }
  {
-  \IfNoValueTF {#1}
-   { \@@_set_default_features:n {#2} }
-   { \@@_set_font_default_features:nn {#1} {#2} }
+  \IfNoValueTF {#2}
+   { \@@_set_default_features:nn {#1} {#3} }
+   { \@@_set_font_default_features:nnn {#1} {#2} {#3} }
+  \ignorespaces
  }
-\cs_new:Nn \@@_set_default_features:n
+\cs_new:Nn \@@_set_default_features:nn
  {
-  \tl_set:Nn \g_fontspec_default_fontopts_tl {#1,}
+  \IfBooleanTF {#1} \tl_put_right:Nn \tl_set:Nn
+   \g_fontspec_default_fontopts_tl {#2,}
  }
 %    \end{macrocode}
 % The optional argument specifies a font identifier.
 % Branch for either (a)~single token input such as \verb|\rmdefault|, or (b)~otherwise assume its a fontname.
 % In that case, strip spaces and file extensions and lower-case to ensure consistency.
 %    \begin{macrocode}
-\cs_new:Nn \@@_set_font_default_features:nn
+\cs_new:Nn \@@_set_font_default_features:nnn
  {
-  \clist_map_inline:nn {#1}
+  \clist_map_inline:nn {#2}
    {
     \tl_if_single:nTF {##1}
      { \tl_set:No \l_@@_tmp_tl { \cs:w g_fontspec_ \cs_to_str:N ##1 _family\cs_end: } }
      { \@@_sanitise_fontname:Nn \l_@@_tmp_tl {##1} }
-    \tl_if_empty:nTF {#2}
-     { \prop_gremove:NV \g_@@_fontopts_prop \l_@@_tmp_tl }
-     { \prop_gput:NVn   \g_@@_fontopts_prop \l_@@_tmp_tl {#2} }
+    
+    \IfBooleanTF {#1}
+     {
+      \prop_get:NVNF \g_@@_fontopts_prop \l_@@_tmp_tl \l_@@_tmpb_tl
+       { \tl_clear:N \l_@@_tmpb_tl }
+      \tl_put_right:Nn \l_@@_tmpb_tl {#3,}
+      \prop_gput:NVV   \g_@@_fontopts_prop \l_@@_tmp_tl \l_@@_tmpb_tl
+     }
+     {
+      \tl_if_empty:nTF {#3}
+       { \prop_gremove:NV \g_@@_fontopts_prop \l_@@_tmp_tl }
+       { \prop_put:NVn    \g_@@_fontopts_prop \l_@@_tmp_tl {#3,} }      
+     }
    }
  }
 

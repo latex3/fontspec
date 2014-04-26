@@ -1826,7 +1826,7 @@ This work consists of this file fontspec.dtx
 % Because these font features can
 % change which features are able to be selected for the font, they are automatically selected
 % by \pkg{fontspec} before all others and, if \XeTeX\ is being used, will
-% specifically select the \opt{ICU}
+% specifically select the \opt{OpenType}
 % renderer for this font, as described in \vref{sec:renderer}.
 %
 %
@@ -2045,27 +2045,30 @@ This work consists of this file fontspec.dtx
 % Also see the OpenType \opt{Uppercase}
 % option of the \feat{Letters} feature (\vref*{sec:letters}).
 %
-% \subsection{Different font technologies: \AAT\ and \ICU}\label{sec:renderer}
+% \subsection{Different font technologies: \AAT\ and OpenType}\label{sec:renderer}
 %
 % \XeTeX\ supports two rendering technologies for typesetting, selected with
 % the \feat{Renderer} font feature. The first, \opt{AAT}, is
-% that provided (only) by \MacOSX\ itself. The second, \opt{ICU},
-% is an open source OpenType interpreter. It provides much greater support for
+% that provided (only) by \MacOSX\ itself. The second, \opt{OpenType},
+% is an open source OpenType interpreter.
+% \note{v2.4: This was called `\texttt{ICU}' in previous versions of \XeTeX\ and \pkg{fontspec}.
+% Backwards compatibility is preserved.}
+% It provides greater support for
 % OpenType features, notably contextual arrangement, over \opt{AAT}.
 %
 % In general, this feature will not need to be explicitly called: for OpenType
-% fonts, the \opt{ICU} renderer is used automatically, and for \AAT\ fonts,
+% fonts, the \opt{OpenType} renderer is used automatically, and for \AAT\ fonts,
 % \opt{AAT} is chosen by default. Some fonts, however, will contain font tables
 % for \emph{both} rendering technologies, such as the Hiragino Japanese fonts
 % distributed with \MacOSX, and in these cases the choice may be required.
 %
 % Among some other font features only available through a specific renderer,
-% \opt{ICU} provides for the \feat{Script} and \feat{Language} features, which allow
+% \opt{OpenType} provides for the \feat{Script} and \feat{Language} features, which allow
 % different font behaviour for different alphabets and languages; see \vref{sec:ot}
 % for the description of these features. {\em Because these font features can
 % change which features are able to be selected for the font instance, they are selected
 % by \pkg{fontspec} before all others and will automatically and without warning
-% select the \opt{ICU} renderer.}
+% select the \opt{OpenType} renderer.}
 %
 %
 % \subsection{Optical font sizes} \label{sec:aat-opticalsize}
@@ -2425,11 +2428,10 @@ This work consists of this file fontspec.dtx
 % \end{Xexample}
 %
 %
-% \DescribeMacro{\newICUfeature}
 % \DescribeMacro{\newopentypefeature}
 % New OpenType features may be created with this command:\par
-% {\centering\cmd\newICUfeature\marg{feature}\marg{option}\marg{feature tag}\par}
-% The synonym \cs{newopentypefeature} is provided for \LuaLaTeX\ users.
+% {\centering\cmd\newopentypefeature\marg{feature}\marg{option}\marg{feature tag}\par}
+% The synonym \cs{newICUfeature} is deprecated.
 %
 % Here's what it would look like in practise:
 % \begin{Verbatim}
@@ -2456,7 +2458,7 @@ This work consists of this file fontspec.dtx
 %    sockdolager rubdown
 % \end{Xexample}
 %
-% The advantage to using the \cmd\newAATfeature\ and \cmd\newICUfeature\
+% The advantage to using the \cmd\newAATfeature\ and \cmd\newopentypefeature\
 % commands instead of \cs{newfontfeature} is that they check if the selected font actually contains the desired font
 % feature at load time. By contrast, \cmd\newfontfeature\ will not give a warning
 % for improper input.
@@ -2746,7 +2748,7 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \bool_new:N \l_fontspec_tfm_bool
 \bool_new:N \l_fontspec_atsui_bool
-\bool_new:N \l_fontspec_icu_bool
+\bool_new:N \l_@@_ot_bool
 \bool_new:N \l_fontspec_mm_bool
 \bool_new:N \l_fontspec_graphite_bool
 %    \end{macrocode}
@@ -2904,7 +2906,7 @@ This work consists of this file fontspec.dtx
 \msg_new:nnn {fontspec} {icu-feature-not-exist}
  {
   '\l_keys_key_tl=\l_keys_value_tl'~ feature~ not~ supported~
-  for~ ICU~ font~ '\l_fontspec_fontname_tl'
+  for~ OpenType~ font~ '\l_fontspec_fontname_tl'
  }
 \msg_new:nnn {fontspec} {icu-feature-not-exist-in-font}
  {
@@ -3384,13 +3386,13 @@ This work consists of this file fontspec.dtx
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\newICUfeature}
 % \begin{macro}{\newopentypefeature}
+% \begin{macro}{\newICUfeature}
 % This command assigns a new OpenType feature by its abbreviation (|#2|) to a new name (|#1|).
 % Better than \cmd\newfontfeature\ because it checks if the feature exists in the
 % font it's being used for.
 %    \begin{macrocode}
-\DeclareDocumentCommand \newICUfeature {mmm}
+\DeclareDocumentCommand \newopentypefeature {mmm}
  {
   \keys_if_exist:nnF { fontspec / options } {#1}
     { \fontspec_define_font_feature:n{#1} }
@@ -3398,7 +3400,7 @@ This work consists of this file fontspec.dtx
     { \fontspec_warning:nxx {feature-option-overwrite}{#1}{#2} }
   \fontspec_define_feature_option:nnnnn{#1}{#2}{}{}{#3}
  }
-\cs_set_eq:NN \newopentypefeature \newICUfeature
+\cs_set_eq:NN \newICUfeature \newopentypefeature % deprecated
 %    \end{macrocode}
 % \end{macro}
 % \end{macro}
@@ -3590,7 +3592,7 @@ This work consists of this file fontspec.dtx
     \prop_get:cnN {g_fontspec_ \f@family _prop} {fontdef} \l_@@_fontdef_tl
     \fontspec_font_set:Nnn \l_fontspec_font {\l_@@_fontdef_tl} {\f@size pt}
     \fontspec_set_font_type:
-    \bool_if:NTF \l_fontspec_icu_bool \prg_return_true: \prg_return_false:
+    \bool_if:NTF \l_@@_ot_bool \prg_return_true: \prg_return_false:
    }
    {
     \prg_return_false:
@@ -3612,7 +3614,7 @@ This work consists of this file fontspec.dtx
     \prop_get:cnN {g_fontspec_ \f@family _prop} {fontdef} \l_@@_fontdef_tl
     \fontspec_font_set:Nnn \l_fontspec_font {\l_@@_fontdef_tl} {\f@size pt}
     \fontspec_set_font_type:
-    \bool_if:NTF \l_fontspec_icu_bool
+    \bool_if:NTF \l_@@_ot_bool
      {
       \prop_get:cnN {g_fontspec_ \f@family _prop} {script-num} \l_@@_tmp_tl
       \int_set:Nn \l_fontspec_script_int {\l_@@_tmp_tl}
@@ -3648,7 +3650,7 @@ This work consists of this file fontspec.dtx
     \prop_get:cnN {g_fontspec_ \f@family _prop} {fontdef} \l_@@_fontdef_tl
     \fontspec_font_set:Nnn \l_fontspec_font {\l_@@_fontdef_tl} {\f@size pt}
     \fontspec_set_font_type:
-    \bool_if:NTF \l_fontspec_icu_bool
+    \bool_if:NTF \l_@@_ot_bool
      {
       \fontspec_iv_str_to_num:Nn \l_fontspec_script_int {#1}
       \fontspec_iv_str_to_num:Nn \l_fontspec_language_int {#2}
@@ -3674,7 +3676,7 @@ This work consists of this file fontspec.dtx
     \prop_get:cnN {g_fontspec_ \f@family _prop} {fontdef} \l_@@_fontdef_tl
     \fontspec_font_set:Nnn \l_fontspec_font {\l_@@_fontdef_tl} {\f@size pt}
     \fontspec_set_font_type:
-    \bool_if:NTF \l_fontspec_icu_bool
+    \bool_if:NTF \l_@@_ot_bool
      {
       \fontspec_check_script:nTF {#1} \prg_return_true: \prg_return_false:
      }
@@ -3698,7 +3700,7 @@ This work consists of this file fontspec.dtx
     \prop_get:cnN {g_fontspec_ \f@family _prop} {fontdef} \l_@@_fontdef_tl
     \fontspec_font_set:Nnn \l_fontspec_font {\l_@@_fontdef_tl} {\f@size pt}
     \fontspec_set_font_type:
-    \bool_if:NTF \l_fontspec_icu_bool
+    \bool_if:NTF \l_@@_ot_bool
      {
       \prop_get:cnN {g_fontspec_ \f@family _prop} {script-num} \l_@@_tmp_tl
       \int_set:Nn \l_fontspec_script_int {\l_@@_tmp_tl}      
@@ -3726,7 +3728,7 @@ This work consists of this file fontspec.dtx
     \prop_get:cnN {g_fontspec_ \f@family _prop} {fontdef} \l_@@_fontdef_tl
     \fontspec_font_set:Nnn \l_fontspec_font {\l_@@_fontdef_tl} {\f@size pt}
     \fontspec_set_font_type:
-    \bool_if:NTF \l_fontspec_icu_bool
+    \bool_if:NTF \l_@@_ot_bool
      {
       \tl_set:Nn \l_fontspec_script_tl {#1}
       \fontspec_iv_str_to_num:Nn \l_fontspec_script_int {#1}
@@ -3751,7 +3753,7 @@ This work consists of this file fontspec.dtx
     \prop_get:cnN {g_fontspec_ \f@family _prop} {fontdef} \l_@@_fontdef_tl
     \fontspec_font_set:Nnn \l_fontspec_font {\l_@@_fontdef_tl} {\f@size pt}
     \fontspec_set_font_type:
-    \bool_if:NTF \l_fontspec_icu_bool
+    \bool_if:NTF \l_@@_ot_bool
      {
       \prop_get:cnN {g_fontspec_ \f@family _prop} {script-tag}  \l_@@_tmp_tl
       \str_if_eq:nVTF {#1}  \l_@@_tmp_tl
@@ -3775,7 +3777,7 @@ This work consists of this file fontspec.dtx
     \prop_get:cnN {g_fontspec_ \f@family _prop} {fontdef} \l_@@_fontdef_tl
     \fontspec_font_set:Nnn \l_fontspec_font {\l_@@_fontdef_tl} {\f@size pt}
     \fontspec_set_font_type:
-    \bool_if:NTF \l_fontspec_icu_bool
+    \bool_if:NTF \l_@@_ot_bool
      {
       \prop_get:cnN {g_fontspec_ \f@family _prop} {lang-tag}  \l_@@_tmp_tl
       \str_if_eq:nVTF {#1} \l_@@_tmp_tl
@@ -4301,7 +4303,7 @@ This work consists of this file fontspec.dtx
 % \subsubsection{Fonts}
 %
 % \begin{macro}{\fontspec_set_font_type:}
-% Now check if the font is to be rendered with \ATSUI\ or \ICU. This will either
+% Now check if the font is to be rendered with \ATSUI\ or Harfbuzz. This will either
 % be automatic (based on the font type), or specified by the user via a font feature.
 %
 % This macro sets booleans
@@ -4314,7 +4316,7 @@ This work consists of this file fontspec.dtx
  {
   \bool_set_false:N \l_fontspec_tfm_bool
   \bool_set_false:N \l_fontspec_atsui_bool
-  \bool_set_false:N \l_fontspec_icu_bool
+  \bool_set_false:N \l_@@_ot_bool
   \bool_set_false:N \l_fontspec_mm_bool
   \bool_set_false:N \l_fontspec_graphite_bool
   \ifcase\XeTeXfonttype\l_fontspec_font
@@ -4325,7 +4327,7 @@ This work consists of this file fontspec.dtx
       \bool_set_true:N \l_fontspec_mm_bool
     \fi
   \or
-    \bool_set_true:N \l_fontspec_icu_bool
+    \bool_set_true:N \l_@@_ot_bool
   \fi
 %    \end{macrocode}
 % If automatic, the \cmd{\l_fontspec_renderer_tl} token list will still be
@@ -4338,15 +4340,15 @@ This work consists of this file fontspec.dtx
     \bool_if:NTF \l_fontspec_atsui_bool
      { \tl_set:Nn \l_fontspec_renderer_tl {/AAT} }
      {
-       \bool_if:NT \l_fontspec_icu_bool
-        { \tl_set:Nn \l_fontspec_renderer_tl {/ICU} }
+       \bool_if:NT \l_@@_ot_bool
+        { \tl_set:Nn \l_fontspec_renderer_tl {/OT} }
      }
    }
  }
 %</xetexx>
 %<*luatex>
  {
-  \bool_set_true:N \l_fontspec_icu_bool
+  \bool_set_true:N \l_@@_ot_bool
  }
 %</luatex>
 %    \end{macrocode}
@@ -4591,7 +4593,7 @@ This work consists of this file fontspec.dtx
 \clist_set:Nn \l_fontspec_pre_feat_sclist
 %<*xetexx>
  {
-  \bool_if:NT \l_fontspec_icu_bool
+  \bool_if:NT \l_@@_ot_bool
    {
     \tl_if_empty:NF \l_fontspec_script_tl
      {
@@ -4696,7 +4698,7 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \cs_set:Npn \fontspec_init:
  {
-  \bool_set_false:N \l_fontspec_icu_bool
+  \bool_set_false:N \l_@@_ot_bool
   \bool_set_true:N \l_fontspec_firsttime_bool
   \cs_set:Npn \fontspec_namewrap:n ##1 { ##1 }
   \tl_clear:N \l_fontspec_optical_size_tl
@@ -4734,7 +4736,7 @@ This work consists of this file fontspec.dtx
 %<*xetexx>
 \cs_set:Nn \fontspec_make_smallcaps:T
  {
-  \bool_if:NTF \l_fontspec_icu_bool
+  \bool_if:NTF \l_@@_ot_bool
    { \fontspec_make_ot_smallcaps:T {#1} }
    {
      \bool_if:NT \l_fontspec_atsui_bool
@@ -4790,8 +4792,8 @@ This work consists of this file fontspec.dtx
 \cs_new:Nn \fontspec_make_feature:nnn
 %<*xetexx>
  {
-  \bool_if:NTF \l_fontspec_icu_bool
-   { \fontspec_make_ICU_feature:n {#3} }
+  \bool_if:NTF \l_@@_ot_bool
+   { \fontspec_make_OT_feature:n {#3} }
    {
      \bool_if:NT \l_fontspec_atsui_bool
       { \fontspec_make_AAT_feature:nn {#1}{#2} }
@@ -4799,7 +4801,7 @@ This work consists of this file fontspec.dtx
  }
 %</xetexx>
 %<*luatex>
- { \fontspec_make_ICU_feature:n {#3} }
+ { \fontspec_make_OT_feature:n {#3} }
 %</luatex>
 \cs_generate_variant:Nn \fontspec_make_feature:nnn {nnx}
 %    \end{macrocode}
@@ -4817,7 +4819,7 @@ This work consists of this file fontspec.dtx
      { \fontspec_warning:nx {aat-feature-not-exist-in-font} {#1,#2} }
    }
  }
-\cs_new:Nn \fontspec_make_ICU_feature:n
+\cs_new:Nn \fontspec_make_OT_feature:n
  {
   \tl_if_empty:nTF {#1}
    { \fontspec_warning:n {icu-feature-not-exist} }
@@ -5121,7 +5123,7 @@ This work consists of this file fontspec.dtx
   \bool_set_true:N \l_fontspec_external_bool
   \cs_gset:Npn \fontspec_namewrap:n ##1 { [ #1 ##1 ] }
 %<*xetexx>
-  \keys_set:nn {fontspec-renderer} {Renderer=ICU}
+  \keys_set:nn {fontspec-renderer} {Renderer=OpenType}
 %</xetexx>
  }
 \aliasfontfeature{ExternalLocation}{Path}
@@ -5161,7 +5163,7 @@ This work consists of this file fontspec.dtx
         { g_fontspec_renderer_tag_ \l_keys_choice_tl }
 %</xetexx>
 %<*luatex>
-      \fontspec_warning:nx {only-xetex-feature} {Renderer=AAT/ICU/Graphite}
+      \fontspec_warning:nx {only-xetex-feature} {Renderer=AAT/OpenType/Graphite}
 %</luatex>
      }
      {
@@ -5175,10 +5177,11 @@ This work consists of this file fontspec.dtx
      }
    }
   ,
-  Renderer .generate_choices:n = {AAT,ICU,Graphite,Full,Basic}
+  Renderer .generate_choices:n = {AAT,ICU,OpenType,Graphite,Full,Basic}
  }
 \tl_set:cn {g_fontspec_renderer_tag_AAT} {/AAT}
-\tl_set:cn {g_fontspec_renderer_tag_ICU} {/ICU}
+\tl_set:cn {g_fontspec_renderer_tag_ICU} {/OT}
+\tl_set:cn {g_fontspec_renderer_tag_OpenType} {/OT}
 \tl_set:cn {g_fontspec_renderer_tag_Graphite} {/GR}
 \tl_set:cn {g_fontspec_mode_tag_Full}  {node}
 \tl_set:cn {g_fontspec_mode_tag_Basic} {base}
@@ -5189,7 +5192,7 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \@@_keys_define_code:nnn {fontspec-preparse} {Script}
  {
-%<xetexx>    \keys_set:nn {fontspec-renderer} {Renderer=ICU}
+%<xetexx>    \keys_set:nn {fontspec-renderer} {Renderer=OpenType}
   \tl_set:Nn \l_fontspec_script_name_tl {#1}
  }
 %    \end{macrocode}
@@ -5197,7 +5200,7 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \@@_keys_define_code:nnn {fontspec-preparse} {Language}
  {
-%<xetexx>    \keys_set:nn {fontspec-renderer} {Renderer=ICU}
+%<xetexx>    \keys_set:nn {fontspec-renderer} {Renderer=OpenType}
   \tl_set:Nn \l_fontspec_lang_name_tl {#1}
  }
 %    \end{macrocode}
@@ -5655,7 +5658,7 @@ This work consists of this file fontspec.dtx
 \@@_keys_define_code:nnn {fontspec} {OpticalSize}
 %<*xetexx>
  {
-  \bool_if:NTF \l_fontspec_icu_bool
+  \bool_if:NTF \l_@@_ot_bool
    {
     \tl_set:Nn \l_fontspec_optical_size_tl {/ S = #1}
    }
@@ -5665,7 +5668,7 @@ This work consists of this file fontspec.dtx
       \fontspec_update_featstr:n{optical size=#1}
      }
    }
-  \bool_if:nT { !\l_fontspec_icu_bool && !\l_fontspec_mm_bool }
+  \bool_if:nT { !\l_@@_ot_bool && !\l_fontspec_mm_bool }
    {
     \bool_if:NT \l_fontspec_firsttime_bool
      { \fontspec_warning:n {no-opticals} }
@@ -6075,7 +6078,7 @@ This work consists of this file fontspec.dtx
   Vertical .choice: ,
   Vertical / RotatedGlyphs .code:n =
    {
-    \bool_if:NTF \l_fontspec_icu_bool
+    \bool_if:NTF \l_@@_ot_bool
      {
       \fontspec_make_feature:nnn{}{}{+vrt2}
       \fontspec_update_featstr:n{vertical}
@@ -7375,7 +7378,6 @@ If you want to run just a single test, use
 \def\MacOSX{Mac~OS~X}
 \def\AAT{\textsc{aat}}
 \def\ATSUI{\textsc{atsui}}
-\def\ICU{\textsc{icu}}
 
 %% (La)TeX font-related declarations:
 \linespread{1.05}      % Pagella needs more space between lines

@@ -2738,6 +2738,11 @@ This work consists of this file fontspec.dtx
 %
 % \subsection{Bits and pieces}
 % \paragraph{Conditionals}
+% \subparagraph{firsttime} As \cs{keys_set:nn} is run multiple times, some of its
+% information storing only occurs once while we decide if the font family
+% has been defined or not. When the later processing is occuring per-shape
+% this no longer needs to happen; this is indicated by the `firsttime'
+% conditional (initialised true).
 %    \begin{macrocode}
 \bool_new:N \l_fontspec_firsttime_bool
 \bool_new:N \l_fontspec_nobf_bool
@@ -3563,7 +3568,7 @@ This work consists of this file fontspec.dtx
   \fontspec_if_fontspec_font:TF
    {
     \prop_get:cnN {g_fontspec_ \f@family _prop} {fontdef} \l_@@_fontdef_tl
-    \fontspec_font_set:Nnn \l_fontspec_font {\l_@@_fontdef_tl} {\f@size pt}
+    \@@_font_set:Nnn \l_fontspec_font {\l_@@_fontdef_tl} {\f@size pt}
     \bool_if:NTF \l_fontspec_atsui_bool
      {
       \fontspec_make_AAT_feature_string:nnTF {#1}{#2}
@@ -3590,7 +3595,7 @@ This work consists of this file fontspec.dtx
   \fontspec_if_fontspec_font:TF
    {
     \prop_get:cnN {g_fontspec_ \f@family _prop} {fontdef} \l_@@_fontdef_tl
-    \fontspec_font_set:Nnn \l_fontspec_font {\l_@@_fontdef_tl} {\f@size pt}
+    \@@_font_set:Nnn \l_fontspec_font {\l_@@_fontdef_tl} {\f@size pt}
     \fontspec_set_font_type:
     \bool_if:NTF \l_@@_ot_bool \prg_return_true: \prg_return_false:
    }
@@ -3612,7 +3617,7 @@ This work consists of this file fontspec.dtx
   \fontspec_if_fontspec_font:TF
    {
     \prop_get:cnN {g_fontspec_ \f@family _prop} {fontdef} \l_@@_fontdef_tl
-    \fontspec_font_set:Nnn \l_fontspec_font {\l_@@_fontdef_tl} {\f@size pt}
+    \@@_font_set:Nnn \l_fontspec_font {\l_@@_fontdef_tl} {\f@size pt}
     \fontspec_set_font_type:
     \bool_if:NTF \l_@@_ot_bool
      {
@@ -3648,7 +3653,7 @@ This work consists of this file fontspec.dtx
   \fontspec_if_fontspec_font:TF
    {
     \prop_get:cnN {g_fontspec_ \f@family _prop} {fontdef} \l_@@_fontdef_tl
-    \fontspec_font_set:Nnn \l_fontspec_font {\l_@@_fontdef_tl} {\f@size pt}
+    \@@_font_set:Nnn \l_fontspec_font {\l_@@_fontdef_tl} {\f@size pt}
     \fontspec_set_font_type:
     \bool_if:NTF \l_@@_ot_bool
      {
@@ -3674,7 +3679,7 @@ This work consists of this file fontspec.dtx
   \fontspec_if_fontspec_font:TF
    {
     \prop_get:cnN {g_fontspec_ \f@family _prop} {fontdef} \l_@@_fontdef_tl
-    \fontspec_font_set:Nnn \l_fontspec_font {\l_@@_fontdef_tl} {\f@size pt}
+    \@@_font_set:Nnn \l_fontspec_font {\l_@@_fontdef_tl} {\f@size pt}
     \fontspec_set_font_type:
     \bool_if:NTF \l_@@_ot_bool
      {
@@ -3698,7 +3703,7 @@ This work consists of this file fontspec.dtx
   \fontspec_if_fontspec_font:TF
    {
     \prop_get:cnN {g_fontspec_ \f@family _prop} {fontdef} \l_@@_fontdef_tl
-    \fontspec_font_set:Nnn \l_fontspec_font {\l_@@_fontdef_tl} {\f@size pt}
+    \@@_font_set:Nnn \l_fontspec_font {\l_@@_fontdef_tl} {\f@size pt}
     \fontspec_set_font_type:
     \bool_if:NTF \l_@@_ot_bool
      {
@@ -3726,7 +3731,7 @@ This work consists of this file fontspec.dtx
   \fontspec_if_fontspec_font:TF
    {
     \prop_get:cnN {g_fontspec_ \f@family _prop} {fontdef} \l_@@_fontdef_tl
-    \fontspec_font_set:Nnn \l_fontspec_font {\l_@@_fontdef_tl} {\f@size pt}
+    \@@_font_set:Nnn \l_fontspec_font {\l_@@_fontdef_tl} {\f@size pt}
     \fontspec_set_font_type:
     \bool_if:NTF \l_@@_ot_bool
      {
@@ -3751,7 +3756,7 @@ This work consists of this file fontspec.dtx
   \fontspec_if_fontspec_font:TF
    {
     \prop_get:cnN {g_fontspec_ \f@family _prop} {fontdef} \l_@@_fontdef_tl
-    \fontspec_font_set:Nnn \l_fontspec_font {\l_@@_fontdef_tl} {\f@size pt}
+    \@@_font_set:Nnn \l_fontspec_font {\l_@@_fontdef_tl} {\f@size pt}
     \fontspec_set_font_type:
     \bool_if:NTF \l_@@_ot_bool
      {
@@ -3775,7 +3780,7 @@ This work consists of this file fontspec.dtx
   \fontspec_if_fontspec_font:TF
    {
     \prop_get:cnN {g_fontspec_ \f@family _prop} {fontdef} \l_@@_fontdef_tl
-    \fontspec_font_set:Nnn \l_fontspec_font {\l_@@_fontdef_tl} {\f@size pt}
+    \@@_font_set:Nnn \l_fontspec_font {\l_@@_fontdef_tl} {\f@size pt}
     \fontspec_set_font_type:
     \bool_if:NTF \l_@@_ot_bool
      {
@@ -3869,7 +3874,7 @@ This work consists of this file fontspec.dtx
 % \begin{macro}{\fontspec_set:Nnn,\fontspec_gset:Nnn}
 % Wrapper around \cs{font_set:Nnn} and \cs{font_gset:Nnn}.
 %    \begin{macrocode}
-\cs_new:Nn \fontspec_font_set:Nnn
+\cs_new:Nn \@@_font_set:Nnn
  {
   \font_set:Nnn #1 {\fontspec_fontwrap:n {#2}} {#3}
  }
@@ -3914,73 +3919,46 @@ This work consists of this file fontspec.dtx
 %
 % This macro does its processing inside a group to attempt to restrict the scope of its internal processing.
 % This works to some degree to insulate the internal commands from having to be manually cleared.
+%
+% Some often-used variables to know about:
+% \begin{itemize}
+% \item \cmd{\l_fontspec_fontname_tl} is used as the generic name of the font being defined.
+% \item \cmd{\l_@@_fontid_tl} is the unique identifier of the font with all its
+% features.
+% \item \cmd{\l_fontspec_fontname_up_tl} is the font specifically to be used as the upright font.
+% \item \cmd{\l_@@_basename_tl} is the (immutable) original argument used for |*|-replacing.
+% \item \cmd{\l_fontspec_font} is the plain \TeX{} font of the upright font requested.
+% \end{itemize}
 %    \begin{macrocode}
 \cs_set:Nn \fontspec_select:nn
  {
   \group_begin:
   \font_suppress_not_found_error:
-  \fontspec_init:
-%    \end{macrocode}
-% \cmd{\l_fontspec_fontname_tl} is used as the generic name of the font being defined.
-% \cmd{\l_fontspec_fontid_tl} is the unique identifier of the font with all its
-% features.
-% \cmd{\l_fontspec_fontname_up_tl} is the font specifically to be used as the upright font.
-% \cmd{\l_@@_basename_tl} is the (immutable) original argument used for |*|-replacing.
-%    \begin{macrocode}
+  \@@_init:
+  
   \tl_set:Nx \l_fontspec_fontname_tl {#2}
 %<luatex>  \tl_remove_all:Nn \l_fontspec_fontname_tl {~}
   \tl_set_eq:NN \l_fontspec_fontname_up_tl \l_fontspec_fontname_tl
-  \tl_set_eq:NN \l_@@_basename_tl    \l_fontspec_fontname_tl
-%    \end{macrocode}
-% Load a possible \texttt{.fontspec} font configuration file.
-% This file could set font-specific options for the font about to be loaded.
-%    \begin{macrocode}
+  \tl_set_eq:NN \l_@@_basename_tl          \l_fontspec_fontname_tl
+
   \@@_load_external_fontoptions:N \l_fontspec_fontname_tl
-%    \end{macrocode}
-% Convert the requested features to font definition
-% strings. First the features are parsed for information about font
-% loading (whether it's a named font or external font, etc.), and then
-% information is extracted for the names of the other shape fonts.
-%    \begin{macrocode}
-  \@@_preparse_features:nN {#1} \l_fontspec_fontname_tl
-%    \end{macrocode}
-% Finally save the `confirmed' font definition.
-%    \begin{macrocode}
-  \fontspec_font_set:Nnn \l_fontspec_font {\fontspec_fullname:n {\l_fontspec_fontname_up_tl}} {\f@size pt}
+  \@@_extract_all_features:n {#1}
+  \@@_preparse_features:
+
+  \@@_font_set:Nnn \l_fontspec_font {\fontspec_fullname:n {\l_fontspec_fontname_up_tl}} {\f@size pt}
   \font_if_null:NT \l_fontspec_font { \fontspec_error:nx {font-not-found} {\l_fontspec_fontname_up_tl} }
   \fontspec_set_font_type:
   \fontspec_font_gset:Nnn \l_fontspec_font {\fontspec_fullname:n {\l_fontspec_fontname_up_tl}} {\f@size pt}
   \l_fontspec_font % this is necessary for LuaLaTeX to check the scripts properly
-%    \end{macrocode}
-% Then the mapping from user features to low-level features occurs.
-% This is performed with \cs{fontspec_get_features:n}, in
-% which \cs{keys_set:nn} retrieves the requested font features and
-% processes them. As \cs{keys_set:nn} is run multiple times, some of its
-% information storing only occurs once while we decide if the font family
-% has been defined or not. When the later processing is occuring per-shape
-% this no longer needs to happen; this is indicated by the `firsttime'
-% conditional.
-%    \begin{macrocode}
+
   \fontspec_set_scriptlang:
   \@@_get_features:Nn \l_fontspec_rawfeatures_sclist {}
   \bool_set_false:N \l_fontspec_firsttime_bool
-%    \end{macrocode}
-% Check if the family is unique and, if so, save its information.
-% (\cs{addfontfeature} and other macros use this data.)
-% Then the font family and its shapes are defined in the NFSS.
-%
-% All NFSS specifications take their default values, so if any of them
-% are redefined, the shapes will be selected to fit in with the
-% current state. For example, if \cmd\bfdefault\ is redefined to |b|, all
-% bold shapes defined by this package will also be assigned to |b|.
-%
-%    \begin{macrocode}
+
   \fontspec_save_family:nT {#2}
    {
-    \fontspec_save_fontinfo:nn {#1} {#2}
+    \fontspec_save_fontinfo:
     \DeclareFontFamily{\g_fontspec_encoding_tl}{\l_fontspec_family_tl}{}
-
-% The combination shapes are defined first because they use information that may be redefined in the single cases. E.g., if no bold font is specified then |set_bold| will attempt to set it. This has subtle/small ramifications on the logic of choosing the bold italic font.
 
     \fontspec_set_upright:
     \fontspec_set_bold_italic:
@@ -3988,14 +3966,17 @@ This work consists of this file fontspec.dtx
     \fontspec_set_bold:
     \fontspec_set_italic:
     \fontspec_set_slanted:
+
+    \fontspec_info:nxx {defining-font} {#1} {#2}
    }
-  \fontspec_info:nxx {defining-font} {#1} {#2}
   \group_end:
  }
 %    \end{macrocode}
 % \end{macro}
 %
 % \begin{macro}{\@@_load_external_fontoptions:N}
+% Load a possible \texttt{.fontspec} font configuration file.
+% This file could set font-specific options for the font about to be loaded.
 %    \begin{macrocode}
 \cs_new:Nn \@@_load_external_fontoptions:N
  {
@@ -4009,21 +3990,10 @@ This work consists of this file fontspec.dtx
 %    \end{macrocode}
 % \end{macro}
 %
-%
-% \begin{macro}{\@@_preparse_features:nN}
-% \darg{feature options}
-% \darg{font name}
-% Perform the (multi-step) feature parsing process.
+% \begin{macro}{\@@_extract_features:}
 %    \begin{macrocode}
-\cs_new:Nn \@@_preparse_features:nN
+\cs_new:Nn \@@_extract_all_features:n
  {
-%    \end{macrocode}
-% Detect if external fonts are to be used, possibly automatically, and
-% parse fontspec features for bold/italic fonts and their features.
-%    \begin{macrocode}
-  \exp_args:NV \fontspec_if_detect_external:nT #2
-   { \keys_set:nn {fontspec-preparse-external} {ExternalLocation} }
-  
   \@@_sanitise_fontname:Nn \l_@@_tmp_tl {\l_fontspec_fontname_tl}
   \prop_get:NVNF \g_@@_fontopts_prop \l_@@_tmp_tl \l_@@_fontopts_clist
    { \clist_clear:N \l_@@_fontopts_clist }
@@ -4032,17 +4002,39 @@ This work consists of this file fontspec.dtx
    { \clist_clear:N \l_@@_family_fontopts_clist }
   \tl_clear:N \l_@@_family_label_tl
 
-  \tl_set:Nx \l_@@_tmp_tl
+  \tl_set:Nx \l_@@_all_features_clist
    {
     \g_fontspec_default_fontopts_tl,
     \l_@@_family_fontopts_clist,
     \l_@@_fontopts_clist,
     #1   
    }
-  \tl_set:Nx \l_fontspec_fontid_tl { \l_fontspec_fontname_tl-:-\l_@@_tmp_tl }
-
+  \tl_set:Nx \l_@@_fontid_tl { \l_fontspec_fontname_tl-:-\l_@@_all_features_clist }  
+ }
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@@_preparse_features:}
+% \darg{feature options}
+% \darg{font name}
+% Perform the (multi-step) feature parsing process.
+%
+% Convert the requested features to font definition
+% strings. First the features are parsed for information about font
+% loading (whether it's a named font or external font, etc.), and then
+% information is extracted for the names of the other shape fonts.
+%    \begin{macrocode}
+\cs_new:Nn \@@_preparse_features:
+ {
+%    \end{macrocode}
+% Detect if external fonts are to be used, possibly automatically, and
+% parse fontspec features for bold/italic fonts and their features.
+%    \begin{macrocode}
+  \exp_args:NV \fontspec_if_detect_external:nT \l_fontspec_fontname_tl
+   { \keys_set:nn {fontspec-preparse-external} {ExternalLocation} }
+  
   \keys_set_known:nxN {fontspec-preparse-external}
-   { \l_@@_tmp_tl }
+   { \l_@@_all_features_clist }
    \l_fontspec_keys_leftover_clist
 %    \end{macrocode}
 % When \cmd{\l_fontspec_fontname_tl} is augmented with a prefix or whatever to create
@@ -4127,6 +4119,10 @@ This work consists of this file fontspec.dtx
 %
 %
 % \begin{macro}{\fontspec_save_family:nT}
+% Check if the family is unique and, if so, save its information.
+% (\cs{addfontfeature} and other macros use this data.)
+% Then the font family and its shapes are defined in the NFSS.
+%
 % Now we have a unique (in fact, too unique!) string that contains
 % the family name and every option in abbreviated form. This is used
 % with a counter to create a simple NFSS family name for the font we're
@@ -4138,21 +4134,21 @@ This work consists of this file fontspec.dtx
  {
   \cs_if_exist:NT \l_fontspec_nfss_fam_tl
    {
-    \cs_set_eq:cN {g_fontspec_UID_\l_fontspec_fontid_tl} \l_fontspec_nfss_fam_tl   
+    \cs_set_eq:cN {g_@@_UID_\l_@@_fontid_tl} \l_fontspec_nfss_fam_tl   
    }
-  \cs_if_exist:cF {g_fontspec_UID_\l_fontspec_fontid_tl}
+  \cs_if_exist:cF {g_@@_UID_\l_@@_fontid_tl}
    {
-    \cs_if_exist:cTF {g_fontspec_family_#1_int}
-     { \int_gincr:c  {g_fontspec_family_#1_int} }
-     { \int_new:c    {g_fontspec_family_#1_int} }
+    \cs_if_exist:cTF {g_@@_family_#1_int}
+     { \int_gincr:c  {g_@@_family_#1_int} }
+     { \int_new:c    {g_@@_family_#1_int} }
     \tl_set:Nx \l_fontspec_tmp_tl {#1}
     \tl_remove_all:Nn \l_fontspec_tmp_tl {~}
-    \tl_gset:cx {g_fontspec_UID_\l_fontspec_fontid_tl}
+    \tl_gset:cx {g_@@_UID_\l_@@_fontid_tl}
      {
-      \l_fontspec_tmp_tl ( \int_use:c {g_fontspec_family_#1_int} )
+      \l_fontspec_tmp_tl ( \int_use:c {g_@@_family_#1_int} )
      }
    }
-  \tl_gset:Nv \l_fontspec_family_tl {g_fontspec_UID_\l_fontspec_fontid_tl}
+  \tl_gset:Nv \l_fontspec_family_tl {g_@@_UID_\l_@@_fontid_tl}
   \cs_if_exist:cTF {g_fontspec_ \l_fontspec_family_tl _prop}
     \prg_return_false: \prg_return_true:
  }
@@ -4165,11 +4161,11 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \cs_generate_variant:Nn \prop_gput:Nnn {cnV}
 \cs_generate_variant:Nn \prop_gput:Nnn {cnx}
-\cs_new:Nn \fontspec_save_fontinfo:nn
+\cs_new:Nn \fontspec_save_fontinfo:
  {
   \prop_new:c {g_fontspec_ \l_fontspec_family_tl _prop}
-  \prop_gput:cnx {g_fontspec_ \l_fontspec_family_tl _prop} {fontname} {#2}
-  \prop_gput:cnx {g_fontspec_ \l_fontspec_family_tl _prop} {options} {\g_fontspec_default_fontopts_tl #1}
+  \prop_gput:cnx {g_fontspec_ \l_fontspec_family_tl _prop} {fontname} { \l_@@_basename_tl }
+  \prop_gput:cnx {g_fontspec_ \l_fontspec_family_tl _prop} {options}  { \l_@@_all_features_clist }
   \prop_gput:cnx {g_fontspec_ \l_fontspec_family_tl _prop} {fontdef}
    {
     \fontspec_fullname:n {\l_fontspec_fontname_tl} :
@@ -4184,6 +4180,14 @@ This work consists of this file fontspec.dtx
 %    \end{macrocode}
 % \end{macro}
 %
+% \subsubsection{Setting font shapes in a family}
+%
+% All NFSS specifications take their default values, so if any of them
+% are redefined, the shapes will be selected to fit in with the
+% current state. For example, if \cmd\bfdefault\ is redefined to |b|, all
+% bold shapes defined by this package will also be assigned to |b|.
+%
+% The combination shapes are defined first because they use information that may be redefined in the single cases. E.g., if no bold font is specified then |set_bold| will attempt to set it. This has subtle/small ramifications on the logic of choosing the bold italic font.
 %
 % \begin{macro}{\fontspec_set_upright:}
 % Sets the upright shape.
@@ -4398,9 +4402,9 @@ This work consists of this file fontspec.dtx
     \bool_if:NTF \l_fontspec_external_bool
      { \prg_return_false: }
      {
-      \fontspec_font_set:Nnn \l_tmpa_font
+      \@@_font_set:Nnn \l_tmpa_font
        { \fontspec_fullname:n {#1}   } {\f@size pt}
-      \fontspec_font_set:Nnn \l_tmpb_font
+      \@@_font_set:Nnn \l_tmpb_font
        { \fontspec_fullname:n {#1#2} } {\f@size pt}
       \str_if_eq_x:nnTF { \fontname \l_tmpa_font } { \fontname \l_tmpb_font }
        { \prg_return_false: }
@@ -4430,7 +4434,7 @@ This work consists of this file fontspec.dtx
     \@@_sanitise_fontname:Nn \l_@@_tmp_tl {\l_fontspec_fontname_tl}
     \prop_get:NVNF \g_@@_fontopts_prop \l_@@_tmp_tl \l_@@_fontopts_clist
      { \clist_clear:N \l_@@_fontopts_clist }
-    \fontspec_font_set:Nnn \l_fontspec_font {\fontspec_fullname:n {\l_fontspec_fontname_tl}} {\f@size pt}
+    \@@_font_set:Nnn \l_fontspec_font {\fontspec_fullname:n {\l_fontspec_fontname_tl}} {\f@size pt}
     \font_if_null:NT \l_fontspec_font { \fontspec_error:nx {font-not-found} {#1} }
  }
 %    \end{macrocode}
@@ -4623,6 +4627,7 @@ This work consists of this file fontspec.dtx
 % \subsubsection{Features}
 %
 % \begin{macro}{\@@_get_features:Nn}
+%
 %   This macro is a wrapper for |\keys_set:nn| which expands and adds a
 %   default specification to the original passed options. It begins by
 %   initialising the commands used to hold font-feature specific
@@ -4656,7 +4661,7 @@ This work consists of this file fontspec.dtx
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\fontspec_init:}
+% \begin{macro}{\@@_init:}
 % Initialisations that either need to occur globally:
 % (all setting of these variables is done locally inside a group)
 %    \begin{macrocode}
@@ -4696,7 +4701,7 @@ This work consists of this file fontspec.dtx
 % (Some of these may be redundant.
 % Check whether they're assigned to globally or not.)
 %    \begin{macrocode}
-\cs_set:Npn \fontspec_init:
+\cs_set:Npn \@@_init:
  {
   \bool_set_false:N \l_@@_ot_bool
   \bool_set_true:N \l_fontspec_firsttime_bool

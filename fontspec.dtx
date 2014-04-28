@@ -225,14 +225,19 @@ This work consists of this file fontspec.dtx
 % leaving well enough alone, apply the |[no-math]| package option to manually
 % suppress its maths font.
 %
-% \subsection{Configuration} If you wish to customise any part of the
-% \pkg{fontspec} interface (see later in this manual, \vref{sec:newfeatures}
-% and~\ref{sec:aliasfontfeature}), this should be done by creating your own
+% \subsection{Configuration}
+% \label{sec:config}
+%
+% If you wish to customise any part of the
+% \pkg{fontspec} interface, this should be done by creating your own
 % \texttt{fontspec.cfg} file,
-% which will be automatically loaded if it is found by \XeTeX\ or \LuaTeX. Either place it
-% in the same folder as the main document for isolated cases, or in a location
+% which will be automatically loaded if it is found by \XeTeX\ or \LuaTeX.
+% A |fontspec.cfg| file is distributed with \pkg{fontspec} with a small number of defaults set up within it.
+%
+% To customise \pkg{fontspec} to your liking, use the standard |.cfg| file as a starting point or write your own from scratch, then either place it in the same folder as the main document for isolated cases, or in a location
 % that \XeTeX\ or \LuaTeX\ searches by default; \eg\ in Mac\TeX: \path{~/Library/texmf/tex/latex/}.
-% The package option |[no-config]| will suppress this behaviour under all circumstances.
+%
+% The package option |[no-config]| will suppress the loading of the |fontspec.cfg| file under all circumstances.
 %
 % \subsection{Warnings}
 % \label{sec:quiet-warnings}
@@ -1055,6 +1060,14 @@ This work consists of this file fontspec.dtx
 % Since there is some subjectivity about the exact scaling to be used, these values
 % should be used to fine-tune the results.
 %
+% Note that when |Scale=MatchLowercase| is used with |\setmainfont|, the new `main' font of the document will be scaled to match the old default.
+% This may be undesirable in some cases, so to achieve `natural' scaling for the main font but automatically scale all other fonts selected, you may write
+% \begin{Verbatim}
+%   \defaultfontfeatures{ Scale = MatchLowercase }
+%   \defaultfontfeatures[\rmfamily]{ Scale = 1}
+% \end{Verbatim}
+% One or both of these lines may be placed into a local |fontspec.cfg| file (see \vref{sec:config}) for this behaviour to be effected in your own documents automatically.
+% (Also see \vref{sec:defaults} for more information on setting font defaults.)
 %
 %
 %

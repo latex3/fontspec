@@ -48,11 +48,24 @@ This work consists of this file fontspec.dtx
 \generate{\file{fontspec.lua}          {\from{fontspec.dtx}{lua}}}
 
 \let\MetaPrefix\DoubleperCent
+
+\ifx\FontspecDebug\undefined
+
 \generate{\file{fontspec.sty}          {\from{fontspec.dtx}{fontspec}}}
 \generate{\file{fontspec-xetex.sty}    {\from{fontspec.dtx}{fontspec,xetexx}}}
 \generate{\file{fontspec-luatex.sty}   {\from{fontspec.dtx}{fontspec,luatex}}}
 \generate{\file{fontspec-patches.sty}  {\from{fontspec.dtx}{patches}}}
 \generate{\file{fontspec-testsuite.tex}{\from{fontspec.dtx}{testsuite}}}
+
+\else
+
+\generate{\file{fontspec.sty}          {\from{fontspec.dtx}{fontspec,debug}}}
+\generate{\file{fontspec-xetex.sty}    {\from{fontspec.dtx}{fontspec,xetexx,debug}}}
+\generate{\file{fontspec-luatex.sty}   {\from{fontspec.dtx}{fontspec,luatex,debug}}}
+\generate{\file{fontspec-patches.sty}  {\from{fontspec.dtx}{patches,debug}}}
+\generate{\file{fontspec-testsuite.tex}{\from{fontspec.dtx}{testsuite}}}
+
+\fi
 
 \nopreamble\nopostamble
 \generate{\file{fontspec.cfg}          {\from{fontspec.dtx}{cfg}}}

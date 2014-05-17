@@ -2,6 +2,13 @@
 %<*internal>
 \begingroup
 \input l3docstrip.tex
+
+\def\doOption#1>#2\endLine{%  \maybeMsg{<#1 . >}%  \Evaluate{#1}%  \def\do##1##2##3{%    \if1\Expr{##2}%
+      \def\inLine{#2}%
+      \replaceModuleInLine
+      \StreamPut##1{\inLine}%
+    \fi  }%  \activefiles}
+
 \keepsilent
 \usedir{tex/latex/fontspec}
 \let\MetaPrefix\relax

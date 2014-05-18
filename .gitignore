@@ -1,12 +1,15 @@
 
-build/
-doc-files/
-testsuite/*.pdf
-fontspec-*
-source/*
-test.*
+*.aux
+*.log
+*.pdf 
+*.sty
 
-fontspec.sty
+testsuite/build/
+testsuite/fonts/
+testsuite/tests/*.pdf
+doc-files/
+fontspec-*
+
 fontspec.cfg
 fontspec.lua
 fontspec.pdf

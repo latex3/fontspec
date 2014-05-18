@@ -1,0 +1,12 @@
+\documentclass{testsuite}
+\usepackage{fontspec}
+\usepackage{xcolor}
+\begin{document}
+\huge
+\fontspec{EBGaramond12-Italic.otf}%
+ [ Path = {../fonts/EBGaramond-0.016/otf/} ]
+                           \& violet \\
+{\addfontfeature{CharacterVariant={4}}     \& violet }\\
+{\addfontfeature{CharacterVariant={5:2}}   \& violet }\\
+{\addfontfeature{CharacterVariant={4,5:2}} \& violet }
+\end{document}

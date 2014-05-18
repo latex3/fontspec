@@ -1,0 +1,43 @@
+\documentclass[twocolumn]{testsuite}
+\usepackage{fontspec}
+\begin{document}
+
+\texttt{All font defaults}
+
+\defaultfontfeatures{Letters=SmallCaps,Color=00AA00}
+\setmainfont{texgyrepagella-regular.otf}
+\setsansfont{texgyreheros-regular.otf}
+\rmfamily Roman \sffamily Sans
+
+\defaultfontfeatures{}
+\setmainfont{texgyrepagella-regular.otf}
+\setsansfont{texgyreheros-regular.otf}
+\rmfamily Roman \sffamily Sans
+
+\defaultfontfeatures{Letters=SmallCaps}
+\setmainfont{texgyrepagella-regular.otf}
+\defaultfontfeatures+{Color=00AA00}
+\setsansfont{texgyreheros-regular.otf}
+\rmfamily Roman \sffamily Sans
+
+\newpage
+\texttt{Family specific}
+
+\defaultfontfeatures{}
+\defaultfontfeatures[\rmfamily]{Letters=SmallCaps,Color=00AA00}
+\setmainfont{texgyrepagella-regular.otf}
+\setsansfont{texgyreheros-regular.otf}
+\rmfamily Roman \sffamily Sans
+
+\defaultfontfeatures[\rmfamily]{}
+\setmainfont{texgyrepagella-regular.otf}
+\setsansfont{texgyreheros-regular.otf}
+\rmfamily Roman \sffamily Sans
+
+\defaultfontfeatures[\rmfamily]{Letters=SmallCaps}
+\defaultfontfeatures+[\rmfamily]{Color=00AA00}
+\setmainfont{texgyrepagella-regular.otf}
+\setsansfont{texgyreheros-regular.otf}
+\rmfamily Roman \sffamily Sans
+
+\end{document}

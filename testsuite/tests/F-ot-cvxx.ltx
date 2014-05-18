@@ -1,0 +1,13 @@
+\documentclass{testsuite}
+\usepackage{fontspec}
+\begin{document}
+\huge
+\fontspec{EBGaramond12-Italic.otf}%
+ [ Path = {../fonts/EBGaramond-0.016/otf/} ]
+very
+{\addfontfeature{CharacterVariant=5} very}
+{\addfontfeature{CharacterVariant=5:0} very}
+{\addfontfeature{CharacterVariant=5:1} very}
+{\addfontfeature{CharacterVariant=5:2} very}
+{\addfontfeature{CharacterVariant=5:3} very}
+\end{document}

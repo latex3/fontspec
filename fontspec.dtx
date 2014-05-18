@@ -2836,7 +2836,7 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \cs_new:Nn \@@_int_mult_truncate:Nn
   {
-    \int_set:Nn #1 { \dim_eval:w #2 #1 \dim_eval_end: }
+    \int_set:Nn #1 { \__dim_eval:w #2 #1 \__dim_eval_end: }
   }
 %    \end{macrocode}
 % \end{macro}

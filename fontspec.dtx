@@ -2989,6 +2989,14 @@ This work consists of this file fontspec.dtx
   The~ "FakeBold"~ and~ "AutoFakeBold"~ options~ are~ only~ available~ with~ XeLaTeX.\\
   Option~ ignored.
  }
+\msg_new:nnn {fontspec} {nfssfont-args}
+ {
+  The~ NFSSFont~ features~ supports~ only~ 3~ or~ 4~ arguments:\\
+  1:~ series,\\
+  2:~ shape,\\
+  3:~ font~ name,~and\\
+  4:~ font~ features~ (optional).
+ }
 %    \end{macrocode}
 % Info messages:
 %    \begin{macrocode}
@@ -3382,6 +3390,7 @@ This work consists of this file fontspec.dtx
 \cs_set_eq:NN \addfontfeature \addfontfeatures
 %    \end{macrocode}
 % \end{macro}
+%
 %
 %
 % \subsubsection{Defining new font features}
@@ -3983,16 +3992,13 @@ This work consists of this file fontspec.dtx
   \@@_save_family:nT {#2}
    {
     \@@_save_fontinfo:
+    \@@_find_autofonts:
     \DeclareFontFamily{\g_fontspec_encoding_tl}{\l_fontspec_family_tl}{}
-
-    \@@_set_upright:
-    \@@_set_bold_italic:
-    \@@_set_bold_slanted:
-    \@@_set_bold:
-    \@@_set_italic:
-    \@@_set_slanted:
-
+    \@@_set_faces:
     \@@_info:nxx {defining-font} {#1} {#2}
+%<*debug>
+    \@@_warning:nxx {defining-font} {#1} {#2}
+%</debug>
    }
   \group_end:
  }
@@ -4226,120 +4232,56 @@ This work consists of this file fontspec.dtx
 % current state. For example, if \cmd\bfdefault\ is redefined to |b|, all
 % bold shapes defined by this package will also be assigned to |b|.
 %
-% The combination shapes are defined first because they use information that may be redefined in the single cases. E.g., if no bold font is specified then |set_bold| will attempt to set it. This has subtle/small ramifications on the logic of choosing the bold italic font.
+% The combination shapes are searched first because they use information that may be redefined in the single cases.
+% E.g., if no bold font is specified then |set_autofont| will attempt to set it.
+% This has subtle/small ramifications on the logic of choosing the bold italic font.
 %
-% \begin{macro}{\@@_set_upright:}
-% Sets the upright shape.
+% \begin{macro}{\@@_find_autofonts:}
 %    \begin{macrocode}
-\cs_new:Nn \@@_set_upright:
- {
-  \clist_set_eq:NN \l_@@_sizefeat_clist \l_@@_sizefeat_up_clist
-  \@@_make_font_shapes:NNNN \l_fontspec_fontname_tl
-    \mddefault \updefault \l_@@_fontfeat_up_clist
- }
-%    \end{macrocode}
-% \end{macro}
-%
-% \begin{macro}{\@@_set_bold:}
-% The macros [...], et al., are used to store the name of the
-% custom bold, et al., font, if requested as user options. If they are
-% empty, the default fonts are used.
-%
-% The extra bold options defined with
-% \feat{BoldFeatures} are appended to the generic font features.
-% Then, the bold font is defined either as the ATS
-% default ([...] optional argument is to check if
-% there actually is one; if not, the bold NFSS series is left
-% undefined) or with the font specified with the \feat{BoldFont} feature.
-%    \begin{macrocode}
-\cs_new:Nn \@@_set_bold:
- {
-  \clist_set_eq:NN \l_@@_sizefeat_clist \l_@@_sizefeat_bf_clist
-  \bool_if:NF \l_@@_nobf_bool
-   {
-    \@@_set_autofont:Nnn \l_fontspec_fontname_bf_tl {\l_fontspec_fontname_tl} {/B}
-    \@@_make_font_shapes:NNNN \l_fontspec_fontname_bf_tl
-      \bfdefault \updefault \l_@@_fontfeat_bf_clist
-   }
- }
-%    \end{macrocode}
-% \end{macro}
-%
-% \begin{macro}{\@@_set_italic:}
-% And italic in the same way:
-%    \begin{macrocode}
-\cs_new:Nn \@@_set_italic:
- {
-  \clist_set_eq:NN \l_@@_sizefeat_clist \l_@@_sizefeat_it_clist
-  \bool_if:NF \l_@@_noit_bool
-   {
-    \@@_set_autofont:Nnn \l_fontspec_fontname_it_tl {\l_fontspec_fontname_tl} {/I}
-    \@@_make_font_shapes:NNNN \l_fontspec_fontname_it_tl
-      \mddefault \itdefault \l_@@_fontfeat_it_clist
-   }
- }
-%    \end{macrocode}
-% \end{macro}
-%
-% \begin{macro}{\@@_set_slanted:}
-% And slanted but only if requested:
-%    \begin{macrocode}
-\cs_new:Nn \@@_set_slanted:
- {
-  \clist_set_eq:NN \l_@@_sizefeat_clist \l_@@_sizefeat_sl_clist
-  \tl_if_empty:NF \l_fontspec_fontname_sl_tl
-   {
-    \@@_make_font_shapes:NNNN
-      \l_fontspec_fontname_sl_tl \mddefault \sldefault
-      \l_@@_fontfeat_sl_clist
-   }
- }
-%    \end{macrocode}
-% \end{macro}
-%
-% \begin{macro}{\@@_set_bold_italic:}
-% If requested, the custom fonts take precedence when choosing the
-% bold italic font. When both italic and bold fonts are requested and
-% the bold italic font hasn't been explicitly specified (a rare
-% occurance, presumably), the new bold font is used to define the new
-% bold italic font.
-%    \begin{macrocode}
-\cs_new:Nn \@@_set_bold_italic:
- {
-  \clist_set_eq:NN \l_@@_sizefeat_clist \l_@@_sizefeat_bfit_clist
+\cs_new:Nn \@@_find_autofonts:
+ { 
   \bool_if:nF {\l_@@_noit_bool || \l_@@_nobf_bool}
    {
     \@@_set_autofont:Nnn \l_fontspec_fontname_bfit_tl {\l_fontspec_fontname_it_tl} {/B}
     \@@_set_autofont:Nnn \l_fontspec_fontname_bfit_tl {\l_fontspec_fontname_bf_tl} {/I}
     \@@_set_autofont:Nnn \l_fontspec_fontname_bfit_tl {\l_fontspec_fontname_tl} {/BI}
-    \@@_make_font_shapes:NNNN  \l_fontspec_fontname_bfit_tl
-      \bfdefault \itdefault \l_@@_fontfeat_bfit_clist
    }
+
+  \bool_if:NF \l_@@_nobf_bool
+   {
+    \@@_set_autofont:Nnn \l_fontspec_fontname_bf_tl {\l_fontspec_fontname_tl} {/B}
+   }
+   
+  \bool_if:NF \l_@@_noit_bool
+   {
+    \@@_set_autofont:Nnn \l_fontspec_fontname_it_tl {\l_fontspec_fontname_tl} {/I}
+   }
+
+  \@@_set_autofont:Nnn \l_fontspec_fontname_bfsl_tl {\l_fontspec_fontname_sl_tl} {/B}
  }
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\@@_set_bold_slanted:}
-% And bold slanted, again, only if requested:
+% \begin{macro}{\@@_set_faces:}
 %    \begin{macrocode}
-\cs_new:Nn \@@_set_bold_slanted:
+\cs_new:Nn \@@_set_faces:
  {
-  \clist_set_eq:NN \l_@@_sizefeat_clist \l_@@_sizefeat_bfsl_clist
-  \tl_if_empty:NTF \l_fontspec_fontname_bfsl_tl
-   {
-    \@@_set_autofont:Nnn \l_fontspec_fontname_bfsl_tl {\l_fontspec_fontname_sl_tl} {/B}
-    \@@_make_font_shapes:NNNN \l_fontspec_fontname_bfsl_tl
-      \bfdefault \sldefault \l_@@_fontfeat_bfsl_clist
-   }
-   {
-    \@@_make_font_shapes:NNNN \l_fontspec_fontname_bfsl_tl
-      \bfdefault \sldefault \l_@@_fontfeat_bfsl_clist
-   }
+  \@@_add_nfssfont:nnnn \mddefault \updefault \l_fontspec_fontname_tl      \l_@@_fontfeat_up_clist
+  \@@_add_nfssfont:nnnn \bfdefault \updefault \l_fontspec_fontname_bf_tl   \l_@@_fontfeat_bf_clist
+  \@@_add_nfssfont:nnnn \mddefault \itdefault \l_fontspec_fontname_it_tl   \l_@@_fontfeat_it_clist
+  \@@_add_nfssfont:nnnn \mddefault \sldefault \l_fontspec_fontname_sl_tl   \l_@@_fontfeat_sl_clist
+  \@@_add_nfssfont:nnnn \bfdefault \itdefault \l_fontspec_fontname_bfit_tl \l_@@_fontfeat_bfit_clist
+  \@@_add_nfssfont:nnnn \bfdefault \sldefault \l_fontspec_fontname_bfsl_tl \l_@@_fontfeat_bfsl_clist
+
+  \prop_map_inline:Nn \l_@@_nfssfont_prop { \@@_set_faces_aux:nnnnn ##2 }
+ }
+\cs_new:Nn \@@_set_faces_aux:nnnnn
+ {  
+  \fontspec_complete_fontname:Nn \l_@@_curr_fontname_tl {#3}
+  \@@_make_font_shapes:Nnnnn \l_@@_curr_fontname_tl {#1} {#2} {#4} {#5}
  }
 %    \end{macrocode}
 % \end{macro}
-%
-%
 %
 %
 %
@@ -4398,13 +4340,55 @@ This work consists of this file fontspec.dtx
 % \end{macro}
 %
 %
+% \begin{macro}{\@@_set_autofont:Nnn}
+% \darg{Font name tl}
+% \darg{Base font name}
+% \darg{Font name modifier}
 %
-% \begin{macro}{\@@_make_font_shapes:NNNN}
-%  \darg{Font name prefix (in the 5-arg case)}
+% This function looks for font with \meta{name} and \meta{modifier} |#2#3|, and if found (i.e., different to font with name |#2|) stores it in tl |#1|. A modifier is something like |/B| to look for a bold font, for example.
+%
+% We can't match external fonts in this way (in \XeTeX\ anyway; todo: test with LuaTeX).
+% If \meta{font name tl} is not empty, then it's already been specified by the user so abort.
+% If \meta{Base font name} is not given, we also abort for obvious reasons.
+%
+% If \meta{font name tl} is empty, then proceed.
+% If not found, \meta{font name tl} remains empty.
+% Otherwise, we have a match.
+%    \begin{macrocode}
+\cs_generate_variant:Nn \tl_if_empty:nF {x}
+\cs_new:Nn \@@_set_autofont:Nnn
+ {
+  \bool_if:NF \l_@@_external_bool
+   {
+  \tl_if_empty:xF {#2}
+   {
+    \tl_if_empty:NT #1
+     {
+      \@@_if_autofont:nnTF {#2} {#3}
+       { \tl_set:Nx #1 {#2#3} }
+       { \@@_info:nx {no-font-shape} {#2#3} }
+     }
+   }
+   }
+ }
+
+\prg_new_conditional:Nnn \@@_if_autofont:nn {T,TF}
+ {
+  \@@_font_set:Nnn \l_tmpa_font { \@@_fullname:n {#1}   } {\f@size pt}
+  \@@_font_set:Nnn \l_tmpb_font { \@@_fullname:n {#1#2} } {\f@size pt}
+  \str_if_eq_x:nnTF { \fontname \l_tmpa_font } { \fontname \l_tmpb_font }
+   { \prg_return_false: }
+   { \prg_return_true: }
+ }
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@@_make_font_shapes:Nnnnn}
 %  \darg{Font name}
 %  \darg{Font series}
 %  \darg{Font shape}
 %  \darg{Font features}
+%  \darg{Size features}
 %   This macro eventually uses \cs{DeclareFontShape} to define the font shape in
 %   question.
 %
@@ -4423,47 +4407,12 @@ This work consists of this file fontspec.dtx
 % italic small caps by their own identifier. See \vref{sec:sishape}
 % for the code that enables this usage.
 %    \begin{macrocode}
-\cs_new:Nn \@@_set_autofont:Nnn
+\cs_new:Nn \@@_make_font_shapes:Nnnnn
  {
-  \tl_if_empty:NT #1
-   {
-    \@@_if_autofont:nnTF {#2} {#3}
-     { \tl_set:Nx #1 {#2#3} }
-     { \@@_info:nx {no-font-shape} {#2#3} }
-   }
- }
-
-\prg_new_conditional:Nnn \@@_if_autofont:nn {T,TF}
- {
-  \exp_args:Nx \tl_if_empty:nTF {#1}
-   { \prg_return_false: }
-   {
-    \bool_if:NTF \l_@@_external_bool
-     { \prg_return_false: }
-     {
-      \@@_font_set:Nnn \l_tmpa_font
-       { \@@_fullname:n {#1}   } {\f@size pt}
-      \@@_font_set:Nnn \l_tmpb_font
-       { \@@_fullname:n {#1#2} } {\f@size pt}
-      \str_if_eq_x:nnTF { \fontname \l_tmpa_font } { \fontname \l_tmpb_font }
-       { \prg_return_false: }
-       { \prg_return_true: }
-     }
-   }
- }
-
-\cs_new:Nn \@@_make_font_shapes:NNNN
- {
-  \tl_if_empty:NF #1
-  {
-   \group_begin:
-  
+  \group_begin:
     \@@_load_fontname:n {#1}
-    \exp_args:Nnnx \@@_declare_shape:nnn {#2}{#3}
-     { \l_@@_fontopts_clist, #4 }
-
-   \group_end:
-  }
+    \@@_declare_shape:nnxx {#2} {#3} { \l_@@_fontopts_clist, #4 } {#5}
+  \group_end:
  }
 
 \cs_new:Nn \@@_load_fontname:n
@@ -4481,10 +4430,11 @@ This work consists of this file fontspec.dtx
 % only works while \cmd\fontspec_select:nn\ passes single tokens to this macro\dots
 % \end{macro}
 %
-% \begin{macro}{\@@_declare_shape:nnn}
+% \begin{macro}{\@@_declare_shape:nnnn}
 % \darg{Font series}
 % \darg{Font shape}
 % \darg{Font features}
+% \darg{Size features}
 % Wrapper for \cmd\DeclareFontShape.
 % And finally the actual font shape declaration using \cmd\l_@@_nfss_tl\ defined above.
 % \cmd\l_fontspec_postadjust_tl\ is defined in various places to deal with things like the hyphenation
@@ -4493,13 +4443,13 @@ This work consists of this file fontspec.dtx
 % The main part is to loop through \feat{SizeFeatures} arguments, which are of the form
 % {\par\centering |SizeFeatures={{<one>},{<two>},{<three>}}|.\par}
 %    \begin{macrocode}
-\cs_new:Nn \@@_declare_shape:nnn
+\cs_new:Nn \@@_declare_shape:nnnn
  {
   \tl_clear:N \l_@@_nfss_tl
   \tl_clear:N \l_@@_nfss_sc_tl
   \tl_set_eq:NN \l_@@_saved_fontname_tl \l_fontspec_fontname_tl
 
-  \clist_map_inline:Nn \l_@@_sizefeat_clist
+  \exp_args:Nx \clist_map_inline:nn {#4}
    {
     \tl_clear:N \l_@@_size_tl
     \tl_set_eq:NN \l_@@_sizedfont_tl \l_@@_saved_fontname_tl % in case not spec'ed
@@ -4508,75 +4458,70 @@ This work consists of this file fontspec.dtx
       \l_@@_keys_leftover_clist
     \tl_if_empty:NT \l_@@_size_tl { \@@_error:n {no-size-info} }
 
-    \@@_load_fontname:n {\l_@@_sizedfont_tl}
-    \@@_get_features:Nn \l_@@_rawfeatures_sclist { #3 , \l_@@_keys_leftover_clist }
-
     % "normal"
-    \tl_put_right:Nx \l_@@_nfss_tl
-     {
-      <\l_@@_size_tl> \l_@@_scale_tl
-      \@@_fontwrap:n
-       {
-        \@@_fullname:n { \l_fontspec_fontname_tl }
-        : \l_@@_pre_feat_sclist \l_@@_rawfeatures_sclist
-       }
-     }
+    \@@_load_fontname:n {\l_@@_sizedfont_tl}
+    \@@_setup_nfss:Nnn \l_@@_nfss_tl {#3} {} 
+    
     
     % small caps    
-    \tl_if_empty:NTF \l_fontspec_fontname_sc_tl
+    \clist_set_eq:NN \l_@@_fontfeat_curr_clist \l_@@_fontfeat_sc_clist
+
+    \bool_if:NF \l_@@_nosc_bool
      {
-      \bool_if:NF \l_@@_nosc_bool
+      \tl_if_empty:NTF \l_fontspec_fontname_sc_tl
        {
+%<debug>      \typeout{Attempting~ small~ caps:}
         \@@_make_smallcaps:T
          {
-          \@@_get_features:Nn \l_@@_rawfeatures_sclist
-           { #3 , \l_@@_keys_leftover_clist , Letters=SmallCaps , \l_@@_fontfeat_sc_clist }
-
-          \tl_put_right:Nx \l_@@_nfss_sc_tl
-           {
-            <\l_@@_size_tl> \l_@@_scale_tl
-            \@@_fontwrap:n
-             {
-              \@@_fullname:n { \l_fontspec_fontname_tl }
-              : \l_@@_pre_feat_sclist \l_@@_rawfeatures_sclist
-             }
-           }
+%<debug>      \typeout{Small~ caps~ found.}
+          \clist_put_left:Nn \l_@@_fontfeat_curr_clist {Letters=SmallCaps}
          }
        }
-     }
-     {
-     
-      \@@_load_fontname:n {\l_fontspec_fontname_sc_tl}      
-      \@@_get_features:Nn \l_@@_rawfeatures_sclist
-       { #3 , \l_@@_keys_leftover_clist , \l_@@_fontfeat_sc_clist }
+       { \@@_load_fontname:n {\l_fontspec_fontname_sc_tl} }% local for each size
 
-      \tl_put_right:Nx \l_@@_nfss_sc_tl
-       {
-        <\l_@@_size_tl> \l_@@_scale_tl
-        \@@_fontwrap:n
-         {
-          \@@_fullname:n { \l_fontspec_fontname_tl }
-          : \l_@@_pre_feat_sclist \l_@@_rawfeatures_sclist
-         }
-       }
-       
+      \@@_setup_nfss:Nnn \l_@@_nfss_sc_tl {#3} {\l_@@_fontfeat_curr_clist} 
      }
-    }
 
-  \use:x
-   {
-    \exp_not:N \DeclareFontShape {\g_fontspec_encoding_tl} {\l_fontspec_family_tl}
-      {#1} {#2} {\l_@@_nfss_tl}{\l_fontspec_postadjust_tl}
-      
-    \exp_not:N \DeclareFontShape {\g_fontspec_encoding_tl} {\l_fontspec_family_tl}
-      {#1}
-      {\tl_if_eq:NNTF #2 \itdefault \sidefault \scdefault}
-      {\l_@@_nfss_sc_tl}{\l_fontspec_postadjust_tl}
    }
 
+  \@@_declare_shapes_normal:nn  {#1} {#2}
   \@@_declare_shape_slanted:nn  {#1} {#2}
   \@@_declare_shape_loginfo:nnn {#1} {#2} {#3}
  }
+\cs_generate_variant:Nn \@@_declare_shape:nnnn {nnxx}
+
+\cs_new:Nn \@@_setup_nfss:Nnn
+ {
+  \@@_get_features:Nn \l_@@_rawfeatures_sclist
+   { #2 , \l_@@_keys_leftover_clist , #3 }
+
+  \tl_put_right:Nx #1
+   {
+    <\l_@@_size_tl> \l_@@_scale_tl
+    \@@_fontwrap:n
+     {
+      \@@_fullname:n { \l_fontspec_fontname_tl }
+      : \l_@@_pre_feat_sclist \l_@@_rawfeatures_sclist
+     }
+   }
+ }
+
+\cs_new:Nn \@@_declare_shapes_normal:nn
+ {
+    \@@_DeclareFontShape:xxxxxx {\g_fontspec_encoding_tl} {\l_fontspec_family_tl}
+      {#1} {#2} {\l_@@_nfss_tl}{\l_fontspec_postadjust_tl}
+      
+    \bool_if:NF \l_@@_nosc_bool
+     {
+      \@@_DeclareFontShape:xxxxxx {\g_fontspec_encoding_tl} {\l_fontspec_family_tl}
+        {#1}
+        {\str_if_eq:nnTF {#2} {\itdefault} \sidefault \scdefault}
+        {\l_@@_nfss_sc_tl}{\l_fontspec_postadjust_tl}
+     }
+ }
+
+\cs_new:Nn \@@_DeclareFontShape:nnnnnn { \DeclareFontShape{#1}{#2}{#3}{#4}{#5}{#6} }
+\cs_generate_variant:Nn \@@_DeclareFontShape:nnnnnn {xxxxxx}
 %    \end{macrocode}
 % This extra stuff for the slanted shape substitution is a little bit awkward.
 % We define the slanted shape to be a synonym for it when (a)~we're defining an italic font, but also (b)~when the default slanted shape isn't `it'.
@@ -4610,16 +4555,22 @@ This work consists of this file fontspec.dtx
     *~ '\exp_not:N \str_case:nnn {#1/#2}
      {
        {\mddefault/\updefault} {normal}
-       {\mddefault/\scdefault} {small~ caps}
        {\bfdefault/\updefault} {bold}
-       {\bfdefault/\scdefault} {bold~ small~ caps}
        {\mddefault/\itdefault} {italic}
-       {\mddefault/\sidefault} {italic~ small~ caps}
        {\bfdefault/\itdefault} {bold~ italic}
-       {\bfdefault/\sidefault} {bold~ italic~ small~ caps}
      } {#2/#3}'~
     with~ NFSS~ spec.: \exp_not:N \\
     \l_@@_nfss_tl
+    \exp_not:n { \\ \\ }
+    *~ '\exp_not:N \str_case:nnn {#1/\scdefault}
+     {
+       {\mddefault/\scdefault} {small~ caps}
+       {\bfdefault/\scdefault} {bold~ small~ caps}
+       {\mddefault/\sidefault} {italic~ small~ caps}
+       {\bfdefault/\sidefault} {bold~ italic~ small~ caps}
+     } {#2/#3}'~
+    with~ NFSS~ spec.: \exp_not:N \\
+    \l_@@_nfss_sc_tl
     \tl_if_empty:NF \l_fontspec_postadjust_tl
      {
       \exp_not:N \\ and~ font~ adjustment~ code: \exp_not:N \\ \l_fontspec_postadjust_tl
@@ -4725,12 +4676,6 @@ This work consists of this file fontspec.dtx
 \tl_clear:N \l_@@_lang_name_tl
 \tl_clear:N \l_fontspec_lang_tl
 \clist_set:Nn \l_@@_sizefeat_clist {Size={-}}
-\clist_set:Nn \l_@@_sizefeat_up_clist {Size={-}}
-\clist_set:Nn \l_@@_sizefeat_bf_clist {Size={-}}
-\clist_set:Nn \l_@@_sizefeat_it_clist {Size={-}}
-\clist_set:Nn \l_@@_sizefeat_sl_clist {Size={-}}
-\clist_set:Nn \l_@@_sizefeat_bfit_clist {Size={-}}
-\clist_set:Nn \l_@@_sizefeat_bfsl_clist {Size={-}}
 \tl_new:N  \g_fontspec_hexcol_tl
 \tl_new:N  \g_@@_opacity_tl
 \tl_set:Nn \g_fontspec_hexcol_tl {000000}
@@ -5255,6 +5200,18 @@ This work consists of this file fontspec.dtx
 % features are for defining explicitly the bold and italic fonts used
 % in a font family.
 %
+% \paragraph{Bold (NFSS) Series}
+% By default, \pkg{fontspec} uses the default bold series, \cs{bfdefault}.
+% We want to be able to make this extensible.
+%    \begin{macrocode}
+\seq_new:N \g_@@_bf_series_seq
+\@@_keys_define_code:nnn {fontspec-preparse-external} {BoldSeries}
+ {
+  \tl_gset:Nx \g_@@_curr_series_tl { #1 }
+  \seq_gput_right:Nx \g_@@_bf_series_seq { #1 }
+ }
+%    \end{macrocode}
+%
 % \paragraph{Fonts}
 % Upright:
 %    \begin{macrocode}
@@ -5262,9 +5219,15 @@ This work consists of this file fontspec.dtx
  {
   \fontspec_complete_fontname:Nn \l_fontspec_fontname_up_tl {#1}
  }
+\@@_keys_define_code:nnn {fontspec-preparse-external} {FontName}
+ {
+  \fontspec_complete_fontname:Nn \l_fontspec_fontname_up_tl {#1}
+ }
 %    \end{macrocode}
 % Bold:
 %    \begin{macrocode}
+\cs_generate_variant:Nn \tl_if_eq:nnT {ox}
+\cs_generate_variant:Nn \prop_put:Nnn {NxV}
 \@@_keys_define_code:nnn {fontspec-preparse-external} {BoldFont}
  {
   \tl_if_empty:nTF {#1}
@@ -5273,9 +5236,24 @@ This work consists of this file fontspec.dtx
    }
    {
     \bool_set_false:N \l_@@_nobf_bool
-    \fontspec_complete_fontname:Nn \l_fontspec_fontname_bf_tl {#1}
+    \fontspec_complete_fontname:Nn \l_@@_curr_bfname_tl {#1}
+    
+    \seq_if_empty:NT \g_@@_bf_series_seq
+     {
+      \tl_gset:Nx \g_@@_curr_series_tl {\bfdefault}
+      \seq_put_right:Nx \g_@@_bf_series_seq {\bfdefault}
+     }
+    \tl_if_eq:oxT \g_@@_curr_series_tl {\bfdefault}
+     { \tl_set_eq:NN \l_fontspec_fontname_bf_tl \l_@@_curr_bfname_tl }
+
+%<debug>\typeout{Setting~bold~font~"\l_@@_curr_bfname_tl"~with~series~"\g_@@_curr_series_tl"}
+
+    \prop_put:NxV \l_@@_nfss_prop
+     {BoldFont-\g_@@_curr_series_tl} \l_@@_curr_bfname_tl
+
    }
  }
+\prop_new:N \l_@@_nfss_prop
 %    \end{macrocode}
 % Same for italic:
 %    \begin{macrocode}
@@ -5315,7 +5293,7 @@ This work consists of this file fontspec.dtx
     \bool_set_true:N \l_@@_nosc_bool
    }
    {
-    \bool_set_true:N \l_@@_nosc_bool
+    \bool_set_false:N \l_@@_nosc_bool
     \fontspec_complete_fontname:Nn \l_fontspec_fontname_sc_tl {#1}
    }
  }
@@ -5343,39 +5321,26 @@ This work consists of this file fontspec.dtx
 \@@_keys_define_code:nnn {fontspec-preparse} {UprightFeatures}
  {
   \tl_set:Nn \l_@@_fontfeat_up_clist { , #1}
-  
-  \keys_set_known:nnN {fontspec-preparse-nested} {#1} \l_@@_tmp_tl
-  \clist_set_eq:NN \l_@@_sizefeat_up_clist \l_@@_sizefeat_clist
  }
 \@@_keys_define_code:nnn {fontspec-preparse} {BoldFeatures}
  {
   \tl_set:Nn \l_@@_fontfeat_bf_clist {, #1}
-  \keys_set_known:nnN {fontspec-preparse-nested} {#1} \l_@@_tmp_tl
-  \clist_set_eq:NN \l_@@_sizefeat_bf_clist \l_@@_sizefeat_clist
  }
 \@@_keys_define_code:nnn {fontspec-preparse} {ItalicFeatures}
  {
   \tl_set:Nn \l_@@_fontfeat_it_clist {, #1}
-  \keys_set_known:nnN {fontspec-preparse-nested} {#1} \l_@@_tmp_tl
-  \clist_set_eq:NN \l_@@_sizefeat_it_clist \l_@@_sizefeat_clist
  }
 \@@_keys_define_code:nnn {fontspec-preparse} {BoldItalicFeatures}
  {
   \tl_set:Nn \l_@@_fontfeat_bfit_clist {, #1}
-  \keys_set_known:nnN {fontspec-preparse-nested} {#1} \l_@@_tmp_tl
-  \clist_set_eq:NN \l_@@_sizefeat_bfit_clist \l_@@_sizefeat_clist
  }
 \@@_keys_define_code:nnn {fontspec-preparse} {SlantedFeatures}
  {
   \tl_set:Nn \l_@@_fontfeat_sl_clist {, #1}
-  \keys_set_known:nnN {fontspec-preparse-nested} {#1} \l_@@_tmp_tl
-  \clist_set_eq:NN \l_@@_sizefeat_sl_clist \l_@@_sizefeat_clist
  }
 \@@_keys_define_code:nnn {fontspec-preparse} {BoldSlantedFeatures}
  {
   \tl_set:Nn \l_@@_fontfeat_bfsl_clist {, #1}
-  \keys_set_known:nnN {fontspec-preparse-nested} {#1} \l_@@_tmp_tl
-  \clist_set_eq:NN \l_@@_sizefeat_bfsl_clist \l_@@_sizefeat_clist
  }
 %    \end{macrocode}
 % Note that small caps features can vary by shape, so these in fact \emph{aren't} pre-parsed.
@@ -5394,7 +5359,6 @@ This work consists of this file fontspec.dtx
 \@@_keys_define_code:nnn {fontspec-preparse} {SizeFeatures}
  {
   \clist_set:Nn \l_@@_sizefeat_clist {#1}
-  \clist_set:Nn \l_@@_sizefeat_up_clist {#1}
  }
 \@@_keys_define_code:nnn {fontspec-preparse-nested} {SizeFeatures}
  {
@@ -5430,6 +5394,57 @@ This work consists of this file fontspec.dtx
   \tl_set:Nx \l_@@_nfss_fam_tl { #1 }
  }
 %    \end{macrocode}
+%
+% \paragraph{NFSS series/shape}
+% This option looks similar in name but has a very different function.
+%    \begin{macrocode}
+\cs_generate_variant:Nn \prop_put:Nnn {Nxx}
+\prop_new:N \l_@@_nfssfont_prop
+\@@_keys_define_code:nnn {fontspec} {NFSSFont}
+ {
+  \int_case:nnn { \tl_count:n {#1} }
+   {
+     {3}
+     {
+      \@@_add_nfssfont:ooon
+       {\use_i:nnn #1}{\use_ii:nnn #1}{\use_iii:nnn #1}{}
+     }
+     {4}
+     {
+      \@@_add_nfssfont:oooo
+       {\use_i:nnnn #1}{\use_ii:nnnn #1}{\use_iii:nnnn #1}{\use_iv:nnnn #1}
+     }
+   }
+   {
+    \@@_error:n {nfssfont-args}
+   }
+ }
+%    \end{macrocode}
+%
+%
+% \begin{macro}{\@@_add_nfssfont:nnnn}
+% \darg{series}
+% \darg{shape}
+% \darg{fontname}
+% \darg{fontspec features}
+%    \begin{macrocode}
+\cs_new:Nn \@@_add_nfssfont:nnnn
+ {
+   \tl_if_empty:xTF {#4}
+    { \clist_set:Nn \l_@@_sizefeat_clist {Size={-}} }
+    { \keys_set_known:noN {fontspec-preparse-nested} {#4} \l_@@_tmp_tl }
+    
+   \tl_if_empty:xF {#3}
+    {
+     \prop_put:Nxx \l_@@_nfssfont_prop {#1/#2}
+      { {#1}{#2}{#3}{#4}{\l_@@_sizefeat_clist} }
+    }
+ }
+\cs_generate_variant:Nn \@@_add_nfssfont:nnnn {ooo}
+\cs_generate_variant:Nn \@@_add_nfssfont:nnnn {oooo}
+\cs_generate_variant:Nn \tl_if_empty:nTF {x}
+%    \end{macrocode}
+% \end{macro}
 %
 % \paragraph{Scale}
 % If the input isn't one of the pre-defined string options, then

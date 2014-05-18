@@ -3,11 +3,18 @@
 \begingroup
 \input l3docstrip.tex
 
-\def\doOption#1>#2\endLine{%  \maybeMsg{<#1 . >}%  \Evaluate{#1}%  \def\do##1##2##3{%    \if1\Expr{##2}%
+\def\doOption#1>#2\endLine{%
+  \maybeMsg{<#1 . >}%
+  \Evaluate{#1}%
+  \def\do##1##2##3{%
+    \if1\Expr{##2}%
       \def\inLine{#2}%
       \replaceModuleInLine
       \StreamPut##1{\inLine}%
-    \fi  }%  \activefiles}
+    \fi
+  }%
+  \activefiles
+}
 
 \keepsilent
 \usedir{tex/latex/fontspec}
@@ -4264,12 +4271,12 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \cs_new:Nn \@@_set_faces:
  {
-  \@@_add_nfssfont:nnnn \mddefault \updefault \l_fontspec_fontname_tl      \l_@@_fontfeat_up_clist
-  \@@_add_nfssfont:nnnn \bfdefault \updefault \l_fontspec_fontname_bf_tl   \l_@@_fontfeat_bf_clist
-  \@@_add_nfssfont:nnnn \mddefault \itdefault \l_fontspec_fontname_it_tl   \l_@@_fontfeat_it_clist
-  \@@_add_nfssfont:nnnn \mddefault \sldefault \l_fontspec_fontname_sl_tl   \l_@@_fontfeat_sl_clist
-  \@@_add_nfssfont:nnnn \bfdefault \itdefault \l_fontspec_fontname_bfit_tl \l_@@_fontfeat_bfit_clist
-  \@@_add_nfssfont:nnnn \bfdefault \sldefault \l_fontspec_fontname_bfsl_tl \l_@@_fontfeat_bfsl_clist
+  \@@_add_nfssfont:oooo \mddefault \updefault \l_fontspec_fontname_tl      \l_@@_fontfeat_up_clist
+  \@@_add_nfssfont:oooo \bfdefault \updefault \l_fontspec_fontname_bf_tl   \l_@@_fontfeat_bf_clist
+  \@@_add_nfssfont:oooo \mddefault \itdefault \l_fontspec_fontname_it_tl   \l_@@_fontfeat_it_clist
+  \@@_add_nfssfont:oooo \mddefault \sldefault \l_fontspec_fontname_sl_tl   \l_@@_fontfeat_sl_clist
+  \@@_add_nfssfont:oooo \bfdefault \itdefault \l_fontspec_fontname_bfit_tl \l_@@_fontfeat_bfit_clist
+  \@@_add_nfssfont:oooo \bfdefault \sldefault \l_fontspec_fontname_bfsl_tl \l_@@_fontfeat_bfsl_clist
 
   \prop_map_inline:Nn \l_@@_nfssfont_prop { \@@_set_faces_aux:nnnnn ##2 }
  }
@@ -4468,7 +4475,7 @@ This work consists of this file fontspec.dtx
      {
       \tl_if_empty:NTF \l_fontspec_fontname_sc_tl
        {
-%<debug>      \typeout{Attempting~ small~ caps:}
+%<debug>      \typeout{Attempting~ small~ caps?}
         \@@_make_smallcaps:T
          {
 %<debug>      \typeout{Small~ caps~ found.}
@@ -4513,7 +4520,7 @@ This work consists of this file fontspec.dtx
      {
       \@@_DeclareFontShape:xxxxxx {\g_fontspec_encoding_tl} {\l_fontspec_family_tl}
         {#1}
-        {\str_if_eq:nnTF {#2} {\itdefault} \sidefault \scdefault}
+        {\str_if_eq_x:nnTF {#2} {\itdefault} \sidefault \scdefault}
         {\l_@@_nfss_sc_tl}{\l_fontspec_postadjust_tl}
      }
  }
@@ -5313,32 +5320,31 @@ This work consists of this file fontspec.dtx
 % \end{macro}
 %
 % \paragraph{Features}
-% Can't use |\clist_set:Nn| below, yet, because it would strip the leading comma
-% and we use that implicitly to concatenate options.
+%
 %    \begin{macrocode}
 \@@_keys_define_code:nnn {fontspec-preparse} {UprightFeatures}
  {
-  \tl_set:Nn \l_@@_fontfeat_up_clist { , #1}
+  \clist_set:Nn \l_@@_fontfeat_up_clist {#1}
  }
 \@@_keys_define_code:nnn {fontspec-preparse} {BoldFeatures}
  {
-  \tl_set:Nn \l_@@_fontfeat_bf_clist {, #1}
+  \clist_set:Nn \l_@@_fontfeat_bf_clist {#1}
  }
 \@@_keys_define_code:nnn {fontspec-preparse} {ItalicFeatures}
  {
-  \tl_set:Nn \l_@@_fontfeat_it_clist {, #1}
+  \clist_set:Nn \l_@@_fontfeat_it_clist {#1}
  }
 \@@_keys_define_code:nnn {fontspec-preparse} {BoldItalicFeatures}
  {
-  \tl_set:Nn \l_@@_fontfeat_bfit_clist {, #1}
+  \clist_set:Nn \l_@@_fontfeat_bfit_clist {#1}
  }
 \@@_keys_define_code:nnn {fontspec-preparse} {SlantedFeatures}
  {
-  \tl_set:Nn \l_@@_fontfeat_sl_clist {, #1}
+  \clist_set:Nn \l_@@_fontfeat_sl_clist {#1}
  }
 \@@_keys_define_code:nnn {fontspec-preparse} {BoldSlantedFeatures}
  {
-  \tl_set:Nn \l_@@_fontfeat_bfsl_clist {, #1}
+  \clist_set:Nn \l_@@_fontfeat_bfsl_clist {#1}
  }
 %    \end{macrocode}
 % Note that small caps features can vary by shape, so these in fact \emph{aren't} pre-parsed.
@@ -5347,7 +5353,7 @@ This work consists of this file fontspec.dtx
  {
   \bool_if:NF \l_@@_firsttime_bool
    {
-    \tl_set:Nn \l_@@_fontfeat_sc_clist {, #1}
+    \clist_set:Nn \l_@@_fontfeat_sc_clist {#1}
    }
  }
 %    \end{macrocode}
@@ -5357,6 +5363,7 @@ This work consists of this file fontspec.dtx
 \@@_keys_define_code:nnn {fontspec-preparse} {SizeFeatures}
  {
   \clist_set:Nn \l_@@_sizefeat_clist {#1}
+  \clist_put_right:Nn \l_@@_fontfeat_up_clist { SizeFeatures = {#1} }
  }
 \@@_keys_define_code:nnn {fontspec-preparse-nested} {SizeFeatures}
  {
@@ -5428,12 +5435,12 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \cs_new:Nn \@@_add_nfssfont:nnnn
  {
-   \tl_if_empty:xTF {#4}
-    { \clist_set:Nn \l_@@_sizefeat_clist {Size={-}} }
-    { \keys_set_known:noN {fontspec-preparse-nested} {#4} \l_@@_tmp_tl }
-    
    \tl_if_empty:xF {#3}
     {
+     \tl_if_empty:xTF {#4}
+      { \clist_set:Nn \l_@@_sizefeat_clist {Size={-}} }
+      { \keys_set_known:noN {fontspec-preparse-nested} {#4} \l_@@_tmp_tl }
+    
      \prop_put:Nxx \l_@@_nfssfont_prop {#1/#2}
       { {#1}{#2}{#3}{#4}{\l_@@_sizefeat_clist} }
     }

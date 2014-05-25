@@ -74,8 +74,16 @@ Change history
 
 - v2.4 ()
 
-    * Changes to the default settings: "Ligatures=TeX" is now enabled by default with
-      \setmainfont and \setsansfont.
+    * Change the user interface (backwards compatible): instead of
+
+        \setmainfont[features]{font}
+
+      you now write
+
+        \setmainfont{font}[features]
+
+      The reason for this change is to improve the visual comprehension of the font loading syntax with large numbers of font features.
+
     * Defaults for symbolic font families like this can now be specified with
 
         \defaultfontfeatures[\rmfamily]{...}
@@ -85,13 +93,26 @@ Change history
         \defaultfontfeatures[\headingsfont]{...}
         \setfontfamily\headingsfont{...}
 
+    * Changes to the default settings:
+
+      * "Ligatures=TeX" is now enabled by default with `\setmainfont` and `\setsansfont`.
+
     * SizeFeatures can now be nested inside ItalicFeatures (etc.) and behaves correctly.
       This has been a very long overdue bug!
 
-    * New feature [NFSSFamily=ABC] to set the NFSS family of a font to `ABC'. Useful
+    * New feature `NFSSFamily=ABC` to set the NFSS family of a font to `ABC'. Useful
       when other packages use the `\fontfamily{ABC}\selectfont` interface.
 
-    * `\defaultfontfeatures+` can be used to append to the default font feature set.
+    * New feature `FontFace = {series}{shape}{font}` allows a font face to be loaded with a specific NFSS font series and font shape.
+      A more verbose syntax allows arbitrary font features as well (and this plays nicely with `SizeFeatures`):
+
+        \fontspec{myfont.otf}[
+          FontFace = {b}{ui}{Font = myfont-bui.otf, <features>} ,
+        ]
+
+      This will allow a bold upright italic font to be selected using the standard NFSS interface `\fontseries{b}\fontshape{ui}\selectfont`.
+
+    * `\defaultfontfeatures+` (note the `+`) can be used to append to the default font feature set.
 
     * Setting the SmallCapsFont using the *-replacement notation has been improved/fixed.
 

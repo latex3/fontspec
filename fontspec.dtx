@@ -284,17 +284,30 @@ This work consists of this file fontspec.dtx
 % fonts.
 %
 % \cmdbox{%
-%   \CMD{\string\fontspec} \oarg{font features} \marg{font name}\\
-%   \CMD{\string\setmainfont} \oarg{font features} \marg{font name}\\
-%   \CMD{\string\setsansfont} \oarg{font features} \marg{font name}\\
-%   \CMD{\string\setmonofont} \oarg{font features} \marg{font name}\\
-%   \CMD{\string\newfontfamily} \meta{cmd} \oarg{font features} \marg{font name}
+%   \CMD{\string\fontspec} \marg{font name} \oarg{font features}\\
+%   \CMD{\string\setmainfont} \marg{font name} \oarg{font features}\\
+%   \CMD{\string\setsansfont} \marg{font name} \oarg{font features}\\
+%   \CMD{\string\setmonofont} \marg{font name} \oarg{font features}\\
+%   \CMD{\string\newfontfamily} \meta{cmd} \marg{font name} \oarg{font features}
 % }
 %
 % These are the main font-selecting commands of this package.
 % The \cs{fontspec} command selects a font for one-time use; all
-% others should be used to define the standard fonts used in a document.
-% They will be described later in this section.
+% others should be used to define the standard fonts used in a document, as shown in \exref{fontload}.
+% Here, the scales of the fonts have been chosen to equalise their
+% lowercase letter heights. The \feat{Scale} font feature will be discussed
+% further in \vref{sec:font-ind-features}, including methods for automatic
+% scaling.
+%
+% \begin{Lexample}{fontload}{Loading the default, sans serif, and monospaced fonts.}
+%   \setmainfont{TeX Gyre Bonum}
+%   \setsansfont{Latin Modern Sans}[Scale=MatchLowercase]
+%   \setmonofont{Inconsolata}[Scale=MatchLowercase]
+%
+%   \rmfamily Pack my box with five dozen liquor jugs\par
+%   \sffamily Pack my box with five dozen liquor jugs\par
+%   \ttfamily Pack my box with five dozen liquor jugs
+% \end{Lexample}
 %
 % The font features argument accepts comma separated
 % \meta{font feature}=\meta{option} lists; these are described in later:
@@ -321,7 +334,7 @@ This work consists of this file fontspec.dtx
 %
 % The simplest example might be something like
 % \begin{Verbatim}
-%   \fontspec[ ... ]{Cambria}
+%   \setmainfont{Cambria}[ ... ]
 % \end{Verbatim}
 % in which the bold and italic fonts will be found automatically
 % (if they exist) and are immediately accessible with the usual
@@ -351,31 +364,28 @@ This work consists of this file fontspec.dtx
 % \end{quote}
 % Fonts selected by filename must include bold and italic variants explicitly.
 % \begin{Verbatim}
-%   \fontspec
-%      [ BoldFont       = texgyrepagella-bold.otf ,
+%   \setmainfont{texgyrepagella-regular.otf}[
+%        BoldFont       = texgyrepagella-bold.otf ,
 %        ItalicFont     = texgyrepagella-italic.otf ,
 %        BoldItalicFont = texgyrepagella-bolditalic.otf ]
-%      {texgyrepagella-regular.otf}
 % \end{Verbatim}
 % \pkg{fontspec} knows that the font is to be selected by file name by the
 % presence of the `|.otf|' extension.
 % An alternative is to specify the extension separately, as shown following:
 % \begin{Verbatim}
-%   \fontspec
-%      [ Extension      = .otf ,
+%   \setmainfont{texgyrepagella-regular}[
+%        Extension      = .otf ,
 %        BoldFont       = texgyrepagella-bold ,
 %        ... ]
-%      {texgyrepagella-regular}
 % \end{Verbatim}
 % If desired, an abbreviation can be applied to the font names based on the
 % mandatory `font name' argument:
 % \begin{Verbatim}
-%   \fontspec
-%      [ Extension      = .otf ,
+%   \setmainfont{texgyrepagella}[
+%        Extension      = .otf ,
 %        UprightFont    = *-regular ,
 %        BoldFont       = *-bold ,
 %        ... ]
-%      {texgyrepagella}
 % \end{Verbatim}
 % In this case `texgyrepagella' is no longer the name of an actual font,
 % but is used to construct the font names for each shape;
@@ -386,54 +396,26 @@ This work consists of this file fontspec.dtx
 % To load a font that is not in one of the default search paths, its location
 % in the filesystem must be specified with the |Path| feature:
 % \begin{Verbatim}
-%   \fontspec
-%      [ Path           = /Users/will/Fonts/ ,
+%   \setmainfont{texgyrepagella}[
+%        Path           = /Users/will/Fonts/ ,
 %        UprightFont    = *-regular ,
 %        BoldFont       = *-bold ,
 %        ... ]
-%      {texgyrepagella}
 % \end{Verbatim}
 % Note that \XeTeX\ and \LuaTeX\ are able to load the font without giving an
 % extension, but \pkg{fontspec} must know to search for the file; this can can
 % be indicated by declaring the font exists in an `|ExternalLocation|':
 % \begin{Verbatim}
-%   \fontspec
-%      [ ExternalLocation ,
+%   \setmainfont{texgyrepagella-regular}[
+%        ExternalLocation ,
 %        BoldFont       = texgyrepagella-bold ,
 %        ... ]
-%      {texgyrepagella-regular}
 % \end{Verbatim}
 % To be honest, |Path| and |ExternalLocation| are actually the same feature
 % with different names. The former can be given without an argument and the
 % latter can be given with one; the different names are just for clarity.
 %
 %
-% \section{Default font families}
-% \label{sec:setxxfont}
-%
-% \cmdbox{
-%   \cmd{\setmainfont} \oarg{font features} \marg{font name} \\
-%   \cmd{\setsansfont} \oarg{font features} \marg{font name} \\
-%   \cmd{\setmonofont} \oarg{font features} \marg{font name}
-% }
-%
-% These commands are used to select
-% the default font families for the entire document. They take the
-% same arguments as \cmd{\fontspec}. See \exref{fontload}.
-% Here, the scales of the fonts have been chosen to equalise their
-% lowercase letter heights. The \feat{Scale} font feature will be discussed
-% further in \vref{sec:font-ind-features}, including methods for automatic
-% scaling.
-%
-% \begin{Lexample}{fontload}{Loading the default, sans serif, and monospaced fonts.}
-%   \setmainfont{TeX Gyre Bonum}
-%   \setsansfont[Scale=MatchLowercase]{Latin Modern Sans}
-%   \setmonofont[Scale=MatchLowercase]{Inconsolata}
-%
-%   \rmfamily Pack my box with five dozen liquor jugs\par
-%   \sffamily Pack my box with five dozen liquor jugs\par
-%   \ttfamily Pack my box with five dozen liquor jugs
-% \end{Lexample}
 %
 %
 %
@@ -441,8 +423,8 @@ This work consists of this file fontspec.dtx
 % \section{New commands to select font families}
 %
 % \cmdbox{
-%   \CMD{\string\newfontfamily} \cs{\meta{font-switch}} \oarg{font features} \marg{font name} \\
-%   \CMD{\string\newfontface} \cs{\meta{font-switch}} \oarg{font features} \marg{font name}
+%   \CMD{\string\newfontfamily} \cs{\meta{font-switch}} \marg{font name} \oarg{font features} \\
+%   \CMD{\string\newfontface}   \cs{\meta{font-switch}} \marg{font name} \oarg{font features}
 % }
 %
 % \noindent For cases when a specific font with a specific
@@ -479,9 +461,8 @@ This work consists of this file fontspec.dtx
 % in \exref{nfface}, which is repeated in \vref{sec:contextuals}.
 %
 % \begin{Xexample}{nfface}{Defining a single font face.}
-%   \newfontface\fancy
+%   \newfontface\fancy{Hoefler Text Italic}%
 %       [Contextuals={WordInitial,WordFinal}]
-%                        {Hoefler Text Italic}
 %   \fancy where is all the vegemite
 %   % \emph, \textbf, etc., all don't work
 % \end{Xexample}
@@ -524,8 +505,8 @@ This work consists of this file fontspec.dtx
 % default from the \emph{new} font. See \exref{bff}.
 %
 % \begin{Xexample}{bff}{Explicit selection of the bold font.}
-%   \fontspec[BoldFont={Helvetica Neue}]
-%                           {Helvetica Neue UltraLight}
+%   \fontspec{Helvetica Neue UltraLight}%
+%            [BoldFont={Helvetica Neue}]
 %                 Helvetica Neue UltraLight         \\
 %   {\itshape     Helvetica Neue UltraLight Italic} \\
 %   {\bfseries               Helvetica Neue       } \\
@@ -543,13 +524,12 @@ This work consists of this file fontspec.dtx
 % For example,
 % some space can be saved instead of writing `\texttt{Baskerville SemiBold}':
 % \begin{Verbatim}
-%   \fontspec[BoldFont={* SemiBold}]{Baskerville}
+%   \setmainfont{Baskerville}[BoldFont={* SemiBold}]
 % \end{Verbatim}
 %
 % As a matter of fact, this feature can also be used for the upright font too:
 % \begin{Verbatim}
-%   \fontspec[UprightFont={* SemiBold},
-%             BoldFont={* Bold}]{Baskerville}
+%   \setmainfont{Baskerville}[UprightFont={* SemiBold},BoldFont={* Bold}]
 % \end{Verbatim}
 %
 % \subsubsection{Small caps and slanted font shapes}
@@ -565,20 +545,20 @@ This work consists of this file fontspec.dtx
 % of glyphs allowed in the PostScript Type~1 format. Such fonts may be used
 % by declaring the \feat{SmallCapsFont} of the family you are specifying:
 % \begin{Verbatim}
-%   \fontspec[
+%   \fontspec{Minion MM Roman}[
 %     SmallCapsFont={Minion MM Small Caps & Oldstyle Figures}
-%            ]{Minion MM Roman}
+%   ]
 %   Roman 123 \\ \textsc{Small caps 456}
 % \end{Verbatim}
 % In fact, you may specify the small caps font for each individual bold and
 % italic shape as in
 % \begin{Verbatim}
-%   \fontspec[
+%   \fontspec{ <upright> }[
 %     UprightFeatures    = { SmallCapsFont={ <sc> } } ,
 %     BoldFeatures       = { SmallCapsFont={ <bf sc> } } ,
 %     ItalicFeatures     = { SmallCapsFont={ <it sc> } } ,
 %     BoldItalicFeatures = { SmallCapsFont={ <bf it sc> } } ,
-%            ]{ <upright> }
+%   ]
 %   Roman 123 \\ \textsc{Small caps 456}
 % \end{Verbatim}
 %
@@ -590,12 +570,12 @@ This work consists of this file fontspec.dtx
 % font features from the main font. See \ref{sec:bfit-feat} for details.
 % When an OpenType font is selected for |SmallCapsFont|, the small caps
 % font feature is \emph{not} automatically enabled. In this case, users
-% should write instead
+% should write instead, if necessary,
 % \begin{Verbatim}
-%   \fontspec[
+%   \fontspec{...}[
 %     SmallCapsFont={...},
 %     SmallCapsFeatures={Letters=SmallCaps},
-%            ]{...}
+%   ]
 % \end{Verbatim}
 %
 % \subsection{Math(s) fonts}
@@ -624,10 +604,10 @@ This work consists of this file fontspec.dtx
 % others keep an eye out for problems.
 %
 % \cmdbox{
-%   \cmd{\setmathrm} \oarg{font features} \marg{font name} \\
-%   \cmd{\setmathsf} \oarg{font features} \marg{font name} \\
-%   \cmd{\setmathtt} \oarg{font features} \marg{font name} \\
-%   \cmd{\setboldmathrm} \oarg{font features} \marg{font name}
+%   \cmd{\setmathrm} \marg{font name} \oarg{font features} \\
+%   \cmd{\setmathsf} \marg{font name} \oarg{font features} \\
+%   \cmd{\setmathtt} \marg{font name} \oarg{font features} \\
+%   \cmd{\setboldmathrm} \marg{font name} \oarg{font features}
 % }
 %
 % However, the default text fonts may not necessarily be the ones you
@@ -651,36 +631,48 @@ This work consists of this file fontspec.dtx
 % \end{Verbatim}
 %
 %
-% \subsection{Specifically choosing the NFSS family}
-%
-% In \LaTeX's NFSS, font families are defined with names such as `\texttt{ppl}' (Palatino), `\texttt{cmr}' (Computer Modern Roman), and so on, which are selected with the \cs{fontfamily} command:
-% \begin{Verbatim}
-%   \fontfamily{ppl}\selectfont
-% \end{Verbatim}
-% In \pkg{fontspec}, the family names are auto-generated based on the fontname of the font; for example, writing |\fontspec{Times New Roman}| for the first time would generate an internal font family name of `\texttt{TimesNewRoman(1)}'.
-%
-% In certain cases it is desirable to be able to choose this internal font family name so it can be re-used elsewhere for interacting with other packages that use the \LaTeX's font selection interface; an example might be
-% \begin{Verbatim}
-%   \usepackage{fancyvrb}
-%   \fvset{fontfamily=myverbatimfont}
-% \end{Verbatim}
-% To select a font for use in this way in \pkg{fontspec} use the \feat{NFSSFamily} feature:\footnote{Thanks to Luca Fascione for the example and motivation for finally implementing this feature.}
-% \begin{Verbatim}
-%   \newfontfamily\verbatimfont[NFSSFamily=myverbatimfont]{Inconsolata}
-% \end{Verbatim}
-% It is then possible to write commands such as:
-% \begin{Verbatim}
-%   \fontfamily{myverbatimfont}\selectfont
-% \end{Verbatim}
-% which is essentially the same as writing |\verbatimfont|, or to go back to the orginal example:
-% \begin{Verbatim}
-%   \fvset{fontfamily=myverbatimfont}
-% \end{Verbatim}
-% Only use this feature when necessary; the in-built font switching commands that \pkg{fontspec} generates (such as |\verbatimfont| in the example above) are recommended in all other cases.
-%
-% If you don't wish to explicitly set the NFSS family but you would like to know what it is, an alternative mechanism for package writers is introduced as part of the \pkg{fontspec} programming interface; see the function \cs{fontspec_set_family:Nnn} for details (\vref*{sec:api}).
 %
 % \subsection{Miscellaneous font selecting details}
+%
+% \paragraph{The optional argument --- from v2.4}
+% For the first decade of \pkg{fontspec}'s life, optional font features were selected with a bracketed argument before the font name, as in:
+% \begin{Verbatim}
+%  \setmainfont[
+%    lots and lots ,
+%    and more and more ,
+%    an excessive number really ,
+%    of font features could go here
+%  ]{myfont.otf}
+% \end{Verbatim}
+% This always looked like ugly syntax to me, and the order of these arguments has now been reversed:
+% \begin{Verbatim}
+%  \setmainfont{myfont.otf}[
+%    lots and lots ,
+%    and more and more ,
+%    an excessive number really ,
+%    of font features could go here
+%  ]
+% \end{Verbatim}
+% I hope this doesn't cause any problems.
+% \begin{enumerate}
+%  \item Backwards compatibility has been preserved. (In fact, you could even write
+%  \begin{Verbatim}
+% \fontspec[Ligatures=Rare]{myfont.otf}[Color=red]
+%  \end{Verbatim}
+%  if you really felt like it and both sets of features would be applied.)
+%
+%  \item
+%  Following standard \pkg{xparse} behaviour, there must be no space before the opening bracket; writing
+%  \begin{Verbatim*}
+% \fontspec{myfont.otf} [Color=red]
+%  \end{Verbatim*}
+%  will result in |[Color=red]| not being recognised an argument and therefore it will be typeset as text. When breaking over lines, write either of:
+%  \begin{Verbatim}
+%    \fontspec{myfont.otf}%        \fontspec{myfont.otf}[
+%      [Color=red]                    Color=Red]
+%  \end{Verbatim}
+% 
+% \end{enumerate}
 %
 % \paragraph{Spaces}
 % \cmd\fontspec\ and \cmd\addfontfeatures\ ignore trailing spaces as
@@ -699,7 +691,7 @@ This work consists of this file fontspec.dtx
 % Nested emphasis is controlled by the \cs{eminnershape} command.
 % For example, for |\emph{\emph{...}}| to produce small caps:\par
 % \indent|\renewcommand\eminnershape{\scshape}|\par\noindent
-%
+% This functionality is provided by the \pkg{fixltx2e} package, which is automatically loaded by \pkg{fontspec}.
 %
 %
 %
@@ -824,8 +816,8 @@ This work consists of this file fontspec.dtx
 % In the distant future this functionality will be re-written to avoid this issue (giving `\verb|Numbers=OldStyle|' the smarts to know to explicitly de-activate any previous instances of `\verb|Numbers=Lining|', and vice-versa, but as I hope you can imagine this requires a fair degree of elbow grease which I haven't had available for some time now.
 %
 % \begin{Lexample}{aff}{A demonstration of the \cs{addfontfeatures} command. Note the caveat listed in the text regarding such usage.}
-%   \fontspec[Numbers={Proportional,OldStyle}]
-%            {TeX Gyre Adventor}
+%   \fontspec{TeX Gyre Adventor}%
+%            [Numbers={Proportional,OldStyle}]
 %   `In 1842, 999 people sailed 97 miles in
 %    13 boats. In 1923, 111 people sailed 54
 %    miles in 56 boats.'            \bigskip
@@ -899,7 +891,7 @@ This work consists of this file fontspec.dtx
 %
 % \begin{Xexample}{scfeat}{An example of setting the \feat{SmallCapsFeatures}
 % separately for each font shape.}
-%   \fontspec[
+%   \fontspec{TeX Gyre Termes}[
 %       UprightFeatures={Color = 220022,
 %            SmallCapsFeatures = {Color=115511}},
 %        ItalicFeatures={Color = 2244FF,
@@ -908,7 +900,7 @@ This work consists of this file fontspec.dtx
 %            SmallCapsFeatures = {Color=992211}},
 %    BoldItalicFeatures={Color = 888844,
 %            SmallCapsFeatures = {Color=444422}},
-%            ]{TeX Gyre Termes}
+%            ]
 %   Upright {\scshape Small Caps}\\
 %   \itshape Italic {\scshape Italic Small Caps}\\
 %   \upshape\bfseries Bold {\scshape Bold Small Caps}\\
@@ -949,10 +941,11 @@ This work consists of this file fontspec.dtx
 % in \vref{sec:opticalsize}.
 %
 % \begin{Xexample}{sizefeat}{An example of specifying different font features for different sizes of font with \feat{SizeFeatures}.}
-%   \fontspec[ SizeFeatures={
+%   \fontspec{TeX Gyre Chorus}[
+%     SizeFeatures={
 %       {Size={-8}, Font=TeX Gyre Bonum Italic, Color=AA0000},
 %       {Size={8-14}, Color=00AA00},
-%       {Size={14-}, Color=0000AA}} ]{TeX Gyre Chorus}
+%       {Size={14-}, Color=0000AA}} ]
 %
 %   {\scriptsize Small\par} Normal size\par {\Large Large\par}
 % \end{Xexample}
@@ -1062,7 +1055,7 @@ This work consists of this file fontspec.dtx
 %
 % In its explicit form, \feat{Scale} takes a single
 % numeric argument for linearly scaling the font, as demonstrated
-% in \vref{sec:setxxfont}.
+% in \exref{fontload}.
 % It is now possible to
 % measure the correct dimensions of the fonts loaded and
 % calculate values to scale them automatically.
@@ -1147,9 +1140,9 @@ This work consists of this file fontspec.dtx
 %   \nonfrenchspacing
 %   \fontspec{TeX Gyre Schola}
 %    Letters, Words. Sentences.          \par
-%   \fontspec[PunctuationSpace=2]{TeX Gyre Schola}
+%   \fontspec{TeX Gyre Schola}[PunctuationSpace=2]
 %    Letters, Words. Sentences.          \par
-%   \fontspec[PunctuationSpace=0]{TeX Gyre Schola}
+%   \fontspec{TeX Gyre Schola}[PunctuationSpace=0]
 %    Letters, Words. Sentences.
 % \end{Lexample}
 %
@@ -1212,13 +1205,13 @@ This work consists of this file fontspec.dtx
 % \end{Xexample}
 %
 % \begin{Xexample}{optsize0}{Optical size substitution is suppressed when set to zero.}
-%   \fontspec[OpticalSize=0]{Latin Modern Roman 5 Regular}
+%   \fontspec{Latin Modern Roman 5 Regular}[OpticalSize=0]
 %    Latin Modern optical sizes                \\
-%   \fontspec[OpticalSize=0]{Latin Modern Roman 8 Regular}
+%   \fontspec{Latin Modern Roman 8 Regular}[OpticalSize=0]
 %    Latin Modern optical sizes                \\
-%   \fontspec[OpticalSize=0]{Latin Modern Roman 12 Regular}
+%   \fontspec{Latin Modern Roman 12 Regular}[OpticalSize=0]
 %    Latin Modern optical sizes                \\
-%   \fontspec[OpticalSize=0]{Latin Modern Roman 17 Regular}
+%   \fontspec{Latin Modern Roman 17 Regular}[OpticalSize=0]
 %    Latin Modern optical sizes
 % \end{Xexample}
 %
@@ -1226,13 +1219,13 @@ This work consists of this file fontspec.dtx
 % used to specify exactly which optical sizes will be used for ranges
 % of font size. For example, something like:
 % \begin{Verbatim}
-%   \fontspec[
-%     SizeFeatures={
+%   \fontspec{Latin Modern Roman}[
+%     UprightFeatures = { SizeFeatures = {
 %       {Size=-10,     OpticalSize=8 },
 %       {Size= 10-14,  OpticalSize=10},
 %       {Size= 14-18,  OpticalSize=14},
-%       {Size=    18-, OpticalSize=18}}
-%            ]{Latin Modern Roman}
+%       {Size=    18-, OpticalSize=18}}}
+%            ]
 % \end{Verbatim}
 %
 % \part{OpenType}
@@ -1340,9 +1333,9 @@ This work consists of this file fontspec.dtx
 % `Unicase' is a weird hybrid of upper and lower case letters.
 %
 % \begin{Lexample}{caps}{Small caps from lowercase or uppercase letters.}
-%   \fontspec[Letters=SmallCaps]{TeX Gyre Adventor}
+%   \fontspec{TeX Gyre Adventor}[Letters=SmallCaps]
 %    THIS SENTENCE no verb                \\
-%   \fontspec[Letters=UppercaseSmallCaps]{TeX Gyre Adventor}
+%   \fontspec{TeX Gyre Adventor}[Letters=UppercaseSmallCaps]
 %    THIS SENTENCE no verb
 % \end{Lexample}
 %
@@ -1407,8 +1400,8 @@ This work consists of this file fontspec.dtx
 %
 % \begin{Lexample}[firstline=2]{num-arab}{An example of number remapping to Arabic or Persian. (\LuaTeX\ only.)}
 %   \huge
-%   \fontspec[Script=Arabic,Numbers=Arabic]
-%     {persian-modern-regular.ttf}
+%   \fontspec{persian-modern-regular.ttf}%
+%     [Script=Arabic,Numbers=Arabic]
 %   {\addfontfeature{Language=Arabic}
 %    0123456789} \\
 %   {\addfontfeature{Language=Parsi}
@@ -1432,7 +1425,7 @@ This work consists of this file fontspec.dtx
 % \begin{Lexample}{swash}{An example of the \opt{Swashes} option of the \opt{Contextuals} feature.}
 %   \fontspec{Warnock Pro} \itshape
 %    Without Contextual Swashes             \\
-%   \fontspec[Contextuals=Swash]{Warnock Pro}
+%   \fontspec{Warnock Pro}[Contextuals=Swash]
 %    With Contextual Swashes; cf. W C S
 % \end{Lexample}
 %
@@ -1464,15 +1457,15 @@ This work consists of this file fontspec.dtx
 % arbitrary fractions (see next section).
 %
 % \begin{Lexample}{vertpos}{The \feat{VerticalPosition} feature. Note that the \opt{Ordinal} option can be quite unreliable, as the results here demonstrate.}
-%   \fontspec[VerticalPosition=Superior]{Warnock Pro}
+%   \fontspec{Warnock Pro}[VerticalPosition=Superior]
 %    Sup: abdehilmnorst (-\$12,345.67)                      \\
-%   \fontspec[VerticalPosition=Numerator]{Warnock Pro}
+%   \fontspec{Warnock Pro}[VerticalPosition=Numerator]
 %    Numerator: 12345                                       \\
-%   \fontspec[VerticalPosition=Denominator]{Warnock Pro}
+%   \fontspec{Warnock Pro}[VerticalPosition=Denominator]
 %    Denominator: 12345                                     \\
-%   \fontspec[VerticalPosition=ScientificInferior]{Warnock Pro}
+%   \fontspec{Warnock Pro}[VerticalPosition=ScientificInferior]
 %    Scientific Inferior: 12345                             \\
-%   \fontspec[VerticalPosition=Ordinal]{Warnock Pro}
+%   \fontspec{Warnock Pro}[VerticalPosition=Ordinal]
 %   `Ordinals': 1st 2nd 3rd 4th 0th
 % \end{Lexample}
 %
@@ -1562,19 +1555,19 @@ This work consists of this file fontspec.dtx
 % \begin{Lexample}[firstline=2]{cv}{The \feat{CharacterVariant} feature showing off Georg Duffner's open source Garamond revival font.}
 %   \huge
 %   \fontspec{EB Garamond Italic}                       very \\
-%   \fontspec[CharacterVariant=5]{EB Garamond Italic}   very \\
-%   \fontspec[CharacterVariant=5:0]{EB Garamond Italic} very \\
-%   \fontspec[CharacterVariant=5:1]{EB Garamond Italic} very \\
-%   \fontspec[CharacterVariant=5:2]{EB Garamond Italic} very \\
-%   \fontspec[CharacterVariant=5:3]{EB Garamond Italic} very
+%   \fontspec{EB Garamond Italic}[CharacterVariant=5]   very \\
+%   \fontspec{EB Garamond Italic}[CharacterVariant=5:0] very \\
+%   \fontspec{EB Garamond Italic}[CharacterVariant=5:1] very \\
+%   \fontspec{EB Garamond Italic}[CharacterVariant=5:2] very \\
+%   \fontspec{EB Garamond Italic}[CharacterVariant=5:3] very
 % \end{Lexample}
 %
 % \begin{Lexample}[firstline=2]{cv2}{The \feat{CharacterVariant} feature selecting multiple variants simultaneously.}
 %   \huge
 %   \fontspec{EB Garamond Italic}                           \& violet \\
-%   \fontspec[CharacterVariant={4}]{EB Garamond Italic}     \& violet \\
-%   \fontspec[CharacterVariant={5:2}]{EB Garamond Italic}   \& violet \\
-%   \fontspec[CharacterVariant={4,5:2}]{EB Garamond Italic} \& violet
+%   \fontspec{EB Garamond Italic}[CharacterVariant={4}]     \& violet \\
+%   \fontspec{EB Garamond Italic}[CharacterVariant={5:2}]   \& violet \\
+%   \fontspec{EB Garamond Italic}[CharacterVariant={4,5:2}] \& violet
 % \end{Lexample}
 %
 % \subsection{Alternates}
@@ -1716,13 +1709,13 @@ This work consists of this file fontspec.dtx
 %
 % \begin{Xexample}{fake}{Articifial font transformations.}
 %   \fontspec{Charis SIL} \emph{ABCxyz} \quad
-%   \fontspec[FakeSlant=0.2]{Charis SIL} ABCxyz
+%   \fontspec{Charis SIL}[FakeSlant=0.2] ABCxyz
 %
 %   \fontspec{Charis SIL}  ABCxyz \quad
-%   \fontspec[FakeStretch=1.2]{Charis SIL} ABCxyz
+%   \fontspec{Charis SIL}[FakeStretch=1.2] ABCxyz
 %
 %   \fontspec{Charis SIL} \textbf{ABCxyz} \quad
-%   \fontspec[FakeBold=1.5]{Charis SIL} ABCxyz
+%   \fontspec{Charis SIL}[FakeBold=1.5] ABCxyz
 % \end{Xexample}
 %
 % If values are omitted, their defaults are as shown above.
@@ -2056,7 +2049,7 @@ This work consists of this file fontspec.dtx
 % \feat{Mapping} enables a \XeTeX\ text-mapping scheme, shown in \exref{mapping}.
 %
 % \begin{Xexample}{mapping}{\XeTeX's \feat{Mapping} feature.}
-%   \fontspec[Mapping=tex-text]{Cochin}
+%   \fontspec{Cochin}[Mapping=tex-text]
 %   ``!`A small amount of---text!''
 % \end{Xexample}
 %
@@ -2121,11 +2114,11 @@ This work consists of this file fontspec.dtx
 % optical size for a Multiple Master font must always be specified
 % explicitly.
 % \begin{Verbatim}
-%   \fontspec[OpticalSize=11]{Minion MM Roman}
+%   \fontspec{Minion MM Roman}[OpticalSize=11]
 %    MM optical size test                    \\
-%   \fontspec[OpticalSize=47]{Minion MM Roman}
+%   \fontspec{Minion MM Roman}[OpticalSize=47]
 %    MM optical size test                    \\
-%   \fontspec[OpticalSize=71]{Minion MM Roman}
+%   \fontspec{Minion MM Roman}[OpticalSize=71]
 %    MM optical size test                    \\
 % \end{Verbatim}
 %
@@ -2199,14 +2192,13 @@ This work consists of this file fontspec.dtx
 % by prefixing their name with \opt{No}.
 %
 % \begin{Xexample}{wordcx}{Contextual glyph for the beginnings and ends of words.}
-%   \newfontface\fancy
+%   \newfontface\fancy{Hoefler Text Italic}
 %       [Contextuals={WordInitial,WordFinal}]
-%                        {Hoefler Text Italic}
 %   \fancy where is all the vegemite
 % \end{Xexample}
 %
 % \begin{Xexample}{longsaat}{A contextual feature for the `long s' can be convenient as the character does not need to be marked up explicitly.}
-%   \fontspec[Contextuals=Inner]{Hoefler Text}
+%   \fontspec{Hoefler Text}[Contextuals=Inner]
 %   `Inner' swashes can \emph{sometimes}    \\
 %    contain the archaic long~s.
 % \end{Xexample}
@@ -2225,11 +2217,11 @@ This work consists of this file fontspec.dtx
 % \begin{Xexample}{aat-supp}{Vertical position for AAT fonts.}
 %   \fontspec{Skia}
 %    Normal
-%   \fontspec[VerticalPosition=Superior]{Skia}
+%   \fontspec{Skia}[VerticalPosition=Superior]
 %    Superior
-%   \fontspec[VerticalPosition=Inferior]{Skia}
+%   \fontspec{Skia}[VerticalPosition=Inferior]
 %    Inferior                \\
-%   \fontspec[VerticalPosition=Ordinal]{Skia}
+%   \fontspec{Skia}[VerticalPosition=Ordinal]
 %    1st 2nd 3rd 4th 0th 8abcde
 % \end{Xexample}
 %
@@ -2308,9 +2300,9 @@ This work consists of this file fontspec.dtx
 % which should be done on a per-font basis.
 %
 % \begin{Xexample}{aat-alt}{Alternate shape selection must be numerical.}
-%   \fontspec[Alternate=0]{Hoefler Text Italic}
+%   \fontspec{Hoefler Text Italic}[Alternate=0]
 %    Sphinx Of Black Quartz, {\scshape Judge My Vow} \\
-%   \fontspec[Alternate=1]{Hoefler Text Italic}
+%   \fontspec{Hoefler Text Italic}[Alternate=1]
 %    Sphinx Of Black Quartz, {\scshape Judge My Vow}
 % \end{Xexample}
 %
@@ -2365,7 +2357,7 @@ This work consists of this file fontspec.dtx
 %   \fontspec{Hiragino Mincho Pro}
 %   \verttext
 %
-%   \fontspec[Renderer=AAT,Vertical=RotatedGlyphs]{Hiragino Mincho Pro}
+%   \fontspec{Hiragino Mincho Pro}[Renderer=AAT,Vertical=RotatedGlyphs]
 %   \rotatebox{-90}{\verttext}% requires the graphicx package
 % \end{Xexample}
 %
@@ -2407,11 +2399,11 @@ This work consists of this file fontspec.dtx
 % \begin{Xexample}{aat-annot}{Various annotation forms.}
 %   \fontspec{Hei Regular}
 %    1 2 3 4 5 6 7 8 9                         \\
-%   \fontspec[Annotation=Circle]{Hei Regular}
+%   \fontspec{Hei Regular}[Annotation=Circle]
 %    1 2 3 4 5 6 7 8 9                         \\
-%   \fontspec[Annotation=Parenthesis]{Hei Regular}
+%   \fontspec{Hei Regular}[Annotation=Parenthesis]
 %    1 2 3 4 5 6 7 8 9                         \\
-%   \fontspec[Annotation=Period]{Hei Regular}
+%   \fontspec{Hei Regular}[Annotation=Period]
 %    1 2 3 4 5 6 7 8 9
 % \end{Xexample}
 %
@@ -2433,9 +2425,9 @@ This work consists of this file fontspec.dtx
 %
 % \begin{Xexample}{aatmm}{Continuously variable font parameters. These fonts
 %  are unfortunately quite rare.}
-%   \fontspec[Weight=0.5,Width=3]{Skia}
+%   \fontspec{Skia}[Weight=0.5,Width=3]
 %    Really light and extended Skia         \\
-%   \fontspec[Weight=2,Width=0.5]{Skia}
+%   \fontspec{Skia}[Weight=2,Width=0.5]
 %    Really fat and condensed Skia
 % \end{Xexample}
 %
@@ -2461,7 +2453,7 @@ This work consists of this file fontspec.dtx
 %
 % \begin{Xexample}{newAATfeat}{Assigning new \AAT\ features.}
 %   \newAATfeature{Alternate}{HoeflerSwash}{17}{1}
-%   \fontspec[Alternate=HoeflerSwash]{Hoefler Text Italic}
+%   \fontspec{Hoefler Text Italic}[Alternate=HoeflerSwash]
 %    This is XeTeX by Jonathan Kew.
 % \end{Xexample}
 %
@@ -2490,9 +2482,9 @@ This work consists of this file fontspec.dtx
 % \begin{Xexample}{avoidd}{Assigning new arbitary features.}
 %   \newfontfeature{AvoidD}{Special=Avoid d-collisions}
 %   \newfontfeature{NoAvoidD}{Special=!Avoid d-collisions}
-%   \fontspec[AvoidD,Variant=1]{Zapfino}
+%   \fontspec{Zapfino}[AvoidD,Variant=1]
 %    sockdolager rubdown               \\
-%   \fontspec[NoAvoidD,Variant=1]{Zapfino}
+%   \fontspec{Zapfino}[NoAvoidD,Variant=1]
 %    sockdolager rubdown
 % \end{Xexample}
 %
@@ -2508,7 +2500,7 @@ This work consists of this file fontspec.dtx
 % when you happen to have the OpenType feature tag memorised.
 %
 % \begin{Xexample}{raw}{Using raw font features directly.}
-%   \fontspec[RawFeature=+smcp]{TeX Gyre Pagella}
+%   \fontspec{TeX Gyre Pagella}[RawFeature=+smcp]
 %   Pagella small caps
 % \end{Xexample}
 %
@@ -2528,7 +2520,7 @@ This work consists of this file fontspec.dtx
 %
 % \begin{Xexample}{alias}{Renaming font features.}
 %   \aliasfontfeature{ItalicFeatures}{IF}
-%   \fontspec[IF = {Alternate=1}]{Hoefler Text}
+%   \fontspec{Hoefler Text}[IF = {Alternate=1}]
 %   Roman Letters \itshape And Swash
 % \end{Xexample}
 %
@@ -2543,7 +2535,7 @@ This work consists of this file fontspec.dtx
 % \begin{Lexample}{aliasopt}{Renaming font feature options.}
 %   \aliasfontfeature{VerticalPosition}{Vert Pos}
 %   \aliasfontfeatureoption{VerticalPosition}{ScientificInferior}{Sci Inf}
-%   \fontspec[Vert Pos=Sci Inf]{Linux Libertine}
+%   \fontspec{Linux Libertine}[Vert Pos=Sci Inf]
 %    Scientific Inferior: 12345
 % \end{Lexample}
 %

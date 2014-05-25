@@ -1,0 +1,17 @@
+\documentclass{testsuite}
+\usepackage{fontspec,lipsum}
+\begin{document}
+\setmainfont{texgyretermes-regular.otf}
+A short sentence. A short sentence. \lipsum[6]
+
+\addfontfeature{ PunctuationSpace = 2 }
+A short sentence. A short sentence. \lipsum[6]
+
+\setmonofont{Inconsolata.otf}
+\ttfamily
+A short sentence. A short sentence. \lipsum[6]
+
+\addfontfeature{ PunctuationSpace = TwiceWordSpace}
+A short sentence. A short sentence. \lipsum[6]
+
+\end{document}

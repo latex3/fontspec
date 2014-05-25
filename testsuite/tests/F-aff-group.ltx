@@ -1,4 +1,4 @@
-\documentclass{testsuite}
+\documentclass[twocolumn]{testsuite}
 \usepackage{fontspec}
 \begin{document}
 \makeatletter
@@ -16,13 +16,14 @@ AFF in group\\
 \endgroup
 after group\\
 
+\newpage
 \setmainfont{texgyretermes-regular.otf}
 \noindent set main font\\
 \addfontfeatures{Color=AA00AA,NFSSFamily=\f@family}
-after AFF\\ \normalfont after `normalfont'\\
+after AFF\\ \normalfont after `normalfont' (should now match)\\
 
 \setmainfont{texgyretermes-regular.otf}
-\noindent set main font\\
+\noindent set main font (why coloured?!)\\
 \begingroup
 \addfontfeatures{Color=AA00AA,NFSSFamily=\f@family}
 AFF in group\\

@@ -2,10 +2,12 @@
 \usepackage{fontspec}
 \begin{document}
 \def\x{Suspendisse vel felis. Ut lorem lorem, interdum eu, tincidunt sit amet, laoreet vitae, arcu. Aenean faucibus pede eu ante. Praesent enim elit, rutrum at, molestie non, nonummy vel, nisl.}
+\raggedright
 
-\setmainfont{texgyretermes-regular.otf}
+\setmonofont{Inconsolata.otf}[PunctuationSpace=WordSpace]
+\ttfamily
 \x
 
-\addfontfeature{PunctuationSpace=2}
+\addfontfeature{ PunctuationSpace = TwiceWordSpace}
 \x
 \end{document}

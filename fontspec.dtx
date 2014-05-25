@@ -4080,7 +4080,7 @@ This work consists of this file fontspec.dtx
       #1   
      }
    }
-  \tl_set:Nx \l_@@_fontid_tl { \l_fontspec_fontname_tl-:-\l_@@_all_features_clist }
+  \tl_set:Nx \l_@@_fontid_tl { \tl_to_str:N \l_fontspec_fontname_tl-:-\tl_to_str:N \l_@@_all_features_clist }
 %<*debug>
   \typeout{fontid: \l_@@_fontid_tl}
 %</debug>

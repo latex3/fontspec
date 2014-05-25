@@ -4713,8 +4713,10 @@ This work consists of this file fontspec.dtx
   \sclist_clear:N \l_@@_rawfeatures_sclist
   \tl_clear:N \l_@@_scale_tl
   \tl_set_eq:NN \l_@@_opacity_tl \g_@@_opacity_tl
-  \tl_set_eq:NN \l_fontspec_hexcol_tl \g_fontspec_hexcol_tl
-  \tl_clear:N \l_fontspec_postadjust_tl
+  \tl_set_eq:NN \l_@@_hexcol_tl \g_@@_hexcol_tl
+  \tl_set_eq:NN \l_@@_postadjust_tl \g_@@_postadjust_tl
+  \tl_clear:N \l_@@_wordspace_adjust_tl
+  \tl_clear:N \l_@@_punctspace_adjust_tl
 
   \keys_set_known:nxN {fontspec-renderer} {\l_@@_fontfeat_clist,#2}
     \l_@@_keys_leftover_clist
@@ -4759,6 +4761,8 @@ This work consists of this file fontspec.dtx
 \tl_clear:N \l_fontspec_script_tl
 \tl_clear:N \l_@@_lang_name_tl
 \tl_clear:N \l_fontspec_lang_tl
+\tl_set:Nn  \g_fontspec_postadjust_tl { \l_@@_wordspace_adjust_tl \l_@@_punctspace_adjust_tl }
+
 \clist_set:Nn \l_@@_sizefeat_clist {Size={-}}
 \tl_new:N  \g_fontspec_hexcol_tl
 \tl_new:N  \g_@@_opacity_tl
@@ -5646,7 +5650,7 @@ This work consists of this file fontspec.dtx
  {
   \tl_if_empty:nTF {#4}
    {
-    \tl_put_right:Nn \l_fontspec_postadjust_tl
+    \tl_set:Nn \l_@@_wordspace_adjust_tl
      {
       \fontdimen 2 \font = #1 \fontdimen 2 \font
       \fontdimen 3 \font = #1 \fontdimen 3 \font
@@ -5654,7 +5658,7 @@ This work consists of this file fontspec.dtx
      }
    }
    {
-    \tl_put_right:Nn \l_fontspec_postadjust_tl
+    \tl_set:Nn \l_@@_wordspace_adjust_tl
      {
       \fontdimen 2 \font = #1 \fontdimen 2 \font
       \fontdimen 3 \font = #2 \fontdimen 3 \font
@@ -5670,8 +5674,23 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \@@_keys_define_code:nnn {fontspec} {PunctuationSpace}
  {
-   \tl_put_right:Nx \l_fontspec_postadjust_tl
-    { \fontdimen 7 \font = #1 \fontdimen 7 \font }
+  \str_case_x:nnn {#1}
+   {
+    {WordSpace}
+    {
+     \tl_set:Nn \l_@@_punctspace_adjust_tl
+      { \fontdimen 7 \font = 0 \fontdimen 2 \font }    
+    }
+    {TwiceWordSpace}
+    {
+     \tl_set:Nn \l_@@_punctspace_adjust_tl
+      { \fontdimen 7 \font = 1 \fontdimen 2 \font }    
+    }
+   }
+   {
+     \tl_set:Nn \l_@@_punctspace_adjust_tl
+     { \fontdimen 7 \font = #1 \fontdimen 7 \font }
+   }
  }
 %    \end{macrocode}
 %
@@ -7220,7 +7239,14 @@ end
 %
 %    \begin{macrocode}
 
-\defaultfontfeatures[\rmfamily,\sffamily]{Ligatures=TeX}
+\defaultfontfeatures
+ [\rmfamily,\sffamily]
+ {Ligatures=TeX}
+ 
+\defaultfontfeatures
+ [\ttfamily]
+ {WordSpace={1,0,0},
+  PunctuationSpace=WordSpace}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% FOR BACKWARDS COMPATIBILITY WITH PREVIOUS VERSIONS %%%

@@ -1,0 +1,33 @@
+\documentclass{testsuite}
+\usepackage{fontspec}
+\begin{document}
+\makeatletter
+
+\setmainfont{texgyretermes-regular.otf}
+\noindent set main font\\
+\addfontfeatures{Color = AA00AA}
+after AFF\\ \normalfont after `normalfont'\\
+
+\setmainfont{texgyretermes-regular.otf}
+\noindent set main font\\
+\begingroup
+\addfontfeatures{Color = AA00AA}
+AFF in group\\
+\endgroup
+after group\\
+
+\setmainfont{texgyretermes-regular.otf}
+\noindent set main font\\
+\addfontfeatures{Color=AA00AA,NFSSFamily=\f@family}
+after AFF\\ \normalfont after `normalfont'\\
+
+\setmainfont{texgyretermes-regular.otf}
+\noindent set main font\\
+\begingroup
+\addfontfeatures{Color=AA00AA,NFSSFamily=\f@family}
+AFF in group\\
+\endgroup
+after group\\
+
+
+\end{document}

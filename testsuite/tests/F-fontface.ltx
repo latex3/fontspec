@@ -1,0 +1,16 @@
+\documentclass{testsuite}
+\usepackage{fontspec}
+\begin{document}
+
+\setmainfont{texgyre}[
+  Extension = .otf ,
+  UprightFont = *pagella-regular,
+  FontFace = {c}{n}{Font = *bonum-regular , Color = FF0000 },
+  FontFace = {nc}{n}{*heros-regular}
+]
+
+pagella
+\fontseries{c}\selectfont bonum (red)
+\fontseries{nc}\selectfont heros
+
+\end{document}

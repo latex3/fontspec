@@ -633,6 +633,8 @@ This work consists of this file fontspec.dtx
 %     ]
 % \end{Verbatim}
 % Writing |\fontseries{c}\selectfont| will result in |font2| being selected, which then followed by |\fontshape{m}\selectfont| will result in |font3| being selected (in red).
+% A font face that is defined in terms of a different series but a normal shape will attempt to find a matching small caps feature and define that face as well if appropriate.
+% Conversely, a font faced defined in terms of a different font will not.
 %
 % There are some standards for choosing shape and series codes; the \LaTeXe\ font selection guide\footnote{\texttt{texdoc fntguide}} lists series |m| for medium, |b| for bold, |bx| for bold extended, |sb| for semi-bold, and |c| for condensed.
 % A far more comprehensive listing is included in Appendix~A of Philipp Lehman's `The Font Installation Guide'\footnote{\texttt{texdoc fontinstallationguide}} covering 14 separate weights and 12 separate widths.

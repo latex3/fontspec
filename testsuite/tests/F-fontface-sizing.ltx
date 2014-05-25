@@ -1,0 +1,41 @@
+\documentclass{testsuite}
+\usepackage{fontspec}
+\begin{document}
+
+\setmainfont{Palatino Sans Com}[
+  Color = 00AA00 ,
+  UprightFeatures = {
+    SizeFeatures = {
+      {Size = -10, Font = * Medium,},
+      {Size = 10-15, Font = * Regular,},
+      {Size = 15-, Font = * Light,},
+    }
+  },
+  ItalicFont = * Italic,
+  FontFace = {c}{n}{
+    Font = Times,
+    SizeFeatures = {
+      {Size = -10,Color = FF0000,Font=Georgia},
+      {Size = 10-15,Color = FF00FF},
+      {Size = 15-,Color = 0000FF,Font=Cochin},
+    },
+  },
+  FontFace = {nc}{n}{Helvetica}
+]
+
+\def\x{
+{\tiny small 
+\normalsize normal  
+\Huge huge }
+}
+\noindent\x --- `optical' sizes
+
+\noindent\textit{\x} --- italic just uses one face
+
+\fontseries{c}\selectfont
+\noindent\x --- three serif faces with different colours
+
+\fontseries{nc}\selectfont
+\noindent\x --- plain Helvetica
+
+\end{document}

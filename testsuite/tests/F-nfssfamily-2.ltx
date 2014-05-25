@@ -1,0 +1,34 @@
+\documentclass{testsuite}
+\usepackage{fontspec}
+\begin{document}
+
+\setlength\parindent{0pt}
+\makeatletter
+
+\DeclareFontFamily{EU1}{newfoo}{}
+\DeclareFontShape{EU1}{newfoo}{m}{n}{<->"[texgyrepagella-regular.otf]"}{}
+\fontfamily{newfoo}\selectfont After DeclareFontShape: \f@family
+
+\DeclareFontShape{EU1}{newfoo}{m}{n}{<->"[texgyreheros-regular.otf]"}{}
+\fontfamily{newfoo}\selectfont After DeclareFontShape again: \f@family
+
+\begingroup
+  \normalsize
+  \global\expandafter\let\csname EU1/newfoo/m/n/\f@size\endcsname\relax
+\endgroup
+\DeclareFontShape{EU1}{newfoo}{m}{n}{<->"[texgyreheros-regular.otf]:color=FFAA00"}{}
+\fontfamily{newfoo}\selectfont After resetting then DeclareFontShape: \f@family
+
+\bigskip
+\normalfont
+hello \f@family
+
+\def\x{\noindent foo: \fontfamily{foo}\selectfont regular \textsc{small caps} }
+
+\fontspec[NFSSFamily=foo,Color=FF0000]{texgyrepagella-regular.otf}
+\normalfont\x 
+
+\fontspec[NFSSFamily=foo,Color=FF00FF]{texgyreheros-regular.otf}
+\normalfont\x
+
+\end{document}

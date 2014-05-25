@@ -1,0 +1,31 @@
+\documentclass{testsuite}
+\usepackage{fontspec}
+\begin{document}
+
+\subsection{Series}
+
+\begingroup
+\setmainfont{texgyrepagella-regular.otf}[
+  FontFace = {col1}{n}{ Font = * , Color = FF0000 } ,
+  FontFace = {col2}{n}{ Font = * , Color = 0000FF }
+]
+\def\x{\noindent regular \textsc{small caps} \par}
+\x
+\fontseries{col1}\selectfont\x
+\fontseries{col2}\selectfont\x
+\endgroup
+
+\subsection{Shape}
+
+\begingroup
+\setmainfont{texgyrepagella-regular.otf}[
+  FontFace = {m}{col1}{ Font = * , Color = FF0000 } ,
+  FontFace = {m}{col2}{ Font = * , Color = 0000FF }
+]
+\def\x{\noindent regular \textsc{small caps} \par}
+\x 
+\fontshape{col1}\selectfont\x
+\fontshape{col2}\selectfont\x
+\endgroup
+
+\end{document}

@@ -8,6 +8,7 @@ mv  fontspec.sty testsuite/build/
 mv  fontspec-xetex.sty testsuite/build/
 mv  fontspec-luatex.sty testsuite/build/
 mv  fontspec-patches.sty testsuite/build/
+mv  fontspec.cfg testsuite/build/
 
 cp testsuite/tests/*.ltx  testsuite/build/
 cp testsuite/testsuite.cls testsuite/build/

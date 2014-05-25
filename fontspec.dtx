@@ -7243,9 +7243,9 @@ end
 
 \usepackage{fontspec}
 
-\setmainfont[Ligatures=TeX]{TeX Gyre Pagella}
-\setsansfont[Ligatures=TeX,Scale=MatchLowercase]{TeX Gyre Heros}
-\setmonofont[Scale=MatchLowercase]{Inconsolata}
+\setmainfont{TeX Gyre Pagella}
+\setsansfont{TeX Gyre Heros}[Scale=MatchLowercase]
+\setmonofont{Inconsolata}[Scale=MatchLowercase]
 
 \begin{document}
 \pagestyle{empty}
@@ -7256,7 +7256,7 @@ The \textsf{fontspec} package enables automatic font selection
 for \LaTeX{} documents typeset with Xe\TeX{} or Lua\TeX.
 The basic command is
 
-{\centering \verb|\fontspec[font features]{font display name}|.\par}
+{\centering \verb|\fontspec{font display name}[font features]|.\par}
 
 The default, sans serif, and typewriter fonts may be set with the
 commands \verb|\setmainfont|, \verb|\setsansfont| and \verb|\setmonofont|,
@@ -7276,9 +7276,9 @@ called mid-document.
 Maths symbols themselves are not affected.
 
 Notice the font features used to load the default fonts in the preamble.
-The first, \verb|Ligatures=TeX|, enables regular \TeX{} ligatures like
-\verb|``---''| for ``---''.
-The second, \verb|Scale=MatchLowercase|, automatically scales the fonts to
+\verb|Ligatures=TeX| is automatically enabled for the roman and sans font,
+allowing regular \TeX{} ligatures like \verb|``---''| for ``---''.
+\verb|Scale=MatchLowercase| automatically scales the fonts to
 the same x-height.
 
 Please see the complete \textsf{fontspec} documentation for further

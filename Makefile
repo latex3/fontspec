@@ -40,7 +40,7 @@ DTX = $(NAME).dtx
 REDIRECT = > /dev/null
 
 # Files grouped by generation mode
-COMPILED = $(DOC) fontspec-testsuite.pdf
+COMPILED = $(DOC)
 EXAMPLES = fontspec-example.tex
 UNPACKED = fontspec.sty fontspec-xetex.sty fontspec-luatex.sty fontspec-patches.sty fontspec.lua fontspec.cfg $(EXAMPLES)
 SOURCE = $(DTX) Makefile README
@@ -110,7 +110,6 @@ define run-install
 @mkdir -p $(RUNDIR) && cp $(RUNFILES) $(RUNDIR)
 @mkdir -p $(DOCDIR) && cp $(DOCFILES) $(DOCDIR)
 @mkdir -p $(SRCDIR) && cp $(SRCFILES) $(SRCDIR)
-@mkdir -p $(SRCDIR)/testsuite/ && cp $(TESTS) $(SRCDIR)/testsuite/
 endef
 
 define run-sty-install
@@ -128,12 +127,6 @@ $(TDS_ZIP): $(ALL_FILES)
 # Rename the README for CTAN
 README: README.markdown
 	cp $< $@
-
-# lazy:
-fontspec-testsuite.pdf: $(DTX)
-	@echo 'Compiling test suite.'
-	$(DO_PDFLATEX)
-	xelatex --interaction=nonstopmode fontspec-testsuite.tex  $(REDIRECT)
 
 .PHONY: install manifest clean mrproper
 
@@ -153,7 +146,7 @@ sty-install: $(RUNFILES)
 	@echo "Installing in '$(TEXMFROOT)'."
 	$(run-install)
 
-manifest: 
+manifest:
 	@echo "Source files:"
 	@for f in $(SOURCE); do echo $$f; done
 	@echo ""

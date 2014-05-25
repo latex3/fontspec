@@ -3,7 +3,7 @@ THE FONTSPEC PACKAGE
 ====================
 
 The fontspec package provides an automatic and unified interface for loading
-fonts in LaTeX. XeTeX and LuaTeX (the latter through the luaotfload package)
+fonts in LaTeX. XeTeX and LuaTeX (the latter through the `luaotfload` package)
 allows a direct interface to fonts which may be loaded by their name rather
 than filename, so no manual font installation is required.
 
@@ -27,7 +27,7 @@ Please offer suggestions and file bug reports in the issue tracker:
 Requirements
 ------------
 
-The `fontspec` package requires an up-to-date TeX Live 2011 or MiKTeX 2.9,
+The `fontspec` package requires an up-to-date TeX Live or MiKTeX installation,
 including the most recent version of the `l3kernel` package which provides
 the LaTeX3 programming interface known as `expl3`.
 
@@ -37,25 +37,18 @@ Summary of user commands
 
 Font families may be selected individually with the command
 
-    \fontspec[<font options>]{<font name>}
+    \fontspec{<font name>}[<font options>]
 
 Commands for selecting fonts efficiently through a document are created with
 
-    \newfontfamily\myfamily[<font options>]{<font name>}
-    \newfontface\myfont[<font options>]{<font name>}
+    \newfontfamily\myfamily{<font name>}[<font options>]
+    \newfontface\myfont{<font name>}[<font options>]
 
 Default document fonts are selected with
 
-    \setmainfont[<font options>]{<font name>}
-    \setsansfont[<font options>]{<font name>}
-    \setmonofont[<font options>]{<font name>}
-
-Fonts to be used in text strings in maths are defined with
-
-    \setmathrm[<font options>]{<font name>}
-    \setmathsf[<font options>]{<font name>}
-    \setmathtt[<font options>]{<font name>}
-    \setboldmathrm[<font options>]{<font name>}
+    \setmainfont{<font name>}[<font options>]
+    \setsansfont{<font name>}[<font options>]
+    \setmonofont{<font name>}[<font options>]
 
 Features to be used for every subsequently defined font are specified with
 
@@ -72,49 +65,47 @@ Features may be added to the font currently in use with
 Change history
 --------------
 
-- v2.4 ()
+- v2.4 (25/05/2014)
 
-    * Change the user interface (backwards compatible): instead of
-
-        \setmainfont[features]{font}
-
-      you now write
-
-        \setmainfont{font}[features]
+    * Significant change to the user interface: instead of `\setmainfont[features]{font}`, you now write `\setmainfont{font}[features]`.
+      Backwards compatibility is of course preserved.
 
       The reason for this change is to improve the visual comprehension of the font loading syntax with large numbers of font features.
 
     * Defaults for symbolic font families like this can now be specified with
 
-        \defaultfontfeatures[\rmfamily]{...}
+            \defaultfontfeatures[\rmfamily]{...}
 
       or
 
-        \defaultfontfeatures[\headingsfont]{...}
-        \setfontfamily\headingsfont{...}
+            \defaultfontfeatures[\headingsfont]{...}
+            \setfontfamily\headingsfont{...}
 
-    * Changes to the default settings:
+    * New `PunctuationSpace=WordSpace` and `PunctuationSpace=TwiceWordSpace` settings, intended for monospaced fonts; these force the space after a period to be exactly one or two spaces wide, respectively, which preserves character alignment across lines.
 
-      * "Ligatures=TeX" is now enabled by default with `\setmainfont` and `\setsansfont`.
+    * The features above now allow changes to the default settings:
 
-    * SizeFeatures can now be nested inside ItalicFeatures (etc.) and behaves correctly.
-      This has been a very long overdue bug!
+      * `Ligatures=TeX` is enabled by default with `\setmainfont` and `\setsansfont`.
+      * `WordSpace={1,0,0}` and `PunctuationSpace=WordSpace` are now enabled by default for `\setmonofont` to produce better monospaced results.
+      * (These can be adjusted by created your own `fontspec.cfg` file.)
 
-    * New feature `NFSSFamily=ABC` to set the NFSS family of a font to `ABC'. Useful
+    * `SizeFeatures` can now be nested inside `ItalicFeatures` (etc.) and behaves correctly. This has been a very long overdue bug!
+
+    * New feature `NFSSFamily=ABC` to set the NFSS family of a font to “`ABC`”. Useful
       when other packages use the `\fontfamily{ABC}\selectfont` interface.
 
     * New feature `FontFace = {series}{shape}{font}` allows a font face to be loaded with a specific NFSS font series and font shape.
-      A more verbose syntax allows arbitrary font features as well (and this plays nicely with `SizeFeatures`):
+      A more verbose syntax allows arbitrary font features as well (and this also plays nicely with `SizeFeatures`):
 
-        \fontspec{myfont.otf}[
-          FontFace = {b}{ui}{Font = myfont-bui.otf, <features>} ,
-        ]
+            \fontspec{myfont.otf}[
+              FontFace = {b}{ui}{Font = myfont-bui.otf, <features>} ,
+            ]
 
-      This will allow a bold upright italic font to be selected using the standard NFSS interface `\fontseries{b}\fontshape{ui}\selectfont`.
+      The code above, for example, will allow a bold upright italic font to be selected using the standard NFSS interface: `\fontseries{b}\fontshape{ui}\selectfont`.
 
-    * `\defaultfontfeatures+` (note the `+`) can be used to append to the default font feature set.
+    * `\defaultfontfeatures+` (note the `+`) can now be used to append to the default font feature set.
 
-    * Setting the SmallCapsFont using the *-replacement notation has been improved/fixed.
+    * Setting the `SmallCapsFont` using the `*`-replacement notation has been improved/fixed.
 
 - v2.3c (2013/05/20)
 

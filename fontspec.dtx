@@ -3066,7 +3066,7 @@ This work consists of this file fontspec.dtx
 \msg_new:nnn {fontspec} {defining-font}
  {
   Font~ family~'\l_fontspec_family_tl'~ created~ for~ font~ '#2'~
-  with~ options~ [\g_@@_default_fontopts_tl #1].\\
+  with~ options~ [\l_@@_all_features_clist].\\
   \\
   This~ font~ family~ consists~ of~ the~ following~ shapes:
   \l_fontspec_defined_shapes_tl
@@ -3351,7 +3351,7 @@ This work consists of this file fontspec.dtx
 %   concatenated with the individual macro choices in the
 %   [...] macro.
 %    \begin{macrocode}
-\tl_new:N \g_@@_default_fontopts_tl
+\clist_new:N \g_@@_default_fontopts_clist
 \prop_new:N \g_@@_fontopts_prop
 %    \end{macrocode}
 %
@@ -3365,8 +3365,8 @@ This work consists of this file fontspec.dtx
  }
 \cs_new:Nn \@@_set_default_features:nn
  {
-  \IfBooleanTF {#1} \tl_put_right:Nn \tl_set:Nn
-   \g_@@_default_fontopts_tl {#2,}
+  \IfBooleanTF {#1} \clist_put_right:Nn \clist_set:Nn
+   \g_@@_default_fontopts_clist {#2}
  }
 %    \end{macrocode}
 % The optional argument specifies a font identifier.
@@ -3429,6 +3429,7 @@ This work consists of this file fontspec.dtx
 %   \cs{addfontfeature} is defined as an alias, as I found that I
 %   often typed this instead when adding only a single font feature.
 %    \begin{macrocode}
+\bool_new:N \l_@@_disable_defaults_bool
 \DeclareDocumentCommand \addfontfeatures {m}
  {
   \fontspec_if_fontspec_font:TF
@@ -3436,7 +3437,7 @@ This work consists of this file fontspec.dtx
     \group_begin:
       \prop_get:cnN {g_@@_ \f@family _prop} {options} \l_@@_options_tl
       \prop_get:cnN {g_@@_ \f@family _prop} {fontname} \l_@@_fontname_tl
-      \tl_clear:N \g_@@_default_fontopts_tl
+      \bool_set_true:N \l_@@_disable_defaults_bool
       \use:x
        {
         \exp_not:N \fontspec_select:nn
@@ -4094,21 +4095,32 @@ This work consists of this file fontspec.dtx
 \cs_new:Nn \@@_extract_all_features:n
  {
   \@@_sanitise_fontname:Nn \l_@@_tmp_tl {\l_fontspec_fontname_tl}
-  \prop_get:NVNF \g_@@_fontopts_prop \l_@@_tmp_tl \l_@@_fontopts_clist
-   { \clist_clear:N \l_@@_fontopts_clist }
-
-  \prop_get:NVNF \g_@@_fontopts_prop \l_@@_family_label_tl \l_@@_family_fontopts_clist
-   { \clist_clear:N \l_@@_family_fontopts_clist }
-  \tl_clear:N \l_@@_family_label_tl
-
-  \tl_set:Nx \l_@@_all_features_clist
+  
+  \bool_if:NTF \l_@@_disable_defaults_bool
    {
-    \g_@@_default_fontopts_tl,
-    \l_@@_family_fontopts_clist,
-    \l_@@_fontopts_clist,
-    #1   
+    \clist_set:Nx \l_@@_all_features_clist
+     {#1}
    }
-  \tl_set:Nx \l_@@_fontid_tl { \l_fontspec_fontname_tl-:-\l_@@_all_features_clist }  
+   {
+    \prop_get:NVNF \g_@@_fontopts_prop \l_@@_tmp_tl \l_@@_fontopts_clist
+     { \clist_clear:N \l_@@_fontopts_clist }
+
+    \prop_get:NVNF \g_@@_fontopts_prop \l_@@_family_label_tl \l_@@_family_fontopts_clist
+     { \clist_clear:N \l_@@_family_fontopts_clist }
+    \tl_clear:N \l_@@_family_label_tl
+
+    \clist_set:Nx \l_@@_all_features_clist
+     {
+      \g_@@_default_fontopts_clist,
+      \l_@@_family_fontopts_clist,
+      \l_@@_fontopts_clist,
+      #1   
+     }
+   }
+  \tl_set:Nx \l_@@_fontid_tl { \l_fontspec_fontname_tl-:-\l_@@_all_features_clist }
+%<*debug>
+  \typeout{fontid: \l_@@_fontid_tl}
+%</debug>
  }
 %    \end{macrocode}
 % \end{macro}
@@ -5479,6 +5491,7 @@ This work consists of this file fontspec.dtx
 \@@_keys_define_code:nnn {fontspec-preparse} {NFSSFamily}
  {
   \tl_set:Nx \l_@@_nfss_fam_tl { #1 }
+  \cs_undefine:c {g_@@_UID_\l_@@_fontid_tl}
   \tl_if_exist:NT \l_fontspec_family_tl
    { \cs_undefine:c {g_@@_ \l_fontspec_family_tl _prop} }
  }

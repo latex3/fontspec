@@ -578,6 +578,78 @@ This work consists of this file fontspec.dtx
 %   ]
 % \end{Verbatim}
 %
+% \subsection{Specifically choosing the NFSS family}
+%
+% In \LaTeX's NFSS, font families are defined with names such as `\texttt{ppl}' (Palatino), `\texttt{cmr}' (Computer Modern Roman), and so on, which are selected with the \cs{fontfamily} command:
+% \begin{Verbatim}
+%   \fontfamily{ppl}\selectfont
+% \end{Verbatim}
+% In \pkg{fontspec}, the family names are auto-generated based on the fontname of the font; for example, writing |\fontspec{Times New Roman}| for the first time would generate an internal font family name of `\texttt{TimesNewRoman(1)}'.
+%
+% In certain cases it is desirable to be able to choose this internal font family name so it can be re-used elsewhere for interacting with other packages that use the \LaTeX's font selection interface; an example might be
+% \begin{Verbatim}
+%   \usepackage{fancyvrb}
+%   \fvset{fontfamily=myverbatimfont}
+% \end{Verbatim}
+% To select a font for use in this way in \pkg{fontspec} use the \feat{NFSSFamily} feature:\footnote{Thanks to Luca Fascione for the example and motivation for finally implementing this feature.}
+% \begin{Verbatim}
+%   \newfontfamily\verbatimfont[NFSSFamily=myverbatimfont]{Inconsolata}
+% \end{Verbatim}
+% It is then possible to write commands such as:
+% \begin{Verbatim}
+%   \fontfamily{myverbatimfont}\selectfont
+% \end{Verbatim}
+% which is essentially the same as writing |\verbatimfont|, or to go back to the orginal example:
+% \begin{Verbatim}
+%   \fvset{fontfamily=myverbatimfont}
+% \end{Verbatim}
+% Only use this feature when necessary; the in-built font switching commands that \pkg{fontspec} generates (such as |\verbatimfont| in the example above) are recommended in all other cases.
+%
+% If you don't wish to explicitly set the NFSS family but you would like to know what it is, an alternative mechanism for package writers is introduced as part of the \pkg{fontspec} programming interface; see the function \cs{fontspec_set_family:Nnn} for details (\vref*{sec:api}).
+%
+% \subsection{Choosing additional NFSS font faces}
+%
+% \LaTeX's font selection scheme is more flexible than the \pkg{fontspec} interface discussed up until this point.
+% It assigns to each font face a \emph{family} (discussed above), a \emph{series} such as bold or light or condensed, and a \emph{shape} such as italic or slanted or small caps.
+% The \pkg{fontspec} features such as \feat{BoldFont} and so on all assign faces for the default series and shapes of the NFSS, but it's not uncommon to have font families that have multiple weights and shapes and so on.
+%
+% If you set up a regular font family with the `standard four' (upright, bold, italic, and bold italic) shapes and then want to use, say, a light font for a certain document element, many users will be perfectly happy to use \cs{newfontface}\cs{\meta{switch}} and use the resulting font \cs{\meta{switch}}.
+% In other cases, however, it is more convenient or even necessary to load additional fonts using additional NFSS specifiers.
+%
+% \cmdbox{
+%   \texttt{FontFace = }\marg{series}\marg{shape}
+%      \texttt{\char`\{} \texttt{Font = }\meta{font name} \texttt, \meta{features} \texttt{\char`\}} \\
+%   \texttt{FontFace = }\marg{series}\marg{shape}\marg{font name}
+% }
+%
+% The font thus specified will inherit the font features of the main font, with optional addition \meta{features} as requested.
+% (Note that the optional \marg{features} argument is still surrounded with curly braces.)
+% Multiple \feat{FontFace} commands may be used in a single declaration to specify multiple fonts.
+% As an example:
+% \begin{Verbatim}
+%   \setmainfont{font1.otf}[
+%      FontFace = {c}{n}{ font2.otf } ,
+%      FontFace = {c}{m}{ Font = font3.otf , Color = red }
+%     ]
+% \end{Verbatim}
+% Writing |\fontseries{c}\selectfont| will result in |font2| being selected, which then followed by |\fontshape{m}\selectfont| will result in |font3| being selected (in red).
+%
+% There are some standards for choosing shape and series codes; the \LaTeXe\ font selection guide\footnote{\texttt{texdoc fntguide}} lists series |m| for medium, |b| for bold, |bx| for bold extended, |sb| for semi-bold, and |c| for condensed.
+% A far more comprehensive listing is included in Appendix~A of Philipp Lehman's `The Font Installation Guide'\footnote{\texttt{texdoc fontinstallationguide}} covering 14 separate weights and 12 separate widths.
+%
+% The \feat{FontFace} command also interacts properly with the \feat{SizeFeatures} command as follows: (nonsense set of font selection choices)
+% \begin{Verbatim}
+%   FontFace = {c}{n}{
+%     Font = Times ,
+%     SizeFeatures = {
+%       { Size =   -10 , Font=Georgia } ,
+%       { Size = 10-15}                 , % default "Font = Times"
+%       { Size = 15-   , Font=Cochin  } ,
+%     },
+%   },
+% \end{Verbatim}
+% Note that if the first \feat{Font} feature is omitted then each size needs its own inner \feat{Font} declaration. 
+%
 % \subsection{Math(s) fonts}
 %
 % When \cmd\setmainfont, \cmd\setsansfont\ and \cmd\setmonofont\ are used in the
@@ -2986,14 +3058,6 @@ This work consists of this file fontspec.dtx
   The~ "FakeBold"~ and~ "AutoFakeBold"~ options~ are~ only~ available~ with~ XeLaTeX.\\
   Option~ ignored.
  }
-\msg_new:nnn {fontspec} {nfssfont-args}
- {
-  The~ NFSSFont~ features~ supports~ only~ 3~ or~ 4~ arguments:\\
-  1:~ series,\\
-  2:~ shape,\\
-  3:~ font~ name,~and\\
-  4:~ font~ features~ (optional).
- }
 %    \end{macrocode}
 % Info messages:
 %    \begin{macrocode}
@@ -4690,6 +4754,7 @@ This work consists of this file fontspec.dtx
   \tl_clear:N \l_@@_optical_size_tl
   \tl_clear:N \l_fontspec_renderer_tl
   \tl_clear:N \l_fontspec_defined_shapes_tl
+  \tl_clear:N \g_@@_curr_series_tl
 
   % This is for detecting font families when assigning default features.
   % Replace defaults for the standard families because they're not set in the usual way:
@@ -5320,7 +5385,11 @@ This work consists of this file fontspec.dtx
  }
 \@@_keys_define_code:nnn {fontspec-preparse} {BoldFeatures}
  {
+  \
   \clist_set:Nn \l_@@_fontfeat_bf_clist {#1}
+  
+  \prop_put:NxV \l_@@_nfss_prop
+     {BoldFont-\g_@@_curr_series_tl} \l_@@_curr_bfname_tl
  }
 \@@_keys_define_code:nnn {fontspec-preparse} {ItalicFeatures}
  {
@@ -5360,8 +5429,18 @@ This work consists of this file fontspec.dtx
 \@@_keys_define_code:nnn {fontspec-preparse-nested} {SizeFeatures}
  {
   \clist_set:Nn \l_@@_sizefeat_clist {#1}
+  \tl_if_empty:NT \l_@@_this_font_tl
+   { \tl_set:Nn \l_@@_this_font_tl { -- } } % needs to be non-empty as a flag
+ }
+\@@_keys_define_code:nnn {fontspec-preparse-nested} {Font}
+ {
+  \tl_set:Nn \l_@@_this_font_tl {#1}
  }
 \@@_keys_define_code:nnn {fontspec} {SizeFeatures}
+ {
+  % dummy
+ }
+\@@_keys_define_code:nnn {fontspec} {Font}
  {
   % dummy
  }
@@ -5397,24 +5476,28 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \cs_generate_variant:Nn \prop_put:Nnn {Nxx}
 \prop_new:N \l_@@_nfssfont_prop
-\@@_keys_define_code:nnn {fontspec} {NFSSFont}
+\@@_keys_define_code:nnn {fontspec} {FontFace}
  {
-  \int_case:nnn { \tl_count:n {#1} }
+  \tl_set:No \l_@@_arg_tl { \use_iii:nnn #1 }
+  \tl_set_eq:NN \l_@@_this_feat_tl \l_@@_arg_tl
+  \tl_clear:N \l_@@_this_font_tl
+  \int_compare:nT { \clist_count:N \l_@@_arg_tl = 1 }
    {
-     {3}
+%<*debug>
+    \typeout{FontFace~ parsing:~ one~ clist~ item}
+%</debug>
+    \tl_if_in:NnF \l_@@_arg_tl {=}
      {
-      \@@_add_nfssfont:ooon
-       {\use_i:nnn #1}{\use_ii:nnn #1}{\use_iii:nnn #1}{}
-     }
-     {4}
-     {
-      \@@_add_nfssfont:oooo
-       {\use_i:nnnn #1}{\use_ii:nnnn #1}{\use_iii:nnnn #1}{\use_iv:nnnn #1}
+%<*debug>
+      \typeout{FontFace~ parsing:~ no~ equals~ =>~ font~ name~ only}
+%</debug>
+      \tl_set_eq:NN \l_@@_this_font_tl \l_@@_arg_tl
+      \tl_clear:N \l_@@_this_feat_tl
      }
    }
-   {
-    \@@_error:n {nfssfont-args}
-   }
+   
+  \@@_add_nfssfont:oooo
+   {\use_i:nnn #1}{\use_ii:nnn #1}{\l_@@_this_font_tl}{\l_@@_this_feat_tl}
  }
 %    \end{macrocode}
 %
@@ -5427,15 +5510,17 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \cs_new:Nn \@@_add_nfssfont:nnnn
  {
-   \tl_if_empty:xF {#3}
-    {
-     \tl_if_empty:xTF {#4}
-      { \clist_set:Nn \l_@@_sizefeat_clist {Size={-}} }
-      { \keys_set_known:noN {fontspec-preparse-nested} {#4} \l_@@_tmp_tl }
-    
-     \prop_put:Nxx \l_@@_nfssfont_prop {#1/#2}
-      { {#1}{#2}{#3}{#4}{\l_@@_sizefeat_clist} }
-    }
+  \tl_set:Nx \l_@@_this_font_tl {#3}
+
+  \tl_if_empty:xTF {#4}
+   { \clist_set:Nn \l_@@_sizefeat_clist {Size={-}} }
+   { \keys_set_known:noN {fontspec-preparse-nested} {#4} \l_@@_tmp_tl }
+   
+  \tl_if_empty:NF \l_@@_this_font_tl
+   {
+    \prop_put:Nxx \l_@@_nfssfont_prop {#1/#2}
+     { {#1}{#2}{\l_@@_this_font_tl}{#4}{\l_@@_sizefeat_clist} }
+   }
  }
 \cs_generate_variant:Nn \@@_add_nfssfont:nnnn {ooo}
 \cs_generate_variant:Nn \@@_add_nfssfont:nnnn {oooo}

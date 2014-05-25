@@ -20,6 +20,8 @@ done
 
 ls *.ltx | sed -e 's/\(.*\).ltx/\\TEST{\1}/g' > testsuite-listing.tex
 
+rm *.ltx *.aux *.log
+
 cd ..
 xelatex fontspec-testsuite.tex
 

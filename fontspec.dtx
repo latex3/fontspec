@@ -91,7 +91,7 @@ This work consists of this file fontspec.dtx
 %<fontspec&luatex>\ProvidesPackage{fontspec-luatex}
 %<patches>\ProvidesPackage{fontspec-patches}
 %<*fontspec|patches>
-  [2014/04/21 v2.4 Font selection for XeLaTeX and LuaLaTeX]
+  [2014/05/25 v2.4 Font selection for XeLaTeX and LuaLaTeX]
 %</fontspec|patches>
 %
 %<*driver>
@@ -356,12 +356,7 @@ This work consists of this file fontspec.dtx
 % When selecting fonts by file name, any font that can be found in the default
 % search paths may be used directly (including in the current directory)
 % without having to explicitly define the location of the font file on disk.
-% \begin{quote}\itshape
-% \textbf{\XeTeX\ \& Mac users only:}
-% Note that \XeTeX\ can only select fonts in this way with the |xdvipdfmx| driver, but \XeTeX\ with the |xdv2pdf| driver can only select system-installed fonts
-% by font name and not file name. The |xdvipdfmx| driver is default for \XeTeX, so this is only a problem if you wish to explicitly use
-% the |xdv2pdf| driver.
-% \end{quote}
+%
 % Fonts selected by filename must include bold and italic variants explicitly.
 % \begin{Verbatim}
 %   \setmainfont{texgyrepagella-regular.otf}[
@@ -1095,8 +1090,7 @@ This work consists of this file fontspec.dtx
 %   {\addfontfeature{Color=DDBB2299}P}\kern-0.8ex
 %   {\addfontfeature{Color=00BB3399}R}
 % \end{Xexample}
-% Transparency is supported by \LuaLaTeX\ and by \XeLaTeX\ with the \texttt{xdv2pdf}
-% driver (\MacOSX\ only); \XeLaTeX\ with the \texttt{xdvipdfmx} driver
+% Transparency is supported by \LuaLaTeX; \XeLaTeX\ with the \texttt{xdvipdfmx} driver
 % does not support this feature.
 %
 % If you load the \pkg{xcolor} package, you may use any named colour instead
@@ -2216,15 +2210,7 @@ This work consists of this file fontspec.dtx
 % Nonetheless, this is the font format that was first supported by \XeTeX\
 % (due to its pedigree on \MacOSX\ in the first place) and was the first
 % font format supported by \pkg{fontspec}. A number of fonts distributed with
-% \MacOSX\ are still in the \AAT\ format, such as `Skia'. Documents
-% that use these fonts should be compiled with \XeLaTeX\ using the
-% \texttt{xdv2pdf} driver, as opposed to the default \texttt{xdvipdfmx}. E.g.,
-% \begin{Verbatim}
-%   xelatex -output-driver="xdv2pdf" filename.tex
-% \end{Verbatim}
-%
-% \MacOSX\ also supports Multiple Master fonts, which are discussed
-% in \ref{sec:mm}.
+% \MacOSX\ are still in the \AAT\ format, such as `Skia'.
 %
 % \subsection{Ligatures}
 %
@@ -2481,29 +2467,6 @@ This work consists of this file fontspec.dtx
 %    1 2 3 4 5 6 7 8 9
 % \end{Xexample}
 %
-% \section{\AAT\ \& Multiple Master font axes} \label{sec:mm}
-%
-% Multiple Master and \AAT\ font specifications both provide continuous
-% variation along font parameters. For example, they don't have just
-% regular and bold weights, they can have any bold weight you like between
-% the two extremes.
-% Note these features can only be used when your document is compiled using
-% the \verb|xdv2pdf| driver for Mac~OS~X.
-%
-% \opt{Weight}, \opt{Width}, and \opt{OpticalSize} are supported by this
-% package. Skia, which is distributed with
-% Mac~OS~X, has two of these variable parameters, allowing for the
-% demonstration in \exref{aatmm}.
-% Variations along a multiple master font's optical size axis has been
-% shown previously in \vref{sec:opticalsize}.
-%
-% \begin{Xexample}{aatmm}{Continuously variable font parameters. These fonts
-%  are unfortunately quite rare.}
-%   \fontspec{Skia}[Weight=0.5,Width=3]
-%    Really light and extended Skia         \\
-%   \fontspec{Skia}[Weight=2,Width=0.5]
-%    Really fat and condensed Skia
-% \end{Xexample}
 %
 %
 % \part{Programming interface}
@@ -7477,7 +7440,6 @@ information.
 }
 
 \def\prog@X{xelatex
-               -output-driver=xdv2pdf\space
                -jobname=\theexample-X-\filename\space}
 
 \def\prog@L{lualatex

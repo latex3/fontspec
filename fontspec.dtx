@@ -4480,7 +4480,7 @@ This work consists of this file fontspec.dtx
 % \darg{Size features}
 % Wrapper for \cmd\DeclareFontShape.
 % And finally the actual font shape declaration using \cmd\l_@@_nfss_tl\ defined above.
-% \cmd\l_fontspec_postadjust_tl\ is defined in various places to deal with things like the hyphenation
+% \cmd\l_@@_postadjust_tl\ is defined in various places to deal with things like the hyphenation
 % character and interword spacing.
 %
 % The main part is to loop through \feat{SizeFeatures} arguments, which are of the form
@@ -4552,14 +4552,14 @@ This work consists of this file fontspec.dtx
 \cs_new:Nn \@@_declare_shapes_normal:nn
  {
     \@@_DeclareFontShape:xxxxxx {\g_fontspec_encoding_tl} {\l_fontspec_family_tl}
-      {#1} {#2} {\l_@@_nfss_tl}{\l_fontspec_postadjust_tl}
+      {#1} {#2} {\l_@@_nfss_tl}{\l_@@_postadjust_tl}
       
     \bool_if:NF \l_@@_nosc_bool
      {
       \@@_DeclareFontShape:xxxxxx {\g_fontspec_encoding_tl} {\l_fontspec_family_tl}
         {#1}
         {\str_if_eq_x:nnTF {#2} {\itdefault} \sidefault \scdefault}
-        {\l_@@_nfss_sc_tl}{\l_fontspec_postadjust_tl}
+        {\l_@@_nfss_sc_tl}{\l_@@_postadjust_tl}
      }
  }
 
@@ -4588,7 +4588,7 @@ This work consists of this file fontspec.dtx
    }
    {
     \@@_DeclareFontShape:xxxxxx {\g_fontspec_encoding_tl}{\l_fontspec_family_tl}{#1}{\sldefault}
-      {<->ssub*\l_fontspec_family_tl/#1/\itdefault}{\l_fontspec_postadjust_tl}
+      {<->ssub*\l_fontspec_family_tl/#1/\itdefault}{\l_@@_postadjust_tl}
    }
  }
 %    \end{macrocode}
@@ -4618,9 +4618,9 @@ This work consists of this file fontspec.dtx
      } {#2/#3}'~
     with~ NFSS~ spec.: \exp_not:N \\
     \l_@@_nfss_sc_tl
-    \tl_if_empty:NF \l_fontspec_postadjust_tl
+    \tl_if_empty:NF \l_@@_postadjust_tl
      {
-      \exp_not:N \\ and~ font~ adjustment~ code: \exp_not:N \\ \l_fontspec_postadjust_tl
+      \exp_not:N \\ and~ font~ adjustment~ code: \exp_not:N \\ \l_@@_postadjust_tl
      }
    }
  }
@@ -4689,10 +4689,10 @@ This work consists of this file fontspec.dtx
 % Do not set the colour if not explicitly spec'd else \verb|\color| (using
 % specials) will not work.
 %    \begin{macrocode}
-  \str_if_eq_x:nnF { \l_fontspec_hexcol_tl \l_@@_opacity_tl }
-                   { \g_fontspec_hexcol_tl \g_@@_opacity_tl }
+  \str_if_eq_x:nnF { \l_@@_hexcol_tl \l_@@_opacity_tl }
+                   { \g_@@_hexcol_tl \g_@@_opacity_tl }
    {
-    \@@_update_featstr:n { color = \l_fontspec_hexcol_tl\l_@@_opacity_tl }
+    \@@_update_featstr:n { color = \l_@@_hexcol_tl\l_@@_opacity_tl }
    }
   
   \tl_set_eq:NN #1 \l_@@_rawfeatures_sclist
@@ -4724,12 +4724,12 @@ This work consists of this file fontspec.dtx
 \tl_clear:N \l_fontspec_script_tl
 \tl_clear:N \l_@@_lang_name_tl
 \tl_clear:N \l_fontspec_lang_tl
-\tl_set:Nn  \g_fontspec_postadjust_tl { \l_@@_wordspace_adjust_tl \l_@@_punctspace_adjust_tl }
+\tl_set:Nn  \g_@@_postadjust_tl { \l_@@_wordspace_adjust_tl \l_@@_punctspace_adjust_tl }
 
 \clist_set:Nn \l_@@_sizefeat_clist {Size={-}}
-\tl_new:N  \g_fontspec_hexcol_tl
+\tl_new:N  \g_@@_hexcol_tl
 \tl_new:N  \g_@@_opacity_tl
-\tl_set:Nn \g_fontspec_hexcol_tl {000000}
+\tl_set:Nn \g_@@_hexcol_tl {000000}
 \tl_set:Nn \g_@@_opacity_tl {FF~}
 %    \end{macrocode}
 % Or once per fontspec font invocation:
@@ -5662,7 +5662,7 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \@@_keys_define_code:nnn {fontspec} {FontAdjustment}
  {
-  \tl_put_right:Nx \l_fontspec_postadjust_tl {#1}
+  \tl_put_right:Nx \l_@@_postadjust_tl {#1}
  }
 %    \end{macrocode}
 %
@@ -5684,7 +5684,7 @@ This work consists of this file fontspec.dtx
  {
   \str_if_eq:nnTF {#1} {None}
    {
-    \tl_put_right:Nn \l_fontspec_postadjust_tl
+    \tl_put_right:Nn \l_@@_postadjust_tl
       { \hyphenchar \font = \c_minus_one }
    }
    {
@@ -5693,7 +5693,7 @@ This work consists of this file fontspec.dtx
      { \tl_set:Nn \l_fontspec_hyphenchar_tl { #1} }
     \font_glyph_if_exist:NnTF \l_fontspec_font {\l_fontspec_hyphenchar_tl}
      {
-      \tl_put_right:Nn \l_fontspec_postadjust_tl
+      \tl_put_right:Nn \l_@@_postadjust_tl
 %<*xetexx>
         { \hyphenchar \font = \l_fontspec_hyphenchar_tl \scan_stop: }
 %</xetexx>
@@ -5716,11 +5716,11 @@ This work consists of this file fontspec.dtx
  {
   \cs_if_exist:cTF { \token_to_str:N \color@ #1 }
    {
-    \convertcolorspec{named}{#1}{HTML}\l_fontspec_hexcol_tl
+    \convertcolorspec{named}{#1}{HTML}\l_@@_hexcol_tl
    }
    {
     \int_compare:nTF { \tl_count:n {#1} == 6 }
-     { \tl_set:Nn \l_fontspec_hexcol_tl {#1} }
+     { \tl_set:Nn \l_@@_hexcol_tl {#1} }
      {
       \int_compare:nTF { \tl_count:n {#1} == 8 }
        { \fontspec_parse_colour:viii #1 }
@@ -5733,7 +5733,7 @@ This work consists of this file fontspec.dtx
  }
 \cs_set:Npn \fontspec_parse_colour:viii #1#2#3#4#5#6#7#8
  {
-  \tl_set:Nn \l_fontspec_hexcol_tl {#1#2#3#4#5#6}
+  \tl_set:Nn \l_@@_hexcol_tl {#1#2#3#4#5#6}
   \tl_if_eq:NNF \l_@@_opacity_tl \g_@@_opacity_tl
    {
     \bool_if:NF \l_@@_firsttime_bool

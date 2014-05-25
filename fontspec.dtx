@@ -4050,7 +4050,7 @@ This work consists of this file fontspec.dtx
   \@@_get_features:Nn \l_@@_rawfeatures_sclist {}
   \bool_set_false:N \l_@@_firsttime_bool
 
-  \@@_save_family:nT {#2}
+  \@@_save_family:nTF {#2}
    {
     \@@_save_fontinfo:
     \@@_find_autofonts:
@@ -4059,6 +4059,11 @@ This work consists of this file fontspec.dtx
     \@@_info:nxx {defining-font} {#1} {#2}
 %<*debug>
     \@@_warning:nxx {defining-font} {#1} {#2}
+%</debug>
+   }
+   {
+%<*debug>
+    \typeout{"#2"~ already~ defined~ apparently.}
 %</debug>
    }
   \group_end:
@@ -4224,7 +4229,7 @@ This work consists of this file fontspec.dtx
 % \end{macro}
 %
 %
-% \begin{macro}{\@@_save_family:nT}
+% \begin{macro}{\@@_save_family:nTF}
 % Check if the family is unique and, if so, save its information.
 % (\cs{addfontfeature} and other macros use this data.)
 % Then the font family and its shapes are defined in the NFSS.
@@ -4236,11 +4241,11 @@ This work consists of this file fontspec.dtx
 %
 % The font name is fully expanded, in case it's defined in terms of macros, before having its spaces zapped.
 %    \begin{macrocode}
-\prg_new_conditional:Nnn \@@_save_family:n {T}
+\prg_new_conditional:Nnn \@@_save_family:n {TF}
  {
   \cs_if_exist:NT \l_@@_nfss_fam_tl
    {
-    \cs_set_eq:cN {g_@@_UID_\l_@@_fontid_tl} \l_@@_nfss_fam_tl   
+    \cs_set_eq:cN {g_@@_UID_\l_@@_fontid_tl} \l_@@_nfss_fam_tl
    }
   \cs_if_exist:cF {g_@@_UID_\l_@@_fontid_tl}
    {
@@ -4581,7 +4586,14 @@ This work consists of this file fontspec.dtx
      }
  }
 
-\cs_new:Nn \@@_DeclareFontShape:nnnnnn { \DeclareFontShape{#1}{#2}{#3}{#4}{#5}{#6} }
+\cs_new:Nn \@@_DeclareFontShape:nnnnnn
+ {
+  \group_begin:
+    \normalsize
+    \cs_undefine:c {#1/#2/#3/#4/\f@size}
+  \group_end:
+  \DeclareFontShape{#1}{#2}{#3}{#4}{#5}{#6}
+ }
 \cs_generate_variant:Nn \@@_DeclareFontShape:nnnnnn {xxxxxx}
 %    \end{macrocode}
 % This extra stuff for the slanted shape substitution is a little bit awkward.
@@ -4598,11 +4610,8 @@ This work consists of this file fontspec.dtx
     !(\str_if_eq_x_p:nn {\itdefault} {\sldefault})
    }
    {
-    \use:x
-     {
-      \exp_not:N \DeclareFontShape {\g_fontspec_encoding_tl}{\l_fontspec_family_tl}{#1}{\sldefault}
-        {<->ssub*\l_fontspec_family_tl/#1/\itdefault}{\l_fontspec_postadjust_tl}
-     }
+    \@@_DeclareFontShape:xxxxxx {\g_fontspec_encoding_tl}{\l_fontspec_family_tl}{#1}{\sldefault}
+      {<->ssub*\l_fontspec_family_tl/#1/\itdefault}{\l_fontspec_postadjust_tl}
    }
  }
 %    \end{macrocode}
@@ -5465,9 +5474,11 @@ This work consists of this file fontspec.dtx
 % Interactions with other packages will sometimes require setting the NFSS family explicitly.
 % (By default \pkg{fontspec} auto-generates one based on the font name.)
 %    \begin{macrocode}
-\@@_keys_define_code:nnn {fontspec} {NFSSFamily}
+\@@_keys_define_code:nnn {fontspec-preparse} {NFSSFamily}
  {
   \tl_set:Nx \l_@@_nfss_fam_tl { #1 }
+  \tl_if_exist:NT \l_fontspec_family_tl
+   { \cs_undefine:c {g_@@_ \l_fontspec_family_tl _prop} }
  }
 %    \end{macrocode}
 %

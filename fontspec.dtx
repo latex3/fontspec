@@ -4546,13 +4546,12 @@ This work consists of this file fontspec.dtx
     \tl_set_eq:NN \l_@@_sizedfont_tl \l_@@_saved_fontname_tl % in case not spec'ed
     
     \keys_set_known:nxN {fontspec-sizing} { \exp_after:wN \use:n ##1 }
-      \l_@@_keys_leftover_clist
+      \l_@@_sizing_leftover_clist
     \tl_if_empty:NT \l_@@_size_tl { \@@_error:n {no-size-info} }
 
     % "normal"
     \@@_load_fontname:n {\l_@@_sizedfont_tl}
     \@@_setup_nfss:Nnn \l_@@_nfss_tl {#3} {} 
-    
     
     % small caps    
     \clist_set_eq:NN \l_@@_fontfeat_curr_clist \l_@@_fontfeat_sc_clist
@@ -4562,14 +4561,21 @@ This work consists of this file fontspec.dtx
       \tl_if_empty:NTF \l_fontspec_fontname_sc_tl
        {
 %<debug>      \typeout{Attempting~ small~ caps?}
-        \@@_make_smallcaps:T
+        \@@_make_smallcaps:TF
          {
 %<debug>      \typeout{Small~ caps~ found.}
           \clist_put_left:Nn \l_@@_fontfeat_curr_clist {Letters=SmallCaps}
          }
+         {
+%<debug>      \typeout{Small~ caps~ not~ found.}
+          \bool_set_true:N \l_@@_nosc_bool
+         }
        }
        { \@@_load_fontname:n {\l_fontspec_fontname_sc_tl} }% local for each size
+     }
 
+    \bool_if:NF \l_@@_nosc_bool
+     {
       \@@_setup_nfss:Nnn \l_@@_nfss_sc_tl {#3} {\l_@@_fontfeat_curr_clist} 
      }
 
@@ -4584,7 +4590,7 @@ This work consists of this file fontspec.dtx
 \cs_new:Nn \@@_setup_nfss:Nnn
  {
   \@@_get_features:Nn \l_@@_rawfeatures_sclist
-   { #2 , \l_@@_keys_leftover_clist , #3 }
+   { #2 , \l_@@_sizing_leftover_clist , #3 }
 
   \tl_put_right:Nx #1
    {
@@ -4814,27 +4820,27 @@ This work consists of this file fontspec.dtx
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\@@_make_smallcaps:T}
+% \begin{macro}{\@@_make_smallcaps:TF}
 % \label{mac:makesmallcaps}
 % This macro checks if the font contains small caps.
 %    \begin{macrocode}
-\cs_set:Nn \fontspec_make_ot_smallcaps:T
+\cs_set:Nn \fontspec_make_ot_smallcaps:TF
  {
-  \fontspec_check_ot_feat:nT {+smcp} { #1 }
+  \fontspec_check_ot_feat:nTF {+smcp} {#1} {#2}
  }
 %<*xetexx>
-\cs_set:Nn \@@_make_smallcaps:T
+\cs_set:Nn \@@_make_smallcaps:TF
  {
   \bool_if:NTF \l_@@_ot_bool
-   { \fontspec_make_ot_smallcaps:T {#1} }
+   { \fontspec_make_ot_smallcaps:TF {#1} {#2} }
    {
      \bool_if:NT \l_@@_atsui_bool
-      { \fontspec_make_AAT_feature_string:nnT {3}{3} { #1 } }
+      { \fontspec_make_AAT_feature_string:nnTF {3}{3} {#1} {#2} }
    }
  }
 %</xetexx>
 %<*luatex>
-\cs_set_eq:NN \@@_make_smallcaps:T \fontspec_make_ot_smallcaps:T
+\cs_set_eq:NN \@@_make_smallcaps:TF \fontspec_make_ot_smallcaps:TF
 %</luatex>
 %    \end{macrocode}
 % \end{macro}

@@ -1368,7 +1368,7 @@ This work consists of this file fontspec.dtx
 %    \Huge\centering
 %    \def\test#1#2{%
 %      #2 $\to$ {\addfontfeature{#1} #2}\\}
-%    \fontspec{Linux Libertine}
+%    \fontspec{Linux Libertine O}
 %    \test{Ligatures=Historic}{strict}
 %    \test{Ligatures=Rare}{wurtzite}
 %    \test{Ligatures=NoCommon}{firefly}
@@ -2514,7 +2514,8 @@ This work consists of this file fontspec.dtx
 %
 % For example, Zapfino
 % contains the feature `Avoid d-collisions'. To access it
-% with this package, you could do some like that shown in \exref{avoidd}
+% with this package, you could do some like that shown in \exref{avoidd}.
+% (For some reason this feature doesn't appear to be working although \pkg{fontspec} is doing the right thing. To be investigated.)
 %
 % \begin{Xexample}{avoidd}{Assigning new arbitary features.}
 %   \newfontfeature{AvoidD}{Special=Avoid d-collisions}
@@ -2537,7 +2538,7 @@ This work consists of this file fontspec.dtx
 % when you happen to have the OpenType feature tag memorised.
 %
 % \begin{Xexample}{raw}{Using raw font features directly.}
-%   \fontspec{TeX Gyre Pagella}[RawFeature=+smcp]
+%   \fontspec{texgyrepagella-regular.otf}[RawFeature=+smcp]
 %   Pagella small caps
 % \end{Xexample}
 %
@@ -2572,7 +2573,7 @@ This work consists of this file fontspec.dtx
 % \begin{Lexample}{aliasopt}{Renaming font feature options.}
 %   \aliasfontfeature{VerticalPosition}{Vert Pos}
 %   \aliasfontfeatureoption{VerticalPosition}{ScientificInferior}{Sci Inf}
-%   \fontspec{Linux Libertine}[Vert Pos=Sci Inf]
+%   \fontspec{LinLibertine_R.otf}[Vert Pos=Sci Inf]
 %    Scientific Inferior: 12345
 % \end{Lexample}
 %

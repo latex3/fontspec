@@ -284,11 +284,11 @@ This work consists of this file fontspec.dtx
 % fonts.
 %
 % \cmdbox{%
-%   \CMD{\string\fontspec} \marg{font name} \oarg{font features}\\
-%   \CMD{\string\setmainfont} \marg{font name} \oarg{font features}\\
-%   \CMD{\string\setsansfont} \marg{font name} \oarg{font features}\\
-%   \CMD{\string\setmonofont} \marg{font name} \oarg{font features}\\
-%   \CMD{\string\newfontfamily} \meta{cmd} \marg{font name} \oarg{font features}
+%   \CMD{\string\fontspec}\marg{font name}\oarg{font features}\\
+%   \CMD{\string\setmainfont}\marg{font name}\oarg{font features}\\
+%   \CMD{\string\setsansfont}\marg{font name}\oarg{font features}\\
+%   \CMD{\string\setmonofont}\marg{font name}\oarg{font features}\\
+%   \CMD{\string\newfontfamily}\meta{cmd}\marg{font name}\oarg{font features}
 % }
 %
 % These are the main font-selecting commands of this package.
@@ -418,8 +418,8 @@ This work consists of this file fontspec.dtx
 % \section{New commands to select font families}
 %
 % \cmdbox{
-%   \CMD{\string\newfontfamily} \cs{\meta{font-switch}} \marg{font name} \oarg{font features} \\
-%   \CMD{\string\newfontface}   \cs{\meta{font-switch}} \marg{font name} \oarg{font features}
+%   \CMD{\string\newfontfamily}\cs{\meta{font-switch}}\marg{font name}\oarg{font features} \\
+%   \CMD{\string\newfontface}\cs{\meta{font-switch}}\marg{font name}\oarg{font features}
 % }
 %
 % \noindent For cases when a specific font with a specific
@@ -673,10 +673,10 @@ This work consists of this file fontspec.dtx
 % others keep an eye out for problems.
 %
 % \cmdbox{
-%   \cmd{\setmathrm} \marg{font name} \oarg{font features} \\
-%   \cmd{\setmathsf} \marg{font name} \oarg{font features} \\
-%   \cmd{\setmathtt} \marg{font name} \oarg{font features} \\
-%   \cmd{\setboldmathrm} \marg{font name} \oarg{font features}
+%   \cmd{\setmathrm}\marg{font name}\oarg{font features} \\
+%   \cmd{\setmathsf}\marg{font name}\oarg{font features} \\
+%   \cmd{\setmathtt}\marg{font name}\oarg{font features} \\
+%   \cmd{\setboldmathrm}\marg{font name}\oarg{font features}
 % }
 %
 % However, the default text fonts may not necessarily be the ones you
@@ -776,7 +776,7 @@ This work consists of this file fontspec.dtx
 %
 % \subsection{Default settings} \label{sec:defaults}
 %
-% \cmdbox{\cmd\defaultfontfeatures \marg{font features}}
+% \cmdbox{\cmd\defaultfontfeatures\marg{font features}}
 %
 % It is sometimes useful to define
 % font features that are applied to every subsequent font selection command.
@@ -795,7 +795,7 @@ This work consists of this file fontspec.dtx
 %   0123456789
 % \end{Xexample}
 %
-% \cmdbox{\cmd\defaultfontfeatures \oarg{font name} \marg{font features}}
+% \cmdbox{\cmd\defaultfontfeatures\oarg{font name}\marg{font features}}
 %
 % Default font features can be specified on a per-font and per-face basis
 % by using the optional argument to \cs{defaultfontfeatures} as shown.\footnote{Internally, \meta{font name} has all spaces removed and is converted to lowercase.}
@@ -805,7 +805,7 @@ This work consists of this file fontspec.dtx
 % \end{Verbatim}
 % Multiple fonts may be affected by using a comma separated list of font names.
 %
-% \cmdbox{\cmd\defaultfontfeatures \oarg{\cs{font-switch}} \marg{font features}}
+% \cmdbox{\cmd\defaultfontfeatures\oarg{\cs{font-switch}}\marg{font features}}
 %
 % \textbf{New in v2.4}.
 % Defaults can also be applied to symbolic families such as those created with the |\newfontfamily| command and for |\rmfamily|, |\sffamily|, and |\ttfamily|:
@@ -820,8 +820,8 @@ This work consists of this file fontspec.dtx
 %   \setmainfont{TeX Gyre Adventor}% will no longer use standard TeX ligatures
 % \end{Verbatim}
 %
-% \cmdbox{\cmd\defaultfontfeatures\ \texttt{+} \marg{font features}\\
-%         \cmd\defaultfontfeatures\ \texttt{+} \oarg{font name} \marg{font features}}
+% \cmdbox{\cmd\defaultfontfeatures\texttt{+}\marg{font features}\\
+%         \cmd\defaultfontfeatures\texttt{+}\oarg{font name}\marg{font features}}
 %
 % \textbf{New in v2.4}.
 % Using the |+| form of the command appends the \meta{font features} to any already-selected defaults.
@@ -868,7 +868,7 @@ This work consists of this file fontspec.dtx
 % \subsection{Changing the currently selected features}
 % \label{sec:addfontfeatures}
 %
-% \cmdbox{\cmd\addfontfeatures \marg{font features}}
+% \cmdbox{\cmd\addfontfeatures\marg{font features}}
 %
 % This command allows font features to
 % be changed without knowing what features are currently selected or even what
@@ -914,12 +914,12 @@ This work consists of this file fontspec.dtx
 % \label{sec:bfit-feat}
 %
 % \cmdbox{
-%  \feat{BoldFeatures}\marg{features} \\
-%  \feat{ItalicFeatures}\marg{features} \\
-%  \feat{BoldItalicFeatures}\marg{features} \\
-%  \feat{SlantedFeatures}\marg{features} \\
-%  \feat{BoldSlantedFeatures}\marg{features} \\
-%  \feat{SmallCapsFeatures}\marg{features}
+%  \feat{BoldFeatures}\texttt=\marg{features} \\
+%  \feat{ItalicFeatures}\texttt=\marg{features} \\
+%  \feat{BoldItalicFeatures}\texttt=\marg{features} \\
+%  \feat{SlantedFeatures}\texttt=\marg{features} \\
+%  \feat{BoldSlantedFeatures}\texttt=\marg{features} \\
+%  \feat{SmallCapsFeatures}\texttt=\marg{features}
 % }
 %
 % It is entirely possible that separate fonts in a family will require

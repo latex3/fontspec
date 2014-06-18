@@ -65,7 +65,7 @@ Features may be added to the font currently in use with
 Change history
 --------------
 
-- v2.4 (25/05/2014)
+- v2.4 (2014/06/01)
 
     * Significant change to the user interface: instead of `\setmainfont[features]{font}`, you now write `\setmainfont{font}[features]`.
       Backwards compatibility is of course preserved.

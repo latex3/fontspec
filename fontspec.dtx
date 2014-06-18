@@ -6983,9 +6983,26 @@ end
 %    \end{macrocode}
 %
 % \subsection{Unicode footnote symbols}
+% We used to load \pkg{fixltx2e} but this is not recommended; it should ideally be loaded before \cs{begindocument}, especially from TL2014 onwards.
 %    \begin{macrocode}
-\RequirePackage{fixltx2e}[2006/03/24]
 \ExplSyntaxOn
+\cs_set:Npn \@fnsymbol #1
+ {
+  \int_case:nnF {#1}
+   {
+    {0} {}
+    {1} { \mode_if_math:TF *\textasteriskcentered }
+    {2} { \mode_if_math:TF \dagger\textdagger }
+    {3} { \mode_if_math:TF \ddagger\textdaggerdbl }
+    {4} { \mode_if_math:TF \mathsection\textsection }
+    {5} { \mode_if_math:TF \mathparagraph\textparagraph }
+    {6} { \mode_if_math:TF \|\textbardbl }
+    {7} { \mode_if_math:TF {**}{\textasteriskcentered\textasteriskcentered} }
+    {8} { \mode_if_math:TF {\dagger\dagger}{\textdagger\textdagger} }
+    {9} { \mode_if_math:TF {\ddagger\ddagger}{\textdaggerdbl\textdaggerdbl} }
+   }
+   { \@ctrerr }
+ }
 %    \end{macrocode}
 %
 % \subsection{Emph}

@@ -5555,10 +5555,11 @@ This work consists of this file fontspec.dtx
     \rmfamily
     \@@_set_font_dimen:NnN \l_@@_tmpa_dim {#1} \font
     \@@_set_font_dimen:NnN \l_@@_tmpb_dim {#1} \l_fontspec_font
-    \fp_set_from_dim:Nn \l_@@_tmpa_fp { \l_@@_tmpa_dim }
-    \fp_set_from_dim:Nn \l_@@_tmpb_fp { \l_@@_tmpb_dim }
-    \fp_div:Nn \l_@@_tmpa_fp { \l_@@_tmpb_fp }
-    \tl_gset:Nx \l_@@_scale_tl { \fp_use:N \l_@@_tmpa_fp }
+    \tl_gset:Nx \l_@@_scale_tl
+     {
+      \fp_eval:n { \dim_to_fp:n {\l_@@_tmpa_dim} /
+                   \dim_to_fp:n {\l_@@_tmpb_dim} }
+     }
     \@@_info:n {set-scale}
   \group_end:
  }

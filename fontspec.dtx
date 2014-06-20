@@ -2775,6 +2775,12 @@ This work consists of this file fontspec.dtx
 \ExplSyntaxOn
 %    \end{macrocode}
 %
+% Quick fix for lualatex-math:
+%    \begin{macrocode}
+\cs_if_exist:NF \lua_now_x:n
+ { \cs_set_eq:NN \lua_now_x:n \directlua }
+%    \end{macrocode}
+%
 %    Check engine and load specific modules. For Lua\TeX, load only
 %    \pkg{luaotfload} which loads \pkg{luatexbase} and \pkg{lualibs} too.
 %

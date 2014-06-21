@@ -4080,12 +4080,13 @@ This work consists of this file fontspec.dtx
     \@@_set_faces:
     \@@_info:nxx {defining-font} {#1} {#2}
 %<*debug>
+    \typeout{"\l_@@_fontid_tl"~ defined.}
     \@@_warning:nxx {defining-font} {#1} {#2}
 %</debug>
    }
    {
 %<*debug>
-    \typeout{"#2"~ already~ defined~ apparently.}
+    \typeout{"\l_@@_fontid_tl"~ already~ defined~ apparently.}
 %</debug>
    }
   \group_end:
@@ -4272,24 +4273,27 @@ This work consists of this file fontspec.dtx
 % with a counter to create a simple NFSS family name for the font we're
 % selecting.
 %
-% The font name is fully expanded, in case it's defined in terms of macros, before having its spaces zapped.
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \@@_save_family:n {TF}
  {
+%<debug>\typeout{save~ family:~ #1}
   \cs_if_exist:NT \l_@@_nfss_fam_tl
    {
     \cs_set_eq:cN {g_@@_UID_\l_@@_fontid_tl} \l_@@_nfss_fam_tl
    }
   \cs_if_exist:cF {g_@@_UID_\l_@@_fontid_tl}
    {
-    \cs_if_exist:cTF {g_@@_family_#1_int}
-     { \int_gincr:c  {g_@@_family_#1_int} }
-     { \int_new:c    {g_@@_family_#1_int} }
+    % The font name is fully expanded, in case it's defined in terms of macros, before having its spaces zapped:
     \tl_set:Nx \l_@@_tmp_tl {#1}
     \tl_remove_all:Nn \l_@@_tmp_tl {~}
+
+    \cs_if_exist:cTF {g_@@_family_ \l_@@_tmp_tl _int}
+     { \int_gincr:c  {g_@@_family_ \l_@@_tmp_tl _int} }
+     { \int_new:c    {g_@@_family_ \l_@@_tmp_tl _int} }
+
     \tl_gset:cx {g_@@_UID_\l_@@_fontid_tl}
      {
-      \l_@@_tmp_tl ( \int_use:c {g_@@_family_#1_int} )
+      \l_@@_tmp_tl ( \int_use:c {g_@@_family_ \l_@@_tmp_tl _int} )
      }
    }
   \tl_gset:Nv \l_fontspec_family_tl {g_@@_UID_\l_@@_fontid_tl}

@@ -93,7 +93,7 @@ This work consists of this file fontspec.dtx
 %<fontspec&luatex>\ProvidesPackage{fontspec-luatex}
 %<patches>\ProvidesPackage{fontspec-patches}
 %<*fontspec|patches>
-  [2014/06/01 v2.4 Font selection for XeLaTeX and LuaLaTeX]
+  [2014/06/21 v2.4a Font selection for XeLaTeX and LuaLaTeX]
 %</fontspec|patches>
 %
 %<*driver>
@@ -2705,7 +2705,7 @@ This work consists of this file fontspec.dtx
 % By default \LaTeX\ defines symbolic footnote characters in terms of commands
 % that don't resolve well; better results can be achieved by using specific Unicode characters or proper LICRs with the \pkg{xunicode} package.
 %
-% This problem has been solved by loading the \pkg{fixltx2e} package.
+% This problem is solved by defining \cs{@fnsymbol} in a similar manner to the \pkg{fixltx2e} package.
 %
 % \section{Verbatim}
 % \label{sec:verb}

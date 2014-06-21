@@ -65,6 +65,12 @@ Features may be added to the font currently in use with
 Change history
 --------------
 
+- v2.4a (2014/06/21)
+
+    * No longer load fixltx2e.sty -- this package should really be loaded before \documentclass.
+    * Avoid deprecated l3fp code.
+    * A couple of bugs introduced with v2.4 fixed.
+
 - v2.4 (2014/06/01)
 
     * Significant change to the user interface: instead of `\setmainfont[features]{font}`, you now write `\setmainfont{font}[features]`.

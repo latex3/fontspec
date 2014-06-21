@@ -6824,7 +6824,7 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
   \DeclareSymbolFont{operators}\g_fontspec_encoding_tl\g_@@_mathrm_tl\mddefault\updefault
   \SetSymbolFont{operators}{normal}\g_fontspec_encoding_tl\g_@@_mathrm_tl\mddefault\updefault
-  \SetMathAlphabet\mathrm{normal}\g_fontspec_encoding_tl\g_@@_mathrm_tl\mddefault\updefault
+  \DeclareSymbolFontAlphabet\mathrm{operators}
   \SetMathAlphabet\mathit{normal}\g_fontspec_encoding_tl\g_@@_mathrm_tl\mddefault\itdefault
   \SetMathAlphabet\mathbf{normal}\g_fontspec_encoding_tl\g_@@_mathrm_tl\bfdefault\updefault
   \SetMathAlphabet\mathsf{normal}\g_fontspec_encoding_tl\g_@@_mathsf_tl\mddefault\updefault
@@ -6832,7 +6832,6 @@ This work consists of this file fontspec.dtx
   \SetSymbolFont{operators}{bold}\g_fontspec_encoding_tl\g_@@_mathrm_tl\bfdefault\updefault
   \tl_if_empty:NTF \g_@@_bfmathrm_tl
    {
-    \SetMathAlphabet\mathrm{bold}\g_fontspec_encoding_tl\g_@@_mathrm_tl\bfdefault\updefault
     \SetMathAlphabet\mathit{bold}\g_fontspec_encoding_tl\g_@@_mathrm_tl\bfdefault\itdefault
    }
    {

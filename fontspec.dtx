@@ -5437,11 +5437,10 @@ This work consists of this file fontspec.dtx
  }
 \@@_keys_define_code:nnn {fontspec-preparse} {BoldFeatures}
  {
-  \
   \clist_set:Nn \l_@@_fontfeat_bf_clist {#1}
   
-  \prop_put:NxV \l_@@_nfss_prop
-     {BoldFont-\g_@@_curr_series_tl} \l_@@_curr_bfname_tl
+%  \prop_put:NxV \l_@@_nfss_prop
+%     {BoldFont-\g_@@_curr_series_tl} \l_@@_curr_bfname_tl
  }
 \@@_keys_define_code:nnn {fontspec-preparse} {ItalicFeatures}
  {

@@ -2338,12 +2338,11 @@ This work consists of this file fontspec.dtx
 %
 % \begin{Xexample}[firstline=2,lastline=9]{aat-var}{Nine variants of Zapfino.}
 %   \Huge \rule{0pt}{2cm}
-%   \newcounter{var}\newcounter{trans}
+%   \newcounter{var}
 %   \whiledo{\value{var}<9}{%
-%     \stepcounter{trans}%
 %     \edef\1{%
 %     \noexpand\fontspec[Variant=\thevar,
-%       Color=005599\thetrans\thetrans]{Zapfino}}\1%
+%       Color=0099\thevar\thevar]{Zapfino}}\1%
 %     \makebox[0.75\width]{d}%
 %     \stepcounter{var}}
 %   \hspace*{2cm}

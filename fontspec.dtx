@@ -1084,14 +1084,14 @@ This work consists of this file fontspec.dtx
 % the text. The colour is defined as a triplet of two-digit Hex RGB
 % values, with optionally another value for the transparency (where
 % |00| is completely transparent and |FF| is opaque.)
-% \begin{Xexample}{color}{Selecting colour with transparency.}
+% \begin{Lexample}{color}{Selecting colour with transparency. N.B. due to a conflict betweeen \pkg{fontspec} and the \pkg{preview} package, this example currently does not show any transparency!}
 %   \fontsize{48}{48}
 %   \fontspec{TeX Gyre Bonum Bold}
-%   {\addfontfeature{Color=FF000099}W}\kern-1ex
-%   {\addfontfeature{Color=0000FF99}S}\kern-0.8ex
-%   {\addfontfeature{Color=DDBB2299}P}\kern-0.8ex
+%   {\addfontfeature{Color=FF000099}W}\kern-0.5ex
+%   {\addfontfeature{Color=0000FF99}S}\kern-0.4ex
+%   {\addfontfeature{Color=DDBB2299}P}\kern-0.4ex
 %   {\addfontfeature{Color=00BB3399}R}
-% \end{Xexample}
+% \end{Lexample}
 % Transparency is supported by \LuaLaTeX; \XeLaTeX\ with the \texttt{xdvipdfmx} driver
 % does not support this feature.
 %

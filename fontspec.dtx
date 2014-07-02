@@ -3167,6 +3167,18 @@ This work consists of this file fontspec.dtx
 % commands are contained herein; they all use or define macros which
 % are defined or used later on in \vref{sec:codeinternal}.
 %
+% \subsubsection{Helper macros for argument mangling}
+%    \begin{macrocode}
+\cs_new:Nn \@@_pass_args:nnn
+ {
+  \IfNoValueTF {#2}
+   { \@@_post_arg:w #1 {#3} }
+   { #1 {#2} {#3} }
+ }
+\NewDocumentCommand \@@_post_arg:w { m m O{} }
+ { #1 {#3} {#2} }
+%    \end{macrocode}
+%
 % \subsubsection{Font selection}
 % \begin{macro}{\fontspec}
 %   This is the main command of the package that
@@ -3174,10 +3186,13 @@ This work consists of this file fontspec.dtx
 %   font name and the optional requested features of that
 %   font. Then this new font family is selected.
 %    \begin{macrocode}
-\DeclareDocumentCommand \fontspec { O{} m O{} }
+\NewDocumentCommand \fontspec { o m }
+ { \@@_pass_args:nnn \@@_fontspec:nn {#1} {#2} }
+
+\cs_new:Nn \@@_fontspec:nn
  {
   \fontencoding {\g_fontspec_encoding_tl}
-  \fontspec_set_family:Nnn \f@family {#1,#3}{#2}
+  \fontspec_set_family:Nnn \f@family {#1}{#2}
   \selectfont
   \ignorespaces
  }
@@ -3193,21 +3208,32 @@ This work consists of this file fontspec.dtx
 %     (monospaced). I end them with |\normalfont| so that if they're
 %     used in the document, the change registers immediately.
 %    \begin{macrocode}
-\DeclareDocumentCommand \setmainfont { O{} m O{} }
+\DeclareDocumentCommand \setmainfont { o m }
+ { \@@_pass_args:nnn \@@_setmainfont:nn {#1} {#2} }
+
+\cs_new:Nn \@@_setmainfont:nn
  {
-  \fontspec_set_family:Nnn \rmdefault {#1,#3}{#2}
+  \fontspec_set_family:Nnn \rmdefault {#1}{#2}
   \normalfont
   \ignorespaces
  }
-\DeclareDocumentCommand \setsansfont { O{} m O{} }
+
+\DeclareDocumentCommand \setsansfont { o m }
+ { \@@_pass_args:nnn \@@_setsansfont:nn {#1} {#2} }
+
+\cs_new:Nn \@@_setsansfont:nn
  {
-  \fontspec_set_family:Nnn \sfdefault {#1,#3}{#2}
+  \fontspec_set_family:Nnn \sfdefault {#1}{#2}
   \normalfont
   \ignorespaces
  }
-\DeclareDocumentCommand \setmonofont { O{} m O{} }
+
+\DeclareDocumentCommand \setmonofont { o m }
+ { \@@_pass_args:nnn \@@_setmonofont:nn {#1} {#2} }
+
+\cs_new:Nn \@@_setmonofont:nn
  {
-  \fontspec_set_family:Nnn \ttdefault {#1,#3}{#2}
+  \fontspec_set_family:Nnn \ttdefault {#1}{#2}
   \normalfont
   \ignorespaces
  }
@@ -3238,21 +3264,36 @@ This work consists of this file fontspec.dtx
 \tl_new:N \g_@@_bfmathrm_tl
 \tl_new:N \g_@@_mathsf_tl
 \tl_new:N \g_@@_mathtt_tl
-\DeclareDocumentCommand \setmathrm { O{} m O{} }
+\DeclareDocumentCommand \setmathrm { o m }
+ { \@@_pass_args:nnn \@@_setmathrm:nn {#1} {#2} }
+
+\cs_new:Nn \@@_setmathrm:nn
  {
-  \fontspec_set_family:Nnn \g_@@_mathrm_tl {#1,#3}{#2}
+  \fontspec_set_family:Nnn \g_@@_mathrm_tl {#1} {#2}
  }
-\DeclareDocumentCommand \setboldmathrm { O{} m O{} }
+
+\DeclareDocumentCommand \setboldmathrm { o m }
+ { \@@_pass_args:nnn \@@_setboldmathrm:nn {#1} {#2} }
+
+\cs_new:Nn \@@_setboldmathrm:nn
  {
-  \fontspec_set_family:Nnn \g_@@_bfmathrm_tl {#1,#3}{#2}
+  \fontspec_set_family:Nnn \g_@@_bfmathrm_tl {#1} {#2}
  }
-\DeclareDocumentCommand \setmathsf { O{} m O{} }
+
+\DeclareDocumentCommand \setmathsf { o m }
+ { \@@_pass_args:nnn \@@_setmathsf:nn {#1} {#2} }
+
+\cs_new:Nn \@@_setmathsf:nn
  {
-  \fontspec_set_family:Nnn \g_@@_mathsf_tl {#1,#3}{#2}
+  \fontspec_set_family:Nnn \g_@@_mathsf_tl {#1} {#2}
  }
-\DeclareDocumentCommand \setmathtt { O{} m O{} }
+
+\DeclareDocumentCommand \setmathtt { o m }
+ { \@@_pass_args:nnn \@@_setmathtt:nn {#1} {#2} }
+
+\cs_new:Nn \@@_setmathtt:nn
  {
-  \fontspec_set_family:Nnn \g_@@_mathtt_tl {#1,#3}{#2}
+  \fontspec_set_family:Nnn \g_@@_mathtt_tl {#1} {#2}
  }
 \@onlypreamble\setmathrm
 \@onlypreamble\setboldmathrm
@@ -3282,9 +3323,12 @@ This work consists of this file fontspec.dtx
 %   \cs{l_fontspec_family_tl}. This family is then used in a typical NFSS \cmd\fontfamily\
 %   declaration, saved in the macro name specified.
 %    \begin{macrocode}
-\DeclareDocumentCommand \newfontfamily { m O{} m O{} }
+\DeclareDocumentCommand \newfontfamily { m o m }
+ { \@@_pass_args:nnn { \@@_newfontfamily:Nnn #1 } {#2} {#3} }
+
+\cs_new:Nn \@@_newfontfamily:Nnn
  {
-  \fontspec_set_family:cnn { g_@@_ \cs_to_str:N #1 _family } {#2,#4} {#3}
+  \fontspec_set_family:cnn { g_@@_ \cs_to_str:N #1 _family } {#2} {#3}
   \use:x
    {
     \exp_not:N \DeclareRobustCommand \exp_not:N #1
@@ -3297,9 +3341,12 @@ This work consists of this file fontspec.dtx
 %    \end{macrocode}
 % \cmd\newfontface\ uses the fact that if the argument to \feat{BoldFont}, etc., is empty (\ie, |BoldFont={}|), then no bold font is searched for.
 %    \begin{macrocode}
-\DeclareDocumentCommand \newfontface { m O{} m O{} }
+\DeclareDocumentCommand \newfontface { m o m }
+ { \@@_pass_args:nnn { \@@_newfontface:Nnn #1 } {#2} {#3} }
+
+\cs_new:Nn \@@_newfontface:Nnn
  {
-  \newfontfamily #1 [ BoldFont={},ItalicFont={},SmallCapsFont={},#2,#4 ] {#3}
+  \newfontfamily #1 [ BoldFont={},ItalicFont={},SmallCapsFont={},#2 ] {#3}
  }
 %    \end{macrocode}
 % \end{macro} \end{macro}

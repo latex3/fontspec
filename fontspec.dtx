@@ -3172,7 +3172,7 @@ This work consists of this file fontspec.dtx
 \cs_new:Nn \@@_pass_args:nnn
  {
   \IfNoValueTF {#2}
-   { \@@_post_arg:w #1 {#3} }
+   { \@@_post_arg:w {#1} {#3} }
    { #1 {#2} {#3} }
  }
 \NewDocumentCommand \@@_post_arg:w { m m O{} }

@@ -65,6 +65,16 @@ Features may be added to the font currently in use with
 Change history
 --------------
 
+- v2.4b (2014/08/23)
+
+    * Improve backwards compatibility w.r.t. recent argument order change;
+      specifically, if an optional argument is presented before the font name
+      then avoid looking for one afterwards.
+    * Fix \@fnsymbol; it was mistakenly defined as a \protected macro.
+    * No longer lowercase fontnames internally; this fixes a bug with loading
+      mixed-case ".fontspec" files.
+    * Fixed some documentation typos/inconsistencies related to recent changes.
+
 - v2.4a (2014/06/21)
 
     * No longer load fixltx2e.sty -- this package should really be loaded before \documentclass.

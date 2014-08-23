@@ -85,7 +85,7 @@ Change history
       or
 
             \defaultfontfeatures[\headingsfont]{...}
-            \setfontfamily\headingsfont{...}
+            \newfontfamily\headingsfont{...}
 
     * New `PunctuationSpace=WordSpace` and `PunctuationSpace=TwiceWordSpace` settings, intended for monospaced fonts; these force the space after a period to be exactly one or two spaces wide, respectively, which preserves character alignment across lines.
 

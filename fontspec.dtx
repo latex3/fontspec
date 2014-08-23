@@ -7040,7 +7040,7 @@ end
 % We used to load \pkg{fixltx2e} but this is not recommended; it should ideally be loaded before \cs{begindocument}, especially from TL2014 onwards.
 %    \begin{macrocode}
 \ExplSyntaxOn
-\cs_set_protected:Npn \@fnsymbol #1
+\cs_set:Npn \@fnsymbol #1
  {
   \int_case:nnF {#1}
    {

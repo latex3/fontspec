@@ -841,6 +841,7 @@ This work consists of this file fontspec.dtx
 % called \texttt{TeXGyreAdventor.fontspec}, or for specifying options for
 % \texttt{texgyreadventor-regular.otf} (when loading by filename), the configuration
 % file would be \texttt{texgyreadventor-regular.fontspec}.
+% (N.B. the lettercase of the names should match.)
 %
 % This mechanism can be used to define custom names or aliases for your font collections.
 % If you create a file \texttt{my-charis.fontspec} containing, say,
@@ -865,7 +866,7 @@ This work consists of this file fontspec.dtx
 %   \defaultfontfeatures[CharisSILR]{Color=blue}
 %   \defaultfontfeatures[CharisSILB]{Color=red}
 % \end{Verbatim}
-% And such configuration lines can be stored within their own \texttt{.fontspec} files; in this way, \pkg{fontspec} is designed to handle `nested' configuration options as well.
+% And such configuration lines can be stored either inline inside \texttt{my-charis.fontspec} or within their own \texttt{.fontspec} files; in this way, \pkg{fontspec} is designed to handle `nested' configuration options as well.
 %
 % \subsection{Changing the currently selected features}
 % \label{sec:addfontfeatures}
@@ -3403,16 +3404,21 @@ This work consists of this file fontspec.dtx
      }
    }
  }
-
+%    \end{macrocode}
+%
+% \begin{macro}{\@@_sanitise_fontname:Nn}
+% Assigns font name |#2| to token list variable |#1| and sanitises it as necessary by removing spaces and stripping possible file extensions.
+% At one stage this also lowercased the name, but this step has been removed unless someone can remind me why it was necessary.
+%    \begin{macrocode}
 \cs_new:Nn \@@_sanitise_fontname:Nn
  {
-  \use:x { \tl_to_lowercase:n { \tl_set:Nx \exp_not:N #1 {#2} } }
+  \tl_set:Nx #1 {#2}
   \tl_remove_all:Nn #1 {~}
   \clist_map_inline:Nn \l_@@_extensions_clist
    { \tl_remove_once:Nn #1 {##1} }
  }
-
 %    \end{macrocode}
+% \end{macro}
 % \end{macro}
 %
 %
@@ -4034,8 +4040,7 @@ This work consists of this file fontspec.dtx
 % Some often-used variables to know about:
 % \begin{itemize}
 % \item \cmd{\l_fontspec_fontname_tl} is used as the generic name of the font being defined.
-% \item \cmd{\l_@@_fontid_tl} is the unique identifier of the font with all its
-% features.
+% \item \cmd{\l_@@_fontid_tl} is the unique identifier of the font with all its features.
 % \item \cmd{\l_fontspec_fontname_up_tl} is the font specifically to be used as the upright font.
 % \item \cmd{\l_@@_basename_tl} is the (immutable) original argument used for |*|-replacing.
 % \item \cmd{\l_fontspec_font} is the plain \TeX{} font of the upright font requested.
@@ -4046,13 +4051,11 @@ This work consists of this file fontspec.dtx
   \group_begin:
   \font_suppress_not_found_error:
   \@@_init:
-  
-  \tl_set:Nx \l_fontspec_fontname_tl {#2}
-%<luatex>  \tl_remove_all:Nn \l_fontspec_fontname_tl {~}
+
+  \@@_load_external_fontoptions:Nn \l_fontspec_fontname_tl {#2}
   \tl_set_eq:NN \l_fontspec_fontname_up_tl \l_fontspec_fontname_tl
   \tl_set_eq:NN \l_@@_basename_tl          \l_fontspec_fontname_tl
 
-  \@@_load_external_fontoptions:N \l_fontspec_fontname_tl
   \@@_extract_all_features:n {#1}
   \@@_preparse_features:
 
@@ -4083,17 +4086,17 @@ This work consists of this file fontspec.dtx
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\@@_load_external_fontoptions:N}
+% \begin{macro}{\@@_load_external_fontoptions:Nn}
 % Load a possible \texttt{.fontspec} font configuration file.
 % This file could set font-specific options for the font about to be loaded.
 %    \begin{macrocode}
-\cs_new:Nn \@@_load_external_fontoptions:N
+\cs_new:Nn \@@_load_external_fontoptions:Nn
  {
-  \@@_sanitise_fontname:Nn \l_@@_tmp_tl {#1}
-  \prop_if_in:NVF \g_@@_fontopts_prop {\l_@@_tmp_tl}
+  \@@_sanitise_fontname:Nn #1 {#2}
+  \prop_if_in:NVF \g_@@_fontopts_prop {#1}
    {
-    \exp_args:No \file_if_exist:nT {\l_@@_tmp_tl.fontspec}
-     { \file_input:n {\l_@@_tmp_tl.fontspec} }
+    \exp_args:No \file_if_exist:nT {#1.fontspec}
+     { \file_input:n {#1.fontspec} }
    }
  }
 %    \end{macrocode}
@@ -4509,10 +4512,8 @@ This work consists of this file fontspec.dtx
 
 \cs_new:Nn \@@_load_fontname:n
  {
-    \tl_set:Nx \l_fontspec_fontname_tl {#1}
-    \@@_load_external_fontoptions:N \l_fontspec_fontname_tl
-    \@@_sanitise_fontname:Nn \l_@@_tmp_tl {\l_fontspec_fontname_tl}
-    \prop_get:NVNF \g_@@_fontopts_prop \l_@@_tmp_tl \l_@@_fontopts_clist
+    \@@_load_external_fontoptions:Nn \l_fontspec_fontname_tl {#1}
+    \prop_get:NVNF \g_@@_fontopts_prop \l_fontspec_fontname_tl \l_@@_fontopts_clist
      { \clist_clear:N \l_@@_fontopts_clist }
     \@@_font_set:Nnn \l_fontspec_font {\@@_fullname:n {\l_fontspec_fontname_tl}} {\f@size pt}
     \@@_font_if_null:NT \l_fontspec_font { \@@_error:nx {font-not-found} {#1} }

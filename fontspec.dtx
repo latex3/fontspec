@@ -42,6 +42,7 @@ This work is "maintained" by Will Robertson.
 
 This work consists of this file fontspec.dtx
           and the derived files fontspec.sty,
+                                fontspec.lua,
                                 fontspec.cfg,
                                 fontspec-xetex.sty,
                                 fontspec-luatex.sty,
@@ -7033,6 +7034,7 @@ end
 %
 % \subsection{Unicode footnote symbols}
 % We used to load \pkg{fixltx2e} but this is not recommended; it should ideally be loaded before \cs{begindocument}, especially from TL2014 onwards.
+% Define
 %    \begin{macrocode}
 \ExplSyntaxOn
 \cs_set:Npn \@fnsymbol #1
@@ -7040,17 +7042,24 @@ end
   \int_case:nnF {#1}
    {
     {0} {}
-    {1} { \mode_if_math:TF *\textasteriskcentered }
-    {2} { \mode_if_math:TF \dagger\textdagger }
-    {3} { \mode_if_math:TF \ddagger\textdaggerdbl }
-    {4} { \mode_if_math:TF \mathsection\textsection }
-    {5} { \mode_if_math:TF \mathparagraph\textparagraph }
-    {6} { \mode_if_math:TF \|\textbardbl }
-    {7} { \mode_if_math:TF {**}{\textasteriskcentered\textasteriskcentered} }
-    {8} { \mode_if_math:TF {\dagger\dagger}{\textdagger\textdagger} }
-    {9} { \mode_if_math:TF {\ddagger\ddagger}{\textdaggerdbl\textdaggerdbl} }
+    {1} { \TextOrMath \textasteriskcentered* }
+    {2} { \TextOrMath \textdagger\dagger }
+    {3} { \TextOrMath \textdaggerdbl\ddagger }
+    {4} { \TextOrMath \textsection\mathsection }
+    {5} { \TextOrMath \textparagraph\mathparagraph }
+    {6} { \TextOrMath \textbardbl\| }
+    {7} { \TextOrMath {\textasteriskcentered\textasteriskcentered}{**} }
+    {8} { \TextOrMath {\textdagger\textdagger}{\dagger\dagger} }
+    {9} { \TextOrMath {\textdaggerdbl\textdaggerdbl}{\ddagger\ddagger} }
    }
    { \@ctrerr }
+ }
+%    \end{macrocode}
+% Straight from fixltx2e:
+%    \begin{macrocode}
+\cs_if_exist:NF \TextOrMath
+ {
+  \protected\expandafter\def\csname TextOrMath\space\endcsname{%    \ifmmode  \expandafter\@secondoftwo    \else     \expandafter\@firstoftwo  \fi}  \edef\TextOrMath#1#2{%    \expandafter\noexpand\csname TextOrMath\space\endcsname    {#1}{#2}}  \fi
  }
 %    \end{macrocode}
 %

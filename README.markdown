@@ -70,7 +70,7 @@ Change history
     * Improve backwards compatibility w.r.t. recent argument order change;
       specifically, if an optional argument is presented before the font name
       then avoid looking for one afterwards.
-    * Fix \@fnsymbol; it was mistakenly defined as a \protected macro.
+    * Fix \@fnsymbol; it was defined as a \protected macro, where in fact its internal text-or-math switch needed to be instead.
     * No longer lowercase fontnames internally; this fixes a bug with loading
       mixed-case ".fontspec" files.
     * Fixed some documentation typos/inconsistencies related to recent changes.

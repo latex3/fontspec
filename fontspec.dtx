@@ -5248,7 +5248,8 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \keys_define:nn {fontspec-renderer}
  {
-  Renderer .choice_code:n =
+  Renderer .choice:nn =
+   {AAT,ICU,OpenType,Graphite,Full,Basic}
    {
     \int_compare:nTF {\l_keys_choice_int <= 4} {
 %<*xetexx>
@@ -5269,8 +5270,6 @@ This work consists of this file fontspec.dtx
 %</luatex>
      }
    }
-  ,
-  Renderer .generate_choices:n = {AAT,ICU,OpenType,Graphite,Full,Basic}
  }
 \tl_set:cn {g_fontspec_renderer_tag_AAT} {/AAT}
 \tl_set:cn {g_fontspec_renderer_tag_ICU} {/OT}

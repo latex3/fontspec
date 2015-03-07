@@ -7019,12 +7019,20 @@ end
 %
 %    \begin{macrocode}
 %<*patches>
+\ExplSyntaxOn
 %    \end{macrocode}
 %
 % \subsection{Unicode footnote symbols}
-% We used to load \pkg{fixltx2e} but this is not recommended; it should ideally be loaded before \cs{begindocument}, especially from TL2014 onwards.
+% This is handled by \pkg{fixltx2e} / \LaTeX2015 now.
 %    \begin{macrocode}
-\ExplSyntaxOn
+\cs_if_exist:NF \TextOrMath
+ {
+  \protected\expandafter\def\csname TextOrMath\space\endcsname{%
+    \ifmmode  \expandafter\@secondoftwo
+    \else     \expandafter\@firstoftwo  \fi}
+  \edef\TextOrMath#1#2{%
+    \expandafter\noexpand\csname TextOrMath\space\endcsname
+    {#1}{#2}}
 \cs_set:Npn \@fnsymbol #1
  {
   \int_case:nnF {#1}
@@ -7042,17 +7050,6 @@ end
    }
    { \@ctrerr }
  }
-%    \end{macrocode}
-% Straight from \pkg{fixltx2e}:
-%    \begin{macrocode}
-\cs_if_exist:NF \TextOrMath
- {
-  \protected\expandafter\def\csname TextOrMath\space\endcsname{%
-    \ifmmode  \expandafter\@secondoftwo
-    \else     \expandafter\@firstoftwo  \fi}
-  \edef\TextOrMath#1#2{%
-    \expandafter\noexpand\csname TextOrMath\space\endcsname
-    {#1}{#2}}
  }
 %    \end{macrocode}
 %

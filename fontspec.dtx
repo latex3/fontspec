@@ -4049,10 +4049,11 @@ This work consists of this file fontspec.dtx
   \font_suppress_not_found_error:
   \@@_init:
 
-  \@@_load_external_fontoptions:Nn \l_fontspec_fontname_tl {#2}
-  \tl_set_eq:NN \l_fontspec_fontname_up_tl \l_fontspec_fontname_tl
-  \tl_set_eq:NN \l_@@_basename_tl          \l_fontspec_fontname_tl
+  \tl_set:Nx \l_fontspec_fontname_tl    {#2}
+  \tl_set:Nx \l_fontspec_fontname_up_tl {#2}
+  \tl_set:Nx \l_@@_basename_tl          {#2}
 
+  \@@_load_external_fontoptions:Nn \l_fontspec_fontname_tl {#2}
   \@@_extract_all_features:n {#1}
   \@@_preparse_features:
 
@@ -4090,7 +4091,7 @@ This work consists of this file fontspec.dtx
 \cs_new:Nn \@@_load_external_fontoptions:Nn
  {
   \@@_sanitise_fontname:Nn #1 {#2}
-  \prop_if_in:NVF \g_@@_fontopts_prop {#1}
+  \prop_if_in:NVF \g_@@_fontopts_prop #1
    {
     \exp_args:No \file_if_exist:nT {#1.fontspec}
      { \file_input:n {#1.fontspec} }
@@ -4102,16 +4103,13 @@ This work consists of this file fontspec.dtx
 % \begin{macro}{\@@_extract_features:}
 %    \begin{macrocode}
 \cs_new:Nn \@@_extract_all_features:n
- {
-  \@@_sanitise_fontname:Nn \l_@@_tmp_tl {\l_fontspec_fontname_tl}
-  
+ {  
   \bool_if:NTF \l_@@_disable_defaults_bool
    {
-    \clist_set:Nx \l_@@_all_features_clist
-     {#1}
+    \clist_set:Nx \l_@@_all_features_clist {#1}
    }
    {
-    \prop_get:NVNF \g_@@_fontopts_prop \l_@@_tmp_tl \l_@@_fontopts_clist
+    \prop_get:NVNF \g_@@_fontopts_prop \l_fontspec_fontname_tl \l_@@_fontopts_clist
      { \clist_clear:N \l_@@_fontopts_clist }
 
     \prop_get:NVNF \g_@@_fontopts_prop \l_@@_family_label_tl \l_@@_family_fontopts_clist
@@ -4150,7 +4148,7 @@ This work consists of this file fontspec.dtx
 % Detect if external fonts are to be used, possibly automatically, and
 % parse fontspec features for bold/italic fonts and their features.
 %    \begin{macrocode}
-  \exp_args:NV \@@_if_detect_external:nT \l_fontspec_fontname_tl
+  \@@_if_detect_external:VT \l_@@_basename_tl
    { \keys_set:nn {fontspec-preparse-external} {ExternalLocation} }
 
   \keys_set_known:nxN {fontspec-preparse-external}
@@ -4198,6 +4196,7 @@ This work consists of this file fontspec.dtx
    }
   \bool_if:NTF \l_@@_tmpa_bool \prg_return_true: \prg_return_false:
  }
+\cs_generate_variant:Nn \@@_if_detect_external:nT {V}
 %    \end{macrocode}
 % \end{macro}
 %
@@ -7034,7 +7033,6 @@ end
 %
 % \subsection{Unicode footnote symbols}
 % We used to load \pkg{fixltx2e} but this is not recommended; it should ideally be loaded before \cs{begindocument}, especially from TL2014 onwards.
-% Define
 %    \begin{macrocode}
 \ExplSyntaxOn
 \cs_set:Npn \@fnsymbol #1
@@ -7055,11 +7053,16 @@ end
    { \@ctrerr }
  }
 %    \end{macrocode}
-% Straight from fixltx2e:
+% Straight from \pkg{fixltx2e}:
 %    \begin{macrocode}
 \cs_if_exist:NF \TextOrMath
  {
-  \protected\expandafter\def\csname TextOrMath\space\endcsname{%    \ifmmode  \expandafter\@secondoftwo    \else     \expandafter\@firstoftwo  \fi}  \edef\TextOrMath#1#2{%    \expandafter\noexpand\csname TextOrMath\space\endcsname    {#1}{#2}}  \fi
+  \protected\expandafter\def\csname TextOrMath\space\endcsname{%
+    \ifmmode  \expandafter\@secondoftwo
+    \else     \expandafter\@firstoftwo  \fi}
+  \edef\TextOrMath#1#2{%
+    \expandafter\noexpand\csname TextOrMath\space\endcsname
+    {#1}{#2}}
  }
 %    \end{macrocode}
 %

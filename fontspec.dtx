@@ -7027,30 +7027,32 @@ end
 %    \begin{macrocode}
 \cs_if_exist:NF \TextOrMath
  {
+  % copy official definition:
   \protected\expandafter\def\csname TextOrMath\space\endcsname{%
     \ifmmode  \expandafter\@secondoftwo
     \else     \expandafter\@firstoftwo  \fi}
   \edef\TextOrMath#1#2{%
     \expandafter\noexpand\csname TextOrMath\space\endcsname
     {#1}{#2}}
-\cs_set:Npn \@fnsymbol #1
- {
-  \int_case:nnF {#1}
+  % translation of official definition:
+  \cs_set:Npn \@fnsymbol #1
    {
-    {0} {}
-    {1} { \TextOrMath \textasteriskcentered* }
-    {2} { \TextOrMath \textdagger\dagger }
-    {3} { \TextOrMath \textdaggerdbl\ddagger }
-    {4} { \TextOrMath \textsection\mathsection }
-    {5} { \TextOrMath \textparagraph\mathparagraph }
-    {6} { \TextOrMath \textbardbl\| }
-    {7} { \TextOrMath {\textasteriskcentered\textasteriskcentered}{**} }
-    {8} { \TextOrMath {\textdagger\textdagger}{\dagger\dagger} }
-    {9} { \TextOrMath {\textdaggerdbl\textdaggerdbl}{\ddagger\ddagger} }
+    \int_case:nnF {#1}
+     {
+      {0} {}
+      {1} { \TextOrMath \textasteriskcentered* }
+      {2} { \TextOrMath \textdagger\dagger }
+      {3} { \TextOrMath \textdaggerdbl\ddagger }
+      {4} { \TextOrMath \textsection\mathsection }
+      {5} { \TextOrMath \textparagraph\mathparagraph }
+      {6} { \TextOrMath \textbardbl\| }
+      {7} { \TextOrMath {\textasteriskcentered\textasteriskcentered}{**} }
+      {8} { \TextOrMath {\textdagger\textdagger}{\dagger\dagger} }
+      {9} { \TextOrMath {\textdaggerdbl\textdaggerdbl}{\ddagger\ddagger} }
+     }
+     { \@ctrerr }
    }
-   { \@ctrerr }
- }
- }
+   }
 %    \end{macrocode}
 %
 % \subsection{Emph}

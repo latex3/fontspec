@@ -4084,10 +4084,12 @@ This work consists of this file fontspec.dtx
 \cs_new:Nn \@@_load_external_fontoptions:Nn
  {
   \@@_sanitise_fontname:Nn #1 {#2}
+  \tl_set:Nx \l_@@_ext_filename_tl {#1.fontspec}
+  \tl_remove_all:Nn \l_@@_ext_filename_tl {~}
   \prop_if_in:NVF \g_@@_fontopts_prop #1
    {
-    \exp_args:No \file_if_exist:nT {#1.fontspec}
-     { \file_input:n {#1.fontspec} }
+    \exp_args:No \file_if_exist:nT { \l_@@_ext_filename_tl }
+     { \file_input:n { \l_@@_ext_filename_tl } }
    }
  }
 %    \end{macrocode}

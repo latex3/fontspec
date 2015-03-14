@@ -844,9 +844,9 @@ This work consists of this file fontspec.dtx
 % (N.B. the lettercase of the names should match.)
 %
 % This mechanism can be used to define custom names or aliases for your font collections.
-% If you create a file \texttt{my-charis.fontspec} containing, say,
+% If you create a file \texttt{MyCharis.fontspec} containing, say,
 % \begin{Verbatim}
-%   \defaultfontfeatures[my-charis]
+%   \defaultfontfeatures[My Charis]
 %    {
 %     Extension = .ttf ,
 %     UprightFont = CharisSILR,
@@ -856,9 +856,8 @@ This work consists of this file fontspec.dtx
 %     % <any other desired options>
 %    }
 % \end{Verbatim}
-% you can load that family with \verb|\fontspec{my-charis}| and similar.
-% The optional argument to \cs{defaultfontfeatures} must match the filename
-% else the options won't take effect.
+% you can load that custom family with \verb|\fontspec{My Charis}| and similar.
+% The optional argument to \cs{defaultfontfeatures} must match that requested by the font loading command (\verb|\fontspec|, etc.), else the options won't take effect.
 %
 % Finally, note that options for font faces can also be defined in this way.
 % To continue the example above, here we colour the different faces:
@@ -866,7 +865,7 @@ This work consists of this file fontspec.dtx
 %   \defaultfontfeatures[CharisSILR]{Color=blue}
 %   \defaultfontfeatures[CharisSILB]{Color=red}
 % \end{Verbatim}
-% And such configuration lines can be stored either inline inside \texttt{my-charis.fontspec} or within their own \texttt{.fontspec} files; in this way, \pkg{fontspec} is designed to handle `nested' configuration options as well.
+% And such configuration lines can be stored either inline inside \texttt{My Charis.fontspec} or within their own \texttt{.fontspec} files; in this way, \pkg{fontspec} is designed to handle `nested' configuration options as well.
 %
 % \subsection{Changing the currently selected features}
 % \label{sec:addfontfeatures}

@@ -3394,13 +3394,14 @@ This work consists of this file fontspec.dtx
 %    \end{macrocode}
 %
 % \begin{macro}{\@@_sanitise_fontname:Nn}
-% Assigns font name |#2| to token list variable |#1| and sanitises it as necessary by removing spaces and stripping possible file extensions.
+% Assigns font name |#2| to token list variable |#1| and strips extension(s) from it in the case of an external font.
+% We strip spaces for luatex for consistency with luaotfload, although I'm not sure this is necessary any more.
 % At one stage this also lowercased the name, but this step has been removed unless someone can remind me why it was necessary.
 %    \begin{macrocode}
 \cs_new:Nn \@@_sanitise_fontname:Nn
  {
   \tl_set:Nx #1 {#2}
-  \tl_remove_all:Nn #1 {~}
+%<luatex>  \tl_remove_all:Nn #1 {~}
   \clist_map_inline:Nn \l_@@_extensions_clist
    { \tl_remove_once:Nn #1 {##1} }
  }

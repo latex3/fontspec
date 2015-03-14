@@ -3522,32 +3522,34 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \DeclareDocumentCommand \aliasfontfeature {mm}
  {
-  \keys_if_exist:nnTF {fontspec} {#1}
-    {
-     \keys_define:nn {fontspec}
-      { #2 .code:n = { \keys_set:nn {fontspec} { #1 = {##1} } } }
-    }
-    {
-     \keys_if_exist:nnTF {fontspec-preparse} {#1}
+  \clist_map_inline:nn
+   { fontspec, fontspec-preparse, fontspec-preparse-external,
+     fontspec-preparse-nested, fontspec-renderer }
+   {
+     \keys_if_exist:nnT {##1} {#1}
       {
-       \keys_define:nn {fontspec-preparse}
-        { #2 .code:n = { \keys_set:nn {fontspec-preparse} { #1 = {##1} } } }
-      }
-      {
-       \keys_if_exist:nnTF {fontspec-preparse-external} {#1}
-        {
-         \keys_define:nn {fontspec-preparse-external}
+        \clist_map_break:n
           {
-           #2 .code:n =
-            { \keys_set:nn {fontspec-preparse-external} { #1 = {##1} } }
+            \@@_alias_font_feature:nnn {##1} {#1} {#2}
+            \use_none_delimit_by_q_nil:w
           }
-        }
-        {
-         \@@_warning:nx {rename-feature-not-exist} {#1}
-        }
       }
-    }
+   }
+
+  % this executes if no match was found:
+  \@@_warning:nx {rename-feature-not-exist} {#1}
+
+  % jump to here if a match:
+  \use_none:n
+  \q_nil
  }
+
+\cs_set:Nn \@@_alias_font_feature:nnn
+  {
+    \keys_define:nn {#1}
+      { #3 .code:n = { \keys_set:nn {#1} { #2 = {##1} } } }
+  }
+
 \DeclareDocumentCommand \aliasfontfeatureoption {mmm}
   { \keys_define:nn { fontspec / #1 } { #3 .meta:n = {#2} } }
 %    \end{macrocode}

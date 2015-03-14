@@ -53,7 +53,9 @@ Default document fonts are selected with
 Features to be used for every subsequently defined font are specified with
 
     \defaultfontfeatures{<default font options>}
+    \defaultfontfeatures+{<add to default font options>}
     \defaultfontfeatures[<font name>]{<default font options for "font name">}
+    \defaultfontfeatures+[<font name>]{<add to default font options for "font name">}
 
 Features may be added to the font currently in use with
 
@@ -64,6 +66,13 @@ Features may be added to the font currently in use with
 
 Change history
 --------------
+
+- v2.4c (2015/03/14)
+
+    * v2.4b was never released, sorry!
+    * This time *really* fix \@fnsymbol and avoid overwriting it if already fixed.
+    * Fix "Renderer=Graphite" (off-by-one error).
+    * Fix some edge cases for \aliasfontfeature.
 
 - v2.4b (2014/08/23)
 

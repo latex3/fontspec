@@ -1,0 +1,31 @@
+\begin{filecontents*}{texgyrepagella-regular.fontspec}
+\defaultfontfeatures[texgyrepagella-regular.otf]{Colour=FF0000}
+\end{filecontents*}
+\begin{filecontents*}{TeXGyreTermes.fontspec}
+\defaultfontfeatures[TeX Gyre Termes]{Colour=0000FF}
+\end{filecontents*}
+\begin{filecontents*}{MyDidot.fontspec}
+\defaultfontfeatures[My Didot]
+    {
+     Colour         = 119944    ,
+     Extension      = .otf      ,
+     UprightFont    = GFSDidot  ,
+     BoldFont       = GFSDidotBold       ,
+     ItalicFont     = GFSDidotItalic     ,
+     BoldItalicFont = GFSDidotBoldItalic ,
+    }
+\end{filecontents*}
+
+\documentclass[twocolumn]{article}
+\usepackage{fontspec}
+\begin{document}
+\setmainfont{texgyrepagella-regular.otf}
+pagella colour red loaded from file
+
+\setmainfont{TeX Gyre Termes}
+termes colour blue loaded from file
+
+\setmainfont{My Didot}
+didot from texmf: hello \textbf{hello}
+\emph{hello \textbf{hello}}
+\end{document}

@@ -2834,7 +2834,6 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \cs_generate_variant:Nn \str_if_eq:nnTF {nv}
 \cs_generate_variant:Nn \int_set:Nn {Nv}
-\cs_generate_variant:Nn \tl_gset:Nn {cV}
 \cs_generate_variant:Nn \keys_set:nn {nx}
 \cs_generate_variant:Nn \keys_set_known:nnN {nx}
 %    \end{macrocode}
@@ -4278,8 +4277,6 @@ This work consists of this file fontspec.dtx
 % \begin{macro}{\@@_save_fontinfo:nn}
 % Saves the relevant font information for future processing.
 %    \begin{macrocode}
-\cs_generate_variant:Nn \prop_gput:Nnn {cnV}
-\cs_generate_variant:Nn \prop_gput:Nnn {cnx}
 \cs_new:Nn \@@_save_fontinfo:
  {
   \prop_new:c {g_@@_ \l_fontspec_family_tl _prop}

@@ -4631,7 +4631,7 @@ This work consists of this file fontspec.dtx
   \tl_gput_right:Nx \l_fontspec_defined_shapes_tl
    {
     \exp_not:n { \\ \\ }
-    *~ '\exp_not:N \str_case:nnn {#1/#2}
+    *~ '\exp_not:N \str_case:nnF {#1/#2}
      {
        {\mddefault/\updefault} {normal}
        {\bfdefault/\updefault} {bold}
@@ -4641,7 +4641,7 @@ This work consists of this file fontspec.dtx
     with~ NFSS~ spec.: \exp_not:N \\
     \l_@@_nfss_tl
     \exp_not:n { \\ \\ }
-    *~ '\exp_not:N \str_case:nnn {#1/\scdefault}
+    *~ '\exp_not:N \str_case:nnF {#1/\scdefault}
      {
        {\mddefault/\scdefault} {small~ caps}
        {\bfdefault/\scdefault} {bold~ small~ caps}
@@ -4780,7 +4780,7 @@ This work consists of this file fontspec.dtx
 
   % This is for detecting font families when assigning default features.
   % Replace defaults for the standard families because they're not set in the usual way:
-  \exp_args:NV \str_case:nnn {\l_@@_family_label_tl}
+  \exp_args:NV \str_case:nnF {\l_@@_family_label_tl}
    {
     {\rmdefault} { \tl_set:Nn \l_@@_family_label_tl {\g_@@_rmfamily_family} }
     {\sfdefault} { \tl_set:Nn \l_@@_family_label_tl {\g_@@_sffamily_family} }
@@ -5558,7 +5558,7 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \@@_keys_define_code:nnn {fontspec} {Scale}
  {
-  \str_case:nnn {#1}
+  \str_case:nnF {#1}
    {
     {MatchLowercase} { \@@_calc_scale:n {5} }
     {MatchUppercase} { \@@_calc_scale:n {8} }
@@ -5668,7 +5668,7 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \@@_keys_define_code:nnn {fontspec} {PunctuationSpace}
  {
-  \str_case_x:nnn {#1}
+  \str_case_x:nnF {#1}
    {
     {WordSpace}
     {

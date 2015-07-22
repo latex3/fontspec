@@ -67,6 +67,10 @@ Features may be added to the font currently in use with
 Change history
 --------------
 
+- v2.4d (2015/07/22)
+
+    * Rename an internal expl3 function or two.
+
 - v2.4c (2015/03/14)
 
     * v2.4b was never released, sorry!

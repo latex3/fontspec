@@ -2735,7 +2735,7 @@ This work consists of this file fontspec.dtx
 %    \end{macrocode}
 % But for now, this is the shared code.
 %    \begin{macrocode}
-\RequirePackage{expl3}[2011/09/05]
+\RequirePackage{expl3}[2015/06/26]
 \RequirePackage{xparse}
 \ExplSyntaxOn
 %    \end{macrocode}
@@ -3951,8 +3951,7 @@ This work consists of this file fontspec.dtx
     \global \font #1 = #2 ~at~ #3 \scan_stop:
    }
   \cs_set:Npn \font_suppress_not_found_error:
-%<xetexx>    {\suppressfontnotfounderror=1}
-%<luatex>    {\luatexsuppressfontnotfounderror=1}
+    { \int_set_eq:NN \luatex_suppressfontnotfounderror:D \c_one }
   \prg_set_conditional:Nnn \@@_font_if_null:N {p,TF,T,F}
    {
     \ifx #1 \nullfont
@@ -4789,10 +4788,10 @@ This work consists of this file fontspec.dtx
 
 %<*luatex>
   \tl_set:Nn \l_fontspec_mode_tl {node}
-  \luatexprehyphenchar   =`\-  % fixme
-  \luatexposthyphenchar  = 0   % fixme
-  \luatexpreexhyphenchar = 0   % fixme
-  \luatexpostexhyphenchar= 0   % fixme
+  \int_set:Nn \luatex_prehyphenchar:D { `\- } % fixme
+  \int_zero:N \luatex_posthyphenchar:D        % fixme
+  \int_zero:N \luatex_preexhyphenchar:D       % fixme
+  \int_zero:N \luatex_postexhyphenchar:D      % fixme
 %</luatex>
  }
 %    \end{macrocode}
@@ -5731,7 +5730,7 @@ This work consists of this file fontspec.dtx
 %<*luatex>
         {
           \hyphenchar \font = \c_zero
-          \luatexprehyphenchar = \l_fontspec_hyphenchar_tl \scan_stop:
+          \int_set:Nn \luatex_prehyphenchar:D { \l_fontspec_hyphenchar_tl }
         }
 %</luatex>
      }

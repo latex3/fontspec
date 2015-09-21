@@ -3510,28 +3510,25 @@ This work consists of this file fontspec.dtx
 % \begin{macro}{\aliasfontfeatureoption}
 % User commands for renaming font features and font feature options.
 %    \begin{macrocode}
+\bool_new:N \l_@@_alias_bool
 \DeclareDocumentCommand \aliasfontfeature {mm}
  {
+  \bool_set_false:N \l_@@_alias_bool
+
   \clist_map_inline:nn
    { fontspec, fontspec-preparse, fontspec-preparse-external,
      fontspec-preparse-nested, fontspec-renderer }
    {
+
      \keys_if_exist:nnT {##1} {#1}
       {
-        \clist_map_break:n
-          {
-            \@@_alias_font_feature:nnn {##1} {#1} {#2}
-            \use_none_delimit_by_q_nil:w
-          }
+        \bool_set_true:N \l_@@_alias_bool
+        \@@_alias_font_feature:nnn {##1} {#1} {#2}
       }
    }
 
-  % this executes if no match was found:
-  \@@_warning:nx {rename-feature-not-exist} {#1}
-
-  % jump to here if a match:
-  \use_none:n
-  \q_nil
+  \bool_if:NF \l_@@_alias_bool
+    { \@@_warning:nx {rename-feature-not-exist} {#1} }
  }
 
 \cs_set:Nn \@@_alias_font_feature:nnn

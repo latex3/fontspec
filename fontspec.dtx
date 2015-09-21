@@ -4465,8 +4465,9 @@ This work consists of this file fontspec.dtx
 \cs_new:Nn \@@_make_font_shapes:Nnnnn
  {
   \group_begin:
+    \keys_set_known:nxN {fontspec-preparse-external} { #4 } \l_@@_leftover_clist
     \@@_load_fontname:n {#1}
-    \@@_declare_shape:nnxx {#2} {#3} { \l_@@_fontopts_clist, #4 } {#5}
+    \@@_declare_shape:nnxx {#2} {#3} { \l_@@_fontopts_clist, \l_@@_leftover_clist } {#5}
   \group_end:
  }
 
@@ -5176,7 +5177,7 @@ This work consists of this file fontspec.dtx
   \bool_set_true:N \l_@@_nobf_bool
   \bool_set_true:N \l_@@_noit_bool
   \bool_set_true:N \l_@@_external_bool
-  \cs_gset:Npn \@@_namewrap:n ##1 { [ #1 ##1 ] }
+  \cs_set:Npn \@@_namewrap:n ##1 { [ #1 ##1 ] }
 %<*xetexx>
   \keys_set:nn {fontspec-renderer} {Renderer=OpenType}
 %</xetexx>

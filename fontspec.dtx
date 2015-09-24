@@ -3937,30 +3937,30 @@ This work consists of this file fontspec.dtx
 \cs_set:Nn \@@_fontwrap:n { "#1" }
 %    \end{macrocode}
 %
-% Beginnings of an `l3font', I guess:
 %    \begin{macrocode}
-\cs_if_free:NT \font_set_eq:NN
- {
-  \cs_set_eq:NN \font_set_eq:NN \tex_let:D
-  \cs_set:Npn \font_set:Nnn #1#2#3
-   {
-    \font #1 = #2 ~at~ #3\scan_stop:
-   }
-  \cs_set:Npn \font_gset:Nnn #1#2#3
-   {
+\cs_set:Npn \@@_primitive_font_set:Nnn #1#2#3
+  {
+    \font #1 = #2 ~at~ #3 \scan_stop:
+  }
+
+\cs_set:Npn \@@_primitive_font_gset:Nnn #1#2#3
+  {
     \global \font #1 = #2 ~at~ #3 \scan_stop:
-   }
-  \cs_set:Npn \font_suppress_not_found_error:
-    { \int_set_eq:NN \luatex_suppressfontnotfounderror:D \c_one }
-  \prg_set_conditional:Nnn \@@_font_if_null:N {p,TF,T,F}
-   {
+  }
+
+\cs_set:Npn \@@_font_suppress_not_found_error:
+  {
+    \int_set_eq:NN \xetex_suppressfontnotfounderror:D \c_one
+  }
+
+\prg_set_conditional:Nnn \@@_font_if_null:N {p,TF,T,F}
+  {
     \ifx #1 \nullfont
       \prg_return_true:
     \else
       \prg_return_false:
     \fi
-   }
- }
+  }
 %    \end{macrocode}
 %
 %
@@ -3969,11 +3969,11 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \cs_new:Nn \@@_font_set:Nnn
  {
-  \font_set:Nnn #1 {\@@_fontwrap:n {#2}} {#3}
+  \@@_primitive_font_set:Nnn  #1 { \@@_fontwrap:n {#2} } {#3}
  }
 \cs_new:Nn \@@_font_gset:Nnn
  {
-  \font_gset:Nnn #1 {\@@_fontwrap:n {#2}} {#3}
+  \@@_primitive_font_gset:Nnn #1 { \@@_fontwrap:n {#2} } {#3}
  }
 %    \end{macrocode}
 % \end{macro}
@@ -4025,7 +4025,7 @@ This work consists of this file fontspec.dtx
 \cs_set:Nn \fontspec_select:nn
  {
   \group_begin:
-  \font_suppress_not_found_error:
+  \@@_font_suppress_not_found_error:
   \@@_init:
 
   \tl_set:Nx \l_fontspec_fontname_tl    {#2}

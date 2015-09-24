@@ -16,6 +16,7 @@ cp testsuite/testsuite.cls testsuite/build/
 cd testsuite/build
 for tst in *.ltx
 do
+    rm *.fontspec
     xelatex $tst
 done
 

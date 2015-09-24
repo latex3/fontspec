@@ -67,6 +67,11 @@ Features may be added to the font currently in use with
 Change history
 --------------
 
+- v2.4e (2015/09/24)
+
+    * Allow `[Path=...]` to be specified for individual font faces.
+    * Continue to normalise naming with expl3. (Ongoing.)
+
 - v2.4d (2015/07/22)
 
     * Rename an internal expl3 function or two.

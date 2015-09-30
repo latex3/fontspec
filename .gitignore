@@ -1,14 +1,27 @@
 
+Archive/
+
+*.idx
+*.out
+*.toc
+*.fontspec
+*.otf
 *.aux
 *.log
-*.pdf 
+*.pdf
 *.sty
+*synctex*
+*.zip
+Fonts/
+
+test*
+
+fontspec-example.tex
 
 testsuite/build/
 testsuite/fonts/
 testsuite/tests/*.pdf
 doc-files/
-fontspec-*
 
 fontspec.cfg
 fontspec.lua

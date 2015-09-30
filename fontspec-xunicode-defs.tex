@@ -1,30 +1,24 @@
+
 % This package should work with any encoding name.
 % Simply define an expansion for \UTFencname before loading this file,
 % otherwise the encoding name will be 'U'.
 \providecommand{\UTFencname}{U}
-%
-%
-%
-%
+
 % Use \DeclareUTFcharacter to assign a cs-name to
 % access a Unicode code-point...
-%
 \newcommand{\DeclareUTFcharacter}[3][\UTFencname]{%
   \let\add@flag\@ne % ==> add support in this encoding
   \check@hexcom@digits #2@@@@@!@{#1}{#2}{#3}%
 }
-%
+
 % ... or use \UndeclareUTFcharacter to cancel a declaration
 % when the appropriate code-point is not supported in the
 % desired text-font.
-%
 \newcommand{\UndeclareUTFcharacter}[3][\UTFencname]{%
   \let\add@flag\z@ % ==> remove support in this encoding
   \check@hexcom@digits #2@@@@@!@{#1}{#2}{#3}%
 }
-%
-%
-%
+
 \def\check@hexcom@digits#1#2@!@#3#4#5{%
  \ifx x#1\relax
   \check@hexcom@digits@#2@!@{#3}{#4}{#5}%
@@ -32,11 +26,10 @@
   \UTFacc@warning@{code #4 for #3-\string#5 fails to start with 'x'}%
  \fi
 }
-%
+
 % Use \DeclareUTFcomposite to assign a cs-name to access
 % accents or composite characters via Unicode code-points,
 % or the Unicode "Composing Character" mechanism ...
-%
 \newcommand{\DeclareUTFcomposite}[4][\UTFencname]{{%
   \let\add@flag\@ne % ==> add support in this encoding
   \check@hex@digits #2@@@@@!@{#1}{#2}{#3}{#4}%
@@ -45,35 +38,16 @@
   \let\add@flag\@ne % ==> add support in this encoding
   \check@hex@digits #2@@@@@!@{#1}{#2}{#3}{#4}%
 }}
-%
+
 % ... or use \UndeclareUTFcomposite to cancel a declaration
 % when the appropriate code-point is not supported in the
 % desired text-font.
-%
 \newcommand{\UndeclareUTFcomposite}[4][\UTFencname]{{%
   \let\add@flag\z@ % ==> remove support in this encoding
   \check@hex@digits #2@@@@@!@{#1}{#2}{#3}{#4}%
 }}
-%
-% Allow already defined math-commands to be used also in text.
-% Use of this is controlled by the 'mathastext' package option.
-\newcommand\DeclareMathAsUTFtext[3]{%
- \expandafter\let\csname keepmathUTF#1\endcsname#2\relax
- \DeclareUTFcharacter[\UTFencname]{#3}{#2}%
- \expandafter\let\csname keeptextUTF#1\expandafter\endcsname
-  \csname\UTFencname\string#2\endcsname\relax
- \DeclareTextCommand{#2}{\UTFencname}{%
-  \ifmmode % the saved math version
-   \expandafter\mathrm\csname keepmathUTF#1\endcsname
-  \else   % the text version
-   {\csname keeptextUTF#1\endcsname}%
- \fi}%
-}
-% useage: \DeclareMathAsUTFtext{aleph}{\aleph}{x2135}
-%
-%
-%
-%
+
+
 \def\check@hex@digits#1#2@!@#3#4#5#6{%
  \ifx x#1\relax
    \check@hex@digits@#2@!@{#3}{#4}{#5}{#6}%
@@ -81,12 +55,12 @@
   \UTFacc@warning@{code #4 for #3-\string#5#6 fails to start with 'x'}%
  \fi
 }
-%
+
 % indirect conditionals, to avoid unbalance when reloaded
 \def\UTF@ignore#1{\csname iffalse\endcsname}
 \def\UTF@doit#1{\csname iftrue\endcsname}
-%
-%%
+
+
 %% these next macros need to have " with correct \catcode
 %%
 {\catcode`\"=12
@@ -161,11 +135,13 @@
 \gdef\declare@hex@command#1#2{\gdef#2{#1}}%
 %
 }%  end of \catcode`\"=12
-%
+
+
 {\catcode`\ =10\relax%
-\gdef\UTF@@space{ }}%
+\gdef\UTF@@space{ }}
 \edef\UTF@space{\UTF@@space}
-%
+
+
 \def\declare@utf@composite#1#2#3#4{%
  \expandafter\ifcat\expandafter A\string#4\relax
   {\ifx\add@flag\@ne %
@@ -183,18 +159,13 @@
   \fi}%
  \fi
 }
-%
+
 % new command:  {\DeclareEncodedCompositeCharacter}[4]{%
   %  #1 = encoding
   %  #2 = accent-macro in TeX
   %  #3 = position of combining glyph in Unicode
   %  #4 = bare accent position, in Unicode
   %  ##1 = slot for the accented letter
-%\newcommand{\DeclareEncodedCompositeCharacter}[4]{%
-%  \expandafter\def\csname #1\string#2\endcsname##1{%
-%    \expandafter\@text@composite \csname #1\string#2\endcsname##1\@empty
-%    \@text@composite{\add@encoded@accent{#3}{##1}{#4}}}%
-%}
 \newcommand{\DeclareEncodedCompositeCharacter}[4]{%
   \expandafter\def\expandafter\next@ii\expandafter{%
    \expandafter\expandafter\expandafter\@text@composite\expandafter
@@ -204,11 +175,7 @@
    \expandafter\def\expandafter\csname #1\string#2\endcsname####1}%
   \expandafter\next@i\expandafter{\next@ii}%
 }
-%\newcommand{\DeclareEncodedCompositeAccents}[4]{%
-%  \expandafter\def\csname #1\string#2\endcsname##1{%
-%    \expandafter\@text@composite \csname #1\string#2\endcsname##1\@empty
-%    \@text@composite{\add@encoded@accents{#4}{##1}{#3}}}%
-%}
+
 \newcommand{\DeclareEncodedCompositeAccents}[4]{%
   \expandafter\def\expandafter\next@ii\expandafter{%
    \expandafter\expandafter\expandafter\@text@composite\expandafter
@@ -221,12 +188,9 @@
 
 \let\add@encoded@accent\add@UTF@accent
 \let\add@encoded@accents\add@UTF@accents
-%\let\add@encoded@accent\add@set@accentCOMP
-%\let\add@encoded@accent\add@set@accentMOD
-%
+
 % bring \textsuperscript and \textsubscript into the fold of macros 
 % dependent on encoding
-%
 \let\realLaTeXsuperscript\textsuperscript
 \let\realLaTeXsubscript\textsubscript
 \DeclareTextAccent{\textsuperscript}{OT1}{999}
@@ -236,7 +200,5 @@
 \expandafter\expandafter\expandafter\let\expandafter
  \csname?\string\textsubscript\endcsname\realLaTeXsubscript
 \let\super\textsuperscript
-%
-
 
 \endinput

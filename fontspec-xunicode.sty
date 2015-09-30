@@ -14,51 +14,6 @@
 %
 \expandafter\ifx\expandafter\relax\csname ReloadXunicode\endcsname\relax
 %
-% This package is designed to work with TeX engines that directly
-% process UTF8 input and use Unicode and OpenType fonts.
-% At the time of writing, XeTeX is the only known engine of this kind.
-% When more engines become available, the following test should be
-% altered.
-%
-\begingroup
- \def\notXeTeXformat{%
-  \@latex@error{*** this package currently works only with XeTeX ***^^J
-   You are not using XeTeX, so we are exiting cleanly!^^J
-   Continuing may lead to 'unavailable font metrics' errors!^^J}\@ehc
-  \endgroup\endinput}
-\expandafter\ifx\csname XeTeXpicfile\endcsname\relax\expandafter\notXeTeXformat\fi
-\endgroup
-%
-% The single biggest mistake made by novice XeTeX users is
-% to declare wrong encodings, using the {inputenc} package.
-% While not fatal, this can cause bad output, which they then
-% incorrectly attribute to XeTeX or to this  xunicode.sty  package.
-% So here is a test for this error, which posts warning messages.
-%
-\def\@TestForInputenc{%
- \@ifpackageloaded{inputenc}{\@dontuse@inputenc}{}%
-}
-\def\@dontuse@inputenc{%
-  \typeout{\@dontinputenci}%
-  \typeout{\@dontinputencii}%
-  \typeout{\@dontinputenciii}%
-}
-\def\@dontinputenci{*** you should *not* be loading the inputenc package}
-\def\@dontinputencii{*** XeTeX expects the source to be in UTF8 encoding}
-\def\@dontinputenciii{*** some features of other encodings may conflict,
- resulting in poor output.}
-
-\def\@cleanupafterinputenc{%
- \let\@TestForInputenc\relax
- \let\@dontuse@inputenc\relax
- \let\@dontinputenci\relax
- \let\@dontinputencii\relax
- \let\@dontinputenciii\relax
-}
-\@TestForInputenc
-\AtBeginDocument{\@TestForInputenc}
-\AtBeginDocument{\@cleanupafterinputenc}
-%
 % This package should work with any encoding name.
 % Simply define an expansion for \UTFencname before loading this file,
 % otherwise the encoding name will be 'U'.

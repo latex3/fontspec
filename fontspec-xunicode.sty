@@ -21,10 +21,6 @@
 %
 %
 %
-% Use \UseMathAsText in the preamble, to allow some math symbols
-% to be use within a textual context.  ---  experimental
-\expandafter\newif\csname ifmath@s@text@\endcsname
-\providecommand{\UseMathAsText}{\math@s@text@true}
 %
 % Use \DeclareUTFcharacter to assign a cs-name to
 % access a Unicode code-point...
@@ -1034,34 +1030,6 @@
  \let\TIPArtonebar\TIPAfakertonebar}
 
 
-
-%: separator
-
-
-
-% These probably should not be used in non-math environments yet.
-% But one day the fonts will make this work correctly, removing
-% much of the need for a specialised inline-math environment.
-%
-\def\DeclareUTFmathsymbols#1{%
- \ifmath@s@text@
-  \let\@inmathwarn\@gobble
-  \DeclareMathAsUTFtext{aleph}{\aleph}{x2135}
-  % Need to avoid a conflict when AMSsymb package is subsequently loaded.
-  \@ifpackageloaded{amssymb}{%
-   \DeclareMathAsUTFtext{Finv}{\Finv}{x2132}%
-   \DeclareMathAsUTFtext{beth}{\beth}{x2136}%
-   \DeclareMathAsUTFtext{gimel}{\gimel}{x2137}%
-   \DeclareMathAsUTFtext{daleth}{\daleth}{x2138}%
-   \DeclareMathAsUTFtext{Game}{\Game}{x2141}%
-  }{%
-   \DeclareUTFcharacter[#1]{x2132}{\Finv}%
-   \DeclareUTFcharacter[#1]{x2136}{\beth}%
-   \DeclareUTFcharacter[#1]{x2138}{\daleth}%
-   \DeclareUTFcharacter[#1]{x2141}{\Game}%
-  }%
- \fi 
-}
 
 
 

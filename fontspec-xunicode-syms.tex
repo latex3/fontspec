@@ -352,92 +352,10 @@
 \@ifundefined{textmiddledot}{\DeclareTextAccent{\textmiddledot}{OT1}{999}}{}
 \DeclareEncodedCompositeCharacter{\UTFencname}{\textmiddledot}{05BC}{05BC}
 
-\DeclareEncodedCompositeCharacter{\UTFencname}{\TIPAvertmacro}{007C}{007C}  % vertical line
-
 \DeclareEncodedCompositeCharacter{\UTFencname}{\textupstep}{A71B}{A71B}  % tone uparrow
 \DeclareEncodedCompositeCharacter{\UTFencname}{\textdownstep}{A71C}{A71B}  % tone downarrow
 
 
-%: separator
-
-
-\edef\next{\expandafter\string\csname\UTFencname\endcsname}
-\expandafter\let\csname\next\string\'-*\endcsname \tipasubacuteaccent
-\expandafter\let\csname\next\string\'-.\endcsname \tipadotacuteaccent
-\expandafter\let\csname\next\string\.-'\endcsname \tipaDOTacuteaccent
-\expandafter\let\csname\next\string\'-=\endcsname \tipaacutemacronaccent
-\expandafter\let\csname\next\string\^-*\endcsname \tipasubcircumaccent
-\expandafter\let\csname\next\string\^-.\endcsname \tipacircumdotaccent
-\expandafter\let\csname\next\string\~-*\endcsname \tipasubtildeaccent
-\expandafter\let\csname\next\string\~-.\endcsname \tipatildedotaccent
-\expandafter\let\csname\next\string\`-*\endcsname \tipasubgraveaccent
-\expandafter\let\csname\next\string\`-.\endcsname \tipagraveDOTaccent
-\expandafter\let\csname\next\string\`-=\endcsname \tipagravemacronaccent
-\expandafter\let\csname\next\string\`-^\endcsname \tipagravecircumaccent
-\expandafter\let\csname\next\string\.-*\endcsname \tipasubdotaccent
-\expandafter\let\csname\next\string\"-*\endcsname \tipasubumlautaccent
-\expandafter\let\csname\next\string\=-*\endcsname \tipasubbaraccent
-\expandafter\let\csname\next\string\H-*\endcsname \tipadoublegraveaccent
-\expandafter\let\csname\next\string\r-*\endcsname \tipasubringaccent
-\expandafter\let\csname\next\string\r-=\endcsname \tiparingmacronaccent
-\expandafter\let\csname\next\string\u-=\endcsname \tipabrevemacronaccent
-\expandafter\let\csname\next\string\u-*\endcsname \tipasubarchaccent
-\expandafter\let\csname\next\string\v-*\endcsname \tipasubwedgeaccent
-\expandafter\let\csname\next\string\v-'\endcsname \tipaacutewedgeaccent
-\expandafter\let\csname\next\string\t-*\endcsname \tipaundertieaccent
-
-\expandafter\let\csname\next\string\TIPAvertmacro-[\endcsname \tipasubbridgeaccent
-\expandafter\let\csname\next\string\TIPAvertmacro-]\endcsname \tipainvsubbridgeaccent
-\expandafter\let\csname\next\string\TIPAvertmacro-(\endcsname \tipasublhalfringaccent
-\expandafter\let\csname\next\string\TIPAvertmacro-)\endcsname \tipasubrhalfringaccent
-\expandafter\let\csname\next\string\TIPAvertmacro-c\endcsname \tiparoundcapaccent
-\expandafter\let\csname\next\string\TIPAvertmacro-+\endcsname \tipasubplusaccent
-\expandafter\let\csname\next\string\TIPAvertmacro-'\endcsname \tiparaisingaccent
-\expandafter\let\csname\next\string\TIPAvertmacro-`\endcsname \tipaloweringaccent
-\expandafter\let\csname\next\string\TIPAvertmacro-<\endcsname \tipaadvancingaccent
-\expandafter\let\csname\next\string\TIPAvertmacro->\endcsname \tiparetractingaccent
-\expandafter\let\csname\next\string\TIPAvertmacro-x\endcsname \tipaovercrossaccent
-\expandafter\let\csname\next\string\TIPAvertmacro-w\endcsname \tipasubwaccent
-\expandafter\let\csname\next\string\TIPAvertmacro-m\endcsname \tipaseagullaccent
-
-% Implement the special TIPA macros, on just particular letters
-%
-\expandafter\def\csname\next\string\TIPAstarmacro-f\endcsname{\textObardotlessj}% U+025F
-\expandafter\def\csname\next\string\TIPAstarmacro-k\endcsname{\textturnk}%
-\expandafter\def\csname\next\string\TIPAstarmacro-r\endcsname{\textturnr}%
-\expandafter\def\csname\next\string\TIPAstarmacro-t\endcsname{\textturnt}%
-\expandafter\def\csname\next\string\TIPAstarmacro-w\endcsname{\textturnw}%
-\expandafter\def\csname\next\string\TIPAstarmacro-j\endcsname{\textbardotlessj}%
-\expandafter\def\csname\next\string\TIPAstarmacro-n\endcsname{\textltailn}%
-\expandafter\def\csname\next\string\TIPAstarmacro-h\endcsname{\texthbar}%
-\expandafter\def\csname\next\string\TIPAstarmacro-l\endcsname{\textbeltl}%
-\expandafter\def\csname\next\string\TIPAstarmacro-z\endcsname{\textlyoghlig}%
-
-\expandafter\def\csname\next\string\TIPAsemicolonmacro-A\endcsname{\textsca}%
-\expandafter\def\csname\next\string\TIPAsemicolonmacro-B\endcsname{\textscb}%
-\expandafter\def\csname\next\string\TIPAsemicolonmacro-E\endcsname{\textsce}%
-\expandafter\def\csname\next\string\TIPAsemicolonmacro-G\endcsname{\textscg}%
-\expandafter\def\csname\next\string\TIPAsemicolonmacro-H\endcsname{\textsch}%
-\expandafter\def\csname\next\string\TIPAsemicolonmacro-J\endcsname{\textscj}%
-\expandafter\def\csname\next\string\TIPAsemicolonmacro-L\endcsname{\textscl}%
-\expandafter\def\csname\next\string\TIPAsemicolonmacro-N\endcsname{\textscn}%
-\expandafter\def\csname\next\string\TIPAsemicolonmacro-Q\endcsname{\TIPAtextscq}% !!!
-\expandafter\def\csname\next\string\TIPAsemicolonmacro-R\endcsname{\textscr}%
-\expandafter\def\csname\next\string\TIPAsemicolonmacro-U\endcsname{\textscu}%
-\expandafter\def\csname\next\string\TIPAcolonmacro-d\endcsname{\textrtaild}%
-\expandafter\def\csname\next\string\TIPAcolonmacro-l\endcsname{\textrtaill}%
-\expandafter\def\csname\next\string\TIPAcolonmacro-n\endcsname{\textrtailn}%
-\expandafter\def\csname\next\string\TIPAcolonmacro-r\endcsname{\textrtailr}%
-\expandafter\def\csname\next\string\TIPAcolonmacro-R\endcsname{\textturnrrtail}%
-\expandafter\def\csname\next\string\TIPAcolonmacro-s\endcsname{\textrtails}%
-\expandafter\def\csname\next\string\TIPAcolonmacro-t\endcsname{\textrtailt}%
-\expandafter\def\csname\next\string\TIPAcolonmacro-z\endcsname{\textrtailz}%
-\expandafter\def\csname\next\string\TIPAexclammacro-b\endcsname{\texthtb}%
-\expandafter\def\csname\next\string\TIPAexclammacro-d\endcsname{\texthtd}%
-\expandafter\def\csname\next\string\TIPAexclammacro-g\endcsname{\texthtg}%
-\expandafter\def\csname\next\string\TIPAexclammacro-j\endcsname{\texthtbardotlessj}%
-\expandafter\def\csname\next\string\TIPAexclammacro-G\endcsname{\texthtscg}%
-\expandafter\def\csname\next\string\TIPAexclammacro-o\endcsname{\textbullseye}%
 
 % Constructed Characters, having no Unicode point
 \def\textaolig{{a\kern-.25em o}}
@@ -491,11 +409,6 @@
 \def\textfakedownstep{{\raise.45ex\hbox{\scalebox{.7}{\textdownfullarrow}}}}
 
 %: separator
-
-\expandafter\DeclareTIPAstarmacro\expandafter{\UTFencname}{\TIPAstarmacro}
-\expandafter\DeclareTIPAmacro\expandafter{\UTFencname}{\TIPAexclammacro}
-\expandafter\DeclareTIPAmacro\expandafter{\UTFencname}{\TIPAcolonmacro}
-\expandafter\DeclareTIPAmacro\expandafter{\UTFencname}{\TIPAsemicolonmacro}
 
 % setup the correspondence between Unicode characters and macro names
 
@@ -1114,15 +1027,11 @@
 \DeclareUTFcomposite[\UTFencname]{x021B}{\textcommabelow}{t}
 \DeclareUTFcharacter[\UTFencname]{x021C}{\YOGH}
 \DeclareUTFcharacter[\UTFencname]{x021D}{\yogh}
-%\DeclareUTFcharacter[\UTFencname]{x021D}{\textyogh}  %   TIPA-Z   ???
 \DeclareUTFcomposite[\UTFencname]{x021E}{\v}{H}
 \DeclareUTFcomposite[\UTFencname]{x021E}{\capitalcaron}{H}
 \DeclareUTFcomposite[\UTFencname]{x021F}{\v}{h}
 \DeclareUTFcomposite[\UTFencname]{x0220}{\M}{N}
-%\DeclareUTFcomposite[\UTFencname]{x0221}{\?}{d} % with curl
 \DeclareUTFcharacter[\UTFencname]{x0221}{\textctd}
-%\DeclareUTFcharacter[\UTFencname]{x0222}{\OU}
-%\DeclareUTFcharacter[\UTFencname]{x0223}{\ou}
 \DeclareUTFcomposite[\UTFencname]{x0224}{\textcommabelow}{Z} % with comma
 \DeclareUTFcomposite[\UTFencname]{x0225}{\textcommabelow}{z} % with comma
 \DeclareUTFcharacter[\UTFencname]{x0225}{\textcommatailz}

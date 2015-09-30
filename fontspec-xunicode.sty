@@ -8,6 +8,20 @@
 
 \ProvidesFile{fontspec-xunicode.sty}[2011/09/09 v0.1 fork of xunicode]
 
+\RequirePackage{filehook}
+\AtBeginOfPackageFile{xunicode}{%
+  \let\DeclareUTFcharacter\relax
+  \let\UndeclareUTFcharacter\relax
+  \let\DeclareUTFcomposite\relax
+  \let\UndeclareUTFcomposite\relax
+  \let\DeclareUTFmulticomposite\relax
+  \let\UndeclareUTFmulticomposite\relax
+  \let\DeclareMathAsUTFtext\relax
+  \let\DeclareEncodedCompositeCharacter\relax
+  \let\DeclareEncodedCompositeAccents\relax
+  \let\faketextsc\relax
+}
+
 \input{fontspec-xunicode-defs.tex}
 \input{fontspec-xunicode-syms.tex}
 

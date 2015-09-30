@@ -8,9 +8,6 @@
 
 \ProvidesFile{fontspec-xunicode.sty}[2011/09/09 v0.1 fork of xunicode]
 
-
-%: load once
-
 % While most of this package can, and should, be loaded many times,
 % there are some parts that need not and others that should not.
 % So we need to skip those critical parts.
@@ -260,16 +257,8 @@
  \csname?\string\textsubscript\endcsname\realLaTeXsubscript
 \let\super\textsuperscript
 %
-\else
- \typeout{*** Reloading Xunicode for encoding '\UTFencname' ***}%
-\fi
-%: end of the part that should not be loaded more than once.
 
-
-
-%: load once
-
-\expandafter\ifx\csname ReloadXunicode\endcsname\relax
+%: separator
 
 % need to patch the accents for use with TIPA's T3 encoded letters
 % and shorthand for double-accents
@@ -522,16 +511,8 @@
 }
 
 
-\fi
-%: end of the part that should not be loaded more than once.
+%: separator
 
-
-
-
-
-%: load once
-
-\expandafter\ifx\csname ReloadXunicode\endcsname\relax
 
 % must not declare this, as the encoding is picked up by \textsc 
 \newcommand{\faketextsc}[1]{\scalebox{.7}[.7]{#1}}
@@ -975,16 +956,9 @@
 
 \DeclareRobustCommand{\T}[1]{\~{\m{#1}}}
 \let\tipasafemode\relax
-\fi
-%: end of the part that should not be loaded more than once.
 
+%: separator
 
-
-
-
-%: load once
-
-\expandafter\ifx\csname ReloadXunicode\endcsname\relax
 {
  \gdef\real@five{5}%
  \gdef\real@four{4}%
@@ -1059,16 +1033,11 @@
 \def\UseFakeRightTones{\RequirePackage{graphicx}%
  \let\TIPArtonebar\TIPAfakertonebar}
 
-\fi
-%: end of the part that should not be loaded more than once.
 
 
+%: separator
 
 
-
-%: load once
-
-\expandafter\ifx\csname ReloadXunicode\endcsname\relax
 
 % These probably should not be used in non-math environments yet.
 % But one day the fonts will make this work correctly, removing
@@ -1093,17 +1062,16 @@
   }%
  \fi 
 }
-\fi
-%: end of the part that should not be loaded more than once.
 
 
-%: load once
 
-\expandafter\ifx\csname ReloadXunicode\endcsname\relax
- \def\ReloadXunicode#1{\def\UTFencname{#1}%
+\def\ReloadXunicode#1{\def\UTFencname{#1}%
   \makeatletter
    \input{xunicode.sty}%
   \makeatother}%
+
+\else
+ \typeout{*** Reloading Xunicode for encoding '\UTFencname' ***}%
 \fi
 %: end of the part that should not be loaded more than once.
 

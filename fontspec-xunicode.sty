@@ -1,97 +1,13 @@
+
+%% FORK OF XUNICODE.STY BY WILL ROBERTSON
+%
+%% ORIGINAL HEADER TEXT:
+
 % Copyright 2004-2011 Ross Moore <ross.moore@mq.edu.au>
 % Released under the LPPL licence, version 1.3c or later.
-\ProvidesFile{xunicode.sty}[2011/09/09 v0.981 provides access to
- latin accents and many other characters in Unicode lower plane]
-%
-%%%%  History of Changes  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-% v0.1  released on the XeTeX mailing list, 2004/07/22
-%
-% v0.2  2004/07/25  
-%       modified so that  \DeclareUTFcharacter produces robust commands.
-%       support for IPA symbols and many commands from  tipa.sty
-%       implemented commands for 'double' accents, as in  tipa.sty
-%
-% v0.3  2004/09/10  
-%       support for accented \i and \j as well as plain i and j letters.
-%       support for TIPA's T3 encoding
-%       TIPA's double-accent shorthands and tone-markings are supported.
-%
-% v0.4  2004/09/13  
-%       fixed the problem of "gobbled spaces", by inserting \relax
-%
-% v0.5  2005/02/26  
-%       changed package name to    xunicode.sty 
-%       fixed problem with accented {} (empty token)
-%       supports accented spaces:  \'\  , \'{ } , \'~  
-%       changed \textascii<accent>, etc. to give non-accent chars
-%         6 chars affected:  
-%           \textasciitilde, \textasciiacute, \textasciigrave
-%           \textasciimacron,  \textasciicircum, \textasciicedilla
-%       removed the  " did you really mean " message.
-%
-% v0.6  2005/10/20  
-%       added check and warnings for when  inputenc.sty  is also loaded
-%
-% v0.7  2006/04/09  
-%       changed  \textg  to give x0261
-%
-% v0.8  2006/07/18  
-%       changed  \textminus  to give x2212  (thanks Toralf Senger)
-%       fixed name for x212E as \textestimated  (not \textestimate)
-%       added support for  \textlquill (x2045) and \textrquill (x2046)
-%       added support for  \textmusicalnote (x266A)
-%       added support for  \capital<accent>s   from  textcomp.sty
-%
-% v0.9  2007/09/11  
-%       fixes to some TIPA macro names for active chars:  2 3 G U Z
-%       provides a definition for  \textezh
-%
-% v0.91 2008/02/08  
-%       added declarations for common accents over \i 
-%
-% v0.93 2009/11/09  
-%       small changes to TIPA characters 
-%
-% v0.94 2010/01/14  
-%       added  \textperiodcentered , \asterism
-%
-% v0.95 2010/05/18  
-%       added  \textbarl  \Ohorn  \ohorn  \Uhorn  \uhorn  \textdotlessj
-%       completed blocks: x02B0-x02DF and x02E*   \textdblig
-%       supports more macro names
-%
-% v0.96 2010/11/06  
-%       added LPPL licence statement
-%
-% v0.97 2011/05/17  
-%       fixed up \t (tie) to use x0361 and implement \t{oo} 
-%       changed \t-<vowel> combinations to \textroundcap (13 instances)
-%       avoid conflict when  AMSsymb  package is subsequently loaded
-%       experiment with some math chars within ordinary text
-%
-% v0.971 2011/05/21  
-%      removed unnecessary (and wrong) \expandafter
-%
-% v0.972 2011/05/23   ---  thanks to Claudio Beccari
-%      fixed undefined \capitalcedilla  and  \capitalogonek
-%      added  \capital-accent combinations, and some other macros
-%      from  textcomp.sty 
-%
-% v0.98 2011/06/27
-%      implemented  \ReloadXunicode{<encoding-name>}  
-%      prevent main macros from redefinition upon reloading
-%      implement the TIPA special macros  \: \; \! \*
-%      extended support for TIPA characters and tones
-%      fixed a problem with \DeclareEncodedCompositeCharacter
-%       and  \DeclareEncodedCompositeAccents
-%
-% v0.981 2011/09/09
-%      fixed bug with  \@ifpackageloaded{linguex}{...     
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-%
+
+\ProvidesFile{fontspec-xunicode.sty}[2011/09/09 v0.1 fork of xunicode]
+
 % While most of this package can, and should, be loaded many times,
 % there are some parts that need not and others that should not.
 % So we need to skip those critical parts.
@@ -3905,7 +3821,7 @@
 
 \expandafter\ifx\csname ReloadXunicode\endcsname\relax
  \def\ReloadXunicode#1{\def\UTFencname{#1}%
-  \usepackage{xunicode}}%
+  \usepackage{fontspec-xunicode}}%
 \fi
 
 \endinput

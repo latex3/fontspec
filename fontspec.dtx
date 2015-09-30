@@ -3127,11 +3127,11 @@ This work consists of this file fontspec.dtx
 % Now we load \pkg{xunicode}, working around its internal \XeTeX\ check
 % when under \LuaTeX.
 %    \begin{macrocode}
-%<xetexx>\RequirePackage{xunicode}
+%<xetexx>\RequirePackage{fontspec-xunicode}
 %<*luatex>
 \cs_set_eq:NN \fontspec_tmp: \XeTeXpicfile
 \cs_set:Npn \XeTeXpicfile {}
-\RequirePackage{xunicode}
+\RequirePackage{fontspec-xunicode}
 \cs_set_eq:NN \XeTeXpicfile \fontspec_tmp:
 %</luatex>
 %    \end{macrocode}

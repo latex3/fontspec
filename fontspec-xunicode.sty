@@ -8,6 +8,9 @@
 
 \ProvidesFile{fontspec-xunicode.sty}[2011/09/09 v0.1 fork of xunicode]
 
+
+%: load once
+
 % While most of this package can, and should, be loaded many times,
 % there are some parts that need not and others that should not.
 % So we need to skip those critical parts.
@@ -715,6 +718,9 @@
 \DeclareEncodedCompositeCharacter{\UTFencname}{\textupstep}{A71B}{A71B}  % tone uparrow
 \DeclareEncodedCompositeCharacter{\UTFencname}{\textdownstep}{A71C}{A71B}  % tone downarrow
 
+
+%: load once
+
 \expandafter\ifx\csname ReloadXunicode\endcsname\relax
 
 % need to patch the accents for use with TIPA's T3 encoded letters
@@ -1115,6 +1121,9 @@
 % not many fonts support the correct characters: UxA71B, UxA71C
 \def\textfakeupstep{{\raise.4ex\hbox{\scalebox{.7}{\textupfullarrow}}}}
 \def\textfakedownstep{{\raise.45ex\hbox{\scalebox{.7}{\textdownfullarrow}}}}
+
+
+%: load once
 
 \expandafter\ifx\csname ReloadXunicode\endcsname\relax
 
@@ -2578,6 +2587,9 @@
 %\DeclareUTFcharacter[\UTFencname]{x02EE}{\ipadblapostrophe}
 %\DeclareUTFcharacter[\UTFencname]{x02EF}{\ipadownarrowhead}
 
+
+%: load once
+
 \expandafter\ifx\csname ReloadXunicode\endcsname\relax
 {
  \gdef\real@five{5}%
@@ -3517,6 +3529,9 @@
 %\DeclareUTFcharacter[\UTFencname]{x212B}{\textangstrom}
 \DeclareUTFcharacter[\UTFencname]{x212E}{\textestimated}
 
+
+%: load once
+
 \expandafter\ifx\csname ReloadXunicode\endcsname\relax
 
 % These probably should not be used in non-math environments yet.
@@ -3627,6 +3642,8 @@
 \DeclareUTFcharacter[\UTFencname]{xA78B}{\textcapitalsaltillo}
 \DeclareUTFcharacter[\UTFencname]{xA78C}{\textsaltillo}
 
+%: load once
+
 \expandafter\ifx\csname ReloadXunicode\endcsname\relax
  \def\ReloadXunicode#1{\def\UTFencname{#1}%
   \makeatletter
@@ -3637,146 +3654,3 @@
 
 \endinput
 
-% Not many fonts support these code-points yet.
-% So leave these undefined at present.
-
-
-\DeclareUTFcharacter[\UTFencname]{x3008}{\textlangle}
-\DeclareUTFcharacter[\UTFencname]{x3009}{\textrangle}
-\DeclareUTFcharacter[\UTFencname]{x301A}{\textlbrackdbl}
-\DeclareUTFcharacter[\UTFencname]{x301B}{\textrbrackdbl}
-
-% old-style numbers
-
-\DeclareUTFcharacter[\UTFencname]{xFF10}{\textzerooldstyle}
-\DeclareUTFcharacter[\UTFencname]{xFF11}{\textoneoldstyle}
-\DeclareUTFcharacter[\UTFencname]{xFF12}{\texttwooldstyle}
-\DeclareUTFcharacter[\UTFencname]{xFF13}{\textthreeoldstyle}
-\DeclareUTFcharacter[\UTFencname]{xFF14}{\textfouroldstyle}
-\DeclareUTFcharacter[\UTFencname]{xFF15}{\textfiveoldstyle}
-\DeclareUTFcharacter[\UTFencname]{xFF16}{\textsixoldstyle}
-\DeclareUTFcharacter[\UTFencname]{xFF17}{\textsevenoldstyle}
-\DeclareUTFcharacter[\UTFencname]{xFF18}{\texteightoldstyle}
-\DeclareUTFcharacter[\UTFencname]{xFF19}{\textnineoldstyle}
-
-% For circled letters and small numbers
-%
-
-\DeclareEncodedCompositeCharacter{\UTFencname}{\textcircled}{20DD}{25EF}
-
-\DeclareUTFcomposite[\UTFencname]{x2460}{\textcircled}{1}
-\DeclareUTFcomposite[\UTFencname]{x2461}{\textcircled}{2}
-\DeclareUTFcomposite[\UTFencname]{x2462}{\textcircled}{3}
-\DeclareUTFcomposite[\UTFencname]{x2463}{\textcircled}{4}
-\DeclareUTFcomposite[\UTFencname]{x2464}{\textcircled}{5}
-\DeclareUTFcomposite[\UTFencname]{x2465}{\textcircled}{6}
-\DeclareUTFcomposite[\UTFencname]{x2466}{\textcircled}{7}
-\DeclareUTFcomposite[\UTFencname]{x2467}{\textcircled}{8}
-\DeclareUTFcomposite[\UTFencname]{x2468}{\textcircled}{9}
-\DeclareUTFcomposite[\UTFencname]{x2469}{\textcircled}{10}
-\DeclareUTFcomposite[\UTFencname]{x246A}{\textcircled}{11}
-\DeclareUTFcomposite[\UTFencname]{x246B}{\textcircled}{12}
-\DeclareUTFcomposite[\UTFencname]{x246C}{\textcircled}{13}
-\DeclareUTFcomposite[\UTFencname]{x246D}{\textcircled}{14}
-\DeclareUTFcomposite[\UTFencname]{x246E}{\textcircled}{15}
-\DeclareUTFcomposite[\UTFencname]{x246F}{\textcircled}{16}
-\DeclareUTFcomposite[\UTFencname]{x2470}{\textcircled}{17}
-\DeclareUTFcomposite[\UTFencname]{x2471}{\textcircled}{18}
-\DeclareUTFcomposite[\UTFencname]{x2472}{\textcircled}{19}
-\DeclareUTFcomposite[\UTFencname]{x2473}{\textcircled}{20}
-
-
-\DeclareUTFcomposite[\UTFencname]{x24B6}{\textcircled}{A}
-\DeclareUTFcomposite[\UTFencname]{x24B7}{\textcircled}{B}
-\DeclareUTFcomposite[\UTFencname]{x24B8}{\textcircled}{C}
-\DeclareUTFcomposite[\UTFencname]{x24B9}{\textcircled}{D}
-\DeclareUTFcomposite[\UTFencname]{x24BA}{\textcircled}{E}
-\DeclareUTFcomposite[\UTFencname]{x24BB}{\textcircled}{F}
-\DeclareUTFcomposite[\UTFencname]{x24BC}{\textcircled}{G}
-\DeclareUTFcomposite[\UTFencname]{x24BD}{\textcircled}{H}
-\DeclareUTFcomposite[\UTFencname]{x24BE}{\textcircled}{I}
-\DeclareUTFcomposite[\UTFencname]{x24BF}{\textcircled}{J}
-\DeclareUTFcomposite[\UTFencname]{x24C0}{\textcircled}{K}
-\DeclareUTFcomposite[\UTFencname]{x24C1}{\textcircled}{L}
-\DeclareUTFcomposite[\UTFencname]{x24C2}{\textcircled}{M}
-\DeclareUTFcomposite[\UTFencname]{x24C3}{\textcircled}{N}
-\DeclareUTFcomposite[\UTFencname]{x24C4}{\textcircled}{O}
-\DeclareUTFcomposite[\UTFencname]{x24C5}{\textcircled}{P}
-\DeclareUTFcomposite[\UTFencname]{x24C6}{\textcircled}{Q}
-\DeclareUTFcomposite[\UTFencname]{x24C7}{\textcircled}{R}
-\DeclareUTFcomposite[\UTFencname]{x24C8}{\textcircled}{S}
-\DeclareUTFcomposite[\UTFencname]{x24C9}{\textcircled}{T}
-\DeclareUTFcomposite[\UTFencname]{x24CA}{\textcircled}{U}
-\DeclareUTFcomposite[\UTFencname]{x24CB}{\textcircled}{V}
-\DeclareUTFcomposite[\UTFencname]{x24CC}{\textcircled}{W}
-\DeclareUTFcomposite[\UTFencname]{x24CD}{\textcircled}{X}
-\DeclareUTFcomposite[\UTFencname]{x24CE}{\textcircled}{Y}
-\DeclareUTFcomposite[\UTFencname]{x24CF}{\textcircled}{Z}
-\DeclareUTFcomposite[\UTFencname]{x24D0}{\textcircled}{a}
-\DeclareUTFcomposite[\UTFencname]{x24D1}{\textcircled}{b}
-\DeclareUTFcomposite[\UTFencname]{x24D2}{\textcircled}{c}
-\DeclareUTFcomposite[\UTFencname]{x24D3}{\textcircled}{d}
-\DeclareUTFcomposite[\UTFencname]{x24D4}{\textcircled}{e}
-\DeclareUTFcomposite[\UTFencname]{x24D5}{\textcircled}{f}
-\DeclareUTFcomposite[\UTFencname]{x24D6}{\textcircled}{g}
-\DeclareUTFcomposite[\UTFencname]{x24D7}{\textcircled}{h}
-\DeclareUTFcomposite[\UTFencname]{x24D8}{\textcircled}{i}
-\DeclareUTFcomposite[\UTFencname]{x24D9}{\textcircled}{j}
-\DeclareUTFcomposite[\UTFencname]{x24DA}{\textcircled}{k}
-\DeclareUTFcomposite[\UTFencname]{x24DB}{\textcircled}{l}
-\DeclareUTFcomposite[\UTFencname]{x24DC}{\textcircled}{m}
-\DeclareUTFcomposite[\UTFencname]{x24DD}{\textcircled}{n}
-\DeclareUTFcomposite[\UTFencname]{x24DE}{\textcircled}{o}
-\DeclareUTFcomposite[\UTFencname]{x24DF}{\textcircled}{p}
-\DeclareUTFcomposite[\UTFencname]{x24E0}{\textcircled}{q}
-\DeclareUTFcomposite[\UTFencname]{x24E1}{\textcircled}{r}
-\DeclareUTFcomposite[\UTFencname]{x24E2}{\textcircled}{s}
-\DeclareUTFcomposite[\UTFencname]{x24E3}{\textcircled}{t}
-\DeclareUTFcomposite[\UTFencname]{x24E4}{\textcircled}{u}
-\DeclareUTFcomposite[\UTFencname]{x24E5}{\textcircled}{v}
-\DeclareUTFcomposite[\UTFencname]{x24E6}{\textcircled}{w}
-\DeclareUTFcomposite[\UTFencname]{x24E7}{\textcircled}{x}
-\DeclareUTFcomposite[\UTFencname]{x24E8}{\textcircled}{y}
-\DeclareUTFcomposite[\UTFencname]{x24E9}{\textcircled}{z}
-\DeclareUTFcomposite[\UTFencname]{x24EA}{\textcircled}{0}
-
-\DeclareUTFcharacter[\UTFencname]{x25EF}{\textbigcircle}
-
-\DeclareUTFcomposite[\UTFencname]{x3251}{\textcircled}{21}
-\DeclareUTFcomposite[\UTFencname]{x3252}{\textcircled}{22}
-\DeclareUTFcomposite[\UTFencname]{x3253}{\textcircled}{23}
-\DeclareUTFcomposite[\UTFencname]{x3254}{\textcircled}{24}
-\DeclareUTFcomposite[\UTFencname]{x3255}{\textcircled}{25}
-\DeclareUTFcomposite[\UTFencname]{x3256}{\textcircled}{26}
-\DeclareUTFcomposite[\UTFencname]{x3257}{\textcircled}{27}
-\DeclareUTFcomposite[\UTFencname]{x3258}{\textcircled}{28}
-\DeclareUTFcomposite[\UTFencname]{x3259}{\textcircled}{29}
-\DeclareUTFcomposite[\UTFencname]{x325A}{\textcircled}{30}
-\DeclareUTFcomposite[\UTFencname]{x325B}{\textcircled}{31}
-\DeclareUTFcomposite[\UTFencname]{x325C}{\textcircled}{32}
-\DeclareUTFcomposite[\UTFencname]{x325D}{\textcircled}{33}
-\DeclareUTFcomposite[\UTFencname]{x325E}{\textcircled}{34}
-\DeclareUTFcomposite[\UTFencname]{x325F}{\textcircled}{35}
-
-\DeclareUTFcomposite[\UTFencname]{x32B1}{\textcircled}{36}
-\DeclareUTFcomposite[\UTFencname]{x32B2}{\textcircled}{37}
-\DeclareUTFcomposite[\UTFencname]{x32B3}{\textcircled}{38}
-\DeclareUTFcomposite[\UTFencname]{x32B4}{\textcircled}{39}
-\DeclareUTFcomposite[\UTFencname]{x32B5}{\textcircled}{40}
-\DeclareUTFcomposite[\UTFencname]{x32B6}{\textcircled}{41}
-\DeclareUTFcomposite[\UTFencname]{x32B7}{\textcircled}{42}
-\DeclareUTFcomposite[\UTFencname]{x32B8}{\textcircled}{43}
-\DeclareUTFcomposite[\UTFencname]{x32B9}{\textcircled}{44}
-\DeclareUTFcomposite[\UTFencname]{x32BA}{\textcircled}{45}
-\DeclareUTFcomposite[\UTFencname]{x32BB}{\textcircled}{46}
-\DeclareUTFcomposite[\UTFencname]{x32BC}{\textcircled}{47}
-\DeclareUTFcomposite[\UTFencname]{x32BD}{\textcircled}{48}
-\DeclareUTFcomposite[\UTFencname]{x32BE}{\textcircled}{49}
-\DeclareUTFcomposite[\UTFencname]{x32BF}{\textcircled}{50}
-
-\expandafter\ifx\csname ReloadXunicode\endcsname\relax
- \def\ReloadXunicode#1{\def\UTFencname{#1}%
-  \usepackage{fontspec-xunicode}}%
-\fi
-
-\endinput

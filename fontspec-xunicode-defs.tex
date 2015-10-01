@@ -2,7 +2,7 @@
 
 % Use \DeclareUTFcharacter to assign a cs-name to
 % access a Unicode code-point...
-\newcommand{\DeclareUTFcharacter}[3][\UTFencname]
+\newcommand{\fDeclareUTFcharacter}[3][\UTFencname]
   {
     \DeclareUTFcharacter:nnn {#1} {#2} {#3}
   }
@@ -10,14 +10,14 @@
 % Use \DeclareUTFcomposite to assign a cs-name to access
 % accents or composite characters via Unicode code-points,
 % or the Unicode "Composing Character" mechanism ...
-\newcommand{\DeclareUTFcomposite}[4][\UTFencname]
+\newcommand{\fDeclareUTFcomposite}[4][\UTFencname]
   {
     \cs_set:cpn
       { \cs_to_str:N #1 \string #3 - \string #4 }
       { \char #2 \relax }
   }
   
-\newcommand{\DeclareEncodedCompositeCharacter}[4]
+\newcommand{\fDeclareEncodedCompositeCharacter}[4]
   %  #1 = encoding
   %  #2 = accent-macro in TeX
   %  #3 = position of combining glyph in Unicode
@@ -34,7 +34,7 @@
     % i tried simplifying the above (as below) and it didn't work :(
   }
 
-\newcommand{\DeclareEncodedCompositeAccents}[4]
+\newcommand{\fDeclareEncodedCompositeAccents}[4]
   {
     \cs_set_nopar:cpx { #1 \string #2 } ##1
       {

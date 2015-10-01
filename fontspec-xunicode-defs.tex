@@ -1,9 +1,4 @@
 
-% This package should work with any encoding name.
-% Simply define an expansion for \UTFencname before loading this file,
-% otherwise the encoding name will be 'U'.
-\providecommand{\UTFencname}{U}
-
 % Use \DeclareUTFcharacter to assign a cs-name to
 % access a Unicode code-point...
 \newcommand{\DeclareUTFcharacter}[3][\UTFencname]{%
@@ -11,13 +6,6 @@
   \check@hexcom@digits #2@@@@@!@{#1}{#2}{#3}%
 }
 
-% ... or use \UndeclareUTFcharacter to cancel a declaration
-% when the appropriate code-point is not supported in the
-% desired text-font.
-\newcommand{\UndeclareUTFcharacter}[3][\UTFencname]{%
-  \let\add@flag\z@ % ==> remove support in this encoding
-  \check@hexcom@digits #2@@@@@!@{#1}{#2}{#3}%
-}
 
 \def\check@hexcom@digits#1#2@!@#3#4#5{%
  \ifx x#1\relax
@@ -39,13 +27,6 @@
   \check@hex@digits #2@@@@@!@{#1}{#2}{#3}{#4}%
 }}
 
-% ... or use \UndeclareUTFcomposite to cancel a declaration
-% when the appropriate code-point is not supported in the
-% desired text-font.
-\newcommand{\UndeclareUTFcomposite}[4][\UTFencname]{{%
-  \let\add@flag\z@ % ==> remove support in this encoding
-  \check@hex@digits #2@@@@@!@{#1}{#2}{#3}{#4}%
-}}
 
 
 \def\check@hex@digits#1#2@!@#3#4#5#6{%

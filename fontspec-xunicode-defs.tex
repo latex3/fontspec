@@ -46,35 +46,37 @@
 
 % indirect conditionals, to avoid unbalance when reloaded
 \def\UTF@ignore#1{\csname iffalse\endcsname}
-\def\UTF@doit#1{\csname iftrue\endcsname}
+\def\UTF@doit  #1{\csname iftrue\endcsname}
 
 
 \def\check@hexcom@digits@#1#2#3
   {
      \ifcat \active\noexpand#3
 
-       \expandafter\def\csname\UTFencname\string#3\endcsname{\char#2\relax}
-       \ifx\unDeFiNed@#3
-        \ifx\cf@encoding\UTFencname
-         \DeclareTextCommand{#3}{OT1}{\undefined}
-        \else
-         \DeclareTextCommand{#3}{\cf@encoding}{\undefined}
-        \fi
-       \else {% macro #3 exists already ...
-         \let\protect\noexpand
-         \edef\UTF@testi{#3}\def\UTF@testii{#3}%
-         \ifx\UTF@testi\UTF@testii\aftergroup\UTF@ignore
-         \else\aftergroup\UTF@doit\fi
-        }%
-        \iffalse
-         % ... but when it isn't robust, make it so
-         \expandafter\let\csname?-\string#3\endcsname#3\relax
-         \edef\next@UTF@{{\cf@encoding}%
-           {\expandafter\noexpand\csname?-\string#3\endcsname}}%
-         \expandafter\DeclareTextCommand\expandafter
-            {\expandafter#3\expandafter}\next@UTF@
-        \fi
-       \fi
+       \cs_set:cpn { \UTFencname \string#3 } { \char#2\relax }
+       
+       \cs_if_free:NTF #3
+        {
+          \ifx\cf@encoding\UTFencname
+           \DeclareTextCommand{#3}{OT1}{\undefined}
+          \else
+           \DeclareTextCommand{#3}{\cf@encoding}{\undefined}
+          \fi
+        }
+        {
+          {% macro #3 exists already ...
+           \let\protect\noexpand
+           \edef\UTF@testi{#3}\def\UTF@testii{#3}%
+           \ifx\UTF@testi\UTF@testii\aftergroup\UTF@ignore
+           \else\aftergroup\UTF@doit\fi
+          }%
+          \iffalse
+           % ... but when it isn't robust, make it so
+           \expandafter\let\csname?-\string#3\endcsname#3\relax
+           \edef\next@UTF@{{\cf@encoding}%
+             {\expandafter\noexpand\csname?-\string#3\endcsname}}%
+           \expandafter\DeclareTextCommand\expandafter
+              {\expandafter#3\expandafter}\next@UTF@
           \fi
         }
       
@@ -82,15 +84,18 @@
        % WSPR: actually happens once!!
 
        \edef\tmp@name{\expandafter\string\csname\UTFencname\endcsname
-         \expandafter\string\csname#3\endcsname}%
-       \expandafter\def\csname\tmp@name\endcsname{\char#2\relax}%
-       \ifx\cf@encoding\UTFencname
-        \expandafter\DeclareTextCommand\expandafter
-          {\csname#3\endcsname}{OT1}{\undefined}%
-       \else
-        \expandafter\DeclareTextCommand\expandafter
-          {\csname#3\endcsname}{\cf@encoding}{\undefined}%
-       \fi
+         \expandafter\string\csname#3\endcsname}
+       \expandafter\def\csname\tmp@name\endcsname{\char#2\relax}
+
+       \cs_if_eq:NNTF \cf@encoding \UTFencname
+         {
+           \expandafter\DeclareTextCommand\expandafter
+             {\csname#3\endcsname}{OT1}{\undefined}
+         }
+         {
+           \expandafter\DeclareTextCommand\expandafter
+             {\csname#3\endcsname}{\cf@encoding}{\undefined}
+         }
 
      \fi % end of \ifcat     
   }

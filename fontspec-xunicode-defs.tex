@@ -23,6 +23,33 @@
     \check@hex@digits #2@@@@@!@{#1}{#2}{#3}{#4}%
   }}
 
+\newcommand{\DeclareEncodedCompositeCharacter}[4]
+  %  #1 = encoding
+  %  #2 = accent-macro in TeX
+  %  #3 = position of combining glyph in Unicode
+  %  #4 = bare accent position, in Unicode
+  %  ##1 = slot for the accented letter
+  {
+    \expandafter\def\expandafter\next@ii\expandafter{
+     \expandafter\expandafter\expandafter\@text@composite\expandafter
+      \csname #1\string#2\endcsname####1\@empty
+       \@text@composite{\add@UTF@accent{#3}{####1}{#4}}}
+    \expandafter\def\expandafter\next@i\expandafter{\expandafter\expandafter
+     \expandafter\def\expandafter\csname #1\string#2\endcsname####1}
+    \expandafter\next@i\expandafter{\next@ii}
+  }
+
+\newcommand{\DeclareEncodedCompositeAccents}[4]
+  {
+    \expandafter\def\expandafter\next@ii\expandafter{
+     \expandafter\expandafter\expandafter\@text@composite\expandafter
+      \csname #1\string#2\endcsname####1\@empty
+       \@text@composite{\add@UTF@accent{#4}{####1}{#3}}}
+    \expandafter\def\expandafter\next@i\expandafter{\expandafter\expandafter
+     \expandafter\def\expandafter\csname #1\string#2\endcsname####1}
+    \expandafter\next@i\expandafter{\next@ii}
+  }
+
 \def\check@hexcom@digits#1#2@!@#3#4#5
   {
     \ifx x#1\relax
@@ -145,34 +172,6 @@
        \let\csname\string#1\string#3-\string#4\endcsname\relax
      \fi}
     \fi
-  }
-
-% new command:  {\DeclareEncodedCompositeCharacter}[4]{%
-  %  #1 = encoding
-  %  #2 = accent-macro in TeX
-  %  #3 = position of combining glyph in Unicode
-  %  #4 = bare accent position, in Unicode
-  %  ##1 = slot for the accented letter
-\newcommand{\DeclareEncodedCompositeCharacter}[4]
-  {
-    \expandafter\def\expandafter\next@ii\expandafter{
-     \expandafter\expandafter\expandafter\@text@composite\expandafter
-      \csname #1\string#2\endcsname####1\@empty
-       \@text@composite{\add@UTF@accent{#3}{####1}{#4}}}
-    \expandafter\def\expandafter\next@i\expandafter{\expandafter\expandafter
-     \expandafter\def\expandafter\csname #1\string#2\endcsname####1}
-    \expandafter\next@i\expandafter{\next@ii}
-  }
-
-\newcommand{\DeclareEncodedCompositeAccents}[4]
-  {
-    \expandafter\def\expandafter\next@ii\expandafter{
-     \expandafter\expandafter\expandafter\@text@composite\expandafter
-      \csname #1\string#2\endcsname####1\@empty
-       \@text@composite{\add@UTF@accent{#4}{####1}{#3}}}
-    \expandafter\def\expandafter\next@i\expandafter{\expandafter\expandafter
-     \expandafter\def\expandafter\csname #1\string#2\endcsname####1}
-    \expandafter\next@i\expandafter{\next@ii}
   }
 
 % bring \textsuperscript and \textsubscript into the fold of macros 

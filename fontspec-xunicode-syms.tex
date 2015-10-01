@@ -1,9 +1,5 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\expandafter\expandafter\expandafter\let\expandafter
- \csname\UTFencname\string\textsuperscript\endcsname\realLaTeXsuperscript
-\expandafter\expandafter\expandafter\let\expandafter
- \csname\UTFencname\string\textsubscript\endcsname\realLaTeXsubscript
 
 \@ifundefined{textoverh}{\DeclareTextAccent{\textoverh}{OT1}{999}}{}
 \DeclareEncodedCompositeCharacter{\UTFencname}{\textoverh}{02B0}{02B0} % ??? Combining h above
@@ -392,7 +388,6 @@
 \DeclareUTFcharacter{"00A9}{\textcopyright}
 \DeclareUTFcharacter{"00A9}{\copyright}
 \DeclareUTFcharacter{"00AA}{\textordfeminine}
-\DeclareUTFcomposite{"00AA}{\textsuperscript}{a}
 \DeclareUTFcharacter{"00AB}{\guillemotleft}
 \DeclareUTFcharacter{"00AC}{\textlogicalnot}
 \DeclareUTFcharacter{"00AE}{\textregistered}
@@ -400,9 +395,7 @@
 \DeclareUTFcharacter{"00B0}{\textdegree}
 \DeclareUTFcharacter{"00B1}{\textpm}
 \DeclareUTFcharacter{"00B2}{\texttwosuperior}
-\DeclareUTFcomposite{"00B2}{\textsuperscript}{2}
 \DeclareUTFcharacter{"00B3}{\textthreesuperior}
-\DeclareUTFcomposite{"00B3}{\textsuperscript}{3}
 \DeclareUTFcharacter{"00B4}{\textasciiacute}% see also "02CA
 \DeclareUTFcharacter{"00B5}{\textmu}
 \DeclareUTFcharacter{"00B6}{\textparagraph}
@@ -411,9 +404,7 @@
 \DeclareUTFcharacter{"00B7}{\textperiodcentered}
 \DeclareUTFcharacter{"00B8}{\textasciicedilla}% see also "02DB
 \DeclareUTFcharacter{"00B9}{\textonesuperior}
-\DeclareUTFcomposite{"00B9}{\textsuperscript}{1}
 \DeclareUTFcharacter{"00BA}{\textordmasculine}
-\DeclareUTFcomposite{"00BA}{\textsuperscript}{o}
 \DeclareUTFcharacter{"00BB}{\guillemotright}
 \DeclareUTFcharacter{"00BC}{\textonequarter}
 \DeclareUTFcharacter{"00BD}{\textonehalf}
@@ -1277,71 +1268,6 @@
 \DeclareUTFcharacter{"1D29}{\textscrho}
 \DeclareUTFcharacter{"1D2A}{\textscpsi}
 \DeclareUTFcharacter{"1D2B}{\textscel}
-\DeclareUTFcomposite{"1D2C}{\textsuperscript}{A}
-\DeclareUTFcomposite{"1D2D}{\textsuperscript}{\AE}
-\DeclareUTFcomposite{"1D2E}{\textsuperscript}{B}
-\DeclareUTFcomposite{"1D30}{\textsuperscript}{D}
-\DeclareUTFcomposite{"1D31}{\textsuperscript}{E}
-\DeclareUTFcomposite{"1D32}{\textsuperscript}{\textreve}
-\DeclareUTFcomposite{"1D33}{\textsuperscript}{G}
-\DeclareUTFcomposite{"1D34}{\textsuperscript}{H}
-\DeclareUTFcomposite{"1D35}{\textsuperscript}{I}
-\DeclareUTFcomposite{"1D36}{\textsuperscript}{J}
-\DeclareUTFcomposite{"1D37}{\textsuperscript}{K}
-\DeclareUTFcomposite{"1D38}{\textsuperscript}{L}
-\DeclareUTFcomposite{"1D39}{\textsuperscript}{M}
-\DeclareUTFcomposite{"1D3A}{\textsuperscript}{N}
-\DeclareUTFcomposite{"1D3C}{\textsuperscript}{O}
-\DeclareUTFcomposite{"1D3D}{\textsuperscript}{\textou}
-\DeclareUTFcomposite{"1D3E}{\textsuperscript}{P}
-\DeclareUTFcomposite{"1D3F}{\textsuperscript}{R}
-\DeclareUTFcomposite{"1D40}{\textsuperscript}{T}
-\DeclareUTFcomposite{"1D41}{\textsuperscript}{U}
-\DeclareUTFcomposite{"1D42}{\textsuperscript}{W}
-\DeclareUTFcomposite{"1D43}{\textsuperscript}{a}
-\DeclareUTFcomposite{"1D44}{\textsuperscript}{\textturna}
-\DeclareUTFcomposite{"1D45}{\textsuperscript}{\textalpha}
-\DeclareUTFcomposite{"1D47}{\textsuperscript}{b}
-\DeclareUTFcomposite{"1D48}{\textsuperscript}{d}
-\DeclareUTFcomposite{"1D49}{\textsuperscript}{e}
-\DeclareUTFcomposite{"1D4A}{\textsuperscript}{\textreve}
-\DeclareUTFcomposite{"1D4B}{\textsuperscript}{\textepsilon}
-\DeclareUTFcomposite{"1D4B}{\textsuperscript}{\epsilon}
-\DeclareUTFcomposite{"1D4D}{\textsuperscript}{g}
-\DeclareUTFcomposite{"1D4E}{\textsuperscript}{!}
-\DeclareUTFcomposite{"1D4F}{\textsuperscript}{k}
-\DeclareUTFcomposite{"1D50}{\textsuperscript}{m}
-\DeclareUTFcomposite{"1D51}{\textsuperscript}{\ng}
-\DeclareUTFcomposite{"1D52}{\textsuperscript}{o}
-\DeclareUTFcomposite{"1D53}{\textsuperscript}{\textopeno}
-\DeclareUTFcomposite{"1D56}{\textsuperscript}{p}
-\DeclareUTFcomposite{"1D57}{\textsuperscript}{t}
-\DeclareUTFcomposite{"1D58}{\textsuperscript}{u}
-\DeclareUTFcomposite{"1D5A}{\textsuperscript}{\textturnm}
-\DeclareUTFcomposite{"1D5B}{\textsuperscript}{v}
-\DeclareUTFcomposite{"1D5C}{\textsuperscript}{\textain}
-\DeclareUTFcomposite{"1D5D}{\textsuperscript}{\textbeta}
-\DeclareUTFcomposite{"1D5D}{\textsuperscript}{\beta}
-\DeclareUTFcomposite{"1D5E}{\textsuperscript}{\textgamma}
-\DeclareUTFcomposite{"1D5E}{\textsuperscript}{\gamma}
-\DeclareUTFcomposite{"1D5F}{\textsuperscript}{\delta}
-\DeclareUTFcomposite{"1D60}{\textsuperscript}{\phi}
-\DeclareUTFcomposite{"1D61}{\textsuperscript}{\textchi}
-\DeclareUTFcomposite{"1D61}{\textsuperscript}{\chi}
-\DeclareUTFcomposite{"1D62}{\textsubscript}{i}
-\DeclareUTFcomposite{"1D63}{\textsubscript}{r}
-\DeclareUTFcomposite{"1D64}{\textsubscript}{u}
-\DeclareUTFcomposite{"1D65}{\textsubscript}{v}
-\DeclareUTFcomposite{"1D66}{\textsubscript}{\textbeta}
-\DeclareUTFcomposite{"1D66}{\textsubscript}{\beta}
-\DeclareUTFcomposite{"1D67}{\textsubscript}{\textgamma}
-\DeclareUTFcomposite{"1D67}{\textsubscript}{\gamma}
-\DeclareUTFcomposite{"1D68}{\textsubscript}{\rho}
-\DeclareUTFcomposite{"1D69}{\textsubscript}{\textvarphi}
-\DeclareUTFcomposite{"1D69}{\textsubscript}{\phi}
-\DeclareUTFcomposite{"1D6A}{\textsubscript}{\textchi}
-\DeclareUTFcomposite{"1D6A}{\textsubscript}{\chi}
-\DeclareUTFcomposite{"2C7C}{\textsubscript}{j}
 
 % Phonetic Extensions Supplement
 
@@ -1399,44 +1325,7 @@
 \DeclareUTFcharacter{"1D9A}{\textrhookezh} %
 \DeclareUTFcomposite{"1D9A}{\textrethookbelow}{\textezh}
 \DeclareUTFcomposite{"1D9A}{\textrethookbelow}{\textyogh}
-\DeclareUTFcomposite{"1D9B}{\textsuperscript}{\textturnalpha}% ??
-\DeclareUTFcomposite{"1D9C}{\textsuperscript}{c}
-\DeclareUTFcomposite{"1D9D}{\textsuperscript}{\textctc}
-\DeclareUTFcomposite{"1D9E}{\textsuperscript}{\dh}
-\DeclareUTFcomposite{"1D9F}{\textsuperscript}{\textrevepsilon}
-\DeclareUTFcomposite{"1DA0}{\textsuperscript}{f}
-\DeclareUTFcomposite{"1DA1}{\textsuperscript}{\textbardotlessj}
-\DeclareUTFcomposite{"1DA2}{\textsuperscript}{g}
-\DeclareUTFcomposite{"1DA3}{\textsuperscript}{\textturnh}
-\DeclareUTFcomposite{"1DA4}{\textsuperscript}{\textbari}
-\DeclareUTFcomposite{"1DA5}{\textsuperscript}{\textiota}%
-\DeclareUTFcomposite{"1DA6}{\textsuperscript}{\textsci}
-\DeclareUTFcomposite{"1DA8}{\textsuperscript}{\textctj}
-\DeclareUTFcomposite{"1DA9}{\textsuperscript}{\textrtaill}
-\DeclareUTFcomposite{"1DAA}{\textsuperscript}{\textlhookl}
-\DeclareUTFcomposite{"1DAB}{\textsuperscript}{\textscl}
-\DeclareUTFcomposite{"1DAC}{\textsuperscript}{\textltailm}
-\DeclareUTFcomposite{"1DAD}{\textsuperscript}{\textturnmrleg}
-\DeclareUTFcomposite{"1DAE}{\textsuperscript}{\textltailn}
-\DeclareUTFcomposite{"1DAF}{\textsuperscript}{\textrtailn}
-\DeclareUTFcomposite{"1DB0}{\textsuperscript}{\textscn}
-\DeclareUTFcomposite{"1DB1}{\textsuperscript}{\textbaro}
-\DeclareUTFcomposite{"1DB2}{\textsuperscript}{\textphi}
-\DeclareUTFcomposite{"1DB3}{\textsuperscript}{\textscn}
-\DeclareUTFcomposite{"1DB4}{\textsuperscript}{\textesh}
-\DeclareUTFcomposite{"1DB5}{\textsuperscript}{\textlhookt}
-\DeclareUTFcomposite{"1DB6}{\textsuperscript}{\textbaru}
-\DeclareUTFcomposite{"1DB7}{\textsuperscript}{\textupsilon}
-\DeclareUTFcomposite{"1DB7}{\textsuperscript}{\textscupsilon}
-\DeclareUTFcomposite{"1DB8}{\textsuperscript}{\textscu}
-\DeclareUTFcomposite{"1DB9}{\textsuperscript}{\textscriptv}
-\DeclareUTFcomposite{"1DBA}{\textsuperscript}{\textturnv}
-\DeclareUTFcomposite{"1DBB}{\textsuperscript}{z}
-\DeclareUTFcomposite{"1DBC}{\textsuperscript}{\textrtailz}
-\DeclareUTFcomposite{"1DBD}{\textsuperscript}{\textctz}
-\DeclareUTFcomposite{"1DBE}{\textsuperscript}{\textschwa}
-\DeclareUTFcomposite{"1DBE}{\textsuperscript}{\schwa}
-\DeclareUTFcomposite{"1DBF}{\textsuperscript}{\texttheta}
+
 
 
 \DeclareUTFcomposite{"1E00}{\textsubring}{A} % with ring below
@@ -1818,43 +1707,6 @@
 \DeclareUTFcharacter{"2045}{\textlquill}
 \DeclareUTFcharacter{"2046}{\textrquill}
 \DeclareUTFcharacter{"2052}{\textdiscount}
-
-% superscripts and subscripts
-\DeclareUTFcomposite{"2070}{\textsuperscript}{0}
-\DeclareUTFcomposite{"2071}{\textsuperscript}{i}
-\DeclareUTFcomposite{"2074}{\textsuperscript}{4}
-\DeclareUTFcomposite{"2075}{\textsuperscript}{5}
-\DeclareUTFcomposite{"2076}{\textsuperscript}{6}
-\DeclareUTFcomposite{"2077}{\textsuperscript}{7}
-\DeclareUTFcomposite{"2078}{\textsuperscript}{8}
-\DeclareUTFcomposite{"2079}{\textsuperscript}{9}
-\DeclareUTFcomposite{"207A}{\textsuperscript}{+}
-\DeclareUTFcomposite{"207B}{\textsuperscript}{-}
-\DeclareUTFcomposite{"207C}{\textsuperscript}{=}
-\DeclareUTFcomposite{"207D}{\textsuperscript}{(}
-\DeclareUTFcomposite{"207E}{\textsuperscript}{)}
-\DeclareUTFcomposite{"207F}{\textsuperscript}{n}
-\DeclareUTFcomposite{"2080}{\textsubscript}{0}
-\DeclareUTFcomposite{"2081}{\textsubscript}{1}
-\DeclareUTFcomposite{"2082}{\textsubscript}{2}
-\DeclareUTFcomposite{"2083}{\textsubscript}{3}
-\DeclareUTFcomposite{"2084}{\textsubscript}{4}
-\DeclareUTFcomposite{"2085}{\textsubscript}{5}
-\DeclareUTFcomposite{"2086}{\textsubscript}{6}
-\DeclareUTFcomposite{"2087}{\textsubscript}{7}
-\DeclareUTFcomposite{"2088}{\textsubscript}{8}
-\DeclareUTFcomposite{"2089}{\textsubscript}{9}
-\DeclareUTFcomposite{"208A}{\textsubscript}{+}
-\DeclareUTFcomposite{"208B}{\textsubscript}{-}
-\DeclareUTFcomposite{"208C}{\textsubscript}{=}
-\DeclareUTFcomposite{"208D}{\textsubscript}{(}
-\DeclareUTFcomposite{"208E}{\textsubscript}{)}
-\DeclareUTFcomposite{"2090}{\textsubscript}{a}
-\DeclareUTFcomposite{"2091}{\textsubscript}{e}
-\DeclareUTFcomposite{"2092}{\textsubscript}{o}
-\DeclareUTFcomposite{"2093}{\textsubscript}{x}
-\DeclareUTFcomposite{"2094}{\textsubscript}{\schwa}
-\DeclareUTFcomposite{"2094}{\textsubscript}{\textschwa}
 
 \DeclareUTFcharacter{"20A1}{\textcolonmonetary}
 \DeclareUTFcharacter{"20A4}{\textlira}

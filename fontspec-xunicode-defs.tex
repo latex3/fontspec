@@ -104,16 +104,5 @@
 \cs_set:Npn \add@UTF@accents #1#2#3 { #2 \char "#1 \char "#3 \relax}
 
 
-% bring \textsuperscript and \textsubscript into the fold of macros 
-% dependent on encoding
-\let\realLaTeXsuperscript\textsuperscript
-\let\realLaTeXsubscript\textsubscript
-\DeclareTextAccent{\textsuperscript}{OT1}{999}
-\expandafter\expandafter\expandafter\let\expandafter
- \csname?\string\textsuperscript\endcsname\realLaTeXsuperscript
-\DeclareTextAccent{\textsubscript}{OT1}{999}
-\expandafter\expandafter\expandafter\let\expandafter
- \csname?\string\textsubscript\endcsname\realLaTeXsubscript
-\let\super\textsuperscript
 
 \endinput

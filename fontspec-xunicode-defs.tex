@@ -38,7 +38,7 @@
     \expandafter\def\expandafter\next@ii\expandafter{
      \expandafter\expandafter\expandafter\@text@composite\expandafter
       \csname #1\string#2\endcsname####1\@empty
-       \@text@composite{\add@UTF@accent{#4}{####1}{#3}}}
+       \@text@composite{\add@UTF@accents{#4}{####1}{#3}}}
     \expandafter\def\expandafter\next@i\expandafter{\expandafter\expandafter
      \expandafter\def\expandafter\csname #1\string#2\endcsname####1}
     \expandafter\next@i\expandafter{\next@ii}
@@ -75,6 +75,8 @@
             {\expandafter#3\expandafter}\next@UTF@
         \fi
        \fi
+          \fi
+        }
       
      \else % not active catcode --- shouldn't happen
        % WSPR: actually happens once!!
@@ -93,7 +95,8 @@
      \fi % end of \ifcat     
   }
 
-\cs_set:Npn \add@UTF@accent #1#2#3 { #2 \char" #1 \relax }
+\cs_set:Npn \add@UTF@accent  #1#2#3 { #2 \char "#1 \relax }
+\cs_set:Npn \add@UTF@accents #1#2#3 { #2 \char "#1 \char "#3 \relax}
 
 
 % bring \textsuperscript and \textsubscript into the fold of macros 

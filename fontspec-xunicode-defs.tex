@@ -4,7 +4,7 @@
 % access a Unicode code-point...
 \newcommand{\DeclareUTFcharacter}[3][\UTFencname]
   {
-    \check@hexcom@digits@{#1}{#2}{#3}
+    \DeclareUTFcharacter:nnn {#1} {#2} {#3}
   }
 
 % Use \DeclareUTFcomposite to assign a cs-name to access
@@ -31,25 +31,21 @@
     \expandafter\def\expandafter\next@i\expandafter{\expandafter\expandafter
      \expandafter\def\expandafter\csname #1\string#2\endcsname####1}
     \expandafter\next@i\expandafter{\next@ii}
+    % i tried simplifying the above (as below) and it didn't work :(
   }
 
 \newcommand{\DeclareEncodedCompositeAccents}[4]
   {
-    \expandafter\def\expandafter\next@ii\expandafter{
-     \expandafter\expandafter\expandafter\@text@composite\expandafter
-      \csname #1\string#2\endcsname####1\@empty
-       \@text@composite{\add@UTF@accents{#4}{####1}{#3}}}
-    \expandafter\def\expandafter\next@i\expandafter{\expandafter\expandafter
-     \expandafter\def\expandafter\csname #1\string#2\endcsname####1}
-    \expandafter\next@i\expandafter{\next@ii}
+    \cs_set_nopar:cpx { #1 \string #2 } ##1
+      {
+        \exp_not:n { \@text@composite }
+        \exp_not:c { #1 \string #2 } ##1
+        \exp_not:n { \@empty \@text@composite }
+          { \add@UTF@accents {#4} {##1} {#3} } 
+      }
   }
 
-% indirect conditionals, to avoid unbalance when reloaded
-\def\UTF@ignore#1{\csname iffalse\endcsname}
-\def\UTF@doit  #1{\csname iftrue\endcsname}
-
-
-\def\check@hexcom@digits@#1#2#3
+\cs_set:Npn \DeclareUTFcharacter:nnn #1#2#3
   {
      \ifcat \active\noexpand#3
 
@@ -57,52 +53,53 @@
        
        \cs_if_free:NTF #3
         {
-          \ifx\cf@encoding\UTFencname
-           \DeclareTextCommand{#3}{OT1}{\undefined}
-          \else
-           \DeclareTextCommand{#3}{\cf@encoding}{\undefined}
-          \fi
+          \cs_if_eq:NNTF \cf@encoding \UTFencname
+           { \DeclareTextCommand{#3}{OT1}{\undefined} }
+           { \DeclareTextCommand{#3}{\cf@encoding}{\undefined} }
         }
         {
-          {% macro #3 exists already ...
-           \let\protect\noexpand
-           \edef\UTF@testi{#3}\def\UTF@testii{#3}%
-           \ifx\UTF@testi\UTF@testii\aftergroup\UTF@ignore
-           \else\aftergroup\UTF@doit\fi
-          }%
-          \iffalse
+          \group_begin: % macro #3 exists already ...
+            \let\protect\noexpand
+            \edef\UTF@testi{#3}\def\UTF@testii{#3}%
+            \cs_if_eq:NNTF \UTF@testi \UTF@testii
+              { \group_insert_after:N \use_none:n }
+              { \group_insert_after:N \use:n }
+          \group_end:
+          {
            % ... but when it isn't robust, make it so
-           \expandafter\let\csname?-\string#3\endcsname#3\relax
-           \edef\next@UTF@{{\cf@encoding}%
-             {\expandafter\noexpand\csname?-\string#3\endcsname}}%
-           \expandafter\DeclareTextCommand\expandafter
-              {\expandafter#3\expandafter}\next@UTF@
-          \fi
+           \cs_set_eq:cN {?-\string#3} #3
+           \use:x
+             {
+               \exp_not:n
+                 { \DeclareTextCommand {#3} }
+               {\cf@encoding}
+               {\expandafter\noexpand\csname?-\string#3\endcsname}
+             }
+          }
         }
       
      \else % not active catcode --- shouldn't happen
        % WSPR: actually happens once!!
 
-       \edef\tmp@name{\expandafter\string\csname\UTFencname\endcsname
-         \expandafter\string\csname#3\endcsname}
-       \expandafter\def\csname\tmp@name\endcsname{\char#2\relax}
+       \cs_set:cpn
+         {
+           \expandafter\string\csname\UTFencname\endcsname
+           \expandafter\string\csname#3\endcsname
+         }
+         {\char#2\relax}
 
        \cs_if_eq:NNTF \cf@encoding \UTFencname
          {
-           \expandafter\DeclareTextCommand\expandafter
-             {\csname#3\endcsname}{OT1}{\undefined}
+           \exp_args:Nc \DeclareTextCommand {#3}{OT1}{\undefined}
          }
          {
-           \expandafter\DeclareTextCommand\expandafter
-             {\csname#3\endcsname}{\cf@encoding}{\undefined}
+           \exp_args:Nc \DeclareTextCommand {#3}{\cf@encoding}{\undefined}
          }
 
      \fi % end of \ifcat     
   }
 
-\cs_set:Npn \add@UTF@accent  #1#2#3 { #2 \char "#1 \relax }
-\cs_set:Npn \add@UTF@accents #1#2#3 { #2 \char "#1 \char "#3 \relax}
-
-
+\cs_set_protected:Npn \add@UTF@accent  #1#2#3 { #2 \char "#1 \relax }
+\cs_set_protected:Npn \add@UTF@accents #1#2#3 { #2 \char "#1 \char "#3 \relax}
 
 \endinput

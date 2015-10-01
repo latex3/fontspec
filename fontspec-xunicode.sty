@@ -13,6 +13,8 @@
 
 \@ifpackageloaded{xunicode}{}{%
 
+\expandafter \let \csname c_active_tilde_token\endcsname ~
+
 \providecommand{\UTFencname}{U}
 
 % Allow subsequent xunicode.sty loading:

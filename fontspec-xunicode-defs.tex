@@ -5,7 +5,7 @@
 \newcommand{\DeclareUTFcharacter}[3][\UTFencname]
   {
     \let\add@flag\@ne % ==> add support in this encoding
-    \check@hexcom@digits #2@@@@@!@{#1}{#2}{#3}%
+    \check@hexcom@digits@{}{}{}{}{}{#1}{#2}{#3}
   }
 
 % Use \DeclareUTFcomposite to assign a cs-name to access
@@ -14,13 +14,13 @@
 \newcommand{\DeclareUTFcomposite}[4][\UTFencname]
   {{
     \let\add@flag\@ne % ==> add support in this encoding
-    \check@hex@digits #2@@@@@!@{#1}{#2}{#3}{#4}%
+    \check@hex@digits@{}{}{}{}{}{#1}{#2}{#3}{#4}
   }}
 
 \newcommand{\DeclareUTFmulticomposite}[4][\UTFencname]
   {{
     \let\add@flag\@ne % ==> add support in this encoding
-    \check@hex@digits #2@@@@@!@{#1}{#2}{#3}{#4}%
+    \check@hex@digits@{}{}{}{}{}{#1}{#2}{#3}{#4}
   }}
 
 \newcommand{\DeclareEncodedCompositeCharacter}[4]
@@ -50,37 +50,16 @@
     \expandafter\next@i\expandafter{\next@ii}
   }
 
-\def\check@hexcom@digits#1#2@!@#3#4#5
-  {
-    \ifx x#1\relax
-      \check@hexcom@digits@#2@!@{#3}{#4}{#5}%
-    \else
-      \UTFacc@warning@{code~ #4~ for~ #3-\string#5~ fails~ to~ start~ with~ 'x'}
-    \fi
-  }
-
-\def\check@hex@digits#1#2@!@#3#4#5#6
-  {
-    \ifx x#1\relax
-      \check@hex@digits@#2@!@{#3}{#4}{#5}{#6}
-    \else
-      \UTFacc@warning@{code~ #4~ for~ #3-\string#5#6~ fails~ to~ start~ with~ 'x'}
-    \fi
-  }
-
 % indirect conditionals, to avoid unbalance when reloaded
 \def\UTF@ignore#1{\csname iffalse\endcsname}
 \def\UTF@doit#1{\csname iftrue\endcsname}
 
 
-\def\check@hexcom@digits@#1#2#3#4#5@!@#6#7#8
+\def\check@hexcom@digits@#1#2#3#4#5#6#7#8
   {
-    \ifx @#4\relax
-     \UTFacc@warning@{insufficient~ hex~ digits~ #7~ for~ #6-\string#8}
-    \else
      \ifcat \active\noexpand#8
       \ifx\add@flag\@ne 
-       \expandafter\def\csname\UTFencname\string#8\endcsname{\char"#1#2#3#4\relax}
+       \expandafter\def\csname\UTFencname\string#8\endcsname{\char#7\relax}
        \ifx\unDeFiNed@#8
         \ifx\cf@encoding\UTFencname
          \DeclareTextCommand{#8}{OT1}{\undefined}
@@ -106,11 +85,12 @@
        \expandafter\global\expandafter
          \let\csname\UTFencname\string#8\endcsname\relax
       \fi % end of \add@flag switch
+      
      \else % not active catcode --- shouldn't happen
       \ifx\add@flag\@ne %
        \edef\tmp@name{\expandafter\string\csname\UTFencname\endcsname
          \expandafter\string\csname#8\endcsname}%
-       \expandafter\def\csname\tmp@name\endcsname{\char"#1#2#3#4\relax}%
+       \expandafter\def\csname\tmp@name\endcsname{\char#7\relax}%
        \ifx\cf@encoding\UTFencname
         \expandafter\DeclareTextCommand\expandafter
           {\csname#8\endcsname}{OT1}{\undefined}%
@@ -122,27 +102,36 @@
        \expandafter\global\expandafter\let\csname#8\endcsname\relax
       \fi % end of \add@flag switch
      \fi % end of \ifcat
-    \fi
+     
   }
 
-\def\check@hex@digits@#1#2#3#4#5@!@#6#7#8#9
+\def \check@hex@digits@ #1#2#3#4#5#6#7#8#9
   {
-    \ifx @#4\relax
-     \UTFacc@warning@{insufficient hex digits #7 for #6-\string#8#9}%
-    \else
-     \def\UTFchar{\char"#1#2#3#4\relax}%
+     \def\UTFchar{\char#7\relax}%
      \expandafter\expandafter\expandafter\declare@utf@composite
      \expandafter\expandafter\expandafter
       {\expandafter\csname#6\endcsname}{\UTFchar}{#8}{#9}\relax
-    \fi
   }
 
-\def\add@UTF@accent#1#2#3
+\def \add@UTF@accent #1 #2 #3
   {
-    \ifx\relax#2\relax\char"#3\else
-    \ifx\ #2\relax\char"#3\else
-    \expandafter\ifx \c_space_tl #2\relax\char"#3\else
-    \ifx~#2\char"#3\else#2\char"#1\fi\fi\fi\fi\relax
+    \tl_if_empty:nTF {#2}
+      { \char"#3\relax }
+      {
+        \ifx\ #2\relax
+          \char"#3\relax
+        \else
+          \expandafter\ifx \c_space_tl #2\relax
+            \char"#3\relax
+          \else
+            \ifx \c_active_tilde_token #2
+              \char"#3\relax
+            \else
+              #2\char"#1\relax
+            \fi
+          \fi
+        \fi
+      }
   }
 
 \def\add@UTF@accents#1#2#3{#2\char"#1\char"#3\relax}

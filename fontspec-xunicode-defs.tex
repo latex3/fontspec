@@ -141,7 +141,7 @@
   {
     \ifx\relax#2\relax\char"#3\else
     \ifx\ #2\relax\char"#3\else
-    \expandafter\ifx\UTF@space#2\relax\char"#3\else
+    \expandafter\ifx \c_space_tl #2\relax\char"#3\else
     \ifx~#2\char"#3\else#2\char"#1\fi\fi\fi\fi\relax
   }
 
@@ -149,11 +149,6 @@
 \def\add@set@accentCOMP#1#2#3{\add@accent{"#1}{#2}}
 \def\add@set@accentMOD#1#2#3{\add@accent{"#3}{#2}}
 \def\declare@hex@command#1#2{\gdef#2{#1}}
-
-{\catcode`\ =10\relax%
-\gdef\UTF@@space{ }}
-\edef\UTF@space{\UTF@@space}
-
 
 \def\declare@utf@composite#1#2#3#4
   {

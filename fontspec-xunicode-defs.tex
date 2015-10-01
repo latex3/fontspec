@@ -4,7 +4,6 @@
 % access a Unicode code-point...
 \newcommand{\DeclareUTFcharacter}[3][\UTFencname]
   {
-    \let\add@flag\@ne % ==> add support in this encoding
     \check@hexcom@digits@{#1}{#2}{#3}
   }
 
@@ -12,17 +11,12 @@
 % accents or composite characters via Unicode code-points,
 % or the Unicode "Composing Character" mechanism ...
 \newcommand{\DeclareUTFcomposite}[4][\UTFencname]
-  {{
-    \let\add@flag\@ne % ==> add support in this encoding
-    \check@hex@digits@{#1}{#2}{#3}{#4}
-  }}
-
-\newcommand{\DeclareUTFmulticomposite}[4][\UTFencname]
-  {{
-    \let\add@flag\@ne % ==> add support in this encoding
-    \check@hex@digits@{#1}{#2}{#3}{#4}
-  }}
-
+  {
+    \cs_set:cpn
+      { \cs_to_str:N #1 \string #3 - \string #4 }
+      { \char #2 \relax }
+  }
+  
 \newcommand{\DeclareEncodedCompositeCharacter}[4]
   %  #1 = encoding
   %  #2 = accent-macro in TeX
@@ -58,7 +52,7 @@
 \def\check@hexcom@digits@#1#2#3
   {
      \ifcat \active\noexpand#3
-      \ifx\add@flag\@ne 
+
        \expandafter\def\csname\UTFencname\string#3\endcsname{\char#2\relax}
        \ifx\unDeFiNed@#3
         \ifx\cf@encoding\UTFencname
@@ -81,13 +75,10 @@
             {\expandafter#3\expandafter}\next@UTF@
         \fi
        \fi
-      \else % \add@flag \z@
-       \expandafter\global\expandafter
-         \let\csname\UTFencname\string#3\endcsname\relax
-      \fi % end of \add@flag switch
       
      \else % not active catcode --- shouldn't happen
-      \ifx\add@flag\@ne %
+       % WSPR: actually happens once!!
+
        \edef\tmp@name{\expandafter\string\csname\UTFencname\endcsname
          \expandafter\string\csname#3\endcsname}%
        \expandafter\def\csname\tmp@name\endcsname{\char#2\relax}%
@@ -98,64 +89,12 @@
         \expandafter\DeclareTextCommand\expandafter
           {\csname#3\endcsname}{\cf@encoding}{\undefined}%
        \fi
-      \else % \add@flag \z@
-       \expandafter\global\expandafter\let\csname#3\endcsname\relax
-      \fi % end of \add@flag switch
+
      \fi % end of \ifcat     
   }
 
-\def \check@hex@digits@ #1#2#3#4
-  {
-     \def\UTFchar{\char#2\relax}%
-     \expandafter\expandafter\expandafter\declare@utf@composite
-     \expandafter\expandafter\expandafter
-      {\expandafter\csname#1\endcsname}{\UTFchar}{#3}{#4}\relax
-  }
+\cs_set:Npn \add@UTF@accent #1#2#3 { #2 \char" #1 \relax }
 
-\def \add@UTF@accent #1 #2 #3
-  {
-    \tl_if_empty:nTF {#2}
-      { \char"#3\relax }
-      {
-        \ifx\ #2\relax
-          \char"#3\relax
-        \else
-          \expandafter\ifx \c_space_tl #2\relax
-            \char"#3\relax
-          \else
-            \ifx \c_active_tilde_token #2
-              \char"#3\relax
-            \else
-              #2\char"#1\relax
-            \fi
-          \fi
-        \fi
-      }
-  }
-
-\def\add@UTF@accents#1#2#3{#2\char"#1\char"#3\relax}
-\def\add@set@accentCOMP#1#2#3{\add@accent{"#1}{#2}}
-\def\add@set@accentMOD#1#2#3{\add@accent{"#3}{#2}}
-\def\declare@hex@command#1#2{\gdef#2{#1}}
-
-\def\declare@utf@composite#1#2#3#4
-  {
-    \expandafter\ifcat\expandafter A\string#4\relax
-     {\ifx\add@flag\@ne
-      \expandafter\xdef\csname\string#1\string#3-#4\endcsname{#2}
-     \else
-      \expandafter\global\expandafter
-       \let\csname\string#1\string#3-#4\endcsname\relax
-     \fi}
-    \else
-     {\ifx\add@flag\@ne 
-      \expandafter\xdef\csname\string#1\string#3-\string#4\endcsname{#2}
-     \else
-      \expandafter\global\expandafter
-       \let\csname\string#1\string#3-\string#4\endcsname\relax
-     \fi}
-    \fi
-  }
 
 % bring \textsuperscript and \textsubscript into the fold of macros 
 % dependent on encoding

@@ -3,10 +3,10 @@
 % Use \DeclareUTFcharacter to assign a cs-name to
 % access a Unicode code-point...
 \newcommand{\DeclareUTFcharacter}[3][\UTFencname]
-  {{
+  {
     \let\add@flag\@ne % ==> add support in this encoding
-    \check@hexcom@digits@{}{}{}{}{}{#1}{#2}{#3}
-  }}
+    \check@hexcom@digits@{#1}{#2}{#3}
+  }
 
 % Use \DeclareUTFcomposite to assign a cs-name to access
 % accents or composite characters via Unicode code-points,
@@ -14,13 +14,13 @@
 \newcommand{\DeclareUTFcomposite}[4][\UTFencname]
   {{
     \let\add@flag\@ne % ==> add support in this encoding
-    \check@hex@digits@{}{}{}{}{}{#1}{#2}{#3}{#4}
+    \check@hex@digits@{#1}{#2}{#3}{#4}
   }}
 
 \newcommand{\DeclareUTFmulticomposite}[4][\UTFencname]
   {{
     \let\add@flag\@ne % ==> add support in this encoding
-    \check@hex@digits@{}{}{}{}{}{#1}{#2}{#3}{#4}
+    \check@hex@digits@{#1}{#2}{#3}{#4}
   }}
 
 \newcommand{\DeclareEncodedCompositeCharacter}[4]
@@ -55,62 +55,61 @@
 \def\UTF@doit#1{\csname iftrue\endcsname}
 
 
-\def\check@hexcom@digits@#1#2#3#4#5#6#7#8
+\def\check@hexcom@digits@#1#2#3
   {
-     \ifcat \active\noexpand#8
+     \ifcat \active\noexpand#3
       \ifx\add@flag\@ne 
-       \expandafter\def\csname\UTFencname\string#8\endcsname{\char#7\relax}
-       \ifx\unDeFiNed@#8
+       \expandafter\def\csname\UTFencname\string#3\endcsname{\char#2\relax}
+       \ifx\unDeFiNed@#3
         \ifx\cf@encoding\UTFencname
-         \DeclareTextCommand{#8}{OT1}{\undefined}
+         \DeclareTextCommand{#3}{OT1}{\undefined}
         \else
-         \DeclareTextCommand{#8}{\cf@encoding}{\undefined}
+         \DeclareTextCommand{#3}{\cf@encoding}{\undefined}
         \fi
-       \else {% macro #8 exists already ...
+       \else {% macro #3 exists already ...
          \let\protect\noexpand
-         \edef\UTF@testi{#8}\def\UTF@testii{#8}%
+         \edef\UTF@testi{#3}\def\UTF@testii{#3}%
          \ifx\UTF@testi\UTF@testii\aftergroup\UTF@ignore
          \else\aftergroup\UTF@doit\fi
         }%
         \iffalse
          % ... but when it isn't robust, make it so
-         \expandafter\let\csname?-\string#8\endcsname#8\relax
+         \expandafter\let\csname?-\string#3\endcsname#3\relax
          \edef\next@UTF@{{\cf@encoding}%
-           {\expandafter\noexpand\csname?-\string#8\endcsname}}%
+           {\expandafter\noexpand\csname?-\string#3\endcsname}}%
          \expandafter\DeclareTextCommand\expandafter
-            {\expandafter#8\expandafter}\next@UTF@
+            {\expandafter#3\expandafter}\next@UTF@
         \fi
        \fi
       \else % \add@flag \z@
        \expandafter\global\expandafter
-         \let\csname\UTFencname\string#8\endcsname\relax
+         \let\csname\UTFencname\string#3\endcsname\relax
       \fi % end of \add@flag switch
       
      \else % not active catcode --- shouldn't happen
       \ifx\add@flag\@ne %
        \edef\tmp@name{\expandafter\string\csname\UTFencname\endcsname
-         \expandafter\string\csname#8\endcsname}%
-       \expandafter\def\csname\tmp@name\endcsname{\char#7\relax}%
+         \expandafter\string\csname#3\endcsname}%
+       \expandafter\def\csname\tmp@name\endcsname{\char#2\relax}%
        \ifx\cf@encoding\UTFencname
         \expandafter\DeclareTextCommand\expandafter
-          {\csname#8\endcsname}{OT1}{\undefined}%
+          {\csname#3\endcsname}{OT1}{\undefined}%
        \else
         \expandafter\DeclareTextCommand\expandafter
-          {\csname#8\endcsname}{\cf@encoding}{\undefined}%
+          {\csname#3\endcsname}{\cf@encoding}{\undefined}%
        \fi
       \else % \add@flag \z@
-       \expandafter\global\expandafter\let\csname#8\endcsname\relax
+       \expandafter\global\expandafter\let\csname#3\endcsname\relax
       \fi % end of \add@flag switch
-     \fi % end of \ifcat
-     
+     \fi % end of \ifcat     
   }
 
-\def \check@hex@digits@ #1#2#3#4#5#6#7#8#9
+\def \check@hex@digits@ #1#2#3#4
   {
-     \def\UTFchar{\char#7\relax}%
+     \def\UTFchar{\char#2\relax}%
      \expandafter\expandafter\expandafter\declare@utf@composite
      \expandafter\expandafter\expandafter
-      {\expandafter\csname#6\endcsname}{\UTFchar}{#8}{#9}\relax
+      {\expandafter\csname#1\endcsname}{\UTFchar}{#3}{#4}\relax
   }
 
 \def \add@UTF@accent #1 #2 #3

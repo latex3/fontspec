@@ -66,56 +66,34 @@
 
 \cs_set:Npn \DeclareUTFcharacter:nnn #1#2#3
   {
-     \ifcat \active\noexpand#3
-
-       \cs_set:cpn { \UTFencname \string#3 } { \char#2\relax }
-       
-       \cs_if_free:NTF #3
+     \cs_set:cpn { \UTFencname \string#3 } { \char#2\relax }
+     
+     \cs_if_free:NTF #3
+      {
+        \cs_if_eq:NNTF \cf@encoding \UTFencname
+         { \DeclareTextCommand{#3}{OT1}{\undefined} }
+         { \DeclareTextCommand{#3}{\cf@encoding}{\undefined} }
+      }
+      {
+        \group_begin: % macro #3 exists already ...
+          \let\protect\noexpand
+          \edef\UTF@testi{#3}\def\UTF@testii{#3}%
+          \cs_if_eq:NNTF \UTF@testi \UTF@testii
+            { \group_insert_after:N \use_none:n }
+            { \group_insert_after:N \use:n }
+        \group_end:
         {
-          \cs_if_eq:NNTF \cf@encoding \UTFencname
-           { \DeclareTextCommand{#3}{OT1}{\undefined} }
-           { \DeclareTextCommand{#3}{\cf@encoding}{\undefined} }
+         % ... but when it isn't robust, make it so
+         \cs_set_eq:cN {?-\string#3} #3
+         \use:x
+           {
+             \exp_not:n
+               { \DeclareTextCommand {#3} }
+             {\cf@encoding}
+             {\expandafter\noexpand\csname?-\string#3\endcsname}
+           }
         }
-        {
-          \group_begin: % macro #3 exists already ...
-            \let\protect\noexpand
-            \edef\UTF@testi{#3}\def\UTF@testii{#3}%
-            \cs_if_eq:NNTF \UTF@testi \UTF@testii
-              { \group_insert_after:N \use_none:n }
-              { \group_insert_after:N \use:n }
-          \group_end:
-          {
-           % ... but when it isn't robust, make it so
-           \cs_set_eq:cN {?-\string#3} #3
-           \use:x
-             {
-               \exp_not:n
-                 { \DeclareTextCommand {#3} }
-               {\cf@encoding}
-               {\expandafter\noexpand\csname?-\string#3\endcsname}
-             }
-          }
-        }
-      
-     \else % not active catcode --- shouldn't happen
-       % WSPR: actually happens once!!
-
-       \cs_set:cpn
-         {
-           \expandafter\string\csname\UTFencname\endcsname
-           \expandafter\string\csname#3\endcsname
-         }
-         {\char#2\relax}
-
-       \cs_if_eq:NNTF \cf@encoding \UTFencname
-         {
-           \exp_args:Nc \DeclareTextCommand {#3}{OT1}{\undefined}
-         }
-         {
-           \exp_args:Nc \DeclareTextCommand {#3}{\cf@encoding}{\undefined}
-         }
-
-     \fi % end of \ifcat     
+      }  
   }
 
 \cs_set_protected:Npn \add@UTF@accent  #1#2#3 { #2 \char "#1 \relax }

@@ -9,12 +9,128 @@
 % \ProvidesFile{xunicode.sty}[2011/09/09 v0.981 provides access to
 %  latin accents and many other characters in Unicode lower plane]
 
-\ProvidesFile{fontspec-xunicode.sty}[2011/09/09 v0.1 fork of xunicode]
+\ProvidesExplFile {fontspec-xunicode.sty} {2015/10/19} {v0.1} {fork of xunicode}
 
 \@ifpackageloaded{xunicode}{\endinput}{}
 
 \providecommand{\UTFencname}{U}
-\input{fontspec-xunicode-defs.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Use \DeclareUTFcharacter to assign a cs-name to
+% access a Unicode code-point...
+\newcommand{\fDeclareUTFcharacter}[3][\UTFencname]
+  {
+    \DeclareUTFcharacter:nnn {#1} {#2} {#3}
+  }
+
+% Use \DeclareUTFcomposite to assign a cs-name to access
+% accents or composite characters via Unicode code-points,
+% or the Unicode "Composing Character" mechanism ...
+\newcommand{\fDeclareUTFcomposite}[4][\UTFencname]
+  {
+    \cs_set:cpn
+      { \cs_to_str:N #1 \string #3 - \string #4 }
+      { \char #2 \relax }
+  }
+  
+\newcommand{\fDeclareEncodedCompositeCharacter}[4]
+  %  #1 = encoding
+  %  #2 = accent-macro in TeX
+  %  #3 = position of combining glyph in Unicode
+  %  #4 = bare accent position, in Unicode
+  %  ##1 = slot for the accented letter
+  {
+    \ProvideDummyTextAccent #2
+    \expandafter\def\expandafter\next@ii\expandafter{
+     \expandafter\expandafter\expandafter\@text@composite\expandafter
+      \csname #1\string#2\endcsname####1\@empty
+       \@text@composite{\add@UTF@accent{#3}{####1}{#4}}}
+    \expandafter\def\expandafter\next@i\expandafter{\expandafter\expandafter
+     \expandafter\def\expandafter\csname #1\string#2\endcsname####1}
+    \expandafter\next@i\expandafter{\next@ii}
+    % i tried simplifying the above (as below) and it didn't work :(
+  }
+
+\newcommand{\fDeclareEncodedCompositeAccents}[4]
+  {
+    \ProvideDummyTextAccent #2
+    \cs_set_nopar:cpx { #1 \string #2 } ##1
+      {
+        \exp_not:n { \@text@composite }
+        \exp_not:c { #1 \string #2 } ##1
+        \exp_not:n { \@empty \@text@composite }
+          { \add@UTF@accents {#4} {##1} {#3} } 
+      }
+  }
+
+\cs_set:Npn \DeclareUTFcharacter:nnn #1#2#3
+  {
+     \ifcat \active\noexpand#3
+
+       \cs_set:cpn { \UTFencname \string#3 } { \char#2\relax }
+       
+       \cs_if_free:NTF #3
+        {
+          \cs_if_eq:NNTF \cf@encoding \UTFencname
+           { \DeclareTextCommand{#3}{OT1}{\undefined} }
+           { \DeclareTextCommand{#3}{\cf@encoding}{\undefined} }
+        }
+        {
+          \group_begin: % macro #3 exists already ...
+            \let\protect\noexpand
+            \edef\UTF@testi{#3}\def\UTF@testii{#3}%
+            \cs_if_eq:NNTF \UTF@testi \UTF@testii
+              { \group_insert_after:N \use_none:n }
+              { \group_insert_after:N \use:n }
+          \group_end:
+          {
+           % ... but when it isn't robust, make it so
+           \cs_set_eq:cN {?-\string#3} #3
+           \use:x
+             {
+               \exp_not:n
+                 { \DeclareTextCommand {#3} }
+               {\cf@encoding}
+               {\expandafter\noexpand\csname?-\string#3\endcsname}
+             }
+          }
+        }
+      
+     \else % not active catcode --- shouldn't happen
+       % WSPR: actually happens once!!
+
+       \cs_set:cpn
+         {
+           \expandafter\string\csname\UTFencname\endcsname
+           \expandafter\string\csname#3\endcsname
+         }
+         {\char#2\relax}
+
+       \cs_if_eq:NNTF \cf@encoding \UTFencname
+         {
+           \exp_args:Nc \DeclareTextCommand {#3}{OT1}{\undefined}
+         }
+         {
+           \exp_args:Nc \DeclareTextCommand {#3}{\cf@encoding}{\undefined}
+         }
+
+     \fi % end of \ifcat     
+  }
+
+\cs_set_protected:Npn \add@UTF@accent  #1#2#3 { #2 \char "#1 \relax }
+\cs_set_protected:Npn \add@UTF@accents #1#2#3 { #2 \char "#1 \char "#3 \relax}
+
+\newcommand \ProvideDummyTextAccent [1]
+  {
+    \cs_if_free:NT #1 
+      {
+        \DeclareTextAccent{#1}{OT1}{999}
+      }
+  }
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \input{fontspec-xunicode-syms.tex}
 
 \endinput

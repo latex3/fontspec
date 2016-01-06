@@ -1,0 +1,45 @@
+
+\ProvidesFile{tulmvtt.fd}[2009/10/30 v1.6 Font defs for Latin Modern]
+\DeclareFontFamily{TU}{lmvtt}{}
+
+\ifx\lmtt@use@light@as@normal\@empty
+\DeclareFontShape{TU}{lmvtt}{sb}{n}
+     {<-> \UnicodeFontFile{lmmonoprop10-regular}{\UnicodeFontTeXLigatures}}{}
+\DeclareFontShape{TU}{lmvtt}{sb}{sl}
+     {<-> \UnicodeFontFile{lmmonoprop10-oblique}{\UnicodeFontTeXLigatures}}{}
+\DeclareFontShape{TU}{lmvtt}{sb}{it}
+     {<->sub*lmvtt/m/sl}{}
+\DeclareFontShape{TU}{lmvtt}{m}{n}
+     {<-> \UnicodeFontFile{lmmonoproplt10-regular}{\UnicodeFontTeXLigatures}}{}
+\DeclareFontShape{TU}{lmvtt}{m}{sl}
+     {<-> \UnicodeFontFile{lmmonoproplt10-oblique}{\UnicodeFontTeXLigatures}}{}
+\DeclareFontShape{TU}{lmvtt}{m}{it}
+     {<->sub*lmvtt/l/sl}{}
+
+\else
+\DeclareFontShape{TU}{lmvtt}{m}{n}
+     {<-> \UnicodeFontFile{lmmonoprop10-regular}{\UnicodeFontTeXLigatures}}{}
+\DeclareFontShape{TU}{lmvtt}{m}{sl}
+     {<-> \UnicodeFontFile{lmmonoprop10-oblique}{\UnicodeFontTeXLigatures}}{}
+\DeclareFontShape{TU}{lmvtt}{m}{it}
+     {<->sub*lmvtt/m/sl}{}
+\DeclareFontShape{TU}{lmvtt}{l}{n}
+     {<-> \UnicodeFontFile{lmmonoproplt10-regular}{\UnicodeFontTeXLigatures}}{}
+\DeclareFontShape{TU}{lmvtt}{l}{sl}
+     {<-> \UnicodeFontFile{lmmonoproplt10-oblique}{\UnicodeFontTeXLigatures}}{}
+\DeclareFontShape{TU}{lmvtt}{l}{it}
+     {<->sub*lmvtt/l/sl}{}
+\fi
+\DeclareFontShape{TU}{lmvtt}{b}{n}
+     {<-> \UnicodeFontFile{lmmonoproplt10-bold}{\UnicodeFontTeXLigatures}}{}
+\DeclareFontShape{TU}{lmvtt}{b}{sl}
+     {<-> \UnicodeFontFile{lmmonoproplt10-boldoblique}{\UnicodeFontTeXLigatures}}{}
+\DeclareFontShape{TU}{lmvtt}{b}{it}
+     {<->sub*lmvtt/b/sl}{}
+\DeclareFontShape{TU}{lmvtt}{bx}{n}
+     {<->ssub*lmvtt/b/n}{}
+\DeclareFontShape{TU}{lmvtt}{bx}{sl}
+     {<->ssub*lmvtt/b/sl}{}
+\DeclareFontShape{TU}{lmvtt}{bx}{it}
+     {<->sub*lmvtt/b/sl}{}
+\endinput

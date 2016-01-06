@@ -1,0 +1,22 @@
+
+\ProvidesFile{tulmssq.fd}[2009/10/30 v1.6 Font defs for Latin Modern]
+\DeclareFontFamily{TU}{lmssq}{}
+\DeclareFontShape{TU}{lmssq}{m}{n}
+     {<-> \UnicodeFontFile{lmsansquot8-regular}{\UnicodeFontTeXLigatures}}{}
+\DeclareFontShape{TU}{lmssq}{m}{sl}
+     {<-> \UnicodeFontFile{lmsansquot8-oblique}{\UnicodeFontTeXLigatures}}{}
+\DeclareFontShape{TU}{lmssq}{bx}{n}
+     {<-> \UnicodeFontFile{lmsansquot8-bold}{\UnicodeFontTeXLigatures}}{}
+\DeclareFontShape{TU}{lmssq}{bx}{sl}
+     {<-> \UnicodeFontFile{lmsansquot8-boldoblique}{\UnicodeFontTeXLigatures}}{}
+\DeclareFontShape{TU}{lmssq}{m}{it}
+     {<->ssub*lmssq/m/sl}{}
+\DeclareFontShape{TU}{lmssq}{bx}{it}
+     {<->ssub*lmssq/bx/sl}{}
+\DeclareFontShape{TU}{lmssq}{b}{n}
+     {<->ssub * lmssq/bx/n}{}
+\DeclareFontShape{TU}{lmssq}{b}{sl}
+     {<->ssub * lmssq/bx/sl}{}
+\DeclareFontShape{TU}{lmssq}{b}{it}
+     {<->ssub * lmssq/bx/it}{}
+\endinput

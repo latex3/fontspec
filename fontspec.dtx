@@ -209,11 +209,11 @@ This work consists of this file fontspec.dtx
 % Package options will be introduced below; some preliminary details are discussed first:
 %
 % \paragraph{\pkg{xunicode}}
-% Ross Moore's \pkg{xunicode} package is now automatically loaded for
-% users of both \XeLaTeX\ and \LuaLaTeX.
-% This package provides backwards compatibility with \LaTeX's methods for accessing extra
+% Ross Moore's \pkg{xunicode} package is no longer automatically loaded.
+% This package used to provide backwards compatibility with \LaTeX's methods for accessing extra
 % characters and accents (for example, |\%|, |\$|, |\textbullet|, |\"u|, and
 % so on), plus many more Unicode characters.
+% Now, the new \LaTeXe\ `TU' font encoding is used which defines a smaller set of characters; you may still load \pkg{xunicode} if needed.
 %
 % \paragraph{\XeTeX\ users only}
 % The \pkg{xltxtra} package adds some minor extra features to \XeLaTeX, including, via the \pkg{metalogo} package, the
@@ -695,7 +695,7 @@ This work consists of this file fontspec.dtx
 % might have this in your preamble:
 % \begin{Verbatim}
 %   \usepackage{mathpazo}
-%   \usepackage{fontspec,xunicode}
+%   \usepackage{fontspec}
 %   \setmainfont{Optima}
 %   \setmathrm{Optima}
 %   \setboldmathrm[BoldFont={Optima ExtraBlack}]{Optima Bold}
@@ -2679,7 +2679,7 @@ This work consists of this file fontspec.dtx
 %
 % \section{Unicode footnote symbols}
 % By default \LaTeX\ defines symbolic footnote characters in terms of commands
-% that don't resolve well; better results can be achieved by using specific Unicode characters or proper LICRs with the \pkg{xunicode} package.
+% that don't resolve well; better results can be achieved by using specific Unicode characters or proper LICRs with a Unicode font encoding.
 %
 % This problem is solved by defining \cs{@fnsymbol} in a similar manner to the \pkg{fixltx2e} package.
 %
@@ -2808,6 +2808,7 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \bool_new:N \g_@@_cfg_bool
 \bool_new:N \g_@@_math_bool
+\bool_new:N \g_@@_euenc_bool
 %    \end{macrocode}
 % \paragraph{Counters}
 %    \begin{macrocode}
@@ -3055,6 +3056,7 @@ This work consists of this file fontspec.dtx
 \DeclareOption{no-math}{\bool_set_false:N \g_@@_math_bool}
 \DeclareOption{config}{\bool_set_true:N \g_@@_cfg_bool}
 \DeclareOption{no-config}{\bool_set_false:N \g_@@_cfg_bool}
+\DeclareOption{euenc}{\bool_set_true:N \g_@@_euenc_bool}
 \DeclareOption{quiet}
  {
   \msg_redirect_module:nnn { fontspec } { warning } { info }
@@ -3096,18 +3098,20 @@ This work consists of this file fontspec.dtx
 %    \end{macrocode}
 %
 % \subsection{Encodings}
-% Frank Mittelbach has recommended using the `\texttt{EU}$x$' family of font encodings
-% to experiment with Unicode.
-% Now that \XeTeX\ can find fonts in the |texmf| tree, the Latin Modern OpenType fonts
-% can be used as the defaults. See the |euenc| collection of files for how this is implemented.
 %    \begin{macrocode}
-%<xetexx>\tl_set:Nn \g_fontspec_encoding_tl {EU1}
-%<luatex>\tl_set:Nn \g_fontspec_encoding_tl {EU2}
+\bool_if:NTF \g_@@_euenc_bool
+  {
+%<xetexx>    \tl_set:Nn \g_fontspec_encoding_tl {EU1}
+%<luatex>    \tl_set:Nn \g_fontspec_encoding_tl {EU2}
+  }
+  {
+    \tl_set:Nn \g_fontspec_encoding_tl {TU}
+  }
 \tl_set:Nn \rmdefault {lmr}
 \tl_set:Nn \sfdefault {lmss}
 \tl_set:Nn \ttdefault {lmtt}
 \RequirePackage[\g_fontspec_encoding_tl]{fontenc}
-\tl_set_eq:NN \UTFencname \g_fontspec_encoding_tl % for xunicode
+\tl_set_eq:NN \UTFencname \g_fontspec_encoding_tl % for xunicode if needed
 %    \end{macrocode}
 % Dealing with a couple of the problems introduced by \pkg{babel}:
 %    \begin{macrocode}
@@ -3122,19 +3126,6 @@ This work consists of this file fontspec.dtx
 % That latin encoding definition is repeated to suppress font warnings.
 % Something to do with \cmd\select@language\ ending up in the \texttt{.aux}
 % file which is read at the beginning of the document.
-%
-% \paragraph{xunicode}
-% Now we load \pkg{xunicode}, working around its internal \XeTeX\ check
-% when under \LuaTeX.
-%    \begin{macrocode}
-%<xetexx>\RequirePackage{fontspec-xunicode}
-%<*luatex>
-\cs_set_eq:NN \fontspec_tmp: \XeTeXpicfile
-\cs_set:Npn \XeTeXpicfile {}
-\RequirePackage{fontspec-xunicode}
-\cs_set_eq:NN \XeTeXpicfile \fontspec_tmp:
-%</luatex>
-%    \end{macrocode}
 %
 %
 % \subsection{User commands}\label{sec:codeuser}

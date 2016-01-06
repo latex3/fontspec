@@ -5,44 +5,30 @@
 \DeclareErrorFont{TU}{lmr}{m}{n}{10}
 \DeclareFontSubstitution{TU}{lmr}{m}{n}
 
-\g@addto@macro\nfss@catcodes{\@makeother:}
-
-\ExplSyntaxOn
-
 %% FONT LOADING (.fd FILE COMMANDS)
 
-\sys_if_engine_xetex:T
-  {
-    \tl_set:Nn \__c_fontload_texligatures_tl { mapping = tex-text; }
-  }
+\begingroup\expandafter\expandafter\expandafter\endgroup
+\expandafter\ifx\csname XeTeXrevision\endcsname\relax\else
+  \def\UnicodeFontTeXLigatures{mapping=tex-text;}
+\fi
 
-\sys_if_engine_luatex:T
-  {
-    \tl_set:Nn \__c_fontload_texligatures_tl { +tlig; +trep; }
-  }
+\begingroup\expandafter\expandafter\expandafter\endgroup
+\expandafter\ifx\csname directlua\endcsname\relax\else
+  \def\UnicodeFontTeXLigatures{+tlig;+trep;}
+\fi
 
-\cs_set_nopar:Npn \__fontload_file:nn #1 #2 { "[#1]:#2" }
-\cs_set_nopar:Npn \__fontload_name:nn #1 #2 { "#1:#2" }
+\def\UnicodeFontFile#1#2{"[#1]:#2"}
+\def\UnicodeFontName#1#2{"#1:#2"}
 
 %% COMMANDS FOR SYMBOL DEFINITIONS (used below)
 
-\cs_set_nopar:Npn \__fontload_unicode_accent:nn #1 #2
-  { #2 \char #1 \relax }
+% Accents in Unicode are postpended: 
+\def\add@unicode@accent#1#2{#2\char#1\relax}
 
-\cs_set_nopar:Npn \__declare_unicode_accent:nn #1 #2
-  {
-    \DeclareTextCommand {#1} {TU}
-      { \__fontload_unicode_accent:nn {#2} }
-  }
-
-%% User-layer command names
-
-\cs_set_eq:NN \UnicodeFontFile \__fontload_file:nn
-\cs_set:Npn   \UnicodeFontTeXLigatures
-  { \__c_fontload_texligatures_tl; color=000099; }
-\cs_set_eq:NN \DeclareUnicodeAccent \__declare_unicode_accent:nn
-
-\ExplSyntaxOff
+% Replacement for \DeclareTextAccent:
+\def\DeclareUnicodeAccent#1#2{%
+  \DeclareTextCommand{#1}{TU}{\add@unicode@accent{#2}}%
+}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% T1 SYMBOLS

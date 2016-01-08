@@ -122,6 +122,7 @@ This work consists of this file fontspec.dtx
 % \date{\filedate \qquad \fileversion}
 %
 % \maketitle
+%
 % \tableofcontents
 %
 % \section{History}
@@ -161,8 +162,8 @@ This work consists of this file fontspec.dtx
 % little or no difficulty switching over to \LuaTeX.
 %
 % This manual can get rather in-depth, as there are a lot of details
-% to cover. See the example documents \path{fontspec-xetex.tex} and
-% \path{fontspec-luatex.tex} for a complete minimal example with each engine.
+% to cover. See the documents \path{fontspec-example.tex} for a complete minimal example
+% to get started quickly.
 %
 % \subsection{About this manual}
 %
@@ -208,12 +209,15 @@ This work consists of this file fontspec.dtx
 % \end{Verbatim}
 % Package options will be introduced below; some preliminary details are discussed first:
 %
-% \paragraph{\pkg{xunicode}}
-% Ross Moore's \pkg{xunicode} package is no longer automatically loaded.
-% This package used to provide backwards compatibility with \LaTeX's methods for accessing extra
-% characters and accents (for example, |\%|, |\$|, |\textbullet|, |\"u|, and
-% so on), plus many more Unicode characters.
-% Now, the new \LaTeXe\ `TU' font encoding is used which defines a smaller set of characters; you may still load \pkg{xunicode} if needed.
+% \paragraph{\pkg{xunicode} and font encodings}
+% Ross Moore's \pkg{xunicode} package is \textbf{no longer} automatically loaded.
+% This package can be used to provide support for a very large set of characters and accented letters available in Unicode, with compatibility with \LaTeX's traditional naming for such things (for example, |\%|, |\$|, |\textbullet|, |\"u|, and
+% so on).
+% Now, the new \LaTeXe\ `TU' font encoding is used which defines a smaller set of characters and accents, but enough to provide compatibility with most legacy \LaTeX\ documents; you may still load \pkg{xunicode} if needed.\footnote{With the caveat that (currently) to load \pkg{xunicode} in \LuaLaTeX, you need to `trick' its \XeTeX-only loading test by locally defining \cs{XeTeXpicfile}.}
+%
+% In previous versions of the package, fonts were loaded with the \texttt{EU1} and \texttt{EU2} encodings for \XeTeX\ and \LuaTeX\ engines respectively.
+% IF you experience trouble is this area (particularly with other packages) after upgrading to the current version of this package, you can revert to these older encoding names by loading \pkg{fontspec} with the \texttt{[euenc]} package option. Note that if you do so, it may also be necessary to load \pkg{xunicode} manually.
+% 
 %
 % \paragraph{\XeTeX\ users only}
 % The \pkg{xltxtra} package adds some minor extra features to \XeLaTeX, including, via the \pkg{metalogo} package, the
@@ -2570,6 +2574,9 @@ This work consists of this file fontspec.dtx
 % The raw \TeX\ font that is defined is stored temporarily
 % in \cmd{\l_fontspec_font}.
 %
+% Package authors who need to load fonts with legacy \LaTeX\ NFSS commands may also need to know what the default font encoding is.
+% Since this has changed from \texttt{EU1}/\texttt{EU2} to \texttt{TU}, it is best to use the variables \cs{g_fontspec_encoding_tl} or \cs{UTFencname} instead.
+%
 % The following commands in \pkg{expl3} syntax may be used
 % for writing code that interfaces with fontspec-loaded fonts.
 % All of the following conditionals also exist with |T| and |F|
@@ -3099,13 +3106,18 @@ This work consists of this file fontspec.dtx
 %
 % \subsection{Encodings}
 %    \begin{macrocode}
-\bool_if:NTF \g_@@_euenc_bool
+\tl_set:Nn \g_fontspec_encoding_tl {TU}
+\file_if_exist:nTF {tuenc.def}
   {
-%<xetexx>    \tl_set:Nn \g_fontspec_encoding_tl {EU1}
-%<luatex>    \tl_set:Nn \g_fontspec_encoding_tl {EU2}
+    \bool_if:NT \g_@@_euenc_bool
+      {
+%<xetexx>        \tl_set:Nn \g_fontspec_encoding_tl {EU1}
+%<luatex>        \tl_set:Nn \g_fontspec_encoding_tl {EU2}
+      }
   }
   {
-    \tl_set:Nn \g_fontspec_encoding_tl {TU}
+%<xetexx>    \tl_set:Nn \g_fontspec_encoding_tl {EU1}
+%<luatex>    \tl_set:Nn \g_fontspec_encoding_tl {EU2}  
   }
 \tl_set:Nn \rmdefault {lmr}
 \tl_set:Nn \sfdefault {lmss}
@@ -3159,7 +3171,7 @@ This work consists of this file fontspec.dtx
 \cs_new:Nn \@@_fontspec:nn
  {
   \fontencoding {\g_fontspec_encoding_tl}
-  \fontspec_set_family:Nnn \f@family {#1}{#2}
+  \fontspec_set_family:Nnn \f@family {#1} {#2}
   \selectfont
   \ignorespaces
  }

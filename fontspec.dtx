@@ -3170,8 +3170,8 @@ This work consists of this file fontspec.dtx
 
 \cs_new:Nn \@@_fontspec:nn
  {
-  \fontencoding {\g_fontspec_encoding_tl}
   \fontspec_set_family:Nnn \f@family {#1} {#2}
+  \fontencoding { \l_@@_nfss_enc_tl }
   \selectfont
   \ignorespaces
  }
@@ -3312,8 +3312,9 @@ This work consists of this file fontspec.dtx
    {
     \exp_not:N \DeclareRobustCommand \exp_not:N #1
      {
-      \exp_not:N \fontencoding {\g_fontspec_encoding_tl}
-      \exp_not:N \fontfamily { \use:c {g_@@_ \cs_to_str:N #1 _family} } \exp_not:N \selectfont
+      \exp_not:N \fontfamily { \use:c {g_@@_ \cs_to_str:N #1 _family} }
+      \exp_not:N \fontencoding { \l_@@_nfss_enc_tl }
+      \exp_not:N \selectfont
      }
    }
  }
@@ -4048,7 +4049,7 @@ This work consists of this file fontspec.dtx
    {
     \@@_save_fontinfo:
     \@@_find_autofonts:
-    \DeclareFontFamily{\g_fontspec_encoding_tl}{\l_fontspec_family_tl}{}
+    \DeclareFontFamily{\l_@@_nfss_enc_tl}{\l_fontspec_family_tl}{}
     \@@_set_faces:
     \@@_info:nxx {defining-font} {#1} {#2}
 %<*debug>
@@ -4569,12 +4570,12 @@ This work consists of this file fontspec.dtx
 
 \cs_new:Nn \@@_declare_shapes_normal:nn
  {
-    \@@_DeclareFontShape:xxxxxx {\g_fontspec_encoding_tl} {\l_fontspec_family_tl}
+    \@@_DeclareFontShape:xxxxxx {\l_@@_nfss_enc_tl} {\l_fontspec_family_tl}
       {#1} {#2} {\l_@@_nfss_tl}{\l_@@_postadjust_tl}
 
     \bool_if:NF \l_@@_nosc_bool
      {
-      \@@_DeclareFontShape:xxxxxx {\g_fontspec_encoding_tl} {\l_fontspec_family_tl}
+      \@@_DeclareFontShape:xxxxxx {\l_@@_nfss_enc_tl} {\l_fontspec_family_tl}
         {#1}
         {\str_if_eq_x:nnTF {#2} {\itdefault} \sidefault \scdefault}
         {\l_@@_nfss_sc_tl}{\l_@@_postadjust_tl}
@@ -4605,7 +4606,7 @@ This work consists of this file fontspec.dtx
     !(\str_if_eq_x_p:nn {\itdefault} {\sldefault})
    }
    {
-    \@@_DeclareFontShape:xxxxxx {\g_fontspec_encoding_tl}{\l_fontspec_family_tl}{#1}{\sldefault}
+    \@@_DeclareFontShape:xxxxxx {\l_@@_nfss_enc_tl}{\l_fontspec_family_tl}{#1}{\sldefault}
       {<->ssub*\l_fontspec_family_tl/#1/\itdefault}{\l_@@_postadjust_tl}
    }
  }
@@ -4763,6 +4764,7 @@ This work consists of this file fontspec.dtx
   \tl_clear:N \l_fontspec_renderer_tl
   \tl_clear:N \l_fontspec_defined_shapes_tl
   \tl_clear:N \g_@@_curr_series_tl
+  \tl_gset_eq:NN \l_@@_nfss_enc_tl \g_fontspec_encoding_tl
 
   % This is for detecting font families when assigning default features.
   % Replace defaults for the standard families because they're not set in the usual way:
@@ -5466,6 +5468,15 @@ This work consists of this file fontspec.dtx
 % \subsubsection{Font-independent features}
 %
 % These features can be applied to any font.
+%
+% \paragraph{NFSS encoding}
+% For the very brave.
+%    \begin{macrocode}
+\@@_keys_define_code:nnn {fontspec-preparse} {NFSSEncoding}
+ {
+  \tl_gset:Nx \l_@@_nfss_enc_tl { #1 }
+ }
+%    \end{macrocode}
 %
 % \paragraph{NFSS family}
 % Interactions with other packages will sometimes require setting the NFSS family explicitly.

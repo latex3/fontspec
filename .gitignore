@@ -1,6 +1,7 @@
 
 Archive/
 
+*.glo
 *.idx
 *.out
 *.toc

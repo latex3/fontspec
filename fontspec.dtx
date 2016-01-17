@@ -2756,9 +2756,9 @@ This work consists of this file fontspec.dtx
     e.g.,~ "xelatex"~ or~ "lualatex"\\
   instead~ of~ plain~ "latex"~ or~ "pdflatex".
  }
-\sys_engine_if_xetex:F
+\sys_if_engine_xetex:F
  {
-  \sys_engine_if_luatex:TF
+  \sys_if_engine_luatex:TF
    {
     \RequirePackage{luaotfload}[2013/05/20]
     \directlua{require("fontspec")}

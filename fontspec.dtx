@@ -3068,7 +3068,8 @@ This work consists of this file fontspec.dtx
 \DeclareOption{no-math}{\bool_set_false:N \g_@@_math_bool}
 \DeclareOption{config}{\bool_set_true:N \g_@@_cfg_bool}
 \DeclareOption{no-config}{\bool_set_false:N \g_@@_cfg_bool}
-\DeclareOption{euenc}{\bool_set_true:N \g_@@_euenc_bool}
+\DeclareOption{euenc}{\bool_set_true:N  \g_@@_euenc_bool}
+\DeclareOption{tuenc}{\bool_set_false:N \g_@@_euenc_bool}
 \DeclareOption{quiet}
  {
   \msg_redirect_module:nnn { fontspec } { warning } { info }
@@ -3079,7 +3080,7 @@ This work consists of this file fontspec.dtx
   \msg_redirect_module:nnn { fontspec } { warning } { none }
   \msg_redirect_module:nnn { fontspec } { info } { none }
  }
-\ExecuteOptions{config,math}
+\ExecuteOptions{config,math,euenc}
 \ProcessOptions*
 %    \end{macrocode}
 %
@@ -3121,9 +3122,23 @@ This work consists of this file fontspec.dtx
       }
   }
   {
+    \bool_set_true:N \g_@@_euenc_bool
 %<xetexx>    \tl_set:Nn \g_fontspec_encoding_tl {EU1}
 %<luatex>    \tl_set:Nn \g_fontspec_encoding_tl {EU2}  
   }
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+\bool_if:NT \g_@@_euenc_bool
+  {
+%<luatex>    \cs_set_eq:NN \fontspec_tmp: \XeTeXpicfile
+%<luatex>    \cs_set:Npn \XeTeXpicfile {}
+    \RequirePackage{xunicode}
+%<luatex>    \cs_set_eq:NN \XeTeXpicfile \fontspec_tmp:
+  }
+%    \end{macrocode}
+%
+%    \begin{macrocode}
 \tl_set:Nn \rmdefault {lmr}
 \tl_set:Nn \sfdefault {lmss}
 \tl_set:Nn \ttdefault {lmtt}

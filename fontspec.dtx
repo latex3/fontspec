@@ -2933,8 +2933,13 @@ This work consists of this file fontspec.dtx
 %    \begin{macrocode}
 \msg_new:nnn {fontspec} {addfontfeatures-ignored}
  {
-  \string\addfontfeature (s)~ ignored;~
-  it~ cannot~ be~ used~ with~ a~ font~ that~ wasn't~ selected~ by~ fontspec.
+  \string\addfontfeature (s)~ ignored~ \msg_line_context:;~
+  it~ cannot~ be~ used~ with~ a~ font~ that~ wasn't~ selected~ by~ a~ fontspec~ command.\\
+  \\
+  The~ current~ font~ is~ "\use:c{font@name}".\\
+  \int_compare:nTF { \clist_count:n {#1} = 1 }
+    { The~ requested~ feature~ is~ "#1". }
+    { The~ requested~ features~ are~ "#1". }
  }
 \msg_new:nnn {fontspec} {feature-option-overwrite}
  {
@@ -3443,7 +3448,7 @@ This work consists of this file fontspec.dtx
     \fontfamily\l_fontspec_family_tl\selectfont
    }
    {
-    \@@_warning:n {addfontfeatures-ignored}
+    \@@_warning:nx {addfontfeatures-ignored} {#1}
    }
   \ignorespaces
  }

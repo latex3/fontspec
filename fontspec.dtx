@@ -199,7 +199,7 @@ This work consists of this file fontspec.dtx
 % improvements and David Perry again for contributing the text for one of the
 % sections of this manual.
 %
-% Special thanks to Khaled Hosny, who had been the driving force behind the support for \LuaLaTeX, ultimately leading to version 2.0 of the package.
+% Special thanks to Khaled Hosny, who was the driving force behind the support for \LuaLaTeX, ultimately leading to version 2.0 of the package.
 %
 % \section{Package loading and options}
 %
@@ -207,17 +207,18 @@ This work consists of this file fontspec.dtx
 % \begin{Verbatim}
 %   \usepackage{fontspec}
 % \end{Verbatim}
-% Package options will be introduced below; some preliminary details are discussed first:
+% Package options will be introduced below; some preliminary details are discussed first.
 %
 % \paragraph{\pkg{xunicode} and font encodings}
-% \marginpar{\fbox{\color{red}\textsc{update}}}
+% \null\marginpar{\null\hfill\fbox{\color{red}\textsc{update}!}}%
 % The 2016 release of \pkg{fontspec} initiates some changes for font encodings and the loading of \pkg{xunicode}.
 % While the defaults have not yet changed, a new package option, \texttt{tuenc}, switches the default \textsc{nfss} font encoding to \texttt{TU}.
 % \texttt{TU} is a new Unicode font encoding, intended for both \XeTeX\ and \LuaTeX\ engines, and automatically contains support for symbols covered by \LaTeX's traditional \texttt{T1} and \texttt{TS1} font encodings (for example, |\%|, |\textbullet|, |\"u|, and so on).
 % As a result, with this package option, Ross Moore's \pkg{xunicode} package is \textbf{not}  loaded.
 %
-% In 2017, the defaults will change and \texttt{tuenc} will be the default.
+% Later in the year, the default will be changed to load \texttt{tuenc} instead.
 % Package authors and users who have referred explicitly to the encoding names \texttt{EU1} or \texttt{EU2} will need to update their documents in advance.
+% (See internal variable names described in \vref{sec:api}.)
 % If anything goes wrong, \pkg{fontspec} can be loaded with the \texttt{euenc} option to revert to the 2016-and-previous behaviour.
 % Note that if you do so, \pkg{xunicode} will be automatically loaded for backwards compatibility.
 % 
@@ -253,8 +254,7 @@ This work consists of this file fontspec.dtx
 % another maths font package is loaded (such as \pkg{mathpazo} or the
 % \pkg{unicode-math} package).
 %
-% If you find that \pkg{fontspec} is incorrectly changing the maths font when it should be
-% leaving well enough alone, apply the |[no-math]| package option to manually
+% If you find that \pkg{fontspec} is incorrectly changing the maths font when it shouldn't be, apply the |no-math| package option to manually
 % suppress its maths font.
 %
 % \subsection{Configuration}
@@ -269,16 +269,16 @@ This work consists of this file fontspec.dtx
 % To customise \pkg{fontspec} to your liking, use the standard |.cfg| file as a starting point or write your own from scratch, then either place it in the same folder as the main document for isolated cases, or in a location
 % that \XeTeX\ or \LuaTeX\ searches by default; \eg\ in Mac\TeX: \path{~/Library/texmf/tex/latex/}.
 %
-% The package option |[no-config]| will suppress the loading of the |fontspec.cfg| file under all circumstances.
+% The package option |no-config| will suppress the loading of the |fontspec.cfg| file under all circumstances.
 %
 % \subsection{Warnings}
 % \label{sec:quiet-warnings}
 %
 % This package can give many warnings that can be harmless if you know what
-% you're doing. Use the |[quiet]| package option to write these warnings to the
+% you're doing. Use the |quiet| package option to write these warnings to the
 % transcript (\texttt{.log}) file instead.
 %
-% Use the |[silent]| package option to completely suppress these warnings if you
+% Use the |silent| package option to completely suppress these warnings if you
 % don't even want the |.log| file cluttered up.
 %
 %

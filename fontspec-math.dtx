@@ -1,0 +1,236 @@
+%
+% \section{Selecting maths fonts}
+% Here, the fonts used in math mode are redefined to correspond to the
+% default roman, sans serif and typewriter fonts. Unfortunately, you
+% can only define maths fonts in the preamble, otherwise I'd run this
+% code whenever \cs{setmainfont} and friends was run.
+%
+% \iffalse
+%    \begin{macrocode}
+%<*fontspec&(xetexx|luatex)>
+%    \end{macrocode}
+% \fi
+%
+% \begin{macro}{\fontspec_setup_maths:}
+% Everything here is performed \cs{AtBeginDocument} in order to
+% overwrite \pkg{euler}'s attempt. This means \pkg{fontspec} must be
+% loaded \emph{after} \pkg{euler}. We set up a conditional to return
+% an error if this rule is violated.
+%
+% Since every maths setup is slightly different, we also take
+% different paths for defining various math glyphs depending which
+% maths font package has been loaded.
+%
+%    \begin{macrocode}
+\@ifpackageloaded{euler}
+ {
+  \bool_set_true:N \g_@@_pkg_euler_loaded_bool
+ }
+ {
+  \bool_set_false:N \g_@@_pkg_euler_loaded_bool
+ }
+\cs_set:Nn \fontspec_setup_maths:
+ {
+  \@ifpackageloaded{euler}
+   {
+    \bool_if:NTF \g_@@_pkg_euler_loaded_bool
+     { \bool_set_true:N \g_@@_math_euler_bool }
+     { \@@_error:n {euler-too-late} }
+   }
+   {}
+  \@ifpackageloaded{lucbmath}{\bool_set_true:N \g_@@_math_lucida_bool}{}
+  \@ifpackageloaded{lucidabr}{\bool_set_true:N \g_@@_math_lucida_bool}{}
+  \@ifpackageloaded{lucimatx}{\bool_set_true:N \g_@@_math_lucida_bool}{}
+%    \end{macrocode}
+% Knuth's CM fonts fonts are all squashed together, combining letters,
+% accents, text symbols and maths symbols all in the one font,
+% \texttt{cmr}, plus other things in other fonts. Because we are
+% changing the roman font in the document, we need to redefine all of
+% the maths glyphs in \LaTeX's \texttt{operators} maths font to still
+% go back to the legacy \texttt{cmr} font for all these random glyphs,
+% unless a separate maths font package has been loaded instead.
+%
+% In every case, the maths accents are always taken from the
+% \texttt{operators} font, which is generally the main text
+% font. (Actually, there is a \cmd\hat\ accent in
+% \texttt{EulerFractur}, but it's \emph{ugly}. So I ignore it. Sorry
+% if this causes inconvenience.)
+%    \begin{macrocode}
+  \DeclareSymbolFont{legacymaths}{OT1}{cmr}{m}{n}
+  \SetSymbolFont{legacymaths}{bold}{OT1}{cmr}{bx}{n}
+  \DeclareMathAccent{\acute}   {\mathalpha}{legacymaths}{19}
+  \DeclareMathAccent{\grave}   {\mathalpha}{legacymaths}{18}
+  \DeclareMathAccent{\ddot}    {\mathalpha}{legacymaths}{127}
+  \DeclareMathAccent{\tilde}   {\mathalpha}{legacymaths}{126}
+  \DeclareMathAccent{\bar}     {\mathalpha}{legacymaths}{22}
+  \DeclareMathAccent{\breve}   {\mathalpha}{legacymaths}{21}
+  \DeclareMathAccent{\check}   {\mathalpha}{legacymaths}{20}
+  \DeclareMathAccent{\hat}     {\mathalpha}{legacymaths}{94} % too bad, euler
+  \DeclareMathAccent{\dot}     {\mathalpha}{legacymaths}{95}
+  \DeclareMathAccent{\mathring}{\mathalpha}{legacymaths}{23}
+%    \end{macrocode}
+% \paragraph{\cmd\colon: what's going on?} Okay, so \verb":" and \cmd\colon\ in maths mode are defined in a few places, so I need to work out what does what. Respectively, we have:
+% \begin{Verbatim}
+% % fontmath.ltx:
+% \DeclareMathSymbol{\colon}{\mathpunct}{operators}{"3A}
+% \DeclareMathSymbol{:}{\mathrel}{operators}{"3A}
+%
+% % amsmath.sty:
+% \renewcommand{\colon}{\nobreak\mskip2mu\mathpunct{}\nonscript
+%  \mkern-\thinmuskip{:}\mskip6muplus1mu\relax}
+%
+% % euler.sty:
+% \DeclareMathSymbol{:}\mathrel  {EulerFraktur}{"3A}
+%
+% % lucbmath.sty:
+% \DeclareMathSymbol{\@tempb}{\mathpunct}{operators}{58}
+% \ifx\colon\@tempb
+%   \DeclareMathSymbol{\colon}{\mathpunct}{operators}{58}
+% \fi
+% \DeclareMathSymbol{:}{\mathrel}{operators}{58}
+% \end{Verbatim}
+% ($\mathrm{3A_{16}}=\mathrm{58_{10}}$) So I think, based on this summary, that it is fair to tell \pkg{fontspec} to `replace' the operators font with legacymaths for this symbol, except when \pkg{amsmath} is loaded since we want to keep its definition.
+%
+%
+%    \begin{macrocode}
+  \group_begin:
+    \mathchardef\@tempa="603A \relax
+    \ifx\colon\@tempa
+      \DeclareMathSymbol{\colon}{\mathpunct}{legacymaths}{58}
+    \fi
+  \group_end:
+%    \end{macrocode}
+% The following symbols are only defined specifically in \pkg{euler}, so skip them
+% if that package is loaded.
+%    \begin{macrocode}
+  \bool_if:NF \g_@@_math_euler_bool
+   {
+    \DeclareMathSymbol{!}{\mathclose}{legacymaths}{33}
+    \DeclareMathSymbol{:}{\mathrel}  {legacymaths}{58}
+    \DeclareMathSymbol{;}{\mathpunct}{legacymaths}{59}
+    \DeclareMathSymbol{?}{\mathclose}{legacymaths}{63}
+%    \end{macrocode}
+% And these ones are defined both in \pkg{euler} and \pkg{lucbmath},
+% so we only need to run this code if no extra maths package has been
+% loaded.
+%    \begin{macrocode}
+    \bool_if:NF \g_@@_math_lucida_bool
+     {
+      \DeclareMathSymbol{0}{\mathalpha}{legacymaths}{`0}
+      \DeclareMathSymbol{1}{\mathalpha}{legacymaths}{`1}
+      \DeclareMathSymbol{2}{\mathalpha}{legacymaths}{`2}
+      \DeclareMathSymbol{3}{\mathalpha}{legacymaths}{`3}
+      \DeclareMathSymbol{4}{\mathalpha}{legacymaths}{`4}
+      \DeclareMathSymbol{5}{\mathalpha}{legacymaths}{`5}
+      \DeclareMathSymbol{6}{\mathalpha}{legacymaths}{`6}
+      \DeclareMathSymbol{7}{\mathalpha}{legacymaths}{`7}
+      \DeclareMathSymbol{8}{\mathalpha}{legacymaths}{`8}
+      \DeclareMathSymbol{9}{\mathalpha}{legacymaths}{`9}
+      \DeclareMathSymbol{\Gamma}{\mathalpha}{legacymaths}{0}
+      \DeclareMathSymbol{\Delta}{\mathalpha}{legacymaths}{1}
+      \DeclareMathSymbol{\Theta}{\mathalpha}{legacymaths}{2}
+      \DeclareMathSymbol{\Lambda}{\mathalpha}{legacymaths}{3}
+      \DeclareMathSymbol{\Xi}{\mathalpha}{legacymaths}{4}
+      \DeclareMathSymbol{\Pi}{\mathalpha}{legacymaths}{5}
+      \DeclareMathSymbol{\Sigma}{\mathalpha}{legacymaths}{6}
+      \DeclareMathSymbol{\Upsilon}{\mathalpha}{legacymaths}{7}
+      \DeclareMathSymbol{\Phi}{\mathalpha}{legacymaths}{8}
+      \DeclareMathSymbol{\Psi}{\mathalpha}{legacymaths}{9}
+      \DeclareMathSymbol{\Omega}{\mathalpha}{legacymaths}{10}
+      \DeclareMathSymbol{+}{\mathbin}{legacymaths}{43}
+      \DeclareMathSymbol{=}{\mathrel}{legacymaths}{61}
+      \DeclareMathDelimiter{(}{\mathopen} {legacymaths}{40}{largesymbols}{0}
+      \DeclareMathDelimiter{)}{\mathclose}{legacymaths}{41}{largesymbols}{1}
+      \DeclareMathDelimiter{[}{\mathopen} {legacymaths}{91}{largesymbols}{2}
+      \DeclareMathDelimiter{]}{\mathclose}{legacymaths}{93}{largesymbols}{3}
+      \DeclareMathDelimiter{/}{\mathord}{legacymaths}{47}{largesymbols}{14}
+      \DeclareMathSymbol{\mathdollar}{\mathord}{legacymaths}{36}
+    }
+  }
+%    \end{macrocode}
+% Finally, we change the font definitions for \cmd\mathrm\ and so
+% on. These are defined using the \cmd\g_@@_mathrm_tl\ (\dots) macros,
+% which default to \cmd\rmdefault\ but may be specified with the
+% \cmd\setmathrm\ (\dots) commands in the preamble.
+%
+% Since \LaTeX\ only generally defines one level of boldness, we omit
+% \cmd\mathbf\ in the \textsf{bold} maths series. It can be specified
+% as per usual with \cmd\setboldmathrm, which stores the appropriate
+% family name in \cmd\g_@@_bfmathrm_tl.
+%    \begin{macrocode}
+  \DeclareSymbolFont{operators}\g_fontspec_encoding_tl\g_@@_mathrm_tl\mddefault\updefault
+  \SetSymbolFont{operators}{normal}\g_fontspec_encoding_tl\g_@@_mathrm_tl\mddefault\updefault
+  \DeclareSymbolFontAlphabet\mathrm{operators}
+  \SetMathAlphabet\mathit{normal}\g_fontspec_encoding_tl\g_@@_mathrm_tl\mddefault\itdefault
+  \SetMathAlphabet\mathbf{normal}\g_fontspec_encoding_tl\g_@@_mathrm_tl\bfdefault\updefault
+  \SetMathAlphabet\mathsf{normal}\g_fontspec_encoding_tl\g_@@_mathsf_tl\mddefault\updefault
+  \SetMathAlphabet\mathtt{normal}\g_fontspec_encoding_tl\g_@@_mathtt_tl\mddefault\updefault
+  \SetSymbolFont{operators}{bold}\g_fontspec_encoding_tl\g_@@_mathrm_tl\bfdefault\updefault
+  \tl_if_empty:NTF \g_@@_bfmathrm_tl
+   {
+    \SetMathAlphabet\mathit{bold}\g_fontspec_encoding_tl\g_@@_mathrm_tl\bfdefault\itdefault
+   }
+   {
+    \SetMathAlphabet\mathrm{bold}\g_fontspec_encoding_tl\g_@@_bfmathrm_tl\mddefault\updefault
+    \SetMathAlphabet\mathbf{bold}\g_fontspec_encoding_tl\g_@@_bfmathrm_tl\bfdefault\updefault
+    \SetMathAlphabet\mathit{bold}\g_fontspec_encoding_tl\g_@@_bfmathrm_tl\mddefault\itdefault
+   }
+  \SetMathAlphabet\mathsf{bold}\g_fontspec_encoding_tl\g_@@_mathsf_tl\bfdefault\updefault
+  \SetMathAlphabet\mathtt{bold}\g_fontspec_encoding_tl\g_@@_mathtt_tl\bfdefault\updefault
+ }
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\fontspec_maybe_setup_maths:}
+% We're a little less sophisticated about not executing the maths setup if various other maths font packages are loaded. This list is based on the wonderful `\LaTeX Font Catalogue': \url{http://www.tug.dk/FontCatalogue/mathfonts.html}. I'm sure there are more I've missed. Do the \TeX\ Gyre fonts have maths support yet?
+%
+% Untested: would |\unless\ifnum\Gamma=28672\relax\bool_set_false:N \g_@@_math_bool\fi| be a better test?
+% This needs more cooperation with euler and lucida, I think.
+%    \begin{macrocode}
+\cs_new:Nn \fontspec_maybe_setup_maths:
+ {
+  \@ifpackageloaded{anttor}
+   {
+    \ifx\define@antt@mathversions a\bool_set_false:N \g_@@_math_bool\fi
+   }{}
+  \@ifpackageloaded{arev}{\bool_set_false:N \g_@@_math_bool}{}
+  \@ifpackageloaded{eulervm}{\bool_set_false:N \g_@@_math_bool}{}
+  \@ifpackageloaded{mathdesign}{\bool_set_false:N \g_@@_math_bool}{}
+  \@ifpackageloaded{concmath}{\bool_set_false:N \g_@@_math_bool}{}
+  \@ifpackageloaded{cmbright}{\bool_set_false:N \g_@@_math_bool}{}
+  \@ifpackageloaded{mathesf}{\bool_set_false:N \g_@@_math_bool}{}
+  \@ifpackageloaded{gfsartemisia}{\bool_set_false:N \g_@@_math_bool}{}
+  \@ifpackageloaded{gfsneohellenic}{\bool_set_false:N \g_@@_math_bool}{}
+  \@ifpackageloaded{iwona}
+   {
+    \ifx\define@iwona@mathversions a\bool_set_false:N \g_@@_math_bool\fi
+   }{}
+  \@ifpackageloaded{kpfonts}{\bool_set_false:N \g_@@_math_bool}{}
+  \@ifpackageloaded{kmath}{\bool_set_false:N \g_@@_math_bool}{}
+  \@ifpackageloaded{kurier}
+   {
+    \ifx\define@kurier@mathversions a\bool_set_false:N \g_@@_math_bool\fi
+   }{}
+  \@ifpackageloaded{fouriernc}{\bool_set_false:N \g_@@_math_bool}{}
+  \@ifpackageloaded{fourier}{\bool_set_false:N \g_@@_math_bool}{}
+  \@ifpackageloaded{lmodern}{\bool_set_false:N \g_@@_math_bool}{}
+  \@ifpackageloaded{mathpazo}{\bool_set_false:N \g_@@_math_bool}{}
+  \@ifpackageloaded{mathptmx}{\bool_set_false:N \g_@@_math_bool}{}
+  \@ifpackageloaded{MinionPro}{\bool_set_false:N \g_@@_math_bool}{}
+  \@ifpackageloaded{unicode-math}{\bool_set_false:N \g_@@_math_bool}{}
+  \@ifpackageloaded{breqn}{\bool_set_false:N \g_@@_math_bool}{}
+  \bool_if:NT \g_@@_math_bool
+   {
+    \@@_info:n {setup-math}
+    \fontspec_setup_maths:
+   }
+ }
+\AtBeginDocument{\fontspec_maybe_setup_maths:}
+%    \end{macrocode}
+% \end{macro}
+%
+% \iffalse
+%    \begin{macrocode}
+%</fontspec&(xetexx|luatex)>
+%    \end{macrocode}
+% \fi

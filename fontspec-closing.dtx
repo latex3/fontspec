@@ -1,0 +1,116 @@
+%
+% \section{Closing code}
+%
+% \iffalse
+%    \begin{macrocode}
+%<*fontspec&(xetexx|luatex)>
+%    \end{macrocode}
+% \fi
+%
+%
+% \subsection{Italic small caps} \label{sec:sishape}
+% The following code for utilising italic small caps sensibly is
+% inspired from Philip Lehman's \textit{The Font Installation
+%   Guide}. Note that |\upshape| needs to be used \emph{twice} to get
+% from italic small caps to regular upright (it always goes to small
+% caps, then regular upright).
+% \begin{macro}{\sishape}
+% \begin{macro}{\textsi}
+%     First, the commands for actually selecting italic small caps are
+%     defined. I use |si| as the NFSS shape for italic small caps, but
+%     I have seen |itsc| and |slsc| also used. |\sidefault| may be
+%     redefined to one of these if required for compatibility.
+%    \begin{macrocode}
+\providecommand*{\sidefault}{si}
+\DeclareRobustCommand{\sishape}
+ {
+  \not@math@alphabet\sishape\relax
+  \fontshape\sidefault\selectfont
+ }
+\DeclareTextFontCommand{\textsi}{\sishape}
+%    \end{macrocode}
+% \end{macro} \end{macro}
+% \begin{macro}{\fontspec_blend_shape:nnn}
+%   This is the macro which enables the overload on the |\..shape|
+%   commands. It takes three such arguments. In essence, the macro
+%   selects the first argument, unless the second argument is already
+%   selected, in which case it selects the third.
+%    \begin{macrocode}
+\cs_new:Nn \fontspec_blend_shape:nnn
+ {
+  \bool_if:nTF
+   {
+    \str_if_eq_x_p:nn {\f@shape} {#2} &&
+    \cs_if_exist_p:c {\f@encoding/\f@family/\f@series/#3}
+   }
+   { \fontshape{#3}\selectfont }
+   { \fontshape{#1}\selectfont }
+ }
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\itshape} \begin{macro}{\scshape} \begin{macro}{\upshape}
+%       Here the original |\..shape| commands are redefined to use the
+%       merge shape macro.
+%    \begin{macrocode}
+\DeclareRobustCommand \itshape
+ {
+  \not@math@alphabet\itshape\mathit
+  \fontspec_blend_shape:nnn\itdefault\scdefault\sidefault
+ }
+\DeclareRobustCommand \slshape
+ {
+  \not@math@alphabet\slshape\relax
+  \fontspec_blend_shape:nnn\sldefault\scdefault\sidefault
+ }
+\DeclareRobustCommand \scshape
+ {
+  \not@math@alphabet\scshape\relax
+  \fontspec_blend_shape:nnn\scdefault\itdefault\sidefault
+ }
+\DeclareRobustCommand \upshape
+ {
+  \not@math@alphabet\upshape\relax
+  \fontspec_blend_shape:nnn\updefault\sidefault\scdefault
+ }
+%    \end{macrocode}
+% \end{macro} \end{macro} \end{macro}
+%
+%
+% \subsection{Compatibility}
+%
+% \begin{macro}{\zf@enc}
+% \begin{macro}{\zf@family}
+% \begin{macro}{\zf@basefont}
+% \begin{macro}{\zf@fontspec}
+% Old interfaces.
+% These are needed by, at least, the \pkg{mathspec} package.
+%    \begin{macrocode}
+\tl_set:Nn \zf@enc { \g_fontspec_encoding_tl }
+\cs_set:Npn \zf@fontspec #1 #2
+ {
+  \fontspec_select:nn {#1} {#2}
+  \tl_set:Nn \zf@family { \l_fontspec_family_tl }
+  \tl_set:Nn \zf@basefont { \l_fontspec_font }
+ }
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+%
+% \subsection{Finishing up}
+% Now we just want to set up loading the \texttt{.cfg} file, if it exists.
+%    \begin{macrocode}
+\bool_if:NT \g_@@_cfg_bool
+ {
+  \InputIfFileExists{fontspec.cfg}
+    {}
+    {\typeout{No~ fontspec.cfg~ file~ found;~ no~ configuration~ loaded.}}
+ }
+%    \end{macrocode}
+%
+% \iffalse
+%    \begin{macrocode}
+%</fontspec&(xetexx|luatex)>
+%    \end{macrocode}
+% \fi

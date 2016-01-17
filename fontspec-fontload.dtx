@@ -1,0 +1,73 @@
+
+% \section{expl3 interface for font loading}
+%
+% \iffalse
+%    \begin{macrocode}
+%<*fontspec&(xetexx|luatex)>
+%    \end{macrocode}
+% \fi
+%
+%    \begin{macrocode}
+\cs_set:Nn \@@_fontwrap:n { "#1" }
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+\cs_set:Npn \@@_primitive_font_set:Nnn #1#2#3
+  {
+    \font #1 = #2 ~at~ #3 \scan_stop:
+  }
+
+\cs_set:Npn \@@_primitive_font_gset:Nnn #1#2#3
+  {
+    \global \font #1 = #2 ~at~ #3 \scan_stop:
+  }
+
+\cs_set:Npn \@@_font_suppress_not_found_error:
+  {
+    \int_set_eq:NN \xetex_suppressfontnotfounderror:D \c_one
+  }
+
+\prg_set_conditional:Nnn \@@_font_if_null:N {p,TF,T,F}
+  {
+    \ifx #1 \nullfont
+      \prg_return_true:
+    \else
+      \prg_return_false:
+    \fi
+  }
+%    \end{macrocode}
+%
+%
+% \begin{macro}{\fontspec_set:Nnn,\fontspec_gset:Nnn}
+% Wrapper around \cs{font_set:Nnn} and \cs{font_gset:Nnn}.
+%    \begin{macrocode}
+\cs_new:Nn \@@_font_set:Nnn
+ {
+  \@@_primitive_font_set:Nnn  #1 { \@@_fontwrap:n {#2} } {#3}
+ }
+\cs_new:Nn \@@_font_gset:Nnn
+ {
+  \@@_primitive_font_gset:Nnn #1 { \@@_fontwrap:n {#2} } {#3}
+ }
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\font_glyph_if_exist:NnTF}
+%    \begin{macrocode}
+\prg_new_conditional:Nnn \font_glyph_if_exist:Nn {p,TF,T,F}
+ {
+  \etex_iffontchar:D #1 #2 \scan_stop:
+    \prg_return_true:
+  \else:
+    \prg_return_false:
+  \fi:
+ }
+%    \end{macrocode}
+% \end{macro}
+%
+% \iffalse
+%    \begin{macrocode}
+%</fontspec&(xetexx|luatex)>
+%    \end{macrocode}
+% \fi

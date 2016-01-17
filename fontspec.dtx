@@ -1,95 +1,75 @@
 % \iffalse
 %<*internal>
 \begingroup
-\input l3docstrip.tex
-
-\def\doOption#1>#2\endLine{%
-  \maybeMsg{<#1 . >}%
-  \Evaluate{#1}%
-  \def\do##1##2##3{%
-    \if1\Expr{##2}%
-      \def\inLine{#2}%
-      \replaceModuleInLine
-      \StreamPut##1{\inLine}%
-    \fi
-  }%
-  \activefiles
-}
-
+\input l3docstrip.tex\relax
 \keepsilent
 \usedir{tex/latex/fontspec}
 \let\MetaPrefix\relax
 \preamble
-  ------------------------------------------------
-  The FONTSPEC package for XeLaTeX/LuaLaTeX
-  (C)  2004--2016  Will Robertson and Khaled Hosny
-  License information appended.
-  ------------------------------------------------
+------------------------------------------------
+The FONTSPEC package for XeLaTeX/LuaLaTeX
+(C)  2004--2016  Will Robertson and Khaled Hosny
+License information appended.
+------------------------------------------------
 \endpreamble
 \postamble
-
+------------------------------------------------
 Copyright 2004--2016 Will Robertson <wspr81@gmail.com>
 Copyright 2009--2013   Khaled Hosny <khaledhosny@eglug.org>
 
-Distributable under the LaTeX Project Public License,
-version 1.3c or higher (your choice). The latest version of
-this license is at: http://www.latex-project.org/lppl.txt
+Distributable under the LaTeX Project Public License, version 1.3c or higher.
+The latest version of this license is at: http://www.latex-project.org/lppl.txt
 
 This work is "maintained" by Will Robertson.
-
-This work consists of this file fontspec.dtx
-          and the derived files fontspec.sty,
-                                fontspec.lua,
-                                fontspec.cfg,
-                                fontspec-xetex.sty,
-                                fontspec-luatex.sty,
-                                fontspec-patches.sty,
-                                fontspec-example.tex,
-                            and fontspec.pdf.
-
+It consists of the files: fontspec*.dtx, fontspec.cfg, fontspec-example.tex.
+And the derived files: fontspec*.sty,fontspec.lua, and fontspec.pdf.
+------------------------------------------------
 \endpostamble
 \askforoverwritefalse
-
 \def\MetaPrefix{-- }
 \generate{\file{fontspec.lua}{\from{fontspec.dtx}{lua}}}
-
 \let\MetaPrefix\DoubleperCent
-
-\ifx\FontspecDebug\undefined
-  \def\FSDEBUG{}
-\else
-  \def\FSDEBUG{,debug}
-\fi
+\ifx\FontspecDebug\undefined\def\FSDEBUG{}\else\def\FSDEBUG{,debug}\fi
 
 \generate{\file{fontspec.sty}{
-  \from{fontspec.dtx}{preamble\FSDEBUG}
-  \from{fontspec.dtx}{load\FSDEBUG}
+  \from{fontspec.dtx}{fontspec,load\FSDEBUG}
 }}
 \generate{\file{fontspec-xetex.sty}{
   \from{fontspec.dtx}{fontspec,xetexx\FSDEBUG}
   \from{fontspec-vars.dtx}{vars\FSDEBUG}
   \from{fontspec-msg.dtx}{msg\FSDEBUG}
-  \from{fontspec.dtx}{pkgopt\FSDEBUG}
-  \from{fontspec-main.dtx}{fontspec,xetexx\FSDEBUG}
+  \from{fontspec-opening.dtx}{fontspec,xetexx\FSDEBUG}
+  \from{fontspec-fontload.dtx}{fontspec,xetexx\FSDEBUG}
+  \from{fontspec-user.dtx}{fontspec,xetexx\FSDEBUG}
+  \from{fontspec-api.dtx}{fontspec,xetexx\FSDEBUG}
+  \from{fontspec-internal.dtx}{fontspec,xetexx\FSDEBUG}
+  \from{fontspec-keyval.dtx}{fontspec,xetexx\FSDEBUG}
+  \from{fontspec-math.dtx}{fontspec,xetexx\FSDEBUG}
+  \from{fontspec-closing.dtx}{fontspec,xetexx\FSDEBUG}
   \from{fontspec-patches.dtx}{patches\FSDEBUG}
 }}
 \generate{\file{fontspec-luatex.sty}{
   \from{fontspec.dtx}{fontspec,luatex\FSDEBUG}
   \from{fontspec-vars.dtx}{vars\FSDEBUG}
   \from{fontspec-msg.dtx}{msg\FSDEBUG}
-  \from{fontspec.dtx}{pkgopt\FSDEBUG}
-  \from{fontspec-main.dtx}{fontspec,luatex\FSDEBUG}
+  \from{fontspec-opening.dtx}{fontspec,xetexx\FSDEBUG}
+  \from{fontspec-fontload.dtx}{fontspec,xetexx\FSDEBUG}
+  \from{fontspec-user.dtx}{fontspec,luatex\FSDEBUG}
+  \from{fontspec-api.dtx}{fontspec,luatex\FSDEBUG}
+  \from{fontspec-internal.dtx}{fontspec,luatex\FSDEBUG}
+  \from{fontspec-keyval.dtx}{fontspec,luatex\FSDEBUG}
+  \from{fontspec-math.dtx}{fontspec,luatex\FSDEBUG}
+  \from{fontspec-closing.dtx}{fontspec,luatex\FSDEBUG}
   \from{fontspec-patches.dtx}{patches\FSDEBUG}
 }}
 
 \def\tmpa{plain}
 \ifx\tmpa\fmtname\endgroup\expandafter\bye\fi
-
 \endgroup
 %</internal>
-%
 %<*fontspec>
 \RequirePackage{expl3}
+\RequirePackage{xparse}
 %</fontspec>
 %<*driver>
 \ProvidesExplFile{fontspec.dtx}
@@ -106,46 +86,35 @@ This work consists of this file fontspec.dtx
 \providecommand\ENDDOCUMENT{}
 \input{fontspec-doc.tex}
 \StopEventually{}
-\DocInput{\jobname.dtx}
-\clearpage
+\part{Implementation}
+\DocInput{fontspec.dtx}
 \DocInput{fontspec-vars.dtx}
-\clearpage
-\DocInput{fontspec-main.dtx}
-\clearpage
+\DocInput{fontspec-opening.dtx}
+\DocInput{fontspec-fontload.dtx}
+\DocInput{fontspec-user.dtx}
+\DocInput{fontspec-api.dtx}
+\DocInput{fontspec-internal.dtx}
+\DocInput{fontspec-keyval.dtx}
+\DocInput{fontspec-math.dtx}
+\DocInput{fontspec-closing.dtx}
 \DocInput{fontspec-lua.dtx}
-\clearpage
 \DocInput{fontspec-patches.dtx}
-\clearpage
 \DocInput{fontspec-msg.dtx}
 \end{document}
 %</driver>
-%
 % \fi
-% \clearpage
-% \part{Implementation}
 %
-% \section{`Header' code}
-%
-% We will eventually load the correct version of the code according to which
-% engine we're running. As we'll see later, there are some minor differences
-% between what we have to do in \XeLaTeX\ and \LuaLaTeX.
+% \section{Loading}
 %
 % The \textsf{expl3} module is \texttt{fontspec}.
 %    \begin{macrocode}
 %<@@=fontspec>
 %    \end{macrocode}
 %
+% Check engine and load specific modules.
+% For Lua\TeX, load \pkg{luaotfload}.
 %    \begin{macrocode}
-%<*preamble>
-%    \end{macrocode}
-%
-%    \begin{macrocode}
-\RequirePackage{xparse}
-%    \end{macrocode}
-%
-% Check engine and load specific modules. For Lua\TeX, load only
-% \pkg{luaotfload} which loads \pkg{luatexbase} and \pkg{lualibs} too.
-%    \begin{macrocode}
+%<*load>
 \msg_new:nnn {fontspec} {cannot-use-pdftex}
  {
   The~ fontspec~ package~ requires~ either~ XeTeX~ or~ LuaTeX~ to~ function.
@@ -155,60 +124,14 @@ This work consists of this file fontspec.dtx
   instead~ of~ plain~ "latex"~ or~ "pdflatex".
  }
 \sys_if_engine_xetex:F
- {
-  \sys_if_engine_luatex:TF
-   {
+  {
+    \sys_if_engine_luatex:F { \msg_fatal:nn {fontspec} {cannot-use-pdftex} }
+  }
+\sys_if_engine_luatex:T
+  {
     \RequirePackage{luaotfload}[2013/05/20]
     \directlua{require("fontspec")}
-   }
-   {
-    \msg_fatal:nn {fontspec} {cannot-use-pdftex}
-   }
- }
-%    \end{macrocode}
-%
-%    \begin{macrocode}
-%</preamble>
-%    \end{macrocode}
-%
-%
-% \subsection{Option processing}
-%
-%    \begin{macrocode}
-%<*pkgopt>
-%    \end{macrocode}
-%
-%    \begin{macrocode}
-\DeclareOption{cm-default}
- { \@@_warning:n {cm-default-obsolete} }
-\DeclareOption{math}{\bool_set_true:N \g_@@_math_bool}
-\DeclareOption{no-math}{\bool_set_false:N \g_@@_math_bool}
-\DeclareOption{config}{\bool_set_true:N \g_@@_cfg_bool}
-\DeclareOption{no-config}{\bool_set_false:N \g_@@_cfg_bool}
-\DeclareOption{euenc}{\bool_set_true:N  \g_@@_euenc_bool}
-\DeclareOption{tuenc}{\bool_set_false:N \g_@@_euenc_bool}
-\DeclareOption{quiet}
- {
-  \msg_redirect_module:nnn { fontspec } { warning } { info }
-  \msg_redirect_module:nnn { fontspec } { info } { none }
- }
-\DeclareOption{silent}
- {
-  \msg_redirect_module:nnn { fontspec } { warning } { none }
-  \msg_redirect_module:nnn { fontspec } { info } { none }
- }
-\ExecuteOptions{config,math,euenc}
-\ProcessOptions*
-%    \end{macrocode}
-%
-%    \begin{macrocode}
-%</pkgopt>
-%    \end{macrocode}
-%
-% \subsection{Packages}
-%
-%    \begin{macrocode}
-%<*load>
+  }
 \sys_if_engine_luatex:T { \RequirePackage{fontspec-luatex} \endinput }
 \sys_if_engine_xetex:T  { \RequirePackage{fontspec-xetex}  \endinput }
 %</load>

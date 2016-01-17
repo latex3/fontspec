@@ -493,8 +493,12 @@ in which the bold and italic fonts will be found automatically
 (if they exist) and are immediately accessible with the usual
 \cs{textit} and \cs{textbf} commands.
 
-TODO: add explanation for how to find out what the `font name' is.
-
+The `font name' can be found in various ways, such as by looking in the name listed in a application like \emph{Font Book} on Mac~OS~X.
+Alternatively, \TeX{}Live contains the \texttt{otfinfo} command line program, which can query this information; for example:
+\begin{Verbatim}
+    otfinfo -a `kpsewhich lmroman10-regular.otf`
+\end{Verbatim}
+results in `\texttt{LM Roman 10}'.
 
 \subsection{By file name}
 \label{sec:by-file-name}

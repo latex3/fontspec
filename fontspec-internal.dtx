@@ -1,0 +1,1170 @@
+% \section{Internals}
+%
+% \iffalse
+%    \begin{macrocode}
+%<*fontspec&(xetexx|luatex)>
+%    \end{macrocode}
+% \fi
+%
+% \subsection{Internal macros}
+% \label{sec:codeinternal}
+%
+% The macros from here in are used internally by all those defined above.
+% They are not designed to remain consistent between versions.
+%
+%
+%
+%
+% \begin{macro}{\fontspec_select:nn}
+% This is the command that defines font families for use, the underlying
+% procedure of all \cmd\fontspec-like commands. Given a
+% list of font features (|#1|) for a requested font (|#2|),
+% it will define an NFSS
+% family for that font and put the family name (globally) into \cs{l_fontspec_family_tl}.
+% The \TeX\ `\cs{font}' command is (globally) stored in \cs{l_fontspec_font}.
+%
+% This macro does its processing inside a group to attempt to restrict the scope of its internal processing.
+% This works to some degree to insulate the internal commands from having to be manually cleared.
+%
+% Some often-used variables to know about:
+% \begin{itemize}
+% \item \cmd{\l_fontspec_fontname_tl} is used as the generic name of the font being defined.
+% \item \cmd{\l_@@_fontid_tl} is the unique identifier of the font with all its features.
+% \item \cmd{\l_fontspec_fontname_up_tl} is the font specifically to be used as the upright font.
+% \item \cmd{\l_@@_basename_tl} is the (immutable) original argument used for |*|-replacing.
+% \item \cmd{\l_fontspec_font} is the plain \TeX{} font of the upright font requested.
+% \end{itemize}
+%    \begin{macrocode}
+\cs_set:Nn \fontspec_select:nn
+ {
+  \group_begin:
+  \@@_font_suppress_not_found_error:
+  \@@_init:
+
+  \tl_set:Nx \l_fontspec_fontname_tl    {#2}
+  \tl_set:Nx \l_fontspec_fontname_up_tl {#2}
+  \tl_set:Nx \l_@@_basename_tl          {#2}
+
+  \@@_load_external_fontoptions:Nn \l_fontspec_fontname_tl {#2}
+  \@@_extract_all_features:n {#1}
+  \@@_preparse_features:
+
+  \@@_load_font:
+  \@@_set_scriptlang:
+  \@@_get_features:Nn \l_@@_rawfeatures_sclist {}
+  \bool_set_false:N \l_@@_firsttime_bool
+
+  \@@_save_family:nTF {#2}
+   {
+    \@@_save_fontinfo:
+    \@@_find_autofonts:
+    \DeclareFontFamily{\l_@@_nfss_enc_tl}{\l_fontspec_family_tl}{}
+    \@@_set_faces:
+    \@@_info:nxx {defining-font} {#1} {#2}
+%<*debug>
+    \typeout{"\l_@@_fontid_tl"~ defined.}
+    \@@_warning:nxx {defining-font} {#1} {#2}
+%</debug>
+   }
+   {
+%<*debug>
+    \typeout{"\l_@@_fontid_tl"~ already~ defined~ apparently.}
+%</debug>
+   }
+  \group_end:
+ }
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@@_load_external_fontoptions:Nn}
+% Load a possible \texttt{.fontspec} font configuration file.
+% This file could set font-specific options for the font about to be loaded.
+%    \begin{macrocode}
+\cs_new:Nn \@@_load_external_fontoptions:Nn
+ {
+  \@@_sanitise_fontname:Nn #1 {#2}
+  \tl_set:Nx \l_@@_ext_filename_tl {#1.fontspec}
+  \tl_remove_all:Nn \l_@@_ext_filename_tl {~}
+  \prop_if_in:NVF \g_@@_fontopts_prop #1
+   {
+    \exp_args:No \file_if_exist:nT { \l_@@_ext_filename_tl }
+     { \file_input:n { \l_@@_ext_filename_tl } }
+   }
+ }
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@@_extract_features:}
+%    \begin{macrocode}
+\cs_new:Nn \@@_extract_all_features:n
+ {
+  \bool_if:NTF \l_@@_disable_defaults_bool
+   {
+    \clist_set:Nx \l_@@_all_features_clist {#1}
+   }
+   {
+    \prop_get:NVNF \g_@@_fontopts_prop \l_fontspec_fontname_tl \l_@@_fontopts_clist
+     { \clist_clear:N \l_@@_fontopts_clist }
+
+    \prop_get:NVNF \g_@@_fontopts_prop \l_@@_family_label_tl \l_@@_family_fontopts_clist
+     { \clist_clear:N \l_@@_family_fontopts_clist }
+    \tl_clear:N \l_@@_family_label_tl
+
+    \clist_set:Nx \l_@@_all_features_clist
+     {
+      \g_@@_default_fontopts_clist,
+      \l_@@_family_fontopts_clist,
+      \l_@@_fontopts_clist,
+      #1
+     }
+   }
+  \tl_set:Nx \l_@@_fontid_tl { \tl_to_str:N \l_fontspec_fontname_tl-:-\tl_to_str:N \l_@@_all_features_clist }
+%<*debug>
+  \typeout{fontid: \l_@@_fontid_tl}
+%</debug>
+ }
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@@_preparse_features:}
+% \darg{feature options}
+% \darg{font name}
+% Perform the (multi-step) feature parsing process.
+%
+% Convert the requested features to font definition
+% strings. First the features are parsed for information about font
+% loading (whether it's a named font or external font, etc.), and then
+% information is extracted for the names of the other shape fonts.
+%    \begin{macrocode}
+\cs_new:Nn \@@_preparse_features:
+ {
+%    \end{macrocode}
+% Detect if external fonts are to be used, possibly automatically, and
+% parse fontspec features for bold/italic fonts and their features.
+%    \begin{macrocode}
+  \@@_if_detect_external:VT \l_@@_basename_tl
+   { \keys_set:nn {fontspec-preparse-external} {ExternalLocation} }
+
+  \keys_set_known:nxN {fontspec-preparse-external}
+   { \l_@@_all_features_clist }
+   \l_@@_keys_leftover_clist
+%    \end{macrocode}
+% When \cmd{\l_fontspec_fontname_tl} is augmented with a prefix or whatever to create
+% the name of the upright font (\cmd{\l_fontspec_fontname_up_tl}), this latter is the new `general
+% font name' to use.
+%    \begin{macrocode}
+  \tl_set_eq:NN \l_fontspec_fontname_tl \l_fontspec_fontname_up_tl
+  \keys_set_known:nxN {fontspec-renderer} {\l_@@_keys_leftover_clist}
+    \l_@@_keys_leftover_clist
+  \keys_set_known:nxN {fontspec-preparse} {\l_@@_keys_leftover_clist}
+    \l_@@_fontfeat_clist
+ }
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@@_load_font:}
+%    \begin{macrocode}
+\cs_new:Nn \@@_load_font:
+ {
+  \@@_font_set:Nnn    \l_fontspec_font
+     { \@@_fullname:n {\l_fontspec_fontname_up_tl} } {\f@size pt}
+  \@@_font_if_null:NT \l_fontspec_font { \@@_error:nx {font-not-found} {\l_fontspec_fontname_up_tl} }
+  \@@_set_font_type:
+  \@@_font_gset:Nnn   \l_fontspec_font
+     { \@@_fullname:n {\l_fontspec_fontname_up_tl} } {\f@size pt}
+  \l_fontspec_font % this is necessary for LuaLaTeX to check the scripts properly
+ }
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@@_if_detect_external:nnT}
+% Check if either the fontname ends with a known font extension.
+%    \begin{macrocode}
+\prg_new_conditional:Nnn \@@_if_detect_external:n {T}
+ {
+  \clist_map_inline:Nn \l_@@_extensions_clist
+   {
+    \bool_set_false:N \l_@@_tmpa_bool
+    \tl_if_in:nnT {#1 <= end_of_string} {##1 <= end_of_string}
+      { \bool_set_true:N \l_@@_tmpa_bool \clist_map_break: }
+   }
+  \bool_if:NTF \l_@@_tmpa_bool \prg_return_true: \prg_return_false:
+ }
+\cs_generate_variant:Nn \@@_if_detect_external:nT {V}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@@_fullname:n}
+% Constructs the complete font name based on a common piece of info.
+%    \begin{macrocode}
+\cs_set:Nn \@@_fullname:n
+ {
+  \@@_namewrap:n { #1 \l_@@_extension_tl }
+  \l_fontspec_renderer_tl
+  \l_@@_optical_size_tl
+ }
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@@_set_scriptlang:}
+% Only necessary for OpenType fonts.
+% First check if the font supports scripts, then apply defaults if
+% none are explicitly requested. Similarly with the language settings.
+%    \begin{macrocode}
+\cs_new:Nn \@@_set_scriptlang:
+ {
+  \bool_if:NT \l_@@_firsttime_bool
+   {
+    \tl_if_empty:NTF \l_@@_script_name_tl
+     {
+      \fontspec_check_script:nTF {latn}
+       {
+        \tl_set:Nn \l_@@_script_name_tl {Latin}
+        \tl_if_empty:NT \l_@@_lang_name_tl
+         {
+          \tl_set:Nn \l_@@_lang_name_tl {Default}
+         }
+        \keys_set:nx {fontspec} {Script=\l_@@_script_name_tl}
+        \keys_set:nx {fontspec} {Language=\l_@@_lang_name_tl}
+       }
+       {
+        \@@_info:n {no-scripts}
+       }
+     }
+     {
+      \tl_if_empty:NT \l_@@_lang_name_tl
+       {
+        \tl_set:Nn \l_@@_lang_name_tl {Default}
+       }
+      \keys_set:nx {fontspec} {Script=\l_@@_script_name_tl}
+      \keys_set:nx {fontspec} {Language=\l_@@_lang_name_tl}
+     }
+   }
+ }
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\@@_save_family:nTF}
+% Check if the family is unique and, if so, save its information.
+% (\cs{addfontfeature} and other macros use this data.)
+% Then the font family and its shapes are defined in the NFSS.
+%
+% Now we have a unique (in fact, too unique!) string that contains
+% the family name and every option in abbreviated form. This is used
+% with a counter to create a simple NFSS family name for the font we're
+% selecting.
+%
+%    \begin{macrocode}
+\prg_new_conditional:Nnn \@@_save_family:n {TF}
+ {
+%<debug>\typeout{save~ family:~ #1}
+  \cs_if_exist:NT \l_@@_nfss_fam_tl
+   {
+    \cs_set_eq:cN {g_@@_UID_\l_@@_fontid_tl} \l_@@_nfss_fam_tl
+   }
+  \cs_if_exist:cF {g_@@_UID_\l_@@_fontid_tl}
+   {
+    % The font name is fully expanded, in case it's defined in terms of macros, before having its spaces zapped:
+    \tl_set:Nx \l_@@_tmp_tl {#1}
+    \tl_remove_all:Nn \l_@@_tmp_tl {~}
+
+    \cs_if_exist:cTF {g_@@_family_ \l_@@_tmp_tl _int}
+     { \int_gincr:c  {g_@@_family_ \l_@@_tmp_tl _int} }
+     { \int_new:c    {g_@@_family_ \l_@@_tmp_tl _int} }
+
+    \tl_gset:cx {g_@@_UID_\l_@@_fontid_tl}
+     {
+      \l_@@_tmp_tl ( \int_use:c {g_@@_family_ \l_@@_tmp_tl _int} )
+     }
+   }
+  \tl_gset:Nv \l_fontspec_family_tl {g_@@_UID_\l_@@_fontid_tl}
+  \cs_if_exist:cTF {g_@@_ \l_fontspec_family_tl _prop}
+    \prg_return_false: \prg_return_true:
+ }
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\@@_save_fontinfo:nn}
+% Saves the relevant font information for future processing.
+%    \begin{macrocode}
+\cs_new:Nn \@@_save_fontinfo:
+ {
+  \prop_new:c {g_@@_ \l_fontspec_family_tl _prop}
+  \prop_gput:cnx {g_@@_ \l_fontspec_family_tl _prop} {fontname} { \l_@@_basename_tl }
+  \prop_gput:cnx {g_@@_ \l_fontspec_family_tl _prop} {options}  { \l_@@_all_features_clist }
+  \prop_gput:cnx {g_@@_ \l_fontspec_family_tl _prop} {fontdef}
+   {
+    \@@_fullname:n {\l_fontspec_fontname_tl} :
+    \l_@@_pre_feat_sclist \l_@@_rawfeatures_sclist
+   }
+  \prop_gput:cnV {g_@@_ \l_fontspec_family_tl _prop} {script-num} \l_fontspec_script_int
+  \prop_gput:cnV {g_@@_ \l_fontspec_family_tl _prop} {lang-num} \l_fontspec_language_int
+  \prop_gput:cnV {g_@@_ \l_fontspec_family_tl _prop} {script-tag} \l_fontspec_script_tl
+  \prop_gput:cnV {g_@@_ \l_fontspec_family_tl _prop} {lang-tag} \l_fontspec_lang_tl
+
+ }
+%    \end{macrocode}
+% \end{macro}
+%
+% \subsubsection{Setting font shapes in a family}
+%
+% All NFSS specifications take their default values, so if any of them
+% are redefined, the shapes will be selected to fit in with the
+% current state. For example, if \cmd\bfdefault\ is redefined to |b|, all
+% bold shapes defined by this package will also be assigned to |b|.
+%
+% The combination shapes are searched first because they use information that may be redefined in the single cases.
+% E.g., if no bold font is specified then |set_autofont| will attempt to set it.
+% This has subtle/small ramifications on the logic of choosing the bold italic font.
+%
+% \begin{macro}{\@@_find_autofonts:}
+%    \begin{macrocode}
+\cs_new:Nn \@@_find_autofonts:
+ {
+  \bool_if:nF {\l_@@_noit_bool || \l_@@_nobf_bool}
+   {
+    \@@_set_autofont:Nnn \l_fontspec_fontname_bfit_tl {\l_fontspec_fontname_it_tl} {/B}
+    \@@_set_autofont:Nnn \l_fontspec_fontname_bfit_tl {\l_fontspec_fontname_bf_tl} {/I}
+    \@@_set_autofont:Nnn \l_fontspec_fontname_bfit_tl {\l_fontspec_fontname_tl} {/BI}
+   }
+
+  \bool_if:NF \l_@@_nobf_bool
+   {
+    \@@_set_autofont:Nnn \l_fontspec_fontname_bf_tl {\l_fontspec_fontname_tl} {/B}
+   }
+
+  \bool_if:NF \l_@@_noit_bool
+   {
+    \@@_set_autofont:Nnn \l_fontspec_fontname_it_tl {\l_fontspec_fontname_tl} {/I}
+   }
+
+  \@@_set_autofont:Nnn \l_fontspec_fontname_bfsl_tl {\l_fontspec_fontname_sl_tl} {/B}
+ }
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@@_set_faces:}
+%    \begin{macrocode}
+\cs_new:Nn \@@_set_faces:
+ {
+  \@@_add_nfssfont:oooo \mddefault \updefault \l_fontspec_fontname_tl      \l_@@_fontfeat_up_clist
+  \@@_add_nfssfont:oooo \bfdefault \updefault \l_fontspec_fontname_bf_tl   \l_@@_fontfeat_bf_clist
+  \@@_add_nfssfont:oooo \mddefault \itdefault \l_fontspec_fontname_it_tl   \l_@@_fontfeat_it_clist
+  \@@_add_nfssfont:oooo \mddefault \sldefault \l_fontspec_fontname_sl_tl   \l_@@_fontfeat_sl_clist
+  \@@_add_nfssfont:oooo \bfdefault \itdefault \l_fontspec_fontname_bfit_tl \l_@@_fontfeat_bfit_clist
+  \@@_add_nfssfont:oooo \bfdefault \sldefault \l_fontspec_fontname_bfsl_tl \l_@@_fontfeat_bfsl_clist
+
+  \prop_map_inline:Nn \l_@@_nfssfont_prop { \@@_set_faces_aux:nnnnn ##2 }
+ }
+\cs_new:Nn \@@_set_faces_aux:nnnnn
+ {
+  \fontspec_complete_fontname:Nn \l_@@_curr_fontname_tl {#3}
+  \@@_make_font_shapes:Nnnnn \l_@@_curr_fontname_tl {#1} {#2} {#4} {#5}
+ }
+%    \end{macrocode}
+% \end{macro}
+%
+%
+%
+% \subsubsection{Fonts}
+%
+% \begin{macro}{\@@_set_font_type:}
+% Now check if the font is to be rendered with \ATSUI\ or Harfbuzz. This will either
+% be automatic (based on the font type), or specified by the user via a font feature.
+%
+% This macro sets booleans
+% accordingly depending if the font in \cmd\l_fontspec_font\ is an \AAT\
+% font or an OpenType font or a font with feature axes (either \AAT\ or
+% Multiple Master), respectively.
+%    \begin{macrocode}
+\cs_new:Nn \@@_set_font_type:
+%<*xetexx>
+ {
+  \bool_set_false:N \l_@@_tfm_bool
+  \bool_set_false:N \l_@@_atsui_bool
+  \bool_set_false:N \l_@@_ot_bool
+  \bool_set_false:N \l_@@_mm_bool
+  \bool_set_false:N \l_@@_graphite_bool
+  \ifcase\XeTeXfonttype\l_fontspec_font
+    \bool_set_true:N \l_@@_tfm_bool
+  \or
+    \bool_set_true:N \l_@@_atsui_bool
+    \ifnum\XeTeXcountvariations\l_fontspec_font > \c_zero
+      \bool_set_true:N \l_@@_mm_bool
+    \fi
+  \or
+    \bool_set_true:N \l_@@_ot_bool
+  \fi
+%    \end{macrocode}
+% If automatic, the \cmd{\l_fontspec_renderer_tl} token list will still be
+% empty (other suffices that could be added will be later in the feature
+% processing), and if it is indeed still empty, assign it a value so that the
+% other weights of the font are specifically loaded with the same renderer.
+%    \begin{macrocode}
+  \tl_if_empty:NT \l_fontspec_renderer_tl
+   {
+    \bool_if:NTF \l_@@_atsui_bool
+     { \tl_set:Nn \l_fontspec_renderer_tl {/AAT} }
+     {
+       \bool_if:NT \l_@@_ot_bool
+        { \tl_set:Nn \l_fontspec_renderer_tl {/OT} }
+     }
+   }
+ }
+%</xetexx>
+%<*luatex>
+ {
+  \bool_set_true:N \l_@@_ot_bool
+ }
+%</luatex>
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\@@_set_autofont:Nnn}
+% \darg{Font name tl}
+% \darg{Base font name}
+% \darg{Font name modifier}
+%
+% This function looks for font with \meta{name} and \meta{modifier} |#2#3|, and if found (i.e., different to font with name |#2|) stores it in tl |#1|. A modifier is something like |/B| to look for a bold font, for example.
+%
+% We can't match external fonts in this way (in \XeTeX\ anyway; todo: test with LuaTeX).
+% If \meta{font name tl} is not empty, then it's already been specified by the user so abort.
+% If \meta{Base font name} is not given, we also abort for obvious reasons.
+%
+% If \meta{font name tl} is empty, then proceed.
+% If not found, \meta{font name tl} remains empty.
+% Otherwise, we have a match.
+%    \begin{macrocode}
+\cs_generate_variant:Nn \tl_if_empty:nF {x}
+\cs_new:Nn \@@_set_autofont:Nnn
+ {
+  \bool_if:NF \l_@@_external_bool
+   {
+  \tl_if_empty:xF {#2}
+   {
+    \tl_if_empty:NT #1
+     {
+      \@@_if_autofont:nnTF {#2} {#3}
+       { \tl_set:Nx #1 {#2#3} }
+       { \@@_info:nx {no-font-shape} {#2#3} }
+     }
+   }
+   }
+ }
+
+\prg_new_conditional:Nnn \@@_if_autofont:nn {T,TF}
+ {
+  \@@_font_set:Nnn \l_tmpa_font { \@@_fullname:n {#1}   } {\f@size pt}
+  \@@_font_set:Nnn \l_tmpb_font { \@@_fullname:n {#1#2} } {\f@size pt}
+  \str_if_eq_x:nnTF { \fontname \l_tmpa_font } { \fontname \l_tmpb_font }
+   { \prg_return_false: }
+   { \prg_return_true: }
+ }
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@@_make_font_shapes:Nnnnn}
+%  \darg{Font name}
+%  \darg{Font series}
+%  \darg{Font shape}
+%  \darg{Font features}
+%  \darg{Size features}
+%   This macro eventually uses \cs{DeclareFontShape} to define the font shape in
+%   question.
+%    \begin{macrocode}
+\cs_new:Nn \@@_make_font_shapes:Nnnnn
+ {
+  \group_begin:
+    \keys_set_known:nxN {fontspec-preparse-external} { #4 } \l_@@_leftover_clist
+    \@@_load_fontname:n {#1}
+    \@@_declare_shape:nnxx {#2} {#3} { \l_@@_fontopts_clist, \l_@@_leftover_clist } {#5}
+  \group_end:
+ }
+
+\cs_new:Nn \@@_load_fontname:n
+ {
+    \@@_load_external_fontoptions:Nn \l_fontspec_fontname_tl {#1}
+    \prop_get:NVNF \g_@@_fontopts_prop \l_fontspec_fontname_tl \l_@@_fontopts_clist
+     { \clist_clear:N \l_@@_fontopts_clist }
+    \@@_font_set:Nnn \l_fontspec_font {\@@_fullname:n {\l_fontspec_fontname_tl}} {\f@size pt}
+    \@@_font_if_null:NT \l_fontspec_font { \@@_error:nx {font-not-found} {#1} }
+ }
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@@_declare_shape:nnnn}
+% \darg{Font series}
+% \darg{Font shape}
+% \darg{Font features}
+% \darg{Size features}
+% Wrapper for \cmd\DeclareFontShape.
+% And finally the actual font shape declaration using \cmd\l_@@_nfss_tl\ defined above.
+% \cmd\l_@@_postadjust_tl\ is defined in various places to deal with things like the hyphenation
+% character and interword spacing.
+%
+% The main part is to loop through \feat{SizeFeatures} arguments, which are of the form
+% {\par\centering |SizeFeatures={{<one>},{<two>},{<three>}}|.\par}
+%    \begin{macrocode}
+\cs_new:Nn \@@_declare_shape:nnnn
+ {
+  \tl_clear:N \l_@@_nfss_tl
+  \tl_clear:N \l_@@_nfss_sc_tl
+  \tl_set_eq:NN \l_@@_saved_fontname_tl \l_fontspec_fontname_tl
+
+  \exp_args:Nx \clist_map_inline:nn {#4}
+   {
+    \tl_clear:N \l_@@_size_tl
+    \tl_set_eq:NN \l_@@_sizedfont_tl \l_@@_saved_fontname_tl % in case not spec'ed
+
+    \keys_set_known:nxN {fontspec-sizing} { \exp_after:wN \use:n ##1 }
+      \l_@@_sizing_leftover_clist
+    \tl_if_empty:NT \l_@@_size_tl { \@@_error:n {no-size-info} }
+
+    % "normal"
+    \@@_load_fontname:n {\l_@@_sizedfont_tl}
+    \@@_setup_nfss:Nnn \l_@@_nfss_tl {#3} {}
+
+    % small caps
+    \clist_set_eq:NN \l_@@_fontfeat_curr_clist \l_@@_fontfeat_sc_clist
+
+    \bool_if:NF \l_@@_nosc_bool
+     {
+      \tl_if_empty:NTF \l_fontspec_fontname_sc_tl
+       {
+%<debug>      \typeout{Attempting~ small~ caps?}
+        \@@_make_smallcaps:TF
+         {
+%<debug>      \typeout{Small~ caps~ found.}
+          \clist_put_left:Nn \l_@@_fontfeat_curr_clist {Letters=SmallCaps}
+         }
+         {
+%<debug>      \typeout{Small~ caps~ not~ found.}
+          \bool_set_true:N \l_@@_nosc_bool
+         }
+       }
+       { \@@_load_fontname:n {\l_fontspec_fontname_sc_tl} }% local for each size
+     }
+
+    \bool_if:NF \l_@@_nosc_bool
+     {
+      \@@_setup_nfss:Nnn \l_@@_nfss_sc_tl {#3} {\l_@@_fontfeat_curr_clist}
+     }
+
+   }
+
+  \@@_declare_shapes_normal:nn  {#1} {#2}
+  \@@_declare_shape_slanted:nn  {#1} {#2}
+  \@@_declare_shape_loginfo:nnn {#1} {#2} {#3}
+ }
+\cs_generate_variant:Nn \@@_declare_shape:nnnn {nnxx}
+
+\cs_new:Nn \@@_setup_nfss:Nnn
+ {
+  \@@_get_features:Nn \l_@@_rawfeatures_sclist
+   { #2 , \l_@@_sizing_leftover_clist , #3 }
+
+  \tl_put_right:Nx #1
+   {
+    <\l_@@_size_tl> \l_@@_scale_tl
+    \@@_fontwrap:n
+     {
+      \@@_fullname:n { \l_fontspec_fontname_tl }
+      : \l_@@_pre_feat_sclist \l_@@_rawfeatures_sclist
+     }
+   }
+ }
+
+\cs_new:Nn \@@_declare_shapes_normal:nn
+ {
+    \@@_DeclareFontShape:xxxxxx {\l_@@_nfss_enc_tl} {\l_fontspec_family_tl}
+      {#1} {#2} {\l_@@_nfss_tl}{\l_@@_postadjust_tl}
+
+    \bool_if:NF \l_@@_nosc_bool
+     {
+      \@@_DeclareFontShape:xxxxxx {\l_@@_nfss_enc_tl} {\l_fontspec_family_tl}
+        {#1}
+        {\str_if_eq_x:nnTF {#2} {\itdefault} \sidefault \scdefault}
+        {\l_@@_nfss_sc_tl}{\l_@@_postadjust_tl}
+     }
+ }
+
+\cs_new:Nn \@@_DeclareFontShape:nnnnnn
+ {
+  \group_begin:
+    \normalsize
+    \cs_undefine:c {#1/#2/#3/#4/\f@size}
+  \group_end:
+  \DeclareFontShape{#1}{#2}{#3}{#4}{#5}{#6}
+ }
+\cs_generate_variant:Nn \@@_DeclareFontShape:nnnnnn {xxxxxx}
+%    \end{macrocode}
+% This extra stuff for the slanted shape substitution is a little bit awkward.
+% We define the slanted shape to be a synonym for it when (a)~we're defining an italic font, but also (b)~when the default slanted shape isn't `it'.
+% (Presumably this turned up once in a test and I realised it caused problems. I doubt this would happen much.)
+%
+% We should test when a slanted font has been specified and not run this code if so, but the \verb|\@@_set_slanted:| code will overwrite this anyway if necessary.
+%    \begin{macrocode}
+\cs_new:Nn \@@_declare_shape_slanted:nn
+ {
+  \bool_if:nT
+   {
+     \str_if_eq_x_p:nn {#2} {\itdefault}  &&
+    !(\str_if_eq_x_p:nn {\itdefault} {\sldefault})
+   }
+   {
+    \@@_DeclareFontShape:xxxxxx {\l_@@_nfss_enc_tl}{\l_fontspec_family_tl}{#1}{\sldefault}
+      {<->ssub*\l_fontspec_family_tl/#1/\itdefault}{\l_@@_postadjust_tl}
+   }
+ }
+%    \end{macrocode}
+% Lastly some informative messaging.
+%    \begin{macrocode}
+\cs_new:Nn \@@_declare_shape_loginfo:nnn
+ {
+  \tl_gput_right:Nx \l_fontspec_defined_shapes_tl
+   {
+    \exp_not:n { \\ \\ }
+    *~ '\exp_not:N \str_case:nnF {#1/#2}
+     {
+       {\mddefault/\updefault} {normal}
+       {\bfdefault/\updefault} {bold}
+       {\mddefault/\itdefault} {italic}
+       {\bfdefault/\itdefault} {bold~ italic}
+     } {#2/#3}'~
+    with~ NFSS~ spec.: \exp_not:N \\
+    \l_@@_nfss_tl
+    \exp_not:n { \\ \\ }
+    *~ '\exp_not:N \str_case:nnF {#1/\scdefault}
+     {
+       {\mddefault/\scdefault} {small~ caps}
+       {\bfdefault/\scdefault} {bold~ small~ caps}
+       {\mddefault/\sidefault} {italic~ small~ caps}
+       {\bfdefault/\sidefault} {bold~ italic~ small~ caps}
+     } {#2/#3}'~
+    with~ NFSS~ spec.: \exp_not:N \\
+    \l_@@_nfss_sc_tl
+    \tl_if_empty:NF \l_@@_postadjust_tl
+     {
+      \exp_not:N \\ and~ font~ adjustment~ code: \exp_not:N \\ \l_@@_postadjust_tl
+     }
+   }
+ }
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\l_@@_pre_feat_sclist}
+% These are the features always applied to a font selection before other
+% features.
+%    \begin{macrocode}
+\clist_set:Nn \l_@@_pre_feat_sclist
+%<*xetexx>
+ {
+  \bool_if:NT \l_@@_ot_bool
+   {
+    \tl_if_empty:NF \l_fontspec_script_tl
+     {
+      script   = \l_fontspec_script_tl ;
+      language = \l_fontspec_lang_tl   ;
+     }
+   }
+ }
+%</xetexx>
+%<*luatex>
+ {
+  mode     = \l_fontspec_mode_tl   ;
+  \tl_if_empty:NF \l_fontspec_script_tl
+   {
+    script   = \l_fontspec_script_tl ;
+    language = \l_fontspec_lang_tl   ;
+   }
+ }
+%</luatex>
+%    \end{macrocode}
+% \end{macro}
+%
+%
+%
+%
+%
+% \subsubsection{Features}
+%
+% \begin{macro}{\@@_get_features:Nn}
+%
+%   This macro is a wrapper for |\keys_set:nn| which expands and adds a
+%   default specification to the original passed options. It begins by
+%   initialising the commands used to hold font-feature specific
+%   strings.
+%   Its argument is any additional features to prepend to the default.
+%    \begin{macrocode}
+\cs_set:Nn \@@_get_features:Nn
+ {
+  \sclist_clear:N \l_@@_rawfeatures_sclist
+  \tl_clear:N \l_@@_scale_tl
+  \tl_set_eq:NN \l_@@_opacity_tl \g_@@_opacity_tl
+  \tl_set_eq:NN \l_@@_hexcol_tl \g_@@_hexcol_tl
+  \tl_set_eq:NN \l_@@_postadjust_tl \g_@@_postadjust_tl
+  \tl_clear:N \l_@@_wordspace_adjust_tl
+  \tl_clear:N \l_@@_punctspace_adjust_tl
+
+  \keys_set_known:nxN {fontspec-renderer} {\l_@@_fontfeat_clist,#2}
+    \l_@@_keys_leftover_clist
+  \keys_set:nx {fontspec} {\l_@@_keys_leftover_clist}
+%    \end{macrocode}
+% Finish the colour specification.
+% Do not set the colour if not explicitly spec'd else \verb|\color| (using
+% specials) will not work.
+%    \begin{macrocode}
+  \str_if_eq_x:nnF { \l_@@_hexcol_tl \l_@@_opacity_tl }
+                   { \g_@@_hexcol_tl \g_@@_opacity_tl }
+   {
+    \@@_update_featstr:n { color = \l_@@_hexcol_tl\l_@@_opacity_tl }
+   }
+
+  \tl_set_eq:NN #1 \l_@@_rawfeatures_sclist
+ }
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@@_init:}
+% Initialisations that either need to occur globally:
+% (all setting of these variables is done locally inside a group)
+%    \begin{macrocode}
+\tl_clear:N \l_@@_family_label_tl
+\tl_clear:N \l_fontspec_fontname_bf_tl
+\tl_clear:N \l_fontspec_fontname_it_tl
+\tl_clear:N \l_fontspec_fake_slant_tl
+\tl_clear:N \l_fontspec_fake_embolden_tl
+\tl_clear:N \l_fontspec_fontname_bfit_tl
+\tl_clear:N \l_fontspec_fontname_sl_tl
+\tl_clear:N \l_fontspec_fontname_bfsl_tl
+\tl_clear:N \l_fontspec_fontname_sc_tl
+\tl_clear:N \l_@@_fontfeat_up_clist
+\tl_clear:N \l_@@_fontfeat_bf_clist
+\tl_clear:N \l_@@_fontfeat_it_clist
+\tl_clear:N \l_@@_fontfeat_bfit_clist
+\tl_clear:N \l_@@_fontfeat_sl_clist
+\tl_clear:N \l_@@_fontfeat_bfsl_clist
+\tl_clear:N \l_@@_fontfeat_sc_clist
+\tl_clear:N \l_@@_script_name_tl
+\tl_clear:N \l_fontspec_script_tl
+\tl_clear:N \l_@@_lang_name_tl
+\tl_clear:N \l_fontspec_lang_tl
+\tl_set:Nn  \g_@@_postadjust_tl { \l_@@_wordspace_adjust_tl \l_@@_punctspace_adjust_tl }
+
+\clist_set:Nn \l_@@_sizefeat_clist {Size={-}}
+\tl_new:N  \g_@@_hexcol_tl
+\tl_new:N  \g_@@_opacity_tl
+\tl_set:Nn \g_@@_hexcol_tl {000000}
+\tl_set:Nn \g_@@_opacity_tl {FF~}
+%    \end{macrocode}
+% Or once per fontspec font invocation:
+% (Some of these may be redundant.
+% Check whether they're assigned to globally or not.)
+%    \begin{macrocode}
+\cs_set:Npn \@@_init:
+ {
+  \bool_set_false:N \l_@@_ot_bool
+  \bool_set_true:N \l_@@_firsttime_bool
+  \cs_set:Npn \@@_namewrap:n ##1 { ##1 }
+  \tl_clear:N \l_@@_optical_size_tl
+  \tl_clear:N \l_fontspec_renderer_tl
+  \tl_clear:N \l_fontspec_defined_shapes_tl
+  \tl_clear:N \g_@@_curr_series_tl
+  \tl_gset_eq:NN \l_@@_nfss_enc_tl \g_fontspec_encoding_tl
+
+  % This is for detecting font families when assigning default features.
+  % Replace defaults for the standard families because they're not set in the usual way:
+  \exp_args:NV \str_case:nnF {\l_@@_family_label_tl}
+   {
+    {\rmdefault} { \tl_set:Nn \l_@@_family_label_tl {\g_@@_rmfamily_family} }
+    {\sfdefault} { \tl_set:Nn \l_@@_family_label_tl {\g_@@_sffamily_family} }
+    {\ttdefault} { \tl_set:Nn \l_@@_family_label_tl {\g_@@_ttfamily_family} }
+   }{}
+
+%<*luatex>
+  \tl_set:Nn \l_fontspec_mode_tl {node}
+  \int_set:Nn \luatex_prehyphenchar:D { `\- } % fixme
+  \int_zero:N \luatex_posthyphenchar:D        % fixme
+  \int_zero:N \luatex_preexhyphenchar:D       % fixme
+  \int_zero:N \luatex_postexhyphenchar:D      % fixme
+%</luatex>
+ }
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@@_make_smallcaps:TF}
+% \label{mac:makesmallcaps}
+% This macro checks if the font contains small caps.
+%    \begin{macrocode}
+\cs_set:Nn \fontspec_make_ot_smallcaps:TF
+ {
+  \fontspec_check_ot_feat:nTF {+smcp} {#1} {#2}
+ }
+%<*xetexx>
+\cs_set:Nn \@@_make_smallcaps:TF
+ {
+  \bool_if:NTF \l_@@_ot_bool
+   { \fontspec_make_ot_smallcaps:TF {#1} {#2} }
+   {
+     \bool_if:NT \l_@@_atsui_bool
+      { \fontspec_make_AAT_feature_string:nnTF {3}{3} {#1} {#2} }
+   }
+ }
+%</xetexx>
+%<*luatex>
+\cs_set_eq:NN \@@_make_smallcaps:TF \fontspec_make_ot_smallcaps:TF
+%</luatex>
+%    \end{macrocode}
+% \end{macro}
+%
+%
+%
+% \begin{macro}{\sclist_put_right:Nn}
+% I'm hardly going to write an `sclist' module but a couple of functions are
+% useful. Here, items in semi-colon lists are always followed by a semi-colon
+% (as opposed to the s.-c's being placed between elements) so we can append
+% sclists without worrying about it.
+%    \begin{macrocode}
+\cs_set_eq:NN \sclist_clear:N \tl_clear:N
+\cs_new:Nn \sclist_gput_right:Nn
+ { \tl_gput_right:Nn #1 {#2;} }
+\cs_generate_variant:Nn \sclist_gput_right:Nn {Nx}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+%
+% \begin{macro}{\@@_update_featstr:n}
+% \cmd{\l_@@_rawfeatures_sclist} is the string used to define the list of specific
+% font features. Each time another font feature is requested, this
+% macro is used to add that feature to the list. Font features are
+% separated by semicolons.
+%    \begin{macrocode}
+\cs_new:Nn \@@_update_featstr:n
+ {
+  \bool_if:NF \l_@@_firsttime_bool
+   {
+    \sclist_gput_right:Nx \l_@@_rawfeatures_sclist {#1}
+   }
+ }
+%    \end{macrocode}
+% \end{macro}
+%
+%
+%
+% \begin{macro}{\fontspec_make_feature:nnn}
+%   This macro is called by each feature key selected, and runs
+%   according to which type of font is selected.
+%    \begin{macrocode}
+\cs_new:Nn \fontspec_make_feature:nnn
+%<*xetexx>
+ {
+  \bool_if:NTF \l_@@_ot_bool
+   { \fontspec_make_OT_feature:n {#3} }
+   {
+     \bool_if:NT \l_@@_atsui_bool
+      { \fontspec_make_AAT_feature:nn {#1}{#2} }
+   }
+ }
+%</xetexx>
+%<*luatex>
+ { \fontspec_make_OT_feature:n {#3} }
+%</luatex>
+\cs_generate_variant:Nn \fontspec_make_feature:nnn {nnx}
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+\cs_new:Nn \fontspec_make_AAT_feature:nn
+ {
+  \tl_if_empty:nTF {#1}
+   { \@@_warning:n {aat-feature-not-exist} }
+   {
+     \fontspec_make_AAT_feature_string:nnTF {#1}{#2}
+      {
+       \@@_update_featstr:n {\l_fontspec_feature_string_tl}
+     }
+     { \@@_warning:nx {aat-feature-not-exist-in-font} {#1,#2} }
+   }
+ }
+\cs_new:Nn \fontspec_make_OT_feature:n
+ {
+  \tl_if_empty:nTF {#1}
+   { \@@_warning:n {icu-feature-not-exist} }
+   {
+     \fontspec_check_ot_feat:nTF {#1}
+      {
+       \@@_update_featstr:n {#1}
+      }
+      { \@@_warning:nx {icu-feature-not-exist-in-font} {#1} }
+   }
+ }
+\cs_new_protected:Nn \fontspec_make_numbered_feature:nn
+ {
+  \fontspec_check_ot_feat:nTF {#1}
+   {
+    \@@_update_featstr:n { #1 = #2 }
+   }
+   { \@@_warning:nx {icu-feature-not-exist-in-font} {#1} }
+ }
+\cs_generate_variant:Nn \fontspec_make_numbered_feature:nn {xn}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@@_define_font_feature:n}
+% \begin{macro}{\@@_define_feature_option:nnnnn}
+% \begin{macro}{\fontspec_define_numbered_feat:nnnn}
+% These macros are used in order to simplify font feature definition later on.
+%    \begin{macrocode}
+\cs_new:Nn \@@_define_font_feature:n
+ {
+  \keys_define:nn {fontspec} { #1 .multichoice: }
+ }
+\cs_new:Nn \@@_define_feature_option:nnnnn
+ {
+  \keys_define:nn {fontspec}
+   {
+    #1/#2 .code:n = { \fontspec_make_feature:nnn{#3}{#4}{#5} }
+   }
+ }
+\cs_new:Nn \fontspec_define_numbered_feat:nnnn
+ {
+  \keys_define:nn {fontspec}
+   {
+    #1/#2 .code:n =
+      { \fontspec_make_numbered_feature:nn {#3}{#4} }
+   }
+ }
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+%
+% \begin{macro}{\fontspec_make_AAT_feature_string:nnTF}
+%   This macro takes the numerical codes for a font feature and
+%   creates a specified macro containing the string required in the
+%   font definition to turn that feature on or off. Used primarily in
+%   [...], but also used to check if small caps
+%   exists in the requested font (see page~\pageref{mac:makesmallcaps}).
+%
+% For exclusive selectors, it's easy; just grab the string:
+% For \emph{non}-exclusive selectors, it's a little more complex.
+% If the selector is even, it corresponds to switching the feature on.
+% If the selector is \emph{odd}, it corresponds to switching the feature off.
+% But \XeTeX\ doesn't return a selector string for this number, since the
+% feature is defined for the `switching on' value. So we need to check the
+% selector of the previous number, and then prefix the feature string with |!|
+% to denote the switch.
+%
+% Finally, save out the complete feature string in \cmd\l_fontspec_feature_string_tl.
+%    \begin{macrocode}
+\prg_new_conditional:Nnn \fontspec_make_AAT_feature_string:nn {TF,T,F}
+ {
+  \tl_set:Nx \l_tmpa_tl { \XeTeXfeaturename \l_fontspec_font #1 }
+  \tl_if_empty:NTF \l_tmpa_tl
+   { \prg_return_false: }
+   {
+    \int_compare:nTF { \XeTeXisexclusivefeature\l_fontspec_font #1 > 0 }
+     {
+      \tl_set:Nx \l_tmpb_tl {\XeTeXselectorname\l_fontspec_font #1\space #2}
+     }
+     {
+      \int_if_even:nTF {#2}
+       {
+        \tl_set:Nx \l_tmpb_tl {\XeTeXselectorname\l_fontspec_font #1\space #2}
+       }
+       {
+        \tl_set:Nx \l_tmpb_tl
+         {
+          \XeTeXselectorname\l_fontspec_font #1\space \numexpr#2-1\relax
+         }
+        \tl_if_empty:NF \l_tmpb_tl { \tl_put_left:Nn \l_tmpb_tl {!} }
+       }
+    }
+    \tl_if_empty:NTF \l_tmpb_tl
+     { \prg_return_false: }
+     {
+      \tl_set:Nx \l_fontspec_feature_string_tl { \l_tmpa_tl = \l_tmpb_tl }
+      \prg_return_true:
+     }
+   }
+ }
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\fontspec_iv_str_to_num:Nn}
+% \begin{macro}{\fontspec_v_str_to_num:Nn}
+% This macro takes a four character string and converts it to the
+% numerical representation required for \XeTeX\ OpenType script/language/feature
+% purposes. The output is stored in \cmd\l_fontspec_strnum_int.
+%
+% The reason it's ugly is because the input can be of the form of any of these:
+% `|abcd|', `|abc|', `|abc |', `|ab|', `|ab  |', \etc.
+% (It is assumed the first two chars are \emph{always} not spaces.) So this macro
+% reads in the string, delimited by a space; this input is padded with \cmd\@empty s
+% and anything beyond four chars is snipped. The \cmd\@empty s then are used to reconstruct
+% the spaces in the string to number calculation.
+%
+% The variant \cmd\fontspec_v_str_to_num:n\ is used when looking at features, which are passed around
+% with prepended plus and minus signs (\eg, \texttt{+liga}, \texttt{-dlig}); it
+% simply strips off the first char of the input before calling the normal \cmd\fontspec_iv_str_to_num:n.
+%    \begin{macrocode}
+\cs_set:Nn \fontspec_iv_str_to_num:Nn
+ {
+  \fontspec_iv_str_to_num:w #1 \q_nil #2 \c_empty_tl \c_empty_tl \q_nil
+ }
+\cs_set:Npn \fontspec_iv_str_to_num:w #1 \q_nil #2#3#4#5#6 \q_nil
+ {
+  \int_set:Nn #1
+   {
+      `#2 * "1000000
+    + `#3 * "10000
+    + \ifx \c_empty_tl #4 32 \else `#4 \fi * "100
+    + \ifx \c_empty_tl #5 32 \else `#5 \fi
+   }
+ }
+\cs_generate_variant:Nn \fontspec_iv_str_to_num:Nn {No}
+\cs_set:Nn \fontspec_v_str_to_num:Nn
+ {
+  \bool_if:nTF
+   {
+    \tl_if_head_eq_charcode_p:nN {#2} {+} ||
+    \tl_if_head_eq_charcode_p:nN {#2} {-}
+   }
+   { \fontspec_iv_str_to_num:No #1 { \use_none:n #2 } }
+   { \fontspec_iv_str_to_num:Nn #1 {#2} }
+ }
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+%
+%
+% \begin{macro}{\fontspec_check_script:nTF}
+% This macro takes an OpenType script tag and checks if it exists in the current
+% font. The output boolean is \cmd\@tempswatrue. \cmd\l_fontspec_strnum_int\ is used to store
+% the number corresponding to the script tag string.
+%    \begin{macrocode}
+\prg_new_conditional:Nnn \fontspec_check_script:n {TF}
+%<*xetexx>
+ {
+  \fontspec_iv_str_to_num:Nn \l_fontspec_strnum_int {#1}
+  \int_set:Nn \l_tmpb_int { \XeTeXOTcountscripts \l_fontspec_font }
+  \int_zero:N \l_tmpa_int
+  \bool_set_false:N \l__fontspec_check_bool
+  \bool_until_do:nn { \int_compare_p:nNn \l_tmpa_int = \l_tmpb_int }
+   {
+    \ifnum \XeTeXOTscripttag\l_fontspec_font \l_tmpa_int = \l_fontspec_strnum_int
+      \bool_set_true:N \l__fontspec_check_bool
+      \int_set:Nn \l_tmpa_int {\l_tmpb_int}
+    \else
+      \int_incr:N \l_tmpa_int
+    \fi
+   }
+  \bool_if:NTF \l__fontspec_check_bool \prg_return_true: \prg_return_false:
+ }
+%</xetexx>
+%<*luatex>
+ {
+  \directlua{fontspec.check_ot_script("l_fontspec_font", "#1")}
+  \bool_if:NTF \l__fontspec_check_bool \prg_return_true: \prg_return_false:
+ }
+%</luatex>
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\fontspec_check_lang:nTF}
+% This macro takes an OpenType language tag and checks if it exists in the current
+% font/script. The output boolean is \cmd\@tempswatrue. \cmd\l_fontspec_strnum_int\ is used to store
+% the number corresponding to the language tag string.
+% The script used is whatever's held in \cmd\l_fontspec_script_int. By default, that's the
+% number corresponding to `|latn|'.
+%    \begin{macrocode}
+\prg_new_conditional:Nnn \fontspec_check_lang:n {TF}
+%<*xetexx>
+ {
+  \fontspec_iv_str_to_num:Nn \l_fontspec_strnum_int {#1}
+  \int_set:Nn \l_tmpb_int
+   { \XeTeXOTcountlanguages \l_fontspec_font \l_fontspec_script_int }
+  \int_zero:N \l_tmpa_int
+  \bool_set_false:N \l__fontspec_check_bool
+  \bool_until_do:nn { \int_compare_p:nNn \l_tmpa_int = \l_tmpb_int }
+   {
+    \ifnum\XeTeXOTlanguagetag\l_fontspec_font\l_fontspec_script_int \l_tmpa_int =\l_fontspec_strnum_int
+      \bool_set_true:N \l__fontspec_check_bool
+      \int_set:Nn \l_tmpa_int {\l_tmpb_int}
+    \else
+      \int_incr:N \l_tmpa_int
+    \fi
+   }
+  \bool_if:NTF \l__fontspec_check_bool \prg_return_true: \prg_return_false:
+ }
+%</xetexx>
+%<*luatex>
+ {
+  \directlua
+   {
+    fontspec.check_ot_lang( "l_fontspec_font", "#1", "\l_fontspec_script_tl" )
+   }
+  \bool_if:NTF \l__fontspec_check_bool \prg_return_true: \prg_return_false:
+ }
+%</luatex>
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\fontspec_check_ot_feat:nTF}
+% \begin{macro}{\fontspec_check_ot_feat:nT}
+% This macro takes an OpenType feature tag and checks if it exists in the current
+% font/script/language.
+% \cmd\l_fontspec_strnum_int\ is used to store the number corresponding to the feature tag string.
+% The script used is whatever's held in \cmd\l_fontspec_script_int. By default, that's the
+% number corresponding to `|latn|'. The language used is \cmd\l_fontspec_language_int,
+% by default |0|, the `default language'.
+%    \begin{macrocode}
+\prg_new_conditional:Nnn \fontspec_check_ot_feat:n {TF,T}
+%<*xetexx>
+ {
+  \int_set:Nn \l_tmpb_int
+   {
+    \XeTeXOTcountfeatures \l_fontspec_font
+                          \l_fontspec_script_int
+                          \l_fontspec_language_int
+   }
+  \fontspec_v_str_to_num:Nn \l_fontspec_strnum_int {#1}
+  \int_zero:N \l_tmpa_int
+  \bool_set_false:N \l__fontspec_check_bool
+  \bool_until_do:nn { \int_compare_p:nNn \l_tmpa_int = \l_tmpb_int }
+   {
+    \ifnum\XeTeXOTfeaturetag\l_fontspec_font\l_fontspec_script_int\l_fontspec_language_int
+         \l_tmpa_int =\l_fontspec_strnum_int
+      \bool_set_true:N \l__fontspec_check_bool
+      \int_set:Nn \l_tmpa_int {\l_tmpb_int}
+    \else
+      \int_incr:N \l_tmpa_int
+    \fi
+   }
+  \bool_if:NTF \l__fontspec_check_bool \prg_return_true: \prg_return_false:
+ }
+%</xetexx>
+%<*luatex>
+ {
+  \directlua
+   {
+    fontspec.check_ot_feat(
+                           "l_fontspec_font", "#1",
+                           "\l_fontspec_lang_tl", "\l_fontspec_script_tl"
+                          )
+   }
+  \bool_if:NTF \l__fontspec_check_bool \prg_return_true: \prg_return_false:
+ }
+%</luatex>
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+%
+% \iffalse
+%    \begin{macrocode}
+%</fontspec&(xetexx|luatex)>
+%    \end{macrocode}
+% \fi

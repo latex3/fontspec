@@ -1,0 +1,316 @@
+
+% \section{Programmer's interface}
+%
+% \iffalse
+%    \begin{macrocode}
+%<*fontspec&(xetexx|luatex)>
+%    \end{macrocode}
+% \fi
+%
+%
+%
+% These functions are not used directly by fontspec when defining fonts;
+% they are designed to be used by other packages who wish to do font-related
+% things on top of fontspec itself.
+%
+% Because I haven't fully explored how these functions will behave in
+% practise, I am not giving them user-level names. As it becomes more clear
+% which of these should be accessible by document writers, I'll open them up
+% a little more.
+%
+% All functions are defined assuming that the font to be queried is
+% currently selected as a fontspec font. (I.e., via \verb|\fontspec| or
+% from a \verb|\newfontfamily| macro or from \verb|\setmainfont| and so on.)
+%
+% \begin{macro}{\fontspec_if_fontspec_font:TF}
+% Test whether the currently selected font has been loaded by fontspec.
+%    \begin{macrocode}
+\prg_new_conditional:Nnn \fontspec_if_fontspec_font: {TF,T,F}
+ {
+  \cs_if_exist:cTF {g_@@_ \f@family _prop} \prg_return_true: \prg_return_false:
+ }
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\fontspec_if_aat_feature:nnTF}
+% Conditional to test if the currently selected font contains the \AAT\
+% feature (|#1|,|#2|).
+%    \begin{macrocode}
+\prg_new_conditional:Nnn \fontspec_if_aat_feature:nn {TF,T,F}
+ {
+  \fontspec_if_fontspec_font:TF
+   {
+    \prop_get:cnN {g_@@_ \f@family _prop} {fontdef} \l_@@_fontdef_tl
+    \@@_font_set:Nnn \l_fontspec_font {\l_@@_fontdef_tl} {\f@size pt}
+    \bool_if:NTF \l_@@_atsui_bool
+     {
+      \fontspec_make_AAT_feature_string:nnTF {#1}{#2}
+        \prg_return_true: \prg_return_false:
+     }
+     {
+      \prg_return_false:
+     }
+   }
+   {
+    \prg_return_false:
+   }
+ }
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\fontspec_if_opentype:TF}
+% Test whether the currently selected font is an OpenType font.
+% Always true for LuaTeX fonts.
+%    \begin{macrocode}
+\prg_new_conditional:Nnn \fontspec_if_opentype: {TF,T,F}
+ {
+  \fontspec_if_fontspec_font:TF
+   {
+    \prop_get:cnN {g_@@_ \f@family _prop} {fontdef} \l_@@_fontdef_tl
+    \@@_font_set:Nnn \l_fontspec_font {\l_@@_fontdef_tl} {\f@size pt}
+    \@@_set_font_type:
+    \bool_if:NTF \l_@@_ot_bool \prg_return_true: \prg_return_false:
+   }
+   {
+    \prg_return_false:
+   }
+ }
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\fontspec_if_feature:nTF}
+% Test whether the currently selected font contains the raw OpenType
+% feature |#1|. E.g.: |\fontspec_if_feature:nTF {pnum} {True} {False}|
+% Returns false if the font is not loaded by fontspec or is not an OpenType
+% font.
+%    \begin{macrocode}
+\prg_new_conditional:Nnn \fontspec_if_feature:n {TF,T,F}
+ {
+  \fontspec_if_fontspec_font:TF
+   {
+    \prop_get:cnN {g_@@_ \f@family _prop} {fontdef} \l_@@_fontdef_tl
+    \@@_font_set:Nnn \l_fontspec_font {\l_@@_fontdef_tl} {\f@size pt}
+    \@@_set_font_type:
+    \bool_if:NTF \l_@@_ot_bool
+     {
+      \prop_get:cnN {g_@@_ \f@family _prop} {script-num} \l_@@_tmp_tl
+      \int_set:Nn \l_fontspec_script_int {\l_@@_tmp_tl}
+
+      \prop_get:cnN {g_@@_ \f@family _prop} {lang-num} \l_@@_tmp_tl
+      \int_set:Nn \l_fontspec_language_int {\l_@@_tmp_tl}
+
+      \prop_get:cnN {g_@@_ \f@family _prop} {script-tag}  \l_fontspec_script_tl
+      \prop_get:cnN {g_@@_ \f@family _prop} {lang-tag}  \l_fontspec_lang_tl
+
+      \fontspec_check_ot_feat:nTF {#1} {\prg_return_true:} {\prg_return_false:}
+     }
+     {
+      \prg_return_false:
+     }
+   }
+   {
+    \prg_return_false:
+   }
+ }
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\fontspec_if_feature:nnnTF}
+% Test whether the currently selected font with raw OpenType script tag |#1| and raw OpenType language tag |#2| contains the raw OpenType feature tag |#3|. E.g.: |\fontspec_if_feature:nTF {latn} {ROM} {pnum} {True} {False}|
+% Returns false if the font is not loaded by fontspec or is not an OpenType
+% font.
+%    \begin{macrocode}
+\prg_new_conditional:Nnn \fontspec_if_feature:nnn {TF,T,F}
+ {
+  \fontspec_if_fontspec_font:TF
+   {
+    \prop_get:cnN {g_@@_ \f@family _prop} {fontdef} \l_@@_fontdef_tl
+    \@@_font_set:Nnn \l_fontspec_font {\l_@@_fontdef_tl} {\f@size pt}
+    \@@_set_font_type:
+    \bool_if:NTF \l_@@_ot_bool
+     {
+      \fontspec_iv_str_to_num:Nn \l_fontspec_script_int {#1}
+      \fontspec_iv_str_to_num:Nn \l_fontspec_language_int {#2}
+      \fontspec_check_ot_feat:nTF {#3} \prg_return_true: \prg_return_false:
+     }
+     { \prg_return_false: }
+   }
+   { \prg_return_false: }
+ }
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\fontspec_if_script:nTF}
+% Test whether the currently selected font contains the raw OpenType
+% script |#1|. E.g.: |\fontspec_if_script:nTF {latn} {True} {False}|
+% Returns false if the font is not loaded by fontspec or is not an OpenType
+% font.
+%    \begin{macrocode}
+\prg_new_conditional:Nnn \fontspec_if_script:n {TF,T,F}
+ {
+  \fontspec_if_fontspec_font:TF
+   {
+    \prop_get:cnN {g_@@_ \f@family _prop} {fontdef} \l_@@_fontdef_tl
+    \@@_font_set:Nnn \l_fontspec_font {\l_@@_fontdef_tl} {\f@size pt}
+    \@@_set_font_type:
+    \bool_if:NTF \l_@@_ot_bool
+     {
+      \fontspec_check_script:nTF {#1} \prg_return_true: \prg_return_false:
+     }
+     { \prg_return_false: }
+   }
+   { \prg_return_false: }
+ }
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\fontspec_if_language:nTF}
+% Test whether the currently selected font contains the raw OpenType language
+% tag |#1|. E.g.: |\fontspec_if_language:nTF {ROM} {True} {False}|.
+% Returns false if the font is not loaded by fontspec or is not an OpenType
+% font.
+%    \begin{macrocode}
+\prg_new_conditional:Nnn \fontspec_if_language:n {TF,T,F}
+ {
+  \fontspec_if_fontspec_font:TF
+   {
+    \prop_get:cnN {g_@@_ \f@family _prop} {fontdef} \l_@@_fontdef_tl
+    \@@_font_set:Nnn \l_fontspec_font {\l_@@_fontdef_tl} {\f@size pt}
+    \@@_set_font_type:
+    \bool_if:NTF \l_@@_ot_bool
+     {
+      \prop_get:cnN {g_@@_ \f@family _prop} {script-num} \l_@@_tmp_tl
+      \int_set:Nn \l_fontspec_script_int {\l_@@_tmp_tl}
+      \prop_get:cnN {g_@@_ \f@family _prop} {script-tag}  \l_fontspec_script_tl
+
+      \fontspec_check_lang:nTF {#1} \prg_return_true: \prg_return_false:
+     }
+     { \prg_return_false: }
+   }
+   { \prg_return_false: }
+ }
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\fontspec_if_language:nnTF}
+% Test whether the currently selected font contains the raw OpenType language
+% tag |#2| in script |#1|. E.g.: |\fontspec_if_language:nnTF {cyrl} {SRB} {True} {False}|.
+% Returns false if the font is not loaded by fontspec or is not an OpenType
+% font.
+%    \begin{macrocode}
+\prg_new_conditional:Nnn \fontspec_if_language:nn {TF,T,F}
+ {
+  \fontspec_if_fontspec_font:TF
+   {
+    \prop_get:cnN {g_@@_ \f@family _prop} {fontdef} \l_@@_fontdef_tl
+    \@@_font_set:Nnn \l_fontspec_font {\l_@@_fontdef_tl} {\f@size pt}
+    \@@_set_font_type:
+    \bool_if:NTF \l_@@_ot_bool
+     {
+      \tl_set:Nn \l_fontspec_script_tl {#1}
+      \fontspec_iv_str_to_num:Nn \l_fontspec_script_int {#1}
+      \fontspec_check_lang:nTF {#2} \prg_return_true: \prg_return_false:
+     }
+     { \prg_return_false: }
+   }
+   { \prg_return_false: }
+ }
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\fontspec_if_current_script:nTF}
+% Test whether the currently loaded font is using the specified raw
+% OpenType script tag |#1|.
+%    \begin{macrocode}
+\prg_new_conditional:Nnn \fontspec_if_current_script:n {TF,T,F}
+ {
+  \fontspec_if_fontspec_font:TF
+   {
+    \prop_get:cnN {g_@@_ \f@family _prop} {fontdef} \l_@@_fontdef_tl
+    \@@_font_set:Nnn \l_fontspec_font {\l_@@_fontdef_tl} {\f@size pt}
+    \@@_set_font_type:
+    \bool_if:NTF \l_@@_ot_bool
+     {
+      \prop_get:cnN {g_@@_ \f@family _prop} {script-tag}  \l_@@_tmp_tl
+      \str_if_eq:nVTF {#1}  \l_@@_tmp_tl
+        {\prg_return_true:} {\prg_return_false:}
+     }
+     { \prg_return_false: }
+   }
+   { \prg_return_false: }
+ }
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\fontspec_if_current_language:nTF}
+% Test whether the currently loaded font is using the specified raw
+% OpenType language tag |#1|.
+%    \begin{macrocode}
+\prg_new_conditional:Nnn \fontspec_if_current_language:n {TF,T,F}
+ {
+  \fontspec_if_fontspec_font:TF
+   {
+    \prop_get:cnN {g_@@_ \f@family _prop} {fontdef} \l_@@_fontdef_tl
+    \@@_font_set:Nnn \l_fontspec_font {\l_@@_fontdef_tl} {\f@size pt}
+    \@@_set_font_type:
+    \bool_if:NTF \l_@@_ot_bool
+     {
+      \prop_get:cnN {g_@@_ \f@family _prop} {lang-tag}  \l_@@_tmp_tl
+      \str_if_eq:nVTF {#1} \l_@@_tmp_tl
+        {\prg_return_true:} {\prg_return_false:}
+     }
+     { \prg_return_false: }
+   }
+   { \prg_return_false: }
+ }
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\fontspec_set_family:Nnn}
+% \darg{family}
+% \darg{fontspec features}
+% \darg{font name}
+% Defines a new font family from given \meta{features} and \meta{font},
+% and stores the name in the variable \meta{family}.
+% See the standard \pkg{fontspec} user commands for applications of this
+% function.
+%
+% We want to store the actual name of the font family within the \meta{family}
+% variable because the actual \LaTeX\ family name is automatically generated
+% by fontspec and it's easier to keep it that way.
+%
+% Please use |\fontspec_set_family:Nnn| instead of |\fontspec_select:nn|,
+% which may change in the future.
+%    \begin{macrocode}
+\cs_new:Nn \fontspec_set_family:Nnn
+ {
+  \tl_set:Nn \l_@@_family_label_tl { #1 }
+  \fontspec_select:nn {#2}{#3}
+  \tl_set_eq:NN #1 \l_fontspec_family_tl
+ }
+\cs_generate_variant:Nn \fontspec_set_family:Nnn {c}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\fontspec_set_fontface:NNnn}
+%    \begin{macrocode}
+\cs_new:Nn \fontspec_set_fontface:NNnn
+ {
+  \tl_set:Nn \l_@@_family_label_tl { #1 }
+  \fontspec_select:nn {#3}{#4}
+  \tl_set_eq:NN #1 \l_fontspec_font
+  \tl_set_eq:NN #2 \l_fontspec_family_tl
+ }
+%    \end{macrocode}
+% \end{macro}
+%
+% \iffalse
+%    \begin{macrocode}
+%</fontspec&(xetexx|luatex)>
+%    \end{macrocode}
+% \fi

@@ -1,0 +1,510 @@
+% \section{User commands}\label{sec:codeuser}
+%
+% This section contains the definitions of the commands detailed in
+% the user documentation.  Only the `top level' definitions of the
+% commands are contained herein; they all use or define macros which
+% are defined or used later on in \vref{sec:codeinternal}.
+%
+% \iffalse
+%    \begin{macrocode}
+%<*fontspec&(xetexx|luatex)>
+%    \end{macrocode}
+% \fi
+%
+% \subsubsection{Helper macros for argument mangling}
+%    \begin{macrocode}
+\cs_new:Nn \@@_pass_args:nnn
+ {
+  \IfNoValueTF {#2}
+   { \@@_post_arg:w {#1} {#3} }
+   { #1 {#2} {#3} }
+ }
+\NewDocumentCommand \@@_post_arg:w { m m O{} }
+ { #1 {#3} {#2} }
+%    \end{macrocode}
+%
+% \subsubsection{Font selection}
+% \begin{macro}{\fontspec}
+%   This is the main command of the package that
+%   selects fonts with various features. It takes two arguments: the
+%   font name and the optional requested features of that
+%   font. Then this new font family is selected.
+%    \begin{macrocode}
+\NewDocumentCommand \fontspec { o m }
+ { \@@_pass_args:nnn \@@_fontspec:nn {#1} {#2} }
+
+\cs_new:Nn \@@_fontspec:nn
+ {
+  \fontspec_set_family:Nnn \f@family {#1} {#2}
+  \fontencoding { \l_@@_nfss_enc_tl }
+  \selectfont
+  \ignorespaces
+ }
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\setmainfont}
+% \begin{macro}{\setsansfont}
+% \begin{macro}{\setmonofont}
+%     The following three macros perform equivalent operations setting
+%     the default font for a
+%     particular family: `roman', sans serif, or typewriter
+%     (monospaced). I end them with |\normalfont| so that if they're
+%     used in the document, the change registers immediately.
+%    \begin{macrocode}
+\DeclareDocumentCommand \setmainfont { o m }
+ { \@@_pass_args:nnn \@@_setmainfont:nn {#1} {#2} }
+
+\cs_new:Nn \@@_setmainfont:nn
+ {
+  \fontspec_set_family:Nnn \rmdefault {#1}{#2}
+  \normalfont
+  \ignorespaces
+ }
+
+\DeclareDocumentCommand \setsansfont { o m }
+ { \@@_pass_args:nnn \@@_setsansfont:nn {#1} {#2} }
+
+\cs_new:Nn \@@_setsansfont:nn
+ {
+  \fontspec_set_family:Nnn \sfdefault {#1}{#2}
+  \normalfont
+  \ignorespaces
+ }
+
+\DeclareDocumentCommand \setmonofont { o m }
+ { \@@_pass_args:nnn \@@_setmonofont:nn {#1} {#2} }
+
+\cs_new:Nn \@@_setmonofont:nn
+ {
+  \fontspec_set_family:Nnn \ttdefault {#1}{#2}
+  \normalfont
+  \ignorespaces
+ }
+%    \end{macrocode}
+% \end{macro} \end{macro} \end{macro}
+%
+%
+% \begin{macro}{\setromanfont}
+% This is the old name for \cs{setmainfont}, retained
+% for backwards compatibility.
+%    \begin{macrocode}
+\cs_set_eq:NN \setromanfont \setmainfont
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\setmathrm}
+% \begin{macro}{\setmathsf}
+% \begin{macro}{\setboldmathrm}
+% \begin{macro}{\setmathtt}
+% These commands are analogous to \cmd\setmainfont\ and others,
+% but for selecting the font used for \cmd\mathrm, \etc. They
+% can only be used in the preamble of the
+% document. \cmd\setboldmathrm\ is used for specifying which
+% fonts should be used in \cmd\boldmath.
+%    \begin{macrocode}
+\tl_new:N \g_@@_mathrm_tl
+\tl_new:N \g_@@_bfmathrm_tl
+\tl_new:N \g_@@_mathsf_tl
+\tl_new:N \g_@@_mathtt_tl
+\DeclareDocumentCommand \setmathrm { o m }
+ { \@@_pass_args:nnn \@@_setmathrm:nn {#1} {#2} }
+
+\cs_new:Nn \@@_setmathrm:nn
+ {
+  \fontspec_set_family:Nnn \g_@@_mathrm_tl {#1} {#2}
+ }
+
+\DeclareDocumentCommand \setboldmathrm { o m }
+ { \@@_pass_args:nnn \@@_setboldmathrm:nn {#1} {#2} }
+
+\cs_new:Nn \@@_setboldmathrm:nn
+ {
+  \fontspec_set_family:Nnn \g_@@_bfmathrm_tl {#1} {#2}
+ }
+
+\DeclareDocumentCommand \setmathsf { o m }
+ { \@@_pass_args:nnn \@@_setmathsf:nn {#1} {#2} }
+
+\cs_new:Nn \@@_setmathsf:nn
+ {
+  \fontspec_set_family:Nnn \g_@@_mathsf_tl {#1} {#2}
+ }
+
+\DeclareDocumentCommand \setmathtt { o m }
+ { \@@_pass_args:nnn \@@_setmathtt:nn {#1} {#2} }
+
+\cs_new:Nn \@@_setmathtt:nn
+ {
+  \fontspec_set_family:Nnn \g_@@_mathtt_tl {#1} {#2}
+ }
+\@onlypreamble\setmathrm
+\@onlypreamble\setboldmathrm
+\@onlypreamble\setmathsf
+\@onlypreamble\setmathtt
+%    \end{macrocode}
+% If the commands above are not executed, then \cmd\rmdefault\ (\etc)
+% will be used.
+%    \begin{macrocode}
+\tl_set:Nn \g_@@_mathrm_tl {\rmdefault}
+\tl_set:Nn \g_@@_mathsf_tl {\sfdefault}
+\tl_set:Nn \g_@@_mathtt_tl {\ttdefault}
+%    \end{macrocode}
+% \end{macro} \end{macro} \end{macro}
+% \end{macro}
+%
+% \begin{macro}{\newfontfamily}
+% \begin{macro}{\newfontface}
+%   This macro takes the arguments of \cs{fontspec} with a prepended
+%   \meta{instance cmd}. This command is used
+%   when a specific font instance needs to be referred to repetitively
+%   (\eg, in a section heading) since continuously calling
+%   \cs{fontspec_select:nn} is inefficient because it must parse the
+%   option arguments every time.
+%
+%   \cs{fontspec_select:nn} defines a font family and saves its name in
+%   \cs{l_fontspec_family_tl}. This family is then used in a typical NFSS \cmd\fontfamily\
+%   declaration, saved in the macro name specified.
+%    \begin{macrocode}
+\DeclareDocumentCommand \newfontfamily { m o m }
+ { \@@_pass_args:nnn { \@@_newfontfamily:Nnn #1 } {#2} {#3} }
+
+\cs_new:Nn \@@_newfontfamily:Nnn
+ {
+  \fontspec_set_family:cnn { g_@@_ \cs_to_str:N #1 _family } {#2} {#3}
+  \use:x
+   {
+    \exp_not:N \DeclareRobustCommand \exp_not:N #1
+     {
+      \exp_not:N \fontfamily { \use:c {g_@@_ \cs_to_str:N #1 _family} }
+      \exp_not:N \fontencoding { \l_@@_nfss_enc_tl }
+      \exp_not:N \selectfont
+     }
+   }
+ }
+%    \end{macrocode}
+% \cmd\newfontface\ uses the fact that if the argument to \feat{BoldFont}, etc., is empty (\ie, |BoldFont={}|), then no bold font is searched for.
+%    \begin{macrocode}
+\DeclareDocumentCommand \newfontface { m o m }
+ { \@@_pass_args:nnn { \@@_newfontface:Nnn #1 } {#2} {#3} }
+
+\cs_new:Nn \@@_newfontface:Nnn
+ {
+  \newfontfamily #1 [ BoldFont={},ItalicFont={},SmallCapsFont={},#2 ] {#3}
+ }
+%    \end{macrocode}
+% \end{macro} \end{macro}
+%
+% \subsubsection{Font feature selection}
+%
+% \begin{macro}{\defaultfontfeatures}
+%   This macro takes one argument that consists of all of feature
+%   options that will be applied by default to all subsequent
+%   \cs{fontspec}, et al., commands. It stores its value in
+%   \cs{g_fontspec_default_fontopts_tl} (initialised empty), which is
+%   concatenated with the individual macro choices in the
+%   [...] macro.
+%    \begin{macrocode}
+\clist_new:N \g_@@_default_fontopts_clist
+\prop_new:N \g_@@_fontopts_prop
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+\DeclareDocumentCommand \defaultfontfeatures { t+ o m }
+ {
+  \IfNoValueTF {#2}
+   { \@@_set_default_features:nn {#1} {#3} }
+   { \@@_set_font_default_features:nnn {#1} {#2} {#3} }
+  \ignorespaces
+ }
+\cs_new:Nn \@@_set_default_features:nn
+ {
+  \IfBooleanTF {#1} \clist_put_right:Nn \clist_set:Nn
+   \g_@@_default_fontopts_clist {#2}
+ }
+%    \end{macrocode}
+% The optional argument specifies a font identifier.
+% Branch for either (a)~single token input such as \verb|\rmdefault|, or (b)~otherwise assume its a fontname.
+% In that case, strip spaces and file extensions and lower-case to ensure consistency.
+%    \begin{macrocode}
+\cs_new:Nn \@@_set_font_default_features:nnn
+ {
+  \clist_map_inline:nn {#2}
+   {
+    \tl_if_single:nTF {##1}
+     { \tl_set:No \l_@@_tmp_tl { \cs:w g_@@_ \cs_to_str:N ##1 _family\cs_end: } }
+     { \@@_sanitise_fontname:Nn \l_@@_tmp_tl {##1} }
+
+    \IfBooleanTF {#1}
+     {
+      \prop_get:NVNF \g_@@_fontopts_prop \l_@@_tmp_tl \l_@@_tmpb_tl
+       { \tl_clear:N \l_@@_tmpb_tl }
+      \tl_put_right:Nn \l_@@_tmpb_tl {#3,}
+      \prop_gput:NVV   \g_@@_fontopts_prop \l_@@_tmp_tl \l_@@_tmpb_tl
+     }
+     {
+      \tl_if_empty:nTF {#3}
+       { \prop_gremove:NV \g_@@_fontopts_prop \l_@@_tmp_tl }
+       { \prop_put:NVn    \g_@@_fontopts_prop \l_@@_tmp_tl {#3,} }
+     }
+   }
+ }
+%    \end{macrocode}
+%
+% \begin{macro}{\@@_sanitise_fontname:Nn}
+% Assigns font name |#2| to token list variable |#1| and strips extension(s) from it in the case of an external font.
+% We strip spaces for luatex for consistency with luaotfload, although I'm not sure this is necessary any more.
+% At one stage this also lowercased the name, but this step has been removed unless someone can remind me why it was necessary.
+%    \begin{macrocode}
+\cs_new:Nn \@@_sanitise_fontname:Nn
+ {
+  \tl_set:Nx #1 {#2}
+%<luatex>  \tl_remove_all:Nn #1 {~}
+  \clist_map_inline:Nn \l_@@_extensions_clist
+   {
+     \tl_if_in:NnT #1 {##1}
+       {
+         \tl_remove_once:Nn #1 {##1}
+%         \keys_set:nn {fontspec-preparse-external} { Extension = ##1 }
+         \clist_map_break:
+       }
+   }
+ }
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+%
+%
+%
+% \begin{macro}{\addfontfeatures}
+%   In order to be able to extend the feature selection of
+%   a given font, two things need to be known: the currently selected
+%   features, and the currently selected font. Every time a font
+%   family is created, this information is saved inside a control
+%   sequence with the name of the font family itself.
+%
+%   This macro extracts this information, then appends the requested
+%   font features to add to the already existing ones, and calls the
+%   font again with the top level \cs{fontspec} command.
+%
+%   The default options are \emph{not} applied (which is why
+%   \cs{g_fontspec_default_fontopts_tl} is emptied inside the group; this is allowed
+%   as \cmd\l_fontspec_family_tl\ is globally defined in \cmd\fontspec_select:nn), so this
+%   means that the only added features to the font are strictly those
+%   specified by this command.
+%
+%   \cs{addfontfeature} is defined as an alias, as I found that I
+%   often typed this instead when adding only a single font feature.
+%    \begin{macrocode}
+\bool_new:N \l_@@_disable_defaults_bool
+\DeclareDocumentCommand \addfontfeatures {m}
+ {
+  \fontspec_if_fontspec_font:TF
+   {
+    \group_begin:
+      \prop_get:cnN {g_@@_ \f@family _prop} {options} \l_@@_options_tl
+      \prop_get:cnN {g_@@_ \f@family _prop} {fontname} \l_@@_fontname_tl
+      \bool_set_true:N \l_@@_disable_defaults_bool
+      \use:x
+       {
+        \exp_not:N \fontspec_select:nn
+          { \l_@@_options_tl , #1 } {\l_@@_fontname_tl}
+       }
+    \group_end:
+    \fontfamily\l_fontspec_family_tl\selectfont
+   }
+   {
+    \@@_warning:nx {addfontfeatures-ignored} {#1}
+   }
+  \ignorespaces
+ }
+\cs_set_eq:NN \addfontfeature \addfontfeatures
+%    \end{macrocode}
+% \end{macro}
+%
+%
+%
+% \subsubsection{Defining new font features}
+%
+% \begin{macro}{\newfontfeature}
+%   \cs{newfontfeature} takes two arguments: the name of the feature
+%   tag by which to reference it, and the string that is used to
+%   select the font feature.
+%    \begin{macrocode}
+\DeclareDocumentCommand \newfontfeature {mm}
+ {
+  \keys_define:nn { fontspec }
+   {
+    #1 .code:n =
+     {
+      \@@_update_featstr:n {#2}
+     }
+   }
+ }
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\newAATfeature}
+% This command assigns a new AAT feature by its code (|#2|,|#3|) to a new name (|#1|).
+% Better than \cmd\newfontfeature\ because it checks if the feature exists in the
+% font it's being used for.
+%    \begin{macrocode}
+\DeclareDocumentCommand \newAATfeature {mmmm}
+ {
+  \keys_if_exist:nnF { fontspec } {#1}
+    { \@@_define_font_feature:n {#1} }
+  \keys_if_choice_exist:nnnT {fontspec} {#1} {#2}
+    { \@@_warning:nxx {feature-option-overwrite} {#1} {#2} }
+  \@@_define_feature_option:nnnnn {#1}{#2}{#3}{#4}{}
+ }
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\newopentypefeature}
+% \begin{macro}{\newICUfeature}
+% This command assigns a new OpenType feature by its abbreviation (|#2|) to a new name (|#1|).
+% Better than \cmd\newfontfeature\ because it checks if the feature exists in the
+% font it's being used for.
+%    \begin{macrocode}
+\DeclareDocumentCommand \newopentypefeature {mmm}
+ {
+  \keys_if_exist:nnF { fontspec / options } {#1}
+    { \@@_define_font_feature:n {#1} }
+  \keys_if_choice_exist:nnnT {fontspec} {#1} {#2}
+    { \@@_warning:nxx {feature-option-overwrite} {#1} {#2} }
+  \@@_define_feature_option:nnnnn {#1}{#2}{}{}{#3}
+ }
+\cs_set_eq:NN \newICUfeature \newopentypefeature % deprecated
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+%
+%
+% \begin{macro}{\aliasfontfeature}
+% \begin{macro}{\aliasfontfeatureoption}
+% User commands for renaming font features and font feature options.
+%    \begin{macrocode}
+\bool_new:N \l_@@_alias_bool
+\DeclareDocumentCommand \aliasfontfeature {mm}
+ {
+  \bool_set_false:N \l_@@_alias_bool
+
+  \clist_map_inline:nn
+   { fontspec, fontspec-preparse, fontspec-preparse-external,
+     fontspec-preparse-nested, fontspec-renderer }
+   {
+
+     \keys_if_exist:nnT {##1} {#1}
+      {
+        \bool_set_true:N \l_@@_alias_bool
+        \@@_alias_font_feature:nnn {##1} {#1} {#2}
+      }
+   }
+
+  \bool_if:NF \l_@@_alias_bool
+    { \@@_warning:nx {rename-feature-not-exist} {#1} }
+ }
+
+\cs_set:Nn \@@_alias_font_feature:nnn
+  {
+    \keys_define:nn {#1}
+      { #3 .code:n = { \keys_set:nn {#1} { #2 = {##1} } } }
+  }
+
+\DeclareDocumentCommand \aliasfontfeatureoption {mmm}
+  { \keys_define:nn { fontspec / #1 } { #3 .meta:n = {#2} } }
+%    \end{macrocode}
+% \end{macro} \end{macro}
+%
+% \begin{macro}{\newfontscript}
+% Mostly used internally, but also possibly useful for users, to define new OpenType
+% `scripts', mapping logical names to OpenType script tags.
+% Iterates though the scripts in the selected font to check that it's a valid
+% feature choice, and then prepends the (\XeTeX) \cmd\font\ feature string with the appropriate
+% script selection tag.
+%    \begin{macrocode}
+\DeclareDocumentCommand \newfontscript {mm}
+ {
+  \fontspec_new_script:nn {#1} {#2}
+  \fontspec_new_script:nn {#2} {#2}
+ }
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+\keys_define:nn { fontspec } { Script .choice: }
+\cs_new:Nn \fontspec_new_script:nn
+ {
+  \keys_define:nn { fontspec } { Script / #1 .code:n =
+    \fontspec_check_script:nTF {#2}
+     {
+      \tl_set:Nn \l_fontspec_script_tl {#2}
+      \int_set:Nn \l_fontspec_script_int {\l_fontspec_strnum_int}
+     }
+     {
+      \fontspec_check_script:nTF {latn}
+       {
+        \@@_warning:nx {script-not-exist-latn} {#1}
+        \keys_set:nn {fontspec} {Script=Latin}
+       }
+       {
+        \@@_warning:nx {script-not-exist} {#1}
+       }
+     }
+   }
+ }
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\newfontlanguage}
+% Mostly used internally, but also possibly useful for users, to define new OpenType
+% `languages', mapping logical names to OpenType language tags.
+% Iterates though the languages in the selected font to check that it's a valid
+% feature choice, and then prepends the (\XeTeX) \cmd\font\ feature string with the appropriate
+% language selection tag.
+%    \begin{macrocode}
+\DeclareDocumentCommand \newfontlanguage {mm}
+ {
+  \fontspec_new_lang:nn {#1} {#2}
+  \fontspec_new_lang:nn {#2} {#2}
+ }
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+\keys_define:nn { fontspec } { Language .choice: }
+\cs_new:Nn \fontspec_new_lang:nn
+ {
+  \keys_define:nn { fontspec } { Language / #1 .code:n =
+    \fontspec_check_lang:nTF {#2}
+     {
+      \tl_set:Nn \l_fontspec_lang_tl {#2}
+      \int_set:Nn \l_fontspec_language_int {\l_fontspec_strnum_int}
+     }
+     {
+      \@@_warning:nx {language-not-exist} {#1}
+      \keys_set:nn { fontspec } { Language = Default }
+     }
+  }
+ }
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\DeclareFontsExtensions}
+% \texttt{dfont} would never be uppercase, right?
+%    \begin{macrocode}
+\DeclareDocumentCommand \DeclareFontsExtensions {m}
+ {
+  \clist_set:Nn \l_@@_extensions_clist { #1 }
+  \tl_remove_all:Nn \l_@@_extensions_clist {~}
+ }
+\DeclareFontsExtensions{.otf,.ttf,.OTF,.TTF,.ttc,.TTC,.dfont}
+%    \end{macrocode}
+% \end{macro}
+%
+% \iffalse
+%    \begin{macrocode}
+%</fontspec&(xetexx|luatex)>
+%    \end{macrocode}
+% \fi

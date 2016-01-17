@@ -1,0 +1,1420 @@
+
+% \section{Font loading (\pkg{keyval}) definitions}
+%
+% This is the tedious section where we correlate all possible
+% (eventually) font feature requests with their \XeTeX\ representations.
+%
+% \iffalse
+%    \begin{macrocode}
+%<*fontspec&(xetexx|luatex)>
+%    \end{macrocode}
+% \fi
+%
+%    \begin{macrocode}
+\cs_new:Nn \@@_keys_define_code:nnn
+ {
+  \keys_define:nn {#1} { #2 .code:n = {#3} }
+ }
+%    \end{macrocode}
+%
+% \subsubsection{Pre-parsing naming information}
+%
+% These features are extracted from the font feature list before all others.
+%
+% \paragraph{\feat{ExternalLocation}}
+% For fonts that aren't installed in the system. If no argument is given, the font is located
+% with |kpsewhich|; it's either in the current directory or the \TeX\ tree. Otherwise, the
+% argument given defines the file path of the font.
+%    \begin{macrocode}
+\bool_new:N \l_@@_external_bool
+\@@_keys_define_code:nnn {fontspec-preparse-external} {ExternalLocation}
+ {
+  \bool_set_true:N \l_@@_nobf_bool
+  \bool_set_true:N \l_@@_noit_bool
+  \bool_set_true:N \l_@@_external_bool
+  \cs_set:Npn \@@_namewrap:n ##1 { [ #1 ##1 ] }
+%<*xetexx>
+  \keys_set:nn {fontspec-renderer} {Renderer=OpenType}
+%</xetexx>
+ }
+\aliasfontfeature{ExternalLocation}{Path}
+%    \end{macrocode}
+%
+% \paragraph{\feat{Extension}}
+% For fonts that aren't installed in the system. Specifies the font extension
+% to use.
+%    \begin{macrocode}
+\@@_keys_define_code:nnn {fontspec-preparse-external} {Extension}
+ {
+  \tl_set:Nn \l_@@_extension_tl {#1}
+  \bool_if:NF \l_@@_external_bool
+   {
+    \keys_set:nn {fontspec-preparse-external} {ExternalLocation}
+   }
+ }
+\tl_clear:N \l_@@_extension_tl
+%    \end{macrocode}
+%
+% \subsubsection{Pre-parsed features}
+%
+% After the font name(s) have been sorted out, now need to extract any
+% renderer/font configuration features that need to be processed before
+% all other font features.
+%
+% \paragraph{\feat{Renderer}}
+% This feature must be processed before all others (the other font shape and features options are also pre-parsed for convenience) because the renderer determines the format of the features and even whether certain features are available.
+%    \begin{macrocode}
+\keys_define:nn {fontspec-renderer}
+ {
+  Renderer .choices:nn =
+   {AAT,ICU,OpenType,Graphite,Full,Basic}
+   {
+    \int_compare:nTF {\l_keys_choice_int <= 4} {
+%<*xetexx>
+      \tl_set:Nv \l_fontspec_renderer_tl
+        { g_fontspec_renderer_tag_ \l_keys_choice_tl }
+%</xetexx>
+%<*luatex>
+      \@@_warning:nx {only-xetex-feature} {Renderer=AAT/OpenType/Graphite}
+%</luatex>
+     }
+     {
+%<*xetexx>
+      \@@_warning:nx {only-luatex-feature} {Renderer=Full/Basic}
+%</xetexx>
+%<*luatex>
+      \tl_set:Nv \l_fontspec_mode_tl
+        { g_fontspec_mode_tag_ \l_keys_choice_tl }
+%</luatex>
+     }
+   }
+ }
+\tl_set:cn {g_fontspec_renderer_tag_AAT} {/AAT}
+\tl_set:cn {g_fontspec_renderer_tag_ICU} {/OT}
+\tl_set:cn {g_fontspec_renderer_tag_OpenType} {/OT}
+\tl_set:cn {g_fontspec_renderer_tag_Graphite} {/GR}
+\tl_set:cn {g_fontspec_mode_tag_Full}  {node}
+\tl_set:cn {g_fontspec_mode_tag_Basic} {base}
+%    \end{macrocode}
+%
+% \paragraph{OpenType script/language}
+% See later for the resolutions from \pkg{fontspec} features to OpenType definitions.
+%    \begin{macrocode}
+\@@_keys_define_code:nnn {fontspec-preparse} {Script}
+ {
+%<xetexx>    \keys_set:nn {fontspec-renderer} {Renderer=OpenType}
+  \tl_set:Nn \l_@@_script_name_tl {#1}
+ }
+%    \end{macrocode}
+% Exactly the same:
+%    \begin{macrocode}
+\@@_keys_define_code:nnn {fontspec-preparse} {Language}
+ {
+%<xetexx>    \keys_set:nn {fontspec-renderer} {Renderer=OpenType}
+  \tl_set:Nn \l_@@_lang_name_tl {#1}
+ }
+%    \end{macrocode}
+%
+% \subsubsection{Bold/italic choosing options}
+%
+% The \feat{Bold}, \feat{Italic}, and \feat{BoldItalic}
+% features are for defining explicitly the bold and italic fonts used
+% in a font family.
+%
+% \paragraph{Bold (NFSS) Series}
+% By default, \pkg{fontspec} uses the default bold series, \cs{bfdefault}.
+% We want to be able to make this extensible.
+%    \begin{macrocode}
+\seq_new:N \g_@@_bf_series_seq
+\@@_keys_define_code:nnn {fontspec-preparse-external} {BoldSeries}
+ {
+  \tl_gset:Nx \g_@@_curr_series_tl { #1 }
+  \seq_gput_right:Nx \g_@@_bf_series_seq { #1 }
+ }
+%    \end{macrocode}
+%
+% \paragraph{Fonts}
+% Upright:
+%    \begin{macrocode}
+\@@_keys_define_code:nnn {fontspec-preparse-external} {UprightFont}
+ {
+  \fontspec_complete_fontname:Nn \l_fontspec_fontname_up_tl {#1}
+ }
+\@@_keys_define_code:nnn {fontspec-preparse-external} {FontName}
+ {
+  \fontspec_complete_fontname:Nn \l_fontspec_fontname_up_tl {#1}
+ }
+%    \end{macrocode}
+% Bold:
+%    \begin{macrocode}
+\cs_generate_variant:Nn \tl_if_eq:nnT {ox}
+\cs_generate_variant:Nn \prop_put:Nnn {NxV}
+\@@_keys_define_code:nnn {fontspec-preparse-external} {BoldFont}
+ {
+  \tl_if_empty:nTF {#1}
+   {
+    \bool_set_true:N \l_@@_nobf_bool
+   }
+   {
+    \bool_set_false:N \l_@@_nobf_bool
+    \fontspec_complete_fontname:Nn \l_@@_curr_bfname_tl {#1}
+
+    \seq_if_empty:NT \g_@@_bf_series_seq
+     {
+      \tl_gset:Nx \g_@@_curr_series_tl {\bfdefault}
+      \seq_put_right:Nx \g_@@_bf_series_seq {\bfdefault}
+     }
+    \tl_if_eq:oxT \g_@@_curr_series_tl {\bfdefault}
+     { \tl_set_eq:NN \l_fontspec_fontname_bf_tl \l_@@_curr_bfname_tl }
+
+%<debug>\typeout{Setting~bold~font~"\l_@@_curr_bfname_tl"~with~series~"\g_@@_curr_series_tl"}
+
+    \prop_put:NxV \l_@@_nfss_prop
+     {BoldFont-\g_@@_curr_series_tl} \l_@@_curr_bfname_tl
+
+   }
+ }
+\prop_new:N \l_@@_nfss_prop
+%    \end{macrocode}
+% Same for italic:
+%    \begin{macrocode}
+\@@_keys_define_code:nnn {fontspec-preparse-external} {ItalicFont}
+ {
+  \tl_if_empty:nTF {#1}
+   {
+    \bool_set_true:N \l_@@_noit_bool
+   }
+   {
+    \bool_set_false:N \l_@@_noit_bool
+    \fontspec_complete_fontname:Nn \l_fontspec_fontname_it_tl {#1}
+   }
+ }
+%    \end{macrocode}
+% Simpler for bold+italic \& slanted:
+%    \begin{macrocode}
+\@@_keys_define_code:nnn {fontspec-preparse-external} {BoldItalicFont}
+ {
+  \fontspec_complete_fontname:Nn \l_fontspec_fontname_bfit_tl {#1}
+ }
+\@@_keys_define_code:nnn {fontspec-preparse-external} {SlantedFont}
+ {
+  \fontspec_complete_fontname:Nn \l_fontspec_fontname_sl_tl {#1}
+ }
+\@@_keys_define_code:nnn {fontspec-preparse-external} {BoldSlantedFont}
+ {
+  \fontspec_complete_fontname:Nn \l_fontspec_fontname_bfsl_tl {#1}
+ }
+%    \end{macrocode}
+% Small caps isn't pre-parsed because it can vary with others above:
+%    \begin{macrocode}
+\@@_keys_define_code:nnn {fontspec} {SmallCapsFont}
+ {
+  \tl_if_empty:nTF {#1}
+   {
+    \bool_set_true:N \l_@@_nosc_bool
+   }
+   {
+    \bool_set_false:N \l_@@_nosc_bool
+    \fontspec_complete_fontname:Nn \l_fontspec_fontname_sc_tl {#1}
+   }
+ }
+%    \end{macrocode}
+%
+% \begin{macro}{\fontspec_complete_fontname:Nn}
+% This macro defines |#1| as the input with any |*| tokens of its input
+% replaced by the font name. This lets us define supplementary fonts in full
+% (``\texttt{Baskerville Semibold}'') or in abbreviation (``\texttt{* Semibold}'').
+%    \begin{macrocode}
+\cs_set:Nn \fontspec_complete_fontname:Nn
+ {
+  \tl_set:Nx #1 {#2}
+  \tl_replace_all:Nnx #1 {*} {\l_@@_basename_tl}
+%<luatex>  \tl_remove_all:Nn #1 {~}
+ }
+\cs_generate_variant:Nn \tl_replace_all:Nnn {Nnx}
+%    \end{macrocode}
+% \end{macro}
+%
+% \paragraph{Features}
+%
+%    \begin{macrocode}
+\@@_keys_define_code:nnn {fontspec-preparse} {UprightFeatures}
+ {
+  \clist_set:Nn \l_@@_fontfeat_up_clist {#1}
+ }
+\@@_keys_define_code:nnn {fontspec-preparse} {BoldFeatures}
+ {
+  \clist_set:Nn \l_@@_fontfeat_bf_clist {#1}
+
+%  \prop_put:NxV \l_@@_nfss_prop
+%     {BoldFont-\g_@@_curr_series_tl} \l_@@_curr_bfname_tl
+ }
+\@@_keys_define_code:nnn {fontspec-preparse} {ItalicFeatures}
+ {
+  \clist_set:Nn \l_@@_fontfeat_it_clist {#1}
+ }
+\@@_keys_define_code:nnn {fontspec-preparse} {BoldItalicFeatures}
+ {
+  \clist_set:Nn \l_@@_fontfeat_bfit_clist {#1}
+ }
+\@@_keys_define_code:nnn {fontspec-preparse} {SlantedFeatures}
+ {
+  \clist_set:Nn \l_@@_fontfeat_sl_clist {#1}
+ }
+\@@_keys_define_code:nnn {fontspec-preparse} {BoldSlantedFeatures}
+ {
+  \clist_set:Nn \l_@@_fontfeat_bfsl_clist {#1}
+ }
+%    \end{macrocode}
+% Note that small caps features can vary by shape, so these in fact \emph{aren't} pre-parsed.
+%    \begin{macrocode}
+\@@_keys_define_code:nnn {fontspec} {SmallCapsFeatures}
+ {
+  \bool_if:NF \l_@@_firsttime_bool
+   {
+    \clist_set:Nn \l_@@_fontfeat_sc_clist {#1}
+   }
+ }
+%    \end{macrocode}
+%
+% paragraph{Features varying by size}
+%    \begin{macrocode}
+\@@_keys_define_code:nnn {fontspec-preparse} {SizeFeatures}
+ {
+  \clist_set:Nn \l_@@_sizefeat_clist {#1}
+  \clist_put_right:Nn \l_@@_fontfeat_up_clist { SizeFeatures = {#1} }
+ }
+\@@_keys_define_code:nnn {fontspec-preparse-nested} {SizeFeatures}
+ {
+  \clist_set:Nn \l_@@_sizefeat_clist {#1}
+  \tl_if_empty:NT \l_@@_this_font_tl
+   { \tl_set:Nn \l_@@_this_font_tl { -- } } % needs to be non-empty as a flag
+ }
+\@@_keys_define_code:nnn {fontspec-preparse-nested} {Font}
+ {
+  \tl_set:Nn \l_@@_this_font_tl {#1}
+ }
+\@@_keys_define_code:nnn {fontspec} {SizeFeatures}
+ {
+  % dummy
+ }
+\@@_keys_define_code:nnn {fontspec} {Font}
+ {
+  % dummy
+ }
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+\@@_keys_define_code:nnn {fontspec-sizing} {Size}
+ {
+  \tl_set:Nn \l_@@_size_tl {#1}
+ }
+\@@_keys_define_code:nnn {fontspec-sizing} {Font}
+ {
+  \fontspec_complete_fontname:Nn \l_@@_sizedfont_tl {#1}
+ }
+%    \end{macrocode}
+%
+% \subsubsection{Font-independent features}
+%
+% These features can be applied to any font.
+%
+% \paragraph{NFSS encoding}
+% For the very brave.
+%    \begin{macrocode}
+\@@_keys_define_code:nnn {fontspec-preparse} {NFSSEncoding}
+ {
+  \tl_gset:Nx \l_@@_nfss_enc_tl { #1 }
+ }
+%    \end{macrocode}
+%
+% \paragraph{NFSS family}
+% Interactions with other packages will sometimes require setting the NFSS family explicitly.
+% (By default \pkg{fontspec} auto-generates one based on the font name.)
+%    \begin{macrocode}
+\@@_keys_define_code:nnn {fontspec-preparse} {NFSSFamily}
+ {
+  \tl_set:Nx \l_@@_nfss_fam_tl { #1 }
+  \cs_undefine:c {g_@@_UID_\l_@@_fontid_tl}
+  \tl_if_exist:NT \l_fontspec_family_tl
+   { \cs_undefine:c {g_@@_ \l_fontspec_family_tl _prop} }
+ }
+%    \end{macrocode}
+%
+% \paragraph{NFSS series/shape}
+% This option looks similar in name but has a very different function.
+%    \begin{macrocode}
+\prop_new:N \l_@@_nfssfont_prop
+\@@_keys_define_code:nnn {fontspec} {FontFace}
+ {
+  \tl_set:No \l_@@_arg_tl { \use_iii:nnn #1 }
+  \tl_set_eq:NN \l_@@_this_feat_tl \l_@@_arg_tl
+  \tl_clear:N \l_@@_this_font_tl
+  \int_compare:nT { \clist_count:N \l_@@_arg_tl = 1 }
+   {
+%<*debug>
+    \typeout{FontFace~ parsing:~ one~ clist~ item}
+%</debug>
+    \tl_if_in:NnF \l_@@_arg_tl {=}
+     {
+%<*debug>
+      \typeout{FontFace~ parsing:~ no~ equals~ =>~ font~ name~ only}
+%</debug>
+      \tl_set_eq:NN \l_@@_this_font_tl \l_@@_arg_tl
+      \tl_clear:N \l_@@_this_feat_tl
+     }
+   }
+
+  \@@_add_nfssfont:oooo
+   {\use_i:nnn #1}{\use_ii:nnn #1}{\l_@@_this_font_tl}{\l_@@_this_feat_tl}
+ }
+%    \end{macrocode}
+%
+%
+% \begin{macro}{\@@_add_nfssfont:nnnn}
+% \darg{series}
+% \darg{shape}
+% \darg{fontname}
+% \darg{fontspec features}
+%    \begin{macrocode}
+\cs_new:Nn \@@_add_nfssfont:nnnn
+ {
+  \tl_set:Nx \l_@@_this_font_tl {#3}
+
+  \tl_if_empty:xTF {#4}
+   { \clist_set:Nn \l_@@_sizefeat_clist {Size={-}} }
+   { \keys_set_known:noN {fontspec-preparse-nested} {#4} \l_@@_tmp_tl }
+
+  \tl_if_empty:NF \l_@@_this_font_tl
+   {
+    \prop_put:Nxx \l_@@_nfssfont_prop {#1/#2}
+     { {#1}{#2}{\l_@@_this_font_tl}{#4}{\l_@@_sizefeat_clist} }
+   }
+ }
+\cs_generate_variant:Nn \@@_add_nfssfont:nnnn {ooo}
+\cs_generate_variant:Nn \@@_add_nfssfont:nnnn {oooo}
+%    \end{macrocode}
+% \end{macro}
+%
+% \paragraph{Scale}
+% If the input isn't one of the pre-defined string options, then
+% it's gotta be numerical. \cs{fontspec_calc_scale:n} does all the work in
+% the auto-scaling cases.
+%    \begin{macrocode}
+\@@_keys_define_code:nnn {fontspec} {Scale}
+ {
+  \str_case:nnF {#1}
+   {
+    {MatchLowercase} { \@@_calc_scale:n {5} }
+    {MatchUppercase} { \@@_calc_scale:n {8} }
+   }
+   { \tl_set:Nx \l_@@_scale_tl {#1} }
+  \tl_set:Nx \l_@@_scale_tl { s*[\l_@@_scale_tl] }
+ }
+%    \end{macrocode}
+%
+% \begin{macro}{\@@_calc_scale:n}
+% This macro calculates the amount of scaling between the default
+% roman font and the (default shape of) the font being selected such
+% that the font dimension that is input is equal for both. The only
+% font dimensions that justify this are 5 (lowercase height)
+% and 8 (uppercase height in \XeTeX).
+%
+% This script is executed for every extra shape, which seems wasteful,
+% but allows alternate italic shapes from a separate font, say, to
+% be loaded and to be auto-scaled correctly. Even if this would be ugly.
+%    \begin{macrocode}
+\cs_new:Nn \@@_calc_scale:n
+ {
+  \group_begin:
+    \rmfamily
+    \@@_set_font_dimen:NnN \l_@@_tmpa_dim {#1} \font
+    \@@_set_font_dimen:NnN \l_@@_tmpb_dim {#1} \l_fontspec_font
+    \tl_gset:Nx \l_@@_scale_tl
+     {
+      \fp_eval:n { \dim_to_fp:n {\l_@@_tmpa_dim} /
+                   \dim_to_fp:n {\l_@@_tmpb_dim} }
+     }
+    \@@_info:n {set-scale}
+  \group_end:
+ }
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\@@_set_font_dimen:NnN}
+% This function sets the dimension |#1| (for font |#3|) to `fontdimen' |#2|
+% for either font dimension 5 (x-height) or 8 (cap-height). If, for some
+% reason, these return an incorrect `zero' value (as \cs{fontdimen8} might
+% for a \texttt{.tfm} font), then we cheat and measure the height of a glyph.
+% We assume in this case that the font contains either an `X' or an `x'.
+%    \begin{macrocode}
+\cs_new:Nn \@@_set_font_dimen:NnN
+ {
+  \dim_set:Nn #1 { \fontdimen #2 #3 }
+  \dim_compare:nNnT #1 = {0pt}
+   {
+    \settoheight #1
+     {
+      \str_if_eq:nnTF {#3} {\font} \rmfamily #3
+      \int_case:nnn #2
+       {
+         {5} {x} % x-height
+         {8} {X} % cap-height
+       } {?} % "else" clause; never reached.
+     }
+   }
+ }
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \paragraph{Inter-word space}
+% These options set the relevant \cmd\fontdimen s for the
+% font being loaded.
+%    \begin{macrocode}
+\@@_keys_define_code:nnn {fontspec} {WordSpace}
+ {
+  \bool_if:NF \l_@@_firsttime_bool
+   { \_fontspec_parse_wordspace:w #1,,,\q_stop }
+ }
+%    \end{macrocode}
+%
+% \begin{macro}{\_fontspec_parse_wordspace:w}
+% This macro determines if the input to \feat{WordSpace} is
+% of the form |{X}| or |{X,Y,Z}| and executes the font scaling.
+% If the former input, it executes |{X,X,X}|.
+%    \begin{macrocode}
+\cs_set:Npn \_fontspec_parse_wordspace:w #1,#2,#3,#4 \q_stop
+ {
+  \tl_if_empty:nTF {#4}
+   {
+    \tl_set:Nn \l_@@_wordspace_adjust_tl
+     {
+      \fontdimen 2 \font = #1 \fontdimen 2 \font
+      \fontdimen 3 \font = #1 \fontdimen 3 \font
+      \fontdimen 4 \font = #1 \fontdimen 4 \font
+     }
+   }
+   {
+    \tl_set:Nn \l_@@_wordspace_adjust_tl
+     {
+      \fontdimen 2 \font = #1 \fontdimen 2 \font
+      \fontdimen 3 \font = #2 \fontdimen 3 \font
+      \fontdimen 4 \font = #3 \fontdimen 4 \font
+     }
+   }
+ }
+%    \end{macrocode}
+% \end{macro}
+%
+% \paragraph{Punctuation space}
+% Scaling factor for the nominal \cmd\fontdimen \#7.
+%    \begin{macrocode}
+\@@_keys_define_code:nnn {fontspec} {PunctuationSpace}
+ {
+  \str_case_x:nnF {#1}
+   {
+    {WordSpace}
+    {
+     \tl_set:Nn \l_@@_punctspace_adjust_tl
+      { \fontdimen 7 \font = 0 \fontdimen 2 \font }
+    }
+    {TwiceWordSpace}
+    {
+     \tl_set:Nn \l_@@_punctspace_adjust_tl
+      { \fontdimen 7 \font = 1 \fontdimen 2 \font }
+    }
+   }
+   {
+     \tl_set:Nn \l_@@_punctspace_adjust_tl
+     { \fontdimen 7 \font = #1 \fontdimen 7 \font }
+   }
+ }
+%    \end{macrocode}
+%
+% \paragraph{Secret hook into the font-adjustment code}
+%
+%    \begin{macrocode}
+\@@_keys_define_code:nnn {fontspec} {FontAdjustment}
+ {
+  \tl_put_right:Nx \l_@@_postadjust_tl {#1}
+ }
+%    \end{macrocode}
+%
+% \paragraph{Letterspacing}
+%    \begin{macrocode}
+\@@_keys_define_code:nnn {fontspec} {LetterSpace}
+ {
+  \@@_update_featstr:n {letterspace=#1}
+ }
+%    \end{macrocode}
+%
+% \paragraph{Hyphenation character}
+% This feature takes one of three arguments: `\opt{None}',
+% \meta{glyph}, or \meta{slot}. If the input isn't the first,
+% and it's one character, then it's the second; otherwise, it's
+% the third.
+%    \begin{macrocode}
+\@@_keys_define_code:nnn {fontspec} {HyphenChar}
+ {
+  \str_if_eq:nnTF {#1} {None}
+   {
+    \tl_put_right:Nn \l_@@_postadjust_tl
+      { \hyphenchar \font = \c_minus_one }
+   }
+   {
+    \tl_if_single:nTF {#1}
+     { \tl_set:Nn \l_fontspec_hyphenchar_tl {`#1} }
+     { \tl_set:Nn \l_fontspec_hyphenchar_tl { #1} }
+    \font_glyph_if_exist:NnTF \l_fontspec_font {\l_fontspec_hyphenchar_tl}
+     {
+      \tl_put_right:Nn \l_@@_postadjust_tl
+%<*xetexx>
+        { \hyphenchar \font = \l_fontspec_hyphenchar_tl \scan_stop: }
+%</xetexx>
+%<*luatex>
+        {
+          \hyphenchar \font = \c_zero
+          \int_set:Nn \luatex_prehyphenchar:D { \l_fontspec_hyphenchar_tl }
+        }
+%</luatex>
+     }
+     { \@@_error:nx {no-glyph}{#1} }
+   }
+ }
+%    \end{macrocode}
+%
+% \paragraph{Color}
+% Hooks into pkg{xcolor}, which names its colours \texttt{\char`\\color@<name>}.
+%    \begin{macrocode}
+\@@_keys_define_code:nnn {fontspec} {Color}
+ {
+  \cs_if_exist:cTF { \token_to_str:N \color@ #1 }
+   {
+    \convertcolorspec{named}{#1}{HTML}\l_@@_hexcol_tl
+   }
+   {
+    \int_compare:nTF { \tl_count:n {#1} == 6 }
+     { \tl_set:Nn \l_@@_hexcol_tl {#1} }
+     {
+      \int_compare:nTF { \tl_count:n {#1} == 8 }
+       { \fontspec_parse_colour:viii #1 }
+       {
+        \bool_if:NF \l_@@_firsttime_bool
+         { \@@_warning:nx {bad-colour} {#1} }
+       }
+     }
+   }
+ }
+\cs_set:Npn \fontspec_parse_colour:viii #1#2#3#4#5#6#7#8
+ {
+  \tl_set:Nn \l_@@_hexcol_tl {#1#2#3#4#5#6}
+  \tl_if_eq:NNF \l_@@_opacity_tl \g_@@_opacity_tl
+   {
+    \bool_if:NF \l_@@_firsttime_bool
+     { \@@_warning:nx {opa-twice-col} {#7#8} }
+   }
+  \tl_set:Nn \l_@@_opacity_tl {#7#8}
+ }
+\aliasfontfeature{Color}{Colour}
+%    \end{macrocode}
+%    \begin{macrocode}
+\int_new:N \l_@@_tmp_int
+\@@_keys_define_code:nnn {fontspec} {Opacity}
+ {
+  \int_set:Nn \l_@@_tmp_int {255}
+  \@@_int_mult_truncate:Nn \l_@@_tmp_int { #1 }
+  \tl_if_eq:NNF \l_@@_opacity_tl \g_@@_opacity_tl
+   {
+    \bool_if:NF \l_@@_firsttime_bool
+     { \@@_warning:nx {opa-twice} {#1} }
+   }
+  \tl_set:Nx \l_@@_opacity_tl
+   {
+     \int_compare:nT { \l_@@_tmp_int <= "F } {0} % zero pad
+     \int_to_hex:n { \l_@@_tmp_int }
+   }
+ }
+%    \end{macrocode}
+%
+%
+% \paragraph{Mapping}
+%    \begin{macrocode}
+\@@_keys_define_code:nnn {fontspec} {Mapping}
+%<*xetexx>
+ {
+  \@@_update_featstr:n { mapping = #1 }
+ }
+%</xetexx>
+%<*luatex>
+ {
+  \str_if_eq:nnTF {#1} {tex-text}
+   {
+    \@@_warning:n {no-mapping-ligtex}
+    \msg_redirect_name:nnn {fontspec} {no-mapping-ligtex} {none}
+    \keys_set:nn {fontspec} { Ligatures=TeX }
+   }
+   { \@@_warning:n {no-mapping} }
+ }
+%</luatex>
+%    \end{macrocode}
+%
+% \paragraph{FeatureFile}
+%    \begin{macrocode}
+\@@_keys_define_code:nnn {fontspec} {FeatureFile}
+ {
+  \@@_update_featstr:n { featurefile = #1 }
+ }
+%    \end{macrocode}
+%
+%
+% \subsubsection{Continuous font axes}
+%
+%    \begin{macrocode}
+\@@_keys_define_code:nnn {fontspec} {Weight}
+ {
+  \@@_update_featstr:n{weight=#1}
+ }
+\@@_keys_define_code:nnn {fontspec} {Width}
+ {
+  \@@_update_featstr:n{width=#1}
+ }
+\@@_keys_define_code:nnn {fontspec} {OpticalSize}
+%<*xetexx>
+ {
+  \bool_if:NTF \l_@@_ot_bool
+   {
+    \tl_set:Nn \l_@@_optical_size_tl {/ S = #1}
+   }
+   {
+    \bool_if:NT \l_@@_mm_bool
+     {
+      \@@_update_featstr:n { optical size = #1 }
+     }
+   }
+  \bool_if:nT { !\l_@@_ot_bool && !\l_@@_mm_bool }
+   {
+    \bool_if:NT \l_@@_firsttime_bool
+     { \@@_warning:n {no-opticals} }
+   }
+ }
+%</xetexx>
+%<*luatex>
+ {
+  \tl_set:Nn \l_@@_optical_size_tl {/ S = #1}
+ }
+%</luatex>
+%    \end{macrocode}
+%
+% \subsubsection{Font transformations}
+% These are to be specified to apply directly to a font shape:
+%    \begin{macrocode}
+\keys_define:nn {fontspec}
+ {
+  FakeSlant .code:n =
+   {
+    \@@_update_featstr:n{slant=#1}
+   },
+  FakeSlant .default:n = {0.2}
+}
+\keys_define:nn {fontspec}
+ {
+  FakeStretch .code:n =
+   {
+    \@@_update_featstr:n{extend=#1}
+   },
+  FakeStretch .default:n = {1.2}
+}
+%<*xetexx>
+\keys_define:nn {fontspec}
+ {
+  FakeBold .code:n =
+   {
+    \@@_update_featstr:n {embolden=#1}
+   },
+  FakeBold .default:n = {1.5}
+ }
+%</xetexx>
+%<*luatex>
+\keys_define:nn {fontspec}
+ {
+  FakeBold .code:n = { \@@_warning:n {fakebold-only-xetex} }
+ }
+%</luatex>
+%    \end{macrocode}
+% These are to be given to a shape that has no real bold/italic
+% to signal that \pkg{fontspec} should automatically create `fake' shapes.
+%
+% The behaviour is currently that only if both \opt{AutoFakeSlant} \emph{and}
+% \opt{AutoFakeBold} are specified, the bold italic is also faked.
+%
+% These features presently \emph{override} real shapes found in the font;
+% in the future I'd like these features to be ignored in this case, instead.
+% (This is just a bit harder to program in the current design of
+% \pkg{fontspec}.)
+%    \begin{macrocode}
+\keys_define:nn {fontspec}
+ {
+  AutoFakeSlant .code:n =
+   {
+    \bool_if:NT \l_@@_firsttime_bool
+     {
+      \tl_set:Nn \l_fontspec_fake_slant_tl {#1}
+      \clist_put_right:Nn \l_@@_fontfeat_it_clist {FakeSlant=#1}
+      \tl_set_eq:NN \l_fontspec_fontname_it_tl \l_fontspec_fontname_tl
+      \bool_set_false:N \l_@@_noit_bool
+
+      \tl_if_empty:NF \l_fontspec_fake_embolden_tl
+       {
+        \clist_put_right:Nx \l_@@_fontfeat_bfit_clist
+         {FakeBold=\l_fontspec_fake_embolden_tl}
+        \clist_put_right:Nx \l_@@_fontfeat_bfit_clist {FakeSlant=#1}
+        \tl_set_eq:NN \l_fontspec_fontname_bfit_tl \l_fontspec_fontname_tl
+       }
+     }
+   },
+  AutoFakeSlant .default:n = {0.2}
+}
+%    \end{macrocode}
+% Same but reversed:
+%    \begin{macrocode}
+\keys_define:nn {fontspec}
+ {
+  AutoFakeBold .code:n =
+   {
+    \bool_if:NT \l_@@_firsttime_bool
+     {
+      \tl_set:Nn \l_fontspec_fake_embolden_tl {#1}
+      \clist_put_right:Nn \l_@@_fontfeat_bf_clist {FakeBold=#1}
+      \tl_set_eq:NN \l_fontspec_fontname_bf_tl \l_fontspec_fontname_tl
+      \bool_set_false:N \l_@@_nobf_bool
+
+      \tl_if_empty:NF \l_fontspec_fake_slant_tl
+       {
+        \clist_put_right:Nx \l_@@_fontfeat_bfit_clist
+         {FakeSlant=\l_fontspec_fake_slant_tl}
+        \clist_put_right:Nx \l_@@_fontfeat_bfit_clist {FakeBold=#1}
+        \tl_set_eq:NN \l_fontspec_fontname_bfit_tl \l_fontspec_fontname_tl
+       }
+     }
+   },
+  AutoFakeBold .default:n = {1.5}
+}
+%    \end{macrocode}
+%
+%
+% \subsubsection{Ligatures}
+% The call to the nested keyval family must be wrapped in braces to
+% hide the parent list (this later requires the use of global
+% definitions (|\xdef|) in [...]). Both \AAT\ and OpenType
+% names are offered to chose |Rare|/|Discretionary| ligatures.
+%    \begin{macrocode}
+\@@_define_font_feature:n{Ligatures}
+\@@_define_feature_option:nnnnn{Ligatures}{Required}       {1}{0}{+rlig}
+\@@_define_feature_option:nnnnn{Ligatures}{NoRequired}     {1}{1}{-rlig}
+\@@_define_feature_option:nnnnn{Ligatures}{Common}         {1}{2}{+liga}
+\@@_define_feature_option:nnnnn{Ligatures}{NoCommon}       {1}{3}{-liga}
+\@@_define_feature_option:nnnnn{Ligatures}{Rare}           {1}{4}{+dlig}
+\@@_define_feature_option:nnnnn{Ligatures}{NoRare}         {1}{5}{-dlig}
+\@@_define_feature_option:nnnnn{Ligatures}{Discretionary}  {1}{4}{+dlig}
+\@@_define_feature_option:nnnnn{Ligatures}{NoDiscretionary}{1}{5}{-dlig}
+\@@_define_feature_option:nnnnn{Ligatures}{Contextual}     {}{}  {+clig}
+\@@_define_feature_option:nnnnn{Ligatures}{NoContextual}   {}{}  {-clig}
+\@@_define_feature_option:nnnnn{Ligatures}{Historic}       {}{}  {+hlig}
+\@@_define_feature_option:nnnnn{Ligatures}{NoHistoric}     {}{}  {-hlig}
+\@@_define_feature_option:nnnnn{Ligatures}{Logos}          {1}{6} {}
+\@@_define_feature_option:nnnnn{Ligatures}{NoLogos}        {1}{7} {}
+\@@_define_feature_option:nnnnn{Ligatures}{Rebus}          {1}{8} {}
+\@@_define_feature_option:nnnnn{Ligatures}{NoRebus}        {1}{9} {}
+\@@_define_feature_option:nnnnn{Ligatures}{Diphthong}      {1}{10}{}
+\@@_define_feature_option:nnnnn{Ligatures}{NoDiphthong}    {1}{11}{}
+\@@_define_feature_option:nnnnn{Ligatures}{Squared}        {1}{12}{}
+\@@_define_feature_option:nnnnn{Ligatures}{NoSquared}      {1}{13}{}
+\@@_define_feature_option:nnnnn{Ligatures}{AbbrevSquared}  {1}{14}{}
+\@@_define_feature_option:nnnnn{Ligatures}{NoAbbrevSquared}{1}{15}{}
+\@@_define_feature_option:nnnnn{Ligatures}{Icelandic}      {1}{32}{}
+\@@_define_feature_option:nnnnn{Ligatures}{NoIcelandic}    {1}{33}{}
+%    \end{macrocode}
+% Emulate CM extra ligatures.
+%    \begin{macrocode}
+\keys_define:nn {fontspec}
+ {
+  Ligatures / TeX .code:n =
+   {
+%<*xetexx>
+    \@@_update_featstr:n { mapping = tex-text }
+%</xetexx>
+%<*luatex>
+    \@@_update_featstr:n { +tlig; +trep }
+%</luatex>
+   }
+ }
+%    \end{macrocode}
+%
+% \subsubsection{Letters}
+%    \begin{macrocode}
+\@@_define_font_feature:n{Letters}
+\@@_define_feature_option:nnnnn{Letters}{Normal}             {3}{0}{}
+\@@_define_feature_option:nnnnn{Letters}{Uppercase}          {3}{1}{+case}
+\@@_define_feature_option:nnnnn{Letters}{Lowercase}          {3}{2}{}
+\@@_define_feature_option:nnnnn{Letters}{SmallCaps}          {3}{3}{+smcp}
+\@@_define_feature_option:nnnnn{Letters}{PetiteCaps}         {} {} {+pcap}
+\@@_define_feature_option:nnnnn{Letters}{UppercaseSmallCaps} {} {} {+c2sc}
+\@@_define_feature_option:nnnnn{Letters}{UppercasePetiteCaps}{} {} {+c2pc}
+\@@_define_feature_option:nnnnn{Letters}{InitialCaps}        {3}{4}{}
+\@@_define_feature_option:nnnnn{Letters}{Unicase}            {} {} {+unic}
+\@@_define_feature_option:nnnnn{Letters}{Random}             {} {} {+rand}
+%    \end{macrocode}
+%
+% \subsubsection{Numbers}
+%
+% These were originally separated into \feat{NumberCase} and
+% \feat{NumberSpacing} following \AAT, but it makes more sense to
+% combine them.
+%
+% Both naming conventions are offered to select the number case.
+%
+%    \begin{macrocode}
+\@@_define_font_feature:n{Numbers}
+\@@_define_feature_option:nnnnn{Numbers}{Monospaced}   {6} {0}{+tnum}
+\@@_define_feature_option:nnnnn{Numbers}{Proportional} {6} {1}{+pnum}
+\@@_define_feature_option:nnnnn{Numbers}{Lowercase}    {21}{0}{+onum}
+\@@_define_feature_option:nnnnn{Numbers}{OldStyle}     {21}{0}{+onum}
+\@@_define_feature_option:nnnnn{Numbers}{Uppercase}    {21}{1}{+lnum}
+\@@_define_feature_option:nnnnn{Numbers}{Lining}       {21}{1}{+lnum}
+\@@_define_feature_option:nnnnn{Numbers}{SlashedZero}  {14}{5}{+zero}
+\@@_define_feature_option:nnnnn{Numbers}{NoSlashedZero}{14}{4}{-zero}
+%    \end{macrocode}
+%
+% |luaotload| provides a custom |anum| feature for replacing Latin
+% (AKA Arabic) numbers with Arabic (AKA Indic-Arabic). The same feature
+% maps to Farsi (Persian) numbers if font language is Farsi.
+%
+%    \begin{macrocode}
+\luatex_if_engine:T
+ {
+  \@@_define_feature_option:nnnnn{Numbers}{Arabic}{}{}{+anum}
+ }
+%    \end{macrocode}
+%
+% \subsubsection{Contextuals}
+%    \begin{macrocode}
+\@@_define_font_feature:n  {Contextuals}
+\@@_define_feature_option:nnnnn{Contextuals}{Swash}        {} {} {+cswh}
+\@@_define_feature_option:nnnnn{Contextuals}{NoSwash}      {} {} {-cswh}
+\@@_define_feature_option:nnnnn{Contextuals}{Alternate}    {} {} {+calt}
+\@@_define_feature_option:nnnnn{Contextuals}{NoAlternate}  {} {} {-calt}
+\@@_define_feature_option:nnnnn{Contextuals}{WordInitial}  {8}{0}{+init}
+\@@_define_feature_option:nnnnn{Contextuals}{NoWordInitial}{8}{1}{-init}
+\@@_define_feature_option:nnnnn{Contextuals}{WordFinal}    {8}{2}{+fina}
+\@@_define_feature_option:nnnnn{Contextuals}{NoWordFinal}  {8}{3}{-fina}
+\@@_define_feature_option:nnnnn{Contextuals}{LineInitial}  {8}{4}{}
+\@@_define_feature_option:nnnnn{Contextuals}{NoLineInitial}{8}{5}{}
+\@@_define_feature_option:nnnnn{Contextuals}{LineFinal}    {8}{6}{+falt}
+\@@_define_feature_option:nnnnn{Contextuals}{NoLineFinal}  {8}{7}{-falt}
+\@@_define_feature_option:nnnnn{Contextuals}{Inner}        {8}{8}{+medi}
+\@@_define_feature_option:nnnnn{Contextuals}{NoInner}      {8}{9}{-medi}
+%    \end{macrocode}
+%
+% \subsubsection{Diacritics}
+%    \begin{macrocode}
+\@@_define_font_feature:n{Diacritics}
+\@@_define_feature_option:nnnnn{Diacritics}{Show}        {9}{0}{}
+\@@_define_feature_option:nnnnn{Diacritics}{Hide}        {9}{1}{}
+\@@_define_feature_option:nnnnn{Diacritics}{Decompose}   {9}{2}{}
+\@@_define_feature_option:nnnnn{Diacritics}{MarkToBase}  {}{}{+mark}
+\@@_define_feature_option:nnnnn{Diacritics}{NoMarkToBase}{}{}{-mark}
+\@@_define_feature_option:nnnnn{Diacritics}{MarkToMark}  {}{}{+mkmk}
+\@@_define_feature_option:nnnnn{Diacritics}{NoMarkToMark}{}{}{-mkmk}
+\@@_define_feature_option:nnnnn{Diacritics}{AboveBase}   {}{}{+abvm}
+\@@_define_feature_option:nnnnn{Diacritics}{NoAboveBase} {}{}{-abvm}
+\@@_define_feature_option:nnnnn{Diacritics}{BelowBase}   {}{}{+blwm}
+\@@_define_feature_option:nnnnn{Diacritics}{NoBelowBase} {}{}{-blwm}
+%    \end{macrocode}
+%
+% \subsubsection{Kerning}
+%    \begin{macrocode}
+\@@_define_font_feature:n{Kerning}
+\@@_define_feature_option:nnnnn{Kerning}{Uppercase}{}{}{+cpsp}
+\@@_define_feature_option:nnnnn{Kerning}{On}       {}{}{+kern}
+\@@_define_feature_option:nnnnn{Kerning}{Off}      {}{}{-kern}
+%\@@_define_feature_option:nnnnn{Kerning}{Vertical}{}{}{+vkrn}
+%\@@_define_feature_option:nnnnn{Kerning}
+%    {VerticalAlternateProportional}{}{}{+vpal}
+%\@@_define_feature_option:nnnnn{Kerning}{VerticalAlternateHalfWidth}{}{}{+vhal}
+%    \end{macrocode}
+%
+% \subsubsection{Vertical position}
+%    \begin{macrocode}
+\@@_define_font_feature:n{VerticalPosition}
+\@@_define_feature_option:nnnnn{VerticalPosition}{Normal}     {10}{0}{}
+\@@_define_feature_option:nnnnn{VerticalPosition}{Superior}   {10}{1}{+sups}
+\@@_define_feature_option:nnnnn{VerticalPosition}{Inferior}   {10}{2}{+subs}
+\@@_define_feature_option:nnnnn{VerticalPosition}{Ordinal}    {10}{3}{+ordn}
+\@@_define_feature_option:nnnnn{VerticalPosition}{Numerator}  {}  {} {+numr}
+\@@_define_feature_option:nnnnn{VerticalPosition}{Denominator}{}  {} {+dnom}
+\@@_define_feature_option:nnnnn{VerticalPosition}{ScientificInferior}{}{}{+sinf}
+%    \end{macrocode}
+%
+% \subsubsection{Fractions}
+%    \begin{macrocode}
+\@@_define_font_feature:n{Fractions}
+\@@_define_feature_option:nnnnn{Fractions}{On}       {11}{1}{+frac}
+\@@_define_feature_option:nnnnn{Fractions}{Off}      {11}{0}{-frac}
+\@@_define_feature_option:nnnnn{Fractions}{Diagonal} {11}{2}{}
+\@@_define_feature_option:nnnnn{Fractions}{Alternate}{}  {} {+afrc}
+%    \end{macrocode}
+%
+% \subsubsection{Alternates and variants}
+% Selected numerically because they don't have standard names. Very
+% easy to process, very annoying for the user!
+%
+%    \begin{macrocode}
+\@@_define_font_feature:n { Alternate }
+\keys_define:nn {fontspec}
+ {
+  Alternate .default:n = {0} ,
+  Alternate / unknown .code:n =
+   {
+    \clist_map_inline:nn {#1}
+      { \fontspec_make_feature:nnx {17}{##1} { \fontspec_salt:n {##1} } }
+   }
+ }
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+\cs_set:Nn \fontspec_salt:n { +salt = #1 }
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+\@@_define_font_feature:n {Variant}
+\keys_define:nn {fontspec}
+ {
+  Variant .default:n = {0} ,
+  Variant / unknown .code:n =
+   {
+    \clist_map_inline:nn {#1}
+      { \fontspec_make_feature:nnx {18}{##1} { +ss \two@digits {##1} } }
+   }
+ }
+\aliasfontfeature{Variant}{StylisticSet}
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+\@@_define_font_feature:n { CharacterVariant }
+\use:x
+ {
+  \cs_new:Npn \exp_not:N \fontspec_parse_cv:w
+      ##1 \c_colon_str ##2 \c_colon_str ##3 \exp_not:N \q_nil
+   {
+     \fontspec_make_numbered_feature:xn
+       { +cv \exp_not:N \two@digits {##1} } {##2}
+   }
+  \keys_define:nn {fontspec}
+   {
+    CharacterVariant / unknown .code:n =
+     {
+      \clist_map_inline:nn {##1}
+       {
+        \exp_not:N \fontspec_parse_cv:w
+          ####1 \c_colon_str 0 \c_colon_str \exp_not:N \q_nil
+       }
+     }
+   }
+ }
+%    \end{macrocode}
+% Possibilities: \verb|a:0:\q_nil| or \verb|a:b:0:\q_nil|.
+%
+%
+%
+% \subsubsection{Style}
+%    \begin{macrocode}
+\@@_define_font_feature:n{Style}
+\@@_define_feature_option:nnnnn{Style}{Alternate}     {}  {} {+salt}
+\@@_define_feature_option:nnnnn{Style}{Italic}        {32}{2}{+ital}
+\@@_define_feature_option:nnnnn{Style}{Ruby}          {28}{2}{+ruby}
+\@@_define_feature_option:nnnnn{Style}{Swash}         {}  {} {+swsh}
+\@@_define_feature_option:nnnnn{Style}{Historic}      {}  {} {+hist}
+\@@_define_feature_option:nnnnn{Style}{Display}       {19}{1}{}
+\@@_define_feature_option:nnnnn{Style}{Engraved}      {19}{2}{}
+\@@_define_feature_option:nnnnn{Style}{TitlingCaps}   {19}{4}{+titl}
+\@@_define_feature_option:nnnnn{Style}{TallCaps}      {19}{5}{}
+\@@_define_feature_option:nnnnn{Style}{HorizontalKana}{}  {} {+hkna}
+\@@_define_feature_option:nnnnn{Style}{VerticalKana}  {}  {} {+vkna}
+\fontspec_define_numbered_feat:nnnn {Style} {MathScript}       {+ssty} {0}
+\fontspec_define_numbered_feat:nnnn {Style} {MathScriptScript} {+ssty} {1}
+%    \end{macrocode}
+%
+% \subsubsection{CJK shape}
+%    \begin{macrocode}
+\@@_define_font_feature:n{CJKShape}
+\@@_define_feature_option:nnnnn{CJKShape}{Traditional}{20}{0} {+trad}
+\@@_define_feature_option:nnnnn{CJKShape}{Simplified} {20}{1} {+smpl}
+\@@_define_feature_option:nnnnn{CJKShape}{JIS1978}    {20}{2} {+jp78}
+\@@_define_feature_option:nnnnn{CJKShape}{JIS1983}    {20}{3} {+jp83}
+\@@_define_feature_option:nnnnn{CJKShape}{JIS1990}    {20}{4} {+jp90}
+\@@_define_feature_option:nnnnn{CJKShape}{Expert}     {20}{10}{+expt}
+\@@_define_feature_option:nnnnn{CJKShape}{NLC}        {20}{13}{+nlck}
+%    \end{macrocode}
+%
+% \subsubsection{Character width}
+%    \begin{macrocode}
+\@@_define_font_feature:n{CharacterWidth}
+\@@_define_feature_option:nnnnn{CharacterWidth}{Proportional}{22}{0}{+pwid}
+\@@_define_feature_option:nnnnn{CharacterWidth}{Full}{22}{1}{+fwid}
+\@@_define_feature_option:nnnnn{CharacterWidth}{Half}{22}{2}{+hwid}
+\@@_define_feature_option:nnnnn{CharacterWidth}{Third}{22}{3}{+twid}
+\@@_define_feature_option:nnnnn{CharacterWidth}{Quarter}{22}{4}{+qwid}
+\@@_define_feature_option:nnnnn{CharacterWidth}{AlternateProportional}{22}{5}{+palt}
+\@@_define_feature_option:nnnnn{CharacterWidth}{AlternateHalf}{22}{6}{+halt}
+\@@_define_feature_option:nnnnn{CharacterWidth}{Default}{22}{7}{}
+%    \end{macrocode}
+%
+% \subsubsection{Annotation}
+%    \begin{macrocode}
+\@@_define_feature_option:nnnnn{Annotation}{Off}{24}{0}{}
+\@@_define_feature_option:nnnnn{Annotation}{Box}{24}{1}{}
+\@@_define_feature_option:nnnnn{Annotation}{RoundedBox}{24}{2}{}
+\@@_define_feature_option:nnnnn{Annotation}{Circle}{24}{3}{}
+\@@_define_feature_option:nnnnn{Annotation}{BlackCircle}{24}{4}{}
+\@@_define_feature_option:nnnnn{Annotation}{Parenthesis}{24}{5}{}
+\@@_define_feature_option:nnnnn{Annotation}{Period}{24}{6}{}
+\@@_define_feature_option:nnnnn{Annotation}{RomanNumerals}{24}{7}{}
+\@@_define_feature_option:nnnnn{Annotation}{Diamond}{24}{8}{}
+\@@_define_feature_option:nnnnn{Annotation}{BlackSquare}{24}{9}{}
+\@@_define_feature_option:nnnnn{Annotation}{BlackRoundSquare}{24}{10}{}
+\@@_define_feature_option:nnnnn{Annotation}{DoubleCircle}{24}{11}{}
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+\@@_define_font_feature:n { Annotation }
+\keys_define:nn {fontspec}
+ {
+  Annotation .default:n = {0} ,
+  Annotation / unknown .code:n =
+   {
+    \fontspec_make_feature:nnx {}{}{ +nalt=#1 }
+   }
+ }
+%    \end{macrocode}
+%
+%
+% \subsubsection{Vertical}
+%    \begin{macrocode}
+\keys_define:nn {fontspec}
+ {
+  Vertical .choice: ,
+  Vertical / RotatedGlyphs .code:n =
+   {
+    \bool_if:NTF \l_@@_ot_bool
+     {
+      \fontspec_make_feature:nnn{}{}{+vrt2}
+      \@@_update_featstr:n {vertical}
+     }
+     {
+      \@@_update_featstr:n {vertical}
+     }
+   }
+ }
+%    \end{macrocode}
+%
+% \subsubsection{Script}
+%    \begin{macrocode}
+\newfontscript{Arabic}{arab}            \newfontscript{Armenian}{armn}
+\newfontscript{Balinese}{bali}          \newfontscript{Bengali}{beng}
+\newfontscript{Bopomofo}{bopo}          \newfontscript{Braille}{brai}
+\newfontscript{Buginese}{bugi}          \newfontscript{Buhid}{buhd}
+\newfontscript{Byzantine~Music}{byzm}
+\newfontscript{Canadian~Syllabics}{cans}
+\newfontscript{Cherokee}{cher}
+\newfontscript{CJK~Ideographic}{hani}   \newfontscript{Coptic}{copt}
+\newfontscript{Cypriot~Syllabary}{cprt} \newfontscript{Cyrillic}{cyrl}
+\newfontscript{Default}{DFLT}           \newfontscript{Deseret}{dsrt}
+\newfontscript{Devanagari}{deva}        \newfontscript{Ethiopic}{ethi}
+\newfontscript{Georgian}{geor}          \newfontscript{Glagolitic}{glag}
+\newfontscript{Gothic}{goth}            \newfontscript{Greek}{grek}
+\newfontscript{Gujarati}{gujr}          \newfontscript{Gurmukhi}{guru}
+\newfontscript{Hangul~Jamo}{jamo}       \newfontscript{Hangul}{hang}
+\newfontscript{Hanunoo}{hano}           \newfontscript{Hebrew}{hebr}
+\newfontscript{Hiragana~and~Katakana}{kana}
+\newfontscript{Javanese}{java}          \newfontscript{Kannada}{knda}
+\newfontscript{Kharosthi}{khar}         \newfontscript{Khmer}{khmr}
+\newfontscript{Lao}{lao~}               \newfontscript{Latin}{latn}
+\newfontscript{Limbu}{limb}             \newfontscript{Linear~B}{linb}
+\newfontscript{Malayalam}{mlym}         \newfontscript{Math}{math}
+\newfontscript{Mongolian}{mong}
+\newfontscript{Musical~Symbols}{musc}   \newfontscript{Myanmar}{mymr}
+\newfontscript{N'ko}{nko~}              \newfontscript{Ogham}{ogam}
+\newfontscript{Old~Italic}{ital}
+\newfontscript{Old~Persian~Cuneiform}{xpeo}
+\newfontscript{Oriya}{orya}             \newfontscript{Osmanya}{osma}
+\newfontscript{Phags-pa}{phag}          \newfontscript{Phoenician}{phnx}
+\newfontscript{Runic}{runr}             \newfontscript{Shavian}{shaw}
+\newfontscript{Sinhala}{sinh}
+\newfontscript{Sumero-Akkadian~Cuneiform}{xsux}
+\newfontscript{Syloti~Nagri}{sylo}      \newfontscript{Syriac}{syrc}
+\newfontscript{Tagalog}{tglg}           \newfontscript{Tagbanwa}{tagb}
+\newfontscript{Tai~Le}{tale}            \newfontscript{Tai~Lu}{talu}
+\newfontscript{Tamil}{taml}             \newfontscript{Telugu}{telu}
+\newfontscript{Thaana}{thaa}            \newfontscript{Thai}{thai}
+\newfontscript{Tibetan}{tibt}           \newfontscript{Tifinagh}{tfng}
+\newfontscript{Ugaritic~Cuneiform}{ugar}\newfontscript{Yi}{yi~~}
+%    \end{macrocode}
+% For convenience:
+%    \begin{macrocode}
+\newfontscript{Kana}{kana}
+\newfontscript{Maths}{math}
+\newfontscript{CJK}{hani}
+%    \end{macrocode}
+%
+% \subsubsection{Language}
+%    \begin{macrocode}
+\newfontlanguage{Abaza}{ABA}\newfontlanguage{Abkhazian}{ABK}
+\newfontlanguage{Adyghe}{ADY}\newfontlanguage{Afrikaans}{AFK}
+\newfontlanguage{Afar}{AFR}\newfontlanguage{Agaw}{AGW}
+\newfontlanguage{Altai}{ALT}\newfontlanguage{Amharic}{AMH}
+\newfontlanguage{Arabic}{ARA}\newfontlanguage{Aari}{ARI}
+\newfontlanguage{Arakanese}{ARK}\newfontlanguage{Assamese}{ASM}
+\newfontlanguage{Athapaskan}{ATH}\newfontlanguage{Avar}{AVR}
+\newfontlanguage{Awadhi}{AWA}\newfontlanguage{Aymara}{AYM}
+\newfontlanguage{Azeri}{AZE}\newfontlanguage{Badaga}{BAD}
+\newfontlanguage{Baghelkhandi}{BAG}\newfontlanguage{Balkar}{BAL}
+\newfontlanguage{Baule}{BAU}\newfontlanguage{Berber}{BBR}
+\newfontlanguage{Bench}{BCH}\newfontlanguage{Bible~Cree}{BCR}
+\newfontlanguage{Belarussian}{BEL}\newfontlanguage{Bemba}{BEM}
+\newfontlanguage{Bengali}{BEN}\newfontlanguage{Bulgarian}{BGR}
+\newfontlanguage{Bhili}{BHI}\newfontlanguage{Bhojpuri}{BHO}
+\newfontlanguage{Bikol}{BIK}\newfontlanguage{Bilen}{BIL}
+\newfontlanguage{Blackfoot}{BKF}\newfontlanguage{Balochi}{BLI}
+\newfontlanguage{Balante}{BLN}\newfontlanguage{Balti}{BLT}
+\newfontlanguage{Bambara}{BMB}\newfontlanguage{Bamileke}{BML}
+\newfontlanguage{Breton}{BRE}\newfontlanguage{Brahui}{BRH}
+\newfontlanguage{Braj~Bhasha}{BRI}\newfontlanguage{Burmese}{BRM}
+\newfontlanguage{Bashkir}{BSH}\newfontlanguage{Beti}{BTI}
+\newfontlanguage{Catalan}{CAT}\newfontlanguage{Cebuano}{CEB}
+\newfontlanguage{Chechen}{CHE}\newfontlanguage{Chaha~Gurage}{CHG}
+\newfontlanguage{Chattisgarhi}{CHH}\newfontlanguage{Chichewa}{CHI}
+\newfontlanguage{Chukchi}{CHK}\newfontlanguage{Chipewyan}{CHP}
+\newfontlanguage{Cherokee}{CHR}\newfontlanguage{Chuvash}{CHU}
+\newfontlanguage{Comorian}{CMR}\newfontlanguage{Coptic}{COP}
+\newfontlanguage{Cree}{CRE}\newfontlanguage{Carrier}{CRR}
+\newfontlanguage{Crimean~Tatar}{CRT}\newfontlanguage{Church~Slavonic}{CSL}
+\newfontlanguage{Czech}{CSY}\newfontlanguage{Danish}{DAN}
+\newfontlanguage{Dargwa}{DAR}\newfontlanguage{Woods~Cree}{DCR}
+\newfontlanguage{German}{DEU}
+\newfontlanguage{Dogri}{DGR}\newfontlanguage{Divehi}{DIV}
+\newfontlanguage{Djerma}{DJR}\newfontlanguage{Dangme}{DNG}
+\newfontlanguage{Dinka}{DNK}\newfontlanguage{Dungan}{DUN}
+\newfontlanguage{Dzongkha}{DZN}\newfontlanguage{Ebira}{EBI}
+\newfontlanguage{Eastern~Cree}{ECR}\newfontlanguage{Edo}{EDO}
+\newfontlanguage{Efik}{EFI}\newfontlanguage{Greek}{ELL}
+\newfontlanguage{English}{ENG}\newfontlanguage{Erzya}{ERZ}
+\newfontlanguage{Spanish}{ESP}\newfontlanguage{Estonian}{ETI}
+\newfontlanguage{Basque}{EUQ}\newfontlanguage{Evenki}{EVK}
+\newfontlanguage{Even}{EVN}\newfontlanguage{Ewe}{EWE}
+\newfontlanguage{French~Antillean}{FAN}
+\newfontlanguage{Farsi}{FAR}
+\newfontlanguage{Parsi}{FAR}
+\newfontlanguage{Persian}{FAR}
+\newfontlanguage{Finnish}{FIN}\newfontlanguage{Fijian}{FJI}
+\newfontlanguage{Flemish}{FLE}\newfontlanguage{Forest~Nenets}{FNE}
+\newfontlanguage{Fon}{FON}\newfontlanguage{Faroese}{FOS}
+\newfontlanguage{French}{FRA}\newfontlanguage{Frisian}{FRI}
+\newfontlanguage{Friulian}{FRL}\newfontlanguage{Futa}{FTA}
+\newfontlanguage{Fulani}{FUL}\newfontlanguage{Ga}{GAD}
+\newfontlanguage{Gaelic}{GAE}\newfontlanguage{Gagauz}{GAG}
+\newfontlanguage{Galician}{GAL}\newfontlanguage{Garshuni}{GAR}
+\newfontlanguage{Garhwali}{GAW}\newfontlanguage{Ge'ez}{GEZ}
+\newfontlanguage{Gilyak}{GIL}\newfontlanguage{Gumuz}{GMZ}
+\newfontlanguage{Gondi}{GON}\newfontlanguage{Greenlandic}{GRN}
+\newfontlanguage{Garo}{GRO}\newfontlanguage{Guarani}{GUA}
+\newfontlanguage{Gujarati}{GUJ}\newfontlanguage{Haitian}{HAI}
+\newfontlanguage{Halam}{HAL}\newfontlanguage{Harauti}{HAR}
+\newfontlanguage{Hausa}{HAU}\newfontlanguage{Hawaiin}{HAW}
+\newfontlanguage{Hammer-Banna}{HBN}\newfontlanguage{Hiligaynon}{HIL}
+\newfontlanguage{Hindi}{HIN}\newfontlanguage{High~Mari}{HMA}
+\newfontlanguage{Hindko}{HND}\newfontlanguage{Ho}{HO}
+\newfontlanguage{Harari}{HRI}\newfontlanguage{Croatian}{HRV}
+\newfontlanguage{Hungarian}{HUN}\newfontlanguage{Armenian}{HYE}
+\newfontlanguage{Igbo}{IBO}\newfontlanguage{Ijo}{IJO}
+\newfontlanguage{Ilokano}{ILO}\newfontlanguage{Indonesian}{IND}
+\newfontlanguage{Ingush}{ING}\newfontlanguage{Inuktitut}{INU}
+\newfontlanguage{Irish}{IRI}\newfontlanguage{Irish~Traditional}{IRT}
+\newfontlanguage{Icelandic}{ISL}\newfontlanguage{Inari~Sami}{ISM}
+\newfontlanguage{Italian}{ITA}\newfontlanguage{Hebrew}{IWR}
+\newfontlanguage{Javanese}{JAV}\newfontlanguage{Yiddish}{JII}
+\newfontlanguage{Japanese}{JAN}\newfontlanguage{Judezmo}{JUD}
+\newfontlanguage{Jula}{JUL}\newfontlanguage{Kabardian}{KAB}
+\newfontlanguage{Kachchi}{KAC}\newfontlanguage{Kalenjin}{KAL}
+\newfontlanguage{Kannada}{KAN}\newfontlanguage{Karachay}{KAR}
+\newfontlanguage{Georgian}{KAT}\newfontlanguage{Kazakh}{KAZ}
+\newfontlanguage{Kebena}{KEB}\newfontlanguage{Khutsuri~Georgian}{KGE}
+\newfontlanguage{Khakass}{KHA}\newfontlanguage{Khanty-Kazim}{KHK}
+\newfontlanguage{Khmer}{KHM}\newfontlanguage{Khanty-Shurishkar}{KHS}
+\newfontlanguage{Khanty-Vakhi}{KHV}\newfontlanguage{Khowar}{KHW}
+\newfontlanguage{Kikuyu}{KIK}\newfontlanguage{Kirghiz}{KIR}
+\newfontlanguage{Kisii}{KIS}\newfontlanguage{Kokni}{KKN}
+\newfontlanguage{Kalmyk}{KLM}\newfontlanguage{Kamba}{KMB}
+\newfontlanguage{Kumaoni}{KMN}\newfontlanguage{Komo}{KMO}
+\newfontlanguage{Komso}{KMS}\newfontlanguage{Kanuri}{KNR}
+\newfontlanguage{Kodagu}{KOD}\newfontlanguage{Korean~Old~Hangul}{KOH}
+\newfontlanguage{Konkani}{KOK}\newfontlanguage{Kikongo}{KON}
+\newfontlanguage{Komi-Permyak}{KOP}\newfontlanguage{Korean}{KOR}
+\newfontlanguage{Komi-Zyrian}{KOZ}\newfontlanguage{Kpelle}{KPL}
+\newfontlanguage{Krio}{KRI}\newfontlanguage{Karakalpak}{KRK}
+\newfontlanguage{Karelian}{KRL}\newfontlanguage{Karaim}{KRM}
+\newfontlanguage{Karen}{KRN}\newfontlanguage{Koorete}{KRT}
+\newfontlanguage{Kashmiri}{KSH}\newfontlanguage{Khasi}{KSI}
+\newfontlanguage{Kildin~Sami}{KSM}\newfontlanguage{Kui}{KUI}
+\newfontlanguage{Kulvi}{KUL}\newfontlanguage{Kumyk}{KUM}
+\newfontlanguage{Kurdish}{KUR}\newfontlanguage{Kurukh}{KUU}
+\newfontlanguage{Kuy}{KUY}\newfontlanguage{Koryak}{KYK}
+\newfontlanguage{Ladin}{LAD}\newfontlanguage{Lahuli}{LAH}
+\newfontlanguage{Lak}{LAK}\newfontlanguage{Lambani}{LAM}
+\newfontlanguage{Lao}{LAO}\newfontlanguage{Latin}{LAT}
+\newfontlanguage{Laz}{LAZ}\newfontlanguage{L-Cree}{LCR}
+\newfontlanguage{Ladakhi}{LDK}\newfontlanguage{Lezgi}{LEZ}
+\newfontlanguage{Lingala}{LIN}\newfontlanguage{Low~Mari}{LMA}
+\newfontlanguage{Limbu}{LMB}\newfontlanguage{Lomwe}{LMW}
+\newfontlanguage{Lower~Sorbian}{LSB}\newfontlanguage{Lule~Sami}{LSM}
+\newfontlanguage{Lithuanian}{LTH}\newfontlanguage{Luba}{LUB}
+\newfontlanguage{Luganda}{LUG}\newfontlanguage{Luhya}{LUH}
+\newfontlanguage{Luo}{LUO}\newfontlanguage{Latvian}{LVI}
+\newfontlanguage{Majang}{MAJ}\newfontlanguage{Makua}{MAK}
+\newfontlanguage{Malayalam~Traditional}{MAL}\newfontlanguage{Mansi}{MAN}
+\newfontlanguage{Marathi}{MAR}\newfontlanguage{Marwari}{MAW}
+\newfontlanguage{Mbundu}{MBN}\newfontlanguage{Manchu}{MCH}
+\newfontlanguage{Moose~Cree}{MCR}\newfontlanguage{Mende}{MDE}
+\newfontlanguage{Me'en}{MEN}\newfontlanguage{Mizo}{MIZ}
+\newfontlanguage{Macedonian}{MKD}\newfontlanguage{Male}{MLE}
+\newfontlanguage{Malagasy}{MLG}\newfontlanguage{Malinke}{MLN}
+\newfontlanguage{Malayalam~Reformed}{MLR}\newfontlanguage{Malay}{MLY}
+\newfontlanguage{Mandinka}{MND}\newfontlanguage{Mongolian}{MNG}
+\newfontlanguage{Manipuri}{MNI}\newfontlanguage{Maninka}{MNK}
+\newfontlanguage{Manx~Gaelic}{MNX}\newfontlanguage{Moksha}{MOK}
+\newfontlanguage{Moldavian}{MOL}\newfontlanguage{Mon}{MON}
+\newfontlanguage{Moroccan}{MOR}\newfontlanguage{Maori}{MRI}
+\newfontlanguage{Maithili}{MTH}\newfontlanguage{Maltese}{MTS}
+\newfontlanguage{Mundari}{MUN}\newfontlanguage{Naga-Assamese}{NAG}
+\newfontlanguage{Nanai}{NAN}\newfontlanguage{Naskapi}{NAS}
+\newfontlanguage{N-Cree}{NCR}\newfontlanguage{Ndebele}{NDB}
+\newfontlanguage{Ndonga}{NDG}\newfontlanguage{Nepali}{NEP}
+\newfontlanguage{Newari}{NEW}\newfontlanguage{Nagari}{NGR}
+\newfontlanguage{Norway~House~Cree}{NHC}\newfontlanguage{Nisi}{NIS}
+\newfontlanguage{Niuean}{NIU}\newfontlanguage{Nkole}{NKL}
+\newfontlanguage{N'ko}{NKO}\newfontlanguage{Dutch}{NLD}
+\newfontlanguage{Nogai}{NOG}\newfontlanguage{Norwegian}{NOR}
+\newfontlanguage{Northern~Sami}{NSM}\newfontlanguage{Northern~Tai}{NTA}
+\newfontlanguage{Esperanto}{NTO}\newfontlanguage{Nynorsk}{NYN}
+\newfontlanguage{Oji-Cree}{OCR}\newfontlanguage{Ojibway}{OJB}
+\newfontlanguage{Oriya}{ORI}\newfontlanguage{Oromo}{ORO}
+\newfontlanguage{Ossetian}{OSS}\newfontlanguage{Palestinian~Aramaic}{PAA}
+\newfontlanguage{Pali}{PAL}\newfontlanguage{Punjabi}{PAN}
+\newfontlanguage{Palpa}{PAP}\newfontlanguage{Pashto}{PAS}
+\newfontlanguage{Polytonic~Greek}{PGR}\newfontlanguage{Pilipino}{PIL}
+\newfontlanguage{Palaung}{PLG}\newfontlanguage{Polish}{PLK}
+\newfontlanguage{Provencal}{PRO}\newfontlanguage{Portuguese}{PTG}
+\newfontlanguage{Chin}{QIN}\newfontlanguage{Rajasthani}{RAJ}
+\newfontlanguage{R-Cree}{RCR}\newfontlanguage{Russian~Buriat}{RBU}
+\newfontlanguage{Riang}{RIA}\newfontlanguage{Rhaeto-Romanic}{RMS}
+\newfontlanguage{Romanian}{ROM}\newfontlanguage{Romany}{ROY}
+\newfontlanguage{Rusyn}{RSY}\newfontlanguage{Ruanda}{RUA}
+\newfontlanguage{Russian}{RUS}\newfontlanguage{Sadri}{SAD}
+\newfontlanguage{Sanskrit}{SAN}\newfontlanguage{Santali}{SAT}
+\newfontlanguage{Sayisi}{SAY}\newfontlanguage{Sekota}{SEK}
+\newfontlanguage{Selkup}{SEL}\newfontlanguage{Sango}{SGO}
+\newfontlanguage{Shan}{SHN}\newfontlanguage{Sibe}{SIB}
+\newfontlanguage{Sidamo}{SID}\newfontlanguage{Silte~Gurage}{SIG}
+\newfontlanguage{Skolt~Sami}{SKS}\newfontlanguage{Slovak}{SKY}
+\newfontlanguage{Slavey}{SLA}\newfontlanguage{Slovenian}{SLV}
+\newfontlanguage{Somali}{SML}\newfontlanguage{Samoan}{SMO}
+\newfontlanguage{Sena}{SNA}\newfontlanguage{Sindhi}{SND}
+\newfontlanguage{Sinhalese}{SNH}\newfontlanguage{Soninke}{SNK}
+\newfontlanguage{Sodo~Gurage}{SOG}\newfontlanguage{Sotho}{SOT}
+\newfontlanguage{Albanian}{SQI}\newfontlanguage{Serbian}{SRB}
+\newfontlanguage{Saraiki}{SRK}\newfontlanguage{Serer}{SRR}
+\newfontlanguage{South~Slavey}{SSL}\newfontlanguage{Southern~Sami}{SSM}
+\newfontlanguage{Suri}{SUR}\newfontlanguage{Svan}{SVA}
+\newfontlanguage{Swedish}{SVE}\newfontlanguage{Swadaya~Aramaic}{SWA}
+\newfontlanguage{Swahili}{SWK}\newfontlanguage{Swazi}{SWZ}
+\newfontlanguage{Sutu}{SXT}\newfontlanguage{Syriac}{SYR}
+\newfontlanguage{Tabasaran}{TAB}\newfontlanguage{Tajiki}{TAJ}
+\newfontlanguage{Tamil}{TAM}\newfontlanguage{Tatar}{TAT}
+\newfontlanguage{TH-Cree}{TCR}\newfontlanguage{Telugu}{TEL}
+\newfontlanguage{Tongan}{TGN}\newfontlanguage{Tigre}{TGR}
+\newfontlanguage{Tigrinya}{TGY}\newfontlanguage{Thai}{THA}
+\newfontlanguage{Tahitian}{THT}\newfontlanguage{Tibetan}{TIB}
+\newfontlanguage{Turkmen}{TKM}\newfontlanguage{Temne}{TMN}
+\newfontlanguage{Tswana}{TNA}\newfontlanguage{Tundra~Nenets}{TNE}
+\newfontlanguage{Tonga}{TNG}\newfontlanguage{Todo}{TOD}
+\newfontlanguage{Tsonga}{TSG}\newfontlanguage{Turoyo~Aramaic}{TUA}
+\newfontlanguage{Tulu}{TUL}\newfontlanguage{Tuvin}{TUV}
+\newfontlanguage{Twi}{TWI}\newfontlanguage{Udmurt}{UDM}
+\newfontlanguage{Ukrainian}{UKR}\newfontlanguage{Urdu}{URD}
+\newfontlanguage{Upper~Sorbian}{USB}\newfontlanguage{Uyghur}{UYG}
+\newfontlanguage{Uzbek}{UZB}\newfontlanguage{Venda}{VEN}
+\newfontlanguage{Vietnamese}{VIT}\newfontlanguage{Wa}{WA}
+\newfontlanguage{Wagdi}{WAG}\newfontlanguage{West-Cree}{WCR}
+\newfontlanguage{Welsh}{WEL}\newfontlanguage{Wolof}{WLF}
+\newfontlanguage{Tai~Lue}{XBD}\newfontlanguage{Xhosa}{XHS}
+\newfontlanguage{Yakut}{YAK}\newfontlanguage{Yoruba}{YBA}
+\newfontlanguage{Y-Cree}{YCR}\newfontlanguage{Yi~Classic}{YIC}
+\newfontlanguage{Yi~Modern}{YIM}\newfontlanguage{Chinese~Hong~Kong}{ZHH}
+\newfontlanguage{Chinese~Phonetic}{ZHP}
+\newfontlanguage{Chinese~Simplified}{ZHS}
+\newfontlanguage{Chinese~Traditional}{ZHT}\newfontlanguage{Zande}{ZND}
+\newfontlanguage{Zulu}{ZUL}
+%    \end{macrocode}
+%
+% \paragraph{Turkish} Turns out that many fonts use `TUR' as their Turkish language tag rather than the specified `TRK'. So we check for both:
+%    \begin{macrocode}
+\keys_define:nn {fontspec}
+ {
+  Language / Turkish .code:n =
+   {
+    \fontspec_check_lang:nTF {TRK}
+     {
+      \int_set:Nn \l_fontspec_language_int {\l_fontspec_strnum_int}
+      \tl_set:Nn \l_fontspec_lang_tl {TRK}
+     }
+     {
+      \fontspec_check_lang:nTF {TUR}
+       {
+        \int_set:Nn \l_fontspec_language_int {\l_fontspec_strnum_int}
+        \tl_set:Nn \l_fontspec_lang_tl {TUR}
+       }
+       {
+        \@@_warning:nx {language-not-exist} {Turkish}
+        \keys_set:nn {fontspec} {Language=Default}
+       }
+     }
+   }
+ }
+%    \end{macrocode}
+%
+% \paragraph{Default}
+%
+%    \begin{macrocode}
+\@@_keys_define_code:nnn {fontspec}{ Language / Default }
+ {
+  \tl_set:Nn \l_fontspec_lang_tl {DFLT}
+  \int_zero:N \l_fontspec_language_int
+ }
+%    \end{macrocode}
+%
+% \subsubsection{Raw feature string}
+% This allows savvy \XeTeX-ers to input font features manually if they have
+% already memorised the OpenType abbreviations and don't mind not having error checking.
+%    \begin{macrocode}
+\@@_keys_define_code:nnn {fontspec} {RawFeature}
+ {
+  \@@_update_featstr:n {#1}
+ }
+%    \end{macrocode}
+%
+% \iffalse
+%    \begin{macrocode}
+%</fontspec&(xetexx|luatex)>
+%    \end{macrocode}
+% \fi

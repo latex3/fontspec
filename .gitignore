@@ -26,3 +26,7 @@ doc-files/
 fontspec.cfg
 fontspec.lua
 fontspec.pdf
+
+copy-tu.sh
+
+lucidaot.tex

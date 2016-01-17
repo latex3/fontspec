@@ -2798,6 +2798,9 @@ This work consists of this file fontspec.dtx
 \bool_new:N \l_@@_noit_bool
 \bool_new:N \l_@@_nosc_bool
 %    \end{macrocode}
+%    \begin{macrocode}
+\bool_new:N \l__fontspec_check_bool
+%    \end{macrocode}
 %
 %    \begin{macrocode}
 \bool_new:N \l_@@_tfm_bool
@@ -5064,23 +5067,23 @@ This work consists of this file fontspec.dtx
   \fontspec_iv_str_to_num:Nn \l_fontspec_strnum_int {#1}
   \int_set:Nn \l_tmpb_int { \XeTeXOTcountscripts \l_fontspec_font }
   \int_zero:N \l_tmpa_int
-  \@tempswafalse
+  \bool_set_false:N \l__fontspec_check_bool
   \bool_until_do:nn { \int_compare_p:nNn \l_tmpa_int = \l_tmpb_int }
    {
     \ifnum \XeTeXOTscripttag\l_fontspec_font \l_tmpa_int = \l_fontspec_strnum_int
-      \@tempswatrue
+      \bool_set_true:N \l__fontspec_check_bool
       \int_set:Nn \l_tmpa_int {\l_tmpb_int}
     \else
       \int_incr:N \l_tmpa_int
     \fi
    }
-  \if@tempswa \prg_return_true: \else: \prg_return_false: \fi:
+  \bool_if:NTF \l__fontspec_check_bool \prg_return_true: \prg_return_false:
  }
 %</xetexx>
 %<*luatex>
  {
   \directlua{fontspec.check_ot_script("l_fontspec_font", "#1")}
-  \if@tempswa \prg_return_true: \else: \prg_return_false: \fi:
+  \bool_if:NTF \l__fontspec_check_bool \prg_return_true: \prg_return_false:
  }
 %</luatex>
 %    \end{macrocode}
@@ -5100,17 +5103,17 @@ This work consists of this file fontspec.dtx
   \int_set:Nn \l_tmpb_int
    { \XeTeXOTcountlanguages \l_fontspec_font \l_fontspec_script_int }
   \int_zero:N \l_tmpa_int
-  \@tempswafalse
+  \bool_set_false:N \l__fontspec_check_bool
   \bool_until_do:nn { \int_compare_p:nNn \l_tmpa_int = \l_tmpb_int }
    {
     \ifnum\XeTeXOTlanguagetag\l_fontspec_font\l_fontspec_script_int \l_tmpa_int =\l_fontspec_strnum_int
-      \@tempswatrue
+      \bool_set_true:N \l__fontspec_check_bool
       \int_set:Nn \l_tmpa_int {\l_tmpb_int}
     \else
       \int_incr:N \l_tmpa_int
     \fi
    }
-  \if@tempswa \prg_return_true: \else: \prg_return_false: \fi:
+  \bool_if:NTF \l__fontspec_check_bool \prg_return_true: \prg_return_false:
  }
 %</xetexx>
 %<*luatex>
@@ -5119,7 +5122,7 @@ This work consists of this file fontspec.dtx
    {
     fontspec.check_ot_lang( "l_fontspec_font", "#1", "\l_fontspec_script_tl" )
    }
-  \if@tempswa \prg_return_true: \else: \prg_return_false: \fi:
+  \bool_if:NTF \l__fontspec_check_bool \prg_return_true: \prg_return_false:
  }
 %</luatex>
 %    \end{macrocode}
@@ -5129,8 +5132,7 @@ This work consists of this file fontspec.dtx
 % \begin{macro}{\fontspec_check_ot_feat:nT}
 % This macro takes an OpenType feature tag and checks if it exists in the current
 % font/script/language.
-% The output boolean is \cmd\@tempswa. \cmd\l_fontspec_strnum_int\ is used to store
-% the number corresponding to the feature tag string.
+% \cmd\l_fontspec_strnum_int\ is used to store the number corresponding to the feature tag string.
 % The script used is whatever's held in \cmd\l_fontspec_script_int. By default, that's the
 % number corresponding to `|latn|'. The language used is \cmd\l_fontspec_language_int,
 % by default |0|, the `default language'.
@@ -5146,18 +5148,18 @@ This work consists of this file fontspec.dtx
    }
   \fontspec_v_str_to_num:Nn \l_fontspec_strnum_int {#1}
   \int_zero:N \l_tmpa_int
-  \@tempswafalse
+  \bool_set_false:N \l__fontspec_check_bool
   \bool_until_do:nn { \int_compare_p:nNn \l_tmpa_int = \l_tmpb_int }
    {
     \ifnum\XeTeXOTfeaturetag\l_fontspec_font\l_fontspec_script_int\l_fontspec_language_int
          \l_tmpa_int =\l_fontspec_strnum_int
-      \@tempswatrue
+      \bool_set_true:N \l__fontspec_check_bool
       \int_set:Nn \l_tmpa_int {\l_tmpb_int}
     \else
       \int_incr:N \l_tmpa_int
     \fi
    }
-  \if@tempswa \prg_return_true: \else: \prg_return_false: \fi:
+  \bool_if:NTF \l__fontspec_check_bool \prg_return_true: \prg_return_false:
  }
 %</xetexx>
 %<*luatex>
@@ -5169,7 +5171,7 @@ This work consists of this file fontspec.dtx
                            "\l_fontspec_lang_tl", "\l_fontspec_script_tl"
                           )
    }
-  \if@tempswa \prg_return_true: \else: \prg_return_false: \fi:
+  \bool_if:NTF \l__fontspec_check_bool \prg_return_true: \prg_return_false:
  }
 %</luatex>
 %    \end{macrocode}
@@ -6968,8 +6970,8 @@ local check_feature  = luaotfload.aux.provides_feature
 % The following are the function that get called from \TeX\ end.
 %
 %    \begin{macrocode}
-local function tempswatrue()  fontspec.sprint([[\@tempswatrue]])  end
-local function tempswafalse() fontspec.sprint([[\@tempswafalse]]) end
+local function tempswatrue()  fontspec.sprint([[\bool_set_true:NTF  \l__fontspec_check_bool]]) end
+local function tempswafalse() fontspec.sprint([[\bool_set_false:NTF \l__fontspec_check_bool]]) end
 %    \end{macrocode}
 %
 %    \begin{macrocode}

@@ -73,8 +73,14 @@ This work consists of this file fontspec.dtx
     \from{fontspec-patches.dtx}{patches\FSDEBUG}
   }
 }
-\generate{\file{fontspec-xetex.sty}    {\from{fontspec-main.dtx}{fontspec,xetexx\FSDEBUG}}}
-\generate{\file{fontspec-luatex.sty}   {\from{fontspec-main.dtx}{fontspec,luatex\FSDEBUG}}}
+\generate{\file{fontspec-xetex.sty}{
+  \from{fontspec.dtx}{fontspec,xetexx\FSDEBUG}
+  \from{fontspec-main.dtx}{fontspec,xetexx\FSDEBUG}
+}}
+\generate{\file{fontspec-luatex.sty}{
+  \from{fontspec.dtx}{fontspec,luatex\FSDEBUG}
+  \from{fontspec-main.dtx}{fontspec,luatex\FSDEBUG}
+}}
 
 \def\tmpa{plain}
 \ifx\tmpa\fmtname\endgroup\expandafter\bye\fi
@@ -102,6 +108,16 @@ This work consists of this file fontspec.dtx
 %\OnlyDescription
 \begin{document}
   \DocInput{\jobname.dtx}
+  \clearpage
+  \DocInput{fontspec-vars.dtx}
+  \clearpage
+  \DocInput{fontspec-main.dtx}
+  \clearpage
+  \DocInput{fontspec-lua.dtx}
+  \clearpage
+  \DocInput{fontspec-patches.dtx}
+  \clearpage
+  \DocInput{fontspec-msg.dtx}
 \end{document}
 %</driver>
 %
@@ -2773,8 +2789,6 @@ This work consists of this file fontspec.dtx
 %</preamble>
 %    \end{macrocode}
 %
-% \DocInput{fontspec-vars}
-% \DocInput{fontspec-msg}
 %
 % \subsection{Option processing}
 %
@@ -2817,15 +2831,6 @@ This work consists of this file fontspec.dtx
 \sys_if_engine_xetex:T  { \RequirePackage{fontspec-xetex}  \endinput }
 %</load>
 %    \end{macrocode}
-%
-% \clearpage
-% \DocInput{fontspec-main.dtx}
-%
-% \clearpage
-% \DocInput{fontspec-lua}
-%
-% \clearpage
-% \DocInput{fontspec-patches}
 %
 % \clearpage
 % \PrintChanges

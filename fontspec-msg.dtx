@@ -1,5 +1,5 @@
 %
-% \subsection{Error/warning/info messages}
+% \section{Error/warning/info messages}
 %
 %    \begin{macrocode}
 %<*msg>
@@ -18,7 +18,8 @@
 \cs_new:Npn \@@_trace:n     { \msg_trace:nn     {fontspec} }
 %    \end{macrocode}
 %
-% Errors:
+% \subsection{Errors}
+%
 %    \begin{macrocode}
 \msg_new:nnn {fontspec} {no-size-info}
  {
@@ -72,7 +73,9 @@
   to~ my~ developer~ with~ a~ minimal~ example~ that~ causes~ the~ problem.
  }
 %    \end{macrocode}
-% Warnings:
+%
+% \subsection{Warnings}
+%
 %    \begin{macrocode}
 \msg_new:nnn {fontspec} {addfontfeatures-ignored}
  {

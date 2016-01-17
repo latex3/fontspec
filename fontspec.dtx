@@ -210,13 +210,16 @@ This work consists of this file fontspec.dtx
 % Package options will be introduced below; some preliminary details are discussed first:
 %
 % \paragraph{\pkg{xunicode} and font encodings}
-% Ross Moore's \pkg{xunicode} package is \textbf{no longer} automatically loaded.
-% This package can be used to provide support for a very large set of characters and accented letters available in Unicode, with compatibility with \LaTeX's traditional naming for such things (for example, |\%|, |\$|, |\textbullet|, |\"u|, and
-% so on).
-% Now, the new \LaTeXe\ `TU' font encoding is used which defines a smaller set of characters and accents, but enough to provide compatibility with most legacy \LaTeX\ documents; you may still load \pkg{xunicode} if needed.\footnote{With the caveat that (currently) to load \pkg{xunicode} in \LuaLaTeX, you need to `trick' its \XeTeX-only loading test by locally defining \cs{XeTeXpicfile}.}
+% \marginpar{\fbox{\color{red}\textsc{update}}}
+% The 2016 release of \pkg{fontspec} initiates some changes for font encodings and the loading of \pkg{xunicode}.
+% While the defaults have not yet changed, a new package option, \texttt{tuenc}, switches the default \textsc{nfss} font encoding to \texttt{TU}.
+% \texttt{TU} is a new Unicode font encoding, intended for both \XeTeX\ and \LuaTeX\ engines, and automatically contains support for symbols covered by \LaTeX's traditional \texttt{T1} and \texttt{TS1} font encodings (for example, |\%|, |\textbullet|, |\"u|, and so on).
+% As a result, with this package option, Ross Moore's \pkg{xunicode} package is \textbf{not}  loaded.
 %
-% In previous versions of the package, fonts were loaded with the \texttt{EU1} and \texttt{EU2} encodings for \XeTeX\ and \LuaTeX\ engines respectively.
-% IF you experience trouble is this area (particularly with other packages) after upgrading to the current version of this package, you can revert to these older encoding names by loading \pkg{fontspec} with the \texttt{[euenc]} package option. Note that if you do so, it may also be necessary to load \pkg{xunicode} manually.
+% In 2017, the defaults will change and \texttt{tuenc} will be the default.
+% Package authors and users who have referred explicitly to the encoding names \texttt{EU1} or \texttt{EU2} will need to update their documents in advance.
+% If anything goes wrong, \pkg{fontspec} can be loaded with the \texttt{euenc} option to revert to the 2016-and-previous behaviour.
+% Note that if you do so, \pkg{xunicode} will be automatically loaded for backwards compatibility.
 % 
 %
 % \paragraph{\XeTeX\ users only}
@@ -236,12 +239,10 @@ This work consists of this file fontspec.dtx
 % Please see the \pkg{luaotfload} documentation for more information.
 %
 % \paragraph{\pkg{babel}}
-% \emph{The \pkg{babel} package is not really supported!} Especially Vietnamese,
-% Greek, and Hebrew at least might not work correctly, as far as I can tell.
-% There's a better chance with Cyrillic and Latin-based languages,
-% however---\pkg{fontspec} ensures at least that fonts should load correctly.
-% The \pkg{polyglossia} package is recommended instead as a modern replacement
-% for \pkg{babel}.
+% \emph{The \pkg{babel} package is supported for certain languages.}
+% Especially Vietnamese, Greek, and Hebrew at least might not work correctly, as far as I can tell.
+% There's a better chance with Cyrillic and Latin-based languages, however---\pkg{fontspec} ensures at least that fonts should load correctly.
+% The \pkg{polyglossia} package is recommended instead as a modern replacement for \pkg{babel}.
 %
 %
 %

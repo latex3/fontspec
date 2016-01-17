@@ -16,14 +16,11 @@ Fonts/
 
 test*
 
-fontspec-example.tex
-
 testsuite/build/
 testsuite/fonts/
 testsuite/tests/*.pdf
 doc-files/
 
-fontspec.cfg
 fontspec.lua
 fontspec.pdf
 

@@ -1,0 +1,245 @@
+% \part{fontspec-patches.sty}
+%
+%    \begin{macrocode}
+%<*patches>
+\ExplSyntaxOn
+%    \end{macrocode}
+%
+% \subsection{Unicode footnote symbols}
+% This is handled by \pkg{fixltx2e} / \LaTeX2015 now.
+%    \begin{macrocode}
+\cs_if_exist:NF \TextOrMath
+ {
+  % copy official definition:
+  \protected\expandafter\def\csname TextOrMath\space\endcsname{%
+    \ifmmode  \expandafter\@secondoftwo
+    \else     \expandafter\@firstoftwo  \fi}
+  \edef\TextOrMath#1#2{%
+    \expandafter\noexpand\csname TextOrMath\space\endcsname
+    {#1}{#2}}
+  % translation of official definition:
+  \cs_set:Npn \@fnsymbol #1
+   {
+    \int_case:nnF {#1}
+     {
+      {0} {}
+      {1} { \TextOrMath \textasteriskcentered* }
+      {2} { \TextOrMath \textdagger\dagger }
+      {3} { \TextOrMath \textdaggerdbl\ddagger }
+      {4} { \TextOrMath \textsection\mathsection }
+      {5} { \TextOrMath \textparagraph\mathparagraph }
+      {6} { \TextOrMath \textbardbl\| }
+      {7} { \TextOrMath {\textasteriskcentered\textasteriskcentered}{**} }
+      {8} { \TextOrMath {\textdagger\textdagger}{\dagger\dagger} }
+      {9} { \TextOrMath {\textdaggerdbl\textdaggerdbl}{\ddagger\ddagger} }
+     }
+     { \@ctrerr }
+   }
+   }
+%    \end{macrocode}
+%
+% \subsection{Emph}
+%
+% \begin{macro}{\em}
+% \begin{macro}{\emph}
+% \begin{macro}{\emshape}
+% \begin{macro}{\eminnershape}
+% Redefinition of |{\em ...}| and |\emph{...}| to use \textsc{nfss} info to detect when the inner shape should be used.
+%    \begin{macrocode}
+\DeclareRobustCommand \em
+ {
+  \@nomath\em
+  \str_if_eq_x:nnTF \f@shape \itdefault \eminnershape
+  {
+    \str_if_eq_x:nnTF \f@shape \sldefault \eminnershape \emshape
+  }
+ }
+\DeclareTextFontCommand{\emph}{\em}
+\cs_set_eq:NN \emshape \itshape
+\cs_set_eq:NN \eminnershape \upshape
+%    \end{macrocode}
+% \end{macro} \end{macro}
+% \end{macro} \end{macro}
+%
+% \subsection{\cmd\-}
+%
+% \begin{macro}{\-}
+% This macro is courtesy of Frank Mittelbach and the \LaTeXe\ source code.
+%    \begin{macrocode}
+\DeclareRobustCommand{\-}
+ {
+  \discretionary
+   {
+    \char\ifnum\hyphenchar\font<\z@
+           \xlx@defaulthyphenchar
+         \else
+           \hyphenchar\font
+         \fi
+   }{}{}
+ }
+\def\xlx@defaulthyphenchar{`\-}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \subsection{Verbatims}
+%
+% Many thanks to Apostolos Syropoulos for discovering this problem and writing the  redefinion of \LaTeX's |verbatim| environment and \cs{verb*} command.
+%
+% \begin{macro}{\fontspec_visible_space:}
+% Print \unichar{2434}{Open box}, which is used to visibly display a space character.
+%    \begin{macrocode}
+\cs_new:Nn \fontspec_visible_space:
+ {
+  \font_glyph_if_exist:NnTF \font {"2423}
+   { \char"2423\scan_stop: }
+   { \fontspec_visible_space_fallback: }
+ }
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\fontspec_visible_space:@fallback}
+% If the current font doesn't have \unichar{2434}{Open box}, use Latin Modern Mono instead.
+%    \begin{macrocode}
+\cs_new:Nn \fontspec_visible_space_fallback:
+ {
+  {
+   \usefont{\g_fontspec_encoding_tl}{lmtt}{\f@series}{\f@shape}
+   \textvisiblespace
+  }
+ }
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\fontspec_print_visible_spaces:}
+% Helper macro to turn spaces (\verb|^^20|) active and print visible space instead.
+%    \begin{macrocode}
+\group_begin:
+\char_set_catcode_active:n{"20}%
+\cs_gset:Npn\fontspec_print_visible_spaces:{%
+\char_set_catcode_active:n{"20}%
+\cs_set_eq:NN^^20\fontspec_visible_space:%
+}%
+\group_end:
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\verb}
+% \begin{macro}{\verb*}
+% Redefine \cmd\verb\ to use \cmd\fontspec_print_visible_spaces:.
+%    \begin{macrocode}
+\def\verb
+ {
+  \relax\ifmmode\hbox\else\leavevmode\null\fi
+  \bgroup
+    \verb@eol@error \let\do\@makeother \dospecials
+    \verbatim@font\@noligs
+    \@ifstar\@@sverb\@verb
+ }
+\def\@@sverb{\fontspec_print_visible_spaces:\@sverb}
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+%
+% It's better to put small things into \cmd\AtBeginDocument, so here we go:
+%    \begin{macrocode}
+\AtBeginDocument
+ {
+  \fontspec_patch_verbatim:
+  \fontspec_patch_moreverb:
+  \fontspec_patch_fancyvrb:
+  \fontspec_patch_listings:
+ }
+%    \end{macrocode}
+%
+% \begin{environment}{verbatim*}
+% With the \pkg{verbatim} package.
+%    \begin{macrocode}
+\cs_set:Npn \fontspec_patch_verbatim:
+ {
+  \@ifpackageloaded{verbatim}
+   {
+    \cs_set:cpn {verbatim*}
+     {
+      \group_begin: \@verbatim \fontspec_print_visible_spaces: \verbatim@start
+     }
+   }
+%    \end{macrocode}
+% This is for vanilla \LaTeX.
+%    \begin{macrocode}
+   {
+    \cs_set:cpn {verbatim*}
+     {
+      \@verbatim \fontspec_print_visible_spaces: \@sxverbatim
+     }
+   }
+ }
+%    \end{macrocode}
+% \end{environment}
+%
+% \begin{environment}{listingcont*}
+% This is for \pkg{moreverb}.
+% The main |listing*| environment inherits this definition.
+%    \begin{macrocode}
+\cs_set:Npn \fontspec_patch_moreverb:
+ {
+  \@ifpackageloaded{moreverb}{
+    \cs_set:cpn {listingcont*}
+     {
+      \cs_set:Npn \verbatim@processline
+       {
+        \thelisting@line \global\advance\listing@line\c_one
+        \the\verbatim@line\par
+       }
+      \@verbatim \fontspec_print_visible_spaces: \verbatim@start
+     }
+  }{}
+ }
+%    \end{macrocode}
+% \end{environment}
+%
+% \pkg{listings} and \pkg{fancvrb} make things nice and easy:
+%    \begin{macrocode}
+\cs_set:Npn \fontspec_patch_fancyvrb:
+ {
+  \@ifpackageloaded{fancyvrb}
+   {
+    \cs_set_eq:NN \FancyVerbSpace \fontspec_visible_space:
+   }{}
+ }
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+\cs_set:Npn \fontspec_patch_listings:
+ {
+  \@ifpackageloaded{listings}
+   {
+    \cs_set_eq:NN \lst@visiblespace \fontspec_visible_space:
+   }{}
+ }
+%    \end{macrocode}
+%
+% \subsection{\cs{oldstylenums}}
+%
+%
+% \begin{macro}{\oldstylenums}
+% \begin{macro}{\liningnums}
+% This command obviously needs a redefinition.
+% And we may as well provide the reverse command.
+%    \begin{macrocode}
+\RenewDocumentCommand \oldstylenums {m}
+ {
+  { \addfontfeature{Numbers=OldStyle} #1 }
+ }
+\NewDocumentCommand \liningnums {m}
+ {
+  { \addfontfeature{Numbers=Lining} #1 }
+ }
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+%
+%
+%    \begin{macrocode}
+%</patches>
+%    \end{macrocode}

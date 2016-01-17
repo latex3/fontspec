@@ -1,0 +1,106 @@
+% \part{fontspec.lua}
+%
+%    \begin{macrocode}
+%<*lua>
+%    \end{macrocode}
+% First we define some metadata.
+%    \begin{macrocode}
+fontspec          = fontspec or {}
+local fontspec    = fontspec
+fontspec.module   = {
+    name          = "fontspec",
+    version       = "2.3c",
+    date          = "2013/05/20",
+    description   = "Advanced font selection for LuaLaTeX.",
+    author        = "Khaled Hosny, Philipp Gesang",
+    copyright     = "Khaled Hosny, Philipp Gesang",
+    license       = "LPPL"
+}
+
+local err, warn, info, log = luatexbase.provides_module(fontspec.module)
+
+%    \end{macrocode}
+% Some utility functions
+%    \begin{macrocode}
+fontspec.log     = log or (function (s) luatexbase.module_info("fontspec", s) end)
+fontspec.warning = warn or (function (s) luatexbase.module_warning("fontspec", s) end)
+fontspec.error   = err or (function (s) luatexbase.module_error("fontspec", s) end)
+
+if luatexbase.catcodetables == nil then
+  latexpackage_catcodetable=luatexbase.registernumber("catcodetable@atletter")
+else
+  latexpackage_catcodetable=luatexbase.catcodetables['latex-package']
+end
+function fontspec.sprint (...)
+    tex.sprint(latexpackage_catcodetable, ...)
+end
+%    \end{macrocode}
+%
+% The following lines check for existence of a certain script, language or
+% feature in a given font.
+%
+%    \begin{macrocode}
+local check_script   = luaotfload.aux.provides_script
+local check_language = luaotfload.aux.provides_language
+local check_feature  = luaotfload.aux.provides_feature
+%    \end{macrocode}
+%
+% The following are the function that get called from \TeX\ end.
+%
+%    \begin{macrocode}
+local function tempswatrue()  fontspec.sprint([[\bool_set_true:NTF  \l__fontspec_check_bool]]) end
+local function tempswafalse() fontspec.sprint([[\bool_set_false:NTF \l__fontspec_check_bool]]) end
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+function fontspec.check_ot_script(fnt, script)
+    if check_script(font.id(fnt), script) then
+        tempswatrue()
+    else
+        tempswafalse()
+    end
+end
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+function fontspec.check_ot_lang(fnt, lang, script)
+    if check_language(font.id(fnt), script, lang) then
+        tempswatrue()
+    else
+        tempswafalse()
+    end
+end
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+function fontspec.check_ot_feat(fnt, feat, lang, script)
+    for _, f in ipairs { "+trep", "+tlig", "+anum" } do
+        if feat == f then
+            tempswatrue()
+            return
+        end
+    end
+    if check_feature(font.id(fnt), script, lang, feat) then
+        tempswatrue()
+    else
+        tempswafalse()
+    end
+end
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+local get_math_dimension = luaotfload.aux.get_math_dimension
+function fontspec.mathfontdimen(fnt, str)
+    local mathdimens = get_math_dimension(fnt, str)
+    if mathdimens then
+        fontspec.sprint(mathdimens)
+        fontspec.sprint("sp")
+    else
+        fontspec.sprint("0pt")
+    end
+end
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+%</lua>
+%    \end{macrocode}

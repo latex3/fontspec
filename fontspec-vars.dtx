@@ -1,0 +1,87 @@
+%
+% \subsection{Header code}
+%
+%    \begin{macrocode}
+%<*vars>
+%    \end{macrocode}
+%
+% \paragraph{Conditionals}
+% \subparagraph{firsttime} As \cs{keys_set:nn} is run multiple times, some of its
+% information storing only occurs once while we decide if the font family
+% has been defined or not. When the later processing is occuring per-shape
+% this no longer needs to happen; this is indicated by the `firsttime'
+% conditional (initialised true).
+%    \begin{macrocode}
+\bool_new:N \l_@@_firsttime_bool
+\bool_new:N \l_@@_nobf_bool
+\bool_new:N \l_@@_noit_bool
+\bool_new:N \l_@@_nosc_bool
+%    \end{macrocode}
+%    \begin{macrocode}
+\bool_new:N \l__fontspec_check_bool
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+\bool_new:N \l_@@_tfm_bool
+\bool_new:N \l_@@_atsui_bool
+\bool_new:N \l_@@_ot_bool
+\bool_new:N \l_@@_mm_bool
+\bool_new:N \l_@@_graphite_bool
+%    \end{macrocode}
+% For dealing with legacy maths
+%    \begin{macrocode}
+\bool_new:N \g_@@_math_euler_bool
+\bool_new:N \g_@@_math_lucida_bool
+\bool_new:N \g_@@_pkg_euler_loaded_bool
+%    \end{macrocode}
+% For package options:
+%    \begin{macrocode}
+\bool_new:N \g_@@_cfg_bool
+\bool_new:N \g_@@_math_bool
+\bool_new:N \g_@@_euenc_bool
+%    \end{macrocode}
+% \paragraph{Counters}
+%    \begin{macrocode}
+\int_new:N \l_fontspec_script_int
+\int_new:N \l_fontspec_language_int
+\int_new:N \l_fontspec_strnum_int
+%    \end{macrocode}
+% \paragraph{Other variables}
+%    \begin{macrocode}
+\fp_new:N \l_@@_tmpa_fp
+\fp_new:N \l_@@_tmpb_fp
+\dim_new:N \l_@@_tmpa_dim
+\dim_new:N \l_@@_tmpb_dim
+\dim_new:N \l_@@_tmpc_dim
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+\tl_set:Nx \c_colon_str { \tl_to_str:N : }
+\cs_set:Npn \use_v:nnnnn #1#2#3#4#5 {#5}
+\cs_set:Npn \use_iv:nnnnn #1#2#3#4#5 {#4}
+%    \end{macrocode}
+%
+% Need these:
+%    \begin{macrocode}
+\cs_generate_variant:Nn \str_if_eq:nnTF {nv}
+\cs_generate_variant:Nn \int_set:Nn {Nv}
+\cs_generate_variant:Nn \keys_set:nn {nx}
+\cs_generate_variant:Nn \keys_set_known:nnN {nx}
+\cs_generate_variant:Nn \tl_if_empty:nTF {x}
+\cs_generate_variant:Nn \tl_if_empty:nTF {x}
+\cs_generate_variant:Nn \prop_put:Nnn {Nxx}
+%    \end{macrocode}
+%
+% \begin{macro}{\@@_int_mult_truncate:Nn}
+% Missing in expl3, IMO.
+%    \begin{macrocode}
+\cs_new:Nn \@@_int_mult_truncate:Nn
+  {
+    \int_set:Nn #1 { \__dim_eval:w #2 #1 \__dim_eval_end: }
+  }
+%    \end{macrocode}
+% \end{macro}
+%
+%    \begin{macrocode}
+%</vars>
+%    \end{macrocode}

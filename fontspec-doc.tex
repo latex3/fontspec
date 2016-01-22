@@ -7,10 +7,10 @@
 
 % ToC formatting:
 \setlength\cftsubsecnumwidth{1.4\cftsubsecnumwidth}
-\def\@cfttocstart{\small\begin{multicols}{2}}
-\def\@cfttocfinish{\end{multicols}}
+%\def\@cfttocstart{\small\begin{multicols}{2}}
+%\def\@cfttocfinish{\end{multicols}}
 
-\fvset{gobble=2}
+\fvset{gobble=0}
 
 \captionsetup[table]{position=above}
 \captionsetup[figure]{position=above}
@@ -271,6 +271,10 @@
 
 \tableofcontents
 
+\newpage
+
+\part{Getting started}
+
 \section{History}
 
 This package began life as a \LaTeX\ interface to select system-installed
@@ -355,26 +359,22 @@ For basic use, no package options are required:
 \end{Verbatim}
 Package options will be introduced below; some preliminary details are discussed first.
 
-\paragraph{\pkg{xunicode} and font encodings}
+\paragraph{Font encodings}
 \null\marginpar{\null\hfill\fbox{\color{red}\textsc{update}!}}%
 The 2016 release of \pkg{fontspec} initiates some changes for font encodings and the loading of \pkg{xunicode}.
-While the defaults have not yet changed, a new package option, \texttt{tuenc}, switches the default \textsc{nfss} font encoding to \texttt{TU}.
+The current default package option, \texttt{euenc}, selects the \texttt{EU1} or \texttt{EU2} encoding (\XeTeX/\LuaTeX, resp.) and loads the \pkg{xunicode} package.
+
+A new package option, \texttt{tuenc}, switches the default \textsc{nfss} font encoding to \texttt{TU}.
 \texttt{TU} is a new Unicode font encoding, intended for both \XeTeX\ and \LuaTeX\ engines, and automatically contains support for symbols covered by \LaTeX's traditional \texttt{T1} and \texttt{TS1} font encodings (for example, |\%|, |\textbullet|, |\"u|, and so on).
-As a result, with this package option, Ross Moore's \pkg{xunicode} package is \textbf{not}  loaded.
+As a result, with this package option, Ross Moore's \pkg{xunicode} package is \textbf{not} loaded.
 
-Later in the year, the default will be changed to load \texttt{tuenc} instead.
+Later in the year, the default will be changed to load \texttt{tuenc}.
 Package authors and users who have referred explicitly to the encoding names \texttt{EU1} or \texttt{EU2} will need to update their documents in advance.
-(See internal variable names described in \vref{sec:api}.)
+(See internal variable names described in \vref{sec:api} for how to do this properly.)
 If anything goes wrong, \pkg{fontspec} can be loaded with the \texttt{euenc} option to revert to the 2016-and-previous behaviour.
-Note that if you do so, \pkg{xunicode} will be automatically loaded for backwards compatibility.
 
+\emph{While \pkg{fontspec} is providing the \texttt{TU} encoding, its interface should not be considered experimental; feedback welcome. Once \texttt{TU} is incorporated into the \LaTeXe\ kernel directly (hopefully for \TeX{}Live 2017), it will be considered stable.}
 
-\paragraph{\XeTeX\ users only}
-The \pkg{xltxtra} package adds some minor extra features to \XeLaTeX, including, via the \pkg{metalogo} package, the
-\cmd\XeTeX\ macro to typeset the \XeTeX\ logo. While this package was
-previously recommended, it serves a much smaller r\^ole nowadays and generally
-will not be required.
-Please consult its documentation to assess whether its features are warranted before loading it.
 
 \paragraph{\LuaTeX\ users only}
 In order to load fonts by their name rather than by their filename (\eg,
@@ -385,8 +385,9 @@ time you attempt to typeset the process will pause for (up to) several
 minutes. (But only the first time.)
 Please see the \pkg{luaotfload} documentation for more information.
 
+
 \paragraph{\pkg{babel}}
-\emph{The \pkg{babel} package is supported for certain languages.}
+\emph{The \pkg{babel} package is only supported for certain languages.}
 Especially Vietnamese, Greek, and Hebrew at least might not work correctly, as far as I can tell.
 There's a better chance with Cyrillic and Latin-based languages, however---\pkg{fontspec} ensures at least that fonts should load correctly.
 The \pkg{polyglossia} package is recommended instead as a modern replacement for \pkg{babel}.
@@ -420,7 +421,7 @@ The package option |no-config| will suppress the loading of the |fontspec.cfg| f
 \subsection{Warnings}
 \label{sec:quiet-warnings}
 
-This package can give many warnings that can be harmless if you know what
+This package can give some warnings that can be harmless if you know what
 you're doing. Use the |quiet| package option to write these warnings to the
 transcript (\texttt{.log}) file instead.
 
@@ -863,27 +864,28 @@ might have this in your preamble:
 \paragraph{The optional argument --- from v2.4}
 For the first decade of \pkg{fontspec}'s life, optional font features were selected with a bracketed argument before the font name, as in:
 \begin{Verbatim}
- \setmainfont[
-   lots and lots ,
-   and more and more ,
-   an excessive number really ,
-   of font features could go here
- ]{myfont.otf}
+  \setmainfont[
+    lots and lots ,
+    and more and more ,
+    an excessive number really ,
+    of font features could go here
+  ]{myfont.otf}
 \end{Verbatim}
-This always looked like ugly syntax to me, and the order of these arguments has now been reversed:
+This always looked like ugly syntax to me, because the most important detail --- the name of the font --- was tucked away at the end.
+The order of these arguments has now been reversed:
 \begin{Verbatim}
- \setmainfont{myfont.otf}[
-   lots and lots ,
-   and more and more ,
-   an excessive number really ,
-   of font features could go here
- ]
+  \setmainfont{myfont.otf}[
+    lots and lots ,
+    and more and more ,
+    an excessive number really ,
+    of font features could go here
+  ]
 \end{Verbatim}
 I hope this doesn't cause any problems.
 \begin{enumerate}
- \item Backwards compatibility has been preserved. (In fact, you could even write
+ \item Backwards compatibility has been preserved, so either input method works. (In fact, in the next version of \pkg{fontspec} you will be able to write
  \begin{Verbatim}
-\fontspec[Ligatures=Rare]{myfont.otf}[Color=red]
+  \fontspec[Ligatures=Rare]{myfont.otf}[Color=red]
  \end{Verbatim}
  if you really felt like it and both sets of features would be applied.)
 

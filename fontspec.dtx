@@ -132,8 +132,8 @@ And the derived files: fontspec*.sty,fontspec.lua, and fontspec.pdf.
     \RequirePackage{luaotfload}[2013/05/20]
     \directlua{require("fontspec")}
   }
-\sys_if_engine_luatex:T { \RequirePackage{fontspec-luatex} \endinput }
-\sys_if_engine_xetex:T  { \RequirePackage{fontspec-xetex}  \endinput }
+\sys_if_engine_luatex:T { \RequirePackageWithOptions{fontspec-luatex} \endinput }
+\sys_if_engine_xetex:T  { \RequirePackageWithOptions{fontspec-xetex}  \endinput }
 %</load>
 %    \end{macrocode}
 %

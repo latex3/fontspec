@@ -27,7 +27,7 @@ And the derived files: fontspec*.sty,fontspec.lua, and fontspec.pdf.
 \endpostamble
 \askforoverwritefalse
 \def\MetaPrefix{-- }
-\generate{\file{fontspec.lua}{\from{fontspec.dtx}{lua}}}
+\generate{\file{fontspec.lua}{\from{fontspec-lua.dtx}{lua}}}
 \let\MetaPrefix\DoubleperCent
 \ifx\FontspecDebug\undefined\def\FSDEBUG{}\else\def\FSDEBUG{,debug}\fi
 
@@ -52,8 +52,8 @@ And the derived files: fontspec*.sty,fontspec.lua, and fontspec.pdf.
   \from{fontspec.dtx}{fontspec,luatex\FSDEBUG}
   \from{fontspec-vars.dtx}{vars\FSDEBUG}
   \from{fontspec-msg.dtx}{msg\FSDEBUG}
-  \from{fontspec-opening.dtx}{fontspec,xetexx\FSDEBUG}
-  \from{fontspec-fontload.dtx}{fontspec,xetexx\FSDEBUG}
+  \from{fontspec-opening.dtx}{fontspec,luatex\FSDEBUG}
+  \from{fontspec-fontload.dtx}{fontspec,luatex\FSDEBUG}
   \from{fontspec-user.dtx}{fontspec,luatex\FSDEBUG}
   \from{fontspec-api.dtx}{fontspec,luatex\FSDEBUG}
   \from{fontspec-internal.dtx}{fontspec,luatex\FSDEBUG}

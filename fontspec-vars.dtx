@@ -21,6 +21,8 @@
 %    \end{macrocode}
 %    \begin{macrocode}
 \bool_new:N \l__fontspec_check_bool
+\cs_new:Npn \FontspecSetCheckBoolTrue  { \bool_set_true:N  \l__fontspec_check_bool }
+\cs_new:Npn \FontspecSetCheckBoolFalse { \bool_set_false:N \l__fontspec_check_bool }
 %    \end{macrocode}
 %
 %    \begin{macrocode}

@@ -22,18 +22,9 @@ local err, warn, info, log = luatexbase.provides_module(fontspec.module)
 %    \end{macrocode}
 % Some utility functions
 %    \begin{macrocode}
-fontspec.log     = log or (function (s) luatexbase.module_info("fontspec", s) end)
+fontspec.log     = log  or (function (s) luatexbase.module_info("fontspec", s)    end)
 fontspec.warning = warn or (function (s) luatexbase.module_warning("fontspec", s) end)
-fontspec.error   = err or (function (s) luatexbase.module_error("fontspec", s) end)
-
-if luatexbase.catcodetables == nil then
-  latexpackage_catcodetable=luatexbase.registernumber("catcodetable@atletter")
-else
-  latexpackage_catcodetable=luatexbase.catcodetables['latex-package']
-end
-function fontspec.sprint (...)
-    tex.sprint(latexpackage_catcodetable, ...)
-end
+fontspec.error   = err  or (function (s) luatexbase.module_error("fontspec", s)   end)
 %    \end{macrocode}
 %
 % The following lines check for existence of a certain script, language or
@@ -48,8 +39,8 @@ local check_feature  = luaotfload.aux.provides_feature
 % The following are the function that get called from \TeX\ end.
 %
 %    \begin{macrocode}
-local function tempswatrue()  fontspec.sprint([[\bool_set_true:NTF  \l__fontspec_check_bool]]) end
-local function tempswafalse() fontspec.sprint([[\bool_set_false:NTF \l__fontspec_check_bool]]) end
+local function tempswatrue()  tex.sprint([[\FontspecSetCheckBoolTrue ]]) end
+local function tempswafalse() tex.sprint([[\FontspecSetCheckBoolFalse]]) end
 %    \end{macrocode}
 %
 %    \begin{macrocode}

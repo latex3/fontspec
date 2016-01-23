@@ -422,38 +422,10 @@
 % \begin{macro}{\newfontscript}
 % Mostly used internally, but also possibly useful for users, to define new OpenType
 % `scripts', mapping logical names to OpenType script tags.
-% Iterates though the scripts in the selected font to check that it's a valid
-% feature choice, and then prepends the (\XeTeX) \cmd\font\ feature string with the appropriate
-% script selection tag.
 %    \begin{macrocode}
 \DeclareDocumentCommand \newfontscript {mm}
  {
   \fontspec_new_script:nn {#1} {#2}
-  \fontspec_new_script:nn {#2} {#2}
- }
-%    \end{macrocode}
-%
-%    \begin{macrocode}
-\keys_define:nn { fontspec } { Script .choice: }
-\cs_new:Nn \fontspec_new_script:nn
- {
-  \keys_define:nn { fontspec } { Script / #1 .code:n =
-    \fontspec_check_script:nTF {#2}
-     {
-      \tl_set:Nn \l_fontspec_script_tl {#2}
-      \int_set:Nn \l_fontspec_script_int {\l_fontspec_strnum_int}
-     }
-     {
-      \fontspec_check_script:nTF {latn}
-       {
-        \@@_warning:nx {script-not-exist-latn} {#1}
-        \keys_set:nn {fontspec} {Script=Latin}
-       }
-       {
-        \@@_warning:nx {script-not-exist} {#1}
-       }
-     }
-   }
  }
 %    \end{macrocode}
 % \end{macro}
@@ -461,32 +433,10 @@
 % \begin{macro}{\newfontlanguage}
 % Mostly used internally, but also possibly useful for users, to define new OpenType
 % `languages', mapping logical names to OpenType language tags.
-% Iterates though the languages in the selected font to check that it's a valid
-% feature choice, and then prepends the (\XeTeX) \cmd\font\ feature string with the appropriate
-% language selection tag.
 %    \begin{macrocode}
 \DeclareDocumentCommand \newfontlanguage {mm}
  {
   \fontspec_new_lang:nn {#1} {#2}
-  \fontspec_new_lang:nn {#2} {#2}
- }
-%    \end{macrocode}
-%
-%    \begin{macrocode}
-\keys_define:nn { fontspec } { Language .choice: }
-\cs_new:Nn \fontspec_new_lang:nn
- {
-  \keys_define:nn { fontspec } { Language / #1 .code:n =
-    \fontspec_check_lang:nTF {#2}
-     {
-      \tl_set:Nn \l_fontspec_lang_tl {#2}
-      \int_set:Nn \l_fontspec_language_int {\l_fontspec_strnum_int}
-     }
-     {
-      \@@_warning:nx {language-not-exist} {#1}
-      \keys_set:nn { fontspec } { Language = Default }
-     }
-  }
  }
 %    \end{macrocode}
 % \end{macro}

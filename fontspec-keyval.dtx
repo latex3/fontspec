@@ -1132,9 +1132,39 @@
 %    \end{macrocode}
 %
 % \subsubsection{Script}
+%
+%    \begin{macrocode}
+\keys_define:nn { fontspec } { Script .choice: }
+\cs_new:Nn \fontspec_new_script:nn
+ {
+  \keys_define:nn { fontspec } { Script / #1 .code:n =
+    \clist_map_inline:nn {#2}
+     {
+      \fontspec_check_script:nTF {####1}
+       {
+        \tl_set:Nn \l_fontspec_script_tl {####1}
+        \int_set:Nn \l_fontspec_script_int {\l_fontspec_strnum_int}
+        \clist_map_break:
+       }
+       {
+        \fontspec_check_script:nTF {latn}
+         {
+          \@@_warning:nx {script-not-exist-latn} {#1}
+          \keys_set:nn {fontspec} {Script=Latin}
+         }
+         {
+          \@@_warning:nx {script-not-exist} {#1}
+         }
+       }
+     }
+   }
+ }
+%    \end{macrocode}
+%
 %    \begin{macrocode}
 \newfontscript{Arabic}{arab}            \newfontscript{Armenian}{armn}
-\newfontscript{Balinese}{bali}          \newfontscript{Bengali}{beng}
+\newfontscript{Balinese}{bali}
+\newfontscript{Bengali}{bng2,beng}
 \newfontscript{Bopomofo}{bopo}          \newfontscript{Braille}{brai}
 \newfontscript{Buginese}{bugi}          \newfontscript{Buhid}{buhd}
 \newfontscript{Byzantine~Music}{byzm}
@@ -1143,24 +1173,29 @@
 \newfontscript{CJK~Ideographic}{hani}   \newfontscript{Coptic}{copt}
 \newfontscript{Cypriot~Syllabary}{cprt} \newfontscript{Cyrillic}{cyrl}
 \newfontscript{Default}{DFLT}           \newfontscript{Deseret}{dsrt}
-\newfontscript{Devanagari}{deva}        \newfontscript{Ethiopic}{ethi}
+\newfontscript{Devanagari}{dev2,deva}
+\newfontscript{Ethiopic}{ethi}
 \newfontscript{Georgian}{geor}          \newfontscript{Glagolitic}{glag}
 \newfontscript{Gothic}{goth}            \newfontscript{Greek}{grek}
-\newfontscript{Gujarati}{gujr}          \newfontscript{Gurmukhi}{guru}
+\newfontscript{Gujarati}{gjr2,gujr}
+\newfontscript{Gurmukhi}{gur2,guru}
 \newfontscript{Hangul~Jamo}{jamo}       \newfontscript{Hangul}{hang}
 \newfontscript{Hanunoo}{hano}           \newfontscript{Hebrew}{hebr}
 \newfontscript{Hiragana~and~Katakana}{kana}
-\newfontscript{Javanese}{java}          \newfontscript{Kannada}{knda}
+\newfontscript{Javanese}{java}
+\newfontscript{Kannada}{knd2,knda}
 \newfontscript{Kharosthi}{khar}         \newfontscript{Khmer}{khmr}
 \newfontscript{Lao}{lao~}               \newfontscript{Latin}{latn}
 \newfontscript{Limbu}{limb}             \newfontscript{Linear~B}{linb}
-\newfontscript{Malayalam}{mlym}         \newfontscript{Math}{math}
+\newfontscript{Malayalam}{mlm2,mlym}
+\newfontscript{Math}{math}
 \newfontscript{Mongolian}{mong}
 \newfontscript{Musical~Symbols}{musc}   \newfontscript{Myanmar}{mymr}
 \newfontscript{N'ko}{nko~}              \newfontscript{Ogham}{ogam}
 \newfontscript{Old~Italic}{ital}
 \newfontscript{Old~Persian~Cuneiform}{xpeo}
-\newfontscript{Oriya}{orya}             \newfontscript{Osmanya}{osma}
+\newfontscript{Oriya}{ory2,orya}
+\newfontscript{Osmanya}{osma}
 \newfontscript{Phags-pa}{phag}          \newfontscript{Phoenician}{phnx}
 \newfontscript{Runic}{runr}             \newfontscript{Shavian}{shaw}
 \newfontscript{Sinhala}{sinh}
@@ -1168,7 +1203,8 @@
 \newfontscript{Syloti~Nagri}{sylo}      \newfontscript{Syriac}{syrc}
 \newfontscript{Tagalog}{tglg}           \newfontscript{Tagbanwa}{tagb}
 \newfontscript{Tai~Le}{tale}            \newfontscript{Tai~Lu}{talu}
-\newfontscript{Tamil}{taml}             \newfontscript{Telugu}{telu}
+\newfontscript{Tamil}{tml2,taml}
+\newfontscript{Telugu}{tel2,telu}
 \newfontscript{Thaana}{thaa}            \newfontscript{Thai}{thai}
 \newfontscript{Tibetan}{tibt}           \newfontscript{Tifinagh}{tfng}
 \newfontscript{Ugaritic~Cuneiform}{ugar}\newfontscript{Yi}{yi~~}
@@ -1181,6 +1217,25 @@
 %    \end{macrocode}
 %
 % \subsubsection{Language}
+%
+%    \begin{macrocode}
+\keys_define:nn { fontspec } { Language .choice: }
+\cs_new:Nn \fontspec_new_lang:nn
+ {
+  \keys_define:nn { fontspec } { Language / #1 .code:n =
+    \fontspec_check_lang:nTF {#2}
+     {
+      \tl_set:Nn \l_fontspec_lang_tl {#2}
+      \int_set:Nn \l_fontspec_language_int {\l_fontspec_strnum_int}
+     }
+     {
+      \@@_warning:nx {language-not-exist} {#1}
+      \keys_set:nn { fontspec } { Language = Default }
+     }
+  }
+ }
+%    \end{macrocode}
+%
 %    \begin{macrocode}
 \newfontlanguage{Abaza}{ABA}\newfontlanguage{Abkhazian}{ABK}
 \newfontlanguage{Adyghe}{ADY}\newfontlanguage{Afrikaans}{AFK}

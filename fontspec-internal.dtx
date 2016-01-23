@@ -555,9 +555,10 @@
 
    }
 
-  \@@_declare_shapes_normal:nn  {#1} {#2}
-  \@@_declare_shape_slanted:nn  {#1} {#2}
-  \@@_declare_shape_loginfo:nnn {#1} {#2} {#3}
+  \@@_declare_shapes_normal:nn {#1} {#2}
+  \@@_declare_shapes_smcaps:nn {#1} {#2}
+  \@@_declare_shape_slanted:nn {#1} {#2}
+  \@@_declare_shape_loginfo:nn {#1} {#2}
  }
 \cs_generate_variant:Nn \@@_declare_shape:nnnn {nnxx}
 
@@ -578,10 +579,13 @@
  }
 
 \cs_new:Nn \@@_declare_shapes_normal:nn
- {
+  {
     \@@_DeclareFontShape:xxxxxx {\l_@@_nfss_enc_tl} {\l_fontspec_family_tl}
       {#1} {#2} {\l_@@_nfss_tl}{\l_@@_postadjust_tl}
+  }
 
+\cs_new:Nn \@@_declare_shapes_smcaps:nn
+  {
     \bool_if:NF \l_@@_nosc_bool
      {
       \@@_DeclareFontShape:xxxxxx {\l_@@_nfss_enc_tl} {\l_fontspec_family_tl} {#1}
@@ -592,7 +596,7 @@
         }
         {\l_@@_nfss_sc_tl}{\l_@@_postadjust_tl}
      }
- }
+  }
 
 \cs_new:Nn \@@_DeclareFontShape:nnnnnn
  {
@@ -625,7 +629,7 @@
 %    \end{macrocode}
 % Lastly some informative messaging.
 %    \begin{macrocode}
-\cs_new:Nn \@@_declare_shape_loginfo:nnn
+\cs_new:Nn \@@_declare_shape_loginfo:nn
  {
   \tl_gput_right:Nx \l_fontspec_defined_shapes_tl
    {

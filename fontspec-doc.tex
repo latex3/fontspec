@@ -3,7 +3,7 @@
 
 \makeatletter
 
-\usepackage{booktabs,calc,caption,color,enumitem,fancyvrb,hologo,graphicx,ifthen,url,varioref,varwidth,microtype,tocloft}
+\usepackage{booktabs,calc,caption,color,enumitem,fancyvrb,hologo,graphicx,ifthen,url,varioref,varwidth,microtype,tocloft,framed}
 
 % ToC formatting:
 \setlength\cftsubsecnumwidth{1.4\cftsubsecnumwidth}
@@ -1453,20 +1453,20 @@ of font size. For example, something like:
 \label{sec:opentype-features-intro}
 
 OpenType fonts (and other `smart' font technologies such as AAT and Graphite) can change the appearance of text in many different ways.
-These changes are referred to as features.
-When the user applies a feature~--- for example, small capitals~--- to a run of text, the code inside the font makes appropriate adjustments and small capitals appear in place of lowercase letters.
+These changes are referred to as font features.
+When the user applies a feature~--- for example, small capitals~--- to a run of text, the code inside the font makes appropriate substitutions and small capitals appear in place of lowercase letters.
 However, the use of such features does not affect the underlying text.
 In our small caps example, the lowercase letters are still stored in the document; only the appearance has been changed by the OpenType feature.
 This makes it possible to search and copy text without difficulty.
 If the user selected a different font that does not support small caps, the `plain' lowercase letters would appear instead.
 
 Some OpenType features are required to support particular scripts, and these features are often applied automatically.
-The scripts used in India, for example, often require that characters be reshaped and reordered after they are typed by the user, in order to display them in the traditional ways that readers expect.
+The Indic scripts, for example, often require that characters be reshaped and reordered after they are typed by the user, in order to display them in the traditional ways that readers expect.
 Other features can be applied to support a particular language.
 The Junicode font for medievalists uses by default the Old English shape of the letter thorn, while in modern Icelandic thorn has a more rounded shape.
-If a user tags some text as being in Icelandic, Junicode will automatically change to the Icelandic shape through an OpenType feature that localizes the shapes of letters.
+If a user tags some text as being in Icelandic, Junicode will automatically change to the Icelandic shape through an OpenType feature that localises the shapes of letters.
 
-A very large group of OpenType features is designed to support high quality typography in Latin, Greek, Cyrillic and other standard scripts.
+There are a large group of OpenType features, designed to support high quality typography a multitude of languages and writing scripts.
 Examples of some font features have already been shown in previous sections; the complete set of OpenType font features supported by \pkg{fontspec} is described below in \ref{sec:ot-feat}.
 
 The OpenType specification provides four-letter codes (e.g., \texttt{smcp} for small capitals) for each feature.  The four-letter codes are given below along with the \pkg{fontspec} names for various features, for the benefit of people who are already familiar with OpenType.  You can ignore the codes if they don't mean anything to you.
@@ -1490,6 +1490,116 @@ If a feature or an option is requested that the font does not have,
 a warning is given in the console output. As mentioned in \vref{sec:quiet-warnings}
 these warnings can be suppressed by selecting the \texttt{[quiet]} package option.
 
+\subsection{How do I know what font features are supported by my fonts?}
+
+Although I've long desired to have a feature within \pkg{fontspec} to display the OpenType features within a font, it's never been high on my priority list.
+One reason for that is the existence of the document |opentype-info.tex|, which is available on \textsc{ctan} or typing |kpsewhich opentype-info.tex| in a Terminal window.
+Make a copy of this file and place it somewhere convenient.
+Then open it in your regular \TeX\ editor and change the font name to the font you'd like to query; after running through plain \XeTeX, the output \textsc{pdf} will look something like this:
+
+\begin{framed}
+\def\myfontname{[Asana-Math.otf]}
+%
+%%% OpenType-info.tex %%%
+
+\font\testfont="\myfontname/ICU" at 12pt
+
+\rightskip=0pt plus 1fil
+
+\font\titlefont=ec-lmssbx10 at 12pt
+\font\tenrm=ec-lmss10 at 9pt \tenrm
+\font\tentt=ec-lmtt10 at 9pt
+
+\def\fourcharcode#1{\begingroup
+ \count0=#1\count1=\count0
+ \ifnum\count0=0
+  $\langle$default$\rangle$%
+ \else
+  \tentt
+  '%
+  \divide\count0 by "1000000
+  \char\count0
+  \multiply\count0 by "1000000
+  \advance\count1 by -\count0
+  \count0=\count1
+  \divide\count0 by "10000
+  \char\count0
+  \multiply\count0 by "10000
+  \advance\count1 by -\count0
+  \count0=\count1
+  \divide\count0 by "100
+  \char\count0
+  \multiply\count0 by "100
+  \advance\count1 by -\count0
+  \ifnum\count1=32 \ \else \char\count1 \fi
+  '%
+ \fi
+ \endgroup
+}
+
+\newcount\scriptcount
+\newcount\scriptindex
+\newcount\scripttag
+\newcount\langcount
+\newcount\langindex
+\newcount\langtag
+\newcount\featurecount
+\newcount\featureindex
+\newcount\featuretag
+
+\leftline{\titlefont OpenType Layout features found in `\myfontname'}
+\nobreak
+
+\scriptcount=\XeTeXOTcountscripts\testfont
+\ifnum\scriptcount=0 \noindent None\par\fi
+
+\loop
+ \ifnum\scriptindex<\scriptcount
+  \smallskip
+  \scripttag=\XeTeXOTscripttag\testfont\scriptindex
+  \noindent script = \fourcharcode{\scripttag}\endgraf\nobreak
+  \langcount=\XeTeXOTcountlanguages\testfont\scripttag
+  \advance\langcount by 1 % one extra to get the default language system
+  {\loop
+    \langtag=\XeTeXOTlanguagetag\testfont\scripttag\langindex
+    \indent language = \fourcharcode{\langtag}\endgraf\nobreak
+    \featurecount=\XeTeXOTcountfeatures\testfont\scripttag\langtag
+    {\indent\indent \hangindent=3\parindent \hangafter=1 features = \loop
+      \featuretag=\XeTeXOTfeaturetag\testfont\scripttag\langtag\featureindex
+      \fourcharcode{\featuretag}
+      \advance\featureindex by 1
+      \ifnum\featureindex<\featurecount \repeat\endgraf}
+    \advance\langindex by 1
+  \ifnum\langindex<\langcount \medskip \repeat}
+  \advance\scriptindex by 1
+\repeat
+\end{framed}
+
+\noindent I intentionally picked a font that by design needs few font features; `regular' text fonts such as Latin Modern Roman contain many more, and I didn't want to clutter up the document too much.
+You'll then need to cross-check the OpenType feature tags with the `logical' names used by \pkg{fontspec}.
+
+\paragraph{otfinfo}
+Alternatively, and more simply, you can use the command line tool |otfinfo|, which is distributed with \TeX{}Live.
+Simply type in a Terminal window, say:
+\begin{Verbatim}
+  otfinfo -f `kpsewhich lmromandunh10-oblique.otf`
+\end{Verbatim}
+which results in:
+\begin{Verbatim}[frame=single]
+aalt	Access All Alternates
+cpsp	Capital Spacing
+dlig	Discretionary Ligatures
+frac	Fractions
+kern	Kerning
+liga	Standard Ligatures
+lnum	Lining Figures
+onum	Oldstyle Figures
+pnum	Proportional Figures
+size	Optical Size
+tnum	Tabular Figures
+zero	Slashed Zero
+\end{Verbatim}
+
 \section{Complete listing of OpenType font features}
 \label{sec:ot-feat}
 
@@ -1504,6 +1614,14 @@ A demonstration with the Linux Libertine fonts\note{\url{http://www.linuxliberti
 
 Note the additional features accessed with \verb|Ligatures=TeX|. These are
 not actually real OpenType features, but additions provided by \pkg{luaotfload} (i.e., \LuaTeX\ only) to emulate \TeX's behaviour for \textsc{ascii} input of curly quotes and punctuation. In \XeTeX\ this is achieved with the \feat{Mapping} feature (see \vref{sec:mapping}) but for consistency \verb|Ligatures=TeX| will perform the same function as \verb|Mapping=tex-text|.
+
+\subsection{Letters} \label{sec:letters}
+The \opt{Letters} feature specifies how the letters in the current font
+will look. OpenType fonts may contain the following options:
+\opt{Uppercase}, \opt{SmallCaps}, \opt{PetiteCaps},
+\opt{UppercaseSmallCaps}, \opt{UppercasePetiteCaps}, and
+\opt{Unicase}.
+
 
 \begin{features}{Ligatures}
 \otf*{Required}{rlig}
@@ -1523,13 +1641,6 @@ not actually real OpenType features, but additions provided by \pkg{luaotfload} 
    \test{Ligatures=Rare}{wurtzite}
    \test{Ligatures=NoCommon}{firefly}
 \end{Lexample}
-
-\subsection{Letters} \label{sec:letters}
-The \opt{Letters} feature specifies how the letters in the current font
-will look. OpenType fonts may contain the following options:
-\opt{Uppercase}, \opt{SmallCaps}, \opt{PetiteCaps},
-\opt{UppercaseSmallCaps}, \opt{UppercasePetiteCaps}, and
-\opt{Unicase}.
 
 \begin{features}{Letters}
 \otf{Uppercase}{case}

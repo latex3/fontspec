@@ -9,16 +9,15 @@ fontspec          = fontspec or {}
 local fontspec    = fontspec
 fontspec.module   = {
     name          = "fontspec",
-    version       = "2.3c",
-    date          = "2013/05/20",
+    version       = "2.5",
+    date          = "2016/01/23",
     description   = "Advanced font selection for LuaLaTeX.",
-    author        = "Khaled Hosny, Philipp Gesang",
-    copyright     = "Khaled Hosny, Philipp Gesang",
+    author        = "Khaled Hosny, Philipp Gesang, Will Robertson",
+    copyright     = "Khaled Hosny, Philipp Gesang, Will Robertson",
     license       = "LPPL"
 }
 
 local err, warn, info, log = luatexbase.provides_module(fontspec.module)
-
 %    \end{macrocode}
 % Some utility functions
 %    \begin{macrocode}
@@ -29,7 +28,6 @@ fontspec.error   = err  or (function (s) luatexbase.module_error("fontspec", s) 
 %
 % The following lines check for existence of a certain script, language or
 % feature in a given font.
-%
 %    \begin{macrocode}
 local check_script   = luaotfload.aux.provides_script
 local check_language = luaotfload.aux.provides_language
@@ -37,7 +35,6 @@ local check_feature  = luaotfload.aux.provides_feature
 %    \end{macrocode}
 %
 % The following are the function that get called from \TeX\ end.
-%
 %    \begin{macrocode}
 local function tempswatrue()  tex.sprint([[\FontspecSetCheckBoolTrue ]]) end
 local function tempswafalse() tex.sprint([[\FontspecSetCheckBoolFalse]]) end

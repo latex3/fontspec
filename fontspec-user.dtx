@@ -298,16 +298,15 @@
 %   often typed this instead when adding only a single font feature.
 %    \begin{macrocode}
 \bool_new:N \l_@@_disable_defaults_bool
-\bool_new:N \l_@@_addfontfeatures_bool
 \DeclareDocumentCommand \addfontfeatures {m}
  {
   \fontspec_if_fontspec_font:TF
    {
     \group_begin:
+      \keys_set_known:nnN {fontspec-addfeatures} {#1} \l_@@_tmp_tl
       \prop_get:cnN {g_@@_ \f@family _prop} {options} \l_@@_options_tl
       \prop_get:cnN {g_@@_ \f@family _prop} {fontname} \l_@@_fontname_tl
       \bool_set_true:N \l_@@_disable_defaults_bool
-      \bool_set_true:N \l_@@_addfontfeatures_bool
       \use:x
        {
         \exp_not:N \fontspec_select:nn

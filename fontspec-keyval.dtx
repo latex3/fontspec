@@ -16,6 +16,14 @@
   \keys_define:nn {#1} { #2 .code:n = {#3} }
  }
 %    \end{macrocode}
+% For catching features that cannot be used in |\addfontfeatures|:
+%    \begin{macrocode}
+\cs_new:Nn \@@_aff_error:n
+  {
+    \@@_keys_define_code:nnn {fontspec-addfeatures} {#1}
+      { \@@_error:nx {not-in-addfontfeatures} {#1} }
+  }
+%    \end{macrocode}
 %
 % \subsubsection{Pre-parsing naming information}
 %
@@ -476,6 +484,7 @@
   \bool_if:NF \l_@@_firsttime_bool
    { \_fontspec_parse_wordspace:w #1,,,\q_stop }
  }
+\@@_aff_error:n {WordSpace}
 %    \end{macrocode}
 %
 % \begin{macro}{\_fontspec_parse_wordspace:w}
@@ -529,6 +538,7 @@
      { \fontdimen 7 \font = #1 \fontdimen 7 \font }
    }
  }
+\@@_aff_error:n {PunctuationSpace}
 %    \end{macrocode}
 %
 % \paragraph{Secret hook into the font-adjustment code}
@@ -558,6 +568,7 @@
  {
   \bool_if:NT \l_@@_addfontfeatures_bool
    { \@@_error:nx {not-in-addfontfeatures} {HyphenChar} }
+
   \str_if_eq:nnTF {#1} {None}
    {
     \tl_put_right:Nn \l_@@_postadjust_tl
@@ -583,6 +594,7 @@
      { \@@_error:nx {no-glyph}{#1} }
    }
  }
+\@@_aff_error:n {HyphenChar}
 %    \end{macrocode}
 %
 % \paragraph{Color}

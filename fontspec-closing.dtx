@@ -8,46 +8,72 @@
 % \fi
 %
 %
-% \subsection{Italic small caps} \label{sec:sishape}
-% The following code for utilising italic small caps sensibly is
-% inspired from Philip Lehman's \textit{The Font Installation
-%   Guide}. Note that |\upshape| needs to be used \emph{twice} to get
-% from italic small caps to regular upright (it always goes to small
-% caps, then regular upright).
+% \subsection{Italic small caps and so on} \label{sec:sishape}
+%
 % \begin{macro}{\sishape}
 % \begin{macro}{\textsi}
-%     First, the commands for actually selecting italic small caps are
-%     defined. I use |si| as the NFSS shape for italic small caps, but
-%     I have seen |itsc| and |slsc| also used. |\sidefault| may be
-%     redefined to one of these if required for compatibility.
+% These commands for actually selecting italic small caps have been defined for many years; I'm inclined to drop them.
+% They're probably used very infrequently; I personally prefer just writing
+% |\textit{\textsc{...}}| instead.
+%
 %    \begin{macrocode}
-\providecommand*{\sidefault}{si}
+\providecommand*\itscdefault{\itdefault\scdefault}
+\providecommand*\slscdefault{\sldefault\scdefault}
 \DeclareRobustCommand{\sishape}
  {
   \not@math@alphabet\sishape\relax
-  \fontshape\sidefault\selectfont
+  \fontshape{\itscdefault}\selectfont
  }
 \DeclareTextFontCommand{\textsi}{\sishape}
 %    \end{macrocode}
 % \end{macro} \end{macro}
-% \begin{macro}{\fontspec_blend_shape:nnn}
-%   This is the macro which enables the overload on the |\..shape|
-%   commands. It takes three such arguments. In essence, the macro
-%   selects the first argument, unless the second argument is already
-%   selected, in which case it selects the third.
+%
+% \LaTeX's `shape' font axis needs to be overloaded to support italic small caps and slanted small caps.
+% The follow patterns need to hold:
+% \begin{Verbatim}
+%  up   + sc -> sc
+%  it   + sc -> itsc
+%  sl   + sc -> slsc
+%  sc   + it -> itsc
+%  sc   + sl -> slsc
+%  itsc + up -> sc
+%  slsc + up -> sc
+%  sc   + up -> up
+% \end{Verbatim}
+%
+% These are the variables to query:
 %    \begin{macrocode}
-\cs_new:Nn \fontspec_blend_shape:nnn
+\cs_new:Nn \@@_shape_merge:nn { c_@@_shape_#1_#2_tl }
+\tl_const:cn { \@@_shape_merge:nn \itdefault   \scdefault } {\itscdefault}
+\tl_const:cn { \@@_shape_merge:nn \sldefault   \scdefault } {\slscdefault}
+\tl_const:cn { \@@_shape_merge:nn \scdefault   \itdefault } {\itscdefault}
+\tl_const:cn { \@@_shape_merge:nn \scdefault   \sldefault } {\slscdefault}
+\tl_const:cn { \@@_shape_merge:nn \itscdefault \updefault } {\scdefault}
+\tl_const:cn { \@@_shape_merge:nn \slscdefault \updefault } {\scdefault}
+%    \end{macrocode}
+%
+% \begin{macro}{\fontspec_merge_shape:n}
+% These macros enable the overload on the |\..shape| commands.
+% First, a shape `new+current' (prefix) or `current+new' (suffix) is tried.
+% If not found, fall back on the `new' shape.
+%    \begin{macrocode}
+\cs_new:Nn \fontspec_merge_shape:n
  {
   \bool_if:nTF
-   {
-    \str_if_eq_x_p:nn {\f@shape} {#2} &&
-    \cs_if_exist_p:c {\f@encoding/\f@family/\f@series/#3}
-   }
-   { \fontshape{#3}\selectfont }
-   { \fontshape{#1}\selectfont }
+    {
+      \tl_if_exist_p:c { \@@_shape_merge:nn {\f@shape} {#1} }   &&
+      \cs_if_exist_p:c
+        {
+          \f@encoding/\f@family/\f@series/
+          \tl_use:c { \@@_shape_merge:nn {\f@shape} {#1} }
+        }
+    }
+    { \fontshape { \tl_use:c { \@@_shape_merge:nn {\f@shape} {#1} } } \selectfont }
+    { \fontshape {#1} \selectfont }
  }
 %    \end{macrocode}
 % \end{macro}
+%
 % \begin{macro}{\itshape} \begin{macro}{\scshape} \begin{macro}{\upshape}
 %       Here the original |\..shape| commands are redefined to use the
 %       merge shape macro.
@@ -55,22 +81,22 @@
 \DeclareRobustCommand \itshape
  {
   \not@math@alphabet\itshape\mathit
-  \fontspec_blend_shape:nnn\itdefault\scdefault\sidefault
+  \fontspec_merge_shape:n\itdefault
  }
 \DeclareRobustCommand \slshape
  {
   \not@math@alphabet\slshape\relax
-  \fontspec_blend_shape:nnn\sldefault\scdefault\sidefault
+  \fontspec_merge_shape:n\sldefault
  }
 \DeclareRobustCommand \scshape
  {
   \not@math@alphabet\scshape\relax
-  \fontspec_blend_shape:nnn\scdefault\itdefault\sidefault
+  \fontspec_merge_shape:n\scdefault
  }
 \DeclareRobustCommand \upshape
  {
   \not@math@alphabet\upshape\relax
-  \fontspec_blend_shape:nnn\updefault\sidefault\scdefault
+  \fontspec_merge_shape:n\updefault
  }
 %    \end{macrocode}
 % \end{macro} \end{macro} \end{macro}

@@ -349,12 +349,12 @@
 %    \begin{macrocode}
 \cs_new:Nn \@@_set_faces:
  {
-  \@@_add_nfssfont:oooo \mddefault \updefault \l_fontspec_fontname_tl      \l_@@_fontfeat_up_clist
-  \@@_add_nfssfont:oooo \bfdefault \updefault \l_fontspec_fontname_bf_tl   \l_@@_fontfeat_bf_clist
-  \@@_add_nfssfont:oooo \mddefault \itdefault \l_fontspec_fontname_it_tl   \l_@@_fontfeat_it_clist
-  \@@_add_nfssfont:oooo \mddefault \sldefault \l_fontspec_fontname_sl_tl   \l_@@_fontfeat_sl_clist
-  \@@_add_nfssfont:oooo \bfdefault \itdefault \l_fontspec_fontname_bfit_tl \l_@@_fontfeat_bfit_clist
-  \@@_add_nfssfont:oooo \bfdefault \sldefault \l_fontspec_fontname_bfsl_tl \l_@@_fontfeat_bfsl_clist
+  \@@_add_nfssfont:nnnn \mddefault \updefault \l_fontspec_fontname_tl      \l_@@_fontfeat_up_clist
+  \@@_add_nfssfont:nnnn \bfdefault \updefault \l_fontspec_fontname_bf_tl   \l_@@_fontfeat_bf_clist
+  \@@_add_nfssfont:nnnn \mddefault \itdefault \l_fontspec_fontname_it_tl   \l_@@_fontfeat_it_clist
+  \@@_add_nfssfont:nnnn \mddefault \sldefault \l_fontspec_fontname_sl_tl   \l_@@_fontfeat_sl_clist
+  \@@_add_nfssfont:nnnn \bfdefault \itdefault \l_fontspec_fontname_bfit_tl \l_@@_fontfeat_bfit_clist
+  \@@_add_nfssfont:nnnn \bfdefault \sldefault \l_fontspec_fontname_bfsl_tl \l_@@_fontfeat_bfsl_clist
 
   \prop_map_inline:Nn \l_@@_nfssfont_prop { \@@_set_faces_aux:nnnnn ##2 }
  }
@@ -584,9 +584,12 @@
 
     \bool_if:NF \l_@@_nosc_bool
      {
-      \@@_DeclareFontShape:xxxxxx {\l_@@_nfss_enc_tl} {\l_fontspec_family_tl}
-        {#1}
-        {\str_if_eq_x:nnTF {#2} {\itdefault} \sidefault \scdefault}
+      \@@_DeclareFontShape:xxxxxx {\l_@@_nfss_enc_tl} {\l_fontspec_family_tl} {#1}
+        {
+          \tl_if_exist:cTF { \@@_shape_merge:nn {#2} {\scdefault} }
+            { \tl_use:c { \@@_shape_merge:nn {#2} {\scdefault} } }
+            { \scdefault }
+        }
         {\l_@@_nfss_sc_tl}{\l_@@_postadjust_tl}
      }
  }

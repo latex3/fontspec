@@ -34,6 +34,15 @@
 
 %% COMMANDS FOR SYMBOL DEFINITIONS
 
+\def\unicode@activate@licr#1#2{%
+  \ifnum#1>127\relax
+    \catcode#1=13\relax
+    \begingroup
+      \lccode`\~=#1\relax
+      \lowercase{\endgroup\protected\def~}{#2}%
+  \fi
+}
+
 % Accents in Unicode are postpended: 
 \def\add@unicode@accent#1#2{#2\char#1\relax}
 
@@ -47,10 +56,12 @@
 
 \def\DeclareUnicodeSymbol#1#2{%
   \DeclareTextSymbol{#1}{\UnicodeEncodingName}{#2}%
+%  \unicode@activate@licr{#2}{#1}%
 }
 
 \def\DeclareUnicodeComposite#1#2#3{%
   \DeclareTextComposite{#1}{\UnicodeEncodingName}{#2}{#3}%
+%  \unicode@activate@licr{#3}{#1{#2}}%
 }
 
 \def\DeclareUnicodeCompositeCommand#1#2#3{%

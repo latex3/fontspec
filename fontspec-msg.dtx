@@ -72,6 +72,16 @@
   Sorry,~ I~ can't~ do~ anything~ to~ help.~ Please~ report~ this~ error~
   to~ my~ developer~ with~ a~ minimal~ example~ that~ causes~ the~ problem.
  }
+\msg_new:nnnn {fontspec} {not-in-addfontfeatures}
+ {
+  The~ "#1"~ font~ feature~ cannot~ be~ used~ in~ \string\addfontfeatures.
+ }
+ {
+  This~ is~ due~ to~ how~ TeX~ loads~ fonts;~ such~ settings~
+  are~ global~ so~ adding~ them~ mid-document~ within~ a~ group~ causes~
+  confusion.~ You'll~ need~ to~ define~ multiple~ font~ families~ to~ achieve~
+  what~ you~ want.
+ }
 %    \end{macrocode}
 %
 % \subsection{Warnings}

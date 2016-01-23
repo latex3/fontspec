@@ -1376,9 +1376,7 @@ If the input is a single character, then this
 character is used. Finally, if the input is longer than a single character
 it must be the UTF-8 slot number of the hyphen character you desire.
 
-This package
-redefines \LaTeX's \cmd\-\ macro
-such that it adjusts along with the above changes.
+This package redefines \LaTeX's \cmd\-\ macro such that it adjusts along with the above changes.
 
 \begin{Xexample}{hyphchar}{Explicitly choosing the hyphenation character.}
  \def\text{\fbox{\parbox{1.55cm}{%
@@ -1391,6 +1389,9 @@ such that it adjusts along with the above changes.
  \addfontfeature{HyphenChar={+}}
  \text
 \end{Xexample}
+
+Note that \TeX's optimisations in how it loads fonts means that you cannot
+use this feature in \cs{addfontfeatures}.
 
 \subsection{Optical font sizes} \label{sec:opticalsize}
 

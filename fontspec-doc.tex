@@ -908,21 +908,22 @@ if it were a `naked' control sequence; \eg, `|M. \fontspec{...} N|' and
 `|M. \fontspec{...}N|' are the same.
 
 \paragraph{Italic small caps}
-Note that this package redefines the \cs{itshape} and \cs{scshape}
-commands in order to allow them to select italic small caps in
-conjunction.
+Note that this package redefines the \cs{itshape}, \cs{slshape}, and \cs{scshape} commands in order to allow them to select italic small caps in conjunction.
+With these changes, writing |\itshape\scshape| will lead to italic small caps, and |\upshape| subsequently then moves back to small caps only. |\upshape| again returns from small caps to upright regular.
+(And similarly for for |\slshape|. In addition, once italic small caps are selected then |\slshape| will switch to slanted small caps, and vice versa.)
 
 \paragraph{Emphasis and nested emphasis}
-You may specify the behaviour of the \cs{emph} command by setting the
-\cs{emshape} command. \Eg, for bold emphasis:\par
-\indent|\renewcommand\emshape{\bfseries}|\par\noindent
-Nested emphasis is controlled by the \cs{eminnershape} command.
-For example, for |\emph{\emph{...}}| to produce small caps:\par
-\indent|\renewcommand\eminnershape{\scshape}|\par\noindent
-This functionality is provided with the same interface as the \pkg{fixltx2e} package, with a slightly different internal implementation.
+\LaTeXe\ allows you to specify the behaviour of \cs{emph} nested within \cs{emph} by setting the \cs{eminnershape} command.
+For example, |\renewcommand\eminnershape{\upshape\scshape}| will produce small caps within |\emph{\emph{...}}|.
 
-
-
+The \pkg{fontspec} package takes this idea one step further to allow arbitrary font changes (e.g., boldness) and arbitrary levels of nesting within emphasis.
+This is performed using the |\emfontdeclare| command, which takes a comma-separated list of font switches corresponding to increasing levels of emphasis.
+Two examples:
+\begin{enumerate}
+\item |\emfontdeclare{\itshape,\upshape\scshape,\itshape}| will lead to `italics', `small caps', then `italic small caps' as the level of emphasis increases, as long as italic small caps are defined for the font.
+  Note that |\upshape| is required because the font changes are cascading.
+\item |\emfontdeclare{\bfseries,\fontseries{h}\selectfont,\fontseries{x}\selectfont}| could lead to (if fonts are set up correctly) `bold', `heavy', and `extra bold'.
+\end{enumerate}
 
 \section{Selecting font features}
 \label{sec:selectingfeature}

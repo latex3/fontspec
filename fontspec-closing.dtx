@@ -48,6 +48,8 @@
 \tl_const:cn { \@@_shape_merge:nn \sldefault   \scdefault } {\slscdefault}
 \tl_const:cn { \@@_shape_merge:nn \scdefault   \itdefault } {\itscdefault}
 \tl_const:cn { \@@_shape_merge:nn \scdefault   \sldefault } {\slscdefault}
+\tl_const:cn { \@@_shape_merge:nn \slscdefault \itdefault } {\itscdefault}
+\tl_const:cn { \@@_shape_merge:nn \itscdefault \sldefault } {\slscdefault}
 \tl_const:cn { \@@_shape_merge:nn \itscdefault \updefault } {\scdefault}
 \tl_const:cn { \@@_shape_merge:nn \slscdefault \updefault } {\scdefault}
 %    \end{macrocode}
@@ -74,9 +76,8 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\itshape} \begin{macro}{\scshape} \begin{macro}{\upshape}
-%       Here the original |\..shape| commands are redefined to use the
-%       merge shape macro.
+% \begin{macro}{\itshape} \begin{macro}{\scshape} \begin{macro}{\upshape} \begin{macro}{\slshape}
+% The original |\..shape| commands are redefined to use the merge shape macro.
 %    \begin{macrocode}
 \DeclareRobustCommand \itshape
  {
@@ -99,7 +100,7 @@
   \fontspec_merge_shape:n\updefault
  }
 %    \end{macrocode}
-% \end{macro} \end{macro} \end{macro}
+% \end{macro} \end{macro} \end{macro} \end{macro}
 %
 %
 % \subsection{Compatibility}

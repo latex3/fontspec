@@ -37,28 +37,38 @@
    }
 %    \end{macrocode}
 %
-% \subsection{Emph}
+% \subsection{Emphasis}
 %
 % \begin{macro}{\em}
 % \begin{macro}{\emph}
 % \begin{macro}{\emshape}
 % \begin{macro}{\eminnershape}
-% Redefinition of |{\em ...}| and |\emph{...}| to use \textsc{nfss} info to detect when the inner shape should be used.
+% \begin{macro}{\emfontdeclare}
+% Redefinition of |{\em ...}| and |\emph{...}| to allow nesting of emphases.
 %    \begin{macrocode}
-\DeclareRobustCommand \em
- {
-  \@nomath\em
-  \str_if_eq_x:nnTF \f@shape \itdefault \eminnershape
+\int_new:N \l_@@_em_int
+\int_new:N \l_@@_emdef_int
+\cs_new_protected:Npn \emfontdeclare #1
   {
-    \str_if_eq_x:nnTF \f@shape \sldefault \eminnershape \emshape
+    \int_zero:N \l_@@_emdef_int
+    \clist_map_inline:nn {#1}
+      {
+        \int_incr:N \l_@@_emdef_int
+        \cs_set:cpn {@@_em_font_ \int_use:N \l_@@_emdef_int _switch:} {##1}
+      }
   }
- }
+\DeclareRobustCommand \em
+  {
+    \@nomath\em
+    \int_incr:N \l_@@_em_int
+    \use:c {@@_em_font_ \int_use:N \l_@@_em_int _switch:}
+  }
 \DeclareTextFontCommand{\emph}{\em}
-\cs_set_eq:NN \emshape \itshape
-\cs_set_eq:NN \eminnershape \upshape
+\cs_set:Npn \emshape { \itshape }
+\cs_set:Npn \eminnershape { \upshape }
+\emfontdeclare{ \emshape, \eminnershape }
 %    \end{macrocode}
-% \end{macro} \end{macro}
-% \end{macro} \end{macro}
+% \end{macro} \end{macro} \end{macro} \end{macro} \end{macro}
 %
 % \subsection{\cmd\-}
 %

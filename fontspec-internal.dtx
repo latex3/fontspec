@@ -589,13 +589,14 @@
     \bool_if:NF \l_@@_nosc_bool
      {
       \@@_DeclareFontShape:xxxxxx {\l_@@_nfss_enc_tl} {\l_fontspec_family_tl} {#1}
-        {
-          \tl_if_exist:cTF { \@@_shape_merge:nn {#2} {\scdefault} }
-            { \tl_use:c { \@@_shape_merge:nn {#2} {\scdefault} } }
-            { \scdefault }
-        }
-        {\l_@@_nfss_sc_tl}{\l_@@_postadjust_tl}
+        { \@@_combo_sc_shape:n {#2} } {\l_@@_nfss_sc_tl} {\l_@@_postadjust_tl}
      }
+  }
+\cs_new:Nn \@@_combo_sc_shape:n
+  {
+    \tl_if_exist:cTF { \@@_shape_merge:nn {#1} {\scdefault} }
+         { \tl_use:c { \@@_shape_merge:nn {#1} {\scdefault} } }
+         { \scdefault }
   }
 
 \cs_new:Nn \@@_DeclareFontShape:nnnnnn
@@ -645,7 +646,7 @@
     with~ NFSS~ spec.:~
     \l_@@_nfss_tl
     \exp_not:n { \\ }
-    -~ \exp_not:N \str_case:nn {#1/\scdefault}
+    -~ \exp_not:N \str_case:nn { #1 / \@@_combo_sc_shape:n {#2} }
      {
        {\mddefault/\scdefault} {'small~ caps'~}
        {\bfdefault/\scdefault} {'bold~ small~ caps'~}
@@ -653,7 +654,7 @@
        {\bfdefault/\itscdefault} {'bold~ italic~ small~ caps'~}
        {\mddefault/\slscdefault} {'slanted~ small~ caps'~}
        {\bfdefault/\slscdefault} {'bold~ slanted~ small~ caps'~}
-     }~(#1/#2)~
+     }~( #1 / \@@_combo_sc_shape:n {#2} )~
     with~ NFSS~ spec.:~
     \l_@@_nfss_sc_tl
     \tl_if_empty:fF {\l_@@_postadjust_tl}

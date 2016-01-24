@@ -59,19 +59,7 @@
 % \end{macro} \end{macro}
 %
 % \LaTeX's `shape' font axis needs to be overloaded to support italic small caps and slanted small caps.
-% The follow patterns need to hold:
-% \begin{Verbatim}
-%  up   + sc -> sc
-%  it   + sc -> itsc
-%  sl   + sc -> slsc
-%  sc   + it -> itsc
-%  sc   + sl -> slsc
-%  itsc + up -> sc
-%  slsc + up -> sc
-%  sc   + up -> up
-% \end{Verbatim}
-%
-% These are the variables to query:
+% These are the combinations to support:
 %    \begin{macrocode}
 \cs_new:Nn \@@_shape_merge:nn { c_@@_shape_#1_#2_tl }
 \tl_const:cn { \@@_shape_merge:nn \itdefault   \scdefault } {\itscdefault}

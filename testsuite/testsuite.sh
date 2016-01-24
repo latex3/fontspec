@@ -4,11 +4,10 @@ cd ..
 rm testsuite/build/*
 
 tex fontspec.dtx
-mv  fontspec.sty testsuite/build/
-mv  fontspec-xetex.sty testsuite/build/
-mv  fontspec-luatex.sty testsuite/build/
-mv  fontspec-patches.sty testsuite/build/
-mv  fontspec.cfg testsuite/build/
+cp  fontspec.sty testsuite/build/
+cp  fontspec-xetex.sty testsuite/build/
+cp  fontspec-luatex.sty testsuite/build/
+cp  fontspec.cfg testsuite/build/
 
 cp testsuite/tests/*.ltx  testsuite/build/
 cp testsuite/testsuite.cls testsuite/build/

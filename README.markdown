@@ -67,6 +67,20 @@ Features may be added to the font currently in use with
 Change history
 --------------
 
+- v2.5  (2016/01/24)
+
+    * Provide (for now) a new Unicode font encoding to replace xunicode.
+      People interested in testing can load fontspec with a new `[tuenc]` package option; the default will switch to this some time in the next year.
+    * New font feature `NFSSEncoding` to allow different font families to use different LaTeX encodings (see above).
+    * Improvement to some warnings/info messages.
+    * Fixed off behaviour in which `\baselineskip` and `\f@size` would (possibly) change values after loading the packge.
+    * Restrict some font features from being able to be used within `\addfontfeatures`.
+    * Incorporate "new" font script tags for Indic fonts. E.g., when selecting `Script=Bengali`, fontspec will first query the font for the `bng2` script, and if not found select `beng`.
+    * New command `\emfontdeclare` for defining arbitrary nesting for `\emph`.
+    * Allow slanted small caps and better methods for "combining" font shapes; this fixes a few bugs.
+    * Improve structure of code.
+    * Remove copy of fixltx2e's code for footnote symbols; handled by LaTeX2e now.
+
 - v2.4e (2015/09/24)
 
     * Allow `[Path=...]` to be specified for individual font faces.

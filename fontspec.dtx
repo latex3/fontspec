@@ -117,11 +117,8 @@ And the derived files: fontspec*.sty,fontspec.lua, and fontspec.pdf.
 %<*load>
 \msg_new:nnn {fontspec} {cannot-use-pdftex}
  {
-  The~ fontspec~ package~ requires~ either~ XeTeX~ or~ LuaTeX~ to~ function.
-  \\\\
-  You~ must~ change~ your~ typesetting~ engine~ to,~
-    e.g.,~ "xelatex"~ or~ "lualatex"\\
-  instead~ of~ plain~ "latex"~ or~ "pdflatex".
+  The~ fontspec~ package~ requires~ either~ XeTeX~ or~ LuaTeX~ to~ function.\\\\
+  You~ must~ change~ your~ typesetting~ engine~ to,~ e.g.,~ "xelatex"~ or~ "lualatex" instead~ of~ plain~ "latex"~ or~ "pdflatex".
  }
 \sys_if_engine_xetex:F
   {
@@ -132,17 +129,15 @@ And the derived files: fontspec*.sty,fontspec.lua, and fontspec.pdf.
     \RequirePackage{luaotfload}[2013/05/20]
     \directlua{require("fontspec")}
   }
-\sys_if_engine_luatex:T { \RequirePackageWithOptions{fontspec-luatex} \endinput }
-\sys_if_engine_xetex:T  { \RequirePackageWithOptions{fontspec-xetex}  \endinput }
+\sys_if_engine_luatex:T { \RequirePackageWithOptions{fontspec-luatex} }
+\sys_if_engine_xetex:T  { \RequirePackageWithOptions{fontspec-xetex}  }
+\endinput
 %</load>
 %    \end{macrocode}
-%
 % \clearpage
 % \PrintChanges
-%
 % \clearpage
 % \setcounter{IndexColumns}{2}
 % \PrintIndex
-%
 % \Finale
 \endinput

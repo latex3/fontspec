@@ -1,5 +1,7 @@
 
 Archive/
+build/
+zzz-*
 
 *.glo
 *.idx

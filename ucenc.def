@@ -2,7 +2,7 @@
     [2015/12/31 v0.1 Unicode font encoding for LaTeX2e]
 
 
-\providecommand\UnicodeEncodingName{TU}
+\providecommand\UnicodeEncodingName{UC}
 
 
 %% WRAPPERS NEEDED FOR FONT LOADING (.fd FILE COMMANDS)
@@ -93,8 +93,8 @@
   \let\@@UnicodeEncodingName\UnicodeEncodingName
   \NewUnicodeEncoding{#1}%
   \@for\@ii:=#2\do{%
-    \InputIfFileExists{ufontsub-\@ii.def}{}{%
-      \@latex@error{Encoding subset file `ufontsub-\@ii.def' not found}{\@ehd}%
+    \InputIfFileExists{ucfontrange-\@ii.def}{}{%
+      \@latex@error{Unicode font range file `ucfontrange-\@ii.def' not found}{\@ehd}%
     }%
   }%
   #3%
@@ -122,7 +122,7 @@
     \def\DeclareUnicodeComposite##1##2##3{\@unicode@fontchar@test{#1}{##3}}
     \def\DeclareUnicodeCompositeCommand##1##2##3{}
     \@for\@ii:=#2\do{%
-      \InputIfFileExists{ufontsub-\@ii.def}{}{%
+      \InputIfFileExists{ucfontrange-\@ii.def}{}{%
         \@latex@error{Encoding subset file `ufontsub-\@ii.def' not found}{\@ehd}%
       }%
     }%

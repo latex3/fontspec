@@ -1,68 +1,68 @@
 
 \ProvidesFile{tulmtt.fd}[2009/10/30 v1.6 Font defs for Latin Modern]
-\DeclareFontFamily{TU}{lmtt}{\hyphenchar \font\m@ne}
+\DeclareFontFamily{UC}{lmtt}{\hyphenchar \font\m@ne}
 
 \ifx\lmtt@use@light@as@normal\@empty
-\DeclareFontShape{TU}{lmtt}{sb}{n}
+\DeclareFontShape{UC}{lmtt}{sb}{n}
      {<-8.5>   \UnicodeFontFile{lmmono8-regular}{}     <8.5-9.5> \UnicodeFontFile{lmmono9-regular}{}
       <9.5-11> \UnicodeFontFile{lmmono10-regular}{}    <11->     \UnicodeFontFile{lmmono12-regular}{}
       }{}
-\DeclareFontShape{TU}{lmtt}{sb}{it}
+\DeclareFontShape{UC}{lmtt}{sb}{it}
      {<-> \UnicodeFontFile{lmmono10-italic}{}}{}
-\DeclareFontShape{TU}{lmtt}{sb}{sl}
+\DeclareFontShape{UC}{lmtt}{sb}{sl}
      {<-> \UnicodeFontFile{lmmonoslant10-regular}{}}{}
-\DeclareFontShape{TU}{lmtt}{sb}{sc}
+\DeclareFontShape{UC}{lmtt}{sb}{sc}
      {<-> \UnicodeFontFile{lmmonocaps10-regular}{}}{}
-\DeclareFontShape{TU}{lmtt}{sb}{scsl}
+\DeclareFontShape{UC}{lmtt}{sb}{scsl}
      {<-> \UnicodeFontFile{lmmonocaps10-oblique}{}}{}
-\DeclareFontShape{TU}{lmtt}{m}{n}
+\DeclareFontShape{UC}{lmtt}{m}{n}
      {<-> \UnicodeFontFile{lmmonolt10-regular}{}}{}
-\DeclareFontShape{TU}{lmtt}{m}{it}
+\DeclareFontShape{UC}{lmtt}{m}{it}
      {<->sub*lmtt/l/sl}{}
-\DeclareFontShape{TU}{lmtt}{m}{sl}
+\DeclareFontShape{UC}{lmtt}{m}{sl}
      {<-> \UnicodeFontFile{lmmonolt10-oblique}{}}{}
-\DeclareFontShape{TU}{lmtt}{c}{n}
+\DeclareFontShape{UC}{lmtt}{c}{n}
      {<-> \UnicodeFontFile{lmmonoltcond10-regular}{}}{}
-\DeclareFontShape{TU}{lmtt}{c}{it}
+\DeclareFontShape{UC}{lmtt}{c}{it}
      {<->sub*lmtt/lc/sl}{}
-\DeclareFontShape{TU}{lmtt}{c}{sl}
+\DeclareFontShape{UC}{lmtt}{c}{sl}
      {<-> \UnicodeFontFile{lmmonoltcond10-oblique}{}}{}
 \else
-\DeclareFontShape{TU}{lmtt}{m}{n}
+\DeclareFontShape{UC}{lmtt}{m}{n}
      {<-8.5>   \UnicodeFontFile{lmmono8-regular}{}     <8.5-9.5> \UnicodeFontFile{lmmono9-regular}{}
       <9.5-11> \UnicodeFontFile{lmmono10-regular}{}    <11->     \UnicodeFontFile{lmmono12-regular}{}
       }{}
-\DeclareFontShape{TU}{lmtt}{m}{it}
+\DeclareFontShape{UC}{lmtt}{m}{it}
      {<-> \UnicodeFontFile{lmmono10-italic}{}}{}
-\DeclareFontShape{TU}{lmtt}{m}{sl}
+\DeclareFontShape{UC}{lmtt}{m}{sl}
      {<-> \UnicodeFontFile{lmmonoslant10-regular}{}}{}
-\DeclareFontShape{TU}{lmtt}{m}{sc}
+\DeclareFontShape{UC}{lmtt}{m}{sc}
      {<-> \UnicodeFontFile{lmmonocaps10-regular}{}}{}
-\DeclareFontShape{TU}{lmtt}{m}{scsl}
+\DeclareFontShape{UC}{lmtt}{m}{scsl}
      {<-> \UnicodeFontFile{lmmonocaps10-oblique}{}}{}
-\DeclareFontShape{TU}{lmtt}{l}{n}
+\DeclareFontShape{UC}{lmtt}{l}{n}
      {<-> \UnicodeFontFile{lmmonolt10-regular}{}}{}
-\DeclareFontShape{TU}{lmtt}{l}{it}
+\DeclareFontShape{UC}{lmtt}{l}{it}
      {<->sub*lmtt/l/sl}{}
-\DeclareFontShape{TU}{lmtt}{l}{sl}
+\DeclareFontShape{UC}{lmtt}{l}{sl}
      {<-> \UnicodeFontFile{lmmonolt10-oblique}{}}{}
-\DeclareFontShape{TU}{lmtt}{lc}{n}
+\DeclareFontShape{UC}{lmtt}{lc}{n}
      {<-> \UnicodeFontFile{lmmonoltcond10-regular}{}}{}
-\DeclareFontShape{TU}{lmtt}{lc}{it}
+\DeclareFontShape{UC}{lmtt}{lc}{it}
      {<->sub*lmtt/lc/sl}{}
-\DeclareFontShape{TU}{lmtt}{lc}{sl}
+\DeclareFontShape{UC}{lmtt}{lc}{sl}
      {<-> \UnicodeFontFile{lmmonoltcond10-oblique}{}}{}
 \fi
-\DeclareFontShape{TU}{lmtt}{b}{n}
+\DeclareFontShape{UC}{lmtt}{b}{n}
      {<-> \UnicodeFontFile{lmmonolt10-bold}{}}{}
-\DeclareFontShape{TU}{lmtt}{b}{it}
+\DeclareFontShape{UC}{lmtt}{b}{it}
      {<->sub*lmtt/b/sl}{}
-\DeclareFontShape{TU}{lmtt}{b}{sl}
+\DeclareFontShape{UC}{lmtt}{b}{sl}
 {<-> \UnicodeFontFile{lmmonolt10-boldoblique}{}}{}
-\DeclareFontShape{TU}{lmtt}{bx}{it}
+\DeclareFontShape{UC}{lmtt}{bx}{it}
      {<->sub*lmtt/b/sl}{}
-\DeclareFontShape{TU}{lmtt}{bx}{n}
+\DeclareFontShape{UC}{lmtt}{bx}{n}
      {<->ssub*lmtt/b/n}{}
-\DeclareFontShape{TU}{lmtt}{bx}{sl}
+\DeclareFontShape{UC}{lmtt}{bx}{sl}
      {<->ssub*lmtt/b/sl}{}
 \endinput

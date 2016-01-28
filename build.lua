@@ -4,7 +4,7 @@ module = "fontspec"
 
 sourcefiles  = {"*.dtx","doc-files/*"}
 unpackfiles  = {"fontspec.dtx"}
-installfiles = {"*.sty","fontspec.lua"}
+installfiles = {"*.sty","fontspec.lua","*.fd","*.def"}
 typesetfiles = {"fontspec.dtx"}
 typesetsuppfiles = {"doc-files/"}
 docfiles     = {"fontspec-doc.tex","doc-files/*"}

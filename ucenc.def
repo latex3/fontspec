@@ -1,6 +1,9 @@
-\ProvidesFile{tuenc.def}
-    [2015/12/31 v0.1 Unicode font encoding for LaTeX2e]
+\ProvidesFile{ucenc.def}
+    [2016/01/27 v0.1 Unicode font encoding for LaTeX2e]
 
+%%%%%%
+% Please consider this encoding definition to be experimental!
+%%%%%%
 
 \providecommand\UnicodeEncodingName{UC}
 
@@ -25,72 +28,52 @@
 %    \def\UnicodeFontName#1#2{"name:#1:#2"}
 
 
-%% SETTING UP ENCODING AND ERROR FONTS
-
-\DeclareFontEncoding{\UnicodeEncodingName}{}{}
-\DeclareErrorFont{\UnicodeEncodingName}{lmr}{m}{n}{10}
-\DeclareFontSubstitution{\UnicodeEncodingName}{lmr}{m}{n}
-
-
-%% COMMANDS FOR SYMBOL DEFINITIONS
-
-\def\unicode@activate@licr#1#2{%
-  \ifnum#1>127\relax
-    \catcode#1=13\relax
-    \begingroup
-      \lccode`\~=#1\relax
-      \lowercase{\endgroup\protected\def~}{#2}%
-  \fi
-}
+%% COMMANDS NEEDED TO DEFINE UNICODE COMMANDS AND ACCENTS
 
 % Accents in Unicode are postpended: 
 \def\add@unicode@accent#1#2{#2\char#1\relax}
 
 \def\DeclareUnicodeCommand#1#2{%
-  \DeclareTextCommand{#1}{\UnicodeEncodingName}{#2}%
+  \DeclareTextCommand{#1}{\LastDeclaredEncoding}{#2}%
 }
 
 \def\DeclareUnicodeAccent#1#2{%
-  \DeclareTextCommand{#1}{\UnicodeEncodingName}{\add@unicode@accent{#2}}%
+  \DeclareTextCommand{#1}{\LastDeclaredEncoding}{\add@unicode@accent{#2}}%
 }
 
 \def\DeclareUnicodeSymbol#1#2{%
-  \DeclareTextSymbol{#1}{\UnicodeEncodingName}{#2}%
-%  \unicode@activate@licr{#2}{#1}%
+  \DeclareTextSymbol{#1}{\LastDeclaredEncoding}{#2}%
 }
 
 \def\DeclareUnicodeComposite#1#2#3{%
-  \DeclareTextComposite{#1}{\UnicodeEncodingName}{#2}{#3}%
-%  \unicode@activate@licr{#3}{#1{#2}}%
+  \DeclareTextComposite{#1}{\LastDeclaredEncoding}{#2}{#3}%
 }
 
 \def\DeclareUnicodeCompositeCommand#1#2#3{%
-  \DeclareTextCompositeCommand{#1}{\UnicodeEncodingName}{#2}{#3}%
+  \DeclareTextCompositeCommand{#1}{\LastDeclaredEncoding}{#2}{#3}%
 }
 
 
-%% COMMANDS FOR DEFINING NEW ENCODINGS FROM SUBSETS
+%% COMMANDS FOR DEFINING NEW ENCODINGS FROM FONT RANGES
 
 \def\NewUnicodeEncoding#1{%
-  \def\UnicodeEncodingName{#1}
-  \DeclareFontEncoding{\UnicodeEncodingName}{}{}
-  \DeclareErrorFont{\UnicodeEncodingName}{lmr}{m}{n}{10}
-  \DeclareFontSubstitution{\UnicodeEncodingName}{lmr}{m}{n}
-  \DeclareFontFamily{\UnicodeEncodingName}{lmr}{}
-  \DeclareFontShape{\UnicodeEncodingName}{lmr}{m}{n}
+  \DeclareFontEncoding{#1}{}{}
+  \DeclareErrorFont{\LastDeclaredEncoding}{lmr}{m}{n}{10}
+  \DeclareFontSubstitution{\LastDeclaredEncoding}{lmr}{m}{n}
+  \DeclareFontFamily{\LastDeclaredEncoding}{lmr}{}
+  \DeclareFontShape{\LastDeclaredEncoding}{lmr}{m}{n}
        {<->\UnicodeFontFile{lmroman10-regular}{\UnicodeFontTeXLigatures}}{}
-  \DeclareFontShape{\UnicodeEncodingName}{lmr}{m}{it}
+  \DeclareFontShape{\LastDeclaredEncoding}{lmr}{m}{it}
        {<->\UnicodeFontFile{lmroman10-italic}{\UnicodeFontTeXLigatures}}{}
-  \DeclareFontShape{\UnicodeEncodingName}{lmr}{m}{sc}
+  \DeclareFontShape{\LastDeclaredEncoding}{lmr}{m}{sc}
        {<->\UnicodeFontFile{lmromancaps10-regular}{\UnicodeFontTeXLigatures}}{}
-  \DeclareFontShape{\UnicodeEncodingName}{lmr}{bx}{n}
+  \DeclareFontShape{\LastDeclaredEncoding}{lmr}{bx}{n}
        {<->\UnicodeFontFile{lmroman10-bold}{\UnicodeFontTeXLigatures}}{}
-  \DeclareFontShape{\UnicodeEncodingName}{lmr}{bx}{it}
+  \DeclareFontShape{\LastDeclaredEncoding}{lmr}{bx}{it}
        {<->\UnicodeFontFile{lmroman10-bolditalic}{\UnicodeFontTeXLigatures}}{}
 }
 
-\def\DeclareEncodingFromSubsets#1#2#3{%
-  \let\@@UnicodeEncodingName\UnicodeEncodingName
+\def\DeclareUnicodeEncoding#1#2#3{%
   \NewUnicodeEncoding{#1}%
   \@for\@ii:=#2\do{%
     \InputIfFileExists{ucfontrange-\@ii.def}{}{%
@@ -98,42 +81,10 @@
     }%
   }%
   #3%
-  \let\UnicodeEncodingName\@@UnicodeEncodingName
-}
-
-
-%% CHECKING FONTS SUPPORT AN ENCODING
-
-\def\@unicode@fontchar@test#1#2{%
-  \iffontchar#1#2\relax\else
-    \g@addto@macro\@unicode@font@encoding@check{#2}%
-    \def\@unicode@fontchar@test##1##2{%
-      \iffontchar##1##2\relax\else\g@addto@macro\@unicode@font@encoding@check{, ##2}\fi
-    }
-  \fi
-}
-
-\def\CheckFontSupportsSubsets#1#2{%
-  \begingroup
-    \gdef\@unicode@font@encoding@check{}
-    \def\DeclareUnicodeCommand##1##2{}
-    \def\DeclareUnicodeAccent##1##2{\@unicode@fontchar@test{#1}{##2}}
-    \def\DeclareUnicodeSymbol##1##2{\@unicode@fontchar@test{#1}{##2}}
-    \def\DeclareUnicodeComposite##1##2##3{\@unicode@fontchar@test{#1}{##3}}
-    \def\DeclareUnicodeCompositeCommand##1##2##3{}
-    \@for\@ii:=#2\do{%
-      \InputIfFileExists{ucfontrange-\@ii.def}{}{%
-        \@latex@error{Encoding subset file `ufontsub-\@ii.def' not found}{\@ehd}%
-      }%
-    }%
-    \ifx\@unicode@font@encoding@check\@empty\else
-      \@latex@warning{^^JFont "\string#1" is missing the following chars from encoding subsets "#2":^^J\@unicode@font@encoding@check^^J}%
-    \fi
-  \endgroup
 }
 
 %% THE ENCODING ITSELF
 
-\DeclareEncodingFromSubsets{TU}{T1,TS1}{}
+\DeclareUnicodeEncoding{\UnicodeEncodingName}{T1,TS1}{}
 
 \endinput

@@ -834,10 +834,11 @@ might have this in your preamble:
   \setmathrm{Optima}
   \setboldmathrm[BoldFont={Optima ExtraBlack}]{Optima Bold}
 \end{Verbatim}
+These commands are compatible with the \pkg{unicode-math} package.
+Having said that, \pkg{unicode-math} also defines a more general way of defining fonts to use in maths mode, so you can ignore this subsection if you're already using that package.
 
 
-
-\subsection{Miscellaneous font selecting details}
+\section{Miscellaneous font selecting details}
 
 \paragraph{The optional argument --- from v2.4}
 For the first decade of \pkg{fontspec}'s life, optional font features were selected with a bracketed argument before the font name, as in:
@@ -902,6 +903,9 @@ Two examples:
   Note that |\upshape| is required because the font changes are cascading.
 \item |\emfontdeclare{\bfseries,\fontseries{h}\selectfont,\fontseries{x}\selectfont}| could lead to (if fonts are set up correctly) `bold', `heavy', and `extra bold'.
 \end{enumerate}
+
+
+
 
 \section{Selecting font features}
 \label{sec:selectingfeature}
@@ -2906,25 +2910,12 @@ perform subsequent font-related tests on the \meta{primitive font}.
 
  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\part{The patching/improvement of \LaTeXe\ and other packages}
+\part{The `improvement' of \LaTeXe\ and other packages}
 \label{sec:patching}
 
-Derived originally from xltxtra, this package contains patches to various
+This part of the package code contains patches to various
 \LaTeX\ components and third-party packages to improve the default
 behaviour.
-
-\section{Inner emphasis}
-\label{sec:emph}
-
-\pkg{fixltx2e}'s method for checking for ``inner'' emphasis is a little fragile in \XeTeX, because
-font slant information might be missing from the font. Therefore, we use \LaTeX's NFSS
-information, which is more likely to be correct.
-
-\section{Unicode footnote symbols}
-By default \LaTeX\ defines symbolic footnote characters in terms of commands
-that don't resolve well; better results can be achieved by using specific Unicode characters or proper LICRs with a Unicode font encoding.
-
-This problem is solved by defining \cs{@fnsymbol} in a similar manner to the \pkg{fixltx2e} package.
 
 \section{Verbatim}
 \label{sec:verb}

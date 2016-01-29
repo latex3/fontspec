@@ -1,4 +1,9 @@
 
+\ifdefined \XeTeXOTcountscripts \else
+  \makeatletter
+  \@latex@error{^^J*** The fontspec documentation can only be typeset with XeTeX at present! ***\@gobble}\@ehc
+\fi
+
 \documentclass[a4paper]{ltxdoc}
 
 \makeatletter
@@ -338,15 +343,15 @@ Package options will be introduced below; some preliminary details are discussed
 \null\marginpar{\null\hfill\fbox{\color{red}\textsc{update}!}}%
 The 2016 release of \pkg{fontspec} initiates some changes for font encodings and the loading of \pkg{xunicode}.
 
-A new package option, \texttt{ucenc}, which is selected by default, switches the \textsc{nfss} font encoding to \texttt{UC}.
-\texttt{UC} is a new Unicode font encoding, intended for both \XeTeX\ and \LuaTeX\ engines, and automatically contains support for symbols covered by \LaTeX's traditional \texttt{T1} and \texttt{TS1} font encodings (for example, |\%|, |\textbullet|, |\"u|, and so on).
+A new package option, \texttt{tuenc}, which is selected by default, switches the \textsc{nfss} font encoding to \texttt{TU}.
+\texttt{TU} is a new Unicode font encoding, intended for both \XeTeX\ and \LuaTeX\ engines, and automatically contains support for symbols covered by \LaTeX's traditional \texttt{T1} and \texttt{TS1} font encodings (for example, |\%|, |\textbullet|, |\"u|, and so on).
 As a result, with this package option, Ross Moore's \pkg{xunicode} package is \textbf{not} loaded.
 
 The old package behaviour can be achieved by loading the \texttt{euenc} package option. This selects the \texttt{EU1} or \texttt{EU2} encoding (\XeTeX/\LuaTeX, resp.) and loads the \pkg{xunicode} package.
 Package authors and users who have referred explicitly to the encoding names \texttt{EU1} or \texttt{EU2} should update their code or documents.
 (See internal variable names described in \vref{sec:api} for how to do this properly.)
 
-\emph{While \pkg{fontspec} is providing the \texttt{UC} encoding, its interface should not be considered experimental; feedback welcome. Once \texttt{UC} is incorporated into the \LaTeXe\ kernel directly (later in 2016), it will be considered stable.}
+\emph{While \pkg{fontspec} is providing the \texttt{TU} encoding, its interface should not be considered experimental; feedback welcome. Once \texttt{TU} is incorporated into the \LaTeXe\ kernel directly (later in 2016), it will be considered stable.}
 
 
 \paragraph{\LuaTeX\ users only}
@@ -2806,7 +2811,7 @@ The raw \TeX\ font that is defined is stored temporarily
 in \cmd{\l_fontspec_font}.
 
 Package authors who need to load fonts with legacy \LaTeX\ NFSS commands may also need to know what the default font encoding is.
-Since this has changed from \texttt{EU1}/\texttt{EU2} to \texttt{UC}, it is best to use the variables \cs{g_fontspec_encoding_tl} or \cs{UTFencname} instead.
+Since this has changed from \texttt{EU1}/\texttt{EU2} to \texttt{TU}, it is best to use the variables \cs{g_fontspec_encoding_tl} or \cs{UTFencname} instead.
 
 The following commands in \pkg{expl3} syntax may be used
 for writing code that interfaces with fontspec-loaded fonts.

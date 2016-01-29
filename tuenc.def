@@ -1,11 +1,11 @@
-\ProvidesFile{ucenc.def}
-    [2016/01/27 v0.1 Unicode font encoding for LaTeX2e]
+\ProvidesFile{tuenc.def}
+    [2016/01/29 v0.1 Unicode font encoding for LaTeX2e]
 
 %%%%%%
 % Please consider this encoding definition to be experimental!
 %%%%%%
 
-\providecommand\UnicodeEncodingName{UC}
+\providecommand\UnicodeEncodingName{TU}
 
 
 %% WRAPPERS NEEDED FOR FONT LOADING (.fd FILE COMMANDS)
@@ -76,8 +76,8 @@
 \def\DeclareUnicodeEncoding#1#2#3{%
   \NewUnicodeEncoding{#1}%
   \@for\@ii:=#2\do{%
-    \InputIfFileExists{ucfontrange-\@ii.def}{}{%
-      \@latex@error{Unicode font range file `ucfontrange-\@ii.def' not found}{\@ehd}%
+    \InputIfFileExists{tufontrange-\@ii.def}{}{%
+      \@latex@error{Unicode font range file `tufontrange-\@ii.def' not found}{\@ehd}%
     }%
   }%
   #3%

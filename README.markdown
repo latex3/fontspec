@@ -67,7 +67,7 @@ Features may be added to the font currently in use with
 Change history
 --------------
 
-- v2.5  (2016/01/24)
+- v2.5  (2016/01/29)
 
     * Provide (for now) a new Unicode font encoding to replace xunicode.
       People interested in testing can load fontspec with a new `[tuenc]` package option; the default will switch to this some time in the next year.

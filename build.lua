@@ -2,12 +2,12 @@
 
 module = "fontspec"
 
-sourcefiles  = {"*.dtx","doc-files/*"}
+sourcefiles  = {"*.dtx","*.fd","*.def"}
 unpackfiles  = {"fontspec.dtx"}
 installfiles = {"*.sty","fontspec.lua","*.fd","*.def"}
 typesetfiles = {"fontspec.dtx"}
 typesetsuppfiles = {"doc-files/"}
-docfiles     = {"fontspec-doc.tex","doc-files/*"}
+docfiles     = {"fontspec-doc.tex"}
 demofiles    = {"fontspec-example.tex"}
 
 checkopts   = " -interaction=errorstopmode -halt-on-error "

@@ -20,10 +20,6 @@
 \captionsetup[table]{position=above}
 \captionsetup[figure]{position=above}
 
-\newcommand\XeTeX{\hologo{XeTeX}}
-\newcommand\XeLaTeX{\hologo{XeLaTeX}}
-\newcommand\LuaTeX{\hologo{LuaTeX}}
-\newcommand\LuaLaTeX{\hologo{LuaLaTeX}}
 \usepackage{tgpagella,eulervm}
 \usepackage{inconsolata}
 \usepackage[
@@ -177,6 +173,13 @@
 \def\MacOSX{Mac~OS~X}
 \def\AAT{\textsc{aat}}
 \def\ATSUI{\textsc{atsui}}
+
+\newcommand\NFSS{\textsc{nfss}}
+\newcommand\XeTeX{\hologo{XeTeX}}
+\newcommand\XeLaTeX{\hologo{XeLaTeX}}
+\newcommand\LuaTeX{\hologo{LuaTeX}}
+\newcommand\LuaLaTeX{\hologo{LuaLaTeX}}
+
 
 %% (La)TeX font-related declarations:
 \linespread{1.05}      % Pagella needs more space between lines
@@ -347,11 +350,11 @@ A new package option, \texttt{tuenc}, which is selected by default, switches the
 \texttt{TU} is a new Unicode font encoding, intended for both \XeTeX\ and \LuaTeX\ engines, and automatically contains support for symbols covered by \LaTeX's traditional \texttt{T1} and \texttt{TS1} font encodings (for example, |\%|, |\textbullet|, |\"u|, and so on).
 As a result, with this package option, Ross Moore's \pkg{xunicode} package is \textbf{not} loaded.
 
-The old package behaviour can be achieved by loading the \texttt{euenc} package option. This selects the \texttt{EU1} or \texttt{EU2} encoding (\XeTeX/\LuaTeX, resp.) and loads the \pkg{xunicode} package.
+The old behaviour can be achieved by loading the \texttt{euenc} package option. This selects the \texttt{EU1} or \texttt{EU2} encoding (\XeTeX/\LuaTeX, resp.) and loads the \pkg{xunicode} package.
 Package authors and users who have referred explicitly to the encoding names \texttt{EU1} or \texttt{EU2} should update their code or documents.
 (See internal variable names described in \vref{sec:api} for how to do this properly.)
 
-\emph{While \pkg{fontspec} is providing the \texttt{TU} encoding, its interface should not be considered experimental; feedback welcome. Once \texttt{TU} is incorporated into the \LaTeXe\ kernel directly (later in 2016), it will be considered stable.}
+\emph{While \pkg{fontspec} is providing the \texttt{TU} encoding, its interface should be considered \textsc{experimental}; feedback welcome. Once \texttt{TU} is incorporated into the \LaTeXe\ kernel directly (later in 2016), it will be considered stable.}
 
 
 \paragraph{\LuaTeX\ users only}
@@ -373,14 +376,10 @@ The \pkg{polyglossia} package is recommended instead as a modern replacement for
 
 
 \subsection{Maths fonts adjustments}
-By default, \pkg{fontspec} adjusts \LaTeX's
-default maths setup in order to maintain the correct Computer Modern symbols
-when the roman font changes. However, it will attempt to avoid doing this if
-another maths font package is loaded (such as \pkg{mathpazo} or the
-\pkg{unicode-math} package).
+By default, \pkg{fontspec} adjusts \LaTeX's default maths setup in order to maintain the correct Computer Modern symbols when the roman font changes.
+However, it will attempt to avoid doing this if another maths font package is loaded (such as \pkg{mathpazo} or the \pkg{unicode-math} package).
 
-If you find that \pkg{fontspec} is incorrectly changing the maths font when it shouldn't be, apply the |no-math| package option to manually
-suppress its maths font.
+If you find that \pkg{fontspec} is incorrectly changing the maths font when it shouldn't be, apply the |no-math| package option to manually suppress its selection of the maths fonts.
 
 \subsection{Configuration}
 \label{sec:config}
@@ -454,7 +453,7 @@ The font features argument accepts comma separated
 \section{Font selection}
 
 In both \LuaTeX\ and \XeTeX, fonts can be selected either by `font name' or
-by `file name'.
+by `file name', but there are some differences in how each engine finds and selects fonts --- don't be too surprised if a font invocation in one engine needs correction to work in the other.
 
 \subsection{By font name}
 
@@ -463,6 +462,7 @@ you'd speak them out loud, such as \emph{Times New Roman} or
 \emph{Adobe Garamond}.
 `Known to' in this case generally means `exists in a standard fonts location'
 such as |~/Library/Fonts| on \MacOSX, or |C:\Windows\Fonts| on Windows.
+In \LuaTeX, fonts found in the \textsc{texmf} tree can also be loaded by name.
 
 The simplest example might be something like
 \begin{Verbatim}
@@ -535,23 +535,20 @@ in the filesystem must be specified with the |Path| feature:
 \end{Verbatim}
 Note that \XeTeX\ and \LuaTeX\ are able to load the font without giving an
 extension, but \pkg{fontspec} must know to search for the file; this can can
-be indicated by declaring the font exists in an `|ExternalLocation|':
+be indicated by using the |Path| option without an argument:
 \begin{Verbatim}
   \setmainfont{texgyrepagella-regular}[
-       ExternalLocation ,
-       BoldFont       = texgyrepagella-bold ,
+       Path, BoldFont = texgyrepagella-bold,
        ... ]
 \end{Verbatim}
-To be honest, |Path| and |ExternalLocation| are actually the same feature
-with different names. The former can be given without an argument and the
-latter can be given with one; the different names are just for clarity.
+In previous versions of the package, the alias |ExternalLocation| was documented for this purpose, but this is now deprecated and may be removed in the future.
 
 
 
 
 
 
-\section{New commands to select font families}
+\section{Commands to select font families}
 
 \cmdbox{
   \CMD{\string\newfontfamily}\cs{\meta{font-switch}}\marg{font name}\oarg{font features} \\
@@ -648,43 +645,25 @@ If a bold italic shape is not defined, or you want to specify
 \emph{both} custom bold and italic shapes, the \feat{BoldItalicFont}
 feature is provided.
 
-\subsubsection{Input shorthands}
 
-For those cases that the base font name is repeated, you can
-replace it with an asterisk. (This has been shown previously in \vref{sec:by-file-name}.)
-For example,
-some space can be saved instead of writing `\texttt{Baskerville SemiBold}':
-\begin{Verbatim}
-  \setmainfont{Baskerville}[BoldFont={* SemiBold}]
-\end{Verbatim}
-
-As a matter of fact, this feature can also be used for the upright font too:
-\begin{Verbatim}
-  \setmainfont{Baskerville}[UprightFont={* SemiBold},BoldFont={* Bold}]
-\end{Verbatim}
 
 \subsubsection{Small caps and slanted font shapes}
 
-For the rare situations where a font family will have slanted \emph{and}
-italic shapes, these may be specified separately using the analogous
-features \feat{SlantedFont} and \feat{BoldSlantedFont}. Without these,
-however, the \LaTeX\ font switches for slanted (\cs{textsl}, \cs{slshape})
-will default to the italic shape.
+When a font family has both slanted \emph{and} italic shapes, these may be specified separately using the analogous features \feat{SlantedFont} and \feat{BoldSlantedFont}.
+Without these, however, the \LaTeX\ font switches for slanted (\cs{textsl}, \cs{slshape}) will default to the italic shape.
 
-Old-fashioned font families used to distribute their small caps
-glyphs in separate fonts due to the limitations on the number
-of glyphs allowed in the PostScript Type~1 format. Such fonts may be used
-by declaring the \feat{SmallCapsFont} of the family you are specifying:
+Pre-OpenType, it was common for font families to be distributed with small caps glyphs in separate fonts, due to the limitations on the number of glyphs allowed in the PostScript Type~1 format.
+Such fonts may be used by declaring the \feat{SmallCapsFont} of the family you are specifying:
 \begin{Verbatim}
-  \fontspec{Minion MM Roman}[
+  \setmainfont{Minion MM Roman}[
     SmallCapsFont={Minion MM Small Caps & Oldstyle Figures}
   ]
   Roman 123 \\ \textsc{Small caps 456}
 \end{Verbatim}
-In fact, you may specify the small caps font for each individual bold and
+In fact, you should specify the small caps font for each individual bold and
 italic shape as in
 \begin{Verbatim}
-  \fontspec{ <upright> }[
+  \setmainfont{ <upright> }[
     UprightFeatures    = { SmallCapsFont={ <sc> } } ,
     BoldFeatures       = { SmallCapsFont={ <bf sc> } } ,
     ItalicFeatures     = { SmallCapsFont={ <it sc> } } ,
@@ -692,10 +671,8 @@ italic shape as in
   ]
   Roman 123 \\ \textsc{Small caps 456}
 \end{Verbatim}
-
 For most modern fonts that have small caps as a font feature, this level of
-control isn't generally necessary, but you may still occasionally find font
-families in which the small caps are in a separate font.
+control isn't generally necessary.
 
 All of the bold, italic, and small caps fonts can be loaded with different
 font features from the main font. See \ref{sec:bfit-feat} for details.
@@ -703,19 +680,20 @@ When an OpenType font is selected for |SmallCapsFont|, the small caps
 font feature is \emph{not} automatically enabled. In this case, users
 should write instead, if necessary,
 \begin{Verbatim}
-  \fontspec{...}[
+  \setmainfont{...}[
     SmallCapsFont={...},
     SmallCapsFeatures={Letters=SmallCaps},
   ]
 \end{Verbatim}
 
-\subsection{Specifically choosing the NFSS family}
+\subsection{Specifically choosing the \NFSS\ family}
 
-In \LaTeX's NFSS, font families are defined with names such as `\texttt{ppl}' (Palatino), `\texttt{cmr}' (Computer Modern Roman), and so on, which are selected with the \cs{fontfamily} command:
+In \LaTeX's \NFSS, font families are defined with names such as `\texttt{ppl}' (Palatino), `\texttt{lmr}' (Latin Modern Roman), and so on, which are selected with the \cs{fontfamily} command:
 \begin{Verbatim}
   \fontfamily{ppl}\selectfont
 \end{Verbatim}
 In \pkg{fontspec}, the family names are auto-generated based on the fontname of the font; for example, writing |\fontspec{Times New Roman}| for the first time would generate an internal font family name of `\texttt{TimesNewRoman(1)}'.
+Please note that should not rely on the name that is generated.
 
 In certain cases it is desirable to be able to choose this internal font family name so it can be re-used elsewhere for interacting with other packages that use the \LaTeX's font selection interface; an example might be
 \begin{Verbatim}
@@ -736,16 +714,16 @@ which is essentially the same as writing |\verbatimfont|, or to go back to the o
 \end{Verbatim}
 Only use this feature when necessary; the in-built font switching commands that \pkg{fontspec} generates (such as |\verbatimfont| in the example above) are recommended in all other cases.
 
-If you don't wish to explicitly set the NFSS family but you would like to know what it is, an alternative mechanism for package writers is introduced as part of the \pkg{fontspec} programming interface; see the function \cs{fontspec_set_family:Nnn} for details (\vref*{sec:api}).
+If you don't wish to explicitly set the \NFSS\ family but you would like to know what it is, an alternative mechanism for package writers is introduced as part of the \pkg{fontspec} programming interface; see the function \cs{fontspec_set_family:Nnn} for details (\vref*{sec:api}).
 
-\subsection{Choosing additional NFSS font faces}
+\subsection{Choosing additional \NFSS\ font faces}
 
-\LaTeX's font selection scheme is more flexible than the \pkg{fontspec} interface discussed up until this point.
+\LaTeX's font selection scheme (\NFSS) is more flexible than the \pkg{fontspec} interface discussed up until this point.
 It assigns to each font face a \emph{family} (discussed above), a \emph{series} such as bold or light or condensed, and a \emph{shape} such as italic or slanted or small caps.
-The \pkg{fontspec} features such as \feat{BoldFont} and so on all assign faces for the default series and shapes of the NFSS, but it's not uncommon to have font families that have multiple weights and shapes and so on.
+The \pkg{fontspec} features such as \feat{BoldFont} and so on all assign faces for the default series and shapes of the \NFSS, but it's not uncommon to have font families that have multiple weights and shapes and so on.
 
 If you set up a regular font family with the `standard four' (upright, bold, italic, and bold italic) shapes and then want to use, say, a light font for a certain document element, many users will be perfectly happy to use \cs{newfontface}\cs{\meta{switch}} and use the resulting font \cs{\meta{switch}}.
-In other cases, however, it is more convenient or even necessary to load additional fonts using additional NFSS specifiers.
+In other cases, however, it is more convenient or even necessary to load additional fonts using additional \NFSS\ specifiers.
 
 \cmdbox{
   \texttt{FontFace = }\marg{series}\marg{shape}
@@ -753,19 +731,19 @@ In other cases, however, it is more convenient or even necessary to load additio
   \texttt{FontFace = }\marg{series}\marg{shape}\marg{font name}
 }
 
-The font thus specified will inherit the font features of the main font, with optional addition \meta{features} as requested.
+The font thus specified will inherit the font features of the main font, with optional additional \meta{features} as requested.
 (Note that the optional \marg{features} argument is still surrounded with curly braces.)
 Multiple \feat{FontFace} commands may be used in a single declaration to specify multiple fonts.
 As an example:
 \begin{Verbatim}
   \setmainfont{font1.otf}[
-     FontFace = {c}{n}{ font2.otf } ,
+     FontFace = {c}{\updefault}{ font2.otf } ,
      FontFace = {c}{m}{ Font = font3.otf , Color = red }
     ]
 \end{Verbatim}
 Writing |\fontseries{c}\selectfont| will result in |font2| being selected, which then followed by |\fontshape{m}\selectfont| will result in |font3| being selected (in red).
-A font face that is defined in terms of a different series but a normal shape will attempt to find a matching small caps feature and define that face as well if appropriate.
-Conversely, a font faced defined in terms of a different font will not.
+A font face that is defined in terms of a different series but an upright shape (|\updefault|, as shown above) will attempt to find a matching small caps feature and define that face as well.
+Conversely, a font face defined in terms of a non-standard font shape will not.
 
 There are some standards for choosing shape and series codes; the \LaTeXe\ font selection guide\footnote{\texttt{texdoc fntguide}} lists series |m| for medium, |b| for bold, |bx| for bold extended, |sb| for semi-bold, and |c| for condensed.
 A far more comprehensive listing is included in Appendix~A of Philipp Lehman's `The Font Installation Guide'\footnote{\texttt{texdoc fontinstallationguide}} covering 14 separate weights and 12 separate widths.
@@ -775,9 +753,9 @@ The \feat{FontFace} command also interacts properly with the \feat{SizeFeatures}
   FontFace = {c}{n}{
     Font = Times ,
     SizeFeatures = {
-      { Size =   -10 , Font=Georgia } ,
+      { Size =   -10 , Font = Georgia } ,
       { Size = 10-15}                 , % default "Font = Times"
-      { Size = 15-   , Font=Cochin  } ,
+      { Size = 15-   , Font = Cochin  } ,
     },
   },
 \end{Verbatim}
@@ -2806,19 +2784,53 @@ implemented. But you get the idea.
 \section{Programming details}
 \label{sec:api}
 
+\subsection{Variables}
+
+\DescribeMacro{\l_fontspec_family_tl}
+\DescribeMacro{\l_fontspec_font}
 In some cases, it is useful to know what the \LaTeX\ font family
 of a specific \pkg{fontspec} font is. After a \cmd\fontspec-like
 command, this is stored inside the \cmd\l_fontspec_family_tl\ macro.
 Otherwise, \LaTeX's own \cmd\f@family\ macro can be useful here,
 too.
-The raw \TeX\ font that is defined is stored temporarily
-in \cmd{\l_fontspec_font}.
+The raw \TeX\ font that is defined from the `base' font in the family is stored in \cmd{\l_fontspec_font}.
 
-Package authors who need to load fonts with legacy \LaTeX\ NFSS commands may also need to know what the default font encoding is.
+\DescribeMacro{\g_fontspec_encoding_tl}
+Package authors who need to load fonts with legacy \LaTeX\ \NFSS\ commands may also need to know what the default font encoding is.
 Since this has changed from \texttt{EU1}/\texttt{EU2} to \texttt{TU}, it is best to use the variables \cs{g_fontspec_encoding_tl} or \cs{UTFencname} instead.
 
-The following commands in \pkg{expl3} syntax may be used
-for writing code that interfaces with fontspec-loaded fonts.
+\subsection{Functions for loading new fonts and families}
+
+\begin{macro}{\fontspec_set_family:Nnn}
+\darg{\LaTeX\ family}
+\darg{fontspec features}
+\darg{font name}
+Defines a new \NFSS\ family from given \meta{features} and \meta{font},
+and stores the family name in the variable \meta{family}.
+This font family can then be selected with standard \LaTeX\ commands
+\cs{fontfamily}\marg{family}\cs{selectfont}.
+See the standard \pkg{fontspec} user commands for applications of this
+function.
+\end{macro}
+
+\begin{macro}{\fontspec_set_fontface:NNnn}
+\darg{primitive font}
+\darg{\LaTeX\ family}
+\darg{fontspec features}
+\darg{font name}
+Variant of the above in which the primitive \TeX\ font command is stored in
+the variable \meta{primitive font}.
+If a family is loaded (with bold and italic shapes) the primitive font
+command will only select the regular face.
+This feature is designed for \LaTeX\ programmers who need to
+perform subsequent font-related tests on the \meta{primitive font}.
+\end{macro}
+
+
+\subsection{Functions for querying font families}
+
+The following functions in \pkg{expl3} syntax may be used
+for writing code that interfaces with \pkg{fontspec}-loaded fonts.
 All of the following conditionals also exist with |T| and |F|
 as well as |TF| suffixes.
 
@@ -2883,30 +2895,6 @@ Test whether the currently loaded font is using the specified raw
 OpenType language tag |#1|.
 \end{macro}
 
-\begin{macro}{\fontspec_set_family:Nnn}
-\darg{\LaTeX\ family}
-\darg{fontspec features}
-\darg{font name}
-Defines a new NFSS family from given \meta{features} and \meta{font},
-and stores the family name in the variable \meta{family}.
-This font family can then be selected with standard \LaTeX\ commands
-\cs{fontfamily}\marg{family}\cs{selectfont}.
-See the standard \pkg{fontspec} user commands for applications of this
-function.
-\end{macro}
-
-\begin{macro}{\fontspec_set_fontface:NNnn}
-\darg{primitive font}
-\darg{\LaTeX\ family}
-\darg{fontspec features}
-\darg{font name}
-Variant of the above in which the primitive \TeX\ font command is stored in
-the variable \meta{primitive font}.
-If a family is loaded (with bold and italic shapes) the primitive font
-command will only select the regular face.
-This feature is designed for \LaTeX\ programmers who need to
-perform subsequent font-related tests on the \meta{primitive font}.
-\end{macro}
 
  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

@@ -67,16 +67,16 @@ Features may be added to the font currently in use with
 Change history
 --------------
 
-- v2.5 (2016/01/29) "TL2016 release"
+- v2.5 (2016/01/30) "TL2016 release"
 
-    * Provide a new Unicode font encoding to replace EU1/EU2 and xunicode.
-      If this causes problems, load fontspec with the `[euenc]` option to revert to the old behaviour.
-    * New command `\emfontdeclare` for defining arbitrary nesting for `\emph`.
-    * Allow slanted small caps and better methods for "combining" font shapes; this fixes a few bugs.
+    * Provide a new Unicode font encoding ("TU") to replace EU1/EU2 and xunicode. If this causes problems, load fontspec with the `[euenc]` option to revert to the old behaviour.
+    * New command `\emfontdeclare` for defining font shapes when arbitrarily nesting the `\emph` command.
+    * Allow slanted small caps and better internal methods for "combining" font shapes; this fixes a few bugs.
     * Incorporate "new" font script tags for Indic fonts. E.g., when selecting `Script=Bengali`, fontspec will first query the font for the `bng2` OpenType script, and if not found select `beng`.
-    * Restrict some font features from being able to be used within `\addfontfeatures`.
+    * Restrict some font features from being able to be used within `\addfontfeatures` that were causing some font-loading confusion.
     * Fixed behaviour in which `\baselineskip` and `\f@size` would (possibly) change values after loading the packge.
     * Remove copy of `fixltx2e`'s code for footnote symbols; handled by LaTeX2e now.
+    * Deprecate `ExternalLocation` for the simpler (and identical) `Path` option.
     * Improvement to some warnings/info messages.
     * Improve structure of code.
 

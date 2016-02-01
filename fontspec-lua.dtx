@@ -26,14 +26,6 @@ fontspec.warning = warn or (function (s) luatexbase.module_warning("fontspec", s
 fontspec.error   = err  or (function (s) luatexbase.module_error("fontspec", s)   end)
 %    \end{macrocode}
 %
-% The following lines check for existence of a certain script, language or
-% feature in a given font.
-%    \begin{macrocode}
-local check_script   = luaotfload.aux.provides_script
-local check_language = luaotfload.aux.provides_language
-local check_feature  = luaotfload.aux.provides_feature
-%    \end{macrocode}
-%
 % The following are the function that get called from \TeX\ end.
 %    \begin{macrocode}
 local function tempswatrue()  tex.sprint([[\FontspecSetCheckBoolTrue ]]) end
@@ -42,7 +34,7 @@ local function tempswafalse() tex.sprint([[\FontspecSetCheckBoolFalse]]) end
 %
 %    \begin{macrocode}
 function fontspec.check_ot_script(fnt, script)
-    if check_script(font.id(fnt), script) then
+    if luaotfload.aux.provides_script(font.id(fnt), script) then
         tempswatrue()
     else
         tempswafalse()
@@ -52,7 +44,7 @@ end
 %
 %    \begin{macrocode}
 function fontspec.check_ot_lang(fnt, lang, script)
-    if check_language(font.id(fnt), script, lang) then
+    if luaotfload.aux.provides_language(font.id(fnt), script, lang) then
         tempswatrue()
     else
         tempswafalse()
@@ -68,7 +60,7 @@ function fontspec.check_ot_feat(fnt, feat, lang, script)
             return
         end
     end
-    if check_feature(font.id(fnt), script, lang, feat) then
+    if luaotfload.aux.provides_feature(font.id(fnt), script, lang, feat) then
         tempswatrue()
     else
         tempswafalse()

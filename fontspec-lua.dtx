@@ -81,10 +81,10 @@ local get_math_dimension = luaotfload.aux.get_math_dimension
 function fontspec.mathfontdimen(fnt, str)
     local mathdimens = get_math_dimension(fnt, str)
     if mathdimens then
-        fontspec.sprint(mathdimens)
-        fontspec.sprint("sp")
+        tex.sprint(mathdimens)
+        tex.sprint("sp")
     else
-        fontspec.sprint("0pt")
+        tex.sprint("0pt")
     end
 end
 %    \end{macrocode}

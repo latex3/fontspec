@@ -115,22 +115,21 @@ And the derived files: fontspec*.sty,fontspec.lua, and fontspec.pdf.
 % For Lua\TeX, load \pkg{luaotfload}.
 %    \begin{macrocode}
 %<*load>
+\sys_if_engine_luatex:T
+  { \RequirePackage{luaotfload}
+    \directlua{require("fontspec")}
+    \RequirePackageWithOptions{fontspec-luatex} \endinput }
+\sys_if_engine_xetex:T
+  { \RequirePackageWithOptions{fontspec-xetex}  \endinput }
+%    \end{macrocode}
+% If not one of the above, error:
+%    \begin{macrocode}
 \msg_new:nnn {fontspec} {cannot-use-pdftex}
  {
-  The~ fontspec~ package~ requires~ either~ XeTeX~ or~ LuaTeX~ to~ function.\\\\
+  The~ fontspec~ package~ requires~ either~ XeTeX~ or~ LuaTeX.\\\\
   You~ must~ change~ your~ typesetting~ engine~ to,~ e.g.,~ "xelatex"~ or~ "lualatex" instead~ of~ plain~ "latex"~ or~ "pdflatex".
  }
-\sys_if_engine_xetex:F
-  {
-    \sys_if_engine_luatex:F { \msg_fatal:nn {fontspec} {cannot-use-pdftex} }
-  }
-\sys_if_engine_luatex:T
-  {
-    \RequirePackage{luaotfload}[2013/05/20]
-    \directlua{require("fontspec")}
-  }
-\sys_if_engine_luatex:T { \RequirePackageWithOptions{fontspec-luatex} }
-\sys_if_engine_xetex:T  { \RequirePackageWithOptions{fontspec-xetex}  }
+\msg_fatal:nn {fontspec} {cannot-use-pdftex}
 \endinput
 %</load>
 %    \end{macrocode}

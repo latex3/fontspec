@@ -17,7 +17,7 @@ Don't change this file in any respect.
 %%   Right brace   \}     Tilde         \~}
 %%
 (fontspec.sty
-ntspec-luatex.sty
+ontspec-luatex.sty
 \l_fontspec_script_int=\count119
 \l_fontspec_language_int=\count120
 \l_fontspec_strnum_int=\count121
@@ -160,7 +160,7 @@ Package graphics Info: Driver file: pdftex.def on input line ....
 . Defining command \DeclareFontsExtensions with sig. 'm' on line ....
 .................................................
 \l__fontspec_tmp_int=\count124
-(../fontspec.cfg
+(fontspec.cfg)
 LaTeX Info: Redefining \itshape on input line ....
 LaTeX Info: Redefining \slshape on input line ....
 LaTeX Info: Redefining \scshape on input line ....
@@ -250,9 +250,9 @@ luaotfload | load : path lookup of "texgyrepagella-regular" unsuccessful, fallin
 . 
 . This font family consists of the following NFSS series/shapes:
 . - 'normal' (m/n) with NFSS spec.:
-. <->"[texgyrepagella-regular]:mode=node;script=latn;language=DFLT;+tlig;+trep;"
+. <->"[texgyrepagella-regular]:mode=node;script=latn;language=DFLT;+tlig;"
 . - 'small caps'  (m/sc) with NFSS spec.:
-. <->"[texgyrepagella-regular]:mode=node;script=latn;language=DFLT;+tlig;+trep;+smcp;"
+. <->"[texgyrepagella-regular]:mode=node;script=latn;language=DFLT;+tlig;+smcp;"
 .................................................
 luaotfload | load : path lookup of "texgyrepagella-regular.otf" unsuccessful, falling back to file:
 luaotfload | load : path lookup of "texgyrepagella-regular.otf" unsuccessful, falling back to file:

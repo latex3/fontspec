@@ -510,50 +510,12 @@
 %    \begin{macrocode}
 \cs_new:Nn \@@_declare_shape:nnnn
  {
+%<debug>\typeout{=~ declare_shape:~{\l_fontspec_fontname_tl}~{#1}~{#2}}
   \tl_clear:N \l_@@_nfss_tl
   \tl_clear:N \l_@@_nfss_sc_tl
   \tl_set_eq:NN \l_@@_saved_fontname_tl \l_fontspec_fontname_tl
 
-  \exp_args:Nx \clist_map_inline:nn {#4}
-   {
-    \tl_clear:N \l_@@_size_tl
-    \tl_set_eq:NN \l_@@_sizedfont_tl \l_@@_saved_fontname_tl % in case not spec'ed
-
-    \keys_set_known:nxN {fontspec-sizing} { \exp_after:wN \use:n ##1 }
-      \l_@@_sizing_leftover_clist
-    \tl_if_empty:NT \l_@@_size_tl { \@@_error:n {no-size-info} }
-
-    % "normal"
-    \@@_load_fontname:n {\l_@@_sizedfont_tl}
-    \@@_setup_nfss:Nnn \l_@@_nfss_tl {#3} {}
-
-    % small caps
-    \clist_set_eq:NN \l_@@_fontfeat_curr_clist \l_@@_fontfeat_sc_clist
-
-    \bool_if:NF \l_@@_nosc_bool
-     {
-      \tl_if_empty:NTF \l_fontspec_fontname_sc_tl
-       {
-%<debug>      \typeout{Attempting~ small~ caps?}
-        \@@_make_smallcaps:TF
-         {
-%<debug>      \typeout{Small~ caps~ found.}
-          \clist_put_left:Nn \l_@@_fontfeat_curr_clist {Letters=SmallCaps}
-         }
-         {
-%<debug>      \typeout{Small~ caps~ not~ found.}
-          \bool_set_true:N \l_@@_nosc_bool
-         }
-       }
-       { \@@_load_fontname:n {\l_fontspec_fontname_sc_tl} }% local for each size
-     }
-
-    \bool_if:NF \l_@@_nosc_bool
-     {
-      \@@_setup_nfss:Nnn \l_@@_nfss_sc_tl {#3} {\l_@@_fontfeat_curr_clist}
-     }
-
-   }
+  \exp_args:Nx \clist_map_inline:nn {#4} { \@@_setup_single_size:nn {#3} {##1} }
 
   \@@_declare_shapes_normal:nn {#1} {#2}
   \@@_declare_shapes_smcaps:nn {#1} {#2}
@@ -562,10 +524,56 @@
  }
 \cs_generate_variant:Nn \@@_declare_shape:nnnn {nnxx}
 
-\cs_new:Nn \@@_setup_nfss:Nnn
+
+\cs_new:Nn \@@_setup_single_size:nn
+  {
+    \tl_clear:N \l_@@_size_tl
+    \tl_set_eq:NN \l_@@_sizedfont_tl \l_@@_saved_fontname_tl % in case not spec'ed
+
+    \keys_set_known:nxN {fontspec-sizing} { \exp_after:wN \use:n #2 }
+      \l_@@_sizing_leftover_clist
+    \tl_if_empty:NT \l_@@_size_tl { \@@_error:n {no-size-info} }
+%<debug>\typeout{==~ size:~\l_@@_size_tl}
+
+    % "normal"
+    \@@_load_fontname:n {\l_@@_sizedfont_tl}
+    \@@_setup_nfss:Nnnn \l_@@_nfss_tl {#1} {\l_@@_sizing_leftover_clist} {}
+%<debug>    \typeout{===~ sized~ font:~ \l_@@_sizedfont_tl}
+
+    % small caps
+    \clist_set_eq:NN \l_@@_fontfeat_curr_clist \l_@@_fontfeat_sc_clist
+
+    \bool_if:NF \l_@@_nosc_bool
+     {
+      \tl_if_empty:NTF \l_fontspec_fontname_sc_tl
+       {
+        \@@_make_smallcaps:TF
+         {
+%<debug>\typeout{====~Small~ caps~ found.}
+          \clist_put_left:Nn \l_@@_fontfeat_curr_clist {Letters=SmallCaps}
+         }
+         {
+%<debug>\typeout{====~Small~ caps~ not~ found.}
+          \bool_set_true:N \l_@@_nosc_bool
+         }
+       }
+       { \@@_load_fontname:n {\l_fontspec_fontname_sc_tl} }% local for each size
+     }
+
+    \bool_if:NF \l_@@_nosc_bool
+     {
+      \@@_setup_nfss:Nnnn \l_@@_nfss_sc_tl
+        {#1} {\l_@@_sizing_leftover_clist} {\l_@@_fontfeat_curr_clist}
+     }
+  }
+
+
+\cs_new:Nn \@@_setup_nfss:Nnnn
  {
-  \@@_get_features:Nn \l_@@_rawfeatures_sclist
-   { #2 , \l_@@_sizing_leftover_clist , #3 }
+%<debug>\typeout{====~Setup~NFSS~shape:~<\l_@@_size_tl>~\l_fontspec_fontname_tl}
+
+  \@@_get_features:Nn \l_@@_rawfeatures_sclist { #2 , #3 , #4 }
+%<debug>\typeout{====~Gathered~features:~\l_@@_rawfeatures_sclist}
 
   \tl_put_right:Nx #1
    {
@@ -586,7 +594,7 @@
 
 \cs_new:Nn \@@_declare_shapes_smcaps:nn
   {
-    \bool_if:NF \l_@@_nosc_bool
+    \tl_if_empty:NF \l_@@_nfss_sc_tl
      {
       \@@_DeclareFontShape:xxxxxx {\l_@@_nfss_enc_tl} {\l_fontspec_family_tl} {#1}
         { \@@_combo_sc_shape:n {#2} } {\l_@@_nfss_sc_tl} {\l_@@_postadjust_tl}
@@ -601,6 +609,7 @@
 
 \cs_new:Nn \@@_DeclareFontShape:nnnnnn
  {
+%<debug>\typeout{DeclareFontShape:~{#1}{#2}{#3}{#4}...}
   \group_begin:
     \normalsize
     \cs_undefine:c {#1/#2/#3/#4/\f@size}

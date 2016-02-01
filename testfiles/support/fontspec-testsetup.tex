@@ -1,0 +1,26 @@
+
+\input{regression-test.tex}
+\documentclass{article}
+\usepackage{geometry}
+\geometry{
+  papersize={9cm,6cm},margin=0.5cm
+}
+\pagestyle{empty}
+
+\tracingoutput=1\relax
+
+\newbox\TESTBOX
+\newenvironment{fstest}
+  {%
+   \begingroup
+  }
+  {%
+   \TIMO
+   \clearpage
+   \OMIT
+   \endgroup
+  }
+
+\AtBeginDocument{\START\OMIT}
+
+\AtEndDocument{\OMIT}

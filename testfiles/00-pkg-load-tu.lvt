@@ -1,0 +1,13 @@
+\input{fontspec-testsetup}
+\usepackage{expl3,xparse}
+\ExplSyntaxOn
+\sys_if_engine_luatex:T {\usepackage{luaotfload}}
+\ExplSyntaxOff
+\START
+\usepackage[tuenc]{fontspec}
+\setmainfont{texgyrepagella-regular.otf}
+\begin{document}
+\begin{fstest}
+hello
+\end{fstest}
+\end{document}

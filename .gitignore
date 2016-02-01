@@ -17,7 +17,7 @@ zzz-*
 *.zip
 Fonts/
 
-test*
+test*.tex
 
 testsuite/build/
 testsuite/fonts/

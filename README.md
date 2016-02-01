@@ -67,9 +67,13 @@ Features may be added to the font currently in use with
 Change history
 --------------
 
-- v2.5a (2016/02/01)
+- v2.5a (2016/02/01) "bugs fixed"
 
-    * Rather embarrassing bug fix!
+    * Rather embarrassing bug fix! (`unicode-math` was broken.)
+    * Remember to add the `fontspec.cfg` file to the distribution.
+    * Remove `+trep` from `Ligatures=TeX` (no longer necessary).
+    * Add some basic tests using `l3build`; more to come.
+    * Simplify some internal Lua code and package loading code.
 
 - v2.5 (2016/01/30) "TL2016 release"
 

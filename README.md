@@ -67,6 +67,10 @@ Features may be added to the font currently in use with
 Change history
 --------------
 
+- v2.5a (2016/02/01)
+
+    * Rather embarrassing bug fix!
+
 - v2.5 (2016/01/30) "TL2016 release"
 
     * Provide a new Unicode font encoding ("TU") to replace EU1/EU2 and xunicode. If this causes problems, load fontspec with the `[euenc]` option to revert to the old behaviour.

@@ -1,0 +1,33 @@
+This is a generated file for the l3build validation system.
+Don't change this file in any respect.
+%% \CharacterTable
+%%  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
+%%   Lower-case    \a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z
+%%   Digits        \0\1\2\3\4\5\6\7\8\9
+%%   Exclamation   \!     Double quote  \"     Hash (number) \#
+%%   Dollar        \$     Percent       \%     Ampersand     \&
+%%   Acute accent  \'     Left paren    \(     Right paren   \)
+%%   Asterisk      \*     Plus          \+     Comma         \,
+%%   Minus         \-     Point         \.     Solidus       \/
+%%   Colon         \:     Semicolon     \;     Less than     \<
+%%   Equals        \=     Greater than  \>     Question mark \?
+%%   Commercial at \@     Left bracket  \[     Backslash     \\
+%%   Right bracket \]     Circumflex    \^     Underscore    \_
+%%   Grave accent  \`     Left brace    \{     Vertical bar  \|
+%%   Right brace   \}     Tilde         \~}
+%%
+! LaTeX Error: Font EU1/TimesLTStd(0)/bx/sc/9 not found.
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+...                                              
+l. ...\item \bfseries bold   {\scshape
+Bold error!} 
+Here is how much of TeX's memory you used:
+13470 strings out of 493706
+268316 string characters out of 6145769
+274865 words of memory out of 5000000
+16777 multiletter control sequences out of 15000+600000
+3768 words of font info for 30 fonts, out of 8000000 for 9000
+1328 hyphenation exceptions out of 8191
+46i,1n,62p,10405b,230s stack positions out of 5000i,500n,10000p,200000b,80000s
+No pages of output.

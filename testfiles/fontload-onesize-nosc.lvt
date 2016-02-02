@@ -1,0 +1,27 @@
+\input{fontspec-testsetup.tex}
+\usepackage{fontspec}
+\setmainfont{TimesLTStd}[ Extension = .otf ,
+  UprightFont={*-Roman},
+  UprightFeatures={
+    SizeFeatures={ {Size=10-},
+      {Size=-10, Font={TimesTenLTStd-Roman}}
+    }},
+  BoldFont={*-Bold},
+  BoldFeatures={
+    SizeFeatures={ {Size=10-},
+      {Size=-10, Font={TimesTenLTStd-Bold}}
+    }},
+]
+\begin{document}
+\begin{fstest}
+\begin{itemize}
+\item \mdseries medium {\scshape Medium}
+\item \bfseries bold {\scshape Bold}
+\end{itemize}
+\small
+\begin{itemize}
+\item \mdseries medium {\scshape Medium}
+\item \bfseries bold   {\scshape Bold error!}
+\end{itemize}
+\end{fstest}
+\end{document}

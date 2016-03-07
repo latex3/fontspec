@@ -26,10 +26,20 @@ fontspec.warning = warn or (function (s) luatexbase.module_warning("fontspec", s
 fontspec.error   = err  or (function (s) luatexbase.module_error("fontspec", s)   end)
 %    \end{macrocode}
 %
+% We need a catcode table for tex.sprint(). See issue \#230.
+%    \begin{macrocode}
+local latex
+if luatexbase.registernumber then
+    latex = luatexbase.registernumber("catcodetable@latex")
+else
+    latex = luatexbase.catcodetables.CatcodeTableLaTeX
+end
+%    \end{macrocode}
+%
 % The following are the function that get called from \TeX\ end.
 %    \begin{macrocode}
-local function tempswatrue()  tex.sprint([[\FontspecSetCheckBoolTrue ]]) end
-local function tempswafalse() tex.sprint([[\FontspecSetCheckBoolFalse]]) end
+local function tempswatrue()  tex.sprint(latex,[[\FontspecSetCheckBoolTrue ]]) end
+local function tempswafalse() tex.sprint(latex,[[\FontspecSetCheckBoolFalse]]) end
 %    \end{macrocode}
 %
 %    \begin{macrocode}

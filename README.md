@@ -1,6 +1,5 @@
-
-THE FONTSPEC PACKAGE
-====================
+THE FONTSPEC PACKAGE v2.5a
+==========================
 
 The fontspec package provides an automatic and unified interface for loading
 fonts in LaTeX. XeTeX and LuaTeX (the latter through the `luaotfload` package)
@@ -24,12 +23,13 @@ Please offer suggestions and file bug reports in the issue tracker:
   <http://github.com/wspr/fontspec/issues>
 
 
-Requirements
-------------
+Table of Contents
+-----------------
 
-The `fontspec` package requires an up-to-date TeX Live or MiKTeX installation,
-including the most recent version of the `l3kernel` package which provides
-the LaTeX3 programming interface known as `expl3`.
+* Summary of user commands
+* Change history ("what's new?")
+* Installation instructions
+* License details
 
 
 Summary of user commands
@@ -321,22 +321,15 @@ Change history
 Installation
 ------------
 
-If you are running TeX Live 2010, you can get the latest version
-of this package by running
+If you are running TeX Live, you can get the latest version of this package by running
 
     tlmgr install fontspec
 
-  * * *
-
-If you wish to download the latest release version from CTAN, get
-the pre-built TDS package and extract it into your local texmf tree:
+If you wish to download the latest release version from CTAN, get the pre-built TDS package and extract it into your local texmf tree:
 
     http://mirror.ctan.org/install/macros/latex/contrib/fontspec.tds.zip
 
-  * * *
-
-If you wish to use the latest development version from Github,
-either use git to obtain the bleeding edge version with
+If you wish to use the latest development version from Github, either use git to obtain the bleeding edge version with
 
     git clone git://github.com/wspr/fontspec.git
 
@@ -344,69 +337,28 @@ or if you don't have git you can download it from
 
     http://github.com/wspr/fontspec/zipball/master
 
-Having obtained the package from Github, run
+Having obtained the package from Github, extract the package code by running
 
     tex fontspec.dtx
 
-to extract the source then and move the necessary files into your
-local texmf tree. The documentation can be compiled by running
+and then move the necessary files into your local texmf tree.
+The documentation can be compiled by running
 
-    pdflatex fontspec.dtx
+    xelatex -shell-escape fontspec.dtx
 
 These steps are automated in the Makefile; run
 
-    make install
+    texlua build.lua install
 
 to compile the documentation and install all necessary files in your
 local texmf tree. Depending how your TeX distribution is configured
 you may then need to update the filename database with `texhash`.
 
 
-Test suite
-----------
-
-Towards the end of the development process of version 2, we started
-to add a test suite to ensure stability with any future changes. The
-output of each test is included in the distributed documentation file
-`fontspec-testsuite.pdf`.
-
-There aren't many tests yet, but we'll slowly add to them in time.
-If you would like to help put some tests together, contributions are
-gladly accepted!
-
-
-Manifest
---------
-
-Source files:
-        fontspec.dtx               single file source & doc for the package
-        Makefile                   script for extracting and installing
-
-Derived files:
-        fontspec.pdf               documentation
-        fontspec.sty               LaTeX style file
-        fontspec.lua               Lua functions for LuaTeX
-        fontspec-patches.sty       redefinitions of various LaTeX internals
-        fontspec.cfg               default configuration file
-        fontspec-xetex.tex         example file for XeTeX
-        fontspec-luatex.tex        example file for LuaTeX
-        fontspec-testsuite.tex     test suite documentation file
-
-Test suite: (within testsuite/)
-        testsuite.cls              class file for each test
-        testsuite-listing.tex      listing of each test in the suite
-        L*.ltx                     LuaLaTeX test file
-        X*.ltx                     XeLaTeX test file
-        F*.ltx                     Test file for both engines
-
-Documentation sources:
-        doc/*.pdf                  These are pre-generated example outputs for
-                                   direct inclusion in the documentation
-
 License
 -------
 
-Copyright 2004--2010 Will Robertson <wspr81@gmail.com>
+Copyright 2004--2016 Will Robertson <wspr81@gmail.com>
 Copyright 2009--2010 Khaled Hosny <khaledhosny@eglug.org>
 
 Distributable under the LaTeX Project Public License,

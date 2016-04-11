@@ -1,0 +1,40 @@
+This is a generated file for the l3build validation system.
+Don't change this file in any respect.
+%% \CharacterTable
+%%  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
+%%   Lower-case    \a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z
+%%   Digits        \0\1\2\3\4\5\6\7\8\9
+%%   Exclamation   \!     Double quote  \"     Hash (number) \#
+%%   Dollar        \$     Percent       \%     Ampersand     \&
+%%   Acute accent  \'     Left paren    \(     Right paren   \)
+%%   Asterisk      \*     Plus          \+     Comma         \,
+%%   Minus         \-     Point         \.     Solidus       \/
+%%   Colon         \:     Semicolon     \;     Less than     \<
+%%   Equals        \=     Greater than  \>     Question mark \?
+%%   Commercial at \@     Left bracket  \[     Backslash     \\
+%%   Right bracket \]     Circumflex    \^     Underscore    \_
+%%   Grave accent  \`     Left brace    \{     Vertical bar  \|
+%%   Right brace   \}     Tilde         \~}
+%%
+luaotfload | load : path lookup of "TimesLTStd-Roman.otf" unsuccessful, falling back to file:
+luaotfload | load : path lookup of "TimesLTStd-Bold.otf" unsuccessful, falling back to file:
+luaotfload | load : path lookup of "TimesLTStd-Bold.otf" unsuccessful, falling back to file:
+luaotfload | load : path lookup of "TimesTenLTStd-Roman.otf" unsuccessful, falling back to file:
+luaotfload | load : path lookup of "TimesTenLTStd-Roman.otf" unsuccessful, falling back to file:
+luaotfload | load : path lookup of "TimesTenLTStd-Bold.otf" unsuccessful, falling back to file:
+! LaTeX Error: Font EU2/TimesLTStd(0)/bx/sc/9 not found.
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+...                                              
+l. ...\item \bfseries bold   {\scshape
+Bold error!}
+Here is how much of LuaTeX's memory you used:
+14434 strings out of 494897
+100000,319454 words of node,token memory allocated
+1187 words of node memory still in use:
+18 hlist, 2 rule, 48 glue, 11 penalty, 40 glyph, 30 attribute, 80 glue_spec, 30 attribute_list, 1 temp, 4 if_stack, 1 shape, 1 write, 4 local_par, 1 dir nodes
+avail lists: 2:3,3:1,5:1,7:1,9:1
+17841 multiletter control sequences out of 65536+600000
+31 fonts using 1978599 bytes
+50i,1n,63p,381b,211s stack positions out of 5000i,500n,10000p,200000b,100000s
+!  ==> Fatal error occurred, no output PDF file produced!

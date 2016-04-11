@@ -463,7 +463,7 @@
     \settoheight #1
      {
       \str_if_eq:nnTF {#3} {\font} \rmfamily #3
-      \int_case:nnn #2
+      \int_case:nnF #2
        {
          {5} {x} % x-height
          {8} {X} % cap-height

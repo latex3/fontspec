@@ -1,0 +1,201 @@
+This is a generated file for the l3build validation system.
+Don't change this file in any respect.
+%% \CharacterTable
+%%  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
+%%   Lower-case    \a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z
+%%   Digits        \0\1\2\3\4\5\6\7\8\9
+%%   Exclamation   \!     Double quote  \"     Hash (number) \#
+%%   Dollar        \$     Percent       \%     Ampersand     \&
+%%   Acute accent  \'     Left paren    \(     Right paren   \)
+%%   Asterisk      \*     Plus          \+     Comma         \,
+%%   Minus         \-     Point         \.     Solidus       \/
+%%   Colon         \:     Semicolon     \;     Less than     \<
+%%   Equals        \=     Greater than  \>     Question mark \?
+%%   Commercial at \@     Left bracket  \[     Backslash     \\
+%%   Right bracket \]     Circumflex    \^     Underscore    \_
+%%   Grave accent  \`     Left brace    \{     Vertical bar  \|
+%%   Right brace   \}     Tilde         \~}
+%%
+(../article.cls
+(../size10.clo
+)
+\c@part=\count114
+\c@section=\count115
+\c@subsection=\count116
+\c@subsubsection=\count117
+\c@paragraph=\count118
+\c@subparagraph=\count119
+\c@figure=\count120
+\c@table=\count121
+\abovecaptionskip=\skip47
+\belowcaptionskip=\skip48
+\bibindent=\dimen138
+)
+(../geometry.sty
+(../ifpdf.sty
+Package ifpdf Info: pdfTeX in PDF mode is not detected.
+)
+(../ifvtex.sty
+Package ifvtex Info: VTeX not detected.
+)
+(../ifxetex.sty
+)
+\Gm@cnth=\count122
+\Gm@cntv=\count123
+\c@Gm@tempcnt=\count124
+\Gm@bindingoffset=\dimen139
+\Gm@wd@mp=\dimen140
+\Gm@odd@mp=\dimen141
+\Gm@even@mp=\dimen142
+\Gm@layoutwidth=\dimen143
+\Gm@layoutheight=\dimen144
+\Gm@layouthoffset=\dimen145
+\Gm@layoutvoffset=\dimen146
+\Gm@dimlist=\toks17
+)
+\TESTBOX=\box41
+\g__fontspec_family_texgyrepagella-regular.otf_int=\count125
+.................................................
+. fontspec info: "defining-font"
+. 
+. Font family 'texgyrepagella-regular.otf(0)' created for font
+. 'texgyrepagella-regular.otf' with options [Ligatures=TeX].
+. 
+. This font family consists of the following NFSS series/shapes:
+. - 'normal' (m/n) with NFSS spec.:
+. <->"[texgyrepagella-regular]/OT:script=latn;language=DFLT;mapping=tex-text;"
+. - 'small caps'  (m/sc) with NFSS spec.:
+. <->"[texgyrepagella-regular]/OT:script=latn;language=DFLT;mapping=tex-text;+smcp;"
+.................................................
+No file .aux.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line ....
+LaTeX Font Info:    ... okay on input line ....
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line ....
+LaTeX Font Info:    ... okay on input line ....
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line ....
+LaTeX Font Info:    ... okay on input line ....
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line ....
+LaTeX Font Info:    ... okay on input line ....
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line ....
+LaTeX Font Info:    ... okay on input line ....
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line ....
+LaTeX Font Info:    ... okay on input line ....
+LaTeX Font Info:    Checking defaults for EU1/lmr/m/n on input line ....
+LaTeX Font Info:    ... okay on input line ....
+LaTeX Font Info:    Checking defaults for T3/cmr/m/n on input line ....
+LaTeX Font Info:    Try loading font information for T3+cmr on input line ....
+LaTeX Font Info:    ... okay on input line ....
+.................................................
+. fontspec info: "setup-math"
+. 
+. Adjusting the maths setup (use [no-math] to avoid this).
+.................................................
+\symlegacymaths=\mathgroup4
+LaTeX Font Info:    Overwriting symbol font `legacymaths' in version `bold'
+(Font)                  OT1/cmr/m/n --> OT1/cmr/bx/n on input line ....
+LaTeX Font Info:    Redeclaring math accent \acute on input line ....
+LaTeX Font Info:    Redeclaring math accent \grave on input line ....
+LaTeX Font Info:    Redeclaring math accent \ddot on input line ....
+LaTeX Font Info:    Redeclaring math accent \tilde on input line ....
+LaTeX Font Info:    Redeclaring math accent \bar on input line ....
+LaTeX Font Info:    Redeclaring math accent \breve on input line ....
+LaTeX Font Info:    Redeclaring math accent \check on input line ....
+LaTeX Font Info:    Redeclaring math accent \hat on input line ....
+LaTeX Font Info:    Redeclaring math accent \dot on input line ....
+LaTeX Font Info:    Redeclaring math accent \mathring on input line ....
+LaTeX Font Info:    Redeclaring math symbol \colon on input line ....
+LaTeX Font Info:    Redeclaring math symbol \Gamma on input line ....
+LaTeX Font Info:    Redeclaring math symbol \Delta on input line ....
+LaTeX Font Info:    Redeclaring math symbol \Theta on input line ....
+LaTeX Font Info:    Redeclaring math symbol \Lambda on input line ....
+LaTeX Font Info:    Redeclaring math symbol \Xi on input line ....
+LaTeX Font Info:    Redeclaring math symbol \Pi on input line ....
+LaTeX Font Info:    Redeclaring math symbol \Sigma on input line ....
+LaTeX Font Info:    Redeclaring math symbol \Upsilon on input line ....
+LaTeX Font Info:    Redeclaring math symbol \Phi on input line ....
+LaTeX Font Info:    Redeclaring math symbol \Psi on input line ....
+LaTeX Font Info:    Redeclaring math symbol \Omega on input line ....
+LaTeX Font Info:    Redeclaring math symbol \mathdollar on input line ....
+LaTeX Font Info:    Redeclaring symbol font `operators' on input line ....
+LaTeX Font Info:    Encoding `OT1' has changed to `EU1' for symbol font
+(Font)              `operators' in the math version `normal' on input line ....
+LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
+(Font)                  OT1/cmr/m/n --> EU1/texgyrepagella-regular.otf(0)/m/n on input line ....
+LaTeX Font Info:    Encoding `OT1' has changed to `EU1' for symbol font
+(Font)              `operators' in the math version `bold' on input line ....
+LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
+(Font)                  OT1/cmr/bx/n --> EU1/texgyrepagella-regular.otf(0)/m/n on input line ....
+LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
+(Font)                  EU1/texgyrepagella-regular.otf(0)/m/n --> EU1/texgyrepagella-regular.otf(0)/m/n on input line ....
+LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
+(Font)                  OT1/cmr/m/it --> EU1/texgyrepagella-regular.otf(0)/m/it on input line ....
+LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `normal'
+(Font)                  OT1/cmr/bx/n --> EU1/texgyrepagella-regular.otf(0)/bx/n on input line ....
+LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `normal'
+(Font)                  OT1/cmss/m/n --> EU1/lmss/m/n on input line ....
+LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `normal'
+(Font)                  OT1/cmtt/m/n --> EU1/lmtt/m/n on input line ....
+LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
+(Font)                  EU1/texgyrepagella-regular.otf(0)/m/n --> EU1/texgyrepagella-regular.otf(0)/bx/n on input line ....
+LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
+(Font)                  OT1/cmr/bx/it --> EU1/texgyrepagella-regular.otf(0)/bx/it on input line ....
+LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
+(Font)                  OT1/cmss/bx/n --> EU1/lmss/bx/n on input line ....
+LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
+(Font)                  OT1/cmtt/m/n --> EU1/lmtt/bx/n on input line ....
+*geometry* driver: auto-detecting
+*geometry* detected driver: xetex
+*geometry* verbose mode - [ preamble ] result:
+* driver: xetex
+* paper: custom
+* layout: <same size as paper>
+* layoutoffset:(h,v)=(0.0pt,0.0pt)
+* modes: 
+* h-part:(L,W,R)=(14.22636pt, 227.62207pt, 14.22636pt)
+* v-part:(T,H,B)=(14.22636pt, 142.2638pt, 14.22636pt)
+* \paperwidth=256.0748pt
+* \paperheight=170.71652pt
+* \textwidth=227.62207pt
+* \textheight=142.2638pt
+* \oddsidemargin=-58.04362pt
+* \evensidemargin=-58.04362pt
+* \topmargin=-95.04362pt
+* \headheight=12.0pt
+* \headsep=25.0pt
+* \topskip=10.0pt
+* \footskip=30.0pt
+* \marginparwidth=65.0pt
+* \marginparsep=11.0pt
+* \columnsep=10.0pt
+* \skip\footins=9.0pt plus 4.0pt minus 2.0pt
+* \hoffset=0.0pt
+* \voffset=0.0pt
+* \mag=1000
+* \@twocolumnfalse
+* \@twosidefalse
+* \@mparswitchfalse
+* \@reversemarginfalse
+* (1in=72.27pt=25.4mm, 1cm=28.453pt)
+Completed box being shipped out [1]
+\vbox(114.22017+0.0)x169.57845
+.\glue -95.04362
+.\vbox(209.2638+0.0)x227.62207, shifted -58.04362
+..\vbox(12.0+0.0)x227.62207, glue set 12.0fil
+...\glue 0.0 plus 1.0fil
+...\hbox(0.0+0.0)x227.62207
+..\glue 25.0
+..\glue(\lineskip) 0.0
+..\vbox(142.2638+0.0)x227.62207, glue set 132.04971fil
+...\write-{}
+...\glue(\topskip) 2.74
+...\hbox(7.26+0.19998)x227.62207, glue set 190.73207fil
+....\hbox(0.0+0.0)x15.0
+....\EU1/texgyrepagella-regular.otf(0)/m/n/10 hello
+....\penalty 10000
+....\glue(\parfillskip) 0.0 plus 1.0fil
+....\glue(\rightskip) 0.0
+...\glue 0.0 plus 1.0fil
+...\glue 0.0
+...\glue 0.0 plus 0.0001fil
+..\glue(\baselineskip) 30.0
+..\hbox(0.0+0.0)x227.62207

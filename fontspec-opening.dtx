@@ -54,7 +54,10 @@
 \tl_set:Nn \ttdefault {lmtt}
 \RequirePackage[\g_fontspec_encoding_tl]{fontenc}
 \tl_set_eq:NN \UTFencname \g_fontspec_encoding_tl % for xunicode if needed
-\normalsize % to overcome the encoding changing the current font size
+%    \end{macrocode}
+% To overcome the encoding changing the current font size, but only if a class has been loaded first:
+%    \begin{macrocode}
+\tl_if_in:NnT \@filelist {.cls} { \normalsize }
 %    \end{macrocode}
 % Dealing with a couple of the problems introduced by \pkg{babel}:
 %    \begin{macrocode}

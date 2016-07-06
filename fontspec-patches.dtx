@@ -120,6 +120,10 @@
 \cs_set:Npn \eminnershape { \upshape }
 \emfontdeclare{ \emshape, \eminnershape }
 %    \end{macrocode}
+% Ensure nesting resets when necessary:
+%    \begin{macrocode}
+\cs_set:ppn \reset@font { \normalfont \int_zero:N \l__fontspec_em_int }
+%    \end{macrocode}
 % \end{macro} \end{macro} \end{macro} \end{macro} \end{macro}
 %
 % \subsection{\cmd\-}

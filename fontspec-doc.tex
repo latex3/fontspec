@@ -1193,7 +1193,13 @@ Features introduced in this section may be used with any font.
 
 \feat{Color} (or \feat{Colour}), also shown in \vref{sec:defaults}
 and elsewhere, uses font specifications to set the colour of
-the text. The colour is defined as a triplet of two-digit Hex RGB
+the text.
+You should think of this as the literal glyphs of the font being coloured in a certain way.
+Notably, this mechanism is different to that of the \pkg{color}/\pkg{xcolor}/\pkg{hyperref}/etc.\ packages, and in fact using \pkg{fontspec} commands to set colour will prevent your text from changing colour using those packages at all!
+For example, if you set the colour in a \verb|\setmainfont| command, \verb|\color{...}| and related commands, including hyperlink colouring, will no longer have any effect on text in this font.)
+Therefore, \pkg{fontspec}'s colour commands are best used to set explicit colours in specific situations, and the \pkg{xcolor} package is recommended for more general colour functionality.
+
+The colour is defined as a triplet of two-digit Hex RGB
 values, with optionally another value for the transparency (where
 |00| is completely transparent and |FF| is opaque.)
 \begin{Lexample}{color}{Selecting colour with transparency. N.B. due to a conflict betweeen \pkg{fontspec} and the \pkg{preview} package, this example currently does not show any transparency!}

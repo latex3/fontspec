@@ -28,7 +28,7 @@
   \msg_redirect_module:nnn { fontspec } { warning } { none }
   \msg_redirect_module:nnn { fontspec } { info } { none }
  }
-\ExecuteOptions{config,math,euenc}
+\ExecuteOptions{config,math,tuenc}
 \ProcessOptions*
 %    \end{macrocode}
 %
@@ -39,13 +39,13 @@
 %
 % Soon to be the default, with a just-in-case check:
 %    \begin{macrocode}
-\tl_set:Nn \g_fontspec_encoding_tl {TU}
 \file_if_exist:nF {tuenc.def} { \bool_set_true:N \g_@@_euenc_bool }
-\bool_if:NT \g_@@_euenc_bool
+\bool_if:NTF \g_@@_euenc_bool
   {
 %<xetexx>    \tl_set:Nn \g_fontspec_encoding_tl {EU1}
 %<luatex>    \tl_set:Nn \g_fontspec_encoding_tl {EU2}
   }
+  { \tl_set:Nn \g_fontspec_encoding_tl { TU } }
 %    \end{macrocode}
 %
 %    \begin{macrocode}

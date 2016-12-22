@@ -1130,19 +1130,30 @@
 \cs_new:Nn \fontspec_new_script:nn
  {
   \keys_define:nn { fontspec } { Script / #1 .code:n =
+    \bool_set_false:N \l_@@_script_exist_bool
     \clist_map_inline:nn {#2}
      {
       \fontspec_check_script:nTF {####1}
        {
         \tl_set:Nn \l_fontspec_script_tl {####1}
         \int_set:Nn \l_fontspec_script_int {\l_fontspec_strnum_int}
+        \bool_set_true:N \l_@@_script_exist_bool
         \clist_map_break:
+       }
+       { }
+     }
+    \bool_if:NF \l_@@_script_exist_bool
+     {
+      \str_if_eq:nnTF {#1} {Latin}
+       {
+        \@@_warning:nx {script-not-exist} {#1}
        }
        {
         \fontspec_check_script:nTF {latn}
          {
           \@@_warning:nx {script-not-exist-latn} {#1}
-          \keys_set:nn {fontspec} {Script=Latin}
+          \tl_set:Nn \l_fontspec_script_tl {latn}
+          \int_set:Nn \l_fontspec_script_int {\l_fontspec_strnum_int}
          }
          {
           \@@_warning:nx {script-not-exist} {#1}
@@ -1151,6 +1162,7 @@
      }
    }
  }
+\bool_new:N \l_@@_script_exist_bool
 %    \end{macrocode}
 %
 %    \begin{macrocode}

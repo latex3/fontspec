@@ -186,13 +186,13 @@
  {
 %<debug>\typeout{:: @@_load_font}
 %<debug>\typeout{Set~ base~ font~ for~ preliminary~ analysis}
-  \@@_font_set:Nnn    \l_fontspec_font
-     { \@@_fullname:n { \l_fontspec_fontname_up_tl } } {\f@size pt}
+  \@@_font_set:Nnn \l_fontspec_font
+     { \@@_construct_font_call:nn { \l_fontspec_fontname_up_tl } {} } {\f@size pt}
   \@@_primitive_font_if_null:NT \l_fontspec_font { \@@_error:nx {font-not-found} {\l_fontspec_fontname_up_tl} }
   \@@_set_font_type:
 %<debug>\typeout{Set~ base~ font~ properly}
-  \@@_font_gset:Nnn   \l_fontspec_font
-     { \@@_fullname:n {\l_fontspec_fontname_up_tl } } {\f@size pt}
+  \@@_font_gset:Nnn \l_fontspec_font
+     { \@@_construct_font_call:nn { \l_fontspec_fontname_up_tl } {} } {\f@size pt}
   \l_fontspec_font % this is necessary for LuaLaTeX to check the scripts properly
  }
 %    \end{macrocode}
@@ -214,14 +214,31 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\@@_fullname:n}
-% Constructs the complete font name based on a common piece of info.
+% \begin{macro}{\@@_construct_font_call:nnnnnn,\@@_construct_font_call:nn}
+% Constructs the complete font invocation.
+% \darg{Base name}
+% \darg{Extension}
+% \darg{TTC Index}
+% \darg{Renderer}
+% \darg{Optical size}
+% \darg{Font features}
 %    \begin{macrocode}
-\cs_set:Nn \@@_fullname:n
+\cs_set:Nn \@@_construct_font_call:nnnnnn
  {
-  \@@_namewrap:n { #1 \l_@@_extension_tl \l_@@_ttc_index_tl }
-  \l_fontspec_renderer_tl
-  \l_@@_optical_size_tl
+  " \@@_fontname_wrap:n { #1 #2 #3 } #4 #5 : #6 "
+ }
+%    \end{macrocode}
+% In practice, we don't use the six-argument version, since most arguments are constructed on-the-fly:
+%    \begin{macrocode}
+\cs_set:Nn \@@_construct_font_call:nn
+ {
+  \@@_construct_font_call:nnnnnn
+    {#1}
+    \l_@@_extension_tl
+    \l_@@_ttc_index_tl
+    \l_fontspec_renderer_tl
+    \l_@@_optical_size_tl
+    {#2}
  }
 %    \end{macrocode}
 % \end{macro}
@@ -316,8 +333,8 @@
   \prop_gput:cnx {g_@@_ \l_fontspec_family_tl _prop} {options}  { \l_@@_all_features_clist }
   \prop_gput:cnx {g_@@_ \l_fontspec_family_tl _prop} {fontdef}
    {
-    \@@_fullname:n {\l_fontspec_fontname_tl} :
-    \l_@@_pre_feat_sclist \l_@@_rawfeatures_sclist
+    \@@_construct_font_call:nn {\l_fontspec_fontname_tl}
+      { \l_@@_pre_feat_sclist \l_@@_rawfeatures_sclist }
    }
   \prop_gput:cnV {g_@@_ \l_fontspec_family_tl _prop} {script-num} \l_fontspec_script_int
   \prop_gput:cnV {g_@@_ \l_fontspec_family_tl _prop} {lang-num} \l_fontspec_language_int
@@ -476,8 +493,8 @@
 
 \prg_new_conditional:Nnn \@@_if_autofont:nn {T,TF}
  {
-  \@@_font_set:Nnn \l_tmpa_font { \@@_fullname:n {#1}   } {\f@size pt}
-  \@@_font_set:Nnn \l_tmpb_font { \@@_fullname:n {#1#2} } {\f@size pt}
+  \@@_font_set:Nnn \l_tmpa_font { \@@_construct_font_call:nn {#1} {}  } {\f@size pt}
+  \@@_font_set:Nnn \l_tmpb_font { \@@_construct_font_call:nn {#1#2} {} } {\f@size pt}
   \str_if_eq_x:nnTF { \fontname \l_tmpa_font } { \fontname \l_tmpb_font }
    { \prg_return_false: }
    { \prg_return_true: }
@@ -509,7 +526,7 @@
     \@@_load_external_fontoptions:Nn \l_fontspec_fontname_tl {#1}
     \prop_get:NVNF \g_@@_fontopts_prop \l_fontspec_fontname_tl \l_@@_fontopts_clist
      { \clist_clear:N \l_@@_fontopts_clist }
-    \@@_font_set:Nnn \l_fontspec_font {\@@_fullname:n {\l_fontspec_fontname_tl}} {\f@size pt}
+    \@@_font_set:Nnn \l_fontspec_font { \@@_construct_font_call:nn {\l_fontspec_fontname_tl} {} } {\f@size pt}
     \@@_primitive_font_if_null:NT \l_fontspec_font { \@@_error:nx {font-not-found} {#1} }
  }
 %    \end{macrocode}
@@ -598,11 +615,8 @@
   \tl_put_right:Nx #1
    {
     <\l_@@_size_tl> \l_@@_scale_tl
-    \@@_fontwrap:n
-     {
-      \@@_fullname:n { \l_fontspec_fontname_tl }
-      : \l_@@_pre_feat_sclist \l_@@_rawfeatures_sclist
-     }
+      \@@_construct_font_call:nn { \l_fontspec_fontname_tl }
+        { \l_@@_pre_feat_sclist \l_@@_rawfeatures_sclist }
    }
  }
 
@@ -811,7 +825,7 @@
 %<debug>  \typeout{:: @@_init:}
   \bool_set_false:N \l_@@_ot_bool
   \bool_set_true:N \l_@@_firsttime_bool
-  \cs_set:Npn \@@_namewrap:n ##1 { ##1 }
+  \cs_set:Npn \@@_fontname_wrap:n ##1 { ##1 }
   \tl_clear:N \l_@@_optical_size_tl
   \tl_clear:N \l_@@_ttc_index_tl
   \tl_clear:N \l_fontspec_renderer_tl

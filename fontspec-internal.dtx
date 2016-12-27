@@ -81,6 +81,8 @@
 % \end{macro}
 %
 % \begin{macro}{\@@_init_ttc:n}
+% For TTC fonts we assume they will be loading the italic/bold fonts from the same file,
+% so prepopulate the fontnames to avoid needing to do it manually.
 %    \begin{macrocode}
 \cs_new:Nn \@@_init_ttc:n
  {
@@ -222,10 +224,12 @@
 % \darg{Renderer}
 % \darg{Optical size}
 % \darg{Font features}
+% We check if \meta{Font features} are empty and if so don't add in the separator colon.
 %    \begin{macrocode}
 \cs_set:Nn \@@_construct_font_call:nnnnnn
  {
-  " \@@_fontname_wrap:n { #1 #2 #3 } #4 #5 : #6 "
+  " \@@_fontname_wrap:n { #1 #2 #3 } #4 #5
+    \str_if_eq_x:nnF {#6}{} {:#6} "
  }
 %    \end{macrocode}
 % In practice, we don't use the six-argument version, since most arguments are constructed on-the-fly:
@@ -240,6 +244,21 @@
     \l_@@_optical_size_tl
     {#2}
  }
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@@_fontname_wrap:n,\@@_font_is_file:,\@@_font_is_name:}
+% The \cs{@@_fontname_wrap:n} command takes the font name and either passes it through unchanged or wraps it in the syntax for loading a font `by filename'.
+% \XeTeX's syntax is followed since \pkg{luaotfload} provides compatibility.
+%    \begin{macrocode}
+\cs_new:Nn \@@_font_is_name:
+  {
+    \cs_set_eq:NN \@@_fontname_wrap:n \use:n
+  }
+\cs_new:Nn \@@_font_is_file:
+  {
+    \cs_set:Npn \@@_fontname_wrap:n ##1 { [ \l_@@_font_path_tl ##1 ] }
+  }
 %    \end{macrocode}
 % \end{macro}
 %
@@ -825,7 +844,8 @@
 %<debug>  \typeout{:: @@_init:}
   \bool_set_false:N \l_@@_ot_bool
   \bool_set_true:N \l_@@_firsttime_bool
-  \cs_set:Npn \@@_fontname_wrap:n ##1 { ##1 }
+  \@@_font_is_name:
+  \tl_clear:N \l_@@_font_path_tl
   \tl_clear:N \l_@@_optical_size_tl
   \tl_clear:N \l_@@_ttc_index_tl
   \tl_clear:N \l_fontspec_renderer_tl

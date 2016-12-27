@@ -2820,8 +2820,22 @@ This feature is designed for \LaTeX\ programmers who need to
 perform subsequent font-related tests on the \meta{primitive font}.
 \end{macro}
 
-
 \subsection{Functions for querying font families}
+
+\begin{macro}{\fontspec_font_if_exist:nTF}
+\begin{macro}{\FontIfExistsTF}
+Test whether the `font name' (|#1|) exists or is loadable.
+The syntax of |#1| is a restricted/simplified version of \pkg{fontspec}'s usual font loading syntax; fonts to be loaded by filename are detected by the presence of an appropriate extension (|.otf|, etc.), and paths should be included inline.
+The synonym \cs{FontIfExistsTF} is provided for `document authors'.
+
+E.g.:
+\begin{Verbatim}
+  \FontIfExistsTF {cmr10}{T}{F}
+  \FontIfExistsTF {Times~ New~ Roman}{T}{F}
+  \FontIfExistsTF {texgyrepagella-regular.otf}{T}{F}
+  \FontIfExistsTF {/Users/will/Library/Fonts/CODE2000.TTF}{T}{F}
+\end{Verbatim}
+\end{macro}
 
 The following functions in \pkg{expl3} syntax may be used
 for writing code that interfaces with \pkg{fontspec}-loaded fonts.

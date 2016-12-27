@@ -40,7 +40,8 @@
   \bool_set_true:N \l_@@_nobf_bool
   \bool_set_true:N \l_@@_noit_bool
   \bool_set_true:N \l_@@_external_bool
-  \cs_set:Npn \@@_fontname_wrap:n ##1 { [ #1 ##1 ] }
+  \tl_set:Nn \l_@@_font_path_tl {#1}
+  \@@_font_is_file:
 %<*xetexx>
   \keys_set:nn {fontspec-renderer} {Renderer=OpenType}
 %</xetexx>

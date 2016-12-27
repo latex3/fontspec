@@ -309,6 +309,22 @@
 %    \end{macrocode}
 % \end{macro}
 %
+%
+%
+% \begin{macro}{\fontspec_font_if_exist:n}
+%    \begin{macrocode}
+\prg_new_conditional:Nnn \fontspec_font_if_exist:n {TF,T,F}
+  {
+    \group_begin:
+      \@@_init:
+      \@@_if_detect_external:nT {#1} { \@@_font_is_file: }
+      \@@_primitive_font_if_exist:nTF { \@@_construct_font_call:nn {#1} {} }
+        { \group_end: \prg_return_true: }
+        { \group_end: \prg_return_false:  }
+  }
+%    \end{macrocode}
+% \end{macro}
+%
 % \iffalse
 %    \begin{macrocode}
 %</fontspec&(xetexx|luatex)>

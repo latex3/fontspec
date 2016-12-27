@@ -9,8 +9,6 @@
 %
 % \subsection{Primitive wrappers}
 %
-% The commands defined here should generally not be used in regular \pkg{fontspec} code.
-%
 % \begin{macro}{\@@_primitive_font_set:Nnn,\@@_primitive_font_gset:Nnn}
 %    \begin{macrocode}
 \cs_set:Npn \@@_primitive_font_set:Nnn #1#2#3
@@ -58,23 +56,6 @@
   }
 %    \end{macrocode}
 % \end{macro}
-%
-% \subsection{Commands used internally in \pkg{fontspec}}
-%
-% \begin{macro}{\fontspec_font_set:Nnn,\fontspec_font_gset:Nnn}
-% Wrapper around \cs{font_set:Nnn} and \cs{font_gset:Nnn}.
-%    \begin{macrocode}
-\cs_new:Nn \@@_font_set:Nnn
- {
-  \@@_primitive_font_set:Nnn  #1 { #2 } {#3}
- }
-\cs_new:Nn \@@_font_gset:Nnn
- {
-  \@@_primitive_font_gset:Nnn #1 { #2 } {#3}
- }
-%    \end{macrocode}
-% \end{macro}
-%
 %
 % \begin{macro}{\@@_primitive_font_glyph_if_exist:NnTF}
 %    \begin{macrocode}

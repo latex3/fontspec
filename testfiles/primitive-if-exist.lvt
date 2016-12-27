@@ -1,0 +1,14 @@
+\input{fontspec-testsetup.tex}
+\usepackage{fontspec}
+\begin{document}
+\begin{fstest}
+\ExplSyntaxOn
+\__fontspec_primitive_font_if_exist:nTF {cmr10}
+   {\TIMO\TRUE\OMIT} {\TIMO\FALSE\OMIT}
+\__fontspec_primitive_font_if_exist:nTF {[texgyrepagella-regular.otf]}
+   {\TIMO\TRUE\OMIT} {\TIMO\FALSE\OMIT}
+\__fontspec_primitive_font_if_exist:nTF {[mystery-font.otf]}
+   {\TIMO\TRUE\OMIT} {\TIMO\FALSE\OMIT}
+\ExplSyntaxOff
+\end{fstest}
+\end{document}

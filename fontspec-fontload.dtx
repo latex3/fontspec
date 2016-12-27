@@ -7,8 +7,6 @@
 %    \end{macrocode}
 % \fi
 %
-% \subsection{Primitive wrappers}
-%
 % \begin{macro}{\@@_primitive_font_set:Nnn,\@@_primitive_font_gset:Nnn}
 %    \begin{macrocode}
 \cs_set:Npn \@@_primitive_font_set:Nnn #1#2#3
@@ -52,7 +50,8 @@
       \@@_font_suppress_not_found_error:
       \@@_primitive_font_set:Nnn \l_@@_primitive_font {#1} {10pt}
       \@@_primitive_font_if_null:NTF \l_@@_primitive_font
-        { \group_end: \prg_return_false: } { \group_end: \prg_return_true: }
+        { \group_end: \prg_return_false: }
+        { \group_end: \prg_return_true:  }
   }
 %    \end{macrocode}
 % \end{macro}
@@ -60,13 +59,13 @@
 % \begin{macro}{\@@_primitive_font_glyph_if_exist:NnTF}
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \@@_primitive_font_glyph_if_exist:Nn {p,TF,T,F}
- {
-  \etex_iffontchar:D #1 #2 \scan_stop:
-    \prg_return_true:
-  \else:
-    \prg_return_false:
-  \fi:
- }
+  {
+    \etex_iffontchar:D #1 #2 \scan_stop:
+      \prg_return_true:
+    \else:
+      \prg_return_false:
+    \fi:
+  }
 %    \end{macrocode}
 % \end{macro}
 %

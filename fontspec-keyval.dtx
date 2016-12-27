@@ -1103,6 +1103,19 @@
  }
 %    \end{macrocode}
 %
+% \subsubsection{Ornament}
+%
+%    \begin{macrocode}
+\@@_define_font_feature:n { Ornament }
+\keys_define:nn {fontspec}
+ {
+  Ornament .default:n = {0} ,
+  Ornament / unknown .code:n =
+   {
+    \fontspec_make_feature:nnx {}{}{ +ornm=#1 }
+   }
+ }
+%    \end{macrocode}
 %
 % \subsubsection{Vertical}
 %    \begin{macrocode}

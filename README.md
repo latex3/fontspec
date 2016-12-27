@@ -71,6 +71,7 @@ Change history
 
     * `TU` font encoding now default, with encoding files provided by the kernel.
     * Bug fixed for `Script` selection.
+    * Add feature `Ornament=`*n* corresponding to OpenType feature `+ornm=`*n*.
 
 - v2.5b (2016/05/14) "More bugs" (somehow never released)
 

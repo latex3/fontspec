@@ -1,4 +1,4 @@
-THE FONTSPEC PACKAGE v2.5b
+THE FONTSPEC PACKAGE v2.5c
 ==========================
 
 The fontspec package provides an automatic and unified interface for loading
@@ -67,11 +67,17 @@ Features may be added to the font currently in use with
 Change history
 --------------
 
-- v2.5b (2016/05/14) "More bugs"
+- v2.5c (2016/12/??) "Christmas 2017 release"
+
+    * `TU` font encoding now default, with encoding files provided by the kernel.
+    * Bug fixed for `Script` selection.
+
+- v2.5b (2016/05/14) "More bugs" (somehow never released)
 
     * Fixed bug with garbage text printed in certain "verbatim" situations under LuaTeX.
     * Improve interaction between optical sizes and small caps.
-    * Remove documentation for `FeatureFile', since this is no longer supported under LuaLaTeX (there are other methods to perform the same thing, but no "easy" user interface that `fontspec' can provide at this stage).
+    * Remove documentation for `FeatureFile`, since this is no longer supported under LuaLaTeX
+      (there are other methods to perform the same thing, but no "easy" user interface that `fontspec` can provide at this stage).
     * Fix regression causing an error message if `fontspec' loaded before `\documentclass'.
 
 - v2.5a (2016/02/01) "Bugs fixed"

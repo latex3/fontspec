@@ -1,4 +1,4 @@
-THE FONTSPEC PACKAGE v2.5a
+THE FONTSPEC PACKAGE v2.5b
 ==========================
 
 The fontspec package provides an automatic and unified interface for loading
@@ -67,7 +67,14 @@ Features may be added to the font currently in use with
 Change history
 --------------
 
-- v2.5a (2016/02/01) "bugs fixed"
+- v2.5b (2016/05/14) "More bugs"
+
+    * Fixed bug with garbage text printed in certain "verbatim" situations under LuaTeX.
+    * Improve interaction between optical sizes and small caps.
+    * Remove documentation for `FeatureFile', since this is no longer supported under LuaLaTeX (there are other methods to perform the same thing, but no "easy" user interface that `fontspec' can provide at this stage).
+    * Fix regression causing an error message if `fontspec' loaded before `\documentclass'.
+
+- v2.5a (2016/02/01) "Bugs fixed"
 
     * Rather embarrassing bug fix! (`unicode-math` was broken.)
     * Remember to add the `fontspec.cfg` file to the distribution.
@@ -77,7 +84,8 @@ Change history
 
 - v2.5 (2016/01/30) "TL2016 release"
 
-    * Provide a new Unicode font encoding ("TU") to replace EU1/EU2 and xunicode. If this causes problems, load fontspec with the `[euenc]` option to revert to the old behaviour.
+    * Provide a new Unicode font encoding ("TU") to replace EU1/EU2 and xunicode.
+    * Activate with package option `[tuenc]'; once it becomes the default (later this year), `[euenc]` option will revert to the old behaviour.
     * New command `\emfontdeclare` for defining font shapes when arbitrarily nesting the `\emph` command.
     * Allow slanted small caps and better internal methods for "combining" font shapes; this fixes a few bugs.
     * Incorporate "new" font script tags for Indic fonts. E.g., when selecting `Script=Bengali`, fontspec will first query the font for the `bng2` OpenType script, and if not found select `beng`.

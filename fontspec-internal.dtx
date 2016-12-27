@@ -82,6 +82,7 @@
 %    \begin{macrocode}
 \cs_new:Nn \@@_load_external_fontoptions:Nn
  {
+%<debug>  \typeout{:: @@_load_external_fontoptions:Nn \exp_not:N #1 {#2} }
   \@@_sanitise_fontname:Nn #1 {#2}
   \tl_set:Nx \l_@@_ext_filename_tl {#1.fontspec}
   \tl_remove_all:Nn \l_@@_ext_filename_tl {~}
@@ -138,6 +139,7 @@
 %    \begin{macrocode}
 \cs_new:Nn \@@_preparse_features:
  {
+%<debug>  \typeout{:: @@_preparse_features:}
 %    \end{macrocode}
 % Detect if external fonts are to be used, possibly automatically, and
 % parse fontspec features for bold/italic fonts and their features.
@@ -166,10 +168,13 @@
 %    \begin{macrocode}
 \cs_new:Nn \@@_load_font:
  {
+%<debug>\typeout{:: @@_load_font}
+%<debug>\typeout{Set~ base~ font~ for~ preliminary~ analysis}
   \@@_font_set:Nnn    \l_fontspec_font
      { \@@_fullname:n {\l_fontspec_fontname_up_tl} } {\f@size pt}
   \@@_font_if_null:NT \l_fontspec_font { \@@_error:nx {font-not-found} {\l_fontspec_fontname_up_tl} }
   \@@_set_font_type:
+%<debug>\typeout{Set~ base~ font~ properly}
   \@@_font_gset:Nnn   \l_fontspec_font
      { \@@_fullname:n {\l_fontspec_fontname_up_tl} } {\f@size pt}
   \l_fontspec_font % this is necessary for LuaLaTeX to check the scripts properly
@@ -380,8 +385,9 @@
 % Multiple Master), respectively.
 %    \begin{macrocode}
 \cs_new:Nn \@@_set_font_type:
-%<*xetexx>
  {
+%<debug>  \typeout{:: @@_set_font_type:}
+%<*xetexx>
   \bool_set_false:N \l_@@_tfm_bool
   \bool_set_false:N \l_@@_atsui_bool
   \bool_set_false:N \l_@@_ot_bool
@@ -412,13 +418,11 @@
         { \tl_set:Nn \l_fontspec_renderer_tl {/OT} }
      }
    }
- }
 %</xetexx>
 %<*luatex>
- {
   \bool_set_true:N \l_@@_ot_bool
- }
 %</luatex>
+ }
 %    \end{macrocode}
 % \end{macro}
 %
@@ -486,6 +490,7 @@
 
 \cs_new:Nn \@@_load_fontname:n
  {
+%<debug>    \typeout{:: @@_load_fontname:n {#1} }
     \@@_load_external_fontoptions:Nn \l_fontspec_fontname_tl {#1}
     \prop_get:NVNF \g_@@_fontopts_prop \l_fontspec_fontname_tl \l_@@_fontopts_clist
      { \clist_clear:N \l_@@_fontopts_clist }
@@ -788,6 +793,7 @@
 %    \begin{macrocode}
 \cs_set:Npn \@@_init:
  {
+%<debug>  \typeout{:: @@_init:}
   \bool_set_false:N \l_@@_ot_bool
   \bool_set_true:N \l_@@_firsttime_bool
   \cs_set:Npn \@@_namewrap:n ##1 { ##1 }

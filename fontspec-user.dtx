@@ -35,6 +35,7 @@
 
 \cs_new:Nn \@@_fontspec:nn
  {
+%<debug>  \typeout{:: @@_fontspec:nn {#1} {#2} }
   \fontspec_set_family:Nnn \f@family {#1} {#2}
   \fontencoding { \l_@@_nfss_enc_tl }
   \selectfont

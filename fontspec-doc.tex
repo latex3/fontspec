@@ -1090,6 +1090,21 @@ separately for each font shape.}
   \itshape Bold Italic {\scshape Bold Italic Small Caps}
 \end{Xexample}
 
+\subsection{Selecting fonts from TrueType Collections (TTC files)}
+TrueType Collections are multiple fonts contained within a single file.
+Each font within a collection must be explicitly chosen using the \feat{FontIndex} command.
+Since TrueType Collections are often used to contain the italic/bold shapes in a family, \pkg{fontspec} automatically selects the italic, bold, and bold italic fontfaces from the same file.
+For example, to load the macOS system font Optima:
+\begin{Verbatim}
+\setmainfont{Optima.ttc}[
+  Path = /System/Library/Fonts/ ,
+  UprightFeatures    = {FontIndex=0} ,
+  BoldFeatures       = {FontIndex=1} ,
+  ItalicFeatures     = {FontIndex=2} ,
+  BoldItalicFeatures = {FontIndex=3} ,
+]
+\end{Verbatim}
+
 \subsection{Different features for different font sizes}
 \label{sec:sizefeature}
 

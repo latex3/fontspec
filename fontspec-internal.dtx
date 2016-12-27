@@ -60,7 +60,7 @@
 
   \@@_save_family:nTF {#2}
    {
-    \@@_save_fontinfo:
+    \@@_save_fontinfo:n {#2}
     \@@_find_autofonts:
     \DeclareFontFamily{\l_@@_nfss_enc_tl}{\l_fontspec_family_tl}{}
     \@@_set_faces:
@@ -306,13 +306,13 @@
 % \end{macro}
 %
 %
-% \begin{macro}{\@@_save_fontinfo:nn}
+% \begin{macro}{\@@_save_fontinfo:n}
 % Saves the relevant font information for future processing.
 %    \begin{macrocode}
-\cs_new:Nn \@@_save_fontinfo:
+\cs_new:Nn \@@_save_fontinfo:n
  {
   \prop_new:c {g_@@_ \l_fontspec_family_tl _prop}
-  \prop_gput:cnx {g_@@_ \l_fontspec_family_tl _prop} {fontname} { \l_@@_basename_tl }
+  \prop_gput:cnx {g_@@_ \l_fontspec_family_tl _prop} {fontname} { #1 }
   \prop_gput:cnx {g_@@_ \l_fontspec_family_tl _prop} {options}  { \l_@@_all_features_clist }
   \prop_gput:cnx {g_@@_ \l_fontspec_family_tl _prop} {fontdef}
    {

@@ -123,6 +123,22 @@
  }
 %    \end{macrocode}
 %
+% \paragraph{TTC font index}
+%    \begin{macrocode}
+\@@_keys_define_code:nnn {fontspec-preparse} {FontIndex}
+ {
+  \str_if_eq_x:nnF { \str_lower_case:f {\l_@@_extension_tl} } {.ttc}
+    { \@@_warning:n {font-index-needs-ttc} }
+%<xetexx>  \tl_set:Nn \l_@@_ttc_index_tl {:#1}
+%<lustex>  \tl_set:Nn \l_@@_ttc_index_tl {(#1)}
+ }
+\@@_keys_define_code:nnn {fontspec} {FontIndex}
+ {
+%<xetexx>  \tl_set:Nn \l_@@_ttc_index_tl {:#1}
+%<lustex>  \tl_set:Nn \l_@@_ttc_index_tl {(#1)}
+ }
+%    \end{macrocode}
+%
 % \subsubsection{Bold/italic choosing options}
 %
 % The \feat{Bold}, \feat{Italic}, and \feat{BoldItalic}

@@ -267,7 +267,7 @@
      \tl_if_in:NnT #1 {##1}
        {
          \tl_remove_once:Nn #1 {##1}
-%         \keys_set:nn {fontspec-preparse-external} { Extension = ##1 }
+         \tl_set:Nn \l_@@_extension_tl {##1}
          \clist_map_break:
        }
    }

@@ -41,10 +41,14 @@
   \@@_font_suppress_not_found_error:
   \@@_init:
 
-  \tl_set:Nx \l_fontspec_fontname_tl    {#2}
-  \tl_set:Nx \l_fontspec_fontname_up_tl {#2}
-  \tl_set:Nx \l_@@_basename_tl          {#2}
+  \@@_sanitise_fontname:Nn \l_fontspec_fontname_tl    {#2}
+  \@@_sanitise_fontname:Nn \l_fontspec_fontname_up_tl {#2}
+  \@@_sanitise_fontname:Nn \l_@@_basename_tl          {#2}
 
+  \@@_if_detect_external:nT {#2}
+   { \keys_set:nn {fontspec-preparse-external} {ExternalLocation} }
+
+  \@@_init_ttc:n {#2}
   \@@_load_external_fontoptions:Nn \l_fontspec_fontname_tl {#2}
   \@@_extract_all_features:n {#1}
   \@@_preparse_features:
@@ -72,6 +76,20 @@
 %</debug>
    }
   \group_end:
+ }
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@@_init_ttc:n}
+%    \begin{macrocode}
+\cs_new:Nn \@@_init_ttc:n
+ {
+  \str_if_eq_x:nnT { \str_lower_case:f {\l_@@_extension_tl} } {.ttc}
+   {
+    \@@_sanitise_fontname:Nn \l_fontspec_fontname_it_tl   {#1}
+    \@@_sanitise_fontname:Nn \l_fontspec_fontname_bf_tl   {#1}
+    \@@_sanitise_fontname:Nn \l_fontspec_fontname_bfit_tl {#1}
+   }
  }
 %    \end{macrocode}
 % \end{macro}
@@ -144,8 +162,6 @@
 % Detect if external fonts are to be used, possibly automatically, and
 % parse fontspec features for bold/italic fonts and their features.
 %    \begin{macrocode}
-  \@@_if_detect_external:VT \l_@@_basename_tl
-   { \keys_set:nn {fontspec-preparse-external} {ExternalLocation} }
 
   \keys_set_known:nxN {fontspec-preparse-external}
    { \l_@@_all_features_clist }
@@ -171,18 +187,18 @@
 %<debug>\typeout{:: @@_load_font}
 %<debug>\typeout{Set~ base~ font~ for~ preliminary~ analysis}
   \@@_font_set:Nnn    \l_fontspec_font
-     { \@@_fullname:n {\l_fontspec_fontname_up_tl} } {\f@size pt}
+     { \@@_fullname:n { \l_fontspec_fontname_up_tl } } {\f@size pt}
   \@@_font_if_null:NT \l_fontspec_font { \@@_error:nx {font-not-found} {\l_fontspec_fontname_up_tl} }
   \@@_set_font_type:
 %<debug>\typeout{Set~ base~ font~ properly}
   \@@_font_gset:Nnn   \l_fontspec_font
-     { \@@_fullname:n {\l_fontspec_fontname_up_tl} } {\f@size pt}
+     { \@@_fullname:n {\l_fontspec_fontname_up_tl } } {\f@size pt}
   \l_fontspec_font % this is necessary for LuaLaTeX to check the scripts properly
  }
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\@@_if_detect_external:nnT}
+% \begin{macro}{\@@_if_detect_external:nT}
 % Check if either the fontname ends with a known font extension.
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \@@_if_detect_external:n {T}
@@ -195,7 +211,6 @@
    }
   \bool_if:NTF \l_@@_tmpa_bool \prg_return_true: \prg_return_false:
  }
-\cs_generate_variant:Nn \@@_if_detect_external:nT {V}
 %    \end{macrocode}
 % \end{macro}
 %
@@ -204,7 +219,7 @@
 %    \begin{macrocode}
 \cs_set:Nn \@@_fullname:n
  {
-  \@@_namewrap:n { #1 \l_@@_extension_tl }
+  \@@_namewrap:n { #1 \l_@@_extension_tl \l_@@_ttc_index_tl }
   \l_fontspec_renderer_tl
   \l_@@_optical_size_tl
  }
@@ -798,6 +813,7 @@
   \bool_set_true:N \l_@@_firsttime_bool
   \cs_set:Npn \@@_namewrap:n ##1 { ##1 }
   \tl_clear:N \l_@@_optical_size_tl
+  \tl_clear:N \l_@@_ttc_index_tl
   \tl_clear:N \l_fontspec_renderer_tl
   \tl_clear:N \l_fontspec_defined_shapes_tl
   \tl_clear:N \g_@@_curr_series_tl

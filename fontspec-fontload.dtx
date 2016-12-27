@@ -7,27 +7,35 @@
 %    \end{macrocode}
 % \fi
 %
-%    \begin{macrocode}
-\cs_set:Nn \@@_fontwrap:n { "#1" }
-%    \end{macrocode}
+% \subsection{Primitive wrappers}
 %
+% The commands defined here should generally not be used in regular \pkg{fontspec} code.
+%
+% \begin{macro}{\@@_primitive_font_set:Nnn,\@@_primitive_font_gset:Nnn}
 %    \begin{macrocode}
 \cs_set:Npn \@@_primitive_font_set:Nnn #1#2#3
   {
     \font #1 = #2 ~at~ #3 \scan_stop:
   }
-
 \cs_set:Npn \@@_primitive_font_gset:Nnn #1#2#3
   {
     \global \font #1 = #2 ~at~ #3 \scan_stop:
   }
-
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@@_font_suppress_not_found_error:}
+%    \begin{macrocode}
 \cs_set:Npn \@@_font_suppress_not_found_error:
   {
     \int_set_eq:NN \xetex_suppressfontnotfounderror:D \c_one
   }
-
-\prg_set_conditional:Nnn \@@_font_if_null:N {p,TF,T,F}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}[pTF]{\@@_primitive_font_if_null:N}
+%    \begin{macrocode}
+\prg_set_conditional:Nnn \@@_primitive_font_if_null:N {p,TF,T,F}
   {
     \ifx #1 \nullfont
       \prg_return_true:
@@ -36,7 +44,30 @@
     \fi
   }
 %    \end{macrocode}
+% \end{macro}
 %
+% \begin{macro}[TF]{\@@_primitive_font_if_exist:n}
+%    \begin{macrocode}
+\prg_set_conditional:Nnn \@@_primitive_font_if_exist:n {TF,T,F}
+  {
+    \group_begin:
+      \@@_font_suppress_not_found_error:
+      \@@_primitive_font_set:Nnn \l_@@_primitive_font {#1} {10pt}
+      \@@_primitive_font_if_null:NTF \l_@@_primitive_font
+        { \group_end: \prg_return_false: } { \group_end: \prg_return_true: }
+  }
+%    \end{macrocode}
+% \end{macro}
+%
+% \subsection{Commands used internally in \pkg{fontspec}}
+%
+% \begin{macro}{\@@_fontwrap:n}
+% Mechanism used for quoting font names to allow spaces if necessary.
+% At one time this command was engine-specific.
+%    \begin{macrocode}
+\cs_set:Nn \@@_fontwrap:n { "#1" }
+%    \end{macrocode}
+% \end{macro}
 %
 % \begin{macro}{\fontspec_font_set:Nnn,\fontspec_font_gset:Nnn}
 % Wrapper around \cs{font_set:Nnn} and \cs{font_gset:Nnn}.
@@ -53,9 +84,9 @@
 % \end{macro}
 %
 %
-% \begin{macro}{\font_glyph_if_exist:NnTF}
+% \begin{macro}{\@@_primitive_font_glyph_if_exist:NnTF}
 %    \begin{macrocode}
-\prg_new_conditional:Nnn \font_glyph_if_exist:Nn {p,TF,T,F}
+\prg_new_conditional:Nnn \@@_primitive_font_glyph_if_exist:Nn {p,TF,T,F}
  {
   \etex_iffontchar:D #1 #2 \scan_stop:
     \prg_return_true:

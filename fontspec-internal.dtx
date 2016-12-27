@@ -188,7 +188,7 @@
 %<debug>\typeout{Set~ base~ font~ for~ preliminary~ analysis}
   \@@_font_set:Nnn    \l_fontspec_font
      { \@@_fullname:n { \l_fontspec_fontname_up_tl } } {\f@size pt}
-  \@@_font_if_null:NT \l_fontspec_font { \@@_error:nx {font-not-found} {\l_fontspec_fontname_up_tl} }
+  \@@_primitive_font_if_null:NT \l_fontspec_font { \@@_error:nx {font-not-found} {\l_fontspec_fontname_up_tl} }
   \@@_set_font_type:
 %<debug>\typeout{Set~ base~ font~ properly}
   \@@_font_gset:Nnn   \l_fontspec_font
@@ -510,7 +510,7 @@
     \prop_get:NVNF \g_@@_fontopts_prop \l_fontspec_fontname_tl \l_@@_fontopts_clist
      { \clist_clear:N \l_@@_fontopts_clist }
     \@@_font_set:Nnn \l_fontspec_font {\@@_fullname:n {\l_fontspec_fontname_tl}} {\f@size pt}
-    \@@_font_if_null:NT \l_fontspec_font { \@@_error:nx {font-not-found} {#1} }
+    \@@_primitive_font_if_null:NT \l_fontspec_font { \@@_error:nx {font-not-found} {#1} }
  }
 %    \end{macrocode}
 % \end{macro}

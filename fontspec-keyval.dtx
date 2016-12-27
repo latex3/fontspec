@@ -594,7 +594,7 @@
     \tl_if_single:nTF {#1}
      { \tl_set:Nn \l_fontspec_hyphenchar_tl {`#1} }
      { \tl_set:Nn \l_fontspec_hyphenchar_tl { #1} }
-    \font_glyph_if_exist:NnTF \l_fontspec_font {\l_fontspec_hyphenchar_tl}
+    \@@_primitive_font_glyph_if_exist:NnTF \l_fontspec_font {\l_fontspec_hyphenchar_tl}
      {
       \tl_put_right:Nn \l_@@_postadjust_tl
 %<*xetexx>

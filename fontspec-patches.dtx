@@ -156,7 +156,7 @@
 %    \begin{macrocode}
 \cs_new:Nn \fontspec_visible_space:
  {
-  \font_glyph_if_exist:NnTF \font {"2423}
+  \@@_primitive_font_glyph_if_exist:NnTF \font {"2423}
    { \char"2423\scan_stop: }
    { \fontspec_visible_space_fallback: }
  }

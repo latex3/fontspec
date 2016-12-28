@@ -35,7 +35,7 @@
 % argument given defines the file path of the font.
 %    \begin{macrocode}
 \bool_new:N \l_@@_external_bool
-\@@_keys_define_code:nnn {fontspec-preparse-external} {ExternalLocation}
+\@@_keys_define_code:nnn {fontspec-preparse-external} {Path}
  {
   \bool_set_true:N \l_@@_nobf_bool
   \bool_set_true:N \l_@@_noit_bool
@@ -46,7 +46,8 @@
   \keys_set:nn {fontspec-renderer} {Renderer=OpenType}
 %</xetexx>
  }
-\aliasfontfeature{ExternalLocation}{Path}
+\aliasfontfeature{Path}{ExternalLocation}
+\@@_keys_define_code:nnn {fontspec} {Path} {}
 %    \end{macrocode}
 %
 % \paragraph{\feat{Extension}}
@@ -62,6 +63,7 @@
    }
  }
 \tl_clear:N \l_@@_extension_tl
+\@@_keys_define_code:nnn {fontspec} {Extension} {}
 %    \end{macrocode}
 %
 % \subsubsection{Pre-parsed features}

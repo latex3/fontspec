@@ -443,6 +443,9 @@ scaling.
   \ttfamily Pack my box with five dozen liquor jugs
 \end{Lexample}
 
+Note that while these commands all look and behave largely identically, the default setup for font loading automatically adds the |Ligatures=TeX| feature for the \cs{setmainfont} and \cs{setsansfont} commands.
+These defaults (and further customisations possible) are discussed in \vref{sec:defaults}.
+
 The font features argument accepts comma separated
 \meta{font feature}=\meta{option} lists; these are described in later:
 \begin{itemize}
@@ -538,7 +541,7 @@ in the filesystem must be specified with the |Path| feature:
 \end{Verbatim}
 Note that \XeTeX\ and \LuaTeX\ are able to load the font without giving an
 extension, but \pkg{fontspec} must know to search for the file; this can can
-be indicated by using the |Path| option without an argument:
+be indicated by using the |Path| feature without an argument:
 \begin{Verbatim}
   \setmainfont{texgyrepagella-regular}[
        Path, BoldFont = texgyrepagella-bold,
@@ -945,7 +948,7 @@ New calls of \cs{defaultfontfeatures} overwrite previous ones, and defaults can 
 \cmdbox{\cmd\defaultfontfeatures\oarg{font name}\marg{font features}}
 
 Default font features can be specified on a per-font and per-face basis
-by using the optional argument to \cs{defaultfontfeatures} as shown.\footnote{Internally, \meta{font name} has all spaces removed and is converted to lowercase.}
+by using the optional argument to \cs{defaultfontfeatures} as shown.
 \begin{Verbatim}
   \defaultfontfeatures[texgyreadventor-regular.otf]{Color=blue}
   \setmainfont{texgyreadventor-regular.otf}% will be blue

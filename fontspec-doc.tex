@@ -911,9 +911,17 @@ Two examples:
   Note that |\upshape| is required because the font changes are cascading.
 \item |\emfontdeclare{\bfseries,\fontseries{h}\selectfont,\fontseries{x}\selectfont}| could lead to (if fonts are set up correctly) `bold', `heavy', and `extra bold'.
 \end{enumerate}
+The implementation of these feature tries to be `smart' and guess what level of emphasis to use in the case of manual font changing.
+This is reliable only if you use series- and/or shape- changing commands in \cs{emfontdeclare}.
+For example:
+\begin{Verbatim}
+    \emfontdeclare{\itshape,\upshape\scshape,\itshape}
+    ...
+    \scshape small caps \emph{hello}
+\end{Verbatim}
+Here, the emphasised text `hello' will be printed in italic small caps since |\emph| can detect that the current font shape is already in the second `mode' of emphasis.
 
-
-
+Finally, if you have so much nested emphasis that |\emfontdeclare| runs out of options, it will insert |\emreset| (by default just |\upshape|) and start again from the beginning.
 
 \section{Selecting font features}
 \label{sec:selectingfeature}

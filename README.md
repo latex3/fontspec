@@ -73,6 +73,7 @@ Change history
     * Bug fixed for `Script` selection.
     * Add feature `Ornament=`*n* corresponding to OpenType feature `+ornm=`*n*.
     * Add feature `FontIndex=`*n* to support TrueType Collection (TTC) files.
+    * Nested \emph is now much smarter and will cleverly nest even if manual font changes are made.
 
 - v2.5b (2016/05/14) "More bugs" (somehow never released)
 

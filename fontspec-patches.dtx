@@ -100,22 +100,54 @@
 %    \begin{macrocode}
 \int_new:N \l_@@_em_int
 \int_new:N \l_@@_emdef_int
+\prop_new:N \g_@@_em_prop
+\cs_generate_variant:Nn \prop_gput:Nnn  {NxV}
+\cs_generate_variant:Nn \prop_gput:Nnn  {Nxn}
+\cs_generate_variant:Nn \prop_get:NnNT  {NxN}
+\cs_generate_variant:Nn \prop_get:NnNTF {NxN}
+%    \end{macrocode}
+%
+%    \begin{macrocode}
 \cs_new_protected:Npn \emfontdeclare #1
   {
-    \int_zero:N \l_@@_emdef_int
-    \clist_map_inline:nn {#1}
-      {
-        \int_incr:N \l_@@_emdef_int
-        \cs_set:cpn {@@_em_font_ \int_use:N \l_@@_emdef_int _switch:} {##1}
-      }
+    \prop_clear:N \g_@@_em_prop
+    \int_zero:N   \l_@@_emdef_int
+    \group_begin:
+      \normalfont
+      \clist_map_inline:nn {\emreset,#1}
+        {
+          ##1
+          \prop_gput:NxV \g_@@_em_prop { \f@series/\f@shape } { \l_@@_emdef_int }
+          \prop_gput:NxV \g_@@_em_prop { switch-\int_use:N \l_@@_emdef_int } { ##1 }
+          \int_incr:N \l_@@_emdef_int
+        }
+    \group_end:
   }
+%    \end{macrocode}
+%
+%    \begin{macrocode}
 \DeclareRobustCommand \em
   {
     \@nomath\em
+
+    \prop_get:NxNT \g_@@_em_prop { \f@series/\f@shape } \l_@@_em_tmp_tl
+      { \int_set:Nn \l_@@_em_int { \l_@@_em_tmp_tl } }
+
     \int_incr:N \l_@@_em_int
-    \use:c {@@_em_font_ \int_use:N \l_@@_em_int _switch:}
+
+    \prop_get:NxNTF \g_@@_em_prop { switch-\int_use:N \l_@@_em_int } \l_@@_em_switch_tl
+      { \l_@@_em_switch_tl }
+      {
+        \int_zero:N \l_@@_em_int
+        \emreset
+      }
+
   }
+%    \end{macrocode}
+% Document commands:
+%    \begin{macrocode}
 \DeclareTextFontCommand{\emph}{\em}
+\cs_set:Npn \emreset { \upshape }
 \cs_set:Npn \emshape { \itshape }
 \cs_set:Npn \eminnershape { \upshape }
 \emfontdeclare{ \emshape, \eminnershape }
@@ -123,6 +155,10 @@
 % Ensure nesting resets when necessary:
 %    \begin{macrocode}
 \cs_set:Npn \reset@font { \normalfont \int_zero:N \l__fontspec_em_int }
+%    \end{macrocode}
+% Programmer's interface for setting nesting level:
+%    \begin{macrocode}
+\cs_new:Nn \fontspec_set_em_level:n { \int_set:Nn \l_@@_em_int {#1} }
 %    \end{macrocode}
 % \end{macro} \end{macro} \end{macro} \end{macro} \end{macro}
 %

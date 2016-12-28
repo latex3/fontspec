@@ -76,8 +76,6 @@
   {\VerbatimEnvironment\begin{Fexample}[#1]{#2}{#3}{L}}
   {\end{Fexample}}
 
-
-
 \newenvironment{Fexample}[4][]
   {%
     \def\options{#1}%
@@ -102,17 +100,24 @@
                 }%
       \IfFileExists{zzz-\theexample-\prefix-\filename.pdf}{}
          {%
-           \edef\1{%
-             \csname prog@\prefix\endcsname
-             "%
+           \edef\XXcmd{%
              \unexpanded{%
-               \documentclass{article}%
+               \RequirePackage{luatex85}
+               \documentclass[margin=0.2mm]{standalone}
                \usepackage{booktabs,ifthen,graphicx,xcolor,varwidth}
-               \usepackage[active,tightpage]{preview}%
-               \usepackage{fontspec}%
-               \defaultfontfeatures{Ligatures=TeX} \begin{document}\begin{preview}\begin{varwidth}{0.7\linewidth}\input} zzz-\theexample-\prefix-\filename.tex
-             \unexpanded{\end{varwidth}\end{preview}\end{document}}
-             "
+               \usepackage{fontspec}
+               \defaultfontfeatures{Ligatures=TeX}
+               \begin{document}
+               \begin{varwidth}{0.7\linewidth}
+               \input} zzz-\theexample-\prefix-\filename.tex
+             \unexpanded{
+               \end{varwidth}
+               \end{document}
+             }%
+           }%
+           \edef\1{%
+             \csname prog@\prefix\endcsname "\unexpanded\expandafter{\XXcmd}";
+             printf '\@percentchar s' '\unexpanded\expandafter{\XXcmd}' > zzz-\theexample-\prefix-\filename-test.tex;
            }%
            \immediate\write18{\unexpanded\expandafter{\1}}%
          }%
@@ -344,7 +349,7 @@ Package options will be introduced below; some preliminary details are discussed
 
 \paragraph{Font encodings}
 \null\marginpar{\null\hfill\fbox{\color{red}\textsc{update}!}}%
-The 2016 release of \pkg{fontspec} initiates some changes for font encodings and the loading of \pkg{xunicode}.
+The 2016 release of \pkg{fontspec} initiated some changes for font encodings and the loading of \pkg{xunicode}.
 
 A new package option, \texttt{tuenc}, which is selected by default, switches the \textsc{nfss} font encoding to \texttt{TU}.
 \texttt{TU} is a new Unicode font encoding, intended for both \XeTeX\ and \LuaTeX\ engines, and automatically contains support for symbols covered by \LaTeX's traditional \texttt{T1} and \texttt{TS1} font encodings (for example, |\%|, |\textbullet|, |\"u|, and so on).
@@ -353,8 +358,6 @@ As a result, with this package option, Ross Moore's \pkg{xunicode} package is \t
 The old behaviour can be achieved by loading the \texttt{euenc} package option. This selects the \texttt{EU1} or \texttt{EU2} encoding (\XeTeX/\LuaTeX, resp.) and loads the \pkg{xunicode} package.
 Package authors and users who have referred explicitly to the encoding names \texttt{EU1} or \texttt{EU2} should update their code or documents.
 (See internal variable names described in \vref{sec:api} for how to do this properly.)
-
-\emph{While \pkg{fontspec} is providing the \texttt{TU} encoding, its interface should be considered \textsc{experimental}; feedback welcome. Once \texttt{TU} is incorporated into the \LaTeXe\ kernel directly (later in 2016), it will be considered stable.}
 
 
 \paragraph{\LuaTeX\ users only}
@@ -541,10 +544,34 @@ be indicated by using the |Path| option without an argument:
        Path, BoldFont = texgyrepagella-bold,
        ... ]
 \end{Verbatim}
-In previous versions of the package, the alias |ExternalLocation| was documented for this purpose, but this is now deprecated and may be removed in the future.
+My preference is to always be explicit and include the extension; this also allows \pkg{fontspec} to automatically identify that the font should be loaded by filename.
+
+In previous versions of the package, the |Path| feature was also provided under the alias |ExternalLocation|, but this latter name is now deprecated and should not be used for new documents.
 
 
+\subsection{Querying whether a font `exists'}
 
+\cmdbox{
+  \CMD{\string\IfFontExistsTF}\marg{font name}\marg{true branch}\marg{false branch}
+}
+
+The conditional \cs{IfFontExistsTF} is provided to test whether the \meta{font name} exists or is loadable.
+If it is, the \meta{true branch} code is executed; otherwise, the \meta{false branch} code is.
+
+This command can be slow since the engine may resort to scanning the filesystem for a missing font.
+Nonetheless, it has been a popular request for users who wish to define `fallback fonts' for their documents for greater portability.
+
+In this command, the syntax for the \meta{font name} is a restricted/simplified version of the font loading syntax used for \cs{fontspec} and so on.
+Fonts to be loaded by filename are detected by the presence of an appropriate extension (|.otf|, etc.), and paths should be included inline.
+E.g.:
+\begin{Verbatim}
+  \IfFontExistsTF{cmr10}{T}{F}
+  \IfFontExistsTF{Times New Roman}{T}{F}
+  \IfFontExistsTF{texgyrepagella-regular.otf}{T}{F}
+  \IfFontExistsTF{/Users/will/Library/Fonts/CODE2000.TTF}{T}{F}
+\end{Verbatim}
+
+The \cs{IfFontExistsTF} command is a synonym for the programming interface function \cs{fontspec_font_if_exist:nTF} (\vref*{sec:api}).
 
 
 
@@ -2822,25 +2849,23 @@ perform subsequent font-related tests on the \meta{primitive font}.
 
 \subsection{Functions for querying font families}
 
-\begin{macro}{\fontspec_font_if_exist:nTF}
-\begin{macro}{\FontIfExistsTF}
-Test whether the `font name' (|#1|) exists or is loadable.
-The syntax of |#1| is a restricted/simplified version of \pkg{fontspec}'s usual font loading syntax; fonts to be loaded by filename are detected by the presence of an appropriate extension (|.otf|, etc.), and paths should be included inline.
-The synonym \cs{FontIfExistsTF} is provided for `document authors'.
-
-E.g.:
-\begin{Verbatim}
-  \FontIfExistsTF {cmr10}{T}{F}
-  \FontIfExistsTF {Times~ New~ Roman}{T}{F}
-  \FontIfExistsTF {texgyrepagella-regular.otf}{T}{F}
-  \FontIfExistsTF {/Users/will/Library/Fonts/CODE2000.TTF}{T}{F}
-\end{Verbatim}
-\end{macro}
-
 The following functions in \pkg{expl3} syntax may be used
 for writing code that interfaces with \pkg{fontspec}-loaded fonts.
-All of the following conditionals also exist with |T| and |F|
-as well as |TF| suffixes.
+The following conditionals are all provided in |TF|, |T|, and |F| forms.
+
+\begin{macro}{\fontspec_font_if_exist:nTF}
+Test whether the `font name' (|#1|) exists or is loadable.
+The syntax of |#1| is a restricted/simplified version of \pkg{fontspec}'s usual font loading syntax; fonts to be loaded by filename are detected by the presence of an appropriate extension (|.otf|, etc.), and paths should be included inline.
+E.g.:
+\begin{Verbatim}
+  \fontspec_font_if_exist:nTF {cmr10}{T}{F}
+  \fontspec_font_if_exist:nTF {Times~ New~ Roman}{T}{F}
+  \fontspec_font_if_exist:nTF {texgyrepagella-regular.otf}{T}{F}
+  \fontspec_font_if_exist:nTF {/Users/will/Library/Fonts/CODE2000.TTF}{T}{F}
+\end{Verbatim}
+\end{macro}
+The synonym \cs{IfFontExistsTF} is provided for `document authors'.
+
 
 \begin{macro}{\fontspec_if_fontspec_font:TF}
 Test whether the currently selected font has been loaded by fontspec.
@@ -2858,6 +2883,7 @@ Test whether the currently selected font is an OpenType font.
 Always true for \LuaTeX{} fonts.
 \end{macro}
 
+
 \begin{macro}{\fontspec_if_feature:nTF}
 Test whether the currently selected font contains the raw OpenType
 feature |#1|. E.g.: |\fontspec_if_feature:nTF {pnum} {True} {False}|.
@@ -2865,11 +2891,13 @@ Returns false if the font is not loaded by fontspec or is not an OpenType
 font.
 \end{macro}
 
+
 \begin{macro}{\fontspec_if_feature:nnnTF}
 Test whether the currently selected font with raw OpenType script tag |#1| and raw OpenType language tag |#2| contains the raw OpenType feature tag |#3|. E.g.: |\fontspec_if_feature:nTF {latn} {ROM} {pnum} {True} {False}|.
 Returns false if the font is not loaded by fontspec or is not an OpenType
 font.
 \end{macro}
+
 
 \begin{macro}{\fontspec_if_script:nTF}
 Test whether the currently selected font contains the raw OpenType
@@ -2878,12 +2906,14 @@ Returns false if the font is not loaded by fontspec or is not an OpenType
 font.
 \end{macro}
 
+
 \begin{macro}{\fontspec_if_language:nTF}
 Test whether the currently selected font contains the raw OpenType language
 tag |#1|. E.g.: |\fontspec_if_language:nTF {ROM} {True} {False}|.
 Returns false if the font is not loaded by fontspec or is not an OpenType
 font.
 \end{macro}
+
 
 \begin{macro}{\fontspec_if_language:nnTF}
 Test whether the currently selected font contains the raw OpenType language
@@ -2897,6 +2927,7 @@ font.
 Test whether the currently loaded font is using the specified raw
 OpenType script tag |#1|.
 \end{macro}
+
 
 \begin{macro}{\fontspec_if_current_language:nTF}
 Test whether the currently loaded font is using the specified raw

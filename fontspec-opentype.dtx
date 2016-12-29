@@ -7,16 +7,6 @@
 % \fi
 %
 %
-% \begin{macro}{\@@_define_font_feature:n}
-% These macros are used in order to simplify font feature definition later on.
-%    \begin{macrocode}
-\cs_new:Nn \@@_define_font_feature:n
- {
-  \keys_define:nn {fontspec-opentype} { #1 .multichoice: }
-  \keys_define:nn {fontspec-aat}      { #1 .multichoice: }
- }
-%    \end{macrocode}
-% \end{macro}
 %
 % \begin{macro}{\@@_define_opentype_feature_group:n}
 %    \begin{macrocode}
@@ -25,22 +15,9 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\@@_define_aat_feature_group:n}
-%    \begin{macrocode}
-\cs_new:Nn \@@_define_aat_feature_group:n
-  { \keys_define:nn {fontspec-aat} { #1 .multichoice: } }
-%    \end{macrocode}
-% \end{macro}
 %
-% \begin{macro}{\@@_define_feature_option:nnnnnn}
+% \begin{macro}{\@@_define_opentype_feature:nnnn}
 %    \begin{macrocode}
-\cs_new:Nn \@@_define_aat_feature:nnnn
- {
-  \keys_define:nn {fontspec-aat}
-   {
-    #1/#2 .code:n = { \fontspec_make_AAT_feature:nn {#3}{#4} }
-   }
- }
 \cs_new:Nn \@@_define_opentype_feature:nnnn
  {
   \keys_define:nn {fontspec-opentype}
@@ -66,30 +43,6 @@
 %
 %
 % \subsection{Adding features when loading fonts}
-%
-% \begin{macro}{\fontspec_make_feature:nnnn}
-%   This macro is called by each feature key selected, and runs
-%   according to which type of font is selected.
-%    \begin{macrocode}
-\cs_new:Nn \fontspec_make_feature:nnnn
-%<*xetexx>
- {
-  \bool_if:NTF \l_@@_ot_bool
-   { \fontspec_make_OT_feature:nn {#3}{#4} }
-   {
-     \bool_if:NT \l_@@_atsui_bool
-      { \fontspec_make_AAT_feature:nn {#1}{#2} }
-   }
- }
-%</xetexx>
-%<*luatex>
- { \fontspec_make_OT_feature:nn {#3}{#4} }
-%</luatex>
-%    \end{macrocode}
-%
-%    \begin{macrocode}
-\cs_generate_variant:Nn \fontspec_make_feature:nnnn {nnx}
-%    \end{macrocode}
 %
 %    \begin{macrocode}
 \cs_new:Nn \fontspec_make_OT_feature:nn

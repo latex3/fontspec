@@ -841,12 +841,18 @@
 
   \keys_set_known:nxN {fontspec} {\l_@@_keys_leftover_clist} \l_@@_keys_leftover_clist
 
+%<*xetexx>
   \bool_if:NTF \l_@@_ot_bool
     { \keys_set:nx {fontspec-opentype} {\l_@@_keys_leftover_clist} }
     {
       \bool_if:NT \l_@@_atsui_bool
         { \keys_set:nx {fontspec-aat} {\l_@@_keys_leftover_clist} }
     }
+%</xetexx>
+%<*luatex>
+  \keys_set:nx {fontspec-opentype} {\l_@@_keys_leftover_clist}
+%</luatex>
+
   \str_if_eq_x:nnF { \l_@@_hexcol_tl \l_@@_opacity_tl }
                    { \g_@@_hexcol_tl \g_@@_opacity_tl }
     { \@@_update_featstr:n { color = \l_@@_hexcol_tl\l_@@_opacity_tl } }

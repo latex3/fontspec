@@ -6,6 +6,27 @@
 %    \end{macrocode}
 % \fi
 %
+
+
+% \begin{macro}{\@@_define_aat_feature_group:n}
+%    \begin{macrocode}
+\cs_new:Nn \@@_define_aat_feature_group:n
+  { \keys_define:nn {fontspec-aat} { #1 .multichoice: } }
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@@_define_aat_feature:nnnn}
+%    \begin{macrocode}
+\cs_new:Nn \@@_define_aat_feature:nnnn
+ {
+  \keys_define:nn {fontspec-aat}
+   {
+    #1/#2 .code:n = { \fontspec_make_AAT_feature:nn {#3}{#4} }
+   }
+ }
+%    \end{macrocode}
+% \end{macro}
+
 % \begin{macro}{\fontspec_make_AAT_feature_string:nnTF}
 %    \begin{macrocode}
 \cs_new:Nn \fontspec_make_AAT_feature:nn

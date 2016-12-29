@@ -358,7 +358,7 @@
 \DeclareDocumentCommand \newAATfeature {mmmm}
  {
   \keys_if_exist:nnF { fontspec } {#1}
-    { \@@_define_font_feature:n {#1} }
+    { \@@_define_aat_feature_group:n {#1} }
   \keys_if_choice_exist:nnnT {fontspec} {#1} {#2}
     { \@@_warning:nxx {feature-option-overwrite} {#1} {#2} }
   \@@_define_feature_option:nnnnn {#1}{#2}{#3}{#4}{}
@@ -375,7 +375,7 @@
 \DeclareDocumentCommand \newopentypefeature {mmm}
  {
   \keys_if_exist:nnF { fontspec / options } {#1}
-    { \@@_define_font_feature:n {#1} }
+    { \@@_define_opentype_feature_group:n {#1} }
   \keys_if_choice_exist:nnnT {fontspec} {#1} {#2}
     { \@@_warning:nxx {feature-option-overwrite} {#1} {#2} }
   \@@_define_feature_option:nnnnn {#1}{#2}{}{}{#3}

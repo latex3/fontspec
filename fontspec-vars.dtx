@@ -1,5 +1,5 @@
 %
-% \section{Declaration of variables}
+% \section{Declaration of variables and functions}
 %
 %    \begin{macrocode}
 %<*vars>
@@ -83,6 +83,60 @@
   {
     \int_set:Nn #1 { \__dim_eval:w #2 #1 \__dim_eval_end: }
   }
+%    \end{macrocode}
+% \end{macro}
+%
+% \subsection{Setup for \cs{fontspec_select:nn}}
+%
+%    \begin{macrocode}
+\tl_clear:N \l_@@_family_label_tl
+\tl_clear:N \l_fontspec_fontname_bf_tl
+\tl_clear:N \l_fontspec_fontname_it_tl
+\tl_clear:N \l_fontspec_fake_slant_tl
+\tl_clear:N \l_fontspec_fake_embolden_tl
+\tl_clear:N \l_fontspec_fontname_bfit_tl
+\tl_clear:N \l_fontspec_fontname_sl_tl
+\tl_clear:N \l_fontspec_fontname_bfsl_tl
+\tl_clear:N \l_fontspec_fontname_sc_tl
+\tl_clear:N \l_@@_fontfeat_up_clist
+\tl_clear:N \l_@@_fontfeat_bf_clist
+\tl_clear:N \l_@@_fontfeat_it_clist
+\tl_clear:N \l_@@_fontfeat_bfit_clist
+\tl_clear:N \l_@@_fontfeat_sl_clist
+\tl_clear:N \l_@@_fontfeat_bfsl_clist
+\tl_clear:N \l_@@_fontfeat_sc_clist
+\tl_clear:N \l_@@_script_name_tl
+\tl_clear:N \l_fontspec_script_tl
+\tl_clear:N \l_@@_lang_name_tl
+\tl_clear:N \l_fontspec_lang_tl
+\tl_set:Nn  \g_@@_postadjust_tl { \l_@@_wordspace_adjust_tl \l_@@_punctspace_adjust_tl }
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+\clist_set:Nn \l_@@_sizefeat_clist {Size={-}}
+\tl_new:N  \g_@@_hexcol_tl
+\tl_new:N  \g_@@_opacity_tl
+\tl_set:Nn \g_@@_hexcol_tl {000000}
+\tl_set:Nn \g_@@_opacity_tl {FF~}
+%    \end{macrocode}
+%
+% \subsection{Functions}
+%
+% I'm hardly going to write an `sclist' module but a couple of functions are
+% useful. Here, items in semi-colon lists are always followed by a semi-colon
+% (as opposed to the s.-c's being placed between elements) so we can append
+% sclists without worrying about it.
+%
+% \begin{macro}{\sclist_clear:N}
+%    \begin{macrocode}
+\cs_set_eq:NN \sclist_clear:N \tl_clear:N
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\sclist_put_right:Nn}
+%    \begin{macrocode}
+\cs_new:Nn \sclist_gput_right:Nn { \tl_gput_right:Nn #1 {#2;} }
+\cs_generate_variant:Nn \sclist_gput_right:Nn {Nx}
 %    \end{macrocode}
 % \end{macro}
 %

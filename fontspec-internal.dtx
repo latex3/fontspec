@@ -6,14 +6,8 @@
 %    \end{macrocode}
 % \fi
 %
-% \subsection{Internal macros}
+% \subsection{The main function for setting fonts}
 % \label{sec:codeinternal}
-%
-% The macros from here in are used internally by all those defined above.
-% They are not designed to remain consistent between versions.
-%
-%
-%
 %
 % \begin{macro}{\fontspec_select:nn}
 % This is the command that defines font families for use, the underlying
@@ -71,6 +65,22 @@
 %    \end{macrocode}
 % \end{macro}
 %
+% \begin{macro}{\@@_if_detect_external:nT}
+% Check if either the fontname ends with a known font extension.
+%    \begin{macrocode}
+\prg_new_conditional:Nnn \@@_if_detect_external:n {T}
+ {
+  \clist_map_inline:Nn \l_@@_extensions_clist
+   {
+    \bool_set_false:N \l_@@_tmpa_bool
+    \tl_if_in:nnT {#1 <= end_of_string} {##1 <= end_of_string}
+      { \bool_set_true:N \l_@@_tmpa_bool \clist_map_break: }
+   }
+  \bool_if:NTF \l_@@_tmpa_bool \prg_return_true: \prg_return_false:
+ }
+%    \end{macrocode}
+% \end{macro}
+%
 % \begin{macro}{\@@_init_ttc:n}
 % For TTC fonts we assume they will be loading the italic/bold fonts from the same file,
 % so prepopulate the fontnames to avoid needing to do it manually.
@@ -106,7 +116,7 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\@@_extract_features:}
+% \begin{macro}{\@@_extract_all_features:}
 %    \begin{macrocode}
 \cs_new:Nn \@@_extract_all_features:n
  {
@@ -187,22 +197,6 @@
   \@@_primitive_font_gset:Nnn \l_fontspec_font
      { \@@_construct_font_call:nn { \l_fontspec_fontname_up_tl } {} } {\f@size pt}
   \l_fontspec_font % this is necessary for LuaLaTeX to check the scripts properly
- }
-%    \end{macrocode}
-% \end{macro}
-%
-% \begin{macro}{\@@_if_detect_external:nT}
-% Check if either the fontname ends with a known font extension.
-%    \begin{macrocode}
-\prg_new_conditional:Nnn \@@_if_detect_external:n {T}
- {
-  \clist_map_inline:Nn \l_@@_extensions_clist
-   {
-    \bool_set_false:N \l_@@_tmpa_bool
-    \tl_if_in:nnT {#1 <= end_of_string} {##1 <= end_of_string}
-      { \bool_set_true:N \l_@@_tmpa_bool \clist_map_break: }
-   }
-  \bool_if:NTF \l_@@_tmpa_bool \prg_return_true: \prg_return_false:
  }
 %    \end{macrocode}
 % \end{macro}
@@ -291,8 +285,7 @@
 %    \end{macrocode}
 % \end{macro}
 %
-%
-% \begin{macro}{\@@_save_family:nTF}
+% \begin{macro}{\@@_save_family_needed:nTF}
 % Check if the family is unique and, if so, save its information.
 % (\cs{addfontfeature} and other macros use this data.)
 % Then the font family and its shapes are defined in the NFSS.
@@ -335,6 +328,46 @@
 %    \end{macrocode}
 % \end{macro}
 %
+% \begin{macro}{\@@_make_smallcaps:TF}
+% \label{mac:makesmallcaps}
+% This macro checks if the font contains small caps.
+%    \begin{macrocode}
+\cs_set:Nn \fontspec_make_ot_smallcaps:TF
+ {
+  \fontspec_check_ot_feat:nTF {+smcp} {#1} {#2}
+ }
+%<*xetexx>
+\cs_set:Nn \@@_make_smallcaps:TF
+ {
+  \bool_if:NTF \l_@@_ot_bool
+   { \fontspec_make_ot_smallcaps:TF {#1} {#2} }
+   {
+     \bool_if:NT \l_@@_atsui_bool
+      { \fontspec_make_AAT_feature_string:nnTF {3}{3} {#1} {#2} }
+   }
+ }
+%</xetexx>
+%<*luatex>
+\cs_set_eq:NN \@@_make_smallcaps:TF \fontspec_make_ot_smallcaps:TF
+%</luatex>
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@@_update_featstr:n}
+% \cmd{\l_@@_rawfeatures_sclist} is the string used to define the list of specific
+% font features. Each time another font feature is requested, this
+% macro is used to add that feature to the list. Font features are
+% separated by semicolons.
+%    \begin{macrocode}
+\cs_new:Nn \@@_update_featstr:n
+ {
+  \bool_if:NF \l_@@_firsttime_bool
+   {
+    \sclist_gput_right:Nx \l_@@_rawfeatures_sclist {#1}
+   }
+ }
+%    \end{macrocode}
+% \end{macro}
 %
 % \begin{macro}{\@@_save_family:nn}
 % Saves the relevant font information for future processing.
@@ -371,7 +404,7 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \subsubsection{Setting font shapes in a family}
+% \subsection{Setting font shapes in a family}
 %
 % All NFSS specifications take their default values, so if any of them
 % are redefined, the shapes will be selected to fit in with the
@@ -506,7 +539,6 @@
 %    \end{macrocode}
 % \end{macro}
 %
-%
 % \begin{macro}{\@@_set_autofont:Nnn}
 % \darg{Font name tl}
 % \darg{Base font name}
@@ -608,8 +640,11 @@
   \@@_declare_shape_loginfo:nn {#1} {#2}
  }
 \cs_generate_variant:Nn \@@_declare_shape:nnnn {nnxx}
-
-
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@@_setup_single_size:nn}
+%    \begin{macrocode}
 \cs_new:Nn \@@_setup_single_size:nn
   {
     \tl_clear:N \l_@@_size_tl
@@ -651,8 +686,11 @@
         {#1} {\l_@@_sizing_leftover_clist} {\l_@@_fontfeat_curr_clist}
      }
   }
-
-
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@@_setup_nfss:Nnnn}
+%    \begin{macrocode}
 \cs_new:Nn \@@_setup_nfss:Nnnn
  {
 %<debug>\typeout{====~Setup~NFSS~shape:~<\l_@@_size_tl>~\l_fontspec_fontname_tl}
@@ -667,13 +705,21 @@
         { \l_@@_pre_feat_sclist \l_@@_rawfeatures_sclist }
    }
  }
-
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@@_declare_shapes_normal:nn}
+%    \begin{macrocode}
 \cs_new:Nn \@@_declare_shapes_normal:nn
   {
     \@@_DeclareFontShape:xxxxxx {\l_@@_nfss_enc_tl} {\l_fontspec_family_tl}
       {#1} {#2} {\l_@@_nfss_tl}{\l_@@_postadjust_tl}
   }
-
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@@_declare_shapes_smcaps:nn}
+%    \begin{macrocode}
 \cs_new:Nn \@@_declare_shapes_smcaps:nn
   {
     \tl_if_empty:NF \l_@@_nfss_sc_tl
@@ -682,13 +728,18 @@
         { \@@_combo_sc_shape:n {#2} } {\l_@@_nfss_sc_tl} {\l_@@_postadjust_tl}
      }
   }
+
 \cs_new:Nn \@@_combo_sc_shape:n
   {
     \tl_if_exist:cTF { \@@_shape_merge:nn {#1} {\scdefault} }
          { \tl_use:c { \@@_shape_merge:nn {#1} {\scdefault} } }
          { \scdefault }
   }
-
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@@_DeclareFontShape:nnnnnn}
+%    \begin{macrocode}
 \cs_new:Nn \@@_DeclareFontShape:nnnnnn
  {
 %<debug>\typeout{DeclareFontShape:~{#1}{#2}{#3}{#4}...}
@@ -700,6 +751,8 @@
  }
 \cs_generate_variant:Nn \@@_DeclareFontShape:nnnnnn {xxxxxx}
 %    \end{macrocode}
+%
+% \begin{macro}{\@@_declare_shape_slanted:nn}
 % This extra stuff for the slanted shape substitution is a little bit awkward.
 % We define the slanted shape to be a synonym for it when (a)~we're defining an italic font, but also (b)~when the default slanted shape isn't `it'.
 % (Presumably this turned up once in a test and I realised it caused problems. I doubt this would happen much.)
@@ -719,6 +772,9 @@
    }
  }
 %    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@@_declare_shape_loginfo:nn}
 % Lastly some informative messaging.
 %    \begin{macrocode}
 \cs_new:Nn \@@_declare_shape_loginfo:nn
@@ -759,6 +815,9 @@
 % Maybe |\str_if_eq_x:nnF| would be better?
 % \end{macro}
 %
+%
+% \subsubsection{Features}
+%
 % \begin{macro}{\l_@@_pre_feat_sclist}
 % These are the features always applied to a font selection before other
 % features.
@@ -789,82 +848,78 @@
 %    \end{macrocode}
 % \end{macro}
 %
-%
-%
-%
-%
-% \subsubsection{Features}
-%
 % \begin{macro}{\@@_get_features:Nn}
-%
 %   This macro is a wrapper for |\keys_set:nn| which expands and adds a
 %   default specification to the original passed options. It begins by
 %   initialising the commands used to hold font-feature specific
 %   strings.
 %   Its argument is any additional features to prepend to the default.
+%
+% Do not set the colour if not explicitly spec'd else \verb|\color| (using
+% specials) will not work.
 %    \begin{macrocode}
 \cs_set:Nn \@@_get_features:Nn
  {
-  \sclist_clear:N \l_@@_rawfeatures_sclist
-  \tl_clear:N \l_@@_scale_tl
-  \tl_set_eq:NN \l_@@_opacity_tl \g_@@_opacity_tl
-  \tl_set_eq:NN \l_@@_hexcol_tl \g_@@_hexcol_tl
-  \tl_set_eq:NN \l_@@_postadjust_tl \g_@@_postadjust_tl
-  \tl_clear:N \l_@@_wordspace_adjust_tl
-  \tl_clear:N \l_@@_punctspace_adjust_tl
+  \@@_init_fontface:
 
   \keys_set_known:nxN {fontspec-renderer} {\l_@@_fontfeat_clist,#2}
     \l_@@_keys_leftover_clist
   \keys_set:nx {fontspec} {\l_@@_keys_leftover_clist}
-%    \end{macrocode}
-% Finish the colour specification.
-% Do not set the colour if not explicitly spec'd else \verb|\color| (using
-% specials) will not work.
-%    \begin{macrocode}
+
   \str_if_eq_x:nnF { \l_@@_hexcol_tl \l_@@_opacity_tl }
                    { \g_@@_hexcol_tl \g_@@_opacity_tl }
-   {
-    \@@_update_featstr:n { color = \l_@@_hexcol_tl\l_@@_opacity_tl }
-   }
+    { \@@_update_featstr:n { color = \l_@@_hexcol_tl\l_@@_opacity_tl } }
 
   \tl_set_eq:NN #1 \l_@@_rawfeatures_sclist
  }
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\@@_init:}
-% Initialisations that either need to occur globally:
-% (all setting of these variables is done locally inside a group)
+% \begin{macro}{\@@_make_smallcaps:TF}
+% \label{mac:makesmallcaps}
+% This macro checks if the font contains small caps.
 %    \begin{macrocode}
-\tl_clear:N \l_@@_family_label_tl
-\tl_clear:N \l_fontspec_fontname_bf_tl
-\tl_clear:N \l_fontspec_fontname_it_tl
-\tl_clear:N \l_fontspec_fake_slant_tl
-\tl_clear:N \l_fontspec_fake_embolden_tl
-\tl_clear:N \l_fontspec_fontname_bfit_tl
-\tl_clear:N \l_fontspec_fontname_sl_tl
-\tl_clear:N \l_fontspec_fontname_bfsl_tl
-\tl_clear:N \l_fontspec_fontname_sc_tl
-\tl_clear:N \l_@@_fontfeat_up_clist
-\tl_clear:N \l_@@_fontfeat_bf_clist
-\tl_clear:N \l_@@_fontfeat_it_clist
-\tl_clear:N \l_@@_fontfeat_bfit_clist
-\tl_clear:N \l_@@_fontfeat_sl_clist
-\tl_clear:N \l_@@_fontfeat_bfsl_clist
-\tl_clear:N \l_@@_fontfeat_sc_clist
-\tl_clear:N \l_@@_script_name_tl
-\tl_clear:N \l_fontspec_script_tl
-\tl_clear:N \l_@@_lang_name_tl
-\tl_clear:N \l_fontspec_lang_tl
-\tl_set:Nn  \g_@@_postadjust_tl { \l_@@_wordspace_adjust_tl \l_@@_punctspace_adjust_tl }
-
-\clist_set:Nn \l_@@_sizefeat_clist {Size={-}}
-\tl_new:N  \g_@@_hexcol_tl
-\tl_new:N  \g_@@_opacity_tl
-\tl_set:Nn \g_@@_hexcol_tl {000000}
-\tl_set:Nn \g_@@_opacity_tl {FF~}
+\cs_set:Nn \fontspec_make_ot_smallcaps:TF
+ {
+  \fontspec_check_ot_feat:nTF {+smcp} {#1} {#2}
+ }
+%<*xetexx>
+\cs_set:Nn \@@_make_smallcaps:TF
+ {
+  \bool_if:NTF \l_@@_ot_bool
+   { \fontspec_make_ot_smallcaps:TF {#1} {#2} }
+   {
+     \bool_if:NT \l_@@_atsui_bool
+      { \fontspec_make_AAT_feature_string:nnTF {3}{3} {#1} {#2} }
+   }
+ }
+%</xetexx>
+%<*luatex>
+\cs_set_eq:NN \@@_make_smallcaps:TF \fontspec_make_ot_smallcaps:TF
+%</luatex>
 %    \end{macrocode}
-% Or once per fontspec font invocation:
+% \end{macro}
+%
+% \begin{macro}{\@@_update_featstr:n}
+% \cmd{\l_@@_rawfeatures_sclist} is the string used to define the list of specific
+% font features. Each time another font feature is requested, this
+% macro is used to add that feature to the list. Font features are
+% separated by semicolons.
+%    \begin{macrocode}
+\cs_new:Nn \@@_update_featstr:n
+ {
+  \bool_if:NF \l_@@_firsttime_bool
+   {
+    \sclist_gput_right:Nx \l_@@_rawfeatures_sclist {#1}
+   }
+ }
+%    \end{macrocode}
+% \end{macro}
+%
+% \subsection{Initialisation}
+%
+% \begin{macro}{\@@_init:}
+% Initialisations that need to occur once per fontspec font invocation.
 % (Some of these may be redundant.
 % Check whether they're assigned to globally or not.)
 %    \begin{macrocode}
@@ -902,72 +957,26 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\@@_make_smallcaps:TF}
-% \label{mac:makesmallcaps}
-% This macro checks if the font contains small caps.
+% \begin{macro}{\@@_init_fontface:}
+% Executed in \cs{@@_get_features:Nn}.
 %    \begin{macrocode}
-\cs_set:Nn \fontspec_make_ot_smallcaps:TF
- {
-  \fontspec_check_ot_feat:nTF {+smcp} {#1} {#2}
- }
-%<*xetexx>
-\cs_set:Nn \@@_make_smallcaps:TF
- {
-  \bool_if:NTF \l_@@_ot_bool
-   { \fontspec_make_ot_smallcaps:TF {#1} {#2} }
-   {
-     \bool_if:NT \l_@@_atsui_bool
-      { \fontspec_make_AAT_feature_string:nnTF {3}{3} {#1} {#2} }
-   }
- }
-%</xetexx>
-%<*luatex>
-\cs_set_eq:NN \@@_make_smallcaps:TF \fontspec_make_ot_smallcaps:TF
-%</luatex>
+\cs_new:Nn \@@_init_fontface:
+  {
+    \sclist_clear:N \l_@@_rawfeatures_sclist
+    \tl_clear:N \l_@@_scale_tl
+    \tl_set_eq:NN \l_@@_opacity_tl \g_@@_opacity_tl
+    \tl_set_eq:NN \l_@@_hexcol_tl \g_@@_hexcol_tl
+    \tl_set_eq:NN \l_@@_postadjust_tl \g_@@_postadjust_tl
+    \tl_clear:N \l_@@_wordspace_adjust_tl
+    \tl_clear:N \l_@@_punctspace_adjust_tl
+  }
 %    \end{macrocode}
 % \end{macro}
-%
-%
-%
-% \begin{macro}{\sclist_put_right:Nn}
-% I'm hardly going to write an `sclist' module but a couple of functions are
-% useful. Here, items in semi-colon lists are always followed by a semi-colon
-% (as opposed to the s.-c's being placed between elements) so we can append
-% sclists without worrying about it.
-%    \begin{macrocode}
-\cs_set_eq:NN \sclist_clear:N \tl_clear:N
-\cs_new:Nn \sclist_gput_right:Nn
- { \tl_gput_right:Nn #1 {#2;} }
-\cs_generate_variant:Nn \sclist_gput_right:Nn {Nx}
-%    \end{macrocode}
-% \end{macro}
-%
-%
-%
-% \begin{macro}{\@@_update_featstr:n}
-% \cmd{\l_@@_rawfeatures_sclist} is the string used to define the list of specific
-% font features. Each time another font feature is requested, this
-% macro is used to add that feature to the list. Font features are
-% separated by semicolons.
-%    \begin{macrocode}
-\cs_new:Nn \@@_update_featstr:n
- {
-  \bool_if:NF \l_@@_firsttime_bool
-   {
-    \sclist_gput_right:Nx \l_@@_rawfeatures_sclist {#1}
-   }
- }
-%    \end{macrocode}
-% \end{macro}
-%
-%
-%
 %
 %
 % \subsection{Miscellaneous}
 %
 % \begin{macro}{\@@_iv_str_to_num:Nn}
-% \begin{macro}{\@@_v_str_to_num:Nn}
 % This macro takes a four character string and converts it to the
 % numerical representation required for \XeTeX\ OpenType script/language/feature
 % purposes. The output is stored in \cmd\l_fontspec_strnum_int.
@@ -978,10 +987,6 @@
 % reads in the string, delimited by a space; this input is padded with \cmd\@empty s
 % and anything beyond four chars is snipped. The \cmd\@empty s then are used to reconstruct
 % the spaces in the string to number calculation.
-%
-% The variant \cmd\@@_v_str_to_num:n\ is used when looking at features, which are passed around
-% with prepended plus and minus signs (\eg, \texttt{+liga}, \texttt{-dlig}); it
-% simply strips off the first char of the input before calling the normal \cmd\@@_iv_str_to_num:n.
 %    \begin{macrocode}
 %<*xetexx>
 \cs_set:Nn \@@_iv_str_to_num:Nn
@@ -999,6 +1004,14 @@
    }
  }
 \cs_generate_variant:Nn \@@_iv_str_to_num:Nn {No}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@@_v_str_to_num:Nn}
+% The variant \cmd\@@_v_str_to_num:n\ is used when looking at features, which are passed around
+% with prepended plus and minus signs (\eg, \texttt{+liga}, \texttt{-dlig}); it
+% simply strips off the first char of the input before calling the normal \cmd\@@_iv_str_to_num:n.
+%    \begin{macrocode}
 \cs_set:Nn \@@_v_str_to_num:Nn
  {
   \bool_if:nTF
@@ -1011,7 +1024,6 @@
  }
 %</xetexx>
 %    \end{macrocode}
-% \end{macro}
 % \end{macro}
 %
 %

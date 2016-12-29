@@ -1,0 +1,322 @@
+% \section{OpenType processing code}
+%
+% \iffalse
+%    \begin{macrocode}
+%<*fontspec&(xetexx|luatex)>
+%    \end{macrocode}
+% \fi
+%
+% \begin{macro}{\fontspec_make_feature:nnn}
+%   This macro is called by each feature key selected, and runs
+%   according to which type of font is selected.
+%    \begin{macrocode}
+\cs_new:Nn \fontspec_make_feature:nnn
+%<*xetexx>
+ {
+  \bool_if:NTF \l_@@_ot_bool
+   { \fontspec_make_OT_feature:n {#3} }
+   {
+     \bool_if:NT \l_@@_atsui_bool
+      { \fontspec_make_AAT_feature:nn {#1}{#2} }
+   }
+ }
+%</xetexx>
+%<*luatex>
+ { \fontspec_make_OT_feature:n {#3} }
+%</luatex>
+\cs_generate_variant:Nn \fontspec_make_feature:nnn {nnx}
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+\cs_new:Nn \fontspec_make_AAT_feature:nn
+ {
+  \tl_if_empty:nTF {#1}
+   { \@@_warning:n {aat-feature-not-exist} }
+   {
+     \fontspec_make_AAT_feature_string:nnTF {#1}{#2}
+      {
+       \@@_update_featstr:n {\l_fontspec_feature_string_tl}
+     }
+     { \@@_warning:nx {aat-feature-not-exist-in-font} {#1,#2} }
+   }
+ }
+\cs_new:Nn \fontspec_make_OT_feature:n
+ {
+  \tl_if_empty:nTF {#1}
+   { \@@_warning:n {icu-feature-not-exist} }
+   {
+     \fontspec_check_ot_feat:nTF {#1}
+      {
+       \@@_update_featstr:n {#1}
+      }
+      { \@@_warning:nx {icu-feature-not-exist-in-font} {#1} }
+   }
+ }
+\cs_new_protected:Nn \fontspec_make_numbered_feature:nn
+ {
+  \fontspec_check_ot_feat:nTF {#1}
+   {
+    \@@_update_featstr:n { #1 = #2 }
+   }
+   { \@@_warning:nx {icu-feature-not-exist-in-font} {#1} }
+ }
+\cs_generate_variant:Nn \fontspec_make_numbered_feature:nn {xn}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@@_define_font_feature:n}
+% \begin{macro}{\@@_define_feature_option:nnnnn}
+% \begin{macro}{\fontspec_define_numbered_feat:nnnn}
+% These macros are used in order to simplify font feature definition later on.
+%    \begin{macrocode}
+\cs_new:Nn \@@_define_font_feature:n
+ {
+  \keys_define:nn {fontspec} { #1 .multichoice: }
+ }
+\cs_new:Nn \@@_define_feature_option:nnnnn
+ {
+  \keys_define:nn {fontspec}
+   {
+    #1/#2 .code:n = { \fontspec_make_feature:nnn{#3}{#4}{#5} }
+   }
+ }
+\cs_new:Nn \fontspec_define_numbered_feat:nnnn
+ {
+  \keys_define:nn {fontspec}
+   {
+    #1/#2 .code:n =
+      { \fontspec_make_numbered_feature:nn {#3}{#4} }
+   }
+ }
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+%
+% \begin{macro}{\fontspec_make_AAT_feature_string:nnTF}
+%   This macro takes the numerical codes for a font feature and
+%   creates a specified macro containing the string required in the
+%   font definition to turn that feature on or off. Used primarily in
+%   [...], but also used to check if small caps
+%   exists in the requested font (see page~\pageref{mac:makesmallcaps}).
+%
+% For exclusive selectors, it's easy; just grab the string:
+% For \emph{non}-exclusive selectors, it's a little more complex.
+% If the selector is even, it corresponds to switching the feature on.
+% If the selector is \emph{odd}, it corresponds to switching the feature off.
+% But \XeTeX\ doesn't return a selector string for this number, since the
+% feature is defined for the `switching on' value. So we need to check the
+% selector of the previous number, and then prefix the feature string with |!|
+% to denote the switch.
+%
+% Finally, save out the complete feature string in \cmd\l_fontspec_feature_string_tl.
+%    \begin{macrocode}
+\prg_new_conditional:Nnn \fontspec_make_AAT_feature_string:nn {TF,T,F}
+ {
+  \tl_set:Nx \l_tmpa_tl { \XeTeXfeaturename \l_fontspec_font #1 }
+  \tl_if_empty:NTF \l_tmpa_tl
+   { \prg_return_false: }
+   {
+    \int_compare:nTF { \XeTeXisexclusivefeature\l_fontspec_font #1 > 0 }
+     {
+      \tl_set:Nx \l_tmpb_tl {\XeTeXselectorname\l_fontspec_font #1\space #2}
+     }
+     {
+      \int_if_even:nTF {#2}
+       {
+        \tl_set:Nx \l_tmpb_tl {\XeTeXselectorname\l_fontspec_font #1\space #2}
+       }
+       {
+        \tl_set:Nx \l_tmpb_tl
+         {
+          \XeTeXselectorname\l_fontspec_font #1\space \numexpr#2-1\relax
+         }
+        \tl_if_empty:NF \l_tmpb_tl { \tl_put_left:Nn \l_tmpb_tl {!} }
+       }
+    }
+    \tl_if_empty:NTF \l_tmpb_tl
+     { \prg_return_false: }
+     {
+      \tl_set:Nx \l_fontspec_feature_string_tl { \l_tmpa_tl = \l_tmpb_tl }
+      \prg_return_true:
+     }
+   }
+ }
+%    \end{macrocode}
+% \end{macro}
+
+% \begin{macro}{\fontspec_iv_str_to_num:Nn}
+% \begin{macro}{\fontspec_v_str_to_num:Nn}
+% This macro takes a four character string and converts it to the
+% numerical representation required for \XeTeX\ OpenType script/language/feature
+% purposes. The output is stored in \cmd\l_fontspec_strnum_int.
+%
+% The reason it's ugly is because the input can be of the form of any of these:
+% `|abcd|', `|abc|', `|abc |', `|ab|', `|ab  |', \etc.
+% (It is assumed the first two chars are \emph{always} not spaces.) So this macro
+% reads in the string, delimited by a space; this input is padded with \cmd\@empty s
+% and anything beyond four chars is snipped. The \cmd\@empty s then are used to reconstruct
+% the spaces in the string to number calculation.
+%
+% The variant \cmd\fontspec_v_str_to_num:n\ is used when looking at features, which are passed around
+% with prepended plus and minus signs (\eg, \texttt{+liga}, \texttt{-dlig}); it
+% simply strips off the first char of the input before calling the normal \cmd\fontspec_iv_str_to_num:n.
+%    \begin{macrocode}
+\cs_set:Nn \fontspec_iv_str_to_num:Nn
+ {
+  \fontspec_iv_str_to_num:w #1 \q_nil #2 \c_empty_tl \c_empty_tl \q_nil
+ }
+\cs_set:Npn \fontspec_iv_str_to_num:w #1 \q_nil #2#3#4#5#6 \q_nil
+ {
+  \int_set:Nn #1
+   {
+      `#2 * "1000000
+    + `#3 * "10000
+    + \ifx \c_empty_tl #4 32 \else `#4 \fi * "100
+    + \ifx \c_empty_tl #5 32 \else `#5 \fi
+   }
+ }
+\cs_generate_variant:Nn \fontspec_iv_str_to_num:Nn {No}
+\cs_set:Nn \fontspec_v_str_to_num:Nn
+ {
+  \bool_if:nTF
+   {
+    \tl_if_head_eq_charcode_p:nN {#2} {+} ||
+    \tl_if_head_eq_charcode_p:nN {#2} {-}
+   }
+   { \fontspec_iv_str_to_num:No #1 { \use_none:n #2 } }
+   { \fontspec_iv_str_to_num:Nn #1 {#2} }
+ }
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+%
+%
+% \begin{macro}{\fontspec_check_script:nTF}
+% This macro takes an OpenType script tag and checks if it exists in the current
+% font. The output boolean is \cmd\@tempswatrue. \cmd\l_fontspec_strnum_int\ is used to store
+% the number corresponding to the script tag string.
+%    \begin{macrocode}
+\prg_new_conditional:Nnn \fontspec_check_script:n {TF}
+%<*xetexx>
+ {
+  \fontspec_iv_str_to_num:Nn \l_fontspec_strnum_int {#1}
+  \int_set:Nn \l_tmpb_int { \XeTeXOTcountscripts \l_fontspec_font }
+  \int_zero:N \l_tmpa_int
+  \bool_set_false:N \l__fontspec_check_bool
+  \bool_until_do:nn { \int_compare_p:nNn \l_tmpa_int = \l_tmpb_int }
+   {
+    \ifnum \XeTeXOTscripttag\l_fontspec_font \l_tmpa_int = \l_fontspec_strnum_int
+      \bool_set_true:N \l__fontspec_check_bool
+      \int_set:Nn \l_tmpa_int {\l_tmpb_int}
+    \else
+      \int_incr:N \l_tmpa_int
+    \fi
+   }
+  \bool_if:NTF \l__fontspec_check_bool \prg_return_true: \prg_return_false:
+ }
+%</xetexx>
+%<*luatex>
+ {
+  \directlua{fontspec.check_ot_script("l_fontspec_font", "#1")}
+  \bool_if:NTF \l__fontspec_check_bool \prg_return_true: \prg_return_false:
+ }
+%</luatex>
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\fontspec_check_lang:nTF}
+% This macro takes an OpenType language tag and checks if it exists in the current
+% font/script. The output boolean is \cmd\@tempswatrue. \cmd\l_fontspec_strnum_int\ is used to store
+% the number corresponding to the language tag string.
+% The script used is whatever's held in \cmd\l_fontspec_script_int. By default, that's the
+% number corresponding to `|latn|'.
+%    \begin{macrocode}
+\prg_new_conditional:Nnn \fontspec_check_lang:n {TF}
+%<*xetexx>
+ {
+  \fontspec_iv_str_to_num:Nn \l_fontspec_strnum_int {#1}
+  \int_set:Nn \l_tmpb_int
+   { \XeTeXOTcountlanguages \l_fontspec_font \l_fontspec_script_int }
+  \int_zero:N \l_tmpa_int
+  \bool_set_false:N \l__fontspec_check_bool
+  \bool_until_do:nn { \int_compare_p:nNn \l_tmpa_int = \l_tmpb_int }
+   {
+    \ifnum\XeTeXOTlanguagetag\l_fontspec_font\l_fontspec_script_int \l_tmpa_int =\l_fontspec_strnum_int
+      \bool_set_true:N \l__fontspec_check_bool
+      \int_set:Nn \l_tmpa_int {\l_tmpb_int}
+    \else
+      \int_incr:N \l_tmpa_int
+    \fi
+   }
+  \bool_if:NTF \l__fontspec_check_bool \prg_return_true: \prg_return_false:
+ }
+%</xetexx>
+%<*luatex>
+ {
+  \directlua
+   {
+    fontspec.check_ot_lang( "l_fontspec_font", "#1", "\l_fontspec_script_tl" )
+   }
+  \bool_if:NTF \l__fontspec_check_bool \prg_return_true: \prg_return_false:
+ }
+%</luatex>
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\fontspec_check_ot_feat:nTF}
+% \begin{macro}{\fontspec_check_ot_feat:nT}
+% This macro takes an OpenType feature tag and checks if it exists in the current
+% font/script/language.
+% \cmd\l_fontspec_strnum_int\ is used to store the number corresponding to the feature tag string.
+% The script used is whatever's held in \cmd\l_fontspec_script_int. By default, that's the
+% number corresponding to `|latn|'. The language used is \cmd\l_fontspec_language_int,
+% by default |0|, the `default language'.
+%    \begin{macrocode}
+\prg_new_conditional:Nnn \fontspec_check_ot_feat:n {TF,T}
+%<*xetexx>
+ {
+  \int_set:Nn \l_tmpb_int
+   {
+    \XeTeXOTcountfeatures \l_fontspec_font
+                          \l_fontspec_script_int
+                          \l_fontspec_language_int
+   }
+  \fontspec_v_str_to_num:Nn \l_fontspec_strnum_int {#1}
+  \int_zero:N \l_tmpa_int
+  \bool_set_false:N \l__fontspec_check_bool
+  \bool_until_do:nn { \int_compare_p:nNn \l_tmpa_int = \l_tmpb_int }
+   {
+    \ifnum\XeTeXOTfeaturetag\l_fontspec_font\l_fontspec_script_int\l_fontspec_language_int
+         \l_tmpa_int =\l_fontspec_strnum_int
+      \bool_set_true:N \l__fontspec_check_bool
+      \int_set:Nn \l_tmpa_int {\l_tmpb_int}
+    \else
+      \int_incr:N \l_tmpa_int
+    \fi
+   }
+  \bool_if:NTF \l__fontspec_check_bool \prg_return_true: \prg_return_false:
+ }
+%</xetexx>
+%<*luatex>
+ {
+  \directlua
+   {
+    fontspec.check_ot_feat(
+                           "l_fontspec_font", "#1",
+                           "\l_fontspec_lang_tl", "\l_fontspec_script_tl"
+                          )
+   }
+  \bool_if:NTF \l__fontspec_check_bool \prg_return_true: \prg_return_false:
+ }
+%</luatex>
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+%
+% \iffalse
+%    \begin{macrocode}
+%</fontspec&(xetexx|luatex)>
+%    \end{macrocode}
+% \fi
+

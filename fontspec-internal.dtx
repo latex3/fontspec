@@ -265,8 +265,8 @@
          {
           \tl_set:Nn \l_@@_lang_name_tl {Default}
          }
-        \keys_set:nx {fontspec} {Script=\l_@@_script_name_tl}
-        \keys_set:nx {fontspec} {Language=\l_@@_lang_name_tl}
+        \keys_set:nx {fontspec-opentype} {Script=\l_@@_script_name_tl}
+        \keys_set:nx {fontspec-opentype} {Language=\l_@@_lang_name_tl}
        }
        {
         \@@_info:n {no-scripts}
@@ -277,8 +277,8 @@
        {
         \tl_set:Nn \l_@@_lang_name_tl {Default}
        }
-      \keys_set:nx {fontspec} {Script=\l_@@_script_name_tl}
-      \keys_set:nx {fontspec} {Language=\l_@@_lang_name_tl}
+      \keys_set:nx {fontspec-opentype} {Script=\l_@@_script_name_tl}
+      \keys_set:nx {fontspec-opentype} {Language=\l_@@_lang_name_tl}
      }
    }
  }
@@ -324,47 +324,6 @@
   \tl_gset:Nv \l_fontspec_family_tl {g_@@_UID_\l_@@_fontid_tl}
   \cs_if_exist:cTF {g_@@_ \l_fontspec_family_tl _prop}
     \prg_return_false: \prg_return_true:
- }
-%    \end{macrocode}
-% \end{macro}
-%
-% \begin{macro}{\@@_make_smallcaps:TF}
-% \label{mac:makesmallcaps}
-% This macro checks if the font contains small caps.
-%    \begin{macrocode}
-\cs_set:Nn \fontspec_make_ot_smallcaps:TF
- {
-  \fontspec_check_ot_feat:nTF {+smcp} {#1} {#2}
- }
-%<*xetexx>
-\cs_set:Nn \@@_make_smallcaps:TF
- {
-  \bool_if:NTF \l_@@_ot_bool
-   { \fontspec_make_ot_smallcaps:TF {#1} {#2} }
-   {
-     \bool_if:NT \l_@@_atsui_bool
-      { \fontspec_make_AAT_feature_string:nnTF {3}{3} {#1} {#2} }
-   }
- }
-%</xetexx>
-%<*luatex>
-\cs_set_eq:NN \@@_make_smallcaps:TF \fontspec_make_ot_smallcaps:TF
-%</luatex>
-%    \end{macrocode}
-% \end{macro}
-%
-% \begin{macro}{\@@_update_featstr:n}
-% \cmd{\l_@@_rawfeatures_sclist} is the string used to define the list of specific
-% font features. Each time another font feature is requested, this
-% macro is used to add that feature to the list. Font features are
-% separated by semicolons.
-%    \begin{macrocode}
-\cs_new:Nn \@@_update_featstr:n
- {
-  \bool_if:NF \l_@@_firsttime_bool
-   {
-    \sclist_gput_right:Nx \l_@@_rawfeatures_sclist {#1}
-   }
  }
 %    \end{macrocode}
 % \end{macro}
@@ -459,6 +418,21 @@
   \fontspec_complete_fontname:Nn \l_@@_curr_fontname_tl {#3}
   \@@_make_font_shapes:Nnnnn \l_@@_curr_fontname_tl {#1} {#2} {#4} {#5}
  }
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\fontspec_complete_fontname:Nn}
+% This macro defines |#1| as the input with any |*| tokens of its input
+% replaced by the font name. This lets us define supplementary fonts in full
+% (``\texttt{Baskerville Semibold}'') or in abbreviation (``\texttt{* Semibold}'').
+%    \begin{macrocode}
+\cs_set:Nn \fontspec_complete_fontname:Nn
+ {
+  \tl_set:Nx #1 {#2}
+  \tl_replace_all:Nnx #1 {*} {\l_@@_basename_tl}
+%<luatex>  \tl_remove_all:Nn #1 {~}
+ }
+\cs_generate_variant:Nn \tl_replace_all:Nnn {Nnx}
 %    \end{macrocode}
 % \end{macro}
 %
@@ -864,8 +838,15 @@
 
   \keys_set_known:nxN {fontspec-renderer} {\l_@@_fontfeat_clist,#2}
     \l_@@_keys_leftover_clist
-  \keys_set:nx {fontspec} {\l_@@_keys_leftover_clist}
 
+  \keys_set_known:nxN {fontspec} {\l_@@_keys_leftover_clist} \l_@@_keys_leftover_clist
+
+  \bool_if:NTF \l_@@_ot_bool
+    { \keys_set:nx {fontspec-opentype} {\l_@@_keys_leftover_clist} }
+    {
+      \bool_if:NT \l_@@_atsui_bool
+        { \keys_set:nx {fontspec-aat} {\l_@@_keys_leftover_clist} }
+    }
   \str_if_eq_x:nnF { \l_@@_hexcol_tl \l_@@_opacity_tl }
                    { \g_@@_hexcol_tl \g_@@_opacity_tl }
     { \@@_update_featstr:n { color = \l_@@_hexcol_tl\l_@@_opacity_tl } }
@@ -875,7 +856,7 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\@@_make_smallcaps:TF}
+% \begin{macro}{\@@_make_ot_smallcaps:TF}
 % \label{mac:makesmallcaps}
 % This macro checks if the font contains small caps.
 %    \begin{macrocode}
@@ -913,6 +894,18 @@
     \sclist_gput_right:Nx \l_@@_rawfeatures_sclist {#1}
    }
  }
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@@_remove_clashing_featstr:n}
+%    \begin{macrocode}
+\cs_new:Nn \@@_remove_clashing_featstr:n
+  {
+    \clist_map_inline:nn {#1}
+      {
+        \tl_gremove_all:Nn \l_@@_rawfeatures_sclist {##1;}
+      }
+  }
 %    \end{macrocode}
 % \end{macro}
 %

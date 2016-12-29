@@ -12,34 +12,36 @@
 %    \begin{macrocode}
 \cs_new:Nn \@@_define_font_feature:n
  {
-  \keys_define:nn {fontspec} { #1 .multichoice: }
+  \keys_define:nn {fontspec-opentype} { #1 .multichoice: }
+  \keys_define:nn {fontspec-aat}      { #1 .multichoice: }
  }
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\@@_define_feature_option:nnnnn}
+% \begin{macro}{\@@_define_feature_option:nnnnnn}
 %    \begin{macrocode}
-\cs_new:Nn \@@_define_feature_option:nnnnn
+\cs_new:Nn \@@_define_aat_feature:nnnn
  {
-  \keys_define:nn {fontspec}
+  \keys_define:nn {fontspec-aat}
    {
-    #1/#2 .code:n = { \fontspec_make_feature:nnn{#3}{#4}{#5} }
+    #1/#2 .code:n = { \fontspec_make_AAT_feature:nn {#3}{#4} }
    }
  }
-\cs_new:Nn \@@_define_opentype_feature:nnn
+\cs_new:Nn \@@_define_opentype_feature:nnnn
  {
-  \keys_define:nn {fontspec}
+  \keys_define:nn {fontspec-opentype}
    {
-    #1/#2 .code:n = { \fontspec_make_OT_feature:n {#3} }
+    #1/#2 .code:n = { \fontspec_make_OT_feature:nn {#3}{#4} }
    }
- }%    \end{macrocode}
+ }
+%    \end{macrocode}
 % \end{macro}
 %
 % \begin{macro}{\fontspec_define_numbered_feat:nnnn}
 %    \begin{macrocode}
 \cs_new:Nn \fontspec_define_numbered_feat:nnnn
  {
-  \keys_define:nn {fontspec}
+  \keys_define:nn {fontspec-opentype}
    {
     #1/#2 .code:n =
       { \fontspec_make_numbered_feature:nn {#3}{#4} }
@@ -51,15 +53,15 @@
 %
 % \subsection{Adding features when loading fonts}
 %
-% \begin{macro}{\fontspec_make_feature:nnn}
+% \begin{macro}{\fontspec_make_feature:nnnn}
 %   This macro is called by each feature key selected, and runs
 %   according to which type of font is selected.
 %    \begin{macrocode}
-\cs_new:Nn \fontspec_make_feature:nnn
+\cs_new:Nn \fontspec_make_feature:nnnn
 %<*xetexx>
  {
   \bool_if:NTF \l_@@_ot_bool
-   { \fontspec_make_OT_feature:n {#3} }
+   { \fontspec_make_OT_feature:nn {#3}{#4} }
    {
      \bool_if:NT \l_@@_atsui_bool
       { \fontspec_make_AAT_feature:nn {#1}{#2} }
@@ -67,27 +69,34 @@
  }
 %</xetexx>
 %<*luatex>
- { \fontspec_make_OT_feature:n {#3} }
+ { \fontspec_make_OT_feature:nn {#3}{#4} }
 %</luatex>
 %    \end{macrocode}
 %
 %    \begin{macrocode}
-\cs_generate_variant:Nn \fontspec_make_feature:nnn {nnx}
+\cs_generate_variant:Nn \fontspec_make_feature:nnnn {nnx}
 %    \end{macrocode}
 %
 %    \begin{macrocode}
-\cs_new:Nn \fontspec_make_OT_feature:n
+\cs_new:Nn \fontspec_make_OT_feature:nn
  {
   \tl_if_empty:nTF {#1}
    { \@@_warning:n {icu-feature-not-exist} }
    {
      \fontspec_check_ot_feat:nTF {#1}
       {
+       \exp_args:Nx \@@_remove_clashing_featstr:n
+         { \@@_swap_plus_minus:n {#1} , #2 }
        \@@_update_featstr:n {#1}
       }
       { \@@_warning:nx {icu-feature-not-exist-in-font} {#1} }
    }
  }
+
+\cs_new:Nn \@@_swap_plus_minus:n { \@@_swap_plus_minus_aux:NNNNN #1 }
+\cs_new:Nn \@@_swap_plus_minus_aux:NNNNN
+  { \str_case:nn {#1} { {+} {-#2#3#4#5} {-} {+#2#3#4#5} } }
+
 \cs_new_protected:Nn \fontspec_make_numbered_feature:nn
  {
   \fontspec_check_ot_feat:nTF {#1}

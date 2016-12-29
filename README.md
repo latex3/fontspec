@@ -74,6 +74,9 @@ Change history
     * Add feature `Ornament=`*n* corresponding to OpenType feature `+ornm=`*n*.
     * Add feature `FontIndex=`*n* to support TrueType Collection (TTC) files.
     * Nested \emph is now much smarter and will cleverly nest even if manual font changes are made.
+    * Tries to remove font features that clash. E.g.,
+          `Numbers={Uppercase,Lowercase}`
+      will define only `+onum` rather than the previous behaviour of `+lnum;+onum` and letting the engine sort things out. This facilitates features for checking whether features are selected, etc. Coverage may still be preliminary.
 
 - v2.5b (2016/05/14) "More bugs" (somehow never released)
 

@@ -1,0 +1,380 @@
+
+% \subsection{OpenType feature definitions}
+%
+% \iffalse
+%    \begin{macrocode}
+%<*fontspec&(xetexx|luatex)>
+%    \end{macrocode}
+% \fi
+%
+%
+% \subsubsection{Ligatures}
+%    \begin{macrocode}
+\@@_define_opentype_feature_group:n {Ligatures}
+\@@_define_opentype_feature:nnnn {Ligatures} {Required} {+rlig} {}
+\@@_define_opentype_feature:nnnn {Ligatures} {NoRequired} {-rlig} {}
+\@@_define_opentype_feature:nnnn {Ligatures} {Common} {+liga} {}
+\@@_define_opentype_feature:nnnn {Ligatures} {NoCommon} {-liga} {}
+\@@_define_opentype_feature:nnnn {Ligatures} {Rare} {+dlig} {}
+\@@_define_opentype_feature:nnnn {Ligatures} {NoRare} {-dlig} {}
+\@@_define_opentype_feature:nnnn {Ligatures} {Discretionary} {+dlig} {}
+\@@_define_opentype_feature:nnnn {Ligatures} {NoDiscretionary} {-dlig} {}
+\@@_define_opentype_feature:nnnn {Ligatures} {Contextual} {+clig} {}
+\@@_define_opentype_feature:nnnn {Ligatures} {NoContextual} {-clig} {}
+\@@_define_opentype_feature:nnnn {Ligatures} {Historic} {+hlig} {}
+\@@_define_opentype_feature:nnnn {Ligatures} {NoHistoric} {-hlig} {}
+%    \end{macrocode}
+% Emulate CM extra ligatures.
+%    \begin{macrocode}
+\keys_define:nn {fontspec-opentype}
+ {
+  Ligatures / TeX .code:n =
+   {
+%<*xetexx>
+    \@@_update_featstr:n { mapping = tex-text }
+%</xetexx>
+%<*luatex>
+    \@@_update_featstr:n { +tlig }
+%</luatex>
+   }
+ }
+%    \end{macrocode}
+%
+% \subsubsection{Letters}
+%    \begin{macrocode}
+\@@_define_opentype_feature_group:n {Letters}
+\@@_define_opentype_feature:nnnn {Letters} {Uppercase} {+case} {}
+\@@_define_opentype_feature:nnnn {Letters} {SmallCaps} {+smcp} {+pcap}
+\@@_define_opentype_feature:nnnn {Letters} {PetiteCaps} {+pcap} {+smcp}
+\@@_define_opentype_feature:nnnn {Letters} {UppercaseSmallCaps} {+c2sc} {+c2pc}
+\@@_define_opentype_feature:nnnn {Letters} {UppercasePetiteCaps} {+c2pc} {+c2sc}
+\@@_define_opentype_feature:nnnn {Letters} {Unicase} {+unic} {}
+\@@_define_opentype_feature:nnnn {Letters} {Random} {+rand} {}
+%    \end{macrocode}
+%
+% \subsubsection{Numbers}
+%    \begin{macrocode}
+\@@_define_opentype_feature_group:n {Numbers}
+\@@_define_opentype_feature:nnnn {Numbers} {Monospaced} {+tnum} {}
+\@@_define_opentype_feature:nnnn {Numbers} {Proportional} {+pnum} {}
+\@@_define_opentype_feature:nnnn {Numbers} {Lowercase} {+onum} {+lnum}
+\@@_define_opentype_feature:nnnn {Numbers} {OldStyle} {+onum} {+lnum}
+\@@_define_opentype_feature:nnnn {Numbers} {Uppercase} {+lnum} {+onum}
+\@@_define_opentype_feature:nnnn {Numbers} {Lining} {+lnum} {+onum}
+\@@_define_opentype_feature:nnnn {Numbers} {SlashedZero} {+zero} {}
+\@@_define_opentype_feature:nnnn {Numbers} {NoSlashedZero} {-zero} {}
+%    \end{macrocode}
+%
+% |luaotload| provides a custom |anum| feature for replacing Latin
+% (AKA Arabic) numbers with Arabic (AKA Indic-Arabic). The same feature
+% maps to Farsi (Persian) numbers if font language is Farsi.
+%    \begin{macrocode}
+%<luatex>  \@@_define_opentype_feature:nnnn {Numbers} {Arabic} {+anum} {}
+%    \end{macrocode}
+%
+% \subsubsection{Contextuals}
+%    \begin{macrocode}
+\@@_define_opentype_feature_group:n   {Contextuals}
+\@@_define_opentype_feature:nnnn {Contextuals} {Swash} {+cswh} {}
+\@@_define_opentype_feature:nnnn {Contextuals} {NoSwash} {-cswh} {}
+\@@_define_opentype_feature:nnnn {Contextuals} {Alternate} {+calt} {}
+\@@_define_opentype_feature:nnnn {Contextuals} {NoAlternate} {-calt} {}
+\@@_define_opentype_feature:nnnn {Contextuals} {WordInitial} {+init} {}
+\@@_define_opentype_feature:nnnn {Contextuals} {NoWordInitial} {-init} {}
+\@@_define_opentype_feature:nnnn {Contextuals} {WordFinal} {+fina} {}
+\@@_define_opentype_feature:nnnn {Contextuals} {NoWordFinal} {-fina} {}
+\@@_define_opentype_feature:nnnn {Contextuals} {LineFinal} {+falt} {}
+\@@_define_opentype_feature:nnnn {Contextuals} {NoLineFinal} {-falt} {}
+\@@_define_opentype_feature:nnnn {Contextuals} {Inner} {+medi} {}
+\@@_define_opentype_feature:nnnn {Contextuals} {NoInner} {-medi} {}
+%    \end{macrocode}
+%
+% \subsubsection{Diacritics}
+%    \begin{macrocode}
+\@@_define_opentype_feature_group:n {Diacritics}
+\@@_define_opentype_feature:nnnn {Diacritics} {MarkToBase} {+mark} {}
+\@@_define_opentype_feature:nnnn {Diacritics} {NoMarkToBase} {-mark} {}
+\@@_define_opentype_feature:nnnn {Diacritics} {MarkToMark} {+mkmk} {}
+\@@_define_opentype_feature:nnnn {Diacritics} {NoMarkToMark} {-mkmk} {}
+\@@_define_opentype_feature:nnnn {Diacritics} {AboveBase} {+abvm} {}
+\@@_define_opentype_feature:nnnn {Diacritics} {NoAboveBase} {-abvm} {}
+\@@_define_opentype_feature:nnnn {Diacritics} {BelowBase} {+blwm} {}
+\@@_define_opentype_feature:nnnn {Diacritics} {NoBelowBase} {-blwm} {}
+%    \end{macrocode}
+%
+% \subsubsection{Kerning}
+%    \begin{macrocode}
+\@@_define_opentype_feature_group:n {Kerning}
+\@@_define_opentype_feature:nnnn {Kerning} {Uppercase} {+cpsp} {}
+\@@_define_opentype_feature:nnnn {Kerning} {On} {+kern} {}
+\@@_define_opentype_feature:nnnn {Kerning} {Off} {-kern} {}
+%    \end{macrocode}
+%
+% \subsubsection{Vertical position}
+%    \begin{macrocode}
+\@@_define_opentype_feature_group:n {VerticalPosition}
+\@@_define_opentype_feature:nnnn {VerticalPosition} {Superior} {+sups} {}
+\@@_define_opentype_feature:nnnn {VerticalPosition} {Inferior} {+subs} {}
+\@@_define_opentype_feature:nnnn {VerticalPosition} {Ordinal} {+ordn} {}
+\@@_define_opentype_feature:nnnn {VerticalPosition} {Numerator} {+numr} {}
+\@@_define_opentype_feature:nnnn {VerticalPosition} {Denominator} {+dnom} {}
+\@@_define_opentype_feature:nnnn {VerticalPosition} {ScientificInferior} {+sinf} {}
+%    \end{macrocode}
+%
+% \subsubsection{Fractions}
+%    \begin{macrocode}
+\@@_define_opentype_feature_group:n {Fractions}
+\@@_define_opentype_feature:nnnn {Fractions} {On} {+frac} {}
+\@@_define_opentype_feature:nnnn {Fractions} {Off} {-frac} {}
+\@@_define_opentype_feature:nnnn {Fractions} {Alternate} {+afrc} {}
+%    \end{macrocode}
+%
+% \subsubsection{Alternate}
+%    \begin{macrocode}
+\@@_define_opentype_feature_group:n  { Alternate }
+\keys_define:nn {fontspec-opentype}
+ {
+  Alternate .default:n = {0} ,
+  Alternate / unknown .code:n =
+   {
+    \clist_map_inline:nn {#1}
+      { \fontspec_make_feature:nnxn {17}{##1} { +salt = ##1 }{} }
+   }
+ }
+%    \end{macrocode}
+%
+%
+% \subsubsection{Variant / StylisticSet}
+%    \begin{macrocode}
+\@@_define_opentype_feature_group:n  {Variant}
+\keys_define:nn {fontspec-opentype}
+ {
+  Variant .default:n = {0} ,
+  Variant / unknown .code:n =
+   {
+    \clist_map_inline:nn {#1}
+      { \fontspec_make_feature:nnxn {18}{##1} { +ss \two@digits {##1} }{} }
+   }
+ }
+\aliasfontfeature{Variant}{StylisticSet}
+%    \end{macrocode}
+%
+% \subsubsection{CharacterVariant}
+%    \begin{macrocode}
+\@@_define_opentype_feature_group:n  { CharacterVariant }
+\use:x
+ {
+  \cs_new:Npn \exp_not:N \fontspec_parse_cv:w
+      ##1 \c_colon_str ##2 \c_colon_str ##3 \exp_not:N \q_nil
+   {
+     \fontspec_make_numbered_feature:xn
+       { +cv \exp_not:N \two@digits {##1} } {##2}
+   }
+  \keys_define:nn {fontspec-opentype}
+   {
+    CharacterVariant / unknown .code:n =
+     {
+      \clist_map_inline:nn {##1}
+       {
+        \exp_not:N \fontspec_parse_cv:w
+          ####1 \c_colon_str 0 \c_colon_str \exp_not:N \q_nil
+       }
+     }
+   }
+ }
+%    \end{macrocode}
+% Possibilities: \verb|a:0:\q_nil| or \verb|a:b:0:\q_nil|.
+%
+%
+%
+% \subsubsection{Style}
+%    \begin{macrocode}
+\@@_define_opentype_feature_group:n {Style}
+\@@_define_opentype_feature:nnnn {Style} {Alternate} {+salt} {}
+\@@_define_opentype_feature:nnnn {Style} {Italic} {+ital} {}
+\@@_define_opentype_feature:nnnn {Style} {Ruby} {+ruby} {}
+\@@_define_opentype_feature:nnnn {Style} {Swash} {+swsh} {}
+\@@_define_opentype_feature:nnnn {Style} {Historic} {+hist} {}
+\@@_define_opentype_feature:nnnn {Style} {TitlingCaps} {+titl} {}
+\@@_define_opentype_feature:nnnn {Style} {HorizontalKana} {+hkna} {}
+\@@_define_opentype_feature:nnnn {Style} {VerticalKana} {+vkna} {}
+\fontspec_define_numbered_feat:nnnn {Style} {MathScript}       {+ssty} {0}
+\fontspec_define_numbered_feat:nnnn {Style} {MathScriptScript} {+ssty} {1}
+%    \end{macrocode}
+%
+% \subsubsection{CJK shape}
+%    \begin{macrocode}
+\@@_define_opentype_feature_group:n {CJKShape}
+\@@_define_opentype_feature:nnnn {CJKShape} {Traditional} {+trad} {}
+\@@_define_opentype_feature:nnnn {CJKShape} {Simplified} {+smpl} {}
+\@@_define_opentype_feature:nnnn {CJKShape} {JIS1978} {+jp78} {}
+\@@_define_opentype_feature:nnnn {CJKShape} {JIS1983} {+jp83} {}
+\@@_define_opentype_feature:nnnn {CJKShape} {JIS1990} {+jp90} {}
+\@@_define_opentype_feature:nnnn {CJKShape} {Expert} {+expt} {}
+\@@_define_opentype_feature:nnnn {CJKShape} {NLC} {+nlck} {}
+%    \end{macrocode}
+%
+% \subsubsection{Character width}
+%    \begin{macrocode}
+\@@_define_opentype_feature_group:n {CharacterWidth}
+\@@_define_opentype_feature:nnnn {CharacterWidth} {Proportional} {+pwid} {}
+\@@_define_opentype_feature:nnnn {CharacterWidth} {Full} {+fwid} {}
+\@@_define_opentype_feature:nnnn {CharacterWidth} {Half} {+hwid} {}
+\@@_define_opentype_feature:nnnn {CharacterWidth} {Third} {+twid} {}
+\@@_define_opentype_feature:nnnn {CharacterWidth} {Quarter} {+qwid} {}
+\@@_define_opentype_feature:nnnn {CharacterWidth} {AlternateProportional} {+palt} {}
+\@@_define_opentype_feature:nnnn {CharacterWidth} {AlternateHalf} {+halt} {}
+%    \end{macrocode}
+%
+% \subsubsection{Annotation}
+%    \begin{macrocode}
+\@@_define_opentype_feature_group:n {Annotation}
+\keys_define:nn {fontspec-opentype}
+ {
+  Annotation .default:n = {0} ,
+  Annotation / unknown .code:n =
+   {
+    \fontspec_make_feature:nnxn {}{}{ +nalt=#1 }{}
+   }
+ }
+%    \end{macrocode}
+%
+% \subsubsection{Ornament}
+%
+%    \begin{macrocode}
+\@@_define_opentype_feature_group:n  { Ornament }
+\keys_define:nn {fontspec-opentype}
+ {
+  Ornament .default:n = {0} ,
+  Ornament / unknown .code:n =
+   {
+    \fontspec_make_feature:nnxn {}{}{ +ornm=#1 }{}
+   }
+ }
+%    \end{macrocode}
+%
+% \subsubsection{Vertical}
+%
+%    \begin{macrocode}
+\keys_define:nn {fontspec-opentype}
+ {
+  Vertical .choice: ,
+  Vertical / RotatedGlyphs .code:n =
+   {
+    \bool_if:NTF \l_@@_ot_bool
+     {
+      \fontspec_make_feature:nnnn{}{}{+vrt2}{}
+      \@@_update_featstr:n {vertical}
+     }
+     {
+      \@@_update_featstr:n {vertical}
+     }
+   }
+ }
+%    \end{macrocode}
+%
+% \subsubsection{Script}
+%
+%    \begin{macrocode}
+\keys_define:nn { fontspec-opentype } { Script .choice: }
+\cs_new:Nn \fontspec_new_script:nn
+ {
+  \keys_define:nn { fontspec-opentype } { Script / #1 .code:n =
+    \bool_set_false:N \l_@@_script_exist_bool
+    \clist_map_inline:nn {#2}
+     {
+      \fontspec_check_script:nTF {####1}
+       {
+        \tl_set:Nn \l_fontspec_script_tl {####1}
+        \int_set:Nn \l_fontspec_script_int {\l_fontspec_strnum_int}
+        \bool_set_true:N \l_@@_script_exist_bool
+        \clist_map_break:
+       }
+       { }
+     }
+    \bool_if:NF \l_@@_script_exist_bool
+     {
+      \str_if_eq:nnTF {#1} {Latin}
+       {
+        \@@_warning:nx {script-not-exist} {#1}
+       }
+       {
+        \fontspec_check_script:nTF {latn}
+         {
+          \@@_warning:nx {script-not-exist-latn} {#1}
+          \tl_set:Nn \l_fontspec_script_tl {latn}
+          \int_set:Nn \l_fontspec_script_int {\l_fontspec_strnum_int}
+         }
+         {
+          \@@_warning:nx {script-not-exist} {#1}
+         }
+       }
+     }
+   }
+ }
+\bool_new:N \l_@@_script_exist_bool
+%    \end{macrocode}
+%
+%
+% \subsubsection{Language}
+%
+%    \begin{macrocode}
+\keys_define:nn { fontspec-opentype } { Language .choice: }
+\cs_new:Nn \fontspec_new_lang:nn
+ {
+  \keys_define:nn { fontspec-opentype } { Language / #1 .code:n =
+    \fontspec_check_lang:nTF {#2}
+     {
+      \tl_set:Nn \l_fontspec_lang_tl {#2}
+      \int_set:Nn \l_fontspec_language_int {\l_fontspec_strnum_int}
+     }
+     {
+      \@@_warning:nx {language-not-exist} {#1}
+      \keys_set:nn { fontspec-opentype } { Language = Default }
+     }
+  }
+ }
+%    \end{macrocode}
+%
+% \paragraph{Default}
+%
+%    \begin{macrocode}
+\@@_keys_define_code:nnn {fontspec-opentype}{ Language / Default }
+ {
+  \tl_set:Nn \l_fontspec_lang_tl {DFLT}
+  \int_zero:N \l_fontspec_language_int
+ }
+%    \end{macrocode}
+%
+% \paragraph{Turkish} Turns out that many fonts use `TUR' as their Turkish language tag rather than the specified `TRK'. So we check for both:
+%    \begin{macrocode}
+\keys_define:nn {fontspec-opentype}
+ {
+  Language / Turkish .code:n =
+   {
+    \fontspec_check_lang:nTF {TRK}
+     {
+      \int_set:Nn \l_fontspec_language_int {\l_fontspec_strnum_int}
+      \tl_set:Nn \l_fontspec_lang_tl {TRK}
+     }
+     {
+      \fontspec_check_lang:nTF {TUR}
+       {
+        \int_set:Nn \l_fontspec_language_int {\l_fontspec_strnum_int}
+        \tl_set:Nn \l_fontspec_lang_tl {TUR}
+       }
+       {
+        \@@_warning:nx {language-not-exist} {Turkish}
+        \keys_set:nn {fontspec-opentype} {Language=Default}
+       }
+     }
+   }
+ }
+%    \end{macrocode}
+%
+% \iffalse
+%    \begin{macrocode}
+%</fontspec&(xetexx|luatex)>
+%    \end{macrocode}
+% \fi
+

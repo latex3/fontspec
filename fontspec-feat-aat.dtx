@@ -1,0 +1,216 @@
+
+% \subsection{AAT feature definitions}
+%
+% These are only defined for \XeTeX.
+%
+% \iffalse
+%    \begin{macrocode}
+%<*fontspec&xetexx>
+%    \end{macrocode}
+% \fi
+
+% \subsubsection{Ligatures}
+%    \begin{macrocode}
+\@@_define_aat_feature_group:n {Ligatures}
+\@@_define_aat_feature:nnnn      {Ligatures} {Required} {1} {0}
+\@@_define_aat_feature:nnnn      {Ligatures} {NoRequired} {1} {1}
+\@@_define_aat_feature:nnnn      {Ligatures} {Common} {1} {2}
+\@@_define_aat_feature:nnnn      {Ligatures} {NoCommon} {1} {3}
+\@@_define_aat_feature:nnnn      {Ligatures} {Rare} {1} {4}
+\@@_define_aat_feature:nnnn      {Ligatures} {NoRare} {1} {5}
+\@@_define_aat_feature:nnnn      {Ligatures} {Discretionary} {1} {4}
+\@@_define_aat_feature:nnnn      {Ligatures} {NoDiscretionary} {1} {5}
+\@@_define_aat_feature:nnnn      {Ligatures} {Logos} {1} {6}
+\@@_define_aat_feature:nnnn      {Ligatures} {NoLogos} {1} {7}
+\@@_define_aat_feature:nnnn      {Ligatures} {Rebus} {1} {8}
+\@@_define_aat_feature:nnnn      {Ligatures} {NoRebus} {1} {9}
+\@@_define_aat_feature:nnnn      {Ligatures} {Diphthong} {1} {10}
+\@@_define_aat_feature:nnnn      {Ligatures} {NoDiphthong} {1} {11}
+\@@_define_aat_feature:nnnn      {Ligatures} {Squared} {1} {12}
+\@@_define_aat_feature:nnnn      {Ligatures} {NoSquared} {1} {13}
+\@@_define_aat_feature:nnnn      {Ligatures} {AbbrevSquared} {1} {14}
+\@@_define_aat_feature:nnnn      {Ligatures} {NoAbbrevSquared} {1} {15}
+\@@_define_aat_feature:nnnn      {Ligatures} {Icelandic} {1} {32}
+\@@_define_aat_feature:nnnn      {Ligatures} {NoIcelandic} {1} {33}
+%    \end{macrocode}
+% Emulate CM extra ligatures.
+%    \begin{macrocode}
+\keys_define:nn {fontspec-aat}
+ {
+  Ligatures / TeX .code:n =
+   {
+    \@@_update_featstr:n { mapping = tex-text }
+   }
+ }
+%    \end{macrocode}
+%
+% \subsubsection{Letters}
+%    \begin{macrocode}
+\@@_define_aat_feature_group:n {Letters}
+\@@_define_aat_feature:nnnn      {Letters} {Normal} {3} {0}
+\@@_define_aat_feature:nnnn      {Letters} {Uppercase} {3} {1}
+\@@_define_aat_feature:nnnn      {Letters} {Lowercase} {3} {2}
+\@@_define_aat_feature:nnnn      {Letters} {SmallCaps} {3} {3}
+\@@_define_aat_feature:nnnn      {Letters} {InitialCaps} {3} {4}
+%    \end{macrocode}
+%
+% \subsubsection{Numbers}
+%
+% These were originally separated into \feat{NumberCase} and
+% \feat{NumberSpacing} following \AAT, but it makes more sense to
+% combine them.
+%
+% Both naming conventions are offered to select the number case.
+%
+%    \begin{macrocode}
+\@@_define_aat_feature_group:n {Numbers}
+\@@_define_aat_feature:nnnn      {Numbers} {Monospaced} {6} {0}
+\@@_define_aat_feature:nnnn      {Numbers} {Proportional} {6} {1}
+\@@_define_aat_feature:nnnn      {Numbers} {Lowercase} {21} {0}
+\@@_define_aat_feature:nnnn      {Numbers} {OldStyle} {21} {0}
+\@@_define_aat_feature:nnnn      {Numbers} {Uppercase} {21} {1}
+\@@_define_aat_feature:nnnn      {Numbers} {Lining} {21} {1}
+\@@_define_aat_feature:nnnn      {Numbers} {SlashedZero} {14} {5}
+\@@_define_aat_feature:nnnn      {Numbers} {NoSlashedZero} {14} {4}
+%    \end{macrocode}
+%
+% |luaotload| provides a custom |anum| feature for replacing Latin
+% (AKA Arabic) numbers with Arabic (AKA Indic-Arabic). The same feature
+% maps to Farsi (Persian) numbers if font language is Farsi.
+%    \begin{macrocode}
+%<luatex>  \@@_define_opentype_feature:nnnn {Numbers} {Arabic} {+anum} {}
+%    \end{macrocode}
+%
+% \subsubsection{Contextuals}
+%    \begin{macrocode}
+\@@_define_aat_feature_group:n   {Contextuals}
+\@@_define_aat_feature:nnnn      {Contextuals} {WordInitial} {8} {0}
+\@@_define_aat_feature:nnnn      {Contextuals} {NoWordInitial} {8} {1}
+\@@_define_aat_feature:nnnn      {Contextuals} {WordFinal} {8} {2}
+\@@_define_aat_feature:nnnn      {Contextuals} {NoWordFinal} {8} {3}
+\@@_define_aat_feature:nnnn      {Contextuals} {LineInitial} {8} {4}
+\@@_define_aat_feature:nnnn      {Contextuals} {NoLineInitial} {8} {5}
+\@@_define_aat_feature:nnnn      {Contextuals} {LineFinal} {8} {6}
+\@@_define_aat_feature:nnnn      {Contextuals} {NoLineFinal} {8} {7}
+\@@_define_aat_feature:nnnn      {Contextuals} {Inner} {8} {8}
+\@@_define_aat_feature:nnnn      {Contextuals} {NoInner} {8} {9}
+%    \end{macrocode}
+%
+% \subsubsection{Diacritics}
+%    \begin{macrocode}
+\@@_define_aat_feature_group:n {Diacritics}
+\@@_define_aat_feature:nnnn      {Diacritics} {Show} {9} {0}
+\@@_define_aat_feature:nnnn      {Diacritics} {Hide} {9} {1}
+\@@_define_aat_feature:nnnn      {Diacritics} {Decompose} {9} {2}
+%    \end{macrocode}
+%
+%
+% \subsubsection{Vertical position}
+%    \begin{macrocode}
+\@@_define_aat_feature_group:n {VerticalPosition}
+\@@_define_aat_feature:nnnn      {VerticalPosition} {Normal} {10} {0}
+\@@_define_aat_feature:nnnn      {VerticalPosition} {Superior} {10} {1}
+\@@_define_aat_feature:nnnn      {VerticalPosition} {Inferior} {10} {2}
+\@@_define_aat_feature:nnnn      {VerticalPosition} {Ordinal} {10} {3}
+%    \end{macrocode}
+%
+% \subsubsection{Fractions}
+%    \begin{macrocode}
+\@@_define_aat_feature_group:n {Fractions}
+\@@_define_aat_feature:nnnn      {Fractions} {On} {11} {1}
+\@@_define_aat_feature:nnnn      {Fractions} {Off} {11} {0}
+\@@_define_aat_feature:nnnn      {Fractions} {Diagonal} {11} {2}
+%    \end{macrocode}
+%
+% \subsubsection{Alternate}
+%    \begin{macrocode}
+\@@_define_aat_feature_group:n  { Alternate }
+\keys_define:nn {fontspec-aat}
+ {
+  Alternate .default:n = {0} ,
+  Alternate / unknown .code:n =
+   {
+    \clist_map_inline:nn {#1}
+      { \fontspec_make_feature:nnxn {17}{##1} { +salt = ##1 }{} }
+   }
+ }
+%    \end{macrocode}
+%
+%
+% \subsubsection{Variant / StylisticSet}
+%    \begin{macrocode}
+\@@_define_aat_feature_group:n  {Variant}
+\keys_define:nn {fontspec-aat}
+ {
+  Variant .default:n = {0} ,
+  Variant / unknown .code:n =
+   {
+    \clist_map_inline:nn {#1}
+      { \fontspec_make_feature:nnxn {18}{##1} { +ss \two@digits {##1} }{} }
+   }
+ }
+\aliasfontfeature{Variant}{StylisticSet}
+%    \end{macrocode}
+%
+%
+%
+%
+% \subsubsection{Style}
+%    \begin{macrocode}
+\@@_define_aat_feature_group:n {Style}
+\@@_define_aat_feature:nnnn      {Style} {Italic} {32} {2}
+\@@_define_aat_feature:nnnn      {Style} {Ruby} {28} {2}
+\@@_define_aat_feature:nnnn      {Style} {Display} {19} {1}
+\@@_define_aat_feature:nnnn      {Style} {Engraved} {19} {2}
+\@@_define_aat_feature:nnnn      {Style} {TitlingCaps} {19} {4}
+\@@_define_aat_feature:nnnn      {Style} {TallCaps} {19} {5}
+%    \end{macrocode}
+%
+% \subsubsection{CJK shape}
+%    \begin{macrocode}
+\@@_define_aat_feature_group:n {CJKShape}
+\@@_define_aat_feature:nnnn      {CJKShape} {Traditional} {20} {0}
+\@@_define_aat_feature:nnnn      {CJKShape} {Simplified} {20} {1}
+\@@_define_aat_feature:nnnn      {CJKShape} {JIS1978} {20} {2}
+\@@_define_aat_feature:nnnn      {CJKShape} {JIS1983} {20} {3}
+\@@_define_aat_feature:nnnn      {CJKShape} {JIS1990} {20} {4}
+\@@_define_aat_feature:nnnn      {CJKShape} {Expert} {20} {10}
+\@@_define_aat_feature:nnnn      {CJKShape} {NLC} {20} {13}
+%    \end{macrocode}
+%
+% \subsubsection{Character width}
+%    \begin{macrocode}
+\@@_define_aat_feature_group:n {CharacterWidth}
+\@@_define_aat_feature:nnnn      {CharacterWidth} {Proportional} {22} {0}
+\@@_define_aat_feature:nnnn      {CharacterWidth} {Full} {22} {1}
+\@@_define_aat_feature:nnnn      {CharacterWidth} {Half} {22} {2}
+\@@_define_aat_feature:nnnn      {CharacterWidth} {Third} {22} {3}
+\@@_define_aat_feature:nnnn      {CharacterWidth} {Quarter} {22} {4}
+\@@_define_aat_feature:nnnn      {CharacterWidth} {AlternateProportional} {22} {5}
+\@@_define_aat_feature:nnnn      {CharacterWidth} {AlternateHalf} {22} {6}
+\@@_define_aat_feature:nnnn      {CharacterWidth} {Default} {22} {7}
+%    \end{macrocode}
+%
+% \subsubsection{Annotation}
+%    \begin{macrocode}
+\@@_define_aat_feature_group:n {Annotation}
+\@@_define_aat_feature:nnnn      {Annotation} {Off} {24} {0}
+\@@_define_aat_feature:nnnn      {Annotation} {Box} {24} {1}
+\@@_define_aat_feature:nnnn      {Annotation} {RoundedBox} {24} {2}
+\@@_define_aat_feature:nnnn      {Annotation} {Circle} {24} {3}
+\@@_define_aat_feature:nnnn      {Annotation} {BlackCircle} {24} {4}
+\@@_define_aat_feature:nnnn      {Annotation} {Parenthesis} {24} {5}
+\@@_define_aat_feature:nnnn      {Annotation} {Period} {24} {6}
+\@@_define_aat_feature:nnnn      {Annotation} {RomanNumerals} {24} {7}
+\@@_define_aat_feature:nnnn      {Annotation} {Diamond} {24} {8}
+\@@_define_aat_feature:nnnn      {Annotation} {BlackSquare} {24} {9}
+\@@_define_aat_feature:nnnn      {Annotation} {BlackRoundSquare} {24} {10}
+\@@_define_aat_feature:nnnn      {Annotation} {DoubleCircle} {24} {11}
+%    \end{macrocode}
+%
+% \iffalse
+%    \begin{macrocode}
+%</fontspec&xetexx>
+%    \end{macrocode}
+% \fi
+

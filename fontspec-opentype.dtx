@@ -18,6 +18,20 @@
 %    \end{macrocode}
 % \end{macro}
 %
+% \begin{macro}{\@@_define_opentype_feature_group:n}
+%    \begin{macrocode}
+\cs_new:Nn \@@_define_opentype_feature_group:n
+  { \keys_define:nn {fontspec-opentype} { #1 .multichoice: } }
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@@_define_aat_feature_group:n}
+%    \begin{macrocode}
+\cs_new:Nn \@@_define_aat_feature_group:n
+  { \keys_define:nn {fontspec-aat} { #1 .multichoice: } }
+%    \end{macrocode}
+% \end{macro}
+%
 % \begin{macro}{\@@_define_feature_option:nnnnnn}
 %    \begin{macrocode}
 \cs_new:Nn \@@_define_aat_feature:nnnn

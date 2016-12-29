@@ -34,41 +34,33 @@ And the derived files: fontspec*.sty,fontspec.lua, and fontspec.pdf.
 \generate{\file{fontspec.sty}{
   \from{fontspec.dtx}{fontspec,load\FSDEBUG}
 }}
-\generate{\file{fontspec-xetex.sty}{
-  \from{fontspec.dtx}{fontspec,xetexx\FSDEBUG}
-  \from{fontspec-vars.dtx}{vars\FSDEBUG}
-  \from{fontspec-msg.dtx}{msg\FSDEBUG}
-  \from{fontspec-opening.dtx}{fontspec,xetexx\FSDEBUG}
-  \from{fontspec-fontload.dtx}{fontspec,xetexx\FSDEBUG}
-  \from{fontspec-user.dtx}{fontspec,xetexx\FSDEBUG}
-  \from{fontspec-api.dtx}{fontspec,xetexx\FSDEBUG}
-  \from{fontspec-internal.dtx}{fontspec,xetexx\FSDEBUG}
-  \from{fontspec-opentype.dtx}{fontspec,xetexx\FSDEBUG}
-  \from{fontspec-graphite.dtx}{fontspec,xetexx\FSDEBUG}
-  \from{fontspec-keyval.dtx}{fontspec,xetexx\FSDEBUG}
-  \from{fontspec-scripts.dtx}{fontspec,xetexx\FSDEBUG}
-  \from{fontspec-lang.dtx}{fontspec,xetexx\FSDEBUG}
-  \from{fontspec-math.dtx}{fontspec,xetexx\FSDEBUG}
-  \from{fontspec-closing.dtx}{fontspec,xetexx\FSDEBUG}
-  \from{fontspec-patches.dtx}{patches\FSDEBUG}
-}}
-\generate{\file{fontspec-luatex.sty}{
-  \from{fontspec.dtx}{fontspec,luatex\FSDEBUG}
-  \from{fontspec-vars.dtx}{vars\FSDEBUG}
-  \from{fontspec-msg.dtx}{msg\FSDEBUG}
-  \from{fontspec-opening.dtx}{fontspec,luatex\FSDEBUG}
-  \from{fontspec-fontload.dtx}{fontspec,luatex\FSDEBUG}
-  \from{fontspec-user.dtx}{fontspec,luatex\FSDEBUG}
-  \from{fontspec-api.dtx}{fontspec,luatex\FSDEBUG}
-  \from{fontspec-internal.dtx}{fontspec,luatex\FSDEBUG}
-  \from{fontspec-opentype.dtx}{fontspec,luatex\FSDEBUG}
-  \from{fontspec-keyval.dtx}{fontspec,luatex\FSDEBUG}
-  \from{fontspec-scripts.dtx}{fontspec,luatex\FSDEBUG}
-  \from{fontspec-lang.dtx}{fontspec,luatex\FSDEBUG}
-  \from{fontspec-math.dtx}{fontspec,luatex\FSDEBUG}
-  \from{fontspec-closing.dtx}{fontspec,luatex\FSDEBUG}
-  \from{fontspec-patches.dtx}{patches\FSDEBUG}
-}}
+
+\def\FONTSPECDTX{
+  \DTX{fontspec.dtx}
+  \DTX{fontspec-vars.dtx}
+  \DTX{fontspec-msg.dtx}
+  \DTX{fontspec-opening.dtx}
+  \DTX{fontspec-fontload.dtx}
+  \DTX{fontspec-user.dtx}
+  \DTX{fontspec-api.dtx}
+  \DTX{fontspec-internal.dtx}
+  \DTX{fontspec-opentype.dtx}
+  \DTX{fontspec-graphite.dtx}
+  \DTX{fontspec-keyval.dtx}
+  \DTX{fontspec-feat-opentype.dtx}
+  \DTX{fontspec-scripts.dtx}
+  \DTX{fontspec-lang.dtx}
+  \DTX{fontspec-feat-aat.dtx}
+  \DTX{fontspec-math.dtx}
+  \DTX{fontspec-closing.dtx}
+  \DTX{fontspec-patches.dtx}
+}
+
+\def\DTX#1{\from{#1}{fontspec,xetexx\FSDEBUG}}
+\generate{\file{fontspec-xetex.sty}{\FONTSPECDTX}}
+
+\def\DTX#1{\from{#1}{fontspec,luatex\FSDEBUG}}
+\generate{\file{fontspec-luatex.sty}{\FONTSPECDTX}}
 
 \def\tmpa{plain}
 \ifx\tmpa\fmtname\endgroup\expandafter\bye\fi
@@ -95,22 +87,8 @@ And the derived files: fontspec*.sty,fontspec.lua, and fontspec.pdf.
 \StopEventually{}
 \part{Implementation}
 \DocInput{fontspec.dtx}
-\DocInput{fontspec-vars.dtx}
-\DocInput{fontspec-opening.dtx}
-\DocInput{fontspec-fontload.dtx}
-\DocInput{fontspec-user.dtx}
-\DocInput{fontspec-api.dtx}
-\DocInput{fontspec-internal.dtx}
-\DocInput{fontspec-opentype.dtx}
-\DocInput{fontspec-graphite.dtx}
-\DocInput{fontspec-keyval.dtx}
-\DocInput{fontspec-scripts.dtx}
-\DocInput{fontspec-lang.dtx}
-\DocInput{fontspec-math.dtx}
-\DocInput{fontspec-closing.dtx}
-\DocInput{fontspec-lua.dtx}
-\DocInput{fontspec-patches.dtx}
-\DocInput{fontspec-msg.dtx}
+\def\DTX#1{\DocInput{#1}}
+\FONTSPECDTX
 \end{document}
 %</driver>
 % \fi

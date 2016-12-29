@@ -966,8 +966,8 @@
 %
 % \subsection{Miscellaneous}
 %
-% \begin{macro}{\fontspec_iv_str_to_num:Nn}
-% \begin{macro}{\fontspec_v_str_to_num:Nn}
+% \begin{macro}{\@@_iv_str_to_num:Nn}
+% \begin{macro}{\@@_v_str_to_num:Nn}
 % This macro takes a four character string and converts it to the
 % numerical representation required for \XeTeX\ OpenType script/language/feature
 % purposes. The output is stored in \cmd\l_fontspec_strnum_int.
@@ -979,16 +979,16 @@
 % and anything beyond four chars is snipped. The \cmd\@empty s then are used to reconstruct
 % the spaces in the string to number calculation.
 %
-% The variant \cmd\fontspec_v_str_to_num:n\ is used when looking at features, which are passed around
+% The variant \cmd\@@_v_str_to_num:n\ is used when looking at features, which are passed around
 % with prepended plus and minus signs (\eg, \texttt{+liga}, \texttt{-dlig}); it
-% simply strips off the first char of the input before calling the normal \cmd\fontspec_iv_str_to_num:n.
+% simply strips off the first char of the input before calling the normal \cmd\@@_iv_str_to_num:n.
 %    \begin{macrocode}
 %<*xetexx>
-\cs_set:Nn \fontspec_iv_str_to_num:Nn
+\cs_set:Nn \@@_iv_str_to_num:Nn
  {
-  \fontspec_iv_str_to_num:w #1 \q_nil #2 \c_empty_tl \c_empty_tl \q_nil
+  \@@_iv_str_to_num:w #1 \q_nil #2 \c_empty_tl \c_empty_tl \q_nil
  }
-\cs_set:Npn \fontspec_iv_str_to_num:w #1 \q_nil #2#3#4#5#6 \q_nil
+\cs_set:Npn \@@_iv_str_to_num:w #1 \q_nil #2#3#4#5#6 \q_nil
  {
   \int_set:Nn #1
    {
@@ -998,16 +998,16 @@
     + \ifx \c_empty_tl #5 32 \else `#5 \fi
    }
  }
-\cs_generate_variant:Nn \fontspec_iv_str_to_num:Nn {No}
-\cs_set:Nn \fontspec_v_str_to_num:Nn
+\cs_generate_variant:Nn \@@_iv_str_to_num:Nn {No}
+\cs_set:Nn \@@_v_str_to_num:Nn
  {
   \bool_if:nTF
    {
     \tl_if_head_eq_charcode_p:nN {#2} {+} ||
     \tl_if_head_eq_charcode_p:nN {#2} {-}
    }
-   { \fontspec_iv_str_to_num:No #1 { \use_none:n #2 } }
-   { \fontspec_iv_str_to_num:Nn #1 {#2} }
+   { \@@_iv_str_to_num:No #1 { \use_none:n #2 } }
+   { \@@_iv_str_to_num:Nn #1 {#2} }
  }
 %</xetexx>
 %    \end{macrocode}

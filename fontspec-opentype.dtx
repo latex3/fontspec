@@ -97,7 +97,7 @@
 \prg_new_conditional:Nnn \fontspec_check_script:n {TF}
 %<*xetexx>
  {
-  \fontspec_iv_str_to_num:Nn \l_fontspec_strnum_int {#1}
+  \@@_iv_str_to_num:Nn \l_fontspec_strnum_int {#1}
   \int_set:Nn \l_tmpb_int { \XeTeXOTcountscripts \l_fontspec_font }
   \int_zero:N \l_tmpa_int
   \bool_set_false:N \l__fontspec_check_bool
@@ -132,7 +132,7 @@
 \prg_new_conditional:Nnn \fontspec_check_lang:n {TF}
 %<*xetexx>
  {
-  \fontspec_iv_str_to_num:Nn \l_fontspec_strnum_int {#1}
+  \@@_iv_str_to_num:Nn \l_fontspec_strnum_int {#1}
   \int_set:Nn \l_tmpb_int
    { \XeTeXOTcountlanguages \l_fontspec_font \l_fontspec_script_int }
   \int_zero:N \l_tmpa_int
@@ -179,7 +179,7 @@
                           \l_fontspec_script_int
                           \l_fontspec_language_int
    }
-  \fontspec_v_str_to_num:Nn \l_fontspec_strnum_int {#1}
+  \@@_v_str_to_num:Nn \l_fontspec_strnum_int {#1}
   \int_zero:N \l_tmpa_int
   \bool_set_false:N \l__fontspec_check_bool
   \bool_until_do:nn { \int_compare_p:nNn \l_tmpa_int = \l_tmpb_int }

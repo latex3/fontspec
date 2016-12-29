@@ -1,0 +1,82 @@
+% \section{Graphite/AAT code}
+%
+% \iffalse
+%    \begin{macrocode}
+%<*fontspec&xetexx>
+%    \end{macrocode}
+% \fi
+%
+% \begin{macro}{\fontspec_make_AAT_feature_string:nnTF}
+%    \begin{macrocode}
+\cs_new:Nn \fontspec_make_AAT_feature:nn
+ {
+  \tl_if_empty:nTF {#1}
+   { \@@_warning:n {aat-feature-not-exist} }
+   {
+     \fontspec_make_AAT_feature_string:nnTF {#1}{#2}
+      {
+       \@@_update_featstr:n {\l_fontspec_feature_string_tl}
+     }
+     { \@@_warning:nx {aat-feature-not-exist-in-font} {#1,#2} }
+   }
+ }
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\fontspec_make_AAT_feature_string:nnTF}
+%   This macro takes the numerical codes for a font feature and
+%   creates a specified macro containing the string required in the
+%   font definition to turn that feature on or off. Used primarily in
+%   [...], but also used to check if small caps
+%   exists in the requested font (see page~\pageref{mac:makesmallcaps}).
+%
+% For exclusive selectors, it's easy; just grab the string:
+% For \emph{non}-exclusive selectors, it's a little more complex.
+% If the selector is even, it corresponds to switching the feature on.
+% If the selector is \emph{odd}, it corresponds to switching the feature off.
+% But \XeTeX\ doesn't return a selector string for this number, since the
+% feature is defined for the `switching on' value. So we need to check the
+% selector of the previous number, and then prefix the feature string with |!|
+% to denote the switch.
+%
+% Finally, save out the complete feature string in \cmd\l_fontspec_feature_string_tl.
+%    \begin{macrocode}
+\prg_new_conditional:Nnn \fontspec_make_AAT_feature_string:nn {TF,T,F}
+ {
+  \tl_set:Nx \l_tmpa_tl { \XeTeXfeaturename \l_fontspec_font #1 }
+  \tl_if_empty:NTF \l_tmpa_tl
+   { \prg_return_false: }
+   {
+    \int_compare:nTF { \XeTeXisexclusivefeature\l_fontspec_font #1 > 0 }
+     {
+      \tl_set:Nx \l_tmpb_tl {\XeTeXselectorname\l_fontspec_font #1\space #2}
+     }
+     {
+      \int_if_even:nTF {#2}
+       {
+        \tl_set:Nx \l_tmpb_tl {\XeTeXselectorname\l_fontspec_font #1\space #2}
+       }
+       {
+        \tl_set:Nx \l_tmpb_tl
+         {
+          \XeTeXselectorname\l_fontspec_font #1\space \numexpr#2-1\relax
+         }
+        \tl_if_empty:NF \l_tmpb_tl { \tl_put_left:Nn \l_tmpb_tl {!} }
+       }
+    }
+    \tl_if_empty:NTF \l_tmpb_tl
+     { \prg_return_false: }
+     {
+      \tl_set:Nx \l_fontspec_feature_string_tl { \l_tmpa_tl = \l_tmpb_tl }
+      \prg_return_true:
+     }
+   }
+ }
+%    \end{macrocode}
+% \end{macro}
+%
+% \iffalse
+%    \begin{macrocode}
+%</fontspec&xetexx>
+%    \end{macrocode}
+% \fi

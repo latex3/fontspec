@@ -58,22 +58,13 @@
   \@@_get_features:Nn \l_@@_rawfeatures_sclist {}
   \bool_set_false:N \l_@@_firsttime_bool
 
-  \@@_save_family:nTF {#2}
+  \@@_save_family_needed:nTF {#2}
    {
-    \@@_save_fontinfo:n {#2}
-    \@@_find_autofonts:
-    \DeclareFontFamily{\l_@@_nfss_enc_tl}{\l_fontspec_family_tl}{}
-    \@@_set_faces:
-    \@@_info:nxx {defining-font} {#1} {#2}
-%<*debug>
-    \typeout{"\l_@@_fontid_tl"~ defined.}
-    \@@_warning:nxx {defining-font} {#1} {#2}
-%</debug>
+     \@@_save_family:nn {#1} {#2}
+%<debug>  \@@_warning:nxx {defining-font} {#1} {#2}
    }
    {
-%<*debug>
-    \typeout{"\l_@@_fontid_tl"~ already~ defined~ apparently.}
-%</debug>
+%<debug>  \typeout{Font~ family~ already~ defined.}
    }
   \group_end:
  }
@@ -216,7 +207,7 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\@@_construct_font_call:nnnnnn,\@@_construct_font_call:nn}
+% \begin{macro}{\@@_construct_font_call:nn}
 % Constructs the complete font invocation.
 % \darg{Base name}
 % \darg{Extension}
@@ -247,7 +238,7 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\@@_fontname_wrap:n,\@@_font_is_file:,\@@_font_is_name:}
+% \begin{macro}{\@@_font_is_file:,\@@_font_is_name:}
 % The \cs{@@_fontname_wrap:n} command takes the font name and either passes it through unchanged or wraps it in the syntax for loading a font `by filename'.
 % \XeTeX's syntax is followed since \pkg{luaotfload} provides compatibility.
 %    \begin{macrocode}
@@ -312,9 +303,12 @@
 % selecting.
 %
 %    \begin{macrocode}
-\prg_new_conditional:Nnn \@@_save_family:n {TF}
+\prg_new_conditional:Nnn \@@_save_family_needed:n {TF}
  {
-%<debug>\typeout{save~ family:~ #1}
+
+%<debug>  \typeout{save~ family:~ #1}
+%<debug>  \typeout{== fontid_tl: "\l_@@_fontid_tl".}
+
   \cs_if_exist:NT \l_@@_nfss_fam_tl
    {
     \cs_set_eq:cN {g_@@_UID_\l_@@_fontid_tl} \l_@@_nfss_fam_tl
@@ -342,6 +336,20 @@
 % \end{macro}
 %
 %
+% \begin{macro}{\@@_save_family:nn}
+% Saves the relevant font information for future processing.
+%    \begin{macrocode}
+\cs_new:Nn \@@_save_family:nn
+  {
+    \@@_save_fontinfo:n {#2}
+    \@@_find_autofonts:
+    \DeclareFontFamily{\l_@@_nfss_enc_tl}{\l_fontspec_family_tl}{}
+    \@@_set_faces:
+    \@@_info:nxx {defining-font} {#1} {#2}
+  }
+%    \end{macrocode}
+% \end{macro}
+%
 % \begin{macro}{\@@_save_fontinfo:n}
 % Saves the relevant font information for future processing.
 %    \begin{macrocode}
@@ -359,7 +367,6 @@
   \prop_gput:cnV {g_@@_ \l_fontspec_family_tl _prop} {lang-num} \l_fontspec_language_int
   \prop_gput:cnV {g_@@_ \l_fontspec_family_tl _prop} {script-tag} \l_fontspec_script_tl
   \prop_gput:cnV {g_@@_ \l_fontspec_family_tl _prop} {lang-tag} \l_fontspec_lang_tl
-
  }
 %    \end{macrocode}
 % \end{macro}
@@ -955,6 +962,57 @@
 %
 %
 %
+%
+%
+% \subsection{Miscellaneous}
+%
+% \begin{macro}{\fontspec_iv_str_to_num:Nn}
+% \begin{macro}{\fontspec_v_str_to_num:Nn}
+% This macro takes a four character string and converts it to the
+% numerical representation required for \XeTeX\ OpenType script/language/feature
+% purposes. The output is stored in \cmd\l_fontspec_strnum_int.
+%
+% The reason it's ugly is because the input can be of the form of any of these:
+% `|abcd|', `|abc|', `|abc |', `|ab|', `|ab  |', \etc.
+% (It is assumed the first two chars are \emph{always} not spaces.) So this macro
+% reads in the string, delimited by a space; this input is padded with \cmd\@empty s
+% and anything beyond four chars is snipped. The \cmd\@empty s then are used to reconstruct
+% the spaces in the string to number calculation.
+%
+% The variant \cmd\fontspec_v_str_to_num:n\ is used when looking at features, which are passed around
+% with prepended plus and minus signs (\eg, \texttt{+liga}, \texttt{-dlig}); it
+% simply strips off the first char of the input before calling the normal \cmd\fontspec_iv_str_to_num:n.
+%    \begin{macrocode}
+%<*xetexx>
+\cs_set:Nn \fontspec_iv_str_to_num:Nn
+ {
+  \fontspec_iv_str_to_num:w #1 \q_nil #2 \c_empty_tl \c_empty_tl \q_nil
+ }
+\cs_set:Npn \fontspec_iv_str_to_num:w #1 \q_nil #2#3#4#5#6 \q_nil
+ {
+  \int_set:Nn #1
+   {
+      `#2 * "1000000
+    + `#3 * "10000
+    + \ifx \c_empty_tl #4 32 \else `#4 \fi * "100
+    + \ifx \c_empty_tl #5 32 \else `#5 \fi
+   }
+ }
+\cs_generate_variant:Nn \fontspec_iv_str_to_num:Nn {No}
+\cs_set:Nn \fontspec_v_str_to_num:Nn
+ {
+  \bool_if:nTF
+   {
+    \tl_if_head_eq_charcode_p:nN {#2} {+} ||
+    \tl_if_head_eq_charcode_p:nN {#2} {-}
+   }
+   { \fontspec_iv_str_to_num:No #1 { \use_none:n #2 } }
+   { \fontspec_iv_str_to_num:Nn #1 {#2} }
+ }
+%</xetexx>
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
 %
 %
 % \iffalse

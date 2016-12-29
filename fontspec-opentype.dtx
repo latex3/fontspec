@@ -8,14 +8,17 @@
 %
 %
 % \begin{macro}{\@@_define_font_feature:n}
-% \begin{macro}{\@@_define_feature_option:nnnnn}
-% \begin{macro}{\fontspec_define_numbered_feat:nnnn}
 % These macros are used in order to simplify font feature definition later on.
 %    \begin{macrocode}
 \cs_new:Nn \@@_define_font_feature:n
  {
   \keys_define:nn {fontspec} { #1 .multichoice: }
  }
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@@_define_feature_option:nnnnn}
+%    \begin{macrocode}
 \cs_new:Nn \@@_define_feature_option:nnnnn
  {
   \keys_define:nn {fontspec}
@@ -23,6 +26,17 @@
     #1/#2 .code:n = { \fontspec_make_feature:nnn{#3}{#4}{#5} }
    }
  }
+\cs_new:Nn \@@_define_opentype_feature:nnn
+ {
+  \keys_define:nn {fontspec}
+   {
+    #1/#2 .code:n = { \fontspec_make_OT_feature:n {#3} }
+   }
+ }%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\fontspec_define_numbered_feat:nnnn}
+%    \begin{macrocode}
 \cs_new:Nn \fontspec_define_numbered_feat:nnnn
  {
   \keys_define:nn {fontspec}
@@ -32,8 +46,6 @@
    }
  }
 %    \end{macrocode}
-% \end{macro}
-% \end{macro}
 % \end{macro}
 %
 %

@@ -43,26 +43,26 @@
 % \subsubsection{Letters}
 %    \begin{macrocode}
 \@@_define_opentype_feature_group:n {Letters}
-\@@_define_opentype_feature:nnnn {Letters} {Uppercase} {+case} {}
-\@@_define_opentype_feature:nnnn {Letters} {SmallCaps} {+smcp} {+pcap}
-\@@_define_opentype_feature:nnnn {Letters} {PetiteCaps} {+pcap} {+smcp}
-\@@_define_opentype_feature:nnnn {Letters} {UppercaseSmallCaps} {+c2sc} {+c2pc}
-\@@_define_opentype_feature:nnnn {Letters} {UppercasePetiteCaps} {+c2pc} {+c2sc}
-\@@_define_opentype_feature:nnnn {Letters} {Unicase} {+unic} {}
-\@@_define_opentype_feature:nnnn {Letters} {Random} {+rand} {}
+\@@_define_opentype_feature:nnnn {Letters} {Uppercase} {+case} {+smcp,+pcap,+c2sc,+c2pc,+unic,+rand}
+\@@_define_opentype_feature:nnnn {Letters} {SmallCaps} {+smcp} {+pcap,+unic,+rand}
+\@@_define_opentype_feature:nnnn {Letters} {PetiteCaps} {+pcap} {+smcp,+unic,+rand}
+\@@_define_opentype_feature:nnnn {Letters} {UppercaseSmallCaps} {+c2sc} {+c2pc,+unic,+rand}
+\@@_define_opentype_feature:nnnn {Letters} {UppercasePetiteCaps} {+c2pc} {+c2sc,+unic,+rand}
+\@@_define_opentype_feature:nnnn {Letters} {Unicase} {+unic} {+rand}
+\@@_define_opentype_feature:nnnn {Letters} {Random} {+rand} {+unic}
 %    \end{macrocode}
 %
 % \subsubsection{Numbers}
 %    \begin{macrocode}
 \@@_define_opentype_feature_group:n {Numbers}
-\@@_define_opentype_feature:nnnn {Numbers} {Monospaced} {+tnum} {}
-\@@_define_opentype_feature:nnnn {Numbers} {Proportional} {+pnum} {}
+\@@_define_opentype_feature:nnnn {Numbers} {Monospaced} {+tnum} {+pnum}
+\@@_define_opentype_feature:nnnn {Numbers} {Proportional} {+pnum} {+tnum}
 \@@_define_opentype_feature:nnnn {Numbers} {Lowercase} {+onum} {+lnum}
-\@@_define_opentype_feature:nnnn {Numbers} {OldStyle} {+onum} {+lnum}
 \@@_define_opentype_feature:nnnn {Numbers} {Uppercase} {+lnum} {+onum}
-\@@_define_opentype_feature:nnnn {Numbers} {Lining} {+lnum} {+onum}
 \@@_define_opentype_feature:nnnn {Numbers} {SlashedZero} {+zero} {}
 \@@_define_opentype_feature:nnnn {Numbers} {NoSlashedZero} {-zero} {}
+\aliasfontfeatureoption {Numbers} {Lowercase} {OldStyle}
+\aliasfontfeatureoption {Numbers} {Uppercase} {Lining}
 %    \end{macrocode}
 %
 % |luaotload| provides a custom |anum| feature for replacing Latin
@@ -113,12 +113,12 @@
 % \subsubsection{Vertical position}
 %    \begin{macrocode}
 \@@_define_opentype_feature_group:n {VerticalPosition}
-\@@_define_opentype_feature:nnnn {VerticalPosition} {Superior} {+sups} {}
-\@@_define_opentype_feature:nnnn {VerticalPosition} {Inferior} {+subs} {}
-\@@_define_opentype_feature:nnnn {VerticalPosition} {Ordinal} {+ordn} {}
-\@@_define_opentype_feature:nnnn {VerticalPosition} {Numerator} {+numr} {}
-\@@_define_opentype_feature:nnnn {VerticalPosition} {Denominator} {+dnom} {}
-\@@_define_opentype_feature:nnnn {VerticalPosition} {ScientificInferior} {+sinf} {}
+\@@_define_opentype_feature:nnnn {VerticalPosition} {Superior} {+sups} {+subs,+ordn,+numr,+dnom,+sinf}
+\@@_define_opentype_feature:nnnn {VerticalPosition} {Inferior} {+subs} {+sups,+ordn,+numr,+dnom,+sinf}
+\@@_define_opentype_feature:nnnn {VerticalPosition} {Ordinal} {+ordn} {+sups,+subs,+numr,+dnom,+sinf}
+\@@_define_opentype_feature:nnnn {VerticalPosition} {Numerator} {+numr} {+sups,+subs,+ordn,+dnom,+sinf}
+\@@_define_opentype_feature:nnnn {VerticalPosition} {Denominator} {+dnom} {+sups,+subs,+ordn,+numr,+sinf}
+\@@_define_opentype_feature:nnnn {VerticalPosition} {ScientificInferior} {+sinf} {+sups,+subs,+ordn,+numr,+dnom}
 %    \end{macrocode}
 %
 % \subsubsection{Fractions}
@@ -126,7 +126,7 @@
 \@@_define_opentype_feature_group:n {Fractions}
 \@@_define_opentype_feature:nnnn {Fractions} {On} {+frac} {}
 \@@_define_opentype_feature:nnnn {Fractions} {Off} {-frac} {}
-\@@_define_opentype_feature:nnnn {Fractions} {Alternate} {+afrc} {}
+\@@_define_opentype_feature:nnnn {Fractions} {Alternate} {+afrc} {-frac}
 %    \end{macrocode}
 %
 % \subsubsection{Alternate}
@@ -196,8 +196,8 @@
 \@@_define_opentype_feature:nnnn {Style} {Swash} {+swsh} {}
 \@@_define_opentype_feature:nnnn {Style} {Historic} {+hist} {}
 \@@_define_opentype_feature:nnnn {Style} {TitlingCaps} {+titl} {}
-\@@_define_opentype_feature:nnnn {Style} {HorizontalKana} {+hkna} {}
-\@@_define_opentype_feature:nnnn {Style} {VerticalKana} {+vkna} {}
+\@@_define_opentype_feature:nnnn {Style} {HorizontalKana} {+hkna} {+vkna}
+\@@_define_opentype_feature:nnnn {Style} {VerticalKana} {+vkna} {+hkna}
 \fontspec_define_numbered_feat:nnnn {Style} {MathScript}       {+ssty} {0}
 \fontspec_define_numbered_feat:nnnn {Style} {MathScriptScript} {+ssty} {1}
 %    \end{macrocode}
@@ -205,25 +205,25 @@
 % \subsubsection{CJK shape}
 %    \begin{macrocode}
 \@@_define_opentype_feature_group:n {CJKShape}
-\@@_define_opentype_feature:nnnn {CJKShape} {Traditional} {+trad} {}
-\@@_define_opentype_feature:nnnn {CJKShape} {Simplified} {+smpl} {}
-\@@_define_opentype_feature:nnnn {CJKShape} {JIS1978} {+jp78} {}
-\@@_define_opentype_feature:nnnn {CJKShape} {JIS1983} {+jp83} {}
-\@@_define_opentype_feature:nnnn {CJKShape} {JIS1990} {+jp90} {}
-\@@_define_opentype_feature:nnnn {CJKShape} {Expert} {+expt} {}
-\@@_define_opentype_feature:nnnn {CJKShape} {NLC} {+nlck} {}
+\@@_define_opentype_feature:nnnn {CJKShape} {Traditional} {+trad} {+smpl,+jp78,+jp83,+jp90,+expt,+nlck}
+\@@_define_opentype_feature:nnnn {CJKShape} {Simplified}  {+smpl} {+trad,+jp78,+jp83,+jp90,+expt,+nlck}
+\@@_define_opentype_feature:nnnn {CJKShape} {JIS1978}     {+jp78} {+trad,+smpl,+jp83,+jp90,+expt,+nlck}
+\@@_define_opentype_feature:nnnn {CJKShape} {JIS1983}     {+jp83} {+trad,+smpl,+jp78,+jp90,+expt,+nlck}
+\@@_define_opentype_feature:nnnn {CJKShape} {JIS1990}     {+jp90} {+trad,+smpl,+jp78,+jp83,+expt,+nlck}
+\@@_define_opentype_feature:nnnn {CJKShape} {Expert}      {+expt} {+trad,+smpl,+jp78,+jp83,+jp90,+nlck}
+\@@_define_opentype_feature:nnnn {CJKShape} {NLC}         {+nlck} {+trad,+smpl,+jp78,+jp83,+jp90,+expt}
 %    \end{macrocode}
 %
 % \subsubsection{Character width}
 %    \begin{macrocode}
 \@@_define_opentype_feature_group:n {CharacterWidth}
-\@@_define_opentype_feature:nnnn {CharacterWidth} {Proportional} {+pwid} {}
-\@@_define_opentype_feature:nnnn {CharacterWidth} {Full} {+fwid} {}
-\@@_define_opentype_feature:nnnn {CharacterWidth} {Half} {+hwid} {}
-\@@_define_opentype_feature:nnnn {CharacterWidth} {Third} {+twid} {}
-\@@_define_opentype_feature:nnnn {CharacterWidth} {Quarter} {+qwid} {}
-\@@_define_opentype_feature:nnnn {CharacterWidth} {AlternateProportional} {+palt} {}
-\@@_define_opentype_feature:nnnn {CharacterWidth} {AlternateHalf} {+halt} {}
+\@@_define_opentype_feature:nnnn {CharacterWidth} {Proportional} {+pwid} {+fwid,+hwid,+twid,+qwid,+palt,+halt}
+\@@_define_opentype_feature:nnnn {CharacterWidth} {Full}         {+fwid} {+pwid,+hwid,+twid,+qwid,+palt,+halt}
+\@@_define_opentype_feature:nnnn {CharacterWidth} {Half}         {+hwid} {+pwid,+fwid,+twid,+qwid,+palt,+halt}
+\@@_define_opentype_feature:nnnn {CharacterWidth} {Third}        {+twid} {+pwid,+fwid,+hwid,+qwid,+palt,+halt}
+\@@_define_opentype_feature:nnnn {CharacterWidth} {Quarter}      {+qwid} {+pwid,+fwid,+hwid,+twid,+palt,+halt}
+\@@_define_opentype_feature:nnnn {CharacterWidth} {AlternateProportional} {+palt} {+pwid,+fwid,+hwid,+twid,+qwid,+halt}
+\@@_define_opentype_feature:nnnn {CharacterWidth} {AlternateHalf} {+halt} {+pwid,+fwid,+hwid,+twid,+qwid,+palt}
 %    \end{macrocode}
 %
 % \subsubsection{Annotation}

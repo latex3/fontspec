@@ -1,12 +1,14 @@
 \input{fontspec-testsetup.tex}
 \usepackage{fontspec}
 \begin{document}
+%\ifdefined\directlua\typeout{}
 \begin{fstest}
+\OMIT
 \fontspec{ASANA.TTC}
-    \fontname\font\par
+    \TIMO\typeout{\fontname\font}\OMIT
 \fontspec{ASANA.TTC}[FontIndex=0]
-    \fontname\font\par
+    \TIMO\typeout{\fontname\font}\OMIT
 \fontspec{ASANA.TTC}[FontIndex=1]
-    \fontname\font\par
+    \TIMO\typeout{\fontname\font}\OMIT
 \end{fstest}
 \end{document}

@@ -31,6 +31,7 @@
 %    \begin{macrocode}
 \cs_set:Nn \fontspec_select:nn
  {
+%<debug>\typeout{^^J^^J::::::::::::::::::::::::::::::^^J:: fontspec_select:nn~ {#1}~ {#2} }
   \group_begin:
   \@@_font_suppress_not_found_error:
   \@@_init:
@@ -188,12 +189,12 @@
 \cs_new:Nn \@@_load_font:
  {
 %<debug>\typeout{:: @@_load_font}
-%<debug>\typeout{Set~ base~ font~ for~ preliminary~ analysis}
+%<debug>\typeout{Set~ base~ font~ for~ preliminary~ analysis: \@@_construct_font_call:nn { \l_fontspec_fontname_up_tl } {} }
   \@@_primitive_font_set:Nnn \l_fontspec_font
      { \@@_construct_font_call:nn { \l_fontspec_fontname_up_tl } {} } {\f@size pt}
   \@@_primitive_font_if_null:NT \l_fontspec_font { \@@_error:nx {font-not-found} {\l_fontspec_fontname_up_tl} }
   \@@_set_font_type:
-%<debug>\typeout{Set~ base~ font~ properly}
+%<debug>\typeout{Set~ base~ font~ properly: \@@_construct_font_call:nn { \l_fontspec_fontname_up_tl } {} }
   \@@_primitive_font_gset:Nnn \l_fontspec_font
      { \@@_construct_font_call:nn { \l_fontspec_fontname_up_tl } {} } {\f@size pt}
   \l_fontspec_font % this is necessary for LuaLaTeX to check the scripts properly
@@ -242,7 +243,8 @@
   }
 \cs_new:Nn \@@_font_is_file:
   {
-    \cs_set:Npn \@@_fontname_wrap:n ##1 { [ \l_@@_font_path_tl ##1 ] }
+%<xetexx>    \cs_set:Npn \@@_fontname_wrap:n ##1 { [ \l_@@_font_path_tl ##1 ] }
+%<luatex>    \cs_set:Npn \@@_fontname_wrap:n ##1 { file:\l_@@_font_path_tl ##1 }
   }
 %    \end{macrocode}
 % \end{macro}

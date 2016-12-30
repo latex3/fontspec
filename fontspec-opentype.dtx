@@ -22,7 +22,7 @@
  {
   \keys_define:nn {fontspec-opentype}
    {
-    #1/#2 .code:n = { \fontspec_make_OT_feature:nn {#3}{#4} }
+    #1/#2 .code:n = { \@@_make_OT_feature:nn {#3}{#4} }
    }
  }
 %    \end{macrocode}
@@ -45,15 +45,16 @@
 % \subsection{Adding features when loading fonts}
 %
 %    \begin{macrocode}
-\cs_new:Nn \fontspec_make_OT_feature:nn
+\cs_new:Nn \@@_make_OT_feature:nn
  {
+%<debug>  \typeout{:: @@_make_OT_feature:nn {\exp_not:n{#1}}{\exp_not:n{#2}}}
   \tl_if_empty:nTF {#1}
    { \@@_warning:n {icu-feature-not-exist} }
    {
      \fontspec_check_ot_feat:nTF {#1}
       {
        \exp_args:Nx \@@_remove_clashing_featstr:n
-         { \@@_swap_plus_minus:n {#1} , #2 }
+         { #1 , \@@_swap_plus_minus:n {#1} , #2 }
        \@@_update_featstr:n {#1}
       }
       { \@@_warning:nx {icu-feature-not-exist-in-font} {#1} }
@@ -83,6 +84,9 @@
 % the number corresponding to the script tag string.
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \fontspec_check_script:n {TF}
+  {
+    \bool_if:NTF \l_@@_never_check_bool
+      { \prg_return_true: }
 %<*xetexx>
  {
   \@@_iv_str_to_num:Nn \l_fontspec_strnum_int {#1}
@@ -107,6 +111,7 @@
   \bool_if:NTF \l__fontspec_check_bool \prg_return_true: \prg_return_false:
  }
 %</luatex>
+ }
 %    \end{macrocode}
 % \end{macro}
 %
@@ -118,6 +123,9 @@
 % number corresponding to `|latn|'.
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \fontspec_check_lang:n {TF}
+  {
+    \bool_if:NTF \l_@@_never_check_bool
+      { \prg_return_true: }
 %<*xetexx>
  {
   \@@_iv_str_to_num:Nn \l_fontspec_strnum_int {#1}
@@ -146,11 +154,11 @@
   \bool_if:NTF \l__fontspec_check_bool \prg_return_true: \prg_return_false:
  }
 %</luatex>
+  }
 %    \end{macrocode}
 % \end{macro}
 %
 % \begin{macro}{\fontspec_check_ot_feat:nTF}
-% \begin{macro}{\fontspec_check_ot_feat:nT}
 % This macro takes an OpenType feature tag and checks if it exists in the current
 % font/script/language.
 % \cmd\l_fontspec_strnum_int\ is used to store the number corresponding to the feature tag string.
@@ -158,7 +166,10 @@
 % number corresponding to `|latn|'. The language used is \cmd\l_fontspec_language_int,
 % by default |0|, the `default language'.
 %    \begin{macrocode}
-\prg_new_conditional:Nnn \fontspec_check_ot_feat:n {TF,T}
+\prg_new_conditional:Nnn \fontspec_check_ot_feat:n {TF}
+  {
+    \bool_if:NTF \l_@@_never_check_bool
+      { \prg_return_true: }
 %<*xetexx>
  {
   \int_set:Nn \l_tmpb_int
@@ -195,8 +206,8 @@
   \bool_if:NTF \l__fontspec_check_bool \prg_return_true: \prg_return_false:
  }
 %</luatex>
+  }
 %    \end{macrocode}
-% \end{macro}
 % \end{macro}
 %
 % \iffalse

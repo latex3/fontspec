@@ -85,6 +85,7 @@
 %<*xetexx>
       \tl_set:Nv \l_fontspec_renderer_tl
         { g_fontspec_renderer_tag_ \l_keys_choice_tl }
+      \tl_gset:Nx \g_@@_single_feat_tl { \l_fontspec_renderer_tl }
 %</xetexx>
 %<*luatex>
       \@@_warning:nx {only-xetex-feature} {Renderer=AAT/OpenType/Graphite}
@@ -97,6 +98,7 @@
 %<*luatex>
       \tl_set:Nv \l_fontspec_mode_tl
         { g_fontspec_mode_tag_ \l_keys_choice_tl }
+      \tl_gset:Nx \g_@@_single_feat_tl { mode=\l_fontspec_mode_tl }
 %</luatex>
      }
    }

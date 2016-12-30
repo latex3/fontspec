@@ -1023,8 +1023,28 @@ To continue the example above, here we colour the different faces:
 \end{Verbatim}
 And such configuration lines can be stored either inline inside \texttt{My Charis.fontspec} or within their own \texttt{.fontspec} files; in this way, \pkg{fontspec} is designed to handle `nested' configuration options as well.
 
-\subsection{Changing the currently selected features}
+\subsection{Working with the currently selected features}
 \label{sec:addfontfeatures}
+
+
+\cmdbox{\cmd\IfFontFeatureActiveTF\marg{font feature}\marg{true code}\marg{false code}}
+
+This command queries the currently selected font face and executes the appropriate branch based on whether the \meta{font feature} as specified by \pkg{fontspec} is currently active.
+
+For example, the following will print `True':
+\begin{Verbatim}
+\setmainfont{texgyrepagella-regular.otf}[Numbers=OldStyle]
+\IfFontFeatureActiveTF{Numbers=OldStyle}{True}{False}
+\end{Verbatim}
+
+Note that there is no way for \pkg{fontspec} to know what the default features of a font will be. For example, by default the |texgyrepagella| fonts use lining numbers. But in the following example, querying for lining numbers returns false since they have not been explicitly requested:
+\begin{Verbatim}
+\setmainfont{texgyrepagella-regular.otf}
+\IfFontFeatureActiveTF{Numbers=Lining}{True}{False}
+\end{Verbatim}
+
+Please note: At time of writing this function only supports OpenType fonts; AAT/Graphite fonts under the \XeTeX\ engine are not supported.
+
 
 \cmdbox{\cmd\addfontfeatures\marg{font features}}
 
@@ -1032,15 +1052,14 @@ This command allows font features to
 be changed without knowing what features are currently selected or even what
 font is being used. A good example of this could be to add a hook to all
 tabular material to use monospaced numbers, as shown in \exref{aff}.
-Note however that the behaviour in this regard will be unreliable (subject to the font itself) if you attempt to \emph{change} an already selected feature.
-\Eg, this sort of thing can cause troubles:
+If you attempt to \emph{change} an already-selected feature, \pkg{fontspec} will try to de-activate any features that clash with the new ones.
+\Eg, the following two invocations are mutually exclusive:
 \begin{Verbatim}
 \addfontfeature{Numbers=OldStyle}...
 \addfontfeature{Numbers=Lining}...
 123
 \end{Verbatim}
-With both features active, how will the font render `123'? Depends on the font.
-In the distant future this functionality will be re-written to avoid this issue (giving `\verb|Numbers=OldStyle|' the smarts to know to explicitly de-activate any previous instances of `\verb|Numbers=Lining|', and vice-versa, but as I hope you can imagine this requires a fair degree of elbow grease which I haven't had available for some time now.
+Since |Numbers=Lining| comes last, it takes precedence and deactivates the call |Numbers=OldStyle|.
 
 \begin{Lexample}{aff}{A demonstration of the \cs{addfontfeatures} command. Note the caveat listed in the text regarding such usage.}
   \fontspec{texgyreadventor-regular.otf}%
@@ -1060,6 +1079,7 @@ In the distant future this functionality will be re-written to avoid this issue 
 \DescribeMacro{\addfontfeature}
 This command may also be executed under the alias \cmd{\addfontfeature}.
 
+
 \subsection{Priority of feature selection}
 Features defined with \cs{addfontfeatures} override features
 specified by \cs{fontspec}, which in turn override features
@@ -1067,6 +1087,7 @@ specified by \cs{defaultfontfeatures}.  If in doubt, whenever a
 new font is chosen for the first time, an entry is made in the
 transcript (\texttt{.log}) file displaying the font name and the
 features requested.
+
 
 \subsection{Different features for different font shapes}
 \label{sec:bfit-feat}

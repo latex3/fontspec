@@ -86,8 +86,8 @@
 %
 %
 % \begin{macro}{\setromanfont}
-% This is the old name for \cs{setmainfont}, retained
-% for backwards compatibility.
+% This is the old name for \cs{setmainfont}, retained \emph{ad infinitum}
+% for backwards compatibility. It was deprecated in 2010.
 %    \begin{macrocode}
 \cs_set_eq:NN \setromanfont \setmainfont
 %    \end{macrocode}
@@ -455,6 +455,40 @@
 \DeclareFontsExtensions{.otf,.ttf,.OTF,.TTF,.ttc,.TTC,.dfont}
 %    \end{macrocode}
 % \end{macro}
+
+
+% \begin{macro}{\IfFontFeaturesTF}
+%    \begin{macrocode}
+\DeclareDocumentCommand \IfFontFeatureActiveTF {mmm}
+  {
+    \@@_if_font_feature:nTF {#1} {#2} {#3}
+  }
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+\prg_new_conditional:Nnn \@@_if_font_feature:n {TF}
+  {
+    \tl_gclear:N \g_@@_single_feat_tl
+    \group_begin:
+      \@@_font_suppress_not_found_error:
+      \@@_init:
+      \bool_set_true:N \l_@@_ot_bool
+      \bool_set_true:N \l_@@_never_check_bool
+      \clist_clear:N \l_@@_fontfeat_clist
+      \@@_get_features:Nn \l_@@_rawfeatures_sclist {#1}
+    \group_end:
+
+    [raw:\g_@@_single_feat_tl]
+    \tl_if_empty:NTF \g_@@_single_feat_tl { \prg_return_false: }
+      {
+        \exp_args:NV \fontspec_if_current_feature:nTF \g_@@_single_feat_tl
+          { \prg_return_true: } { \prg_return_false: }
+      }
+  }
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+
 %
 % \iffalse
 %    \begin{macrocode}

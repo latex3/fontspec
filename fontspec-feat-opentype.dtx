@@ -263,7 +263,7 @@
    {
     \bool_if:NTF \l_@@_ot_bool
      {
-      \fontspec_make_OT_feature:nn {+vrt2}{}
+      \@@_make_OT_feature:nn {+vrt2}{}
       \@@_update_featstr:n {vertical}
      }
      {
@@ -288,6 +288,7 @@
         \tl_set:Nn \l_fontspec_script_tl {####1}
         \int_set:Nn \l_fontspec_script_int {\l_fontspec_strnum_int}
         \bool_set_true:N \l_@@_script_exist_bool
+        \tl_gset:Nx \g_@@_single_feat_tl { script=####1 }
         \clist_map_break:
        }
        { }
@@ -323,10 +324,11 @@
 \cs_new:Nn \fontspec_new_lang:nn
  {
   \keys_define:nn { fontspec-opentype } { Language / #1 .code:n =
-    \fontspec_check_lang:nTF {#2}
+  \fontspec_check_lang:nTF {#2}
      {
       \tl_set:Nn \l_fontspec_lang_tl {#2}
       \int_set:Nn \l_fontspec_language_int {\l_fontspec_strnum_int}
+      \tl_gset:Nx \g_@@_single_feat_tl { language=#2 }
      }
      {
       \@@_warning:nx {language-not-exist} {#1}
@@ -343,6 +345,7 @@
  {
   \tl_set:Nn \l_fontspec_lang_tl {DFLT}
   \int_zero:N \l_fontspec_language_int
+  \tl_gset:Nn \g_@@_single_feat_tl { language=DFLT }
  }
 %    \end{macrocode}
 %
@@ -356,12 +359,14 @@
      {
       \int_set:Nn \l_fontspec_language_int {\l_fontspec_strnum_int}
       \tl_set:Nn \l_fontspec_lang_tl {TRK}
+      \tl_gset:Nn \g_@@_single_feat_tl { language=TRK }
      }
      {
       \fontspec_check_lang:nTF {TUR}
        {
         \int_set:Nn \l_fontspec_language_int {\l_fontspec_strnum_int}
         \tl_set:Nn \l_fontspec_lang_tl {TUR}
+        \tl_gset:Nn \g_@@_single_feat_tl { language=TUR }
        }
        {
         \@@_warning:nx {language-not-exist} {Turkish}

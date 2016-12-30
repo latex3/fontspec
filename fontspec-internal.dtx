@@ -49,6 +49,8 @@
   \@@_extract_all_features:n {#1}
   \tl_set:Nx \l_@@_fontid_tl { \tl_to_str:N \l_fontspec_fontname_tl-:-\tl_to_str:N \l_@@_all_features_clist }
 
+%<debug>\typeout{fontid: \l_@@_fontid_tl}
+
   \@@_preparse_features:
   \@@_load_font:
   \@@_set_scriptlang:
@@ -123,6 +125,7 @@
 %    \begin{macrocode}
 \cs_new:Nn \@@_extract_all_features:n
  {
+%<debug>  \typeout{:: @@_extract_all_features:n { \unexpanded {#1} } }
   \bool_if:NTF \l_@@_disable_defaults_bool
    {
     \clist_set:Nx \l_@@_all_features_clist {#1}
@@ -143,9 +146,6 @@
       #1
      }
    }
-%<*debug>
-  \typeout{fontid: \l_@@_fontid_tl}
-%</debug>
  }
 %    \end{macrocode}
 % \end{macro}
@@ -181,6 +181,7 @@
     \l_@@_keys_leftover_clist
   \keys_set_known:nxN {fontspec-preparse} {\l_@@_keys_leftover_clist}
     \l_@@_fontfeat_clist
+%<debug>  \typeout{:::> \exp_not:N \l_@@_fontfeat_clist ->~ {\l_@@_fontfeat_clist}}
  }
 %    \end{macrocode}
 % \end{macro}
@@ -284,6 +285,53 @@
       \keys_set:nx {fontspec-opentype} {Language=\l_@@_lang_name_tl}
      }
    }
+ }
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@@_get_features:Nn}
+%   This macro is a wrapper for |\keys_set:nn| which expands and adds a
+%   default specification to the original passed options. It begins by
+%   initialising the commands used to hold font-feature specific
+%   strings.
+%   Its argument is any additional features to prepend to the default.
+%
+% Do not set the colour if not explicitly spec'd else \verb|\color| (using
+% specials) will not work.
+%    \begin{macrocode}
+\cs_set:Nn \@@_get_features:Nn
+ {
+%<debug>  \typeout{:: @@_get_features:Nn \exp_not:N #1 { \exp_not:n {#2} } }
+  \@@_init_fontface:
+%<debug>  \typeout{::: Setting~ keys~ for~ renderer:~ "\l_@@_fontfeat_clist,#2"}
+  \keys_set_known:nxN {fontspec-renderer} {\l_@@_fontfeat_clist,#2}
+    \l_@@_keys_leftover_clist
+%<debug>  \typeout{:::> \exp_not:N \l_@@_keys_leftover_clist ->~ {\l_@@_keys_leftover_clist}}
+%<debug>  \typeout{::: Setting~ keys~ for~ generic~ features:~ "\l_@@_keys_leftover_clist"}
+  \keys_set_known:nxN {fontspec} {\l_@@_keys_leftover_clist} \l_@@_keys_leftover_clist
+%<debug>  \typeout{:::> \exp_not:N \l_@@_keys_leftover_clist ->~ {\l_@@_keys_leftover_clist}}
+%<*xetexx>
+  \bool_if:NTF \l_@@_ot_bool
+    {
+%<debug>  \typeout{::: Setting~ keys~ for~ OpenType~ font~ features:~"\l_@@_keys_leftover_clist"}
+      \keys_set:nx {fontspec-opentype} {\l_@@_keys_leftover_clist}
+    }
+    {
+%<debug>  \typeout{::: Setting~ keys~ for~ AAT~ font~ features:~"\l_@@_keys_leftover_clist"}
+      \bool_if:NT \l_@@_atsui_bool
+        { \keys_set:nx {fontspec-aat} {\l_@@_keys_leftover_clist} }
+    }
+%</xetexx>
+%<*luatex>
+%<debug>  \typeout{::: Setting~ keys~ for~ OpenType~ font~ features:~"\l_@@_keys_leftover_clist"}
+  \keys_set:nx {fontspec-opentype} {\l_@@_keys_leftover_clist}
+%</luatex>
+
+  \str_if_eq_x:nnF { \l_@@_hexcol_tl \l_@@_opacity_tl }
+                   { \g_@@_hexcol_tl \g_@@_opacity_tl }
+    { \@@_update_featstr:n { color = \l_@@_hexcol_tl\l_@@_opacity_tl } }
+
+  \tl_set_eq:NN #1 \l_@@_rawfeatures_sclist
  }
 %    \end{macrocode}
 % \end{macro}
@@ -825,45 +873,6 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\@@_get_features:Nn}
-%   This macro is a wrapper for |\keys_set:nn| which expands and adds a
-%   default specification to the original passed options. It begins by
-%   initialising the commands used to hold font-feature specific
-%   strings.
-%   Its argument is any additional features to prepend to the default.
-%
-% Do not set the colour if not explicitly spec'd else \verb|\color| (using
-% specials) will not work.
-%    \begin{macrocode}
-\cs_set:Nn \@@_get_features:Nn
- {
-  \@@_init_fontface:
-
-  \keys_set_known:nxN {fontspec-renderer} {\l_@@_fontfeat_clist,#2}
-    \l_@@_keys_leftover_clist
-
-  \keys_set_known:nxN {fontspec} {\l_@@_keys_leftover_clist} \l_@@_keys_leftover_clist
-
-%<*xetexx>
-  \bool_if:NTF \l_@@_ot_bool
-    { \keys_set:nx {fontspec-opentype} {\l_@@_keys_leftover_clist} }
-    {
-      \bool_if:NT \l_@@_atsui_bool
-        { \keys_set:nx {fontspec-aat} {\l_@@_keys_leftover_clist} }
-    }
-%</xetexx>
-%<*luatex>
-  \keys_set:nx {fontspec-opentype} {\l_@@_keys_leftover_clist}
-%</luatex>
-
-  \str_if_eq_x:nnF { \l_@@_hexcol_tl \l_@@_opacity_tl }
-                   { \g_@@_hexcol_tl \g_@@_opacity_tl }
-    { \@@_update_featstr:n { color = \l_@@_hexcol_tl\l_@@_opacity_tl } }
-
-  \tl_set_eq:NN #1 \l_@@_rawfeatures_sclist
- }
-%    \end{macrocode}
-% \end{macro}
 %
 % \begin{macro}{\@@_make_ot_smallcaps:TF}
 % \label{mac:makesmallcaps}
@@ -900,8 +909,10 @@
  {
   \bool_if:NF \l_@@_firsttime_bool
    {
+%<debug>  \typeout{:: @@_update_featstr:n {#1}}
     \sclist_gput_right:Nx \l_@@_rawfeatures_sclist {#1}
    }
+  \tl_gset:Nx \g_@@_single_feat_tl { #1 }
  }
 %    \end{macrocode}
 % \end{macro}

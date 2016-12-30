@@ -77,6 +77,7 @@ Change history
     * Tries to remove font features that clash. E.g.,
           `Numbers={Uppercase,Lowercase}`
       will define only `+onum` rather than the previous behaviour of `+lnum;+onum` and letting the engine sort things out. This facilitates features for checking whether features are selected, etc. Coverage may still be preliminary.
+    * Add API function `\fontspec_if_current_feature:nTF`.
 
 - v2.5b (2016/05/14) "More bugs" (somehow never released)
 

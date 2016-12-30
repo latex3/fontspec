@@ -1,0 +1,43 @@
+This is a generated file for the l3build validation system.
+Don't change this file in any respect.
+(../texgyrepagella-regular.luc
+\g__fontspec_family_texgyrepagella-regular.otf_int=\count124
+.................................................
+. fontspec info: "defining-font"
+. 
+. Font family 'texgyrepagella-regular.otf(0)' created for font
+. 'texgyrepagella-regular.otf' with options [].
+. 
+. This font family consists of the following NFSS series/shapes:
+. - 'normal' (m/n) with NFSS spec.:
+. <->"file:texgyrepagella-regular.otf:mode=node;script=latn;language=DFLT;"
+. - 'small caps'  (m/sc) with NFSS spec.:
+. <->"file:texgyrepagella-regular.otf:mode=node;script=latn;language=DFLT;+smcp;"
+.................................................
+CORRECT
+.................................................
+. fontspec info: "defining-font"
+. 
+. Font family 'texgyrepagella-regular.otf(1)' created for font
+. 'texgyrepagella-regular.otf' with options [Numbers=OldStyle].
+. 
+. This font family consists of the following NFSS series/shapes:
+. - 'normal' (m/n) with NFSS spec.:
+. <->"file:texgyrepagella-regular.otf:mode=node;script=latn;language=DFLT;+onum;"
+. - 'small caps'  (m/sc) with NFSS spec.:
+. <->"file:texgyrepagella-regular.otf:mode=node;script=latn;language=DFLT;+onum;+smcp;"
+.................................................
+CORRECT
+.................................................
+. fontspec info: "defining-font"
+. 
+. Font family 'texgyrepagella-regular.otf(2)' created for font
+. 'texgyrepagella-regular.otf' with options [Numbers=OldStyle,Numbers=Lining].
+. 
+. This font family consists of the following NFSS series/shapes:
+. - 'normal' (m/n) with NFSS spec.:
+. <->"file:texgyrepagella-regular.otf:mode=node;script=latn;language=DFLT;+lnum;"
+. - 'small caps'  (m/sc) with NFSS spec.:
+. <->"file:texgyrepagella-regular.otf:mode=node;script=latn;language=DFLT;+lnum;+smcp;"
+.................................................
+CORRECT

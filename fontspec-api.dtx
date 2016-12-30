@@ -325,6 +325,21 @@
 \cs_set_eq:NN \IfFontExistsTF \fontspec_font_if_exist:nTF
 %    \end{macrocode}
 % \end{macro}
+
+% \begin{macro}{\fontspec_if_current_feature:nTF}
+% Test whether the currently loaded font is using the specified raw
+% OpenType feature tag |#1|.
+%    \begin{macrocode}
+\prg_new_conditional:Nnn \fontspec_if_current_feature:n {TF,T,F}
+  {
+    \exp_args:Nxx \tl_if_in:nnTF
+      { \fontname\font } { \tl_to_str:n {#1} }
+      { \prg_return_true: } { \prg_return_false: }%
+  }
+%    \end{macrocode}
+% \end{macro}
+
+
 %
 % \iffalse
 %    \begin{macrocode}

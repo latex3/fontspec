@@ -2858,11 +2858,13 @@ This feature is designed for \LaTeX\ programmers who need to
 perform subsequent font-related tests on the \meta{primitive font}.
 \end{macro}
 
-\subsection{Functions for querying font families}
+\subsection{Conditionals}
 
 The following functions in \pkg{expl3} syntax may be used
 for writing code that interfaces with \pkg{fontspec}-loaded fonts.
 The following conditionals are all provided in |TF|, |T|, and |F| forms.
+
+\subsubsection{Querying font families}
 
 \begin{macro}{\fontspec_font_if_exist:nTF}
 Test whether the `font name' (|#1|) exists or is loadable.
@@ -2883,15 +2885,17 @@ Test whether the currently selected font has been loaded by fontspec.
 \end{macro}
 
 
-\begin{macro}{\fontspec_if_aat_feature:nnTF}
-Test whether the currently selected font contains the \AAT\
-feature (|#1|,|#2|).
-\end{macro}
-
-
 \begin{macro}{\fontspec_if_opentype:TF}
 Test whether the currently selected font is an OpenType font.
 Always true for \LuaTeX{} fonts.
+\end{macro}
+
+
+\subsubsection{Availability of features}
+
+\begin{macro}{\fontspec_if_aat_feature:nnTF}
+Test whether the currently selected font contains the \AAT\
+feature (|#1|,|#2|).
 \end{macro}
 
 
@@ -2904,7 +2908,7 @@ font.
 
 
 \begin{macro}{\fontspec_if_feature:nnnTF}
-Test whether the currently selected font with raw OpenType script tag |#1| and raw OpenType language tag |#2| contains the raw OpenType feature tag |#3|. E.g.: |\fontspec_if_feature:nTF {latn} {ROM} {pnum} {True} {False}|.
+Test whether the currently selected font with raw OpenType script tag |#1| and raw OpenType language tag |#2| contains the raw OpenType feature tag |#3|. E.g.: |\fontspec_if_feature:nnnTF {latn} {ROM} {pnum} {True} {False}|.
 Returns false if the font is not loaded by fontspec or is not an OpenType
 font.
 \end{macro}
@@ -2934,6 +2938,15 @@ font.
 \end{macro}
 
 
+\subsubsection{Currently selected features}
+
+\begin{macro}{\fontspec_if_current_feature:nTF}
+Test whether the currently loaded font is using the specified raw
+OpenType feature tag |#1|.
+The tag string |#1| should be prefixed with |+| to query an active feature, and with a |-| (hyphen) to query a disabled feature.
+\end{macro}
+
+
 \begin{macro}{\fontspec_if_current_script:nTF}
 Test whether the currently loaded font is using the specified raw
 OpenType script tag |#1|.
@@ -2946,7 +2959,13 @@ OpenType language tag |#1|.
 \end{macro}
 
 
- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \part{The `improvement' of \LaTeXe\ and other packages}
 \label{sec:patching}

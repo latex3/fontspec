@@ -45,9 +45,11 @@
 
   \@@_init_ttc:n {#2}
   \@@_load_external_fontoptions:Nn \l_fontspec_fontname_tl {#2}
-  \@@_extract_all_features:n {#1}
-  \@@_preparse_features:
 
+  \@@_extract_all_features:n {#1}
+  \tl_set:Nx \l_@@_fontid_tl { \tl_to_str:N \l_fontspec_fontname_tl-:-\tl_to_str:N \l_@@_all_features_clist }
+
+  \@@_preparse_features:
   \@@_load_font:
   \@@_set_scriptlang:
   \@@_get_features:Nn \l_@@_rawfeatures_sclist {}
@@ -141,7 +143,6 @@
       #1
      }
    }
-  \tl_set:Nx \l_@@_fontid_tl { \tl_to_str:N \l_fontspec_fontname_tl-:-\tl_to_str:N \l_@@_all_features_clist }
 %<*debug>
   \typeout{fontid: \l_@@_fontid_tl}
 %</debug>

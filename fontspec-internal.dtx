@@ -75,9 +75,11 @@
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \@@_if_detect_external:n {T}
  {
+%<debug>  \typeout{:: @@_if_detect_external:n  { \exp_not:n {#1} } }
   \clist_map_inline:Nn \l_@@_extensions_clist
    {
     \bool_set_false:N \l_@@_tmpa_bool
+    \exp_args:Nx % <- this should be handled earlier
     \tl_if_in:nnT {#1 <= end_of_string} {##1 <= end_of_string}
       { \bool_set_true:N \l_@@_tmpa_bool \clist_map_break: }
    }

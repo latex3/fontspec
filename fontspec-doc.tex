@@ -1858,7 +1858,7 @@ Some (Asian fonts predominantly) also provide for the
 \end{Xexample}
 
 
-\subsection{Stylistic Set variations}
+\subsection{Stylistic Set variations --- \texttt{ssNN}}
 
 This feature selects a `Stylistic Set' variation,
 which usually corresponds to an alternate glyph style for a range of
@@ -1891,7 +1891,7 @@ Multiple stylistic sets may be selected simultaneously by writing, e.g.,
 The |StylisticSet| feature is a synonym of the \feat{Variant} feature for \AAT\ fonts.
 See \vref{sec:newfeatures} for a way to assign names to stylistic sets, which should be done on a per-font basis.
 
-\subsection{Character Variants}
+\subsection{Character Variants --- \texttt{cvNN}}
 
 Similar to the `Stylistic Sets' above, `Character Variations' are selected
 numerically to adjust the output of (usually) a single character for the
@@ -1927,9 +1927,9 @@ Note that the indexing starts from zero.
   \fontspec{EB Garamond 12 Italic}[CharacterVariant={4,5:2}] \& violet
 \end{Lexample}
 
-\subsection{Alternates}
+\subsection{Alternates --- \texttt{salt}}
 
-The \feat{Alternate} feature (for the raw OpenType feature |salt|) is used to access alternate font glyphs when variations exist in the font, such as in \exref{salt}.
+The \feat{Alternate} feature, alias \feat{StylisticAlternates}, is used to access alternate font glyphs when variations exist in the font, such as in \exref{salt}.
 It uses a numerical selection, starting from zero, that will be different for each font.
 Note that the \texttt{Style=Alternate} option is equivalent
 to \texttt{Alternate=0} to access the default case.
@@ -1943,9 +1943,9 @@ to \texttt{Alternate=0} to access the default case.
 \end{Xexample}
 
 Note that the indexing starts from zero.
+With the \LuaTeX\ engine, |Alternate=Random| selects a random alternate.
 
-See \vref{sec:newfeatures} for a way to assign names to alternates,
-which must be done on a per-font basis.
+See \vref{sec:newfeatures} for a way to assign names to alternates if desired.
 
 \subsection{Style}
 \label{sec:ot-feat-style}

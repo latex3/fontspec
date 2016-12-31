@@ -135,12 +135,15 @@
 \keys_define:nn {fontspec-opentype}
  {
   Alternate .default:n = {0} ,
+%<luatex>  Alternate / Random  .code:n =
+%<luatex>   { \fontspec_make_OT_feature:nn { +salt = random }{} } ,
   Alternate / unknown .code:n =
    {
     \clist_map_inline:nn {#1}
       { \fontspec_make_feature:nnxn {17}{##1} { +salt = ##1 }{} }
    }
  }
+\aliasfontfeature{Alternate}{StylisticAlternates}
 %    \end{macrocode}
 %
 %

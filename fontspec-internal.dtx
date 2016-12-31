@@ -29,7 +29,7 @@
 % \item \cmd{\l_fontspec_font} is the plain \TeX{} font of the upright font requested.
 % \end{itemize}
 %    \begin{macrocode}
-\cs_set:Nn \fontspec_select:nn
+\cs_new_protected:Nn \fontspec_select:nn
  {
 %<debug>\typeout{^^J^^J::::::::::::::::::::::::::::::^^J:: fontspec_select:nn~ {#1}~ {#2} }
   \group_begin:
@@ -906,14 +906,20 @@
 % separated by semicolons.
 %    \begin{macrocode}
 \cs_new:Nn \@@_update_featstr:n
- {
-  \bool_if:NF \l_@@_firsttime_bool
-   {
-%<debug>  \typeout{:: @@_update_featstr:n {#1}}
-    \sclist_gput_right:Nx \l_@@_rawfeatures_sclist {#1}
-   }
-  \tl_gset:Nx \g_@@_single_feat_tl { #1 }
- }
+  {
+    \bool_if:NF \l_@@_firsttime_bool
+      {
+        \bool_if:NTF \l_@@_deactivate_feature_tl
+          {
+            \tl_gremove_all:Nn \l_@@_rawfeatures_sclist {#1;}
+          }
+          {
+            \tl_gset:Nx \g_@@_single_feat_tl { #1 }
+%<debug>            \typeout{:: @@_update_featstr:n {#1}}
+            \tl_gput_right:Nx  \l_@@_rawfeatures_sclist {#1;}
+          }
+      }
+  }
 %    \end{macrocode}
 % \end{macro}
 %
@@ -921,9 +927,12 @@
 %    \begin{macrocode}
 \cs_new:Nn \@@_remove_clashing_featstr:n
   {
-    \clist_map_inline:nn {#1}
+    \bool_if:NF \l_@@_deactivate_feature_tl
       {
-        \tl_gremove_all:Nn \l_@@_rawfeatures_sclist {##1;}
+        \clist_map_inline:nn {#1}
+          {
+            \tl_gremove_all:Nn \l_@@_rawfeatures_sclist {##1;}
+          }
       }
   }
 %    \end{macrocode}
@@ -975,7 +984,7 @@
 %    \begin{macrocode}
 \cs_new:Nn \@@_init_fontface:
   {
-    \sclist_clear:N \l_@@_rawfeatures_sclist
+    \tl_clear:N \l_@@_rawfeatures_sclist
     \tl_clear:N \l_@@_scale_tl
     \tl_set_eq:NN \l_@@_opacity_tl \g_@@_opacity_tl
     \tl_set_eq:NN \l_@@_hexcol_tl \g_@@_hexcol_tl

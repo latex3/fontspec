@@ -308,10 +308,10 @@
       \prop_get:cnN {g_@@_ \f@family _prop} {options} \l_@@_options_tl
       \prop_get:cnN {g_@@_ \f@family _prop} {fontname} \l_@@_fontname_tl
       \bool_set_true:N \l_@@_disable_defaults_bool
-%<debug>          \typeout{ \exp_not:N \fontspec_select:nn { \l_@@_options_tl , #1 } {\l_@@_fontname_tl} }
+%<debug>          \typeout{ \fontspec_select:nn { \l_@@_options_tl , #1 } {\l_@@_fontname_tl} }
       \use:x
        {
-        \exp_not:N \fontspec_select:nn
+        \fontspec_select:nn
           { \l_@@_options_tl , #1 } {\l_@@_fontname_tl}
        }
     \group_end:
@@ -326,7 +326,22 @@
 %    \end{macrocode}
 % \end{macro}
 %
-%
+% This was one idea to `disable' keys, by inserting
+%    \verb|\keys_set:nn {fontspec-undefined} {#1}|
+% into a variation of \cs{addfontfeatures}:
+% \begin{Verbatim}
+% \keys_define:nn {fontspec-undefined}
+%   { unknown .code:n =
+%       { \clist_map_inline:nn {fontspec,fontspec-opentype,fontspec-aat,fontspec-renderer,fontspec-preparse}
+%           { \use:x
+%               { \keys_define:nn {##1}
+%                   { \l_keys_key_tl / \l_keys_value_tl .code:n = {}
+%                   }   }   }   }   }
+% \end{Verbatim}
+% The problem here is that the key is disabled globally for all font faces, so,
+% for example, wanting to disable a feature for only italic (for whatever reason)
+% wouldn't be possible. I didn't want to add such a restriction at this point
+% before really knowing how/why \cs{removefontfeatures} would be used.
 %
 % \subsubsection{Defining new font features}
 %
@@ -478,7 +493,6 @@
       \@@_get_features:Nn \l_@@_rawfeatures_sclist {#1}
     \group_end:
 
-    [raw:\g_@@_single_feat_tl]
     \tl_if_empty:NTF \g_@@_single_feat_tl { \prg_return_false: }
       {
         \exp_args:NV \fontspec_if_current_feature:nTF \g_@@_single_feat_tl

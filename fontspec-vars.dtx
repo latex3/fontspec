@@ -126,21 +126,12 @@
 %
 % \subsection{Functions}
 %
-% I'm hardly going to write an `sclist' module but a couple of functions are
-% useful. Here, items in semi-colon lists are always followed by a semi-colon
-% (as opposed to the s.-c's being placed between elements) so we can append
-% sclists without worrying about it.
-%
-% \begin{macro}{\sclist_clear:N}
+% \begin{macro}{\@@_head_ii:n}
+% Expands to the first two \meta{items} of |#1|.
 %    \begin{macrocode}
-\cs_set_eq:NN \sclist_clear:N \tl_clear:N
-%    \end{macrocode}
-% \end{macro}
-%
-% \begin{macro}{\sclist_put_right:Nn}
-%    \begin{macrocode}
-\cs_new:Nn \sclist_gput_right:Nn { \tl_gput_right:Nn #1 {#2;} }
-\cs_generate_variant:Nn \sclist_gput_right:Nn {Nx}
+\cs_set:Npn \@@_head_ii:n #1 { \@@_head_ii:w #1 *** \q_stop}
+\cs_set:Npn \@@_head_ii:w #1#2#3 \q_stop { #1#2 }
+\cs_generate_variant:Nn \@@_head_ii:n {o}
 %    \end{macrocode}
 % \end{macro}
 %

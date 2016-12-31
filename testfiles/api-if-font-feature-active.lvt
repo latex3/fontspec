@@ -5,11 +5,16 @@
 \ExplSyntaxOn
 \def\INTEND{\typeout{CORRECT}}
 \def\WRONG {\typeout{WRONG}}
+
+\OMIT
 \fontspec{texgyrepagella-regular.otf}
+\TIMO
 
 \IfFontFeatureActiveTF{Numbers=Uppercase}{\WRONG}{\INTEND}
 
+\OMIT
 \addfontfeatures{Numbers=Uppercase}
+\TIMO
 
 \IfFontFeatureActiveTF{Numbers=Uppercase}{\INTEND}{\WRONG}
 

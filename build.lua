@@ -9,10 +9,11 @@ typesetfiles = {"fontspec.dtx"}
 typesetsuppfiles = {"doc-files/"}
 demofiles    = {"fontspec-example.tex"}
 
-checkopts   = " -interaction=errorstopmode -halt-on-error "
-typesetopts = " -shell-escape -interaction=errorstopmode "
+typesetopts = " -shell-escape -interaction=batchmode "
+unpackopts  = " -interaction=batchmode"
 
 checkengines = {"xetex","luatex"}
+
 typesetexe = "xelatex"
 
 packtdszip = true

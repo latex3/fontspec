@@ -1,40 +1,181 @@
 This is a generated file for the l3build validation system.
 Don't change this file in any respect.
-%% \CharacterTable
-%%  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
-%%   Lower-case    \a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z
-%%   Digits        \0\1\2\3\4\5\6\7\8\9
-%%   Exclamation   \!     Double quote  \"     Hash (number) \#
-%%   Dollar        \$     Percent       \%     Ampersand     \&
-%%   Acute accent  \'     Left paren    \(     Right paren   \)
-%%   Asterisk      \*     Plus          \+     Comma         \,
-%%   Minus         \-     Point         \.     Solidus       \/
-%%   Colon         \:     Semicolon     \;     Less than     \<
-%%   Equals        \=     Greater than  \>     Question mark \?
-%%   Commercial at \@     Left bracket  \[     Backslash     \\
-%%   Right bracket \]     Circumflex    \^     Underscore    \_
-%%   Grave accent  \`     Left brace    \{     Vertical bar  \|
-%%   Right brace   \}     Tilde         \~}
-%%
-luaotfload | load : path lookup of "TimesLTStd-Roman.otf" unsuccessful, falling back to file:
-luaotfload | load : path lookup of "TimesLTStd-Bold.otf" unsuccessful, falling back to file:
-luaotfload | load : path lookup of "TimesLTStd-Bold.otf" unsuccessful, falling back to file:
-luaotfload | load : path lookup of "TimesTenLTStd-Roman.otf" unsuccessful, falling back to file:
-luaotfload | load : path lookup of "TimesTenLTStd-Roman.otf" unsuccessful, falling back to file:
-luaotfload | load : path lookup of "TimesTenLTStd-Bold.otf" unsuccessful, falling back to file:
-! LaTeX Error: Font EU2/TimesLTStd(0)/bx/sc/9 not found.
+! LaTeX Error: Font TU/TimesLTStd(0)/bx/sc/9 not found.
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
-...                                              
+ ...                                              
 l. ...\item \bfseries bold   {\scshape
-Bold error!}
-Here is how much of LuaTeX's memory you used:
-14434 strings out of 494897
-100000,319454 words of node,token memory allocated
-1187 words of node memory still in use:
-18 hlist, 2 rule, 48 glue, 11 penalty, 40 glyph, 30 attribute, 80 glue_spec, 30 attribute_list, 1 temp, 4 if_stack, 1 shape, 1 write, 4 local_par, 1 dir nodes
-avail lists: 2:3,3:1,5:1,7:1,9:1
-17841 multiletter control sequences out of 65536+600000
-31 fonts using 1978599 bytes
-50i,1n,63p,381b,211s stack positions out of 5000i,500n,10000p,200000b,100000s
-!  ==> Fatal error occurred, no output PDF file produced!
+                                    Bold error!}
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+Completed box being shipped out [1]
+\vbox(114.22017+0.0)x169.57845, direction TLT
+.\glue -95.04362
+.\vbox(209.2638+0.0)x227.62207, shifted -58.04362, direction TLT
+..\vbox(12.0+0.0)x227.62207, glue set 12.0fil, direction TLT
+...\glue 0.0 plus 1.0fil
+...\hbox(0.0+0.0)x227.62207, direction TLT
+..\glue 25.0
+..\glue(\lineskip) 0.0
+..\vbox(142.2638+0.0)x227.62207, glue set 70.09431fil, direction TLT
+...\write-{}
+...\glue(\topskip) 3.17
+...\hbox(6.83+0.1)x202.62204, glue set 132.33205fil, shifted 25.00003, direction TLT
+....\localpar
+.....\localinterlinepenalty=0
+.....\localbrokenpenalty=0
+.....\localleftbox=null
+.....\localrightbox=null
+....\hbox(4.66+0.0)x0.0, direction TLT
+.....\glue 0.0
+.....\glue -20.00003
+.....\glue -5.0
+.....\hbox(4.66+0.0)x20.00003, glue set 20.00003fil, direction TLT
+......\glue 0.0 plus 1.0fil minus 1.0fil
+......\hbox(4.66+0.0)x0.0, glue set - 3.5fil, direction TLT
+.......\glue 0.0 plus 1.0fil minus 1.0fil
+.......\TU/TimesLTStd(0)/m/n/10 •
+.....\glue 5.0
+....\penalty 0
+....\TU/TimesLTStd(0)/m/n/10 m
+....\TU/TimesLTStd(0)/m/n/10 e
+....\TU/TimesLTStd(0)/m/n/10 d
+....\TU/TimesLTStd(0)/m/n/10 i
+....\TU/TimesLTStd(0)/m/n/10 u
+....\TU/TimesLTStd(0)/m/n/10 m
+....\glue(\spaceskip) 2.5 plus 1.25 minus 0.83333
+....\TU/TimesLTStd(0)/m/sc/10 M
+....\TU/TimesLTStd(0)/m/sc/10 
+....\TU/TimesLTStd(0)/m/sc/10 
+....\TU/TimesLTStd(0)/m/sc/10 
+....\TU/TimesLTStd(0)/m/sc/10 
+....\TU/TimesLTStd(0)/m/sc/10 
+....\penalty 10000
+....\glue(\parfillskip) 0.0 plus 1.0fil
+....\glue(\rightskip) 0.0
+...\penalty -51
+...\glue 4.0 plus 2.0 minus 1.0
+...\glue(\parskip) 4.0 plus 2.0 minus 1.0
+...\glue(\baselineskip) 5.14
+...\hbox(6.76+0.14)x202.62204, glue set 156.77205fil, shifted 25.00003, direction TLT
+....\localpar
+.....\localinterlinepenalty=0
+.....\localbrokenpenalty=0
+.....\localleftbox=null
+.....\localrightbox=null
+....\hbox(4.66+0.0)x0.0, direction TLT
+.....\glue 0.0
+.....\glue -20.00003
+.....\glue -5.0
+.....\hbox(4.66+0.0)x20.00003, glue set 20.00003fil, direction TLT
+......\glue 0.0 plus 1.0fil minus 1.0fil
+......\hbox(4.66+0.0)x0.0, glue set - 3.5fil, direction TLT
+.......\glue 0.0 plus 1.0fil minus 1.0fil
+.......\TU/TimesLTStd(0)/m/n/10 •
+.....\glue 5.0
+....\penalty 0
+....\TU/TimesLTStd(0)/bx/n/10 b
+....\TU/TimesLTStd(0)/bx/n/10 o
+....\TU/TimesLTStd(0)/bx/n/10 l
+....\TU/TimesLTStd(0)/bx/n/10 d
+....\glue(\spaceskip) 2.5 plus 1.25 minus 0.83333
+....\TU/TimesLTStd(0)/bx/sc/10 B
+....\TU/TimesLTStd(0)/bx/sc/10 
+....\TU/TimesLTStd(0)/bx/sc/10 
+....\TU/TimesLTStd(0)/bx/sc/10 
+....\penalty 10000
+....\glue(\parfillskip) 0.0 plus 1.0fil
+....\glue(\rightskip) 0.0
+...\penalty -51
+...\glue 10.0 plus 3.0 minus 5.0
+...\glue -10.14 plus -3.0 minus -5.0
+...\penalty -51
+...\glue 0.14
+...\glue 10.0 plus 3.0 minus 5.0
+...\glue -10.0 plus -3.0 minus -5.0
+...\glue 8.0 plus 2.0 minus 4.0
+...\glue(\parskip) 2.0 plus 1.0 minus 1.0
+...\glue(\baselineskip) 4.425
+...\hbox(6.435+0.09)x202.62204, glue set 135.86906fil, shifted 25.00003, direction TLT
+....\localpar
+.....\localinterlinepenalty=0
+.....\localbrokenpenalty=0
+.....\localleftbox=null
+.....\localrightbox=null
+....\hbox(4.662+0.0)x0.0, direction TLT
+.....\glue 0.0
+.....\glue -20.00003
+.....\glue -5.0
+.....\hbox(4.662+0.0)x20.00003, glue set 20.00003fil, direction TLT
+......\glue 0.0 plus 1.0fil minus 1.0fil
+......\hbox(4.662+0.0)x0.0, glue set - 4.5fil, direction TLT
+.......\glue 0.0 plus 1.0fil minus 1.0fil
+.......\TU/TimesLTStd(0)/m/n/9 •
+.....\glue 5.0
+....\penalty 0
+....\TU/TimesLTStd(0)/m/n/9 m
+....\TU/TimesLTStd(0)/m/n/9 e
+....\TU/TimesLTStd(0)/m/n/9 d
+....\TU/TimesLTStd(0)/m/n/9 i
+....\TU/TimesLTStd(0)/m/n/9 u
+....\TU/TimesLTStd(0)/m/n/9 m
+....\glue(\spaceskip) 2.25 plus 1.125 minus 0.75
+....\TU/TimesLTStd(0)/m/sc/9 M
+....\TU/TimesLTStd(0)/m/sc/9 
+....\TU/TimesLTStd(0)/m/sc/9 
+....\TU/TimesLTStd(0)/m/sc/9 
+....\TU/TimesLTStd(0)/m/sc/9 
+....\TU/TimesLTStd(0)/m/sc/9 
+....\penalty 10000
+....\glue(\parfillskip) 0.0 plus 1.0fil
+....\glue(\rightskip) 0.0
+...\penalty -51
+...\glue 2.0 plus 1.0 minus 1.0
+...\glue(\parskip) 2.0 plus 1.0 minus 1.0
+...\glue(\baselineskip) 3.75
+...\hbox(7.16+0.162)x202.62204, glue set 135.11905fil, shifted 25.00003, direction TLT
+....\localpar
+.....\localinterlinepenalty=0
+.....\localbrokenpenalty=0
+.....\localleftbox=null
+.....\localrightbox=null
+....\hbox(4.662+0.0)x0.0, direction TLT
+.....\glue 0.0
+.....\glue -20.00003
+.....\glue -5.0
+.....\hbox(4.662+0.0)x20.00003, glue set 20.00003fil, direction TLT
+......\glue 0.0 plus 1.0fil minus 1.0fil
+......\hbox(4.662+0.0)x0.0, glue set - 4.5fil, direction TLT
+.......\glue 0.0 plus 1.0fil minus 1.0fil
+.......\TU/TimesLTStd(0)/m/n/9 •
+.....\glue 5.0
+....\penalty 0
+....\TU/TimesLTStd(0)/bx/n/9 b
+....\TU/TimesLTStd(0)/bx/n/9 o
+....\TU/TimesLTStd(0)/bx/n/9 l
+....\TU/TimesLTStd(0)/bx/n/9 d
+....\glue(\spaceskip) 2.25 plus 1.125 minus 0.75
+....\TU/TimesLTStd(0)/bx/sc/9 B
+....\TU/TimesLTStd(0)/bx/sc/9 o
+....\TU/TimesLTStd(0)/bx/sc/9 l
+....\TU/TimesLTStd(0)/bx/sc/9 d
+....\glue(\spaceskip) 3.33 plus 1.665 minus 1.11
+....\TU/TimesLTStd(0)/bx/sc/9 e
+....\TU/TimesLTStd(0)/bx/sc/9 r
+....\discretionary50|
+.....\TU/TimesLTStd(0)/bx/sc/9 -
+....\TU/TimesLTStd(0)/bx/sc/9 r
+....\TU/TimesLTStd(0)/bx/sc/9 o
+....\TU/TimesLTStd(0)/bx/sc/9 r
+....\TU/TimesLTStd(0)/bx/sc/9 !
+....\penalty 10000
+....\glue(\parfillskip) 0.0 plus 1.0fil
+....\glue(\rightskip) 0.0
+...\penalty -51
+...\glue 6.0 plus 3.0 minus 3.0
+...\glue 0.0 plus 1.0fil
+...\glue 0.0
+...\glue 0.0 plus 0.0001fil
+..\glue(\baselineskip) 30.0
+..\hbox(0.0+0.0)x227.62207, direction TLT

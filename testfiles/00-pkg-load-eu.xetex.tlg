@@ -1,26 +1,10 @@
 This is a generated file for the l3build validation system.
 Don't change this file in any respect.
-%% \CharacterTable
-%%  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
-%%   Lower-case    \a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z
-%%   Digits        \0\1\2\3\4\5\6\7\8\9
-%%   Exclamation   \!     Double quote  \"     Hash (number) \#
-%%   Dollar        \$     Percent       \%     Ampersand     \&
-%%   Acute accent  \'     Left paren    \(     Right paren   \)
-%%   Asterisk      \*     Plus          \+     Comma         \,
-%%   Minus         \-     Point         \.     Solidus       \/
-%%   Colon         \:     Semicolon     \;     Less than     \<
-%%   Equals        \=     Greater than  \>     Question mark \?
-%%   Commercial at \@     Left bracket  \[     Backslash     \\
-%%   Right bracket \]     Circumflex    \^     Underscore    \_
-%%   Grave accent  \`     Left brace    \{     Vertical bar  \|
-%%   Right brace   \}     Tilde         \~}
-%%
 (fontspec.sty
-(fontspec-xetex.sty
-\l_fontspec_script_int=\count118
-\l_fontspec_language_int=\count119
-\l_fontspec_strnum_int=\count120
+ (fontspec-xetex.sty
+\l_fontspec_script_int=\count117
+\l_fontspec_language_int=\count118
+\l_fontspec_strnum_int=\count119
 \l__fontspec_tmpa_dim=\dimen142
 \l__fontspec_tmpb_dim=\dimen143
 \l__fontspec_tmpc_dim=\dimen144
@@ -32,7 +16,7 @@ LaTeX Font Info:    Try loading font information for EU1+lmr on input line ....
 (../xunicode.sty
 (../t3enc.def
 LaTeX Font Info:    Try loading font information for EU1+lmss on input line ....
-\tipaTiiicode=\count121
+\tipaTiiicode=\count120
 \tipasavetokens=\toks16
 \tipachecktokens=\toks17
 (../graphicx.sty
@@ -43,7 +27,10 @@ LaTeX Font Info:    Try loading font information for EU1+lmss on input line ....
 )
 Package graphics Info: Driver file: xetex.def on input line ....
 (../xetex.def
-))
+(../infwarerr.sty
+)
+(../ltxcmds.sty
+)))
 \Gin@req@height=\dimen145
 \Gin@req@width=\dimen146
 ))
@@ -152,14 +139,19 @@ Package graphics Info: Driver file: xetex.def on input line ....
 . 
 . Defining command \DeclareFontsExtensions with sig. 'm' on line ....
 .................................................
-\l__fontspec_tmp_int=\count122
+.................................................
+. LaTeX info: "xparse/define-command"
+. 
+. Defining command \IfFontFeatureActiveTF with sig. 'mmm' on line ....
+.................................................
+\l__fontspec_tmp_int=\count121
 (fontspec.cfg)
 LaTeX Info: Redefining \itshape on input line ....
 LaTeX Info: Redefining \slshape on input line ....
 LaTeX Info: Redefining \scshape on input line ....
 LaTeX Info: Redefining \upshape on input line ....
-\l__fontspec_em_int=\count123
-\l__fontspec_emdef_int=\count124
+\l__fontspec_em_int=\count122
+\l__fontspec_emdef_int=\count123
 LaTeX Info: Redefining \em on input line ....
 LaTeX Info: Redefining \emph on input line ....
 LaTeX Info: Redefining \- on input line ....
@@ -174,7 +166,7 @@ LaTeX Info: Redefining \- on input line ....
 . Defining command \liningnums with sig. 'm' on line ....
 .................................................
 ))
-\g__fontspec_family_texgyrepagella-regular.otf_int=\count125
+\g__fontspec_family_texgyrepagella-regular.otf_int=\count124
 .................................................
 . fontspec info: "defining-font"
 . 
@@ -183,9 +175,9 @@ LaTeX Info: Redefining \- on input line ....
 . 
 . This font family consists of the following NFSS series/shapes:
 . - 'normal' (m/n) with NFSS spec.:
-. <->"[texgyrepagella-regular]/OT:script=latn;language=DFLT;mapping=tex-text;"
+. <->"[texgyrepagella-regular.otf]/OT:script=latn;language=DFLT;mapping=tex-text;"
 . - 'small caps'  (m/sc) with NFSS spec.:
-. <->"[texgyrepagella-regular]/OT:script=latn;language=DFLT;mapping=tex-text;+smcp;"
+. <->"[texgyrepagella-regular.otf]/OT:script=latn;language=DFLT;mapping=tex-text;+smcp;"
 .................................................
 No file .aux.
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line ....
@@ -240,22 +232,6 @@ LaTeX Font Info:    ... okay on input line ....
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 This is a generated file for the l3build validation system.
 Don't change this file in any respect.
-%% \CharacterTable
-%%  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
-%%   Lower-case    \a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z
-%%   Digits        \0\1\2\3\4\5\6\7\8\9
-%%   Exclamation   \!     Double quote  \"     Hash (number) \#
-%%   Dollar        \$     Percent       \%     Ampersand     \&
-%%   Acute accent  \'     Left paren    \(     Right paren   \)
-%%   Asterisk      \*     Plus          \+     Comma         \,
-%%   Minus         \-     Point         \.     Solidus       \/
-%%   Colon         \:     Semicolon     \;     Less than     \<
-%%   Equals        \=     Greater than  \>     Question mark \?
-%%   Commercial at \@     Left bracket  \[     Backslash     \\
-%%   Right bracket \]     Circumflex    \^     Underscore    \_
-%%   Grave accent  \`     Left brace    \{     Vertical bar  \|
-%%   Right brace   \}     Tilde         \~}
-%%
 Completed box being shipped out [1]
 \vbox(114.22017+0.0)x169.57845
 .\glue -95.04362

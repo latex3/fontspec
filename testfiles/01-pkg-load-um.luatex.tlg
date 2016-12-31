@@ -1,59 +1,17 @@
 This is a generated file for the l3build validation system.
 Don't change this file in any respect.
-%% \CharacterTable
-%%  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
-%%   Lower-case    \a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z
-%%   Digits        \0\1\2\3\4\5\6\7\8\9
-%%   Exclamation   \!     Double quote  \"     Hash (number) \#
-%%   Dollar        \$     Percent       \%     Ampersand     \&
-%%   Acute accent  \'     Left paren    \(     Right paren   \)
-%%   Asterisk      \*     Plus          \+     Comma         \,
-%%   Minus         \-     Point         \.     Solidus       \/
-%%   Colon         \:     Semicolon     \;     Less than     \<
-%%   Equals        \=     Greater than  \>     Question mark \?
-%%   Commercial at \@     Left bracket  \[     Backslash     \\
-%%   Right bracket \]     Circumflex    \^     Underscore    \_
-%%   Grave accent  \`     Left brace    \{     Vertical bar  \|
-%%   Right brace   \}     Tilde         \~}
-%%
 (fontspec.sty
 ontspec-luatex.sty
-\l_fontspec_script_int=\count119
-\l_fontspec_language_int=\count120
-\l_fontspec_strnum_int=\count121
+\l_fontspec_script_int=\count118
+\l_fontspec_language_int=\count119
+\l_fontspec_strnum_int=\count120
 \l__fontspec_tmpa_dim=\dimen142
 \l__fontspec_tmpb_dim=\dimen143
 \l__fontspec_tmpc_dim=\dimen144
 \g__file_internal_ior=\read1
-(../fontenc.sty
-(../eu2enc.def
-)
-LaTeX Font Info:    Try loading font information for EU2+lmr on input line ....
-luaotfload | db : Font names database loaded from /Users/will/Library/texlive/2015/texmf-var/luatex-cache/generic/names/luaotfload-names.luc(compiling luc: /usr/local/texlive/2015/texmf-var/luatex-cache/generic/fonts/otf/lmroman10-regular.luc)(load luc: /Users/will/Library/texlive/2015/texmf-var/luatex-cache/generic/fonts/otf/lmroman10-regular.luc))
-(../xunicode.sty
-(../t3enc.def
-(../lmroman10-bold.luc
-LaTeX Font Info:    Try loading font information for EU2+lmss on input line ....
-\tipaTiiicode=\count122
-\tipasavetokens=\toks16
-\tipachecktokens=\toks17
-(../graphicx.sty
-(../graphics.sty
-(../trig.sty
-)
-(../graphics.cfg
-)
-Package graphics Info: Driver file: pdftex.def on input line ....
-(../pdftex.def
-(../infwarerr.sty
-)
-(../ltxcmds.sty
-)
-\Gread@gobject=\count123
-))
-\Gin@req@height=\dimen145
-\Gin@req@width=\dimen146
-))
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/fontenc.sty (tuenc.def (
+tufontrange-T1.def) (tufontrange-TS1.def))
+luaotfload | db : Font names database loaded from /Users/will/Library/texlive/2016/texmf-var/luatex-cache/generic/names/luaotfload-names.luc(compiling luc: /usr/local/texlive/2016/texmf-var/luatex-cache/generic/fonts/otl/lmroman10-regular.luc)(load luc: /Users/will/Library/texlive/2016/texmf-var/luatex-cache/generic/fonts/otl/lmroman10-regular.luc))
 .................................................
 . LaTeX info: "xparse/define-command"
 . 
@@ -159,17 +117,16 @@ Package graphics Info: Driver file: pdftex.def on input line ....
 . 
 . Defining command \DeclareFontsExtensions with sig. 'm' on line ....
 .................................................
-\l__fontspec_tmp_int=\count124
-(fontspec.cfg)
-LaTeX Info: Redefining \itshape on input line ....
-LaTeX Info: Redefining \slshape on input line ....
-LaTeX Info: Redefining \scshape on input line ....
-LaTeX Info: Redefining \upshape on input line ....
-\l__fontspec_em_int=\count125
-\l__fontspec_emdef_int=\count126
-LaTeX Info: Redefining \em on input line ....
-LaTeX Info: Redefining \emph on input line ....
-LaTeX Info: Redefining \- on input line ....
+.................................................
+. LaTeX info: "xparse/define-command"
+. 
+. Defining command \IfFontFeatureActiveTF with sig. 'mmm' on line ....
+.................................................
+\l__fontspec_tmp_int=\count121
+ (fontspec.cfg)
+\l__fontspec_em_int=\count122
+\l__fontspec_emdef_int=\count123
+(../lmroman10-italic.luc
 .................................................
 . LaTeX info: "xparse/redefine-command"
 . 
@@ -180,35 +137,25 @@ LaTeX Info: Redefining \- on input line ....
 . 
 . Defining command \liningnums with sig. 'm' on line ....
 .................................................
-))
-(../unicode-math.sty
-(../ifluatex.sty
-Package ifluatex Info: LuaTeX detected.
-)
-(../ucharcat.sty
+)) (../unicode-math.sty
+(/usr/local/texlive/2016/texmf-dist/tex/generic/oberdiek/ifluatex.sty) (/usr/lo
+cal/texlive/2016/texmf-dist/tex/latex/ucharcat/ucharcat.sty
 \ucharcat@table=\catcodetable6
 )
-(../l3keys2e.sty
-)
-(../fix-cm.sty
-(../ts1enc.def
-))
 (../filehook.sty
-)
-\g__um_fam_int=\count127
+\g__um_fam_int=\count124
 \g__um_primekern_muskip=\muskip16
-\l__um_primecount_int=\count128
+\l__um_primecount_int=\count125
 .................................................
 . LaTeX info: "xparse/define-command"
 . 
 . Defining command \unimathsetup with sig. 'm' on line ....
 .................................................
-(/usr/local/texlive/2015/texmf-dist/tex/latex/unicode-math/unicode-math-luatex.
+(/usr/local/texlive/2016/texmf-dist/tex/latex/unicode-math/unicode-math-luatex.
 sty
 (../lualatex-math.st
-y
-(../etoolbox.sty
-\etb@tempcnta=\count129
+y (../etoolbox.sty
+\etb@tempcnta=\count126
 )
 .................................................
 . LaTeX info: "xparse/define-command"
@@ -236,12 +183,8 @@ y
 . Defining command \removenolimits with sig. 'm' on line ....
 .................................................
 (../unicode-math-table.t
-ex)))
-luaotfload | load : path lookup of "texgyrepagella-regular.otf" unsuccessful, falling back to file:(../texgyrepagella-regular.luc
-luaotfload | load : path lookup of "texgyrepagella-regular.otf" unsuccessful, falling back to file:
-\g__fontspec_family_texgyrepagella-regular.otf_int=\count130
-luaotfload | load : path lookup of "texgyrepagella-regular" unsuccessful, falling back to file:
-luaotfload | load : path lookup of "texgyrepagella-regular" unsuccessful, falling back to file:
+ex)))(../texgyrepagella-regular.luc
+\g__fontspec_family_texgyrepagella-regular.otf_int=\count127
 .................................................
 . fontspec info: "defining-font"
 . 
@@ -250,14 +193,10 @@ luaotfload | load : path lookup of "texgyrepagella-regular" unsuccessful, fallin
 . 
 . This font family consists of the following NFSS series/shapes:
 . - 'normal' (m/n) with NFSS spec.:
-. <->"[texgyrepagella-regular]:mode=node;script=latn;language=DFLT;+tlig;"
+. <->"file:texgyrepagella-regular.otf:mode=node;script=latn;language=DFLT;+tlig;"
 . - 'small caps'  (m/sc) with NFSS spec.:
-. <->"[texgyrepagella-regular]:mode=node;script=latn;language=DFLT;+tlig;+smcp;"
+. <->"file:texgyrepagella-regular.otf:mode=node;script=latn;language=DFLT;+tlig;+smcp;"
 .................................................
-luaotfload | load : path lookup of "texgyrepagella-regular.otf" unsuccessful, falling back to file:
-luaotfload | load : path lookup of "texgyrepagella-regular.otf" unsuccessful, falling back to file:
-luaotfload | load : path lookup of "texgyrepagella-regular" unsuccessful, falling back to file:
-luaotfload | load : path lookup of "texgyrepagella-regular" unsuccessful, falling back to file:
 .................................................
 . fontspec info: "defining-font"
 . 
@@ -266,26 +205,14 @@ luaotfload | load : path lookup of "texgyrepagella-regular" unsuccessful, fallin
 . 
 . This font family consists of the following NFSS series/shapes:
 . - 'normal' (m/n) with NFSS spec.:
-. <->"[texgyrepagella-regular]:mode=base;script=latn;language=DFLT;"
+. <->"file:texgyrepagella-regular.otf:mode=base;script=latn;language=DFLT;"
 . - 'small caps'  (m/sc) with NFSS spec.:
-. <->"[texgyrepagella-regular]:mode=base;script=latn;language=DFLT;+smcp;"
+. <->"file:texgyrepagella-regular.otf:mode=base;script=latn;language=DFLT;+smcp;"
 .................................................
-LaTeX Font Info:    Overwriting math alphabet `\mathrm' in version `normal'
-(Font)                  OT1/cmr/m/n --> EU2/texgyrepagella-regular.otf(1)/m/n on input line ....
-LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
-(Font)                  OT1/cmr/m/it --> EU2/texgyrepagella-regular.otf(1)/m/it on input line ....
-LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `normal'
-(Font)                  OT1/cmr/bx/n --> EU2/texgyrepagella-regular.otf(1)/bx/n on input line ....
-luaotfload | load : path lookup of "texgyrepagella-regular" unsuccessful, falling back to file:
-luaotfload | load : path lookup of "texgyrepagella-math.otf" unsuccessful, falling back to file:(../texgyrepagella-math.luc
-luaotfload | load : path lookup of "texgyrepagella-math.otf" unsuccessful, falling back to file:
-\g__fontspec_family_texgyrepagella-math.otf_int=\count131
-luaotfload | load : path lookup of "texgyrepagella-math" unsuccessful, falling back to file:
-luaotfload | load : path lookup of "texgyrepagella-math" unsuccessful, falling back to file:
-luaotfload | aux : font no 25 (TeXGyrePagellaMath-Regular) does not define feature smcp for script math with language dflt
-luaotfload | aux : no font with id 25
-luaotfload | load : path lookup of "texgyrepagella-math" unsuccessful, falling back to file:
-luaotfload | load : path lookup of "texgyrepagella-math" unsuccessful, falling back to file:
+(../texgyrepagella-math.luc
+\g__fontspec_family_texgyrepagella-math.otf_int=\count128
+luaotfload | aux : font no 20 (<unknown>) does not define feature smcp for script math with language dflt
+luaotfload | aux : no font with id 20
 .................................................
 . fontspec info: "defining-font"
 . 
@@ -295,30 +222,11 @@ luaotfload | load : path lookup of "texgyrepagella-math" unsuccessful, falling b
 . 
 . This font family consists of the following NFSS series/shapes:
 . - 'normal' (m/n) with NFSS spec.:
-. <10->"[texgyrepagella-math]:mode=base;script=math;language=DFLT;"<7-10>"[texgyrepagella-math]:mode=base;script=math;language=DFLT;+ssty=0;"<-7>"[texgyrepagella-math]:mode=base;script=math;language=DFLT;+ssty=1;"
+. <10->"file:texgyrepagella-math.otf:mode=base;script=math;language=DFLT;"<7-10>"file:texgyrepagella-math.otf:mode=base;script=math;language=DFLT;+ssty=0;"<-7>"file:texgyrepagella-math.otf:mode=base;script=math;language=DFLT;+ssty=1;"
 . - 'small caps'  (m/sc) with NFSS spec.: 
 .................................................
-luaotfload | load : path lookup of "texgyrepagella-math" unsuccessful, falling back to file:
-luaotfload | load : path lookup of "texgyrepagella-math.otf" unsuccessful, falling back to file:
-luaotfload | load : path lookup of "texgyrepagella-math.otf" unsuccessful, falling back to file:
-luaotfload | load : path lookup of "texgyrepagella-math.otf" unsuccessful, falling back to file:
-luaotfload | load : path lookup of "texgyrepagella-math.otf" unsuccessful, falling back to file:
-LaTeX Font Info:    Encoding `OT1' has changed to `EU2' for symbol font
-(Font)              `operators' in the math version `normal' on input line ....
-LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
-(Font)                  OT1/cmr/m/n --> EU2/texgyrepagella-math.otf(0)/m/n on input line ....
-LaTeX Font Info:    Encoding `OT1' has changed to `EU2' for symbol font
-(Font)              `operators' in the math version `bold' on input line ....
-LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
-(Font)                  OT1/cmr/bx/n --> EU2/texgyrepagella-math.otf(0)/bx/n on input line ....
-luaotfload | load : path lookup of "texgyrepagella-math.otf" unsuccessful, falling back to file:
-luaotfload | load : path lookup of "texgyrepagella-math.otf" unsuccessful, falling back to file:
-luaotfload | load : path lookup of "texgyrepagella-math" unsuccessful, falling back to file:
-luaotfload | load : path lookup of "texgyrepagella-math" unsuccessful, falling back to file:
-luaotfload | aux : font no 25 (TeXGyrePagellaMath-Regular) does not define feature smcp for script math with language dflt
-luaotfload | aux : no font with id 25
-luaotfload | load : path lookup of "texgyrepagella-math" unsuccessful, falling back to file:
-luaotfload | load : path lookup of "texgyrepagella-math" unsuccessful, falling back to file:
+luaotfload | aux : font no 20 (<unknown>) does not define feature smcp for script math with language dflt
+luaotfload | aux : no font with id 20
 .................................................
 . fontspec info: "defining-font"
 . 
@@ -336,7 +244,7 @@ luaotfload | load : path lookup of "texgyrepagella-math" unsuccessful, falling b
 . 
 . This font family consists of the following NFSS series/shapes:
 . - 'normal' (m/n) with NFSS spec.:
-. <10->s*[1.00001]"[texgyrepagella-math]:mode=base;script=math;language=DFLT;"<7-10>s*[1.00001]"[texgyrepagella-math]:mode=base;script=math;language=DFLT;+ssty=0;"<-7>s*[1.00001]"[texgyrepagella-math]:mode=base;script=math;language=DFLT;+ssty=1;"
+. <10->s*[1.00001]"file:texgyrepagella-math.otf:mode=base;script=math;language=DFLT;"<7-10>s*[1.00001]"file:texgyrepagella-math.otf:mode=base;script=math;language=DFLT;+ssty=0;"<-7>s*[1.00001]"file:texgyrepagella-math.otf:mode=base;script=math;language=DFLT;+ssty=1;"
 . - 'small caps'  (m/sc) with NFSS spec.: 
 . and font adjustment code:
 . \fontdimen 8\font =471859.2sp\relax \fontdimen 9\font =307363.84sp\relax
@@ -348,22 +256,8 @@ luaotfload | load : path lookup of "texgyrepagella-math" unsuccessful, falling b
 . \fontdimen 20\font =0pt\relax \fontdimen 21\font =0pt\relax \fontdimen
 . 22\font =163840sp\relax 
 .................................................
-LaTeX Font Info:    Encoding `OMS' has changed to `EU2' for symbol font
-(Font)              `symbols' in the math version `normal' on input line ....
-LaTeX Font Info:    Overwriting symbol font `symbols' in version `normal'
-(Font)                  OMS/cmsy/m/n --> EU2/texgyrepagella-math.otf(1)/m/n on input line ....
-LaTeX Font Info:    Encoding `OMS' has changed to `EU2' for symbol font
-(Font)              `symbols' in the math version `bold' on input line ....
-LaTeX Font Info:    Overwriting symbol font `symbols' in version `bold'
-(Font)                  OMS/cmsy/b/n --> EU2/texgyrepagella-math.otf(1)/bx/n on input line ....
-luaotfload | load : path lookup of "texgyrepagella-math.otf" unsuccessful, falling back to file:
-luaotfload | load : path lookup of "texgyrepagella-math.otf" unsuccessful, falling back to file:
-luaotfload | load : path lookup of "texgyrepagella-math" unsuccessful, falling back to file:
-luaotfload | load : path lookup of "texgyrepagella-math" unsuccessful, falling back to file:
-luaotfload | aux : font no 25 (TeXGyrePagellaMath-Regular) does not define feature smcp for script math with language dflt
-luaotfload | aux : no font with id 25
-luaotfload | load : path lookup of "texgyrepagella-math" unsuccessful, falling back to file:
-luaotfload | load : path lookup of "texgyrepagella-math" unsuccessful, falling back to file:
+luaotfload | aux : font no 20 (<unknown>) does not define feature smcp for script math with language dflt
+luaotfload | aux : no font with id 20
 .................................................
 . fontspec info: "defining-font"
 . 
@@ -376,46 +270,19 @@ luaotfload | load : path lookup of "texgyrepagella-math" unsuccessful, falling b
 . 
 . This font family consists of the following NFSS series/shapes:
 . - 'normal' (m/n) with NFSS spec.:
-. <10->s*[0.99999]"[texgyrepagella-math]:mode=base;script=math;language=DFLT;"<7-10>s*[0.99999]"[texgyrepagella-math]:mode=base;script=math;language=DFLT;+ssty=0;"<-7>s*[0.99999]"[texgyrepagella-math]:mode=base;script=math;language=DFLT;+ssty=1;"
+. <10->s*[0.99999]"file:texgyrepagella-math.otf:mode=base;script=math;language=DFLT;"<7-10>s*[0.99999]"file:texgyrepagella-math.otf:mode=base;script=math;language=DFLT;+ssty=0;"<-7>s*[0.99999]"file:texgyrepagella-math.otf:mode=base;script=math;language=DFLT;+ssty=1;"
 . - 'small caps'  (m/sc) with NFSS spec.: 
 . and font adjustment code:
 . \fontdimen 8\font =39321.6sp\relax \fontdimen 9\font =78643.2sp\relax
 . \fontdimen 10\font =78643.2sp\relax \fontdimen 11\font =78643.2sp\relax
 . \fontdimen 12\font =306708.48sp\relax \fontdimen 13\font =0pt\relax 
 .................................................
-LaTeX Font Info:    Encoding `OMX' has changed to `EU2' for symbol font
-(Font)              `largesymbols' in the math version `normal' on input line ....
-LaTeX Font Info:    Overwriting symbol font `largesymbols' in version `normal'
-(Font)                  OMX/cmex/m/n --> EU2/texgyrepagella-math.otf(2)/m/n on input line ....
-LaTeX Font Info:    Encoding `OMX' has changed to `EU2' for symbol font
-(Font)              `largesymbols' in the math version `bold' on input line ....
-LaTeX Font Info:    Overwriting symbol font `largesymbols' in version `bold'
-(Font)                  OMX/cmex/m/n --> EU2/texgyrepagella-math.otf(2)/bx/n on input line ....
 .................................................
 . lualatex-math info: "patch-macro"
 . 
 . I'm going to patch macro \frac.
 .................................................
 No file .aux.
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line ....
-LaTeX Font Info:    ... okay on input line ....
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line ....
-LaTeX Font Info:    ... okay on input line ....
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line ....
-LaTeX Font Info:    ... okay on input line ....
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line ....
-LaTeX Font Info:    ... okay on input line ....
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line ....
-LaTeX Font Info:    ... okay on input line ....
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line ....
-LaTeX Font Info:    ... okay on input line ....
-LaTeX Font Info:    Checking defaults for EU2/lmr/m/n on input line ....
-LaTeX Font Info:    ... okay on input line ....
-LaTeX Font Info:    Checking defaults for T3/cmr/m/n on input line ....
-LaTeX Font Info:    Try loading font information for T3+cmr on input line ....
-LaTeX Font Info:    ... okay on input line ....
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line ....
-LaTeX Font Info:    ... okay on input line ....
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
 *geometry* verbose mode - [ preamble ] result:
@@ -451,22 +318,6 @@ LaTeX Font Info:    ... okay on input line ....
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 This is a generated file for the l3build validation system.
 Don't change this file in any respect.
-%% \CharacterTable
-%%  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
-%%   Lower-case    \a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z
-%%   Digits        \0\1\2\3\4\5\6\7\8\9
-%%   Exclamation   \!     Double quote  \"     Hash (number) \#
-%%   Dollar        \$     Percent       \%     Ampersand     \&
-%%   Acute accent  \'     Left paren    \(     Right paren   \)
-%%   Asterisk      \*     Plus          \+     Comma         \,
-%%   Minus         \-     Point         \.     Solidus       \/
-%%   Colon         \:     Semicolon     \;     Less than     \<
-%%   Equals        \=     Greater than  \>     Question mark \?
-%%   Commercial at \@     Left bracket  \[     Backslash     \\
-%%   Right bracket \]     Circumflex    \^     Underscore    \_
-%%   Grave accent  \`     Left brace    \{     Vertical bar  \|
-%%   Right brace   \}     Tilde         \~}
-%%
 Completed box being shipped out [1]
 \vbox(114.22017+0.0)x169.57845, direction TLT
 .\glue -95.04362
@@ -480,17 +331,17 @@ Completed box being shipped out [1]
 ...\write-{}
 ...\glue(\topskip) 2.74
 ...\hbox(7.26+0.2)x227.62207, glue set 190.73206fil, direction TLT
-....\whatsit
+....\localpar
 .....\localinterlinepenalty=0
 .....\localbrokenpenalty=0
 .....\localleftbox=null
 .....\localrightbox=null
 ....\hbox(0.0+0.0)x15.0, direction TLT
-....\EU2/texgyrepagella-regular.otf(0)/m/n/10 h
-....\EU2/texgyrepagella-regular.otf(0)/m/n/10 e
-....\EU2/texgyrepagella-regular.otf(0)/m/n/10 l
-....\EU2/texgyrepagella-regular.otf(0)/m/n/10 l
-....\EU2/texgyrepagella-regular.otf(0)/m/n/10 o
+....\TU/texgyrepagella-regular.otf(0)/m/n/10 h
+....\TU/texgyrepagella-regular.otf(0)/m/n/10 e
+....\TU/texgyrepagella-regular.otf(0)/m/n/10 l
+....\TU/texgyrepagella-regular.otf(0)/m/n/10 l
+....\TU/texgyrepagella-regular.otf(0)/m/n/10 o
 ....\penalty 10000
 ....\glue(\parfillskip) 0.0 plus 1.0fil
 ....\glue(\rightskip) 0.0

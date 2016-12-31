@@ -401,7 +401,6 @@
 %
 %
 % \begin{macro}{\aliasfontfeature}
-% \begin{macro}{\aliasfontfeatureoption}
 % User commands for renaming font features and font feature options.
 %    \begin{macrocode}
 \bool_new:N \l_@@_alias_bool
@@ -417,24 +416,40 @@
      \keys_if_exist:nnT {##1} {#1}
       {
         \bool_set_true:N \l_@@_alias_bool
-        \@@_alias_font_feature:nnn {##1} {#1} {#2}
+        \keys_define:nn {##1}
+          { #2 .code:n = { \keys_set:nn {##1} { #1 = {####1} } } }
       }
    }
 
   \bool_if:NF \l_@@_alias_bool
     { \@@_warning:nx {rename-feature-not-exist} {#1} }
  }
-
-\cs_set:Nn \@@_alias_font_feature:nnn
-  {
-    \keys_define:nn {#1}
-      { #3 .code:n = { \keys_set:nn {#1} { #2 = {##1} } } }
-  }
-
-\DeclareDocumentCommand \aliasfontfeatureoption {mmm}
-  { \keys_define:nn { fontspec / #1 } { #3 .meta:n = {#2} } }
 %    \end{macrocode}
-% \end{macro} \end{macro}
+% \end{macro}
+%
+% \begin{macro}{\aliasfontfeatureoption}
+%    \begin{macrocode}
+\DeclareDocumentCommand \aliasfontfeatureoption {mmm}
+ {
+  \bool_set_false:N \l_@@_alias_bool
+
+  \clist_map_inline:nn
+   { fontspec, fontspec-opentype, fontspec-aat, fontspec-preparse, fontspec-preparse-external,
+     fontspec-preparse-nested, fontspec-renderer }
+   {
+
+     \keys_if_exist:nnT {##1} {#1}
+      {
+        \bool_set_true:N \l_@@_alias_bool
+        \keys_define:nn { ##1 / #1 } { #3 .meta:n = {#2} }
+      }
+   }
+
+  \bool_if:NF \l_@@_alias_bool
+    { \@@_warning:nx {rename-feature-not-exist} {#1} }
+ }
+%    \end{macrocode}
+% \end{macro}
 %
 % \begin{macro}{\newfontscript}
 % Mostly used internally, but also possibly useful for users, to define new OpenType

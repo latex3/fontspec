@@ -16,26 +16,19 @@
 % \end{macro}
 %
 %
-% \begin{macro}{\@@_define_opentype_feature:nnnn}
+% \begin{macro}{\@@_define_opentype_feature_dual:nnnn}
 %    \begin{macrocode}
-\cs_new:Nn \@@_define_opentype_feature:nnnn
+\cs_new:Nn \@@_define_opentype_feature_dual:nnnn
  {
-  \keys_define:nn {fontspec-opentype}
-   {
-    #1/#2 .code:n = { \@@_make_OT_feature:nn {#3}{#4} }
-   }
+  \@@_define_opentype_feature:nnnnn {#1}{#2}{#3}{+#3}{#4}
+  \@@_define_opentype_feature:nnnnn {#1}{No#2}{#3}{-#3}{  }
+  \@@_define_opentype_feature:nnnnn {#1}{Reset#2}{}{}{+#3,-#3}
  }
-%    \end{macrocode}
-% \end{macro}
-%
-% \begin{macro}{\fontspec_define_numbered_feat:nnnn}
-%    \begin{macrocode}
-\cs_new:Nn \fontspec_define_numbered_feat:nnnn
+\cs_new:Nn \@@_define_opentype_feature:nnnnn
  {
   \keys_define:nn {fontspec-opentype}
    {
-    #1/#2 .code:n =
-      { \fontspec_make_numbered_feature:nn {#3}{#4} }
+    #1/#2 .code:n = { \@@_make_OT_feature:nnn {#3}{#4}{#5} }
    }
  }
 %    \end{macrocode}
@@ -44,36 +37,44 @@
 %
 % \subsection{Adding features when loading fonts}
 %
+% When remove clashing features,
+% \begin{enumerate}
+% \item remove the feature being added (to avoid duplicates);
+% \item remove the inverse of the feature (to avoid cancellation);
+% \item finally remove all clashing features.
+% \end{enumerate}
+%
 %    \begin{macrocode}
-\cs_new:Nn \@@_make_OT_feature:nn
- {
-%<debug>  \typeout{:: @@_make_OT_feature:nn {\exp_not:n{#1}}{\exp_not:n{#2}}}
-  \tl_if_empty:nTF {#1}
-   { \@@_warning:n {icu-feature-not-exist} }
-   {
-     \fontspec_check_ot_feat:nTF {#1}
+\cs_new:Nn \@@_make_OT_feature:nnn
+  {
+%<debug>  \typeout{:: @@_make_OT_feature:nnn {\exp_not:n{#1}{#2}{#3}}}
+
+    \bool_set_true:N \l_@@_proceed_bool
+    \bool_set_true:N  \l_@@_check_feat_bool
+
+    \tl_if_empty:nT {#1} { \bool_set_false:N \l_@@_check_feat_bool }
+    \bool_if:NT \l_@@_check_feat_bool
       {
-       \exp_args:Nx \@@_remove_clashing_featstr:n
-         { #1 , \@@_swap_plus_minus:n {#1} , #2 }
-       \@@_update_featstr:n {#1}
+        \fontspec_check_ot_feat:nF {#1}
+          {
+            \@@_warning:nx {icu-feature-not-exist-in-font} {#1}
+            \bool_set_false:N \l_@@_proceed_bool
+          }
       }
-      { \@@_warning:nx {icu-feature-not-exist-in-font} {#1} }
-   }
- }
+
+    \bool_if:NT \l_@@_proceed_bool
+      {
+        \@@_update_featstr:n {#2}
+
+        \exp_args:Nx \@@_remove_clashing_featstr:n
+          { #2 , \@@_swap_plus_minus:n {#2} , #3 }
+      }
+  }
+\cs_generate_variant:Nn \@@_make_OT_feature:nnn {xxx}
 
 \cs_new:Nn \@@_swap_plus_minus:n { \@@_swap_plus_minus_aux:NNNNN #1 }
 \cs_new:Nn \@@_swap_plus_minus_aux:NNNNN
   { \str_case:nn {#1} { {+} {-#2#3#4#5} {-} {+#2#3#4#5} } }
-
-\cs_new_protected:Nn \fontspec_make_numbered_feature:nn
- {
-  \fontspec_check_ot_feat:nTF {#1}
-   {
-    \@@_update_featstr:n { #1 = #2 }
-   }
-   { \@@_warning:nx {icu-feature-not-exist-in-font} {#1} }
- }
-\cs_generate_variant:Nn \fontspec_make_numbered_feature:nn {xn}
 %    \end{macrocode}
 % \end{macro}
 %
@@ -166,7 +167,7 @@
 % number corresponding to `|latn|'. The language used is \cmd\l_fontspec_language_int,
 % by default |0|, the `default language'.
 %    \begin{macrocode}
-\prg_new_conditional:Nnn \fontspec_check_ot_feat:n {TF}
+\prg_new_conditional:Nnn \fontspec_check_ot_feat:n {TF,F}
   {
     \bool_if:NTF \l_@@_never_check_bool
       { \prg_return_true: }
@@ -178,7 +179,7 @@
                           \l_fontspec_script_int
                           \l_fontspec_language_int
    }
-  \@@_v_str_to_num:Nn \l_fontspec_strnum_int {#1}
+  \@@_iv_str_to_num:Nn \l_fontspec_strnum_int {#1}
   \int_zero:N \l_tmpa_int
   \bool_set_false:N \l__fontspec_check_bool
   \bool_until_do:nn { \int_compare_p:nNn \l_tmpa_int = \l_tmpb_int }

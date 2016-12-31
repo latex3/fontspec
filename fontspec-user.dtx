@@ -300,7 +300,7 @@
 \bool_new:N \l_@@_disable_defaults_bool
 \DeclareDocumentCommand \addfontfeatures {m}
  {
-%<debug>  \typeout{: addfontfeatures}
+%<debug>  \typeout{^^J::::::::::::::::::::::::::::::::::^^J: addfontfeatures}
   \fontspec_if_fontspec_font:TF
    {
     \group_begin:
@@ -433,9 +433,7 @@
  {
   \bool_set_false:N \l_@@_alias_bool
 
-  \clist_map_inline:nn
-   { fontspec, fontspec-opentype, fontspec-aat, fontspec-preparse, fontspec-preparse-external,
-     fontspec-preparse-nested, fontspec-renderer }
+  \clist_map_inline:Nn \g_@@_all_keyval_modules_clist
    {
 
      \keys_if_exist:nnT {##1} {#1}

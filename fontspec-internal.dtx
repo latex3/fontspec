@@ -41,7 +41,7 @@
   \@@_sanitise_fontname:Nn \l_@@_basename_tl          {#2}
 
   \@@_if_detect_external:nT {#2}
-   { \keys_set:nn {fontspec-preparse-external} {ExternalLocation} }
+   { \keys_set:nn {fontspec-preparse-external} {Path} }
 
   \@@_init_ttc:n {#2}
   \@@_load_external_fontoptions:Nn \l_fontspec_fontname_tl {#2}
@@ -170,20 +170,20 @@
 % parse fontspec features for bold/italic fonts and their features.
 %    \begin{macrocode}
 
-  \keys_set_known:nxN {fontspec-preparse-external}
+  \@@_keys_set_known:nxN {fontspec-preparse-external}
    { \l_@@_all_features_clist }
    \l_@@_keys_leftover_clist
+
 %    \end{macrocode}
 % When \cmd{\l_fontspec_fontname_tl} is augmented with a prefix or whatever to create
 % the name of the upright font (\cmd{\l_fontspec_fontname_up_tl}), this latter is the new `general
 % font name' to use.
 %    \begin{macrocode}
   \tl_set_eq:NN \l_fontspec_fontname_tl \l_fontspec_fontname_up_tl
-  \keys_set_known:nxN {fontspec-renderer} {\l_@@_keys_leftover_clist}
+  \@@_keys_set_known:nxN {fontspec-renderer} {\l_@@_keys_leftover_clist}
     \l_@@_keys_leftover_clist
-  \keys_set_known:nxN {fontspec-preparse} {\l_@@_keys_leftover_clist}
+  \@@_keys_set_known:nxN {fontspec-preparse} {\l_@@_keys_leftover_clist}
     \l_@@_fontfeat_clist
-%<debug>  \typeout{:::> \exp_not:N \l_@@_fontfeat_clist ->~ {\l_@@_fontfeat_clist}}
  }
 %    \end{macrocode}
 % \end{macro}
@@ -305,13 +305,9 @@
  {
 %<debug>  \typeout{:: @@_get_features:Nn \exp_not:N #1 { \exp_not:n {#2} } }
   \@@_init_fontface:
-%<debug>  \typeout{::: Setting~ keys~ for~ renderer:~ "\l_@@_fontfeat_clist,#2"}
-  \keys_set_known:nxN {fontspec-renderer} {\l_@@_fontfeat_clist,#2}
+  \@@_keys_set_known:nxN {fontspec-renderer} {\l_@@_fontfeat_clist,#2}
     \l_@@_keys_leftover_clist
-%<debug>  \typeout{:::> \exp_not:N \l_@@_keys_leftover_clist ->~ {\l_@@_keys_leftover_clist}}
-%<debug>  \typeout{::: Setting~ keys~ for~ generic~ features:~ "\l_@@_keys_leftover_clist"}
-  \keys_set_known:nxN {fontspec} {\l_@@_keys_leftover_clist} \l_@@_keys_leftover_clist
-%<debug>  \typeout{:::> \exp_not:N \l_@@_keys_leftover_clist ->~ {\l_@@_keys_leftover_clist}}
+  \@@_keys_set_known:nxN {fontspec} {\l_@@_keys_leftover_clist} \l_@@_keys_leftover_clist
 %<*xetexx>
   \bool_if:NTF \l_@@_ot_bool
     {
@@ -501,7 +497,7 @@
 
   \tl_if_empty:xTF {#4}
    { \clist_set:Nn \l_@@_sizefeat_clist {Size={-}} }
-   { \keys_set_known:noN {fontspec-preparse-nested} {#4} \l_@@_tmp_tl }
+   { \@@_keys_set_known:nxN {fontspec-preparse-nested} {#4} \l_@@_tmp_tl }
 
   \tl_if_empty:NF \l_@@_this_font_tl
    {
@@ -621,7 +617,7 @@
 \cs_new:Nn \@@_make_font_shapes:Nnnnn
  {
   \group_begin:
-    \keys_set_known:nxN {fontspec-preparse-external} { #4 } \l_@@_leftover_clist
+    \@@_keys_set_known:nxN {fontspec-preparse-external} { #4 } \l_@@_leftover_clist
     \@@_load_fontname:n {#1}
     \@@_declare_shape:nnxx {#2} {#3} { \l_@@_fontopts_clist, \l_@@_leftover_clist } {#5}
   \group_end:
@@ -882,7 +878,7 @@
 %    \begin{macrocode}
 \cs_set:Nn \fontspec_make_ot_smallcaps:TF
  {
-  \fontspec_check_ot_feat:nTF {+smcp} {#1} {#2}
+  \fontspec_check_ot_feat:nTF {smcp} {#1} {#2}
  }
 %<*xetexx>
 \cs_set:Nn \@@_make_smallcaps:TF
@@ -911,7 +907,7 @@
   {
     \bool_if:NF \l_@@_firsttime_bool
       {
-        \bool_if:NTF \l_@@_deactivate_feature_tl
+        \bool_if:NTF \l_@@_deactivate_feature_bool
           {
             \tl_gremove_all:Nn \l_@@_rawfeatures_sclist {#1;}
           }
@@ -929,7 +925,7 @@
 %    \begin{macrocode}
 \cs_new:Nn \@@_remove_clashing_featstr:n
   {
-    \bool_if:NF \l_@@_deactivate_feature_tl
+    \bool_if:NF \l_@@_deactivate_feature_bool
       {
         \clist_map_inline:nn {#1}
           {

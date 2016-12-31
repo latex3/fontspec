@@ -10,6 +10,17 @@
 %    \end{macrocode}
 % \fi
 %
+%
+%    \begin{macrocode}
+\clist_new:N \g_@@_all_keyval_modules_clist
+\clist_set:Nn \g_@@_all_keyval_modules_clist
+  {
+    fontspec, fontspec-opentype, fontspec-aat,
+    fontspec-preparse, fontspec-preparse-external, fontspec-preparse-nested,
+    fontspec-renderer
+  }
+%    \end{macrocode}
+%
 %    \begin{macrocode}
 \cs_new:Nn \@@_keys_define_code:nnn
   {
@@ -38,6 +49,7 @@
 \bool_new:N \l_@@_external_bool
 \@@_keys_define_code:nnn {fontspec-preparse-external} {Path}
  {
+    \@@_cant_deactivate:
   \bool_set_true:N \l_@@_nobf_bool
   \bool_set_true:N \l_@@_noit_bool
   \bool_set_true:N \l_@@_external_bool
@@ -58,10 +70,11 @@
 %    \begin{macrocode}
 \@@_keys_define_code:nnn {fontspec-preparse-external} {Extension}
  {
+  \@@_cant_deactivate:
   \tl_set:Nn \l_@@_extension_tl {#1}
   \bool_if:NF \l_@@_external_bool
    {
-    \keys_set:nn {fontspec-preparse-external} {ExternalLocation}
+    \keys_set:nn {fontspec-preparse-external} {Path}
    }
  }
 \tl_clear:N \l_@@_extension_tl
@@ -811,21 +824,47 @@
 % \subsection{!! syntax}
 %
 %    \begin{macrocode}
-\clist_map_inline:nn {fontspec,fontspec-opentype,fontspec-aat}
+\clist_map_inline:Nn \g_@@_all_keyval_modules_clist
   {
     \keys_define:nn {#1}
       {
         unknown .code:n = {
-          \str_if_eq_x:nnT {!!} { \@@_head_ii:o \l_keys_key_tl }
+          \str_if_eq_x:nnTF {!!} { \@@_head_ii:o \l_keys_key_tl }
             {
-              \bool_set_true:N  \l_@@_deactivate_feature_tl
+              \bool_set_true:N  \l_@@_deactivate_feature_bool
               \use:x { \keys_set:nn {#1} { \exp_after:wN\use_none:nn\l_keys_key_tl = \l_keys_value_tl } }
-              \bool_set_false:N \l_@@_deactivate_feature_tl
+              \bool_set_false:N \l_@@_deactivate_feature_bool
+            }
+            {
+              \clist_put_right:Nx \l_@@_generic_keys_leftover_clist { \l_keys_key_tl = {\l_keys_value_tl} }
             }
         }
       }
   }
+
+\cs_new:Nn \@@_keys_set_known:nnN
+  {
+%<debug>  \typeout{:::: Keys~set:~{#1}~{#2} }
+    \clist_clear:N \l_@@_generic_keys_leftover_clist
+    \keys_set:nn {#1} {#2}
+    \clist_set_eq:NN #3 \l_@@_generic_keys_leftover_clist
+%<debug>  \typeout{:::: Leftover:~{#3} }
+  }
+\cs_generate_variant:Nn \@@_keys_set_known:nnN {nx}
+
 %    \end{macrocode}
+%
+% \begin{macro}{\@@_cant_deactivate:}
+%    \begin{macrocode}
+\cs_new:Nn \@@_cant_deactivate:
+  {
+    \bool_if:NT \l_@@_deactivate_feature_bool
+      {
+        \@@_warning:nx {feat-cannot-remove} {\l_keys_key_tl}
+      }
+  }
+%    \end{macrocode}
+% \end{macro}
 %
 % \iffalse
 %    \begin{macrocode}

@@ -1026,24 +1026,6 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\@@_v_str_to_num:Nn}
-% The variant \cmd\@@_v_str_to_num:n\ is used when looking at features, which are passed around
-% with prepended plus and minus signs (\eg, \texttt{+liga}, \texttt{-dlig}); it
-% simply strips off the first char of the input before calling the normal \cmd\@@_iv_str_to_num:n.
-%    \begin{macrocode}
-\cs_set:Nn \@@_v_str_to_num:Nn
- {
-  \bool_if:nTF
-   {
-    \tl_if_head_eq_charcode_p:nN {#2} {+} ||
-    \tl_if_head_eq_charcode_p:nN {#2} {-}
-   }
-   { \@@_iv_str_to_num:No #1 { \use_none:n #2 } }
-   { \@@_iv_str_to_num:Nn #1 {#2} }
- }
-%    \end{macrocode}
-% \end{macro}
-%
 %
 % \iffalse
 %    \begin{macrocode}

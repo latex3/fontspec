@@ -10,50 +10,51 @@
 %
 % \subsubsection{Ligatures}
 %    \begin{macrocode}
-\@@_define_opentype_feature_group:n   {Ligatures}
-\@@_define_opentype_feature_dual:nnnn {Ligatures} {Required}      {rlig} {}
-\@@_define_opentype_feature_dual:nnnn {Ligatures} {Common}        {liga} {}
-\@@_define_opentype_feature_dual:nnnn {Ligatures} {Rare}          {dlig} {}
-\@@_define_opentype_feature_dual:nnnn {Ligatures} {Discretionary} {dlig} {}
-\@@_define_opentype_feature_dual:nnnn {Ligatures} {Contextual}    {clig} {}
-\@@_define_opentype_feature_dual:nnnn {Ligatures} {Historic}      {hlig} {}
+\@@_define_opentype_feature_group:n {Ligatures}
+\@@_define_opentype_feature:nnnnn {Ligatures} {Default} {} {}
+  {
+    +dlig,-dlig,+rlig,-rlig,+liga,-liga,+dlig,-dlig,+clig,-clig,+hlig,-hlig,
+%<xetexx>  mapping = tex-text
+%<luatex>  +tlig,-tlig
+  }
+%
+%    \begin{macrocode}
+
 %    \end{macrocode}
+\@@_define_opentype_onoffreset:nnnnn {Ligatures} {Required}      {rlig} {rlig} {}
+\@@_define_opentype_onoffreset:nnnnn {Ligatures} {Common}        {liga} {liga} {}
+\@@_define_opentype_onoffreset:nnnnn {Ligatures} {Rare}          {dlig} {dlig} {}
+\@@_define_opentype_onoffreset:nnnnn {Ligatures} {Discretionary} {dlig} {dlig} {}
+\@@_define_opentype_onoffreset:nnnnn {Ligatures} {Contextual}    {clig} {clig} {}
+\@@_define_opentype_onoffreset:nnnnn {Ligatures} {Historic}      {hlig} {hlig} {}
+%    \end{macrocode}
+
 % Emulate CM extra ligatures.
 %    \begin{macrocode}
-\keys_define:nn {fontspec-opentype}
- {
-  Ligatures / TeX .code:n =
-   {
-%<*xetexx>
-    \@@_update_featstr:n { mapping = tex-text }
-%</xetexx>
-%<*luatex>
-    \@@_update_featstr:n { +tlig }
-%</luatex>
-   }
- }
+%<xetexx>\@@_define_opentype_onreset:nnnnn {Ligatures} {TeX} {} { mapping = tex-text } {}
+%<luatex>\@@_define_opentype_onreset:nnnnn {Ligatures} {TeX} {} { +tlig } {}
 %    \end{macrocode}
 %
 % \subsubsection{Letters}
 %    \begin{macrocode}
 \@@_define_opentype_feature_group:n {Letters}
-\@@_define_opentype_feature_dual:nnnn {Letters} {Uppercase} {case} {+smcp,+pcap,+c2sc,+c2pc,+unic,+rand}
-\@@_define_opentype_feature_dual:nnnn {Letters} {SmallCaps} {smcp} {+pcap,+unic,+rand}
-\@@_define_opentype_feature_dual:nnnn {Letters} {PetiteCaps} {pcap} {+smcp,+unic,+rand}
-\@@_define_opentype_feature_dual:nnnn {Letters} {UppercaseSmallCaps} {c2sc} {+c2pc,+unic,+rand}
-\@@_define_opentype_feature_dual:nnnn {Letters} {UppercasePetiteCaps} {c2pc} {+c2sc,+unic,+rand}
-\@@_define_opentype_feature_dual:nnnn {Letters} {Unicase} {unic} {+rand}
-\@@_define_opentype_feature_dual:nnnn {Letters} {Random} {rand} {+unic}
+\@@_define_opentype_onoffreset:nnnnn {Letters} {Uppercase} {case} {case} {+smcp,+pcap,+c2sc,+c2pc,+unic,+rand}
+\@@_define_opentype_onoffreset:nnnnn {Letters} {SmallCaps} {smcp} {smcp} {+pcap,+unic,+rand}
+\@@_define_opentype_onoffreset:nnnnn {Letters} {PetiteCaps} {pcap} {pcap} {+smcp,+unic,+rand}
+\@@_define_opentype_onoffreset:nnnnn {Letters} {UppercaseSmallCaps} {c2sc} {c2sc} {+c2pc,+unic,+rand}
+\@@_define_opentype_onoffreset:nnnnn {Letters} {UppercasePetiteCaps} {c2pc} {c2pc} {+c2sc,+unic,+rand}
+\@@_define_opentype_onoffreset:nnnnn {Letters} {Unicase} {unic} {unic} {+rand}
+\@@_define_opentype_onoffreset:nnnnn {Letters} {Random} {rand} {rand} {+unic}
 %    \end{macrocode}
 %
 % \subsubsection{Numbers}
 %    \begin{macrocode}
 \@@_define_opentype_feature_group:n {Numbers}
-\@@_define_opentype_feature_dual:nnnn {Numbers} {Monospaced} {tnum} {+pnum,-pnum}
-\@@_define_opentype_feature_dual:nnnn {Numbers} {Proportional} {pnum} {+tnum,-tnum}
-\@@_define_opentype_feature_dual:nnnn {Numbers} {Lowercase} {onum} {+lnum,-lnum}
-\@@_define_opentype_feature_dual:nnnn {Numbers} {Uppercase} {lnum} {+onum,-onum}
-\@@_define_opentype_feature_dual:nnnn {Numbers} {SlashedZero} {zero} {}
+\@@_define_opentype_onoffreset:nnnnn {Numbers} {Monospaced} {tnum} {tnum} {+pnum,-pnum}
+\@@_define_opentype_onoffreset:nnnnn {Numbers} {Proportional} {pnum} {pnum} {+tnum,-tnum}
+\@@_define_opentype_onoffreset:nnnnn {Numbers} {Lowercase} {onum} {onum} {+lnum,-lnum}
+\@@_define_opentype_onoffreset:nnnnn {Numbers} {Uppercase} {lnum} {lnum} {+onum,-onum}
+\@@_define_opentype_onoffreset:nnnnn {Numbers} {SlashedZero} {zero} {zero} {}
 \aliasfontfeatureoption {Numbers} {Lowercase} {OldStyle}
 \aliasfontfeatureoption {Numbers} {Uppercase} {Lining}
 %    \end{macrocode}
@@ -62,59 +63,59 @@
 % (AKA Arabic) numbers with Arabic (AKA Indic-Arabic). The same feature
 % maps to Farsi (Persian) numbers if font language is Farsi.
 %    \begin{macrocode}
-%<luatex>  \@@_define_opentype_feature_dual:nnnn {Numbers} {Arabic} {anum} {}
+%<luatex>  \@@_define_opentype_onoffreset:nnnnn {Numbers} {Arabic} {anum} {anum} {}
 %    \end{macrocode}
 %
 % \subsubsection{Contextuals}
 %    \begin{macrocode}
-\@@_define_opentype_feature_group:n   {Contextuals}
-\@@_define_opentype_feature_dual:nnnn {Contextuals} {Swash} {cswh} {}
-\@@_define_opentype_feature_dual:nnnn {Contextuals} {Alternate} {calt} {}
-\@@_define_opentype_feature_dual:nnnn {Contextuals} {WordInitial} {init} {}
-\@@_define_opentype_feature_dual:nnnn {Contextuals} {WordFinal} {fina} {}
-\@@_define_opentype_feature_dual:nnnn {Contextuals} {LineFinal} {falt} {}
-\@@_define_opentype_feature_dual:nnnn {Contextuals} {Inner} {medi} {}
+\@@_define_opentype_feature_group:n {Contextuals}
+\@@_define_opentype_onoffreset:nnnnn {Contextuals} {Swash}       {cswh} {cswh} {}
+\@@_define_opentype_onoffreset:nnnnn {Contextuals} {Alternate}   {calt} {calt} {}
+\@@_define_opentype_onoffreset:nnnnn {Contextuals} {WordInitial} {init} {init} {}
+\@@_define_opentype_onoffreset:nnnnn {Contextuals} {WordFinal}   {fina} {fina} {}
+\@@_define_opentype_onoffreset:nnnnn {Contextuals} {LineFinal}   {falt} {falt} {}
+\@@_define_opentype_onoffreset:nnnnn {Contextuals} {Inner}       {medi} {medi} {}
 %    \end{macrocode}
 %
 % \subsubsection{Diacritics}
 %    \begin{macrocode}
 \@@_define_opentype_feature_group:n {Diacritics}
-\@@_define_opentype_feature_dual:nnnn {Diacritics} {MarkToBase} {mark} {}
-\@@_define_opentype_feature_dual:nnnn {Diacritics} {MarkToMark} {mkmk} {}
-\@@_define_opentype_feature_dual:nnnn {Diacritics} {AboveBase} {abvm} {}
-\@@_define_opentype_feature_dual:nnnn {Diacritics} {BelowBase} {blwm} {}
+\@@_define_opentype_onoffreset:nnnnn {Diacritics} {MarkToBase} {mark} {mark} {}
+\@@_define_opentype_onoffreset:nnnnn {Diacritics} {MarkToMark} {mkmk} {mkmk} {}
+\@@_define_opentype_onoffreset:nnnnn {Diacritics} {AboveBase}  {abvm} {abvm} {}
+\@@_define_opentype_onoffreset:nnnnn {Diacritics} {BelowBase}  {blwm} {blwm} {}
 %    \end{macrocode}
 %
 % \subsubsection{Kerning}
 %    \begin{macrocode}
 \@@_define_opentype_feature_group:n {Kerning}
-\@@_define_opentype_feature_dual:nnnn {Kerning} {Uppercase} {cpsp} {}
-\@@_define_opentype_feature:nnnnn {Kerning} {On}  {kern} {+kern} {}
-\@@_define_opentype_feature:nnnnn {Kerning} {Off} {kern} {-kern} {}
+\@@_define_opentype_onoffreset:nnnnn {Kerning} {Uppercase} {cpsp} {cpsp} {}
+\@@_define_opentype_feature:nnnnn   {Kerning} {On}        {kern} {+kern} {-kern}
+\@@_define_opentype_feature:nnnnn   {Kerning} {Off}       {kern} {-kern} {+kern}
 %    \end{macrocode}
 %
 % \subsubsection{Vertical position}
 %    \begin{macrocode}
 \@@_define_opentype_feature_group:n {VerticalPosition}
-\@@_define_opentype_feature_dual:nnnn {VerticalPosition} {Superior} {sups} {+subs,+ordn,+numr,+dnom,+sinf}
-\@@_define_opentype_feature_dual:nnnn {VerticalPosition} {Inferior} {subs} {+sups,+ordn,+numr,+dnom,+sinf}
-\@@_define_opentype_feature_dual:nnnn {VerticalPosition} {Ordinal} {ordn} {+sups,+subs,+numr,+dnom,+sinf}
-\@@_define_opentype_feature_dual:nnnn {VerticalPosition} {Numerator} {numr} {+sups,+subs,+ordn,+dnom,+sinf}
-\@@_define_opentype_feature_dual:nnnn {VerticalPosition} {Denominator} {dnom} {+sups,+subs,+ordn,+numr,+sinf}
-\@@_define_opentype_feature_dual:nnnn {VerticalPosition} {ScientificInferior} {sinf} {+sups,+subs,+ordn,+numr,+dnom}
+\@@_define_opentype_onoffreset:nnnnn {VerticalPosition} {Superior} {sups} {sups} {+subs,+ordn,+numr,+dnom,+sinf}
+\@@_define_opentype_onoffreset:nnnnn {VerticalPosition} {Inferior} {subs} {subs} {+sups,+ordn,+numr,+dnom,+sinf}
+\@@_define_opentype_onoffreset:nnnnn {VerticalPosition} {Ordinal} {ordn} {ordn} {+sups,+subs,+numr,+dnom,+sinf}
+\@@_define_opentype_onoffreset:nnnnn {VerticalPosition} {Numerator} {numr} {numr} {+sups,+subs,+ordn,+dnom,+sinf}
+\@@_define_opentype_onoffreset:nnnnn {VerticalPosition} {Denominator} {dnom} {dnom} {+sups,+subs,+ordn,+numr,+sinf}
+\@@_define_opentype_onoffreset:nnnnn {VerticalPosition} {ScientificInferior} {sinf} {sinf} {+sups,+subs,+ordn,+numr,+dnom}
 %    \end{macrocode}
 %
 % \subsubsection{Fractions}
 %    \begin{macrocode}
 \@@_define_opentype_feature_group:n {Fractions}
-\@@_define_opentype_feature:nnnnn {Fractions} {On}  {frac} {+frac} {}
-\@@_define_opentype_feature:nnnnn {Fractions} {Off} {frac} {-frac} {}
-\@@_define_opentype_feature_dual:nnnn {Fractions} {Alternate} {afrc} {-frac}
+\@@_define_opentype_feature:nnnnn   {Fractions} {On}  {frac} {+frac} {}
+\@@_define_opentype_feature:nnnnn   {Fractions} {Off} {frac} {-frac} {}
+\@@_define_opentype_onoffreset:nnnnn {Fractions} {Alternate} {afrc} {afrc} {-frac}
 %    \end{macrocode}
 %
 % \subsubsection{Alternate}
 %    \begin{macrocode}
-\@@_define_opentype_feature_group:n  { Alternate }
+\@@_define_opentype_feature_group:n  {Alternate}
 \keys_define:nn {fontspec-opentype}
  {
   Alternate .default:n = {0} ,
@@ -149,7 +150,7 @@
 %
 % \subsubsection{CharacterVariant}
 %    \begin{macrocode}
-\@@_define_opentype_feature_group:n  { CharacterVariant }
+\@@_define_opentype_feature_group:n  {CharacterVariant}
 \use:x
  {
   \cs_new:Npn \exp_not:N \fontspec_parse_cv:w
@@ -178,14 +179,14 @@
 % \subsubsection{Style}
 %    \begin{macrocode}
 \@@_define_opentype_feature_group:n {Style}
-\@@_define_opentype_feature_dual:nnnn {Style} {Alternate} {salt} {}
-\@@_define_opentype_feature_dual:nnnn {Style} {Italic} {ital} {}
-\@@_define_opentype_feature_dual:nnnn {Style} {Ruby} {ruby} {}
-\@@_define_opentype_feature_dual:nnnn {Style} {Swash} {swsh} {}
-\@@_define_opentype_feature_dual:nnnn {Style} {Historic} {hist} {}
-\@@_define_opentype_feature_dual:nnnn {Style} {TitlingCaps} {titl} {}
-\@@_define_opentype_feature_dual:nnnn {Style} {HorizontalKana} {hkna} {+vkna}
-\@@_define_opentype_feature_dual:nnnn {Style} {VerticalKana} {vkna} {+hkna}
+\@@_define_opentype_onoffreset:nnnnn {Style} {Alternate} {salt} {salt} {}
+\@@_define_opentype_onoffreset:nnnnn {Style} {Italic} {ital} {ital} {}
+\@@_define_opentype_onoffreset:nnnnn {Style} {Ruby} {ruby} {ruby} {}
+\@@_define_opentype_onoffreset:nnnnn {Style} {Swash} {swsh} {swsh} {}
+\@@_define_opentype_onoffreset:nnnnn {Style} {Historic} {hist} {hist} {}
+\@@_define_opentype_onoffreset:nnnnn {Style} {TitlingCaps} {titl} {titl} {}
+\@@_define_opentype_onoffreset:nnnnn {Style} {HorizontalKana} {hkna} {hkna} {+vkna}
+\@@_define_opentype_onoffreset:nnnnn {Style} {VerticalKana} {vkna} {vkna} {+hkna}
 \@@_define_opentype_feature:nnnnn {Style} {MathScript}       {ssty} {+ssty=0} {+ssty=1}
 \@@_define_opentype_feature:nnnnn {Style} {MathScriptScript} {ssty} {+ssty=1} {+ssty=0}
 %    \end{macrocode}
@@ -193,25 +194,25 @@
 % \subsubsection{CJK shape}
 %    \begin{macrocode}
 \@@_define_opentype_feature_group:n {CJKShape}
-\@@_define_opentype_feature_dual:nnnn {CJKShape} {Traditional} {trad} {+smpl,+jp78,+jp83,+jp90,+expt,+nlck}
-\@@_define_opentype_feature_dual:nnnn {CJKShape} {Simplified} {smpl} {+trad,+jp78,+jp83,+jp90,+expt,+nlck}
-\@@_define_opentype_feature_dual:nnnn {CJKShape} {JIS1978}    {jp78} {+trad,+smpl,+jp83,+jp90,+expt,+nlck}
-\@@_define_opentype_feature_dual:nnnn {CJKShape} {JIS1983}    {jp83} {+trad,+smpl,+jp78,+jp90,+expt,+nlck}
-\@@_define_opentype_feature_dual:nnnn {CJKShape} {JIS1990}    {jp90} {+trad,+smpl,+jp78,+jp83,+expt,+nlck}
-\@@_define_opentype_feature_dual:nnnn {CJKShape} {Expert}     {expt} {+trad,+smpl,+jp78,+jp83,+jp90,+nlck}
-\@@_define_opentype_feature_dual:nnnn {CJKShape} {NLC}        {nlck} {+trad,+smpl,+jp78,+jp83,+jp90,+expt}
+\@@_define_opentype_onoffreset:nnnnn {CJKShape} {Traditional} {trad} {trad} {+smpl,+jp78,+jp83,+jp90,+expt,+nlck}
+\@@_define_opentype_onoffreset:nnnnn {CJKShape} {Simplified} {smpl} {smpl} {+trad,+jp78,+jp83,+jp90,+expt,+nlck}
+\@@_define_opentype_onoffreset:nnnnn {CJKShape} {JIS1978}    {jp78} {jp78} {+trad,+smpl,+jp83,+jp90,+expt,+nlck}
+\@@_define_opentype_onoffreset:nnnnn {CJKShape} {JIS1983}    {jp83} {jp83} {+trad,+smpl,+jp78,+jp90,+expt,+nlck}
+\@@_define_opentype_onoffreset:nnnnn {CJKShape} {JIS1990}    {jp90} {jp90} {+trad,+smpl,+jp78,+jp83,+expt,+nlck}
+\@@_define_opentype_onoffreset:nnnnn {CJKShape} {Expert}     {expt} {expt} {+trad,+smpl,+jp78,+jp83,+jp90,+nlck}
+\@@_define_opentype_onoffreset:nnnnn {CJKShape} {NLC}        {nlck} {nlck} {+trad,+smpl,+jp78,+jp83,+jp90,+expt}
 %    \end{macrocode}
 %
 % \subsubsection{Character width}
 %    \begin{macrocode}
 \@@_define_opentype_feature_group:n {CharacterWidth}
-\@@_define_opentype_feature_dual:nnnn {CharacterWidth} {Proportional} {pwid} {+fwid,+hwid,+twid,+qwid,+palt,+halt}
-\@@_define_opentype_feature_dual:nnnn {CharacterWidth} {Full}         {fwid} {+pwid,+hwid,+twid,+qwid,+palt,+halt}
-\@@_define_opentype_feature_dual:nnnn {CharacterWidth} {Half}         {hwid} {+pwid,+fwid,+twid,+qwid,+palt,+halt}
-\@@_define_opentype_feature_dual:nnnn {CharacterWidth} {Third}        {twid} {+pwid,+fwid,+hwid,+qwid,+palt,+halt}
-\@@_define_opentype_feature_dual:nnnn {CharacterWidth} {Quarter}      {qwid} {+pwid,+fwid,+hwid,+twid,+palt,+halt}
-\@@_define_opentype_feature_dual:nnnn {CharacterWidth} {AlternateProportional} {palt} {+pwid,+fwid,+hwid,+twid,+qwid,+halt}
-\@@_define_opentype_feature_dual:nnnn {CharacterWidth} {AlternateHalf} {halt} {+pwid,+fwid,+hwid,+twid,+qwid,+palt}
+\@@_define_opentype_onoffreset:nnnnn {CharacterWidth} {Proportional} {pwid} {pwid} {+fwid,+hwid,+twid,+qwid,+palt,+halt}
+\@@_define_opentype_onoffreset:nnnnn {CharacterWidth} {Full}         {fwid} {fwid} {+pwid,+hwid,+twid,+qwid,+palt,+halt}
+\@@_define_opentype_onoffreset:nnnnn {CharacterWidth} {Half}         {hwid} {hwid} {+pwid,+fwid,+twid,+qwid,+palt,+halt}
+\@@_define_opentype_onoffreset:nnnnn {CharacterWidth} {Third}        {twid} {twid} {+pwid,+fwid,+hwid,+qwid,+palt,+halt}
+\@@_define_opentype_onoffreset:nnnnn {CharacterWidth} {Quarter}      {qwid} {qwid} {+pwid,+fwid,+hwid,+twid,+palt,+halt}
+\@@_define_opentype_onoffreset:nnnnn {CharacterWidth} {AlternateProportional} {palt} {palt} {+pwid,+fwid,+hwid,+twid,+qwid,+halt}
+\@@_define_opentype_onoffreset:nnnnn {CharacterWidth} {AlternateHalf} {halt} {halt} {+pwid,+fwid,+hwid,+twid,+qwid,+palt}
 %    \end{macrocode}
 %
 % \subsubsection{Annotation}
@@ -230,7 +231,7 @@
 % \subsubsection{Ornament}
 %
 %    \begin{macrocode}
-\@@_define_opentype_feature_group:n  { Ornament }
+\@@_define_opentype_feature_group:n  {Ornament}
 \keys_define:nn {fontspec-opentype}
  {
   Ornament .default:n = {0} ,
@@ -363,6 +364,28 @@
      }
    }
  }
+%    \end{macrocode}
+%
+% \subsection{Backwards compatibility}
+% Backwards compatibility:
+%    \begin{macrocode}
+\@@_define_opentype_feature:nnnnn {Ligatures}   {NoRare}          {dlig} {-dlig} {+dlig}
+\@@_define_opentype_feature:nnnnn {Ligatures}   {NoRequired}      {rlig} {-rlig} {+rlig}
+\@@_define_opentype_feature:nnnnn {Ligatures}   {NoCommon}        {liga} {-liga} {+liga}
+\@@_define_opentype_feature:nnnnn {Ligatures}   {NoDiscretionary} {dlig} {-dlig} {+dlig}
+\@@_define_opentype_feature:nnnnn {Ligatures}   {NoContextual}    {clig} {-clig} {+clig}
+\@@_define_opentype_feature:nnnnn {Ligatures}   {NoHistoric}      {hlig} {-hlig} {+hlig}
+\@@_define_opentype_feature:nnnnn {Numbers}     {NoSlashedZero}   {zero} {-zero} {+zero}
+\@@_define_opentype_feature:nnnnn {Contextuals} {NoSwash}         {cswh} {-cswh} {+cswh}
+\@@_define_opentype_feature:nnnnn {Contextuals} {NoAlternate}     {calt} {-calt} {+calt}
+\@@_define_opentype_feature:nnnnn {Contextuals} {NoWordInitial}   {init} {-init} {+init}
+\@@_define_opentype_feature:nnnnn {Contextuals} {NoWordFinal}     {fina} {-fina} {+fina}
+\@@_define_opentype_feature:nnnnn {Contextuals} {NoLineFinal}     {falt} {-falt} {+falt}
+\@@_define_opentype_feature:nnnnn {Contextuals} {NoInner}         {medi} {-medi} {+medi}
+\@@_define_opentype_feature:nnnnn {Diacritics}  {NoMarkToBase}    {mark} {-mark} {+mark}
+\@@_define_opentype_feature:nnnnn {Diacritics}  {NoMarkToMark}    {mkmk} {-mkmk} {+mkmk}
+\@@_define_opentype_feature:nnnnn {Diacritics}  {NoAboveBase}     {abvm} {-abvm} {+abvm}
+\@@_define_opentype_feature:nnnnn {Diacritics}  {NoBelowBase}     {blwm} {-blwm} {+blwm}
 %    \end{macrocode}
 %
 % \iffalse

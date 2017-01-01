@@ -804,6 +804,7 @@
  {
   \tl_gput_right:Nx \l_fontspec_defined_shapes_tl
    {
+    \exp_not:n { \\ }
     -~ \exp_not:N \str_case:nn {#1/#2}
      {
        {\mddefault/\updefault} {'normal'~}
@@ -905,6 +906,7 @@
 %    \begin{macrocode}
 \cs_new:Nn \@@_update_featstr:n
   {
+%<debug>            \typeout{:::: @@_update_featstr:n {#1}}
     \bool_if:NF \l_@@_firsttime_bool
       {
         \bool_if:NTF \l_@@_deactivate_feature_bool
@@ -913,7 +915,7 @@
           }
           {
             \tl_gset:Nx \g_@@_single_feat_tl { #1 }
-%<debug>            \typeout{:: @@_update_featstr:n {#1}}
+%<debug>            \typeout{::::~ Adding~ feature.}
             \tl_gput_right:Nx  \l_@@_rawfeatures_sclist {#1;}
           }
       }
@@ -925,10 +927,12 @@
 %    \begin{macrocode}
 \cs_new:Nn \@@_remove_clashing_featstr:n
   {
+%<debug>            \typeout{:::: @@_remove_clashing_featstr:n {#1}}
     \bool_if:NF \l_@@_deactivate_feature_bool
       {
         \clist_map_inline:nn {#1}
           {
+%<debug>            \typeout{::::~ Removing~ feature~ "##1;"}
             \tl_gremove_all:Nn \l_@@_rawfeatures_sclist {##1;}
           }
       }

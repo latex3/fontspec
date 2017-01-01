@@ -824,30 +824,28 @@
 % \subsection{!! syntax}
 %
 %    \begin{macrocode}
-\clist_map_inline:Nn \g_@@_all_keyval_modules_clist
-  {
-    \keys_define:nn {#1}
-      {
-        unknown .code:n = {
-          \str_if_eq_x:nnTF {!!} { \@@_head_ii:o \l_keys_key_tl }
-            {
-              \bool_set_true:N  \l_@@_deactivate_feature_bool
-              \use:x { \keys_set:nn {#1} { \exp_after:wN\use_none:nn\l_keys_key_tl = \l_keys_value_tl } }
-              \bool_set_false:N \l_@@_deactivate_feature_bool
-            }
-            {
-              \clist_put_right:Nx \l_@@_generic_keys_leftover_clist { \l_keys_key_tl = {\l_keys_value_tl} }
-            }
-        }
-      }
-  }
+%%\clist_map_inline:Nn \g_@@_all_keyval_modules_clist
+%%  {
+%%    \keys_define:nn {#1}
+%%      {
+%%        unknown .code:n = {
+%%          \str_if_eq_x:nnTF {!!} { \@@_head_ii:o \l_keys_key_tl }
+%%            {
+%%              \bool_set_true:N  \l_@@_deactivate_feature_bool
+%%              \use:x { \keys_set:nn {#1} { \exp_after:wN\use_none:nn\l_keys_key_tl = \l_keys_value_tl } }
+%%              \bool_set_false:N \l_@@_deactivate_feature_bool
+%%            }
+%%            {
+%%              \clist_put_right:Nx \l_@@_generic_keys_leftover_clist { \l_keys_key_tl = {\l_keys_value_tl} }
+%%            }
+%%        }
+%%      }
+%%  }
 
 \cs_new:Nn \@@_keys_set_known:nnN
   {
 %<debug>  \typeout{:::: Keys~set:~{#1}~{#2} }
-    \clist_clear:N \l_@@_generic_keys_leftover_clist
-    \keys_set:nn {#1} {#2}
-    \clist_set_eq:NN #3 \l_@@_generic_keys_leftover_clist
+    \keys_set_known:nnN {#1} {#2} #3
 %<debug>  \typeout{:::: Leftover:~{#3} }
   }
 \cs_generate_variant:Nn \@@_keys_set_known:nnN {nx}

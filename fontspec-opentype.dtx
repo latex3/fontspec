@@ -15,25 +15,58 @@
 %    \end{macrocode}
 % \end{macro}
 %
-%
-% \begin{macro}{\@@_define_opentype_feature_dual:nnnn}
+% \begin{macro}{\@@_define_opentype_feature:nnnnn}
+% \darg{Feature key}
+% \darg{Feature option val}
+% \darg{Check feature --- leave empty for no check}
+% \darg{Exact tag string to activate --- leave empty for disable only}
+% \darg{Tags to remove (clist)}
 %    \begin{macrocode}
-\cs_new:Nn \@@_define_opentype_feature_dual:nnnn
- {
-  \@@_define_opentype_feature:nnnnn {#1}{#2}{#3}{+#3}{#4}
-  \@@_define_opentype_feature:nnnnn {#1}{No#2}{#3}{-#3}{  }
-  \@@_define_opentype_feature:nnnnn {#1}{Reset#2}{}{}{+#3,-#3}
- }
 \cs_new:Nn \@@_define_opentype_feature:nnnnn
  {
   \keys_define:nn {fontspec-opentype}
    {
-    #1/#2 .code:n = { \@@_make_OT_feature:nnn {#3}{#4}{#5} }
+    #1/#2 .code:n = { \@@_make_OT_feature:nnn {#3} {#4} {#5} }
    }
  }
 %    \end{macrocode}
 % \end{macro}
 %
+% \begin{macro}{\@@_define_opentype_onoffreset:nnnnn}
+% \darg{Feature key}
+% \darg{Feature option val}
+% \darg{Check feature}
+% \darg{Tag prefix to activate: \texttt{+\#4} = on, \texttt{-\#4} = off.}
+% \darg{Tags to remove in the on case (clist)}
+%    \begin{macrocode}
+\cs_new:Nn \@@_feat_off:n {#1Off}
+\cs_new:Nn \@@_feat_reset:n {#1Reset}
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+\cs_new:Nn \@@_define_opentype_onoffreset:nnnnn
+ {
+  \exp_args:Nnx \@@_define_opentype_feature:nnnnn {#1} {#2} {#3} {+#4} {#5}
+  \exp_args:Nnx \@@_define_opentype_feature:nnnnn {#1} { \@@_feat_off:n   {#2} } {#3} {-#4} {}
+  \exp_args:Nnx \@@_define_opentype_feature:nnnnn {#1} { \@@_feat_reset:n {#2} } {} {} {+#4,-#4}
+ }
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@@_define_opentype_onreset:nnnnn}
+% \darg{Feature key}
+% \darg{Feature option val}
+% \darg{Check feature}
+% \darg{Exact tag string to activate}
+% \darg{Tags to remove (clist)}
+%    \begin{macrocode}
+\cs_new:Nn \@@_define_opentype_onreset:nnnnn
+ {
+  \exp_args:Nnx \@@_define_opentype_feature:nnnnn {#1} {#2} {#3} {#4} {#5}
+  \exp_args:Nnx \@@_define_opentype_feature:nnnnn {#1} { \@@_feat_reset:n {#2} } {} {} {#4}
+ }
+%    \end{macrocode}
+% \end{macro}
 %
 % \subsection{Adding features when loading fonts}
 %
@@ -43,11 +76,10 @@
 % \item remove the inverse of the feature (to avoid cancellation);
 % \item finally remove all clashing features.
 % \end{enumerate}
-%
 %    \begin{macrocode}
 \cs_new:Nn \@@_make_OT_feature:nnn
   {
-%<debug>  \typeout{:: @@_make_OT_feature:nnn {\exp_not:n{#1}{#2}{#3}}}
+%<debug>  \typeout{:: @@_make_OT_feature:nnn \exp_not:n { {#1}{#2}{#3} } }
 
     \bool_set_true:N \l_@@_proceed_bool
     \bool_set_true:N  \l_@@_check_feat_bool
@@ -64,14 +96,16 @@
 
     \bool_if:NT \l_@@_proceed_bool
       {
-        \@@_update_featstr:n {#2}
-
         \exp_args:Nx \@@_remove_clashing_featstr:n
           { #2 , \@@_swap_plus_minus:n {#2} , #3 }
+
+        \@@_update_featstr:n {#2}
       }
   }
 \cs_generate_variant:Nn \@@_make_OT_feature:nnn {xxx}
-
+%    \end{macrocode}
+%
+%    \begin{macrocode}
 \cs_new:Nn \@@_swap_plus_minus:n { \@@_swap_plus_minus_aux:NNNNN #1 }
 \cs_new:Nn \@@_swap_plus_minus_aux:NNNNN
   { \str_case:nn {#1} { {+} {-#2#3#4#5} {-} {+#2#3#4#5} } }

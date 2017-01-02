@@ -20,8 +20,31 @@
 \captionsetup[table]{position=above}
 \captionsetup[figure]{position=above}
 
-\usepackage{tgpagella,eulervm}
-\usepackage{inconsolata}
+\IfFontExistsTF{AldusNovaPro-Book.otf}
+  {
+    \setmainfont{aldus-nova}
+    \setsansfont{palatino-sans-light}
+  }
+  {
+\setmainfont{texgyrepagella}[
+  Extension = .otf,
+  UprightFont = *-regular ,
+  ItalicFont  = *-italic  ,
+  BoldFont    = *-bold    ,
+  BoldItalicFont = *-bolditalic ,
+]
+\setsansfont{texgyreheros}[
+  Extension = .otf,
+  UprightFont = *-regular ,
+  ItalicFont  = *-italic  ,
+  BoldFont    = *-bold    ,
+  BoldItalicFont = *-bolditalic ,
+]
+  }
+\setmonofont{lmmonolt10-regular.otf}[BoldFont=lmmonolt10-bold.otf]
+\newfontfamily\ttcondensed{lmmonoltcond10-regular.otf}
+
+
 \usepackage[
   bookmarks=true,
   colorlinks=true,

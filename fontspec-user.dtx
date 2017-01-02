@@ -375,7 +375,7 @@
     { \@@_define_aat_feature_group:n {#1} }
   \keys_if_choice_exist:nnnT {fontspec} {#1} {#2}
     { \@@_warning:nxx {feature-option-overwrite} {#1} {#2} }
-  \@@_define_feature_option:nnnnn {#1}{#2}{#3}{#4}{}
+  \@@_define_aat_feature:nnnn {#1}{#2}{#3}{#4}
  }
 %    \end{macrocode}
 % \end{macro}
@@ -392,7 +392,7 @@
     { \@@_define_opentype_feature_group:n {#1} }
   \keys_if_choice_exist:nnnT {fontspec} {#1} {#2}
     { \@@_warning:nxx {feature-option-overwrite} {#1} {#2} }
-  \@@_define_feature_option:nnnnn {#1}{#2}{}{}{#3}
+  \@@_define_opentype_feature:nnn {#1}{#2}{#3}
  }
 \cs_set_eq:NN \newICUfeature \newopentypefeature % deprecated
 %    \end{macrocode}

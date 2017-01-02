@@ -8,7 +8,7 @@
 
 \makeatletter
 
-\usepackage{booktabs,calc,caption,color,enumitem,fancyvrb,hologo,graphicx,ifthen,url,varioref,varwidth,microtype,tocloft,framed}
+\usepackage{fontspec,booktabs,calc,caption,color,enumitem,fancyvrb,hologo,graphicx,ifthen,url,varioref,varwidth,microtype,tocloft,framed}
 
 % ToC formatting:
 \setlength\cftsubsecnumwidth{1.4\cftsubsecnumwidth}
@@ -1084,7 +1084,7 @@ If you attempt to \emph{change} an already-selected feature, \pkg{fontspec} will
 \end{Verbatim}
 Since |Numbers=Lining| comes last, it takes precedence and deactivates the call |Numbers=OldStyle|.
 
-\begin{Lexample}{aff}{A demonstration of the \cs{addfontfeatures} command. Note the caveat listed in the text regarding such usage.}
+\begin{Lexample}{aff}{A demonstration of the \cs{addfontfeatures} command.}
   \fontspec{texgyreadventor-regular.otf}%
            [Numbers={Proportional,OldStyle}]
   `In 1842, 999 people sailed 97 miles in
@@ -1300,12 +1300,12 @@ Therefore, \pkg{fontspec}'s colour commands are best used to set explicit colour
 The colour is defined as a triplet of two-digit Hex RGB
 values, with optionally another value for the transparency (where
 |00| is completely transparent and |FF| is opaque.)
-\begin{Lexample}{color}{Selecting colour with transparency. N.B. due to a conflict betweeen \pkg{fontspec} and the \pkg{preview} package, this example currently does not show any transparency!}
+\begin{Lexample}{color}{Selecting colour with transparency.}
   \fontsize{48}{48}
   \fontspec{texgyrebonum-bold.otf}
-  {\addfontfeature{Color=FF000099}W}\kern-0.5ex
+  {\addfontfeature{Color=FF000099}W}\kern-0.4ex
   {\addfontfeature{Color=0000FF99}S}\kern-0.4ex
-  {\addfontfeature{Color=DDBB2299}P}\kern-0.4ex
+  {\addfontfeature{Color=DDBB2299}P}\kern-0.5ex
   {\addfontfeature{Color=00BB3399}R}
 \end{Lexample}
 Transparency is supported by \LuaLaTeX; \XeLaTeX\ with the \texttt{xdvipdfmx} driver
@@ -1696,21 +1696,19 @@ Others, such as optical bounds for example, simply haven't yet been considered
 due to a lack of fonts available for testing.
 Suggestions welcome for how/where to add these missing features to the package.
 
+\ExplSyntaxOn
 \def\allOTfeat{
   \prop_map_inline:Nn \g__fontspec_all_opentype_feature_names_prop
     { \opentypefeature{##1}{##2} }
 }
-
-\ExplSyntaxOn
-\renewcommand\opentypefeature[2]{
+\newcommand\opentypefeature[2]{
   \prop_get:NnNT \g__fontspec_OT_features_prop {#1} \tmpa
       {
         \raggedright
         \hangindent=5.2cm
         \makebox[1cm][l]{\textsc{#1}}
         \makebox[4.2cm][l]{
-          \int_compare:nT { \tl_count:N \tmpa > 25 } {\itshape}
-          \ttfamily
+          \int_compare:nT { \tl_count:N \tmpa > 25 } {\ttcondensed} {\ttfamily}
           \tmpa
         }
         \textit{#2}

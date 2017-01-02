@@ -124,7 +124,9 @@
   Alternate / unknown .code:n =
    {
     \clist_map_inline:nn {#1}
-      { \fontspec_make_feature:nnxn {17}{##1} { +salt = ##1 }{} }
+      {
+        \fontspec_make_AAT_feature:nn {17}{##1}
+      }
    }
  }
 %    \end{macrocode}
@@ -139,7 +141,7 @@
   Variant / unknown .code:n =
    {
     \clist_map_inline:nn {#1}
-      { \fontspec_make_feature:nnxn {18}{##1} { +ss \two@digits {##1} }{} }
+      { \fontspec_make_AAT_feature:nn {18}{##1} }
    }
  }
 \aliasfontfeature{Variant}{StylisticSet}

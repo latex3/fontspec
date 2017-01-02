@@ -373,7 +373,7 @@
   Annotation .default:n = {0} ,
   Annotation / unknown .code:n =
    {
-    \fontspec_make_feature:nnxn {}{}{ +nalt=#1 }{}
+    \@@_make_OT_feature:nnn {nalt} {+nalt=#1} {}
    }
  }
 %    \end{macrocode}
@@ -387,7 +387,7 @@
   Ornament .default:n = {0} ,
   Ornament / unknown .code:n =
    {
-    \fontspec_make_feature:nnxn {}{}{ +ornm=#1 }{}
+    \@@_make_OT_feature:nnn {ornm} { +ornm=#1 } {}
    }
  }
 %    \end{macrocode}

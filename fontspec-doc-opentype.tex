@@ -269,9 +269,11 @@ will look. OpenType fonts may contain the following options:
 \otf*{Required}{rlig}
 \otf*{Common}{liga}
 \otf*{Contextual}{clig}
-\otf{Rare/Discretionary}{dlig}
-\otf{Historic}{hlig}
-\otf{TeX}{tlig/trep}
+\otf*{Rare/Discretionary}{dlig}
+\otf*{Historic}{hlig}
+\otf*{TeX}{tlig}
+\cmidrule{2-4}
+\otf{ResetAll}{}
 \end{features}
 
 \begin{Lexample}[firstline=2]{lig}{An example of the \feat{Ligatures} feature.}
@@ -285,12 +287,14 @@ will look. OpenType fonts may contain the following options:
 \end{Lexample}
 
 \begin{features}{Letters}
-\otf{Uppercase}{case}
-\otf{SmallCaps}{smcp}
-\otf{PetiteCaps}{pcap}
-\otf{UppercaseSmallCaps}{c2sc}
-\otf{UppercasePetiteCaps}{c2pc}
-\otf{Unicase}{unic}
+\otf*{Uppercase}{case}
+\otf*{SmallCaps}{smcp}
+\otf*{PetiteCaps}{pcap}
+\otf*{UppercaseSmallCaps}{c2sc}
+\otf*{UppercasePetiteCaps}{c2pc}
+\otf*{Unicase}{unic}
+\cmidrule{2-4}
+\otf{ResetAll}{}
 \end{features}
 
 Petite caps are smaller than small caps.
@@ -335,12 +339,16 @@ The \feat{Numbers} feature defines how numbers will look in the
 selected font, accepting options shown in \ref{feat:Numbers}.
 
 \begin{features}{Numbers}
-\otf{Uppercase/Lining}{lnum}
-\otf{Lowercase/OldStyle}{onum}
-\otf{Proportional}{pnum}
-\otf{Monospaced}{tnum}
-\otf{SlashedZero}{zero}
-\otf{Arabic}{anum}
+\otf*{Uppercase}{lnum}
+\otf*{Lowercase}{onum}
+\otf*{Lining}{lnum}
+\otf*{OldStyle}{onum}
+\otf*{Proportional}{pnum}
+\otf*{Monospaced}{tnum}
+\otf*{SlashedZero}{zero}
+\otf*{Arabic}{anum}
+\cmidrule{2-4}
+\otf{ResetAll}{}
 \end{features}
 
 The synonyms
@@ -372,12 +380,14 @@ This feature refers to substitutions of glyphs that vary `contextually' by their
 features such as contextual swashes are accessed via the options shown in \ref{feat:Contextuals}.
 
 \begin{features}{Contextuals}
-\otf{Swash}{cswh}
-\otf{Alternate}{calt}
-\otf{WordInitial}{init}
-\otf{WordFinal}{fina}
-\otf{LineFinal}{falt}
-\otf{Inner}{medi}
+\otf*{Swash}{cswh}
+\otf*{Alternate}{calt}
+\otf*{WordInitial}{init}
+\otf*{WordFinal}{fina}
+\otf*{LineFinal}{falt}
+\otf*{Inner}{medi}
+\cmidrule{2-4}
+\otf{ResetAll}{}
 \end{features}
 
 Historic forms are accessed in OpenType
@@ -387,12 +397,14 @@ contextual in OpenType, which is why it is not included in this feature.
 \subsubsection{Vertical Position}
 
 \begin{features}{VerticalPosition}
-\otf{Superior}{sups}
-\otf{Inferior}{subs}
-\otf{Numerator}{numr}
-\otf{Denominator}{dnom}
-\otf{ScientificInferior}{sinf}
-\otf{Ordinal}{ordn}
+\otf*{Superior}{sups}
+\otf*{Inferior}{subs}
+\otf*{Numerator}{numr}
+\otf*{Denominator}{dnom}
+\otf*{ScientificInferior}{sinf}
+\otf*{Ordinal}{ordn}
+\cmidrule{2-4}
+\otf{ResetAll}{}
 \end{features}
 
 The \feat{VerticalPosition} feature is used to access things like
@@ -430,8 +442,13 @@ loading \pkg{realscripts} on its own instead.
 \subsubsection{Fractions}
 
 \begin{features}{Fractions}
-\otf{On}{frac}
-\otf{Alternate}{afrc}
+\otf{On}{+frac}
+\otf{Off}{-frac}
+\otf{Reset}{}
+\cmidrule{2-4}
+\otf*{Alternate}{afrc}
+\cmidrule{2-4}
+\otf{ResetAll}{}
 \end{features}
 
 For OpenType fonts use a regular text slash to create fractions, but
@@ -452,15 +469,17 @@ Some (Asian fonts predominantly) also provide for the
 \label{sec:ot-feat-style}
 
 \begin{features}{Style}
-\otf{Alternate}{salt}
-\otf{Italic}{ital}
-\otf{Ruby}{ruby}
-\otf{Swash}{swsh}
-\otf{Cursive}{curs}
-\otf{Historic}{hist}
-\otf{TitlingCaps}{titl}
-\otf{HorizontalKana}{hkna}
-\otf{VerticalKana}{vkna}
+\otf*{Alternate}{salt}
+\otf*{Italic}{ital}
+\otf*{Ruby}{ruby}
+\otf*{Swash}{swsh}
+\otf*{Cursive}{curs}
+\otf*{Historic}{hist}
+\otf*{TitlingCaps}{titl}
+\otf*{HorizontalKana}{hkna}
+\otf*{VerticalKana}{vkna}
+\cmidrule{2-4}
+\otf{ResetAll}{}
 \end{features}
 
 `Ruby' refers to a small optical size, used in
@@ -530,6 +549,8 @@ according to the Script setting.
 \otf*{MarkToMark}{mkmk}
 \otf*{AboveBase}{abvm}
 \otf*{BelowBase}{blwm}
+\cmidrule{2-4}
+\otf{ResetAll}{}
 \end{features}
 
 \subsection{Kerning}\label{sec:kerning}
@@ -540,8 +561,13 @@ This kerning space is inserted automatically but in rare
 circumstances you may wish to turn it off.
 
 \begin{features}{Kerning}
-\otf{Uppercase}{cpsp}
-\otf*[Off]{On}{kern}
+\otf{On}{+kern}
+\otf{Off}{-kern}
+\otf{Reset}{}
+\cmidrule{2-4}
+\otf*{Uppercase}{cpsp}
+\cmidrule{2-4}
+\otf{ResetAll}{}
 \end{features}
 
 As briefly mentioned previously at the end of \vref{sec:letters},
@@ -568,13 +594,15 @@ These are
 accessed through the \feat{CharacterWidth} feature.
 
 \begin{features}{CharacterWidth}
-\otf{Proportional}{pwid}
-\otf{Full}        {fwid}
-\otf{Half}        {hwid}
-\otf{Third}       {twid}
-\otf{Quarter}     {qwid}
-\otf{AlternateProportional}{palt}
-\otf{AlternateHalf}{halt}
+\otf*{Proportional}{pwid}
+\otf*{Full}        {fwid}
+\otf*{Half}        {hwid}
+\otf*{Third}       {twid}
+\otf*{Quarter}     {qwid}
+\otf*{AlternateProportional}{palt}
+\otf*{AlternateHalf}{halt}
+\cmidrule{2-4}
+\otf{ResetAll}{}
 \end{features}
 
 Japanese alphabetic glyphs (in Hiragana or Katakana) may be typeset
@@ -614,17 +642,51 @@ increasingly illegible compressed forms seen in \exref{charwd}.
 \end{Xexample}
 
 
+\subsubsection{CJK shape}
+
+\begin{features}{CJKShape}
+\otf{Traditional}{trad}
+\otf{Simplified} {smpl}
+\otf{JIS1978}    {jp78}
+\otf{JIS1983}    {jp83}
+\otf{JIS1990}    {jp90}
+\otf{Expert}     {expt}
+\otf{NLC}        {nlck}
+\end{features}
+
+There have been many standards for how CJK ideographic
+glyphs are `supposed' to look. Some fonts will contain many alternate
+glyphs available in order to be able to display these gylphs
+correctly in whichever form is appropriate. Both \AAT\ and OpenType
+fonts support the following \feat{CJKShape} options:
+\opt{Traditional}, \opt{Simplified}, \opt{JIS1978}, \opt{JIS1983},
+\opt{JIS1990}, and \opt{Expert}. OpenType also supports the \opt{NLC} option.
+
+\begin{Xexample}[firstline=2]{ot-cjk-shape}{Different standards for CJK ideograph presentation.}
+  \LARGE\def\text{ 唖噛躯 妍并訝}
+  \fontspec{Hiragino Mincho Pro}
+  {\addfontfeature{CJKShape=Traditional}
+  \text }                          \\
+  {\addfontfeature{CJKShape=NLC}
+  \text }                          \\
+  {\addfontfeature{CJKShape=Expert}
+  \text }
+\end{Xexample}
+
+
 \subsection{Vertical typesetting}
 
 \begin{features}{Vertical}
-\otf{RotatedGlyphs}         {vrt2}
-\otf{AlternatesForRotation} {vrtr}
-\otf{Alternates}            {vert}
-\otf{KanaAlternates}        {vkna}
-\otf{Kerning}               {vkrn}
-\otf{AlternateMetrics}      {valt}
-\otf{HalfMetrics}           {vhal}
-\otf{ProportionalMetrics}   {vpal}
+\otf*{RotatedGlyphs}         {vrt2}
+\otf*{AlternatesForRotation} {vrtr}
+\otf*{Alternates}            {vert}
+\otf*{KanaAlternates}        {vkna}
+\otf*{Kerning}               {vkrn}
+\otf*{AlternateMetrics}      {valt}
+\otf*{HalfMetrics}           {vhal}
+\otf*{ProportionalMetrics}   {vpal}
+\cmidrule{2-4}
+\otf{ResetAll}{}
 \end{features}
 
 OpenType provides a plethora of features for accommodating the varieties of possibilities
@@ -725,7 +787,6 @@ With the \LuaTeX\ engine, |Alternate=Random| selects a random alternate.
 See \vref{sec:newfeatures} for a way to assign names to alternates if desired.
 
 
-
 \subsubsection{Annotation --- \texttt{nalt} }
 Some fonts are equipped with an extensive range of
 numbers and numerals in different forms. These are accessed with the
@@ -741,43 +802,9 @@ numbers and numerals in different forms. These are accessed with the
 \end{Xexample}
 
 
-
 \subsubsection{Ornament --- \texttt{ornm}}
 Ornaments are selected with the \feat{Ornament} feature (OpenType feature |ornm|), selected numerically such as for the \feat{Annotation} feature.
 If you know of an Open Source font that supports this feature, let me know and I'll add an example.
-
-\subsubsection{CJK shape}
-
-\begin{features}{CJKShape}
-\otf{Traditional}{trad}
-\otf{Simplified} {smpl}
-\otf{JIS1978}    {jp78}
-\otf{JIS1983}    {jp83}
-\otf{JIS1990}    {jp90}
-\otf{Expert}     {expt}
-\otf{NLC}        {nlck}
-\end{features}
-
-There have been many standards for how CJK ideographic
-glyphs are `supposed' to look. Some fonts will contain many alternate
-glyphs available in order to be able to display these gylphs
-correctly in whichever form is appropriate. Both \AAT\ and OpenType
-fonts support the following \feat{CJKShape} options:
-\opt{Traditional}, \opt{Simplified}, \opt{JIS1978}, \opt{JIS1983},
-\opt{JIS1990}, and \opt{Expert}. OpenType also supports the \opt{NLC} option.
-
-\begin{Xexample}[firstline=2]{ot-cjk-shape}{Different standards for CJK ideograph presentation.}
-  \LARGE\def\text{ 唖噛躯 妍并訝}
-  \fontspec{Hiragino Mincho Pro}
-  {\addfontfeature{CJKShape=Traditional}
-  \text }                          \\
-  {\addfontfeature{CJKShape=NLC}
-  \text }                          \\
-  {\addfontfeature{CJKShape=Expert}
-  \text }
-\end{Xexample}
-
-
 
 
 
@@ -804,6 +831,8 @@ by \pkg{fontspec} before all others and, if \XeTeX\ is being used, will
 specifically select the \opt{OpenType}
 renderer for this font, as described in \vref{sec:renderer}.
 
+See \vref{sec:newscriptlang} for methods to create new \feat{Script} or \feat{Language}
+options if required.
 
 \subsubsection{\feat{Script} and \feat{Language} examples}
 
@@ -846,25 +875,6 @@ Thanks to \name{Jonathan Kew}, \name{Yves Codet} and
 \end{Xexample}
 
 
-
-\subsubsection{Defining new scripts and languages}
-
-\DescribeMacro{\newfontscript}
-\DescribeMacro{\newfontlanguage}
-While the scripts and languages listed in \ref{tab:ot-scpt} and \ref{tab:ot-lang}
-are intended to be comprehensive, there may be some missing; alternatively,
-you might wish to use different names to access scripts/languages that are
-already listed.
-Adding scripts and languages can be performed with the \cmd\newfontscript\
-and \cmd\newfontlanguage\ commands. For example,
-\begin{Verbatim}
-  \newfontscript{Arabic}{arab}
-  \newfontlanguage{Zulu}{ZUL}
-\end{Verbatim}
-The first argument is the \pkg{fontspec} name, the second the OpenType
-tag. The advantage to using these commands rather than \cmd\newfontfeature\
-(see \vref{sec:newfeatures}) is the error-checking that is performed when
-the script or language is requested.
 
 \begin{table}[!hbp]
   \caption{Defined \opt{Script}s for OpenType fonts. Aliased names are shown in adjacent positions marked with red pilcrows ({\sffamily\textcolor{red}{\P}}).}

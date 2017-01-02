@@ -1,7 +1,7 @@
 
 
 
-\part{Programming interface}
+\part{Customisation and programming interface}
 
 This is the beginning of some work to provide some hooks that use
 \pkg{fontspec} for various macro programming purposes.
@@ -44,30 +44,51 @@ to support), a command is provided to pass arbitrary input into the
 font selection string:\par
 {\centering\cmd{\newfontfeature}\marg{name}\marg{input string}\par}
 
-For example, Zapfino
-contains the feature `Avoid d-collisions'. To access it
-with this package, you could do some like that shown in \exref{avoidd}.
-(For some reason this feature doesn't appear to be working although \pkg{fontspec} is doing the right thing. To be investigated.)
+For example, Zapfino used to
+contain an AAT feature `Avoid d-collisions'. To access it
+with this package, you could do some like the following:
 
-\begin{Xexample}{avoidd}{Assigning new arbitary features.}
-  \newfontfeature{AvoidD}{Special=Avoid d-collisions}
+\begin{Verbatim}
+  \newfontfeature{AvoidD}  {Special= Avoid d-collisions}
   \newfontfeature{NoAvoidD}{Special=!Avoid d-collisions}
   \fontspec{Zapfino}[AvoidD,Variant=1]
    sockdolager rubdown               \\
   \fontspec{Zapfino}[NoAvoidD,Variant=1]
    sockdolager rubdown
-\end{Xexample}
+\end{Verbatim}
 
 The advantage to using the \cmd\newAATfeature\ and \cmd\newopentypefeature\
 commands instead of \cs{newfontfeature} is that they check if the selected font actually contains the desired font
 feature at load time. By contrast, \cmd\newfontfeature\ will not give a warning
 for improper input.
 
+
+\section{Defining new scripts and languages}
+\label{sec:newscriptlang}
+
+\DescribeMacro{\newfontscript}
+\DescribeMacro{\newfontlanguage}
+While the scripts and languages listed in \ref{tab:ot-scpt} and \ref{tab:ot-lang}
+are intended to be comprehensive, there may be some missing; alternatively,
+you might wish to use different names to access scripts/languages that are
+already listed.
+Adding scripts and languages can be performed with the \cmd\newfontscript\
+and \cmd\newfontlanguage\ commands. For example,
+\begin{Verbatim}
+  \newfontscript{Arabic}{arab}
+  \newfontlanguage{Zulu}{ZUL}
+\end{Verbatim}
+The first argument is the \pkg{fontspec} name, the second the OpenType
+tag. The advantage to using these commands rather than \cmd\newfontfeature\
+(see \vref{sec:newfeatures}) is the error-checking that is performed when
+the script or language is requested.
+
+
+
 \section{Going behind \pkg{fontspec}'s back}
 Expert users may wish not to use \pkg{fontspec}'s feature handling at all,
 while still taking advantage of its \LaTeX\ font selection conveniences. The
-\feat{RawFeature} font feature allows literal \XeTeX\ font feature selection
-when you happen to have the OpenType feature tag memorised.
+\feat{RawFeature} font feature allows font feature selection using a literal feature selection string if you happen to have the OpenType feature tag memorised.
 
 \begin{Xexample}{raw}{Using raw font features directly.}
   \fontspec{texgyrepagella-regular.otf}[RawFeature=+smcp]
@@ -78,6 +99,7 @@ Multiple features can either be included in a single declaration:\par
 {\centering|[RawFeature=+smcp;+onum]|\par}
 \noindent or with multiple declarations:\par
 {\centering|[RawFeature=+smcp, RawFeature=+onum]|\par}
+
 
 \section{Renaming existing features \& options}
 \label{sec:aliasfontfeature}
@@ -124,8 +146,12 @@ command should be used to declare a new, \eg, \feat{PurpleColor} feature:
 Except that this example was written before support for named colours was
 implemented. But you get the idea.
 
-\section{Programming details}
+
+
+
+\section{Programming interface}
 \label{sec:api}
+
 
 \subsection{Variables}
 
@@ -168,6 +194,7 @@ command will only select the regular face.
 This feature is designed for \LaTeX\ programmers who need to
 perform subsequent font-related tests on the \meta{primitive font}.
 \end{macro}
+
 
 \subsection{Conditionals}
 
@@ -268,5 +295,6 @@ OpenType script tag |#1|.
 Test whether the currently loaded font is using the specified raw
 OpenType language tag |#1|.
 \end{macro}
+
 
 

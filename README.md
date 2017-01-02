@@ -79,6 +79,9 @@ Change history
       will define only `+onum` rather than the previous behaviour of `+lnum;+onum` and letting the engine sort things out. This facilitates features for checking whether features are selected, etc. Coverage may still be preliminary.
     * Add API function `\fontspec_if_current_feature:nTF` for querying selected features based on their OpenType tag.
     * Add user function `\IfFontFeatureActiveTF` for querying selected features based on their `fontspec` specification.
+    * All "tag-based" OpenType features are now provided in `Feat`/`FeatOff`/`FeatReset` forms to disable and reset them.
+    * `ResetAll` provided for all "tag-based" OpenType feature keys.
+      (E.g., `Ligatures=ResetAll`.)
 
 - v2.5b (2016/05/14) "More bugs" (somehow never released)
 

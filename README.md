@@ -35,53 +35,53 @@ Table of Contents
 Summary of user commands
 ------------------------
 
-Font families may be selected individually with the command
+To define commands for selecting fonts efficiently through a document:
 
-    \fontspec{<font name>}[<font options>]
+    \newfontfamily\<font switch>{<font name>}[<font options>]
+    \newfontface  \<font switch>{<font name>}[<font options>]
 
-Commands for selecting fonts efficiently through a document are created with
-
-    \newfontfamily\myfamily{<font name>}[<font options>]
-    \newfontface\myfont{<font name>}[<font options>]
-
-Default document fonts are selected with
+To select the default document fonts:
 
     \setmainfont{<font name>}[<font options>]
     \setsansfont{<font name>}[<font options>]
     \setmonofont{<font name>}[<font options>]
 
-Features to be used for every subsequently defined font are specified with
+To define an ad hoc font family individually:
+
+    \fontspec{<font name>}[<font options>]
+
+To specify features to be used for every subsequently defined font:
 
     \defaultfontfeatures{<default font options>}
     \defaultfontfeatures+{<add to default font options>}
-    \defaultfontfeatures[<font name>]{<default font options for "font name">}
-    \defaultfontfeatures+[<font name>]{<add to default font options for "font name">}
 
-Features may be added to the font currently in use with
+To specify features to be used for specific fonts:
+
+    \defaultfontfeatures[<font name or switch>]{<default font options>}
+    \defaultfontfeatures+[<font name or switch>]{<add to defaults>}
+
+To add features to the font family currently in use:
 
     \addfontfeatures{<font options to add>}
-    \addfontfeature{<...>} does the same thing
 
 
 
 Change history
 --------------
 
-- v2.5c (2016/12/??) "Christmas 2017 release"
+- v2.5c (2017/01/02) "Christmas 2016 release"
 
     * `TU` font encoding now default, with encoding files provided by the kernel.
-    * Bug fixed for `Script` selection.
     * Add feature `Ornament=`*n* corresponding to OpenType feature `+ornm=`*n*.
     * Add feature `FontIndex=`*n* to support TrueType Collection (TTC) files.
-    * Nested \emph is now much smarter and will cleverly nest even if manual font changes are made.
-    * Tries to remove font features that clash. E.g.,
-          `Numbers={Uppercase,Lowercase}`
-      will define only `+onum` rather than the previous behaviour of `+lnum;+onum` and letting the engine sort things out. This facilitates features for checking whether features are selected, etc. Coverage may still be preliminary.
+    * Nested `\emph` is now much smarter and will cleverly nest even if manual font changes are made.
+    * Tries to resolve situations when font features clash.
+      E.g., `Numbers={Uppercase,Lowercase}` will define only `+onum` rather than the previous behaviour of `+lnum;+onum` to let the engine sort things out. Coverage may still be preliminary.
     * Add API function `\fontspec_if_current_feature:nTF` for querying selected features based on their OpenType tag.
     * Add user function `\IfFontFeatureActiveTF` for querying selected features based on their `fontspec` specification.
     * All "tag-based" OpenType features are now provided in `Feat`/`FeatOff`/`FeatReset` forms to disable and reset them.
-    * `ResetAll` provided for all "tag-based" OpenType feature keys.
-      (E.g., `Ligatures=ResetAll`.)
+    * `ResetAll` provided for all "tag-based" OpenType feature keys. (E.g., `Ligatures=ResetAll`.)
+    * Bug fixed for `Script` selection.
 
 - v2.5b (2016/05/14) "More bugs" (somehow never released)
 
@@ -89,7 +89,7 @@ Change history
     * Improve interaction between optical sizes and small caps.
     * Remove documentation for `FeatureFile`, since this is no longer supported under LuaLaTeX
       (there are other methods to perform the same thing, but no "easy" user interface that `fontspec` can provide at this stage).
-    * Fix regression causing an error message if `fontspec' loaded before `\documentclass'.
+    * Fix regression causing an error message if `fontspec` loaded before `\documentclass'.
 
 - v2.5a (2016/02/01) "Bugs fixed"
 

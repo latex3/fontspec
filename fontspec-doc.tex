@@ -1654,6 +1654,95 @@ zero	Slashed Zero
 \section{Complete listing of OpenType font features}
 \label{sec:ot-feat}
 
+There are a finite set of OpenType font features, and \pkg{fontspec} provides an
+interface to around half of them.
+Full documentation will be presented in the following sections, including how to
+enable and disable individual features, and how they interact.
+
+A brief reference is provided (\vref*{tab:all-ot}) but note that this is an incomplete
+listing --- only the `enable' keys are shown, and where alternative interfaces are
+provided for convenience only the first is shown.
+(E.g., |Numbers=OldStyle| is the same as |Numbers=Lowercase|.)
+
+For completeness, the complete list of OpenType features \emph{not} provided with
+a \pkg{fontspec} interface is shown in \vref{tab:none-ot}.
+Features omitted are partially by design and partially by oversight;
+for example, the |aalt| feature is largely useless in \TeX\ since it is designed
+for providing a textsc{gui} interface for selecting `all alternates' of a glyph.
+Others, such as optical bounds for example, simply haven't yet been considered
+due to a lack of fonts available for testing.
+Suggestions welcome for how/where to add these missing features to the package.
+
+\def\allOTfeat{
+  \prop_map_inline:Nn \g__fontspec_all_opentype_feature_names_prop
+    { \opentypefeature{##1}{##2} }
+}
+
+\ExplSyntaxOn
+\renewcommand\opentypefeature[2]{
+  \prop_get:NnNT \g__fontspec_OT_features_prop {#1} \tmpa
+      {
+        \raggedright
+        \hangindent=5.2cm
+        \makebox[1cm][l]{\textsc{#1}}
+        \makebox[4.2cm][l]{
+          \int_compare:nT { \tl_count:N \tmpa > 25 } {\itshape}
+          \ttfamily
+          \tmpa
+        }
+        \textit{#2}
+        \par
+        \vspace{2pt}
+     }
+}
+\ExplSyntaxOff
+
+\begin{table}
+\caption{Summary of OpenType features in \textsf{fontspec}, alphabetic by feature tag.}
+\label{tab:all-ot}
+\centerline{%
+\begin{minipage}{18cm}
+\small
+\hrule\smallskip
+\begin{multicols}{2}
+\parindent =0pt
+\allOTfeat
+\end{multicols}
+\vspace*{-\smallskipamount}
+\hrule
+\end{minipage}}
+\end{table}
+
+\ExplSyntaxOn
+\renewcommand\opentypefeature[2]{
+  \prop_get:NnNF \g__fontspec_OT_features_prop {#1} \tmpa
+      {
+        \raggedright
+        \hangindent=0.9cm
+        \makebox[0.9cm][l]{\textsc{#1}}%
+        \textit{#2}
+        \par
+     }
+}
+\ExplSyntaxOff
+
+\begin{table}
+\caption{List of \emph{unsupported} OpenType features.}
+\label{tab:none-ot}
+\bigskip
+\centerline{%
+\begin{minipage}{15cm}
+\hrule\smallskip
+\begin{multicols}{3}
+\parindent =0pt
+\allOTfeat
+\end{multicols}
+\vspace*{-\smallskipamount}
+\hrule
+\end{minipage}}
+\end{table}
+
+
 \subsection{Ligatures}
 \label{sec:ot-feat-liga}
 

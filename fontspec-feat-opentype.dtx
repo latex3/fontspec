@@ -7,6 +7,15 @@
 %    \end{macrocode}
 % \fi
 %
+%
+%    \begin{macrocode}
+\@@_feat_prop_add:nn {salt} { Alternate\,=\,$N$ }
+\@@_feat_prop_add:nn {nalt} { Annotation\,=\,$N$ }
+\@@_feat_prop_add:nn {ornm} { Ornament\,=\,$N$ }
+\@@_feat_prop_add:nn {cvNN} { CharacterVariant\,=\,$N$:$M$ }
+\@@_feat_prop_add:nn {ssNN} { StylisticSet\,=\,$N$ }
+%    \end{macrocode}
+%
 % \subsection{Regular key=val / tag definitions}
 %
 % \subsubsection{Ligatures}
@@ -207,10 +216,12 @@
 \@@_define_opentype_onoffreset:nnnnn {Style} {Italic}           {ital} {ital} {}
 \@@_define_opentype_onoffreset:nnnnn {Style} {Ruby}             {ruby} {ruby} {}
 \@@_define_opentype_onoffreset:nnnnn {Style} {Swash}            {swsh} {swsh} {}
+\@@_define_opentype_onoffreset:nnnnn {Style} {Cursive}          {swsh} {curs} {}
 \@@_define_opentype_onoffreset:nnnnn {Style} {Historic}         {hist} {hist} {}
 \@@_define_opentype_onoffreset:nnnnn {Style} {TitlingCaps}      {titl} {titl} {}
-\@@_define_opentype_onoffreset:nnnnn {Style} {HorizontalKana}   {hkna} {hkna} {+vkna}
-\@@_define_opentype_onoffreset:nnnnn {Style} {VerticalKana}     {vkna} {vkna} {+hkna}
+\@@_define_opentype_onoffreset:nnnnn {Style} {HorizontalKana}   {hkna} {hkna} {+vkna,+pkna}
+\@@_define_opentype_onoffreset:nnnnn {Style} {VerticalKana}     {vkna} {vkna} {+hkna,+pkna}
+\@@_define_opentype_onoffreset:nnnnn {Style} {ProportionalKana} {pkna} {pkna} {+vkna,+hkna}
 \@@_define_opentype_feature:nnnnn    {Style} {MathScript}       {ssty} {+ssty=0} {+ssty=1}
 \@@_define_opentype_feature:nnnnn    {Style} {MathScriptScript} {ssty} {+ssty=1} {+ssty=0}
 %    \end{macrocode}
@@ -268,9 +279,17 @@
 %    \end{macrocode}
 %
 % \subsubsection{Vertical}
+% According to spec |vkrn| must also activate |vpal| if available but for simplicity we don't do that here (yet?).
 %    \begin{macrocode}
 \@@_define_opentype_feature_group:n {Vertical}
-\@@_define_opentype_onoffreset:nnnnn {Vertical} {RotatedGlyphs} {vrt2} {vrt2} {}
+\@@_define_opentype_onoffreset:nnnnn {Vertical} {RotatedGlyphs}         {vrt2} {vrt2} {+vrtr,+vert}
+\@@_define_opentype_onoffreset:nnnnn {Vertical} {AlternatesForRotation} {vrtr} {vrtr} {+vrt2}
+\@@_define_opentype_onoffreset:nnnnn {Vertical} {Alternates}            {vert} {vert} {+vrt2}
+\@@_define_opentype_onoffreset:nnnnn {Vertical} {KanaAlternates}        {vkna} {vkna} {+hkna}
+\@@_define_opentype_onoffreset:nnnnn {Vertical} {Kerning}               {vkrn} {vkrn} {}
+\@@_define_opentype_onoffreset:nnnnn {Vertical} {AlternateMetrics}      {valt} {valt} {+vhal,+vpal,+kern}
+\@@_define_opentype_onoffreset:nnnnn {Vertical} {HalfMetrics}           {vhal} {vhal} {+valt,+vpal,+kern}
+\@@_define_opentype_onoffreset:nnnnn {Vertical} {ProportionalMetrics}   {vpal} {vpal} {+valt,+vhal}
 %    \end{macrocode}
 %
 %

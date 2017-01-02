@@ -11,7 +11,9 @@
 % \begin{macro}{\@@_define_opentype_feature_group:n}
 %    \begin{macrocode}
 \cs_new:Nn \@@_define_opentype_feature_group:n
-  { \keys_define:nn {fontspec-opentype} { #1 .multichoice: } }
+  {
+    \keys_define:nn {fontspec-opentype} { #1 .multichoice: }
+  }
 %    \end{macrocode}
 % \end{macro}
 %
@@ -22,8 +24,20 @@
 % \darg{Exact tag string to activate --- leave empty for disable only}
 % \darg{Tags to remove (clist)}
 %    \begin{macrocode}
+\prop_new:N \g_@@_OT_features_prop
+\cs_new:Nn \@@_feat_prop_add:nn
+  {
+    \tl_if_empty:nF {#1}
+     {
+      \prop_if_in:NnF \g_@@_OT_features_prop {#1}
+        {
+          \prop_gput:Nnn \g_@@_OT_features_prop {#1} {#2}
+        }
+     }
+  }
 \cs_new:Nn \@@_define_opentype_feature:nnnnn
  {
+  \@@_feat_prop_add:nn {#3} {#1\,=\,#2}
   \keys_define:nn {fontspec-opentype}
    {
     #1/#2 .code:n = { \@@_make_OT_feature:nnn {#3} {#4} {#5} }
@@ -244,6 +258,134 @@
   }
 %    \end{macrocode}
 % \end{macro}
+%
+% \subsection{OpenType feature information}
+%
+%    \begin{macrocode}
+\prop_new:N \g_@@_all_opentype_feature_names_prop
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {aalt}{Access~All~Alternates}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {abvf}{Above-base~Forms}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {abvm}{Above-base~Mark~Positioning}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {abvs}{Above-base~Substitutions}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {afrc}{Alternative~Fractions}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {akhn}{Akhands}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {blwf}{Below-base~Forms}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {blwm}{Below-base~Mark~Positioning}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {blws}{Below-base~Substitutions}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {calt}{Contextual~Alternates}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {case}{Case-Sensitive~Forms}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {ccmp}{Glyph~Composition~/~Decomposition}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {cfar}{Conjunct~Form~After~Ro}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {cjct}{Conjunct~Forms}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {clig}{Contextual~Ligatures}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {cpct}{Centered~CJK~Punctuation}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {cpsp}{Capital~Spacing}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {cswh}{Contextual~Swash}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {curs}{Cursive~Positioning}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {cvNN}{Character~Variant~$N$}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {c2pc}{Petite~Capitals~From~Capitals}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {c2sc}{Small~Capitals~From~Capitals}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {dist}{Distances}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {dlig}{Discretionary~Ligatures}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {dnom}{Denominators}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {dtls}{Dotless~Forms}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {expt}{Expert~Forms}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {falt}{Final~Glyph~on~Line~Alternates}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {fin2}{Terminal~Forms~\#2}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {fin3}{Terminal~Forms~\#3}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {fina}{Terminal~Forms}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {flac}{Flattened~accent~forms}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {frac}{Fractions}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {fwid}{Full~Widths}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {half}{Half~Forms}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {haln}{Halant~Forms}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {halt}{Alternate~Half~Widths}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {hist}{Historical~Forms}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {hkna}{Horizontal~Kana~Alternates}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {hlig}{Historical~Ligatures}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {hngl}{Hangul}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {hojo}{Hojo~Kanji~Forms}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {hwid}{Half~Widths}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {init}{Initial~Forms}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {isol}{Isolated~Forms}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {ital}{Italics}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {jalt}{Justification~Alternates}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {jp78}{JIS78~Forms}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {jp83}{JIS83~Forms}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {jp90}{JIS90~Forms}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {jp04}{JIS2004~Forms}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {kern}{Kerning}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {lfbd}{Left~Bounds}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {liga}{Standard~Ligatures}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {ljmo}{Leading~Jamo~Forms}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {lnum}{Lining~Figures}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {locl}{Localized~Forms}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {ltra}{Left-to-right~alternates}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {ltrm}{Left-to-right~mirrored~forms}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {mark}{Mark~Positioning}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {med2}{Medial~Forms~\#2}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {medi}{Medial~Forms}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {mgrk}{Mathematical~Greek}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {mkmk}{Mark~to~Mark~Positioning}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {mset}{Mark~Positioning~via~Substitution}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {nalt}{Alternate~Annotation~Forms}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {nlck}{NLC~Kanji~Forms}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {nukt}{Nukta~Forms}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {numr}{Numerators}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {onum}{Oldstyle~Figures}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {opbd}{Optical~Bounds}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {ordn}{Ordinals}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {ornm}{Ornaments}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {palt}{Proportional~Alternate~Widths}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {pcap}{Petite~Capitals}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {pkna}{Proportional~Kana}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {pnum}{Proportional~Figures}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {pref}{Pre-Base~Forms}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {pres}{Pre-base~Substitutions}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {pstf}{Post-base~Forms}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {psts}{Post-base~Substitutions}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {pwid}{Proportional~Widths}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {qwid}{Quarter~Widths}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {rand}{Randomize}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {rclt}{Required~Contextual~Alternates}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {rkrf}{Rakar~Forms}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {rlig}{Required~Ligatures}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {rphf}{Reph~Forms}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {rtbd}{Right~Bounds}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {rtla}{Right-to-left~alternates}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {rtlm}{Right-to-left~mirrored~forms}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {ruby}{Ruby~Notation~Forms}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {rvrn}{Required~Variation~Alternates}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {salt}{Stylistic~Alternates}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {sinf}{Scientific~Inferiors}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {size}{Optical~size}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {smcp}{Small~Capitals}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {smpl}{Simplified~Forms}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {ssNN}{Stylistic~Set~$N$}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {ssty}{Math~script~style~alternates}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {stch}{Stretching~Glyph~Decomposition}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {subs}{Subscript}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {sups}{Superscript}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {swsh}{Swash}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {titl}{Titling}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {tjmo}{Trailing~Jamo~Forms}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {tnam}{Traditional~Name~Forms}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {tnum}{Tabular~Figures}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {trad}{Traditional~Forms}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {twid}{Third~Widths}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {unic}{Unicase}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {valt}{Alternate~Vertical~Metrics}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {vatu}{Vattu~Variants}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {vert}{Vertical~Writing}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {vhal}{Alternate~Vertical~Half~Metrics}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {vjmo}{Vowel~Jamo~Forms}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {vkna}{Vertical~Kana~Alternates}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {vkrn}{Vertical~Kerning}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {vpal}{Proportional~Alternate~Vertical~Metrics}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {vrt2}{Vertical~Alternates~and~Rotation}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {vrtr}{Vertical~Alternates~for~Rotation}
+\prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {zero}{Slashed~Zero}
+%    \end{macrocode}
 %
 % \iffalse
 %    \begin{macrocode}

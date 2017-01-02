@@ -1,0 +1,901 @@
+
+
+\part{OpenType}
+\label{sec:opentype-features}
+
+\section{Introduction}
+\label{sec:opentype-features-intro}
+
+OpenType fonts (and other `smart' font technologies such as AAT and Graphite) can change the appearance of text in many different ways.
+These changes are referred to as font features.
+When the user applies a feature~--- for example, small capitals~--- to a run of text, the code inside the font makes appropriate substitutions and small capitals appear in place of lowercase letters.
+However, the use of such features does not affect the underlying text.
+In our small caps example, the lowercase letters are still stored in the document; only the appearance has been changed by the OpenType feature.
+This makes it possible to search and copy text without difficulty.
+If the user selected a different font that does not support small caps, the `plain' lowercase letters would appear instead.
+
+Some OpenType features are required to support particular scripts, and these features are often applied automatically.
+The Indic scripts, for example, often require that characters be reshaped and reordered after they are typed by the user, in order to display them in the traditional ways that readers expect.
+Other features can be applied to support a particular language.
+The Junicode font for medievalists uses by default the Old English shape of the letter thorn, while in modern Icelandic thorn has a more rounded shape.
+If a user tags some text as being in Icelandic, Junicode will automatically change to the Icelandic shape through an OpenType feature that localises the shapes of letters.
+
+There are a large group of OpenType features, designed to support high quality typography a multitude of languages and writing scripts.
+Examples of some font features have already been shown in previous sections; the complete set of OpenType font features supported by \pkg{fontspec} is described below in \ref{sec:ot-feat}.
+
+The OpenType specification provides four-letter codes (e.g., \texttt{smcp} for small capitals) for each feature.  The four-letter codes are given below along with the \pkg{fontspec} names for various features, for the benefit of people who are already familiar with OpenType.  You can ignore the codes if they don't mean anything to you.
+
+
+\subsection{How to select font features}
+
+Font features are selected by a series of \meta{feature}=\meta{option}
+selections. Features are (usually) grouped logically; for example, all
+font features relating to ligatures are accessed by writing \verb|Ligatures={...}| with the appropriate argument(s), which could be \texttt{TeX}, \texttt{Rare}, etc., as shown below in \ref{sec:ot-feat-liga}.
+
+Multiple options may be given to
+any feature that accepts non-numerical input, although doing so will
+not always work. Some options will override others in generally
+obvious ways; \Verb|Numbers={OldStyle,Lining}| doesn't make much
+sense because the two options are mutually exclusive, and \XeTeX\
+will simply use the last option that is specified (in this case
+using \opt{Lining} over \opt{OldStyle}).
+
+If a feature or an option is requested that the font does not have,
+a warning is given in the console output. As mentioned in \vref{sec:quiet-warnings}
+these warnings can be suppressed by selecting the \texttt{[quiet]} package option.
+
+\subsection{How do I know what font features are supported by my fonts?}
+
+Although I've long desired to have a feature within \pkg{fontspec} to display the OpenType features within a font, it's never been high on my priority list.
+One reason for that is the existence of the document |opentype-info.tex|, which is available on \textsc{ctan} or typing |kpsewhich opentype-info.tex| in a Terminal window.
+Make a copy of this file and place it somewhere convenient.
+Then open it in your regular \TeX\ editor and change the font name to the font you'd like to query; after running through plain \XeTeX, the output \textsc{pdf} will look something like this:
+
+\begin{framed}
+\def\myfontname{[Asana-Math.otf]}
+%
+%%% OpenType-info.tex %%%
+
+\font\testfont="\myfontname/ICU" at 12pt
+
+\rightskip=0pt plus 1fil
+
+\font\titlefont=ec-lmssbx10 at 12pt
+\font\tenrm=ec-lmss10 at 9pt \tenrm
+\font\tentt=ec-lmtt10 at 9pt
+
+\def\fourcharcode#1{\begingroup
+ \count0=#1\count1=\count0
+ \ifnum\count0=0
+  $\langle$default$\rangle$%
+ \else
+  \tentt
+  '%
+  \divide\count0 by "1000000
+  \char\count0
+  \multiply\count0 by "1000000
+  \advance\count1 by -\count0
+  \count0=\count1
+  \divide\count0 by "10000
+  \char\count0
+  \multiply\count0 by "10000
+  \advance\count1 by -\count0
+  \count0=\count1
+  \divide\count0 by "100
+  \char\count0
+  \multiply\count0 by "100
+  \advance\count1 by -\count0
+  \ifnum\count1=32 \ \else \char\count1 \fi
+  '%
+ \fi
+ \endgroup
+}
+
+\newcount\scriptcount
+\newcount\scriptindex
+\newcount\scripttag
+\newcount\langcount
+\newcount\langindex
+\newcount\langtag
+\newcount\featurecount
+\newcount\featureindex
+\newcount\featuretag
+
+\leftline{\titlefont OpenType Layout features found in `\myfontname'}
+\nobreak
+
+\scriptcount=\XeTeXOTcountscripts\testfont
+\ifnum\scriptcount=0 \noindent None\par\fi
+
+\loop
+ \ifnum\scriptindex<\scriptcount
+  \smallskip
+  \scripttag=\XeTeXOTscripttag\testfont\scriptindex
+  \noindent script = \fourcharcode{\scripttag}\endgraf\nobreak
+  \langcount=\XeTeXOTcountlanguages\testfont\scripttag
+  \advance\langcount by 1 % one extra to get the default language system
+  {\loop
+    \langtag=\XeTeXOTlanguagetag\testfont\scripttag\langindex
+    \indent language = \fourcharcode{\langtag}\endgraf\nobreak
+    \featurecount=\XeTeXOTcountfeatures\testfont\scripttag\langtag
+    {\indent\indent \hangindent=3\parindent \hangafter=1 features = \loop
+      \featuretag=\XeTeXOTfeaturetag\testfont\scripttag\langtag\featureindex
+      \fourcharcode{\featuretag}
+      \advance\featureindex by 1
+      \ifnum\featureindex<\featurecount \repeat\endgraf}
+    \advance\langindex by 1
+  \ifnum\langindex<\langcount \medskip \repeat}
+  \advance\scriptindex by 1
+\repeat
+\end{framed}
+
+\noindent I intentionally picked a font that by design needs few font features; `regular' text fonts such as Latin Modern Roman contain many more, and I didn't want to clutter up the document too much.
+You'll then need to cross-check the OpenType feature tags with the `logical' names used by \pkg{fontspec}.
+
+\paragraph{otfinfo}
+Alternatively, and more simply, you can use the command line tool |otfinfo|, which is distributed with \TeX{}Live.
+Simply type in a Terminal window, say:
+\begin{Verbatim}
+  otfinfo -f `kpsewhich lmromandunh10-oblique.otf`
+\end{Verbatim}
+which results in:
+\begin{Verbatim}[frame=single]
+aalt	Access All Alternates
+cpsp	Capital Spacing
+dlig	Discretionary Ligatures
+frac	Fractions
+kern	Kerning
+liga	Standard Ligatures
+lnum	Lining Figures
+onum	Oldstyle Figures
+pnum	Proportional Figures
+size	Optical Size
+tnum	Tabular Figures
+zero	Slashed Zero
+\end{Verbatim}
+
+\section{OpenType font features}
+\label{sec:ot-feat}
+
+There are a finite set of OpenType font features, and \pkg{fontspec} provides an
+interface to around half of them.
+Full documentation will be presented in the following sections, including how to
+enable and disable individual features, and how they interact.
+
+A brief reference is provided (\vref*{tab:all-ot}) but note that this is an incomplete
+listing --- only the `enable' keys are shown, and where alternative interfaces are
+provided for convenience only the first is shown.
+(E.g., |Numbers=OldStyle| is the same as |Numbers=Lowercase|.)
+
+For completeness, the complete list of OpenType features \emph{not} provided with
+a \pkg{fontspec} interface is shown in \vref{tab:none-ot}.
+Features omitted are partially by design and partially by oversight;
+for example, the |aalt| feature is largely useless in \TeX\ since it is designed
+for providing a textsc{gui} interface for selecting `all alternates' of a glyph.
+Others, such as optical bounds for example, simply haven't yet been considered
+due to a lack of fonts available for testing.
+Suggestions welcome for how/where to add these missing features to the package.
+
+\ExplSyntaxOn
+\def\allOTfeat{
+  \prop_map_inline:Nn \g__fontspec_all_opentype_feature_names_prop
+    { \opentypefeature{##1}{##2} }
+}
+\newcommand\opentypefeature[2]{
+  \prop_get:NnNT \g__fontspec_OT_features_prop {#1} \tmpa
+      {
+        \raggedright
+        \hangindent=5.2cm
+        \makebox[1cm][l]{\textsc{#1}}
+        \makebox[4.2cm][l]{
+          \int_compare:nT { \tl_count:N \tmpa > 25 } {\ttcondensed} {\ttfamily}
+          \tmpa
+        }
+        \textit{#2}
+        \par
+        \vspace{2pt}
+     }
+}
+\ExplSyntaxOff
+
+\begin{table}
+\caption{Summary of OpenType features in \textsf{fontspec}, alphabetic by feature tag.}
+\label{tab:all-ot}
+\centerline{%
+\begin{minipage}{18cm}
+\small
+\hrule\smallskip
+\begin{multicols}{2}
+\parindent =0pt
+\allOTfeat
+\end{multicols}
+\vspace*{-\smallskipamount}
+\hrule
+\end{minipage}}
+\end{table}
+
+\ExplSyntaxOn
+\renewcommand\opentypefeature[2]{
+  \prop_get:NnNF \g__fontspec_OT_features_prop {#1} \tmpa
+      {
+        \raggedright
+        \hangindent=0.9cm
+        \makebox[0.9cm][l]{\textsc{#1}}%
+        \textit{#2}
+        \par
+     }
+}
+\ExplSyntaxOff
+
+\begin{table}
+\caption{List of \emph{unsupported} OpenType features.}
+\label{tab:none-ot}
+\bigskip
+\centerline{%
+\begin{minipage}{15cm}
+\hrule\smallskip
+\begin{multicols}{3}
+\parindent =0pt
+\allOTfeat
+\end{multicols}
+\vspace*{-\smallskipamount}
+\hrule
+\end{minipage}}
+\end{table}
+
+\subsection{Tag-based features}
+
+\subsubsection{Ligatures}
+\label{sec:ot-feat-liga}
+
+\feat{Ligatures} refer to the replacement of two separate characters
+with a specially drawn glyph for functional or \ae sthetic reasons.
+The list of options, of which multiple may be selected at one time,
+is shown in \ref{feat:Ligatures}.
+A demonstration with the Linux Libertine fonts\note{\url{http://www.linuxlibertine.org/}} is shown in \exref{lig}.
+
+Note the additional features accessed with \verb|Ligatures=TeX|. These are
+not actually real OpenType features, but additions provided by \pkg{luaotfload} (i.e., \LuaTeX\ only) to emulate \TeX's behaviour for \textsc{ascii} input of curly quotes and punctuation. In \XeTeX\ this is achieved with the \feat{Mapping} feature (see \vref{sec:mapping}) but for consistency \verb|Ligatures=TeX| will perform the same function as \verb|Mapping=tex-text|.
+
+\subsection{Letters} \label{sec:letters}
+The \opt{Letters} feature specifies how the letters in the current font
+will look. OpenType fonts may contain the following options:
+\opt{Uppercase}, \opt{SmallCaps}, \opt{PetiteCaps},
+\opt{UppercaseSmallCaps}, \opt{UppercasePetiteCaps}, and
+\opt{Unicase}.
+
+
+\begin{features}{Ligatures}
+\otf*{Required}{rlig}
+\otf*{Common}{liga}
+\otf*{Contextual}{clig}
+\otf{Rare/Discretionary}{dlig}
+\otf{Historic}{hlig}
+\otf{TeX}{tlig/trep}
+\end{features}
+
+\begin{Lexample}[firstline=2]{lig}{An example of the \feat{Ligatures} feature.}
+   \Huge\centering
+   \def\test#1#2{%
+     #2 $\to$ {\addfontfeature{#1} #2}\\}
+   \fontspec{Linux Libertine O}
+   \test{Ligatures=Historic}{strict}
+   \test{Ligatures=Rare}{wurtzite}
+   \test{Ligatures=NoCommon}{firefly}
+\end{Lexample}
+
+\begin{features}{Letters}
+\otf{Uppercase}{case}
+\otf{SmallCaps}{smcp}
+\otf{PetiteCaps}{pcap}
+\otf{UppercaseSmallCaps}{c2sc}
+\otf{UppercasePetiteCaps}{c2pc}
+\otf{Unicase}{unic}
+\end{features}
+
+Petite caps are smaller than small caps.
+\opt{SmallCaps} and \opt{PetiteCaps}
+turn lowercase letters into the smaller caps letters,
+whereas the \opt{Uppercase...} options turn the \emph{capital} letters into
+the smaller
+caps (good, \eg, for applying to already uppercase acronyms like
+`NASA').
+This difference is shown in \exref{caps}.
+`Unicase' is a weird hybrid of upper and lower case letters.
+
+\begin{Lexample}{caps}{Small caps from lowercase or uppercase letters.}
+  \fontspec{texgyreadventor-regular.otf}[Letters=SmallCaps]
+   THIS SENTENCE no verb                \\
+  \fontspec{texgyreadventor-regular.otf}[Letters=UppercaseSmallCaps]
+   THIS SENTENCE no verb
+\end{Lexample}
+
+Note that the \opt{Uppercase} option will (probably)
+not actually map letters to uppercase.
+ \note{If you want automatic uppercase letters, look to \LaTeX's
+      \cmd\MakeUppercase\ command.}
+It is designed to select various
+uppercase forms for glyphs such as accents and dashes, such as shown
+in \exref{letters-uppercase}; note the raised position of the hyphen
+to better match the surrounding letters.
+
+\begin{Lexample}{letters-uppercase}{An example of the \opt{Uppercase} option of the \feat{Letters} feature.}
+  \fontspec{Linux Libertine O}
+   UPPER-CASE example \\
+  \addfontfeature{Letters=Uppercase}
+   UPPER-CASE example
+\end{Lexample}
+
+The \feat{Kerning} feature also contains an \opt{Uppercase} option,
+which adds a small amount of spacing in between letters (see \vref{sec:kerning}).
+
+\subsubsection{Numbers}
+
+The \feat{Numbers} feature defines how numbers will look in the
+selected font, accepting options shown in \ref{feat:Numbers}.
+
+\begin{features}{Numbers}
+\otf{Uppercase/Lining}{lnum}
+\otf{Lowercase/OldStyle}{onum}
+\otf{Proportional}{pnum}
+\otf{Monospaced}{tnum}
+\otf{SlashedZero}{zero}
+\otf{Arabic}{anum}
+\end{features}
+
+The synonyms
+\opt{Uppercase} and \opt{Lowercase} are equivalent to \opt{Lining} and
+\opt{OldStyle}, respectively.
+The differences have been shown previously
+in \vref{sec:addfontfeatures}.
+The \opt{Monospaced} option is useful for tabular material when digits need
+to be vertically aligned.
+
+The \opt{SlashedZero} option
+replaces the default zero with a slashed version to prevent
+confusion with an uppercase `O', shown in \exref{slashzero}.
+
+\begin{Lexample}{slashzero}{The effect of the \opt{SlashedZero} option.}
+  \fontspec[Numbers=Lining]{texgyrebonum-regular.otf}
+   0123456789
+  \fontspec[Numbers=SlashedZero]{texgyrebonum-regular.otf}
+   0123456789
+\end{Lexample}
+
+The \opt{Arabic} option (with tag \verb|anum|) maps regular numerals to their Arabic script or Persian equivalents
+based on the current \opt{Language} setting (see \vref{sec:ot}).
+This option is based on a \LuaTeX\ feature of the \pkg{luaotfload} package,
+not an OpenType feature. (Thus, this feature is unavailable in \XeTeX.)
+
+\subsubsection{Contextuals}
+This feature refers to substitutions of glyphs that vary `contextually' by their relative position in a word or string of characters;
+features such as contextual swashes are accessed via the options shown in \ref{feat:Contextuals}.
+
+\begin{features}{Contextuals}
+\otf{Swash}{cswh}
+\otf{Alternate}{calt}
+\otf{WordInitial}{init}
+\otf{WordFinal}{fina}
+\otf{LineFinal}{falt}
+\otf{Inner}{medi}
+\end{features}
+
+Historic forms are accessed in OpenType
+fonts via the feature \feat{Style=Historic}; this is generally \emph{not}
+contextual in OpenType, which is why it is not included in this feature.
+
+\subsubsection{Vertical Position}
+
+\begin{features}{VerticalPosition}
+\otf{Superior}{sups}
+\otf{Inferior}{subs}
+\otf{Numerator}{numr}
+\otf{Denominator}{dnom}
+\otf{ScientificInferior}{sinf}
+\otf{Ordinal}{ordn}
+\end{features}
+
+The \feat{VerticalPosition} feature is used to access things like
+subscript (\opt{Inferior}) and superscript (\opt{Superior}) numbers and
+letters (and a small amount of punctuation, sometimes).
+The \opt{Ordinal} option will only raise characters that are used
+in some languages directly after a number.
+The \opt{ScientificInferior} feature will move glyphs
+further below the baseline than the \opt{Inferior} feature.
+These are shown in \exref{vertpos}
+
+\opt{Numerator} and \opt{Denominator} should only be used for creating
+arbitrary fractions (see next section).
+
+\begin{Lexample}{vertpos}{The \feat{VerticalPosition} feature.}
+  \fontspec{LibreCaslonText-Regular.otf}[VerticalPosition=Superior]
+   Superior: 1234567890                                   \\
+  \fontspec{LibreCaslonText-Regular.otf}[VerticalPosition=Numerator]
+   Numerator: 12345                                       \\
+  \fontspec{LibreCaslonText-Regular.otf}[VerticalPosition=Denominator]
+   Denominator: 12345                                     \\
+  \fontspec{LibreCaslonText-Regular.otf}[VerticalPosition=ScientificInferior]
+   Scientific Inferior: 12345
+\end{Lexample}
+
+The \pkg{realscripts} package
+(which is also loaded by \pkg{xltxtra} for \XeTeX)
+redefines the \cmd\textsubscript\ and
+\cmd\textsuperscript\ commands to use the above font features automatically,
+including for use in footnote labels.
+If this is the only feature of \pkg{xltxtra} you wish to use, consider
+loading \pkg{realscripts} on its own instead.
+
+
+\subsubsection{Fractions}
+
+\begin{features}{Fractions}
+\otf{On}{frac}
+\otf{Alternate}{afrc}
+\end{features}
+
+For OpenType fonts use a regular text slash to create fractions, but
+the \feat{Fraction} feature must be explicitly activated.
+Some (Asian fonts predominantly) also provide for the
+\opt{Alternate} feature. These are both shown in \exref{ot-frac}.
+
+\begin{Xexample}{ot-frac}{The \feat{Fractions} feature.}
+  \fontspec{Hiragino Maru Gothic Pro W4}
+   1/2 \quad 1/4 \quad 5/6 \quad 13579/24680 \\
+  \addfontfeature{Fractions=On}
+   1/2 \quad 1/4 \quad 5/6 \quad 13579/24680 \\
+  \addfontfeature{Fractions=Alternate}
+   1/2 \quad 1/4 \quad 5/6 \quad 13579/24680 \\
+\end{Xexample}
+
+\subsection{Style}
+\label{sec:ot-feat-style}
+
+\begin{features}{Style}
+\otf{Alternate}{salt}
+\otf{Italic}{ital}
+\otf{Ruby}{ruby}
+\otf{Swash}{swsh}
+\otf{Cursive}{curs}
+\otf{Historic}{hist}
+\otf{TitlingCaps}{titl}
+\otf{HorizontalKana}{hkna}
+\otf{VerticalKana}{vkna}
+\end{features}
+
+`Ruby' refers to a small optical size, used in
+Japanese typography for annotations.
+For fonts with multiple |salt| OpenType features,
+use the fontspec \feat{Alternate} feature instead.
+
+\Exref{style-alt} and \exref{style-hist} both contain glyph
+substitutions with similar characteristics.
+Note the occasional inconsistency with which font features are labelled; a long-tailed `Q' could turn up anywhere!
+
+ \begin{Xexample}[firstline=2]{style-alt}{Example of the \opt{Alternate} option of the \feat{Style} feature.}
+  \Large
+  \fontspec{Quattrocento Roman}
+   M Q W                      \\
+  \addfontfeature{Style=Alternate}
+   M Q W
+\end{Xexample}
+
+\begin{Xexample}[firstline=2]{style-hist}{Example of the \opt{Historic} option of the \feat{Style} feature.}
+  \Large
+  \fontspec{Adobe Jenson Pro}
+   M Q Z                      \\
+  \addfontfeature{Style=Historic}
+   M Q Z
+\end{Xexample}
+
+In other features, larger breadths of changes can be seen, covering
+the style of an entire alphabet. See \exref{style-titl} and \exref{style-itrub}; in the latter, the \opt{Italic} option affects the Latin text and the \opt{Ruby} option the Japanese.
+
+\begin{Xexample}[firstline=2]{style-titl}{Example of the \opt{TitlingCaps} option of the \feat{Style} feature.}
+  \Large
+  \fontspec{Adobe Garamond Pro}
+   TITLING CAPS                       \\
+  \addfontfeature{Style=TitlingCaps}
+   TITLING CAPS
+\end{Xexample}
+
+\begin{Xexample}[firstline=2]{style-itrub}{Example of the \opt{Italic} and \opt{Ruby} options of the \feat{Style} feature.}
+  \Large \def\kana{ようこそ ワカヨタレソ}
+  \fontspec{Hiragino Mincho Pro}
+   Latin \kana        \\
+  \addfontfeature{Style={Italic, Ruby}}
+   Latin \kana
+\end{Xexample}
+
+Note the difference here between the default and the horizontal style kana
+in \exref{style-hvkana}: the horizontal style is slightly wider.
+
+\begin{Xexample}[firstline=2]{style-hvkana}{Example of the \opt{HorizontalKana} and \opt{VerticalKana} options of the \feat{Style} feature.}
+  \Large \def\kana{ようこそ ワカヨタレソ}
+   \fontspec{Hiragino Mincho Pro}
+    \kana   \\
+  {\addfontfeature{Style=HorizontalKana}
+    \kana } \\
+  {\addfontfeature{Style=VerticalKana}
+    \kana }
+\end{Xexample}
+
+\subsection{Diacritics}
+Specifies how combining diacritics should be placed.
+These will usually be controlled automatically
+according to the Script setting.
+
+\begin{features}{Diacritics}
+\otf*{MarkToBase}{mark}
+\otf*{MarkToMark}{mkmk}
+\otf*{AboveBase}{abvm}
+\otf*{BelowBase}{blwm}
+\end{features}
+
+\subsection{Kerning}\label{sec:kerning}
+Specifies how inter-glyph spacing should behave.
+Well-made fonts include information for how differing
+amounts of space should be inserted between separate character pairs.
+This kerning space is inserted automatically but in rare
+circumstances you may wish to turn it off.
+
+\begin{features}{Kerning}
+\otf{Uppercase}{cpsp}
+\otf*[Off]{On}{kern}
+\end{features}
+
+As briefly mentioned previously at the end of \vref{sec:letters},
+the \opt{Uppercase} option will add a small amount of tracking between
+uppercase letters, seen in \exref{kernup}, which uses the Romande
+fonts\note{\url{http://arkandis.tuxfamily.org/adffonts.html}}
+(thanks to Clea F. Rees for the suggestion).
+The \opt{Uppercase} option acts separately to the regular kerning
+controlled by the \opt{On}/\opt{Off} options.
+
+\begin{Xexample}[firstline=2]{kernup}{Adding extra kerning for uppercase letters. (The difference is usually very small.)}
+  \large
+  \fontspec{Romande ADF Std Bold}
+   UPPERCASE EXAMPLE \\
+  \addfontfeature{Kerning=Uppercase}
+   UPPERCASE EXAMPLE
+\end{Xexample}
+
+
+\subsection{Character width}\label{sec:CharacterWidth}
+Many Asian fonts are equipped with variously spaced characters for
+shoe-horning into their generally monospaced text.
+These are
+accessed through the \feat{CharacterWidth} feature.
+
+\begin{features}{CharacterWidth}
+\otf{Proportional}{pwid}
+\otf{Full}        {fwid}
+\otf{Half}        {hwid}
+\otf{Third}       {twid}
+\otf{Quarter}     {qwid}
+\otf{AlternateProportional}{palt}
+\otf{AlternateHalf}{halt}
+\end{features}
+
+Japanese alphabetic glyphs (in Hiragana or Katakana) may be typeset
+proportionally, to better fit horizontal measures, or monospaced, to
+fit into the rigid grid imposed by ideographic typesetting. In this
+latter case, there are also half-width forms for squeezing more kana
+glyphs (which are less complex than the kanji they are amongst) into
+a given block of space. The same features are given to roman letters
+in Japanese fonts, for typesetting foreign words in the same style
+as the surrounding text.
+
+\begin{Xexample}[firstline=2]{charwdprop}{Proportional or fixed width forms.}
+  \def\texta{ようこそ}\def\textb{ワカヨタレソ}
+  \def\test{\makebox[2cm][l]{\texta}%
+            \makebox[2.5cm][l]{\textb}%
+            \makebox[2.5cm][l]{abcdef}}
+  \fontspec{Hiragino Mincho Pro}
+  {\addfontfeature{CharacterWidth=Proportional}\test}\\
+  {\addfontfeature{CharacterWidth=Full}\test}\\
+  {\addfontfeature{CharacterWidth=Half}\test}
+\end{Xexample}
+
+The same situation occurs with numbers, which are provided in
+increasingly illegible compressed forms seen in \exref{charwd}.
+
+\begin{Xexample}[firstline=2]{charwd}{Numbers can be compressed significantly.}
+  \centering
+  \fontspec[Renderer=AAT]{Hiragino Mincho Pro}
+  {\addfontfeature{CharacterWidth=Full}
+   ---12321---}\\
+  {\addfontfeature{CharacterWidth=Half}
+   ---1234554321---}\\
+  {\addfontfeature{CharacterWidth=Third}
+   ---123456787654321---}\\
+  {\addfontfeature{CharacterWidth=Quarter}
+   ---12345678900987654321---}
+\end{Xexample}
+
+
+\subsection{Vertical typesetting}
+
+\begin{features}{Vertical}
+\otf{RotatedGlyphs}         {vrt2}
+\otf{AlternatesForRotation} {vrtr}
+\otf{Alternates}            {vert}
+\otf{KanaAlternates}        {vkna}
+\otf{Kerning}               {vkrn}
+\otf{AlternateMetrics}      {valt}
+\otf{HalfMetrics}           {vhal}
+\otf{ProportionalMetrics}   {vpal}
+\end{features}
+
+OpenType provides a plethora of features for accommodating the varieties of possibilities
+needed for vertical typesetting (CJK and others).
+No capabilities for achieving such vertical typesetting are provided by \pkg{fontspec},
+however; please get in touch if there are improvements that could be made.
+
+
+\subsection{Numeric features}
+
+\subsubsection{Stylistic Set variations --- \texttt{ssNN}}
+
+This feature selects a `Stylistic Set' variation,
+which usually corresponds to an alternate glyph style for a range of
+characters (usually an alphabet or subset thereof).
+This feature is specified numerically. These correspond to OpenType
+features |ss01|, |ss02|, etc.
+
+Two demonstrations from the Junicode
+font\note{\url{http://junicode.sf.net}}
+are shown in \exref{ss} and \exref{ss2}; thanks to Adam
+Buchbinder for the suggestion.
+
+\begin{Lexample}{ss}{Insular letterforms, as used in medieval Northern Europe, for the Junicode font accessed with the \feat{StylisticSet} feature.}
+  \fontspec{Junicode}
+   Insular forms. \\
+  \addfontfeature{StylisticSet=2}
+   Insular forms. \\
+\end{Lexample}
+
+\begin{Lexample}{ss2}{Enlarged minuscules (capital letters remain unchanged) for the Junicode font, accessed with the \feat{StylisticSet} feature.}
+  \fontspec{Junicode}
+   ENLARGED Minuscules. \\
+  \addfontfeature{StylisticSet=6}
+   ENLARGED Minuscules. \\
+\end{Lexample}
+
+Multiple stylistic sets may be selected simultaneously by writing, e.g.,
+|StylisticSet={1,2,3}|.
+
+The |StylisticSet| feature is a synonym of the \feat{Variant} feature for \AAT\ fonts.
+See \vref{sec:newfeatures} for a way to assign names to stylistic sets, which should be done on a per-font basis.
+
+\subsubsection{Character Variants --- \texttt{cvNN}}
+
+Similar to the `Stylistic Sets' above, `Character Variations' are selected
+numerically to adjust the output of (usually) a single character for the
+particular font. These correspond to the OpenType features |cv01| to |cv99|.
+
+For each character that can be varied, it is possible to select among
+possible options for that particular glyph.
+For example, in \exref{cv} a variety of glyphs for the character `v' are
+selected, in which |5| corresponds to the character `v' for this font feature,
+and the trailing |:|\meta{n} corresponds to which variety to choose.
+Georg Duffner's open source Garamond revival font\footnote{\url{http://www.georgduffner.at/ebgaramond/}} is used in this example.
+Character variants are specifically designed not to conflict with each
+other, so you can enable them individually per character as shown in
+\exref{cv2}. (Unlike stylistic alternates, say.)
+
+Note that the indexing starts from zero.
+
+\begin{Lexample}[firstline=2]{cv}{The \feat{CharacterVariant} feature showing off Georg Duffner's open source Garamond revival font.}
+  \huge
+  \fontspec{EB Garamond 12 Italic}                       very \\
+  \fontspec{EB Garamond 12 Italic}[CharacterVariant=5]   very \\
+  \fontspec{EB Garamond 12 Italic}[CharacterVariant=5:0] very \\
+  \fontspec{EB Garamond 12 Italic}[CharacterVariant=5:1] very \\
+  \fontspec{EB Garamond 12 Italic}[CharacterVariant=5:2] very \\
+  \fontspec{EB Garamond 12 Italic}[CharacterVariant=5:3] very
+\end{Lexample}
+
+\begin{Lexample}[firstline=2]{cv2}{The \feat{CharacterVariant} feature selecting multiple variants simultaneously.}
+  \huge
+  \fontspec{EB Garamond 12 Italic}                           \& violet \\
+  \fontspec{EB Garamond 12 Italic}[CharacterVariant={4}]     \& violet \\
+  \fontspec{EB Garamond 12 Italic}[CharacterVariant={5:2}]   \& violet \\
+  \fontspec{EB Garamond 12 Italic}[CharacterVariant={4,5:2}] \& violet
+\end{Lexample}
+
+\subsubsection{Alternates --- \texttt{salt}}
+
+The \feat{Alternate} feature, alias \feat{StylisticAlternates}, is used to access alternate font glyphs when variations exist in the font, such as in \exref{salt}.
+It uses a numerical selection, starting from zero, that will be different for each font.
+Note that the \texttt{Style=Alternate} option is equivalent
+to \texttt{Alternate=0} to access the default case.
+
+\begin{Xexample}[firstline=2]{salt}{The \feat{Alternate} feature.}
+  \huge
+  \fontspec{Linux Libertine O}
+  \textsc{a} \& h \\
+  \addfontfeature{Alternate=0}
+  \textsc{a} \& h
+\end{Xexample}
+
+Note that the indexing starts from zero.
+With the \LuaTeX\ engine, |Alternate=Random| selects a random alternate.
+
+See \vref{sec:newfeatures} for a way to assign names to alternates if desired.
+
+
+
+\subsubsection{Annotation --- \texttt{nalt} }
+Some fonts are equipped with an extensive range of
+numbers and numerals in different forms. These are accessed with the
+\feat{Annotation} feature (OpenType feature |nalt|), selected numerically as shown in
+\exref{ot-annot}. Note that the indexing starts from zero.
+
+\begin{Xexample}{ot-annot}{Annotation forms for OpenType fonts.}
+  \fontspec{Hiragino Maru Gothic Pro}
+   1 2 3 4 5 6 7 8 9
+  \def\x#1{\\{\addfontfeature{Annotation=#1}
+            1 2 3 4 5 6 7 8 9 }}
+  \x0\x1\x2\x3\x4\x5\x6\x7\x7\x8\x9
+\end{Xexample}
+
+
+
+\subsubsection{Ornament --- \texttt{ornm}}
+Ornaments are selected with the \feat{Ornament} feature (OpenType feature |ornm|), selected numerically such as for the \feat{Annotation} feature.
+If you know of an Open Source font that supports this feature, let me know and I'll add an example.
+
+\subsubsection{CJK shape}
+
+\begin{features}{CJKShape}
+\otf{Traditional}{trad}
+\otf{Simplified} {smpl}
+\otf{JIS1978}    {jp78}
+\otf{JIS1983}    {jp83}
+\otf{JIS1990}    {jp90}
+\otf{Expert}     {expt}
+\otf{NLC}        {nlck}
+\end{features}
+
+There have been many standards for how CJK ideographic
+glyphs are `supposed' to look. Some fonts will contain many alternate
+glyphs available in order to be able to display these gylphs
+correctly in whichever form is appropriate. Both \AAT\ and OpenType
+fonts support the following \feat{CJKShape} options:
+\opt{Traditional}, \opt{Simplified}, \opt{JIS1978}, \opt{JIS1983},
+\opt{JIS1990}, and \opt{Expert}. OpenType also supports the \opt{NLC} option.
+
+\begin{Xexample}[firstline=2]{ot-cjk-shape}{Different standards for CJK ideograph presentation.}
+  \LARGE\def\text{ 唖噛躯 妍并訝}
+  \fontspec{Hiragino Mincho Pro}
+  {\addfontfeature{CJKShape=Traditional}
+  \text }                          \\
+  {\addfontfeature{CJKShape=NLC}
+  \text }                          \\
+  {\addfontfeature{CJKShape=Expert}
+  \text }
+\end{Xexample}
+
+
+
+
+
+
+\subsection{OpenType scripts and languages}\label{sec:ot}
+
+Fonts that include glyphs for various scripts and languages may contain different font features for the different character sets and languages they support, and different font features may behave differently depending on the script or language chosen.
+When multilingual fonts are used, it is important to select which language
+they are being used for, and more importantly what script is being used.
+
+The `script' refers to the alphabet in use; for example, both English
+and French use the Latin script. Similarly, the Arabic script can be used
+to write in both the Arabic and Persian languages.
+
+The
+\feat{Script} and \feat{Language} features are used to designate this information. The possible options are
+tabulated in \vref{tab:ot-scpt} and \vref{tab:ot-lang},
+respectively. When a script or language is requested that is not
+supported by the current font, a warning is printed in the console output.
+
+Because these font features can
+change which features are able to be selected for the font, they are automatically selected
+by \pkg{fontspec} before all others and, if \XeTeX\ is being used, will
+specifically select the \opt{OpenType}
+renderer for this font, as described in \vref{sec:renderer}.
+
+
+\subsubsection{\feat{Script} and \feat{Language} examples}
+
+In the examples shown in \exref{script-lang},
+the Code2000 font\note{\url{http://www.code2000.net/}}
+is used to typeset various input texts with and without the OpenType Script
+applied for various alphabets.
+The text is only rendered correctly in the second case;
+many examples of incorrect diacritic spacing as
+well as a lack of contextual ligatures and rearrangement can be
+seen.
+Thanks to \name{Jonathan Kew}, \name{Yves Codet} and
+\name{Gildas Hamel} for their contributions towards these examples.
+
+\begin{Xexample}[firstline=14,lastline=23]{script-lang}{An example of various Scripts and Languages.}
+\def\testfeature#1#2{%^^A
+  \fontspec{\examplefont}#2 & \fontspec[#1]{\examplefont}#2\\[1ex]}
+\def \examplefont{Code2000}
+\def \arabictext{العربي}
+\def \devanagaritext{हिन्दी}
+\def \bengalitext{লেখ}
+\def \gujaratitext{મર્યાદા-સૂચક નિવેદન}
+\def \malayalamtext{നമ്മുടെ പാരബര്യ}
+\def \gurmukhitext{ਆਦਿ ਸਚੁ ਜੁਗਾਦਿ ਸਚੁ}
+\def \tamiltext{தமிழ் தேடி}
+\def \hebrewtext{רִדְתָּֽהּ}
+\def \vietnamesetext{cấp số mỗi}
+\begin{tabular}{r@{\quad}l}
+  \testfeature{Script=Arabic}{\arabictext}
+  \testfeature{Script=Devanagari}{\devanagaritext}
+  \testfeature{Script=Bengali}{\bengalitext}
+  \testfeature{Script=Gujarati}{\gujaratitext}
+  \testfeature{Script=Malayalam}{\malayalamtext}
+  \testfeature{Script=Gurmukhi}{\gurmukhitext}
+  \testfeature{Script=Tamil}{\tamiltext}
+  \testfeature{Script=Hebrew}{\hebrewtext}
+  \def\examplefont{Doulos SIL}
+  \testfeature{Language=Vietnamese}{\vietnamesetext}
+\end{tabular}
+\end{Xexample}
+
+
+
+\subsubsection{Defining new scripts and languages}
+
+\DescribeMacro{\newfontscript}
+\DescribeMacro{\newfontlanguage}
+While the scripts and languages listed in \ref{tab:ot-scpt} and \ref{tab:ot-lang}
+are intended to be comprehensive, there may be some missing; alternatively,
+you might wish to use different names to access scripts/languages that are
+already listed.
+Adding scripts and languages can be performed with the \cmd\newfontscript\
+and \cmd\newfontlanguage\ commands. For example,
+\begin{Verbatim}
+  \newfontscript{Arabic}{arab}
+  \newfontlanguage{Zulu}{ZUL}
+\end{Verbatim}
+The first argument is the \pkg{fontspec} name, the second the OpenType
+tag. The advantage to using these commands rather than \cmd\newfontfeature\
+(see \vref{sec:newfeatures}) is the error-checking that is performed when
+the script or language is requested.
+
+\begin{table}[!hbp]
+  \caption{Defined \opt{Script}s for OpenType fonts. Aliased names are shown in adjacent positions marked with red pilcrows ({\sffamily\textcolor{red}{\P}}).}
+  \label{tab:ot-scpt}
+\def\dup{\makebox[0pt][r]{\textcolor{red}{\P}}}
+\setlength\columnseprule{0pt}
+  \hrule
+  \begin{multicols}{4}\setlength\parindent{0pt}
+    \sffamily\scriptsize
+    Arabic \par Armenian \par Balinese \par Bengali \par Bopomofo \par Braille \par Buginese \par Buhid \par Byzantine Music \par Canadian Syllabics \par Cherokee \par \dup CJK \par \dup CJK Ideographic \par Coptic \par Cypriot Syllabary \par Cyrillic \par Default \par Deseret \par Devanagari \par Ethiopic \par Georgian \par Glagolitic \par Gothic \par Greek \par Gujarati \par Gurmukhi \par Hangul Jamo \par Hangul \par Hanunoo \par Hebrew \par \dup Hiragana and Katakana \par \dup Kana \par Javanese \par Kannada \par Kharosthi \par Khmer \par Lao \par Latin \par Limbu \par Linear B \par Malayalam \par \dup Math \par \dup Maths \par Mongolian \par Musical Symbols \par Myanmar \par N'ko \par Ogham \par Old Italic \par Old Persian Cuneiform \par Oriya \par Osmanya \par Phags-pa \par Phoenician \par Runic \par Shavian \par Sinhala \par Sumero-Akkadian Cuneiform \par Syloti Nagri \par Syriac \par Tagalog \par Tagbanwa \par Tai Le \par Tai Lu \par Tamil \par Telugu \par Thaana \par Thai \par Tibetan \par Tifinagh \par Ugaritic Cuneiform \par Yi
+  \end{multicols}
+  \hrule
+\end{table}
+
+\begin{table}[p]
+  \vspace*{-3cm}
+  \hspace{-3cm}
+  \def\dup{\makebox[0pt][r]{\textcolor{red}{\P}}}
+  \begin{minipage}{\linewidth+4cm}
+  \caption{Defined \opt{Language}s for OpenType fonts. Aliased names are shown in adjacent positions marked with red pilcrows ({\sffamily\textcolor{red}{\P}}).}
+  \label{tab:ot-lang}
+  \setlength\columnseprule{0pt}
+  \hrule
+  \begin{multicols}{6}
+    \everypar{\setlength\parindent{0pt}\setlength\hangindent{2em}}
+    \sffamily\footnotesize\raggedright
+    Abaza \par Abkhazian \par Adyghe \par Afrikaans \par Afar \par Agaw \par Altai \par Amharic \par Arabic \par Aari \par Arakanese \par Assamese \par Athapaskan \par Avar \par Awadhi \par Aymara \par Azeri \par Badaga \par Baghelkhandi \par Balkar \par Baule \par Berber \par Bench \par Bible Cree \par Belarussian \par Bemba \par Bengali \par Bulgarian \par Bhili \par Bhojpuri \par Bikol \par Bilen \par Blackfoot \par Balochi \par Balante \par Balti \par Bambara \par Bamileke \par Breton \par Brahui \par Braj Bhasha \par Burmese \par Bashkir \par Beti \par Catalan \par Cebuano \par Chechen \par Chaha Gurage \par Chattisgarhi \par Chichewa \par Chukchi \par Chipewyan \par Cherokee \par Chuvash \par Comorian \par Coptic \par Cree \par Carrier \par Crimean Tatar \par Church Slavonic \par Czech \par Danish \par Dargwa \par Woods Cree \par German \par Default \par Dogri \par Divehi \par Djerma \par Dangme \par Dinka \par Dungan \par Dzongkha \par Ebira \par Eastern Cree \par Edo \par Efik \par Greek \par English \par Erzya \par Spanish \par Estonian \par Basque \par Evenki \par Even \par Ewe \par French Antillean \par \dup Farsi \par \dup Parsi \par \dup Persian \par Finnish \par Fijian \par Flemish \par Forest Nenets \par Fon \par Faroese \par French \par Frisian \par Friulian \par Futa \par Fulani \par Ga \par Gaelic \par Gagauz \par Galician \par Garshuni \par Garhwali \par Ge'ez \par Gilyak \par Gumuz \par Gondi \par Greenlandic \par Garo \par Guarani \par Gujarati \par Haitian \par Halam \par Harauti \par Hausa \par Hawaiin \par Hammer-Banna \par Hiligaynon \par Hindi \par High Mari \par Hindko \par Ho \par Harari \par Croatian \par Hungarian \par Armenian \par Igbo \par Ijo \par Ilokano \par Indonesian \par Ingush \par Inuktitut \par Irish \par Irish Traditional \par Icelandic \par Inari Sami \par Italian \par Hebrew \par Javanese \par Yiddish \par Japanese \par Judezmo \par Jula \par Kabardian \par Kachchi \par Kalenjin \par Kannada \par Karachay \par Georgian \par Kazakh \par Kebena \par Khutsuri Georgian \par Khakass \par Khanty-Kazim \par Khmer \par Khanty-Shurishkar \par Khanty-Vakhi \par Khowar \par Kikuyu \par Kirghiz \par Kisii \par Kokni \par Kalmyk \par Kamba \par Kumaoni \par Komo \par Komso \par Kanuri \par Kodagu \par Korean Old Hangul \par Konkani \par Kikongo \par Komi-Permyak \par Korean \par Komi-Zyrian \par Kpelle \par Krio \par Karakalpak \par Karelian \par Karaim \par Karen \par Koorete \par Kashmiri \par Khasi \par Kildin Sami \par Kui \par Kulvi \par Kumyk \par Kurdish \par Kurukh \par Kuy \par Koryak \par Ladin \par Lahuli \par Lak \par Lambani \par Lao \par Latin \par Laz \par L-Cree \par Ladakhi \par Lezgi \par Lingala \par Low Mari \par Limbu \par Lomwe \par Lower Sorbian \par Lule Sami \par Lithuanian \par Luba \par Luganda \par Luhya \par Luo \par Latvian \par Majang \par Makua \par Malayalam Traditional \par Mansi \par Marathi \par Marwari \par Mbundu \par Manchu \par Moose Cree \par Mende \par Me'en \par Mizo \par Macedonian \par Male \par Malagasy \par Malinke \par Malayalam Reformed \par Malay \par Mandinka \par Mongolian \par Manipuri \par Maninka \par Manx Gaelic \par Moksha \par Moldavian \par Mon \par Moroccan \par Maori \par Maithili \par Maltese \par Mundari \par Naga-Assamese \par Nanai \par Naskapi \par N-Cree \par Ndebele \par Ndonga \par Nepali \par Newari \par Nagari \par Norway House Cree \par Nisi \par Niuean \par Nkole \par N'ko \par Dutch \par Nogai \par Norwegian \par Northern Sami \par Northern Tai \par Esperanto \par Nynorsk \par Oji-Cree \par Ojibway \par Oriya \par Oromo \par Ossetian \par Palestinian Aramaic \par Pali \par Punjabi \par Palpa \par Pashto \par Polytonic Greek \par Pilipino \par Palaung \par Polish \par Provencal \par Portuguese \par Chin \par Rajasthani \par R-Cree \par Russian Buriat \par Riang \par Rhaeto-Romanic \par Romanian \par Romany \par Rusyn \par Ruanda \par Russian \par Sadri \par Sanskrit \par Santali \par Sayisi \par Sekota \par Selkup \par Sango \par Shan \par Sibe \par Sidamo \par Silte Gurage \par Skolt Sami \par Slovak \par Slavey \par Slovenian \par Somali \par Samoan \par Sena \par Sindhi \par Sinhalese \par Soninke \par Sodo Gurage \par Sotho \par Albanian \par Serbian \par Saraiki \par Serer \par South Slavey \par Southern Sami \par Suri \par Svan \par Swedish \par Swadaya Aramaic \par Swahili \par Swazi \par Sutu \par Syriac \par Tabasaran \par Tajiki \par Tamil \par Tatar \par TH-Cree \par Telugu \par Tongan \par Tigre \par Tigrinya \par Thai \par Tahitian \par Tibetan \par Turkmen \par Temne \par Tswana \par Tundra Nenets \par Tonga \par Todo \par Turkish \par Tsonga \par Turoyo Aramaic \par Tulu \par Tuvin \par Twi \par Udmurt \par Ukrainian \par Urdu \par Upper Sorbian \par Uyghur \par Uzbek \par Venda \par Vietnamese \par Wa \par Wagdi \par West-Cree \par Welsh \par Wolof \par Tai Lue \par Xhosa \par Yakut \par Yoruba \par Y-Cree \par Yi Classic \par Yi Modern \par Chinese Hong Kong \par Chinese Phonetic \par Chinese Simplified \par Chinese Traditional \par Zande \par Zulu
+  \end{multicols}
+  \hspace{4pt}
+  \hrule
+ \end{minipage}
+\end{table}
+
+

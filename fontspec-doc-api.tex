@@ -1,0 +1,272 @@
+
+
+
+\part{Programming interface}
+
+This is the beginning of some work to provide some hooks that use
+\pkg{fontspec} for various macro programming purposes.
+
+
+\section{Defining new features} \label{sec:newfeatures}
+This package cannot hope to contain every possible font
+feature. Three commands are provided for selecting font features
+that are not provided for out of the box. If you are using
+them a lot, chances are I've left something out, so please let me
+know.
+
+\DescribeMacro{\newAATfeature}
+New \AAT\ features may be created with this command:\par
+{\centering\cmd\newAATfeature\marg{feature}\marg{option}\marg{feature code}\marg{selector code}\par}\noindent
+Use the \XeTeX\ file \path{AAT-info.tex} to obtain the code numbers.
+See \exref{newAATfeat}.
+
+\begin{Xexample}{newAATfeat}{Assigning new \AAT\ features.}
+  \newAATfeature{Alternate}{HoeflerSwash}{17}{1}
+  \fontspec{Hoefler Text Italic}[Alternate=HoeflerSwash]
+   This is XeTeX by Jonathan Kew.
+\end{Xexample}
+
+
+\DescribeMacro{\newopentypefeature}
+New OpenType features may be created with this command:\par
+{\centering\cmd\newopentypefeature\marg{feature}\marg{option}\marg{feature tag}\par}
+The synonym \cs{newICUfeature} is deprecated.
+
+Here's what it would look like in practise:
+\begin{Verbatim}
+\newopentypefeature{Style}{NoLocalForms}{-locl}
+\end{Verbatim}
+
+\DescribeMacro{\newfontfeature}
+In case the above commands do not accommodate the desired font feature
+(perhaps a new \XeTeX\ feature that \pkg{fontspec} hasn't been updated
+to support), a command is provided to pass arbitrary input into the
+font selection string:\par
+{\centering\cmd{\newfontfeature}\marg{name}\marg{input string}\par}
+
+For example, Zapfino
+contains the feature `Avoid d-collisions'. To access it
+with this package, you could do some like that shown in \exref{avoidd}.
+(For some reason this feature doesn't appear to be working although \pkg{fontspec} is doing the right thing. To be investigated.)
+
+\begin{Xexample}{avoidd}{Assigning new arbitary features.}
+  \newfontfeature{AvoidD}{Special=Avoid d-collisions}
+  \newfontfeature{NoAvoidD}{Special=!Avoid d-collisions}
+  \fontspec{Zapfino}[AvoidD,Variant=1]
+   sockdolager rubdown               \\
+  \fontspec{Zapfino}[NoAvoidD,Variant=1]
+   sockdolager rubdown
+\end{Xexample}
+
+The advantage to using the \cmd\newAATfeature\ and \cmd\newopentypefeature\
+commands instead of \cs{newfontfeature} is that they check if the selected font actually contains the desired font
+feature at load time. By contrast, \cmd\newfontfeature\ will not give a warning
+for improper input.
+
+\section{Going behind \pkg{fontspec}'s back}
+Expert users may wish not to use \pkg{fontspec}'s feature handling at all,
+while still taking advantage of its \LaTeX\ font selection conveniences. The
+\feat{RawFeature} font feature allows literal \XeTeX\ font feature selection
+when you happen to have the OpenType feature tag memorised.
+
+\begin{Xexample}{raw}{Using raw font features directly.}
+  \fontspec{texgyrepagella-regular.otf}[RawFeature=+smcp]
+  Pagella small caps
+\end{Xexample}
+
+Multiple features can either be included in a single declaration:\par
+{\centering|[RawFeature=+smcp;+onum]|\par}
+\noindent or with multiple declarations:\par
+{\centering|[RawFeature=+smcp, RawFeature=+onum]|\par}
+
+\section{Renaming existing features \& options}
+\label{sec:aliasfontfeature}
+
+\DescribeMacro{\aliasfontfeature}
+If you don't like the name of a particular font feature,
+it may be aliased to another with the
+\cs{aliasfontfeature}\marg{existing name}\marg{new name} command,
+such as shown in \exref{alias}.
+
+\begin{Xexample}{alias}{Renaming font features.}
+  \aliasfontfeature{ItalicFeatures}{IF}
+  \fontspec{Hoefler Text}[IF = {Alternate=1}]
+  Roman Letters \itshape And Swash
+\end{Xexample}
+
+Spaces in feature (and option names, see below) \emph{are} allowed. (You may have
+noticed this already in the lists of OpenType scripts and languages).
+
+\DescribeMacro{\aliasfontfeatureoption}
+If you wish to change the name of a font feature option,
+it can be aliased to another with the command
+\cs{aliasfontfeatureoption}\marg{font feature}\marg{existing name}\marg{new name}, such as shown in \exref{aliasopt}.
+
+\begin{Lexample}{aliasopt}{Renaming font feature options.}
+  \aliasfontfeature{VerticalPosition}{Vert Pos}
+  \aliasfontfeatureoption{VerticalPosition}{ScientificInferior}{Sci Inf}
+  \fontspec{LinLibertine_R.otf}[Vert Pos=Sci Inf]
+   Scientific Inferior: 12345
+\end{Lexample}
+
+This example demonstrates an important point: when aliasing the feature
+options, the \emph{original} feature name must be used when declaring
+to which feature the option belongs.
+
+Only feature options that exist as sets of fixed strings may be altered in
+this way. That is, \opt{Proportional} can be aliased to \opt{Prop} in the
+\feat{Letters} feature, but \opt{550099BB} cannot be substituted for \opt{Purple}
+in a \feat{Color} specification. For this type of thing, the \cmd\newfontfeature\
+command should be used to declare a new, \eg, \feat{PurpleColor} feature:
+\begin{Verbatim}
+  \newfontfeature{PurpleColor}{color=550099BB}
+\end{Verbatim}
+Except that this example was written before support for named colours was
+implemented. But you get the idea.
+
+\section{Programming details}
+\label{sec:api}
+
+\subsection{Variables}
+
+\DescribeMacro{\l_fontspec_family_tl}
+\DescribeMacro{\l_fontspec_font}
+In some cases, it is useful to know what the \LaTeX\ font family
+of a specific \pkg{fontspec} font is. After a \cmd\fontspec-like
+command, this is stored inside the \cmd\l_fontspec_family_tl\ macro.
+Otherwise, \LaTeX's own \cmd\f@family\ macro can be useful here,
+too.
+The raw \TeX\ font that is defined from the `base' font in the family is stored in \cmd{\l_fontspec_font}.
+
+\DescribeMacro{\g_fontspec_encoding_tl}
+Package authors who need to load fonts with legacy \LaTeX\ \NFSS\ commands may also need to know what the default font encoding is.
+Since this has changed from \texttt{EU1}/\texttt{EU2} to \texttt{TU}, it is best to use the variables \cs{g_fontspec_encoding_tl} or \cs{UTFencname} instead.
+
+\subsection{Functions for loading new fonts and families}
+
+\begin{macro}{\fontspec_set_family:Nnn}
+\darg{\LaTeX\ family}
+\darg{fontspec features}
+\darg{font name}
+Defines a new \NFSS\ family from given \meta{features} and \meta{font},
+and stores the family name in the variable \meta{family}.
+This font family can then be selected with standard \LaTeX\ commands
+\cs{fontfamily}\marg{family}\cs{selectfont}.
+See the standard \pkg{fontspec} user commands for applications of this
+function.
+\end{macro}
+
+\begin{macro}{\fontspec_set_fontface:NNnn}
+\darg{primitive font}
+\darg{\LaTeX\ family}
+\darg{fontspec features}
+\darg{font name}
+Variant of the above in which the primitive \TeX\ font command is stored in
+the variable \meta{primitive font}.
+If a family is loaded (with bold and italic shapes) the primitive font
+command will only select the regular face.
+This feature is designed for \LaTeX\ programmers who need to
+perform subsequent font-related tests on the \meta{primitive font}.
+\end{macro}
+
+\subsection{Conditionals}
+
+The following functions in \pkg{expl3} syntax may be used
+for writing code that interfaces with \pkg{fontspec}-loaded fonts.
+The following conditionals are all provided in |TF|, |T|, and |F| forms.
+
+\subsubsection{Querying font families}
+
+\begin{macro}{\fontspec_font_if_exist:nTF}
+Test whether the `font name' (|#1|) exists or is loadable.
+The syntax of |#1| is a restricted/simplified version of \pkg{fontspec}'s usual font loading syntax; fonts to be loaded by filename are detected by the presence of an appropriate extension (|.otf|, etc.), and paths should be included inline.
+E.g.:
+\begin{Verbatim}
+  \fontspec_font_if_exist:nTF {cmr10}{T}{F}
+  \fontspec_font_if_exist:nTF {Times~ New~ Roman}{T}{F}
+  \fontspec_font_if_exist:nTF {texgyrepagella-regular.otf}{T}{F}
+  \fontspec_font_if_exist:nTF {/Users/will/Library/Fonts/CODE2000.TTF}{T}{F}
+\end{Verbatim}
+\end{macro}
+The synonym \cs{IfFontExistsTF} is provided for `document authors'.
+
+
+\begin{macro}{\fontspec_if_fontspec_font:TF}
+Test whether the currently selected font has been loaded by fontspec.
+\end{macro}
+
+
+\begin{macro}{\fontspec_if_opentype:TF}
+Test whether the currently selected font is an OpenType font.
+Always true for \LuaTeX{} fonts.
+\end{macro}
+
+
+\subsubsection{Availability of features}
+
+\begin{macro}{\fontspec_if_aat_feature:nnTF}
+Test whether the currently selected font contains the \AAT\
+feature (|#1|,|#2|).
+\end{macro}
+
+
+\begin{macro}{\fontspec_if_feature:nTF}
+Test whether the currently selected font contains the raw OpenType
+feature |#1|. E.g.: |\fontspec_if_feature:nTF {pnum} {True} {False}|.
+Returns false if the font is not loaded by fontspec or is not an OpenType
+font.
+\end{macro}
+
+
+\begin{macro}{\fontspec_if_feature:nnnTF}
+Test whether the currently selected font with raw OpenType script tag |#1| and raw OpenType language tag |#2| contains the raw OpenType feature tag |#3|. E.g.: |\fontspec_if_feature:nnnTF {latn} {ROM} {pnum} {True} {False}|.
+Returns false if the font is not loaded by fontspec or is not an OpenType
+font.
+\end{macro}
+
+
+\begin{macro}{\fontspec_if_script:nTF}
+Test whether the currently selected font contains the raw OpenType
+script |#1|. E.g.: |\fontspec_if_script:nTF {latn} {True} {False}|.
+Returns false if the font is not loaded by fontspec or is not an OpenType
+font.
+\end{macro}
+
+
+\begin{macro}{\fontspec_if_language:nTF}
+Test whether the currently selected font contains the raw OpenType language
+tag |#1|. E.g.: |\fontspec_if_language:nTF {ROM} {True} {False}|.
+Returns false if the font is not loaded by fontspec or is not an OpenType
+font.
+\end{macro}
+
+
+\begin{macro}{\fontspec_if_language:nnTF}
+Test whether the currently selected font contains the raw OpenType language
+tag |#2| in script |#1|. E.g.: |\fontspec_if_language:nnTF {cyrl} {SRB} {True} {False}|.
+Returns false if the font is not loaded by fontspec or is not an OpenType
+font.
+\end{macro}
+
+
+\subsubsection{Currently selected features}
+
+\begin{macro}{\fontspec_if_current_feature:nTF}
+Test whether the currently loaded font is using the specified raw
+OpenType feature tag |#1|.
+The tag string |#1| should be prefixed with |+| to query an active feature, and with a |-| (hyphen) to query a disabled feature.
+\end{macro}
+
+
+\begin{macro}{\fontspec_if_current_script:nTF}
+Test whether the currently loaded font is using the specified raw
+OpenType script tag |#1|.
+\end{macro}
+
+
+\begin{macro}{\fontspec_if_current_language:nTF}
+Test whether the currently loaded font is using the specified raw
+OpenType language tag |#1|.
+\end{macro}
+
+

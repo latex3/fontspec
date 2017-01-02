@@ -1,0 +1,626 @@
+
+\part{Selecting font features}
+\label{sec:selectingfeature}
+
+The commands discussed so far such as \cs{fontspec} each take an optional argument for
+accessing the font features of the requested font.
+Commands are provided to set default features to be applied for all fonts, and even to change the features that a font is presently loaded with.
+Different font shapes can be loaded with separate features, and different features can even be selected for different sizes that the font appears in.
+This part discusses these options.
+
+\section{Default settings} \label{sec:defaults}
+
+\cmdbox{\cmd\defaultfontfeatures\marg{font features}}
+
+It is sometimes useful to define
+font features that are applied to every subsequent font selection command.
+This may be defined with the
+\cmd{\defaultfontfeatures} command, shown in \exref{dff}.
+New calls of \cs{defaultfontfeatures} overwrite previous ones, and defaults can be reset by calling the command with an empty argument.
+
+\begin{Xexample}{dff}{A demonstration of the \cs{defaultfontfeatures} command.}
+  \fontspec{texgyreadventor-regular.otf}
+  Some default text 0123456789 \\
+  \defaultfontfeatures{
+     Numbers=OldStyle, Color=888888
+  }
+  \fontspec{texgyreadventor-regular.otf}
+  Now grey, with old-style figures:
+  0123456789
+\end{Xexample}
+
+\cmdbox{\cmd\defaultfontfeatures\oarg{font name}\marg{font features}}
+
+Default font features can be specified on a per-font and per-face basis
+by using the optional argument to \cs{defaultfontfeatures} as shown.
+\begin{Verbatim}
+  \defaultfontfeatures[texgyreadventor-regular.otf]{Color=blue}
+  \setmainfont{texgyreadventor-regular.otf}% will be blue
+\end{Verbatim}
+Multiple fonts may be affected by using a comma separated list of font names.
+
+\cmdbox{\cmd\defaultfontfeatures\oarg{\cs{font-switch}}\marg{font features}}
+
+\textbf{New in v2.4}.
+Defaults can also be applied to symbolic families such as those created with the |\newfontfamily| command and for |\rmfamily|, |\sffamily|, and |\ttfamily|:
+\begin{Verbatim}
+  \defaultfontfeatures[\rmfamily,\sffamily]{Ligatures=TeX}
+  \setmainfont{texgyreadventor-regular.otf}% will use standard TeX ligatures
+\end{Verbatim}
+The line above to set \TeX-like ligatures is now activated by \emph{default} in \texttt{fontspec.cfg}.
+To reset default font features, simply call the command with an empty argument:
+\begin{Verbatim}
+  \defaultfontfeatures[\rmfamily,\sffamily]{}
+  \setmainfont{texgyreadventor-regular.otf}% will no longer use standard TeX ligatures
+\end{Verbatim}
+
+\cmdbox{\cmd\defaultfontfeatures\texttt{+}\marg{font features}\\
+        \cmd\defaultfontfeatures\texttt{+}\oarg{font name}\marg{font features}}
+
+\textbf{New in v2.4}.
+Using the |+| form of the command appends the \meta{font features} to any already-selected defaults.
+
+
+\section{Default settings from a file}
+
+In addition to the defaults that may be specified in the document as described above, when a font is first loaded, a configuration file is searched
+for with the name `\meta{fontname}\texttt{.fontspec}'.\footnote{Located in the current folder or within a standard \texttt{texmf} location.}
+
+The contents of this file can be used to specify default font features without
+having to have this information present within each document.
+\meta{fontname} is stripped of spaces and file extensions are omitted; for
+example, the line above for \TeX\ Gyre Adventor could be placed in a file
+called \texttt{TeXGyreAdventor.fontspec}, or for specifying options for
+\texttt{texgyreadventor-regular.otf} (when loading by filename), the configuration
+file would be \texttt{texgyreadventor-regular.fontspec}.
+(N.B. the lettercase of the names should match.)
+
+This mechanism can be used to define custom names or aliases for your font collections.
+If you create a file \texttt{MyCharis.fontspec} containing, say,
+\begin{Verbatim}
+  \defaultfontfeatures[My Charis]
+   {
+    Extension = .ttf ,
+    UprightFont = CharisSILR,
+    BoldFont = CharisSILB,
+    ItalicFont = CharisSILI,
+    BoldItalicFont = CharisSILBI,
+    % <any other desired options>
+   }
+\end{Verbatim}
+you can load that custom family with \verb|\fontspec{My Charis}| and similar.
+The optional argument to \cs{defaultfontfeatures} must match that requested by the font loading command (\verb|\fontspec|, etc.), else the options won't take effect.
+
+Finally, note that options for font faces can also be defined in this way.
+To continue the example above, here we colour the different faces:
+\begin{Verbatim}
+  \defaultfontfeatures[CharisSILR]{Color=blue}
+  \defaultfontfeatures[CharisSILB]{Color=red}
+\end{Verbatim}
+And such configuration lines can be stored either inline inside \texttt{My Charis.fontspec} or within their own \texttt{.fontspec} files; in this way, \pkg{fontspec} is designed to handle `nested' configuration options as well.
+
+\section{Working with the currently selected features}
+\label{sec:addfontfeatures}
+
+
+\cmdbox{\cmd\IfFontFeatureActiveTF\marg{font feature}\marg{true code}\marg{false code}}
+
+This command queries the currently selected font face and executes the appropriate branch based on whether the \meta{font feature} as specified by \pkg{fontspec} is currently active.
+
+For example, the following will print `True':
+\begin{Verbatim}
+\setmainfont{texgyrepagella-regular.otf}[Numbers=OldStyle]
+\IfFontFeatureActiveTF{Numbers=OldStyle}{True}{False}
+\end{Verbatim}
+
+Note that there is no way for \pkg{fontspec} to know what the default features of a font will be. For example, by default the |texgyrepagella| fonts use lining numbers. But in the following example, querying for lining numbers returns false since they have not been explicitly requested:
+\begin{Verbatim}
+\setmainfont{texgyrepagella-regular.otf}
+\IfFontFeatureActiveTF{Numbers=Lining}{True}{False}
+\end{Verbatim}
+
+Please note: At time of writing this function only supports OpenType fonts; AAT/Graphite fonts under the \XeTeX\ engine are not supported.
+
+
+\cmdbox{\cmd\addfontfeatures\marg{font features}}
+
+This command allows font features to
+be changed without knowing what features are currently selected or even what
+font is being used. A good example of this could be to add a hook to all
+tabular material to use monospaced numbers, as shown in \exref{aff}.
+If you attempt to \emph{change} an already-selected feature, \pkg{fontspec} will try to de-activate any features that clash with the new ones.
+\Eg, the following two invocations are mutually exclusive:
+\begin{Verbatim}
+\addfontfeature{Numbers=OldStyle}...
+\addfontfeature{Numbers=Lining}...
+123
+\end{Verbatim}
+Since |Numbers=Lining| comes last, it takes precedence and deactivates the call |Numbers=OldStyle|.
+
+\begin{Lexample}{aff}{A demonstration of the \cs{addfontfeatures} command.}
+  \fontspec{texgyreadventor-regular.otf}%
+           [Numbers={Proportional,OldStyle}]
+  `In 1842, 999 people sailed 97 miles in
+   13 boats. In 1923, 111 people sailed 54
+   miles in 56 boats.'            \bigskip
+
+  {\addfontfeatures{Numbers={Monospaced,Lining}}
+  \begin{tabular}{@{} cccc @{}}
+            Year & People & Miles & Boats \\
+    \hline  1842 &  999   &  75   &  13   \\
+            1923 &  111   &  54   &  56
+  \end{tabular}}
+\end{Lexample}
+
+\DescribeMacro{\addfontfeature}
+This command may also be executed under the alias \cmd{\addfontfeature}.
+
+
+\subsection{Priority of feature selection}
+Features defined with \cs{addfontfeatures} override features
+specified by \cs{fontspec}, which in turn override features
+specified by \cs{defaultfontfeatures}.  If in doubt, whenever a
+new font is chosen for the first time, an entry is made in the
+transcript (\texttt{.log}) file displaying the font name and the
+features requested.
+
+
+\section{Different features for different font shapes}
+\label{sec:bfit-feat}
+
+\cmdbox{
+ \feat{BoldFeatures}\texttt=\marg{features} \\
+ \feat{ItalicFeatures}\texttt=\marg{features} \\
+ \feat{BoldItalicFeatures}\texttt=\marg{features} \\
+ \feat{SlantedFeatures}\texttt=\marg{features} \\
+ \feat{BoldSlantedFeatures}\texttt=\marg{features} \\
+ \feat{SmallCapsFeatures}\texttt=\marg{features}
+}
+
+It is entirely possible that separate fonts in a family will require
+separate options; \eg, Hoefler Text Italic contains various swash
+feature options that are completely unavailable in the upright shapes.
+
+The font features defined at the top level of the optional \cmd\fontspec\
+argument are applied to \emph{all} shapes of the family.
+Using \feat{Upright-}, \feat{SmallCaps-}, \feat{Bold-},
+\feat{Italic-}, and \feat{BoldItalicFeatures},
+separate font features may be defined to their respective shapes
+\emph{in addition} to, and with precedence over, the `global' font features.
+See \exref{itfeat}.
+
+\begin{Xexample}{itfeat}{Features for, say, just italics.}
+\fontspec{EBGaramond12-Regular.otf}%
+  [ItalicFont=EBGaramond12-Italic.otf]
+\itshape Don’t Ask Victoria! \\
+\addfontfeature{ItalicFeatures={Style=Swash}}
+Don’t Ask Victoria! \\
+\end{Xexample}
+
+Note that because most fonts include their small caps glyphs
+within the main font, features specified with \feat{SmallCapsFeatures} are applied \emph{in addition} to
+any other shape-specific features as defined above, and hence \feat{SmallCapsFeatures}
+can be nested within \feat{ItalicFeatures} and friends. Every combination
+of upright, italic, bold and small caps can thus be assigned individual
+features, as shown in the somewhat ludicrous \exref{scfeat}.
+
+\begin{Xexample}{scfeat}{An example of setting the \feat{SmallCapsFeatures}
+separately for each font shape.}
+  \fontspec{texgyretermes}[
+      Extension = {.otf},
+      UprightFont = {*-regular}, ItalicFont = {*-italic},
+      BoldFont = {*-bold}, BoldItalicFont = {*-bolditalic},
+      UprightFeatures={Color = 220022,
+           SmallCapsFeatures = {Color=115511}},
+       ItalicFeatures={Color = 2244FF,
+           SmallCapsFeatures = {Color=112299}},
+         BoldFeatures={Color = FF4422,
+           SmallCapsFeatures = {Color=992211}},
+   BoldItalicFeatures={Color = 888844,
+           SmallCapsFeatures = {Color=444422}},
+           ]
+  Upright {\scshape Small Caps}\\
+  \itshape Italic {\scshape Italic Small Caps}\\
+  \upshape\bfseries Bold {\scshape Bold Small Caps}\\
+  \itshape Bold Italic {\scshape Bold Italic Small Caps}
+\end{Xexample}
+
+
+\section{Selecting fonts from TrueType Collections (TTC files)}
+TrueType Collections are multiple fonts contained within a single file.
+Each font within a collection must be explicitly chosen using the \feat{FontIndex} command.
+Since TrueType Collections are often used to contain the italic/bold shapes in a family, \pkg{fontspec} automatically selects the italic, bold, and bold italic fontfaces from the same file.
+For example, to load the macOS system font Optima:
+\begin{Verbatim}
+\setmainfont{Optima.ttc}[
+  Path = /System/Library/Fonts/ ,
+  UprightFeatures    = {FontIndex=0} ,
+  BoldFeatures       = {FontIndex=1} ,
+  ItalicFeatures     = {FontIndex=2} ,
+  BoldItalicFeatures = {FontIndex=3} ,
+]
+\end{Verbatim}
+Support for TrueType Collections has only been tested in \XeTeX, but should also work with an up-to-date version of \LuaTeX\ and the \pkg{luaotfload} package.
+
+
+\section{Different features for different font sizes}
+\label{sec:sizefeature}
+
+\cmdbox{
+\ttfamily SizeFeatures = \char`\{\\
+\null\quad...\\
+\null\quad\char`\{~Size =
+\rmfamily\meta{size range}\ttfamily
+,
+\rmfamily \meta{font features}\ttfamily
+~\char`\} , \\
+\null\quad\char`\{~Size =
+\rmfamily\meta{size range}\ttfamily
+, Font =
+\rmfamily\meta{font name}\texttt, \meta{font features}\ttfamily
+~\char`\} , \\
+\null\quad... \\
+\char`\}}
+
+The \feat{SizeFeature} feature is a little more complicated
+than the previous features discussed. It allows different fonts
+and different font features to be selected for a given font
+family as the point size varies.
+
+It takes a comma separated list of braced, comma separated lists of features for each size range.
+Each sub-list must contain the \opt{Size} option
+to declare the size range, and optionally \opt{Font} to change the
+font based on size. Other (regular) fontspec features that are added
+are used on top of the font features that would be used anyway.
+A demonstration to clarify these details is shown in \exref{sizefeat}.
+A less trivial example is shown in the context of optical font sizes
+in \vref{sec:opticalsize}.
+
+\begin{Xexample}{sizefeat}{An example of specifying different font features for different sizes of font with \feat{SizeFeatures}.}
+  \fontspec{texgyrechorus-mediumitalic.otf}[
+    SizeFeatures={
+      {Size={-8}, Font=texgyrebonum-italic.otf, Color=AA0000},
+      {Size={8-14}, Color=00AA00},
+      {Size={14-}, Color=0000AA}} ]
+
+  {\scriptsize Small\par} Normal size\par {\Large Large\par}
+\end{Xexample}
+
+To be precise, the \opt{Size} sub-feature accepts arguments in the form shown in \vref{tab:sizing}.
+Braces around the size range are optional. For an exact font size (|Size=X|)
+font sizes chosen near that size will `snap'. For example, for size definitions
+at exactly 11pt and 14pt, if a 12pt font is requested \emph{actually} the
+11pt font will be selected. This is a remnant of the past when fonts were designed
+in metal (at obviously rigid sizes) and later when bitmap fonts were similarly
+designed for fixed sizes.
+
+If additional features are only required for a single size, the other sizes
+must still be specified.  As in:
+\begin{Verbatim}
+  SizeFeatures={
+     {Size=-10,Numbers=Uppercase},
+     {Size=10-}}
+\end{Verbatim}
+Otherwise, the font sizes greater than 10 won't be defined at all!
+
+\begin{table}
+\caption{Syntax for specifying the size to apply custom font features.}\label{tab:sizing}
+\centering
+\begin{tabular}{@{}ll@{}}
+\toprule
+Input & Font size, $s$ \\
+\midrule
+ |Size = X-| & $s \geq \texttt{X}$ \\
+ |Size = -Y| & $s < \texttt{Y}$ \\
+ |Size = X-Y| & $\texttt{X} \leq s < \texttt{Y}$ \\
+ |Size = X| & $s = \texttt{X}$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Interaction with other features}
+For \feat{SizeFeatures} to work with \feat{ItalicFeatures}, \feat{BoldFeatures}, etc., and \feat{SmallCapsFeatures}, a strict heirarchy is required:
+\begin{Verbatim}
+ UprightFeatures =
+  {
+   SizeFeatures =
+    {
+     {
+      Size = -10,
+      Font = ..., % if necessary
+      SmallCapsFeatures = {...},
+      ... % other features for this size range
+     },
+     ... % other size ranges
+    }
+  }
+\end{Verbatim}
+Suggestions on simplifying this interface welcome.
+
+
+\section{Font independent options} \label{sec:font-ind-features}
+
+Features introduced in this section may be used with any font.
+
+\subsection{Colour}
+
+\feat{Color} (or \feat{Colour}), also shown in \vref{sec:defaults}
+and elsewhere, uses font specifications to set the colour of
+the text.
+You should think of this as the literal glyphs of the font being coloured in a certain way.
+Notably, this mechanism is different to that of the \pkg{color}/\pkg{xcolor}/\pkg{hyperref}/etc.\ packages, and in fact using \pkg{fontspec} commands to set colour will prevent your text from changing colour using those packages at all!
+For example, if you set the colour in a \verb|\setmainfont| command, \verb|\color{...}| and related commands, including hyperlink colouring, will no longer have any effect on text in this font.)
+Therefore, \pkg{fontspec}'s colour commands are best used to set explicit colours in specific situations, and the \pkg{xcolor} package is recommended for more general colour functionality.
+
+The colour is defined as a triplet of two-digit Hex RGB
+values, with optionally another value for the transparency (where
+|00| is completely transparent and |FF| is opaque.)
+\begin{Lexample}{color}{Selecting colour with transparency.}
+  \fontsize{48}{48}
+  \fontspec{texgyrebonum-bold.otf}
+  {\addfontfeature{Color=FF000099}W}\kern-0.4ex
+  {\addfontfeature{Color=0000FF99}S}\kern-0.4ex
+  {\addfontfeature{Color=DDBB2299}P}\kern-0.5ex
+  {\addfontfeature{Color=00BB3399}R}
+\end{Lexample}
+Transparency is supported by \LuaLaTeX; \XeLaTeX\ with the \texttt{xdvipdfmx} driver
+does not support this feature.
+
+If you load the \pkg{xcolor} package, you may use any named colour instead
+of writing the colours in hexadecimal.
+\begin{Verbatim}
+ \usepackage{xcolor}
+ ...
+ \fontspec[Color=red]{Verdana} ...
+ \definecolor{Foo}{rgb}{0.3,0.4,0.5}
+ \fontspec[Color=Foo]{Verdana} ...
+\end{Verbatim}
+The \pkg{color} package is \emph{not} supported; use \pkg{xcolor} instead.
+
+You may specify the transparency with a named colour using the \feat{Opacity}
+feature which takes an decimal from zero to one corresponding to
+transparent to opaque respectively:
+\begin{Verbatim}
+ \fontspec[Color=red,Opacity=0.7]{Verdana} ...
+\end{Verbatim}
+It is still possible to specify a colour in six-char hexadecimal form
+while defining opacity in this way, if you like.
+
+\subsection{Scale}
+
+\cmdbox{
+ \feat{Scale} = \meta{number} \\
+ \feat{Scale} = \opt{MatchLowercase} \\
+ \feat{Scale} = \opt{MatchUppercase}
+}
+
+In its explicit form, \feat{Scale} takes a single
+numeric argument for linearly scaling the font, as demonstrated
+in \exref{fontload}.
+It is now possible to
+measure the correct dimensions of the fonts loaded and
+calculate values to scale them automatically.
+
+As well as a numerical argument, the \feat{Scale} feature
+also accepts options \opt{MatchLowercase}
+and \opt{MatchUppercase}, which will scale the font being selected to match
+the current default roman font to either the height of the lowercase or
+uppercase letters, respectively; these features are shown in \exref{scale}.
+
+\begin{Xexample}{scale}{Automatically calculated scale values.}
+  \setmainfont{Georgia}
+  \newfontfamily\lc[Scale=MatchLowercase]{Verdana}
+   The perfect match {\lc is hard to find.}\\
+  \newfontfamily\uc[Scale=MatchUppercase]{Arial}
+   L O G O \uc F O N T
+\end{Xexample}
+
+The amount of scaling used in each instance is reported in the \texttt{.log} file.
+Since there is some subjectivity about the exact scaling to be used, these values
+should be used to fine-tune the results.
+
+Note that when |Scale=MatchLowercase| is used with |\setmainfont|, the new `main' font of the document will be scaled to match the old default.
+This may be undesirable in some cases, so to achieve `natural' scaling for the main font but automatically scale all other fonts selected, you may write
+\begin{Verbatim}
+  \defaultfontfeatures{ Scale = MatchLowercase }
+  \defaultfontfeatures[\rmfamily]{ Scale = 1}
+\end{Verbatim}
+One or both of these lines may be placed into a local |fontspec.cfg| file (see \vref{sec:config}) for this behaviour to be effected in your own documents automatically.
+(Also see \vref{sec:defaults} for more information on setting font defaults.)
+
+
+
+\subsection{Interword space}
+
+While the space between words can be varied on an individual
+basis with the \TeX\ primitive \cmd\spaceskip\ command, it is
+more convenient to specify this information when the font is
+first defined.
+
+The space in between words in a paragraph will be chosen automatically,
+and generally will not need to be adjusted. For those
+times when the precise details are important, the \feat{WordSpace}
+feature is
+provided, which takes either a single scaling factor to scale the
+default value, or a triplet of comma-separated
+values to scale the nominal value, the stretch, and the shrink of the
+interword space by, respectively. (|WordSpace={|$x$|}| is the same as
+|WordSpace={|$x$|,|$x$|,|$x$|}|.)
+
+\begingroup
+\let\centering\relax
+\begin{Xexample}{wordspace}{Scaling the default interword space. An exaggerated value has been chosen to emphasise the effects here.}
+  \fontspec{texgyretermes-regular.otf}
+  Some text for our example to take
+  up some space, and to demonstrate
+  the default interword space.
+  \bigskip
+
+  \fontspec{texgyretermes-regular.otf}%
+    [WordSpace = 0.3]
+  Some text for our example to take
+  up some space, and to demonstrate
+  the default interword space.
+\end{Xexample}
+\endgroup
+
+Note that \TeX's optimisations in how it loads fonts means that you cannot
+use this feature in \cs{addfontfeatures}.
+
+\subsection{Post-punctuation space}
+
+If \cmd\frenchspacing\ is \emph{not} in effect, \TeX\ will allow extra
+space after some punctuation in its goal of justifying the lines of text.
+Generally, this is considered old-fashioned, but occasionally in small amounts the
+effect can be justified, pardon the pun.
+
+The \feat{PunctuationSpace} feature takes a scaling factor by which to
+adjust the nominal value chosen for the font; this is demonstrated in
+\exref{punctspace}.
+Note that |PunctuationSpace=0|
+is \emph{not} equivalent to \cmd\frenchspacing, although the difference
+will only be apparent when a line of text is under-full.
+
+\begin{Lexample}{punctspace}{Scaling the default post-punctuation space.}
+  \nonfrenchspacing
+  \fontspec{texgyreschola-regular.otf}
+   Letters, Words. Sentences.          \par
+  \fontspec{texgyreschola-regular.otf}[PunctuationSpace=2]
+   Letters, Words. Sentences.          \par
+  \fontspec{texgyreschola-regular.otf}[PunctuationSpace=0]
+   Letters, Words. Sentences.
+\end{Lexample}
+
+Note that \TeX's optimisations in how it loads fonts means that you cannot
+use this feature in \cs{addfontfeatures}.
+
+
+
+\subsection{The hyphenation character}
+
+The letter used for hyphenation may be chosen with the \feat{HyphenChar}
+feature. It takes three types of input, which are chosen according to some
+simple rules. If the input is the string \opt{None}, then hyphenation is
+suppressed for this font.
+If the input is a single character, then this
+character is used. Finally, if the input is longer than a single character
+it must be the UTF-8 slot number of the hyphen character you desire.
+
+This package redefines \LaTeX's \cmd\-\ macro such that it adjusts along with the above changes.
+
+\begin{Xexample}{hyphchar}{Explicitly choosing the hyphenation character.}
+ \def\text{\fbox{\parbox{1.55cm}{%
+   EXAMPLE HYPHENATION%
+ }}\qquad\qquad\null\par\bigskip}
+
+ \fontspec{Linux Libertine O}[HyphenChar=None]
+ \text
+ \fontspec{Linux Libertine O}[HyphenChar={+}]
+ \text
+\end{Xexample}
+
+Note that \TeX's optimisations in how it loads fonts means that you cannot
+use this feature in \cs{addfontfeatures}.
+
+\subsection{Optical font sizes} \label{sec:opticalsize}
+
+Optically scaled fonts thicken out as the font size decreases
+in order to make the glyph shapes more robust (less prone to losing
+detail), which improves legibility. Conversely, at large optical
+sizes the serifs and other small details may be more delicately
+rendered.
+
+OpenType fonts with optical scaling will exist in
+several discrete sizes, and these will be selected by \XeTeX\
+and Lua\TeX\
+\emph{automatically} determined by the current font size as in
+\exref{optsize}, in which we've scaled down some large text in order to be
+able to compare the difference for equivalent font sizes.
+
+The
+\opt{OpticalSize} option may be used to specify a different optical
+size.
+With \opt{OpticalSize} set
+to zero, no optical size font substitution is performed, as shown in
+\exref{optsize0}.
+
+\begin{Xexample}{optsize}{A demonstration of automatic optical size selection.}
+  \fontspec{Latin Modern Roman}
+   Automatic optical size                  \\
+  \scalebox{0.4}{\Huge
+   Automatic optical size}
+\end{Xexample}
+
+\begin{Xexample}{optsize0}{Optical size substitution is suppressed when set to zero.}
+  \fontspec{Latin Modern Roman 5 Regular}[OpticalSize=0]
+   Latin Modern optical sizes                \\
+  \fontspec{Latin Modern Roman 8 Regular}[OpticalSize=0]
+   Latin Modern optical sizes                \\
+  \fontspec{Latin Modern Roman 12 Regular}[OpticalSize=0]
+   Latin Modern optical sizes                \\
+  \fontspec{Latin Modern Roman 17 Regular}[OpticalSize=0]
+   Latin Modern optical sizes
+\end{Xexample}
+
+The \feat{SizeFeatures} feature (\vref*{sec:sizefeature}) can be
+used to specify exactly which optical sizes will be used for ranges
+of font size. For example, something like:
+\begin{Verbatim}
+  \fontspec{Latin Modern Roman}[
+    UprightFeatures = { SizeFeatures = {
+      {Size=-10,     OpticalSize=8 },
+      {Size= 10-14,  OpticalSize=10},
+      {Size= 14-18,  OpticalSize=14},
+      {Size=    18-, OpticalSize=18}}}
+           ]
+\end{Verbatim}
+
+\subsection{Font transformations}
+
+In rare situations users may want to mechanically distort the shapes of the glyphs in the current font such as shown in \exref{fake}. Please don't overuse these features; they are \emph{not} a good alternative to having the real shapes.
+
+\begin{Xexample}{fake}{Articifial font transformations.}
+  \fontspec{Charis SIL} \emph{ABCxyz} \quad
+  \fontspec{Charis SIL}[FakeSlant=0.2] ABCxyz
+
+  \fontspec{Charis SIL}  ABCxyz \quad
+  \fontspec{Charis SIL}[FakeStretch=1.2] ABCxyz
+
+  \fontspec{Charis SIL} \textbf{ABCxyz} \quad
+  \fontspec{Charis SIL}[FakeBold=1.5] ABCxyz
+\end{Xexample}
+
+If values are omitted, their defaults are as shown above.
+
+If you want the bold shape to be faked automatically, or the italic shape
+to be slanted automatically, use the \feat{AutoFakeBold} and
+\feat{AutoFakeSlant} features. For example, the following two invocations
+are equivalent:
+\begin{Verbatim}
+  \fontspec[AutoFakeBold=1.5]{Charis SIL}
+  \fontspec[BoldFeatures={FakeBold=1.5}]{Charis SIL}
+\end{Verbatim}
+If both of the \feat{AutoFake...} features are used, then the bold italic
+font will also be faked.
+
+The \feat{FakeBold} and \feat{AutoFakeBold} features are only available with the \XeTeX\ engine and will be ignored in \LuaTeX.
+
+
+\subsection{Letter spacing}
+Letter spacing, or tracking, is the term given to adding (or subtracting) a small amount of horizontal space in between adjacent characters. It is specified with the \feat{LetterSpace}, which takes a numeric argument,
+shown in \exref{tracking}.
+
+The letter spacing parameter is a normalised additive factor (not a scaling factor); it is defined as a percentage of the font size. That is, for a 10\,pt font, a letter spacing parameter of `|1.0|' will add 0.1\,pt between each letter.
+
+\begin{Xexample}{tracking}{The \feat{LetterSpace} feature.}
+  \fontspec{Didot}
+  \addfontfeature{LetterSpace=0.0}
+  USE TRACKING FOR DISPLAY CAPS TEXT \\
+  \addfontfeature{LetterSpace=2.0}
+  USE TRACKING FOR DISPLAY CAPS TEXT
+\end{Xexample}
+
+This functionality is not generally used for lowercase text in modern typesetting but does have historic precedent in a variety of situations.
+In particular, small amounts of letter spacing can be very useful, when setting small caps or all caps titles.
+Also see the OpenType \opt{Uppercase} option of the \feat{Letters} feature (\vref*{sec:letters}).
+

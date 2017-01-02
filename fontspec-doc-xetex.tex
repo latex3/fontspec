@@ -1,0 +1,336 @@
+
+
+\part{Fonts and features with \XeTeX}
+\label{sec:xetex-features}
+
+\section{\XeTeX-only font features}
+
+The features described here are available for any font
+selected by \pkg{fontspec}.
+
+\subsection{Mapping}
+\label{sec:mapping}
+
+\feat{Mapping} enables a \XeTeX\ text-mapping scheme, shown in \exref{mapping}.
+
+\begin{Xexample}{mapping}{\XeTeX's \feat{Mapping} feature.}
+  \fontspec{Cochin}[Mapping=tex-text]
+  ``!`A small amount of---text!''
+\end{Xexample}
+
+Using the |tex-text| mapping is also equivalent to writing |Ligatures=TeX|.
+The use of the latter syntax is recommended for better compatibility with
+\LuaTeX\ documents.
+
+
+\subsection{Different font technologies: \AAT\ and OpenType}\label{sec:renderer}
+
+\XeTeX\ supports two rendering technologies for typesetting, selected with
+the \feat{Renderer} font feature. The first, \opt{AAT}, is
+that provided (only) by \MacOSX\ itself. The second, \opt{OpenType},
+is an open source OpenType interpreter.
+\note{v2.4: This was called `\texttt{ICU}' in previous versions of \XeTeX\ and \pkg{fontspec}.
+Backwards compatibility is preserved.}
+It provides greater support for
+OpenType features, notably contextual arrangement, over \opt{AAT}.
+
+In general, this feature will not need to be explicitly called: for OpenType
+fonts, the \opt{OpenType} renderer is used automatically, and for \AAT\ fonts,
+\opt{AAT} is chosen by default. Some fonts, however, will contain font tables
+for \emph{both} rendering technologies, such as the Hiragino Japanese fonts
+distributed with \MacOSX, and in these cases the choice may be required.
+
+Among some other font features only available through a specific renderer,
+\opt{OpenType} provides for the \feat{Script} and \feat{Language} features, which allow
+different font behaviour for different alphabets and languages; see \vref{sec:ot}
+for the description of these features. {\em Because these font features can
+change which features are able to be selected for the font instance, they are selected
+by \pkg{fontspec} before all others and will automatically and without warning
+select the \opt{OpenType} renderer.}
+
+
+\subsection{Optical font sizes} \label{sec:aat-opticalsize}
+
+Multiple Master fonts are parameterised over
+orthogonal font axes, allowing continuous selection along such
+features as weight, width, and optical size~(see \vref{sec:mm} for
+further details). Whereas an OpenType font will have only a few separate
+optical sizes, a Multiple Master font's optical size can be
+specified over a continuous range. Unfortunately, this flexibility makes
+it harder to create an automatic interface through \LaTeX, and the
+optical size for a Multiple Master font must always be specified
+explicitly.
+\begin{Verbatim}
+  \fontspec{Minion MM Roman}[OpticalSize=11]
+   MM optical size test                    \\
+  \fontspec{Minion MM Roman}[OpticalSize=47]
+   MM optical size test                    \\
+  \fontspec{Minion MM Roman}[OpticalSize=71]
+   MM optical size test                    \\
+\end{Verbatim}
+
+
+
+
+\section{\MacOSX's \AAT\ fonts}
+\label{sec:aat-features}
+
+\begin{quote}\itshape
+\textbf{Warning!}
+\XeTeX's implementation on \MacOSX\ is currently in a state of flux and the information contained below may well be wrong from 2013 onwards.
+There is a good chance that the features described in this section will not be available any more as \XeTeX's completes its transition to a cross-platform--only application.
+\end{quote}
+
+\MacOSX's font technology began life before the ubiquitous-OpenType era
+and revolved around the Apple-invented `\AAT' font format. This format
+had some advantages (and other disadvantages) but it never became widely
+popular in the font world.
+
+Nonetheless, this is the font format that was first supported by \XeTeX\
+(due to its pedigree on \MacOSX\ in the first place) and was the first
+font format supported by \pkg{fontspec}. A number of fonts distributed with
+\MacOSX\ are still in the \AAT\ format, such as `Skia'.
+
+\subsection{Ligatures}
+
+\feat{Ligatures} refer to the replacement of two separate characters
+with a specially drawn glyph for functional or \ae sthetic reasons.
+For \AAT\ fonts, you may choose from any combination of \opt{Required},
+\opt{Common}, \opt{Rare} (or \opt{Discretionary}), \opt{Logos}, \opt{Rebus},
+\opt{Diphthong}, \opt{Squared}, \opt{AbbrevSquared}, and \opt{Icelandic}.
+
+Some other Apple \AAT\ fonts have those `Rare' ligatures contained in
+the \opt{Icelandic} feature. Notice also that the old \TeX\ trick of
+splitting up a ligature with an empty brace pair does not work in
+\XeTeX; you must use a 0\,pt kern or \cs{hbox} (\eg, \cs{null}) to
+split the characters up if you do not want a ligature to be performed (the usual examples for when this might be desired are words like `shelf\null full').
+
+\subsection{Letters} \label{sec:aat-letters}
+The \opt{Letters} feature specifies how the letters in the current font
+will look. For \AAT\ fonts, you may choose from \opt{Normal},
+\opt{Uppercase}, \opt{Lowercase}, \opt{SmallCaps}, and
+\opt{InitialCaps}.
+
+
+\subsection{Numbers}
+The \feat{Numbers} feature defines how numbers will look in the
+selected font. For \AAT\ fonts, they may be a
+combination of \opt{Lining} or \opt{OldStyle} and \opt{Proportional} or
+\opt{Monospaced} (the latter is good for tabular material). The synonyms
+\opt{Uppercase} and \opt{Lowercase} are equivalent to \opt{Lining} and
+\opt{OldStyle}, respectively. The differences have been shown previously
+in \vref{sec:addfontfeatures}.
+
+\subsection{Contextuals} \label{sec:contextuals}
+This feature refers to glyph substitution that vary by their position;
+things like contextual swashes are implemented here.
+The options for \AAT\ fonts are
+\opt{WordInitial}, \opt{WordFinal} (\exref{wordcx}), \opt{LineInitial},
+\opt{LineFinal}, and \opt{Inner} (\exref{longsaat}, also called `non-final' sometimes). As
+non-exclusive selectors, like the ligatures, you can turn them off
+by prefixing their name with \opt{No}.
+
+\begin{Xexample}{wordcx}{Contextual glyph for the beginnings and ends of words.}
+  \newfontface\fancy{Hoefler Text Italic}
+      [Contextuals={WordInitial,WordFinal}]
+  \fancy where is all the vegemite
+\end{Xexample}
+
+\begin{Xexample}{longsaat}{A contextual feature for the `long s' can be convenient as the character does not need to be marked up explicitly.}
+  \fontspec{Hoefler Text}[Contextuals=Inner]
+  `Inner' swashes can \emph{sometimes}    \\
+   contain the archaic long~s.
+\end{Xexample}
+
+
+
+\subsection{Vertical position}
+The \feat{VerticalPosition} feature is used to access things like
+subscript (\opt{Inferior}) and superscript (\opt{Superior}) numbers and
+letters (and a small amount of punctuation, sometimes).
+The \opt{Ordinal} option is (supposed to be)
+contextually sensitive to only raise characters that appear directly
+after a number.
+These are shown in \exref{aat-supp}.
+
+\begin{Xexample}{aat-supp}{Vertical position for AAT fonts.}
+  \fontspec{Skia}
+   Normal
+  \fontspec{Skia}[VerticalPosition=Superior]
+   Superior
+  \fontspec{Skia}[VerticalPosition=Inferior]
+   Inferior                \\
+  \fontspec{Skia}[VerticalPosition=Ordinal]
+   1st 2nd 3rd 4th 0th 8abcde
+\end{Xexample}
+
+The \pkg{realscripts} package
+(also loaded by \pkg{xltxtra})
+redefines the \cmd\textsubscript\ and
+\cmd\textsuperscript\ commands to use the above font features,
+including for use in footnote labels.
+
+\subsection{Fractions}
+Many fonts come with the capability to typeset various forms of
+fractional material. This is accessed in \pkg{fontspec} with the
+\feat{Fractions} feature, which may be turned \opt{On} or \opt{Off}
+in both \AAT\ and OpenType fonts.
+
+In \AAT\ fonts, the `fraction slash' or solidus character, is
+to be used to create fractions. When \feat{Fractions} are turned
+\opt{On}, then only pre-drawn fractions will be used.
+See \exref{aat-frac}.
+
+Using the \opt{Diagonal} option (\AAT\ only), the font will attempt
+to create the fraction from superscript and subscript
+characters.
+
+\edef\caretcc{\the\catcode`\^}
+\catcode`\^=12\relax
+\begin{Xexample}{aat-frac}{Fractions in AAT fonts. The \texttt{\relax^^^^2044} glyph is the `fraction slash' that may be typed in \MacOSX\ with \textsc{opt+shift+1}; not shown literally here due to font contraints.}
+  \fontspec[Fractions=On]{Skia}
+   1{^^^^2044}2 \quad 5{^^^^2044}6 \\ % fraction slash
+   1/2 \quad 5/6    % regular  slash
+
+  \fontspec[Fractions=Diagonal]{Skia}
+         13579{^^^^2044}24680 \\ % fraction slash
+   \quad 13579/24680    % regular  slash
+\end{Xexample}
+\catcode`\^=\caretcc\relax
+
+Some (Asian fonts predominantly) also provide for the
+\opt{Alternate} feature shown in \exref{frac-alt}.
+
+\begin{Xexample}{frac-alt}{Alternate design of pre-composed fractions.}
+  \fontspec{Hiragino Maru Gothic Pro}
+   1/2 \quad 1/4 \quad 5/6 \quad 13579/24680 \\
+  \addfontfeature{Fractions=Alternate}
+   1/2 \quad 1/4 \quad 5/6 \quad 13579/24680
+\end{Xexample}
+
+
+\subsection{Variants}
+The \feat{Variant} feature takes a single numerical input for
+choosing different alphabetic shapes. Don't mind my fancy \exref{aat-var}
+\texttt{:)} I'm just looping through the nine~(\,!\,) variants of
+Zapfino.
+
+\begin{Xexample}[firstline=2,lastline=9]{aat-var}{Nine variants of Zapfino.}
+  \Huge \rule{0pt}{2cm}
+  \newcounter{var}
+  \whiledo{\value{var}<9}{%
+    \edef\1{%
+    \noexpand\fontspec[Variant=\thevar,
+      Color=0099\thevar\thevar]{Zapfino}}\1%
+    \makebox[0.75\width]{d}%
+    \stepcounter{var}}
+  \hspace*{2cm}
+\end{Xexample}
+
+See \vref{sec:newfeatures} for a way to assign names to variants,
+which should be done on a per-font basis.
+
+\subsection{Alternates}
+
+Selection of \feat{Alternate}s \emph{again}
+must be done numerically; see \exref{aat-alt}.
+See \vref{sec:newfeatures} for a way to assign names to alternates,
+which should be done on a per-font basis.
+
+\begin{Xexample}{aat-alt}{Alternate shape selection must be numerical.}
+  \fontspec{Hoefler Text Italic}[Alternate=0]
+   Sphinx Of Black Quartz, {\scshape Judge My Vow} \\
+  \fontspec{Hoefler Text Italic}[Alternate=1]
+   Sphinx Of Black Quartz, {\scshape Judge My Vow}
+\end{Xexample}
+
+
+\subsection{Style}
+
+The options of the \feat{Style} feature
+are defined in \AAT\ as one of the following: \opt{Display},
+\opt{Engraved}, \opt{IlluminatedCaps}, \opt{Italic},
+\opt{Ruby},\footnotemark\ \opt{TallCaps}, or \opt{TitlingCaps}.
+\footnotetext{`Ruby' refers to a small optical size, used in
+Japanese typography for annotations.}
+
+Typical examples for these features are shown in \ref{sec:ot-feat-style}.
+
+
+
+
+
+
+\subsection{CJK shape}
+There have been many standards for how CJK ideographic
+glyphs are `supposed' to look. Some fonts will contain many alternate
+glyphs in order to be able to display these gylphs
+correctly in whichever form is appropriate. Both \AAT\ and OpenType
+fonts support the following \feat{CJKShape} options:
+\opt{Traditional}, \opt{Simplified}, \opt{JIS1978}, \opt{JIS1983},
+\opt{JIS1990}, and \opt{Expert}. OpenType also supports the \opt{NLC} option.
+
+\subsection{Character width}
+See \vref{sec:CharacterWidth} for relevant examples; the features are
+the same between OpenType and \AAT\ fonts.
+\AAT\ also allows \feat{CharacterWidth}|=|\opt{Default} to return to
+the original font settings.
+
+
+
+
+
+
+
+\subsection{Vertical typesetting}
+
+TODO: improve!
+
+\XeTeX\ provides for vertical typesetting simply with the ability to rotate
+the individual glyphs as a font is used for typesetting, as shown in
+\exref{vert}.
+
+\begin{Xexample}[firstline=2]{vert}{Vertical typesetting.}
+  \def\verttext{共産主義者は}
+  \fontspec{Hiragino Mincho Pro}
+  \verttext
+
+  \fontspec{Hiragino Mincho Pro}[Renderer=AAT,Vertical=RotatedGlyphs]
+  \rotatebox{-90}{\verttext}% requires the graphicx package
+\end{Xexample}
+
+No actual provision is made for typesetting top-to-bottom
+languages; for an example of how to do this, see the vertical Chinese
+example provided in the \XeTeX\ documentation.
+
+
+
+
+\subsection{Diacritics}
+Diacritics are marks, such as the acute accent or the tilde, applied to letters; they usually indicate a change in pronunciation.
+In Arabic scripts, diacritics are used to indicate vowels.
+You may either choose
+to \opt{Show}, \opt{Hide} or \opt{Decompose} them in \AAT\ fonts.
+The \opt{Hide} option is for scripts such as Arabic which may be
+displayed either with or without vowel markings. E.g.,
+\verb|\fontspec[Diacritics=Hide]{...}|
+
+Some older fonts distributed with \MacOSX\ included `|O/|' \etc\ as shorthand for writing `\O' under the label of the \feat{Diacritics} feature. If you come across such fonts, you'll
+want to turn this feature off (imagine typing |hello/goodbye| and
+getting `hell\o goodbye' instead!) by decomposing the two characters
+in the diacritic into the ones you actually
+want. I recommend using
+the proper \LaTeX\ input conventions for obtaining such characters
+instead.
+
+
+
+\subsection{Annotation}
+Various Asian fonts are equipped with a more extensive range of
+numbers and numerals in different forms. These are accessed through
+the \feat{Annotation} feature with the following
+options: \opt{Off},
+\opt{Box}, \opt{RoundedBox}, \opt{Circle}, \opt{BlackCircle},
+\opt{Parenthesis}, \opt{Period}, \opt{RomanNumerals}, \opt{Diamond},
+\opt{BlackSquare}, \opt{BlackRoundSquare}, and \opt{DoubleCircle}.
+

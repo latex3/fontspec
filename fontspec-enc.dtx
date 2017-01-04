@@ -1,0 +1,110 @@
+
+% \section{Extended font encodings}
+%
+% \iffalse
+%    \begin{macrocode}
+%<*fontspec&(xetexx|luatex)>
+%    \end{macrocode}
+% \fi
+
+%    \begin{macrocode}
+
+\providecommand\UnicodeFontFile[2]{"[#1]:#2"}
+\providecommand\UnicodeFontName[2]{"#1:#2"}
+
+\providecommand\add@unicode@accent[2]{#2\char#1\relax}
+\providecommand\DeclareUnicodeAccent[3]{%
+  \DeclareTextCommand{#1}{#2}{\add@unicode@accent{#3}}%
+}
+
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+
+\def\EncodingCommand#1#2{%
+  \bool_if:NF \l_@@_defining_encoding_bool { \ERROR }
+  \DeclareTextCommand{#1}{\LastDeclaredEncoding}{#2}%
+}
+
+\def\EncodingAccent#1#2{%
+  \bool_if:NF \l_@@_defining_encoding_bool { \ERROR }
+  \DeclareTextCommand{#1}{\LastDeclaredEncoding}{\add@unicode@accent{#2}}%
+}
+
+\def\EncodingSymbol#1#2{%
+  \bool_if:NF \l_@@_defining_encoding_bool { \ERROR }
+  \DeclareTextSymbol{#1}{\LastDeclaredEncoding}{#2}%
+}
+
+\def\EncodingComposite#1#2#3{%
+  \bool_if:NF \l_@@_defining_encoding_bool { \ERROR }
+  \DeclareTextComposite{#1}{\LastDeclaredEncoding}{#2}{#3}%
+}
+
+\def\EncodingCompositeCommand#1#2#3{%
+  \bool_if:NF \l_@@_defining_encoding_bool { \ERROR }
+  \DeclareTextCompositeCommand{#1}{\LastDeclaredEncoding}{#2}{#3}%
+}
+
+
+%% COMMANDS FOR DEFINING NEW ENCODINGS FROM FONT RANGES
+
+\cs_new:Nn \@@_new_unicode_encoding:n {%
+  \DeclareFontEncoding{#1}{}{}
+  \DeclareErrorFont{\LastDeclaredEncoding}{lmr}{m}{n}{10}
+  \DeclareFontSubstitution{\LastDeclaredEncoding}{lmr}{m}{n}
+  \DeclareFontFamily{\LastDeclaredEncoding}{lmr}{}
+  \DeclareFontShape{\LastDeclaredEncoding}{lmr}{m}{n}
+       {<->\UnicodeFontFile{lmroman10-regular}{\UnicodeFontTeXLigatures}}{}
+  \DeclareFontShape{\LastDeclaredEncoding}{lmr}{m}{it}
+       {<->\UnicodeFontFile{lmroman10-italic}{\UnicodeFontTeXLigatures}}{}
+  \DeclareFontShape{\LastDeclaredEncoding}{lmr}{m}{sc}
+       {<->\UnicodeFontFile{lmromancaps10-regular}{\UnicodeFontTeXLigatures}}{}
+  \DeclareFontShape{\LastDeclaredEncoding}{lmr}{bx}{n}
+       {<->\UnicodeFontFile{lmroman10-bold}{\UnicodeFontTeXLigatures}}{}
+  \DeclareFontShape{\LastDeclaredEncoding}{lmr}{bx}{it}
+       {<->\UnicodeFontFile{lmroman10-bolditalic}{\UnicodeFontTeXLigatures}}{}
+}
+
+\bool_new:N \l_@@_defining_encoding_bool
+\DeclareDocumentCommand \DeclareUnicodeEncoding {mmm} {
+  \@@_new_unicode_encoding:n {#1}
+  \bool_set_true:N \l_@@_defining_encoding_bool
+  \clist_map_inline:nn {#2}
+    {
+      \InputIfFileExists{fontrange-##1.def}{}{
+        \@latex@error{Unicode font range file `fontrange-\@ii.def' not found}{\@ehd}%
+      }
+    }
+  #3
+  \bool_set_false:N \l_@@_defining_encoding_bool
+}
+
+
+% \DeclareUnicodeEncoding{user-legacy}{T1,TS1}{}
+
+%    \end{macrocode}
+
+
+% From 2e documenation:
+% \begin{quote}
+%    If you say:
+%\begin{verbatim}
+%    \DeclareTextCommand{\foo}{T1}...
+%\end{verbatim}
+%    then |\foo| is defined to be |\T1-cmd \foo \T1\foo|,
+%    where |\T1\foo| is \emph{one} control sequence, not two!
+% \end{quote}
+%    \begin{macrocode}
+\providecommand\UndeclareSymbol[1]
+  {
+    \cs_undefine:c { \LastDeclaredEncoding \token_to_str:N #1 }
+  }
+%    \end{macrocode}
+%
+
+% \iffalse
+%    \begin{macrocode}
+%</fontspec&(xetexx|luatex)>
+%    \end{macrocode}
+% \fi

@@ -961,15 +961,6 @@
   \tl_clear:N \g_@@_curr_series_tl
   \tl_gset_eq:NN \l_@@_nfss_enc_tl \g_fontspec_encoding_tl
 
-  % This is for detecting font families when assigning default features.
-  % Replace defaults for the standard families because they're not set in the usual way:
-  \exp_args:NV \str_case:nnF {\l_@@_family_label_tl}
-   {
-    {\rmdefault} { \tl_set:Nn \l_@@_family_label_tl {\g_@@_rmfamily_family} }
-    {\sfdefault} { \tl_set:Nn \l_@@_family_label_tl {\g_@@_sffamily_family} }
-    {\ttdefault} { \tl_set:Nn \l_@@_family_label_tl {\g_@@_ttfamily_family} }
-   }{}
-
 %<*luatex>
   \tl_set:Nn \l_fontspec_mode_tl {node}
   \int_set:Nn \luatex_prehyphenchar:D { `\- } % fixme

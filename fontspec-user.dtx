@@ -39,21 +39,42 @@
 %    \begin{macrocode}
 \DeclareDocumentCommand \setmainfont { O{} m O{} }
  {
-  \fontspec_set_family:Nnn \rmdefault {#1,#3}{#2}
+  \fontspec_set_family:Nnn \g_@@_rmfamily_family {#1,#3} {#2}
+  \use:x { \exp_not:n { \DeclareRobustCommand \rmfamily }
+   {
+    \exp_not:N \fontencoding { \l_@@_nfss_enc_tl }
+    \exp_not:N \fontfamily { \g_@@_rmfamily_family }
+    \exp_not:N \selectfont
+   }
+  }
   \normalfont
   \ignorespaces
  }
 
 \DeclareDocumentCommand \setsansfont { O{} m O{} }
  {
-  \fontspec_set_family:Nnn \sfdefault {#1,#3}{#2}
+  \fontspec_set_family:Nnn \g_@@_sffamily_family {#1,#3} {#2}
+  \use:x { \exp_not:n { \DeclareRobustCommand \sffamily }
+   {
+    \exp_not:N \fontencoding { \l_@@_nfss_enc_tl }
+    \exp_not:N \fontfamily { \g_@@_sffamily_family }
+    \exp_not:N \selectfont
+   }
+  }
   \normalfont
   \ignorespaces
  }
 
 \DeclareDocumentCommand \setmonofont { O{} m O{} }
  {
-  \fontspec_set_family:Nnn \ttdefault {#1,#3}{#2}
+  \fontspec_set_family:Nnn \g_@@_ttfamily_family {#1,#3} {#2}
+  \use:x { \exp_not:n { \DeclareRobustCommand \ttfamily }
+   {
+    \exp_not:N \fontencoding { \l_@@_nfss_enc_tl }
+    \exp_not:N \fontfamily { \g_@@_ttfamily_family }
+    \exp_not:N \selectfont
+   }
+  }
   \normalfont
   \ignorespaces
  }

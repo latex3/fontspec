@@ -5,12 +5,12 @@
 %<*fontspec>
 %    \end{macrocode}
 %
-% \paragraph{Conditionals}
+% \paragraph{Booleans}
 % \subparagraph{firsttime} As \cs{keys_set:nn} is run multiple times, some of its
 % information storing only occurs once while we decide if the font family
 % has been defined or not. When the later processing is occuring per-shape
 % this no longer needs to happen; this is indicated by the `firsttime'
-% conditional (initialised true).
+% conditional.
 %    \begin{macrocode}
 \bool_new:N \l_@@_firsttime_bool
 %    \end{macrocode}
@@ -19,10 +19,11 @@
 \bool_new:N \l_@@_noit_bool
 \bool_new:N \l_@@_nosc_bool
 %    \end{macrocode}
+% These strange set functions are to simplify returning code from LuaTeX:
 %    \begin{macrocode}
-\bool_new:N \l__fontspec_check_bool
-\cs_new:Npn \FontspecSetCheckBoolTrue  { \bool_set_true:N  \l__fontspec_check_bool }
-\cs_new:Npn \FontspecSetCheckBoolFalse { \bool_set_false:N \l__fontspec_check_bool }
+\bool_new:N \l_@@_check_bool
+\cs_new:Npn \FontspecSetCheckBoolTrue  { \bool_set_true:N  \l_@@_check_bool }
+\cs_new:Npn \FontspecSetCheckBoolFalse { \bool_set_false:N \l_@@_check_bool }
 %    \end{macrocode}
 %
 %    \begin{macrocode}
@@ -32,7 +33,7 @@
 \bool_new:N \l_@@_mm_bool
 \bool_new:N \l_@@_graphite_bool
 %    \end{macrocode}
-% For dealing with legacy maths
+% For dealing with legacy maths:
 %    \begin{macrocode}
 \bool_new:N \g_@@_math_euler_bool
 \bool_new:N \g_@@_math_lucida_bool
@@ -44,37 +45,119 @@
 \bool_new:N \g_@@_math_bool
 \bool_new:N \g_@@_euenc_bool
 %    \end{macrocode}
+%
+%    \begin{macrocode}
+\bool_new:N \l_@@_disable_defaults_bool
+\bool_new:N \l_@@_alias_bool
+\bool_new:N \l_@@_external_bool
+\bool_new:N \l_@@_never_check_bool
+\bool_new:N \l_@@_defining_encoding_bool
+\bool_new:N \l_@@_script_exist_bool
+%    \end{macrocode}
+%
 % \paragraph{Counters}
 %    \begin{macrocode}
-\int_new:N \l_fontspec_script_int
-\int_new:N \l_fontspec_language_int
-\int_new:N \l_fontspec_strnum_int
+\int_new:N \l_@@_script_int
+\int_new:N \l_@@_script_int
+\int_new:N \l_@@_script_int
+\int_new:N \l_@@_tmp_int
+\int_new:N \l_@@_em_int
+\int_new:N \l_@@_emdef_int
 %    \end{macrocode}
-% \paragraph{Other variables}
+%
+% \paragraph{Floating point}
 %    \begin{macrocode}
 \fp_new:N \l_@@_tmpa_fp
 \fp_new:N \l_@@_tmpb_fp
+%    \end{macrocode}
+%
+% \paragraph{Dimensions}
+%    \begin{macrocode}
 \dim_new:N \l_@@_tmpa_dim
 \dim_new:N \l_@@_tmpb_dim
 \dim_new:N \l_@@_tmpc_dim
+\seq_new:N \g_@@_bf_series_seq
+%    \end{macrocode}
+%
+% \paragraph{Comma lists}
+%    \begin{macrocode}
+\clist_new:N \g_@@_default_fontopts_clist
+\clist_new:N \g_@@_all_keyval_modules_clist
+\clist_set:Nn \l_@@_sizefeat_clist {Size={-}}
+%    \end{macrocode}
+%
+% \paragraph{Property lists}
+%    \begin{macrocode}
+\prop_new:N \g_@@_fontopts_prop
+\prop_new:N \l_@@_nfss_prop
+\prop_new:N \l_@@_nfssfont_prop
+\prop_new:N \g_@@_OT_features_prop
+\prop_new:N \g_@@_all_opentype_feature_names_prop
+\prop_new:N \g_@@_em_prop
+%    \end{macrocode}
+%
+% \paragraph{Token lists}
+%
+%    \begin{macrocode}
+\tl_new:N \g_@@_mathrm_tl
+\tl_new:N \g_@@_bfmathrm_tl
+\tl_new:N \g_@@_mathsf_tl
+\tl_new:N \g_@@_mathtt_tl
 %    \end{macrocode}
 %
 %    \begin{macrocode}
-\tl_set:Nx \c_colon_str { \tl_to_str:N : }
-\cs_set:Npn \use_v:nnnnn #1#2#3#4#5 {#5}
-\cs_set:Npn \use_iv:nnnnn #1#2#3#4#5 {#4}
+\tl_new:N \l_@@_family_label_tl
+\tl_new:N \l_@@_fake_slant_tl
+\tl_new:N \l_@@_fake_embolden_tl
 %    \end{macrocode}
 %
-% Need these:
 %    \begin{macrocode}
-\cs_generate_variant:Nn \str_if_eq:nnTF {nv}
-\cs_generate_variant:Nn \int_set:Nn {Nv}
-\cs_generate_variant:Nn \keys_set:nn {nx}
-\cs_generate_variant:Nn \keys_set_known:nnN {nx}
-\cs_generate_variant:Nn \tl_if_empty:nTF {x}
-\cs_generate_variant:Nn \tl_if_empty:nTF {x}
-\cs_generate_variant:Nn \prop_put:Nnn {Nxx}
+\tl_new:N \l_@@_fontname_up_tl
+\tl_new:N \l_@@_fontname_bf_tl
+\tl_new:N \l_@@_fontname_it_tl
+\tl_new:N \l_@@_fontname_bfit_tl
+\tl_new:N \l_@@_fontname_sl_tl
+\tl_new:N \l_@@_fontname_bfsl_tl
+\tl_new:N \l_@@_fontname_sc_tl
 %    \end{macrocode}
+%
+%    \begin{macrocode}
+\tl_new:N \l_@@_fontfeat_up_clist
+\tl_new:N \l_@@_fontfeat_bf_clist
+\tl_new:N \l_@@_fontfeat_it_clist
+\tl_new:N \l_@@_fontfeat_bfit_clist
+\tl_new:N \l_@@_fontfeat_sl_clist
+\tl_new:N \l_@@_fontfeat_bfsl_clist
+\tl_new:N \l_@@_fontfeat_sc_clist
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+\tl_new:N \l_@@_script_name_tl
+\tl_new:N \l_fontspec_script_tl
+\tl_new:N \l_@@_lang_name_tl
+\tl_new:N \l_fontspec_lang_tl
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+\tl_new:N  \g_@@_hexcol_tl
+\tl_new:N  \g_@@_opacity_tl
+\tl_set:Nn \g_@@_hexcol_tl {000000}
+\tl_set:Nn \g_@@_opacity_tl {FF~}
+\tl_set:Nn \g_@@_postadjust_tl { \l_@@_wordspace_adjust_tl \l_@@_punctspace_adjust_tl }
+%    \end{macrocode}
+%
+%
+%
+% \subsection{Generic functions}
+%
+% \begin{macro}{\@@_head_ii:n}
+% Expands to the first two \meta{items} of |#1|.
+%    \begin{macrocode}
+\cs_set:Npn \@@_head_ii:n #1 { \@@_head_ii:w #1 *** \q_stop}
+\cs_set:Npn \@@_head_ii:w #1#2#3 \q_stop { #1#2 }
+\cs_generate_variant:Nn \@@_head_ii:n {o}
+%    \end{macrocode}
+% \end{macro}
 %
 % \begin{macro}{\@@_int_mult_truncate:Nn}
 % Missing in expl3, IMO.
@@ -86,54 +169,26 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \subsection{Setup for \cs{fontspec_select:nn}}
+%
+% \subsection{expl3 variants}
 %
 %    \begin{macrocode}
-\tl_clear:N \l_@@_family_label_tl
-\tl_clear:N \l_fontspec_fontname_bf_tl
-\tl_clear:N \l_fontspec_fontname_it_tl
-\tl_clear:N \l_fontspec_fake_slant_tl
-\tl_clear:N \l_fontspec_fake_embolden_tl
-\tl_clear:N \l_fontspec_fontname_bfit_tl
-\tl_clear:N \l_fontspec_fontname_sl_tl
-\tl_clear:N \l_fontspec_fontname_bfsl_tl
-\tl_clear:N \l_fontspec_fontname_sc_tl
-\tl_clear:N \l_@@_fontfeat_up_clist
-\tl_clear:N \l_@@_fontfeat_bf_clist
-\tl_clear:N \l_@@_fontfeat_it_clist
-\tl_clear:N \l_@@_fontfeat_bfit_clist
-\tl_clear:N \l_@@_fontfeat_sl_clist
-\tl_clear:N \l_@@_fontfeat_bfsl_clist
-\tl_clear:N \l_@@_fontfeat_sc_clist
-\tl_clear:N \l_@@_script_name_tl
-\tl_clear:N \l_fontspec_script_tl
-\tl_clear:N \l_@@_lang_name_tl
-\tl_clear:N \l_fontspec_lang_tl
-\tl_set:Nn  \g_@@_postadjust_tl { \l_@@_wordspace_adjust_tl \l_@@_punctspace_adjust_tl }
+\cs_generate_variant:Nn \int_set:Nn {Nv}
+\cs_generate_variant:Nn \keys_set:nn {nx}
+\cs_generate_variant:Nn \keys_set_known:nnN {nx}
+\cs_generate_variant:Nn \prop_put:Nnn {Nxx}
+\cs_generate_variant:Nn \prop_put:Nnn {NxV}
+\cs_generate_variant:Nn \prop_gput:Nnn  {NxV}
+\cs_generate_variant:Nn \prop_gput:Nnn  {Nxn}
+\cs_generate_variant:Nn \prop_get:NnNT  {NxN}
+\cs_generate_variant:Nn \prop_get:NnNTF {NxN}
+\cs_generate_variant:Nn \str_if_eq:nnTF {nv}
+\cs_generate_variant:Nn \tl_if_empty:nTF {x}
+\cs_generate_variant:Nn \tl_if_empty:nF {x}
+\cs_generate_variant:Nn \tl_if_empty:nF {f}
+\cs_generate_variant:Nn \tl_if_eq:nnT {ox}
+\cs_generate_variant:Nn \tl_replace_all:Nnn {Nnx}
 %    \end{macrocode}
-%
-%    \begin{macrocode}
-\clist_set:Nn \l_@@_sizefeat_clist {Size={-}}
-\tl_new:N  \g_@@_hexcol_tl
-\tl_new:N  \g_@@_opacity_tl
-\tl_set:Nn \g_@@_hexcol_tl {000000}
-\tl_set:Nn \g_@@_opacity_tl {FF~}
-%    \end{macrocode}
-%
-%    \begin{macrocode}
-\bool_new:N \l_@@_never_check_bool
-%    \end{macrocode}
-%
-% \subsection{Functions}
-%
-% \begin{macro}{\@@_head_ii:n}
-% Expands to the first two \meta{items} of |#1|.
-%    \begin{macrocode}
-\cs_set:Npn \@@_head_ii:n #1 { \@@_head_ii:w #1 *** \q_stop}
-\cs_set:Npn \@@_head_ii:w #1#2#3 \q_stop { #1#2 }
-\cs_generate_variant:Nn \@@_head_ii:n {o}
-%    \end{macrocode}
-% \end{macro}
 %
 %    \begin{macrocode}
 %</fontspec>

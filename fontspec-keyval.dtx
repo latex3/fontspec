@@ -12,7 +12,6 @@
 %
 %
 %    \begin{macrocode}
-\clist_new:N \g_@@_all_keyval_modules_clist
 \clist_set:Nn \g_@@_all_keyval_modules_clist
   {
     fontspec, fontspec-opentype, fontspec-aat,
@@ -46,7 +45,6 @@
 % with |kpsewhich|; it's either in the current directory or the \TeX\ tree. Otherwise, the
 % argument given defines the file path of the font.
 %    \begin{macrocode}
-\bool_new:N \l_@@_external_bool
 \@@_keys_define_code:nnn {fontspec-preparse-external} {Path}
  {
     \@@_cant_deactivate:
@@ -169,7 +167,6 @@
 % By default, \pkg{fontspec} uses the default bold series, \cs{bfdefault}.
 % We want to be able to make this extensible.
 %    \begin{macrocode}
-\seq_new:N \g_@@_bf_series_seq
 \@@_keys_define_code:nnn {fontspec-preparse-external} {BoldSeries}
  {
   \tl_gset:Nx \g_@@_curr_series_tl { #1 }
@@ -182,17 +179,15 @@
 %    \begin{macrocode}
 \@@_keys_define_code:nnn {fontspec-preparse-external} {UprightFont}
  {
-  \fontspec_complete_fontname:Nn \l_fontspec_fontname_up_tl {#1}
+  \fontspec_complete_fontname:Nn \l_@@_fontname_up_tl {#1}
  }
 \@@_keys_define_code:nnn {fontspec-preparse-external} {FontName}
  {
-  \fontspec_complete_fontname:Nn \l_fontspec_fontname_up_tl {#1}
+  \fontspec_complete_fontname:Nn \l_@@_fontname_up_tl {#1}
  }
 %    \end{macrocode}
 % Bold:
 %    \begin{macrocode}
-\cs_generate_variant:Nn \tl_if_eq:nnT {ox}
-\cs_generate_variant:Nn \prop_put:Nnn {NxV}
 \@@_keys_define_code:nnn {fontspec-preparse-external} {BoldFont}
  {
   \tl_if_empty:nTF {#1}
@@ -209,7 +204,7 @@
       \seq_put_right:Nx \g_@@_bf_series_seq {\bfdefault}
      }
     \tl_if_eq:oxT \g_@@_curr_series_tl {\bfdefault}
-     { \tl_set_eq:NN \l_fontspec_fontname_bf_tl \l_@@_curr_bfname_tl }
+     { \tl_set_eq:NN \l_@@_fontname_bf_tl \l_@@_curr_bfname_tl }
 
 %<debug>\typeout{Setting~bold~font~"\l_@@_curr_bfname_tl"~with~series~"\g_@@_curr_series_tl"}
 
@@ -218,7 +213,6 @@
 
    }
  }
-\prop_new:N \l_@@_nfss_prop
 %    \end{macrocode}
 % Same for italic:
 %    \begin{macrocode}
@@ -230,7 +224,7 @@
    }
    {
     \bool_set_false:N \l_@@_noit_bool
-    \fontspec_complete_fontname:Nn \l_fontspec_fontname_it_tl {#1}
+    \fontspec_complete_fontname:Nn \l_@@_fontname_it_tl {#1}
    }
  }
 %    \end{macrocode}
@@ -238,15 +232,15 @@
 %    \begin{macrocode}
 \@@_keys_define_code:nnn {fontspec-preparse-external} {BoldItalicFont}
  {
-  \fontspec_complete_fontname:Nn \l_fontspec_fontname_bfit_tl {#1}
+  \fontspec_complete_fontname:Nn \l_@@_fontname_bfit_tl {#1}
  }
 \@@_keys_define_code:nnn {fontspec-preparse-external} {SlantedFont}
  {
-  \fontspec_complete_fontname:Nn \l_fontspec_fontname_sl_tl {#1}
+  \fontspec_complete_fontname:Nn \l_@@_fontname_sl_tl {#1}
  }
 \@@_keys_define_code:nnn {fontspec-preparse-external} {BoldSlantedFont}
  {
-  \fontspec_complete_fontname:Nn \l_fontspec_fontname_bfsl_tl {#1}
+  \fontspec_complete_fontname:Nn \l_@@_fontname_bfsl_tl {#1}
  }
 %    \end{macrocode}
 % Small caps isn't pre-parsed because it can vary with others above:
@@ -259,7 +253,7 @@
    }
    {
     \bool_set_false:N \l_@@_nosc_bool
-    \fontspec_complete_fontname:Nn \l_fontspec_fontname_sc_tl {#1}
+    \fontspec_complete_fontname:Nn \l_@@_fontname_sc_tl {#1}
    }
  }
 %    \end{macrocode}
@@ -374,7 +368,6 @@
 % \paragraph{NFSS series/shape}
 % This option looks similar in name but has a very different function.
 %    \begin{macrocode}
-\prop_new:N \l_@@_nfssfont_prop
 \@@_keys_define_code:nnn {fontspec} {FontFace}
  {
   \tl_set:No \l_@@_arg_tl { \use_iii:nnn #1 }
@@ -635,7 +628,6 @@
 \aliasfontfeature{Color}{Colour}
 %    \end{macrocode}
 %    \begin{macrocode}
-\int_new:N \l_@@_tmp_int
 \@@_keys_define_code:nnn {fontspec} {Opacity}
  {
   \int_set:Nn \l_@@_tmp_int {255}
@@ -767,17 +759,17 @@
    {
     \bool_if:NT \l_@@_firsttime_bool
      {
-      \tl_set:Nn \l_fontspec_fake_slant_tl {#1}
+      \tl_set:Nn \l_@@_fake_slant_tl {#1}
       \clist_put_right:Nn \l_@@_fontfeat_it_clist {FakeSlant=#1}
-      \tl_set_eq:NN \l_fontspec_fontname_it_tl \l_fontspec_fontname_tl
+      \tl_set_eq:NN \l_@@_fontname_it_tl \l_fontspec_fontname_tl
       \bool_set_false:N \l_@@_noit_bool
 
-      \tl_if_empty:NF \l_fontspec_fake_embolden_tl
+      \tl_if_empty:NF \l_@@_fake_embolden_tl
        {
         \clist_put_right:Nx \l_@@_fontfeat_bfit_clist
-         {FakeBold=\l_fontspec_fake_embolden_tl}
+         {FakeBold=\l_@@_fake_embolden_tl}
         \clist_put_right:Nx \l_@@_fontfeat_bfit_clist {FakeSlant=#1}
-        \tl_set_eq:NN \l_fontspec_fontname_bfit_tl \l_fontspec_fontname_tl
+        \tl_set_eq:NN \l_@@_fontname_bfit_tl \l_fontspec_fontname_tl
        }
      }
    },
@@ -792,17 +784,17 @@
    {
     \bool_if:NT \l_@@_firsttime_bool
      {
-      \tl_set:Nn \l_fontspec_fake_embolden_tl {#1}
+      \tl_set:Nn \l_@@_fake_embolden_tl {#1}
       \clist_put_right:Nn \l_@@_fontfeat_bf_clist {FakeBold=#1}
-      \tl_set_eq:NN \l_fontspec_fontname_bf_tl \l_fontspec_fontname_tl
+      \tl_set_eq:NN \l_@@_fontname_bf_tl \l_fontspec_fontname_tl
       \bool_set_false:N \l_@@_nobf_bool
 
-      \tl_if_empty:NF \l_fontspec_fake_slant_tl
+      \tl_if_empty:NF \l_@@_fake_slant_tl
        {
         \clist_put_right:Nx \l_@@_fontfeat_bfit_clist
-         {FakeSlant=\l_fontspec_fake_slant_tl}
+         {FakeSlant=\l_@@_fake_slant_tl}
         \clist_put_right:Nx \l_@@_fontfeat_bfit_clist {FakeBold=#1}
-        \tl_set_eq:NN \l_fontspec_fontname_bfit_tl \l_fontspec_fontname_tl
+        \tl_set_eq:NN \l_@@_fontname_bfit_tl \l_fontspec_fontname_tl
        }
      }
    },

@@ -19,7 +19,7 @@
 \tl_set:Nn \zf@enc { \g_fontspec_encoding_tl }
 \cs_set:Npn \zf@fontspec #1 #2
  {
-  \fontspec_select:nn {#1} {#2}
+  \@@_select_font_family:nn {#1} {#2}
   \tl_set:Nn \zf@family { \l_fontspec_family_tl }
   \tl_set:Nn \zf@basefont { \l_fontspec_font }
  }

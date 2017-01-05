@@ -97,15 +97,6 @@
 % \begin{macro}{\eminnershape}
 % \begin{macro}{\emfontdeclare}
 % Redefinition of |{\em ...}| and |\emph{...}| to allow nesting of emphases.
-%    \begin{macrocode}
-\int_new:N \l_@@_em_int
-\int_new:N \l_@@_emdef_int
-\prop_new:N \g_@@_em_prop
-\cs_generate_variant:Nn \prop_gput:Nnn  {NxV}
-\cs_generate_variant:Nn \prop_gput:Nnn  {Nxn}
-\cs_generate_variant:Nn \prop_get:NnNT  {NxN}
-\cs_generate_variant:Nn \prop_get:NnNTF {NxN}
-%    \end{macrocode}
 %
 %    \begin{macrocode}
 \cs_new_protected:Npn \emfontdeclare #1

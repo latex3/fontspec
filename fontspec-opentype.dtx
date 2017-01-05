@@ -24,7 +24,6 @@
 % \darg{Exact tag string to activate --- leave empty for disable only}
 % \darg{Tags to remove (clist)}
 %    \begin{macrocode}
-\prop_new:N \g_@@_OT_features_prop
 \cs_new:Nn \@@_feat_prop_add:nn
   {
     \tl_if_empty:nF {#1}
@@ -129,7 +128,7 @@
 %
 % \begin{macro}{\fontspec_check_script:nTF}
 % This macro takes an OpenType script tag and checks if it exists in the current
-% font. The output boolean is \cmd\@tempswatrue. \cmd\l_fontspec_strnum_int\ is used to store
+% font. The output boolean is \cmd\@tempswatrue. \cmd\l_@@_script_int\ is used to store
 % the number corresponding to the script tag string.
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \fontspec_check_script:n {TF}
@@ -138,13 +137,13 @@
       { \prg_return_true: }
 %<*xetexx>
  {
-  \@@_iv_str_to_num:Nn \l_fontspec_strnum_int {#1}
+  \@@_iv_str_to_num:Nn \l_@@_script_int {#1}
   \int_set:Nn \l_tmpb_int { \XeTeXOTcountscripts \l_fontspec_font }
   \int_zero:N \l_tmpa_int
   \bool_set_false:N \l__fontspec_check_bool
   \bool_until_do:nn { \int_compare_p:nNn \l_tmpa_int = \l_tmpb_int }
    {
-    \ifnum \XeTeXOTscripttag\l_fontspec_font \l_tmpa_int = \l_fontspec_strnum_int
+    \ifnum \XeTeXOTscripttag\l_fontspec_font \l_tmpa_int = \l_@@_script_int
       \bool_set_true:N \l__fontspec_check_bool
       \int_set:Nn \l_tmpa_int {\l_tmpb_int}
     \else
@@ -166,9 +165,9 @@
 %
 % \begin{macro}{\fontspec_check_lang:nTF}
 % This macro takes an OpenType language tag and checks if it exists in the current
-% font/script. The output boolean is \cmd\@tempswatrue. \cmd\l_fontspec_strnum_int\ is used to store
+% font/script. The output boolean is \cmd\@tempswatrue. \cmd\l_@@_script_int\ is used to store
 % the number corresponding to the language tag string.
-% The script used is whatever's held in \cmd\l_fontspec_script_int. By default, that's the
+% The script used is whatever's held in \cmd\l_@@_script_int. By default, that's the
 % number corresponding to `|latn|'.
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \fontspec_check_lang:n {TF}
@@ -177,14 +176,14 @@
       { \prg_return_true: }
 %<*xetexx>
  {
-  \@@_iv_str_to_num:Nn \l_fontspec_strnum_int {#1}
+  \@@_iv_str_to_num:Nn \l_@@_script_int {#1}
   \int_set:Nn \l_tmpb_int
-   { \XeTeXOTcountlanguages \l_fontspec_font \l_fontspec_script_int }
+   { \XeTeXOTcountlanguages \l_fontspec_font \l_@@_script_int }
   \int_zero:N \l_tmpa_int
   \bool_set_false:N \l__fontspec_check_bool
   \bool_until_do:nn { \int_compare_p:nNn \l_tmpa_int = \l_tmpb_int }
    {
-    \ifnum\XeTeXOTlanguagetag\l_fontspec_font\l_fontspec_script_int \l_tmpa_int =\l_fontspec_strnum_int
+    \ifnum\XeTeXOTlanguagetag\l_fontspec_font\l_@@_script_int \l_tmpa_int =\l_@@_script_int
       \bool_set_true:N \l__fontspec_check_bool
       \int_set:Nn \l_tmpa_int {\l_tmpb_int}
     \else
@@ -210,9 +209,9 @@
 % \begin{macro}{\fontspec_check_ot_feat:nTF}
 % This macro takes an OpenType feature tag and checks if it exists in the current
 % font/script/language.
-% \cmd\l_fontspec_strnum_int\ is used to store the number corresponding to the feature tag string.
-% The script used is whatever's held in \cmd\l_fontspec_script_int. By default, that's the
-% number corresponding to `|latn|'. The language used is \cmd\l_fontspec_language_int,
+% \cmd\l_@@_script_int\ is used to store the number corresponding to the feature tag string.
+% The script used is whatever's held in \cmd\l_@@_script_int. By default, that's the
+% number corresponding to `|latn|'. The language used is \cmd\l_@@_script_int,
 % by default |0|, the `default language'.
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \fontspec_check_ot_feat:n {TF,F}
@@ -224,16 +223,16 @@
   \int_set:Nn \l_tmpb_int
    {
     \XeTeXOTcountfeatures \l_fontspec_font
-                          \l_fontspec_script_int
-                          \l_fontspec_language_int
+                          \l_@@_script_int
+                          \l_@@_script_int
    }
-  \@@_iv_str_to_num:Nn \l_fontspec_strnum_int {#1}
+  \@@_iv_str_to_num:Nn \l_@@_script_int {#1}
   \int_zero:N \l_tmpa_int
   \bool_set_false:N \l__fontspec_check_bool
   \bool_until_do:nn { \int_compare_p:nNn \l_tmpa_int = \l_tmpb_int }
    {
-    \ifnum\XeTeXOTfeaturetag\l_fontspec_font\l_fontspec_script_int\l_fontspec_language_int
-         \l_tmpa_int =\l_fontspec_strnum_int
+    \ifnum\XeTeXOTfeaturetag\l_fontspec_font\l_@@_script_int\l_@@_script_int
+         \l_tmpa_int =\l_@@_script_int
       \bool_set_true:N \l__fontspec_check_bool
       \int_set:Nn \l_tmpa_int {\l_tmpb_int}
     \else
@@ -262,7 +261,6 @@
 % \subsection{OpenType feature information}
 %
 %    \begin{macrocode}
-\prop_new:N \g_@@_all_opentype_feature_names_prop
 \prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {aalt}{Access~All~Alternates}
 \prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {abvf}{Above-base~Forms}
 \prop_gput:Nnn \g_@@_all_opentype_feature_names_prop {abvm}{Above-base~Mark~Positioning}

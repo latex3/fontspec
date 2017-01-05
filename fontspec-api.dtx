@@ -96,10 +96,10 @@
     \bool_if:NTF \l_@@_ot_bool
      {
       \prop_get:cnN {g_@@_ \f@family _prop} {script-num} \l_@@_tmp_tl
-      \int_set:Nn \l_fontspec_script_int {\l_@@_tmp_tl}
+      \int_set:Nn \l_@@_script_int {\l_@@_tmp_tl}
 
       \prop_get:cnN {g_@@_ \f@family _prop} {lang-num} \l_@@_tmp_tl
-      \int_set:Nn \l_fontspec_language_int {\l_@@_tmp_tl}
+      \int_set:Nn \l_@@_script_int {\l_@@_tmp_tl}
 
       \prop_get:cnN {g_@@_ \f@family _prop} {script-tag}  \l_fontspec_script_tl
       \prop_get:cnN {g_@@_ \f@family _prop} {lang-tag}  \l_fontspec_lang_tl
@@ -131,8 +131,8 @@
     \@@_set_font_type:
     \bool_if:NTF \l_@@_ot_bool
      {
-      \@@_iv_str_to_num:Nn \l_fontspec_script_int {#1}
-      \@@_iv_str_to_num:Nn \l_fontspec_language_int {#2}
+      \@@_iv_str_to_num:Nn \l_@@_script_int {#1}
+      \@@_iv_str_to_num:Nn \l_@@_script_int {#2}
       \fontspec_check_ot_feat:nTF {#3} \prg_return_true: \prg_return_false:
      }
      { \prg_return_false: }
@@ -182,7 +182,7 @@
     \bool_if:NTF \l_@@_ot_bool
      {
       \prop_get:cnN {g_@@_ \f@family _prop} {script-num} \l_@@_tmp_tl
-      \int_set:Nn \l_fontspec_script_int {\l_@@_tmp_tl}
+      \int_set:Nn \l_@@_script_int {\l_@@_tmp_tl}
       \prop_get:cnN {g_@@_ \f@family _prop} {script-tag}  \l_fontspec_script_tl
 
       \fontspec_check_lang:nTF {#1} \prg_return_true: \prg_return_false:
@@ -210,7 +210,7 @@
     \bool_if:NTF \l_@@_ot_bool
      {
       \tl_set:Nn \l_fontspec_script_tl {#1}
-      \@@_iv_str_to_num:Nn \l_fontspec_script_int {#1}
+      \@@_iv_str_to_num:Nn \l_@@_script_int {#1}
       \fontspec_check_lang:nTF {#2} \prg_return_true: \prg_return_false:
      }
      { \prg_return_false: }
@@ -283,13 +283,13 @@
 % variable because the actual \LaTeX\ family name is automatically generated
 % by fontspec and it's easier to keep it that way.
 %
-% Please use |\fontspec_set_family:Nnn| instead of |\fontspec_select:nn|,
+% Please use |\fontspec_set_family:Nnn| instead of |\@@_select_font_family:nn|,
 % which may change in the future.
 %    \begin{macrocode}
 \cs_new:Nn \fontspec_set_family:Nnn
  {
   \tl_set:Nn \l_@@_family_label_tl { #1 }
-  \fontspec_select:nn {#2}{#3}
+  \@@_select_font_family:nn {#2}{#3}
   \tl_set_eq:NN #1 \l_fontspec_family_tl
  }
 \cs_generate_variant:Nn \fontspec_set_family:Nnn {c}
@@ -302,7 +302,7 @@
 \cs_new:Nn \fontspec_set_fontface:NNnn
  {
   \tl_set:Nn \l_@@_family_label_tl { #1 }
-  \fontspec_select:nn {#3}{#4}
+  \@@_select_font_family:nn {#3}{#4}
   \tl_set_eq:NN #1 \l_fontspec_font
   \tl_set_eq:NN #2 \l_fontspec_family_tl
  }

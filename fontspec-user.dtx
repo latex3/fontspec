@@ -29,8 +29,6 @@
 % \end{macro}
 %
 % \begin{macro}{\setmainfont}
-% \begin{macro}{\setsansfont}
-% \begin{macro}{\setmonofont}
 %     The following three macros perform equivalent operations setting
 %     the default font for a
 %     particular family: `roman', sans serif, or typewriter
@@ -50,7 +48,11 @@
   \normalfont
   \ignorespaces
  }
-
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\setsansfont}
+%    \begin{macrocode}
 \DeclareDocumentCommand \setsansfont { O{} m O{} }
  {
   \fontspec_set_family:Nnn \g_@@_sffamily_family {#1,#3} {#2}
@@ -64,7 +66,11 @@
   \normalfont
   \ignorespaces
  }
-
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\setmonofont}
+%    \begin{macrocode}
 \DeclareDocumentCommand \setmonofont { O{} m O{} }
  {
   \fontspec_set_family:Nnn \g_@@_ttfamily_family {#1,#3} {#2}
@@ -79,7 +85,7 @@
   \ignorespaces
  }
 %    \end{macrocode}
-% \end{macro} \end{macro} \end{macro}
+% \end{macro}
 %
 %
 % \begin{macro}{\setromanfont}
@@ -101,10 +107,6 @@
 % document. \cmd\setboldmathrm\ is used for specifying which
 % fonts should be used in \cmd\boldmath.
 %    \begin{macrocode}
-\tl_new:N \g_@@_mathrm_tl
-\tl_new:N \g_@@_bfmathrm_tl
-\tl_new:N \g_@@_mathsf_tl
-\tl_new:N \g_@@_mathtt_tl
 \DeclareDocumentCommand \setmathrm { O{} m O{} }
  {
   \fontspec_set_family:Nnn \g_@@_mathrm_tl {#1} {#2}
@@ -140,7 +142,6 @@
 % \end{macro}
 %
 % \begin{macro}{\newfontfamily}
-% \begin{macro}{\newfontface}
 %   This macro takes the arguments of \cs{fontspec} with a prepended
 %   \meta{instance cmd}. This command is used
 %   when a specific font instance needs to be referred to repetitively
@@ -166,6 +167,9 @@
    }
  }
 %    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\newfontface}
 % \cmd\newfontface\ uses the fact that if the argument to \feat{BoldFont}, etc., is empty (\ie, |BoldFont={}|), then no bold font is searched for.
 %    \begin{macrocode}
 \DeclareDocumentCommand \newfontface { m O{} m O{} }
@@ -173,7 +177,7 @@
   \newfontfamily #1 [ BoldFont={},ItalicFont={},SmallCapsFont={},#2,#4 ] {#3}
  }
 %    \end{macrocode}
-% \end{macro} \end{macro}
+% \end{macro}
 %
 % \subsubsection{Font feature selection}
 %
@@ -184,10 +188,6 @@
 %   \cs{g_fontspec_default_fontopts_tl} (initialised empty), which is
 %   concatenated with the individual macro choices in the
 %   [...] macro.
-%    \begin{macrocode}
-\clist_new:N \g_@@_default_fontopts_clist
-\prop_new:N \g_@@_fontopts_prop
-%    \end{macrocode}
 %
 %    \begin{macrocode}
 \DeclareDocumentCommand \defaultfontfeatures { t+ o m }
@@ -230,28 +230,6 @@
    }
  }
 %    \end{macrocode}
-%
-% \begin{macro}{\@@_sanitise_fontname:Nn}
-% Assigns font name |#2| to token list variable |#1| and strips extension(s) from it in the case of an external font.
-% We strip spaces for luatex for consistency with luaotfload, although I'm not sure this is necessary any more.
-% At one stage this also lowercased the name, but this step has been removed unless someone can remind me why it was necessary.
-%    \begin{macrocode}
-\cs_new:Nn \@@_sanitise_fontname:Nn
- {
-  \tl_set:Nx #1 {#2}
-%<luatex>  \tl_remove_all:Nn #1 {~}
-  \clist_map_inline:Nn \l_@@_extensions_clist
-   {
-     \tl_if_in:NnT #1 {##1}
-       {
-         \tl_remove_once:Nn #1 {##1}
-         \tl_set:Nn \l_@@_extension_tl {##1}
-         \clist_map_break:
-       }
-   }
- }
-%    \end{macrocode}
-% \end{macro}
 % \end{macro}
 %
 %
@@ -269,14 +247,13 @@
 %
 %   The default options are \emph{not} applied (which is why
 %   \cs{g_fontspec_default_fontopts_tl} is emptied inside the group; this is allowed
-%   as \cmd\l_fontspec_family_tl\ is globally defined in \cmd\fontspec_select:nn), so this
+%   as \cmd\l_fontspec_family_tl\ is globally defined in \cmd\@@_select_font_family:nn), so this
 %   means that the only added features to the font are strictly those
 %   specified by this command.
 %
 %   \cs{addfontfeature} is defined as an alias, as I found that I
 %   often typed this instead when adding only a single font feature.
 %    \begin{macrocode}
-\bool_new:N \l_@@_disable_defaults_bool
 \DeclareDocumentCommand \addfontfeatures {m}
  {
 %<debug>  \typeout{^^J::::::::::::::::::::::::::::::::::^^J: addfontfeatures}
@@ -287,10 +264,10 @@
       \prop_get:cnN {g_@@_ \f@family _prop} {options} \l_@@_options_tl
       \prop_get:cnN {g_@@_ \f@family _prop} {fontname} \l_@@_fontname_tl
       \bool_set_true:N \l_@@_disable_defaults_bool
-%<debug>          \typeout{ \fontspec_select:nn { \l_@@_options_tl , #1 } {\l_@@_fontname_tl} }
+%<debug>          \typeout{ \@@_select_font_family:nn { \l_@@_options_tl , #1 } {\l_@@_fontname_tl} }
       \use:x
        {
-        \fontspec_select:nn
+        \@@_select_font_family:nn
           { \l_@@_options_tl , #1 } {\l_@@_fontname_tl}
        }
     \group_end:
@@ -304,23 +281,6 @@
 \cs_set_eq:NN \addfontfeature \addfontfeatures
 %    \end{macrocode}
 % \end{macro}
-%
-% This was one idea to `disable' keys, by inserting
-%    \verb|\keys_set:nn {fontspec-undefined} {#1}|
-% into a variation of \cs{addfontfeatures}:
-% \begin{Verbatim}
-% \keys_define:nn {fontspec-undefined}
-%   { unknown .code:n =
-%       { \clist_map_inline:nn {fontspec,fontspec-opentype,fontspec-aat,fontspec-renderer,fontspec-preparse}
-%           { \use:x
-%               { \keys_define:nn {##1}
-%                   { \l_keys_key_tl / \l_keys_value_tl .code:n = {}
-%                   }   }   }   }   }
-% \end{Verbatim}
-% The problem here is that the key is disabled globally for all font faces, so,
-% for example, wanting to disable a feature for only italic (for whatever reason)
-% wouldn't be possible. I didn't want to add such a restriction at this point
-% before really knowing how/why \cs{removefontfeatures} would be used.
 %
 % \subsubsection{Defining new font features}
 %
@@ -360,7 +320,6 @@
 % \end{macro}
 %
 % \begin{macro}{\newopentypefeature}
-% \begin{macro}{\newICUfeature}
 % This command assigns a new OpenType feature by its abbreviation (|#2|) to a new name (|#1|).
 % Better than \cmd\newfontfeature\ because it checks if the feature exists in the
 % font it's being used for.
@@ -373,16 +332,19 @@
     { \@@_warning:nxx {feature-option-overwrite} {#1} {#2} }
   \@@_define_opentype_feature:nnn {#1}{#2}{#3}
  }
-\cs_set_eq:NN \newICUfeature \newopentypefeature % deprecated
 %    \end{macrocode}
 % \end{macro}
+%
+% \begin{macro}{\newICUfeature}
+%    \begin{macrocode}
+\cs_set_eq:NN \newICUfeature \newopentypefeature % deprecated
+%    \end{macrocode}
 % \end{macro}
 %
 %
 % \begin{macro}{\aliasfontfeature}
 % User commands for renaming font features and font feature options.
 %    \begin{macrocode}
-\bool_new:N \l_@@_alias_bool
 \DeclareDocumentCommand \aliasfontfeature {mm}
  {
   \bool_set_false:N \l_@@_alias_bool

@@ -9,7 +9,7 @@
 % \subsection{The main function for setting fonts}
 % \label{sec:codeinternal}
 %
-% \begin{macro}{\fontspec_select:nn}
+% \begin{macro}{\@@_select_font_family:nn}
 % This is the command that defines font families for use, the underlying
 % procedure of all \cmd\fontspec-like commands. Given a
 % list of font features (|#1|) for a requested font (|#2|),
@@ -24,12 +24,12 @@
 % \begin{itemize}
 % \item \cmd{\l_fontspec_fontname_tl} is used as the generic name of the font being defined.
 % \item \cmd{\l_@@_fontid_tl} is the unique identifier of the font with all its features.
-% \item \cmd{\l_fontspec_fontname_up_tl} is the font specifically to be used as the upright font.
+% \item \cmd{\l_@@_fontname_up_tl} is the font specifically to be used as the upright font.
 % \item \cmd{\l_@@_basename_tl} is the (immutable) original argument used for |*|-replacing.
 % \item \cmd{\l_fontspec_font} is the plain \TeX{} font of the upright font requested.
 % \end{itemize}
 %    \begin{macrocode}
-\cs_new_protected:Nn \fontspec_select:nn
+\cs_new_protected:Nn \@@_select_font_family:nn
  {
 %<debug>\typeout{^^J^^J::::::::::::::::::::::::::::::^^J:: fontspec_select:nn~ {#1}~ {#2} }
   \group_begin:
@@ -37,7 +37,7 @@
   \@@_init:
 
   \@@_sanitise_fontname:Nn \l_fontspec_fontname_tl    {#2}
-  \@@_sanitise_fontname:Nn \l_fontspec_fontname_up_tl {#2}
+  \@@_sanitise_fontname:Nn \l_@@_fontname_up_tl {#2}
   \@@_sanitise_fontname:Nn \l_@@_basename_tl          {#2}
 
   \@@_if_detect_external:nT {#2}
@@ -70,6 +70,35 @@
 %    \end{macrocode}
 % \end{macro}
 %
+% \begin{macro}{\fontspec_select:nn}
+% This old name has been used by 3rd party packages so for compatibility:
+%    \begin{macrocode}
+\cs_set_eq:NN \fontspec_select:nn \@@_select_font_family:nn
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@@_sanitise_fontname:Nn}
+% Assigns font name |#2| to token list variable |#1| and strips extension(s) from it in the case of an external font.
+% We strip spaces for luatex for consistency with luaotfload, although I'm not sure this is necessary any more.
+% At one stage this also lowercased the name, but this step has been removed unless someone can remind me why it was necessary.
+%    \begin{macrocode}
+\cs_new:Nn \@@_sanitise_fontname:Nn
+ {
+  \tl_set:Nx #1 {#2}
+%<luatex>  \tl_remove_all:Nn #1 {~}
+  \clist_map_inline:Nn \l_@@_extensions_clist
+   {
+     \tl_if_in:NnT #1 {##1}
+       {
+         \tl_remove_once:Nn #1 {##1}
+         \tl_set:Nn \l_@@_extension_tl {##1}
+         \clist_map_break:
+       }
+   }
+ }
+%    \end{macrocode}
+% \end{macro}
+%
 % \begin{macro}{\@@_if_detect_external:nT}
 % Check if either the fontname ends with a known font extension.
 %    \begin{macrocode}
@@ -96,9 +125,9 @@
  {
   \str_if_eq_x:nnT { \str_lower_case:f {\l_@@_extension_tl} } {.ttc}
    {
-    \@@_sanitise_fontname:Nn \l_fontspec_fontname_it_tl   {#1}
-    \@@_sanitise_fontname:Nn \l_fontspec_fontname_bf_tl   {#1}
-    \@@_sanitise_fontname:Nn \l_fontspec_fontname_bfit_tl {#1}
+    \@@_sanitise_fontname:Nn \l_@@_fontname_it_tl   {#1}
+    \@@_sanitise_fontname:Nn \l_@@_fontname_bf_tl   {#1}
+    \@@_sanitise_fontname:Nn \l_@@_fontname_bfit_tl {#1}
    }
  }
 %    \end{macrocode}
@@ -176,10 +205,10 @@
 
 %    \end{macrocode}
 % When \cmd{\l_fontspec_fontname_tl} is augmented with a prefix or whatever to create
-% the name of the upright font (\cmd{\l_fontspec_fontname_up_tl}), this latter is the new `general
+% the name of the upright font (\cmd{\l_@@_fontname_up_tl}), this latter is the new `general
 % font name' to use.
 %    \begin{macrocode}
-  \tl_set_eq:NN \l_fontspec_fontname_tl \l_fontspec_fontname_up_tl
+  \tl_set_eq:NN \l_fontspec_fontname_tl \l_@@_fontname_up_tl
   \@@_keys_set_known:nxN {fontspec-renderer} {\l_@@_keys_leftover_clist}
     \l_@@_keys_leftover_clist
   \@@_keys_set_known:nxN {fontspec-preparse} {\l_@@_keys_leftover_clist}
@@ -193,14 +222,14 @@
 \cs_new:Nn \@@_load_font:
  {
 %<debug>\typeout{:: @@_load_font}
-%<debug>\typeout{Set~ base~ font~ for~ preliminary~ analysis: \@@_construct_font_call:nn { \l_fontspec_fontname_up_tl } {} }
+%<debug>\typeout{Set~ base~ font~ for~ preliminary~ analysis: \@@_construct_font_call:nn { \l_@@_fontname_up_tl } {} }
   \@@_primitive_font_set:Nnn \l_fontspec_font
-     { \@@_construct_font_call:nn { \l_fontspec_fontname_up_tl } {} } {\f@size pt}
-  \@@_primitive_font_if_null:NT \l_fontspec_font { \@@_error:nx {font-not-found} {\l_fontspec_fontname_up_tl} }
+     { \@@_construct_font_call:nn { \l_@@_fontname_up_tl } {} } {\f@size pt}
+  \@@_primitive_font_if_null:NT \l_fontspec_font { \@@_error:nx {font-not-found} {\l_@@_fontname_up_tl} }
   \@@_set_font_type:
-%<debug>\typeout{Set~ base~ font~ properly: \@@_construct_font_call:nn { \l_fontspec_fontname_up_tl } {} }
+%<debug>\typeout{Set~ base~ font~ properly: \@@_construct_font_call:nn { \l_@@_fontname_up_tl } {} }
   \@@_primitive_font_gset:Nnn \l_fontspec_font
-     { \@@_construct_font_call:nn { \l_fontspec_fontname_up_tl } {} } {\f@size pt}
+     { \@@_construct_font_call:nn { \l_@@_fontname_up_tl } {} } {\f@size pt}
   \l_fontspec_font % this is necessary for LuaLaTeX to check the scripts properly
  }
 %    \end{macrocode}
@@ -404,8 +433,8 @@
     \@@_construct_font_call:nn {\l_fontspec_fontname_tl}
       { \l_@@_pre_feat_sclist \l_@@_rawfeatures_sclist }
    }
-  \prop_gput:cnV {g_@@_ \l_fontspec_family_tl _prop} {script-num} \l_fontspec_script_int
-  \prop_gput:cnV {g_@@_ \l_fontspec_family_tl _prop} {lang-num} \l_fontspec_language_int
+  \prop_gput:cnV {g_@@_ \l_fontspec_family_tl _prop} {script-num} \l_@@_script_int
+  \prop_gput:cnV {g_@@_ \l_fontspec_family_tl _prop} {lang-num} \l_@@_script_int
   \prop_gput:cnV {g_@@_ \l_fontspec_family_tl _prop} {script-tag} \l_fontspec_script_tl
   \prop_gput:cnV {g_@@_ \l_fontspec_family_tl _prop} {lang-tag} \l_fontspec_lang_tl
  }
@@ -429,22 +458,22 @@
  {
   \bool_if:nF {\l_@@_noit_bool || \l_@@_nobf_bool}
    {
-    \@@_set_autofont:Nnn \l_fontspec_fontname_bfit_tl {\l_fontspec_fontname_it_tl} {/B}
-    \@@_set_autofont:Nnn \l_fontspec_fontname_bfit_tl {\l_fontspec_fontname_bf_tl} {/I}
-    \@@_set_autofont:Nnn \l_fontspec_fontname_bfit_tl {\l_fontspec_fontname_tl} {/BI}
+    \@@_set_autofont:Nnn \l_@@_fontname_bfit_tl {\l_@@_fontname_it_tl} {/B}
+    \@@_set_autofont:Nnn \l_@@_fontname_bfit_tl {\l_@@_fontname_bf_tl} {/I}
+    \@@_set_autofont:Nnn \l_@@_fontname_bfit_tl {\l_fontspec_fontname_tl} {/BI}
    }
 
   \bool_if:NF \l_@@_nobf_bool
    {
-    \@@_set_autofont:Nnn \l_fontspec_fontname_bf_tl {\l_fontspec_fontname_tl} {/B}
+    \@@_set_autofont:Nnn \l_@@_fontname_bf_tl {\l_fontspec_fontname_tl} {/B}
    }
 
   \bool_if:NF \l_@@_noit_bool
    {
-    \@@_set_autofont:Nnn \l_fontspec_fontname_it_tl {\l_fontspec_fontname_tl} {/I}
+    \@@_set_autofont:Nnn \l_@@_fontname_it_tl {\l_fontspec_fontname_tl} {/I}
    }
 
-  \@@_set_autofont:Nnn \l_fontspec_fontname_bfsl_tl {\l_fontspec_fontname_sl_tl} {/B}
+  \@@_set_autofont:Nnn \l_@@_fontname_bfsl_tl {\l_@@_fontname_sl_tl} {/B}
  }
 %    \end{macrocode}
 % \end{macro}
@@ -454,11 +483,11 @@
 \cs_new:Nn \@@_set_faces:
  {
   \@@_add_nfssfont:nnnn \mddefault \updefault \l_fontspec_fontname_tl      \l_@@_fontfeat_up_clist
-  \@@_add_nfssfont:nnnn \bfdefault \updefault \l_fontspec_fontname_bf_tl   \l_@@_fontfeat_bf_clist
-  \@@_add_nfssfont:nnnn \mddefault \itdefault \l_fontspec_fontname_it_tl   \l_@@_fontfeat_it_clist
-  \@@_add_nfssfont:nnnn \mddefault \sldefault \l_fontspec_fontname_sl_tl   \l_@@_fontfeat_sl_clist
-  \@@_add_nfssfont:nnnn \bfdefault \itdefault \l_fontspec_fontname_bfit_tl \l_@@_fontfeat_bfit_clist
-  \@@_add_nfssfont:nnnn \bfdefault \sldefault \l_fontspec_fontname_bfsl_tl \l_@@_fontfeat_bfsl_clist
+  \@@_add_nfssfont:nnnn \bfdefault \updefault \l_@@_fontname_bf_tl   \l_@@_fontfeat_bf_clist
+  \@@_add_nfssfont:nnnn \mddefault \itdefault \l_@@_fontname_it_tl   \l_@@_fontfeat_it_clist
+  \@@_add_nfssfont:nnnn \mddefault \sldefault \l_@@_fontname_sl_tl   \l_@@_fontfeat_sl_clist
+  \@@_add_nfssfont:nnnn \bfdefault \itdefault \l_@@_fontname_bfit_tl \l_@@_fontfeat_bfit_clist
+  \@@_add_nfssfont:nnnn \bfdefault \sldefault \l_@@_fontname_bfsl_tl \l_@@_fontfeat_bfsl_clist
 
   \prop_map_inline:Nn \l_@@_nfssfont_prop { \@@_set_faces_aux:nnnnn ##2 }
  }
@@ -481,7 +510,6 @@
   \tl_replace_all:Nnx #1 {*} {\l_@@_basename_tl}
 %<luatex>  \tl_remove_all:Nn #1 {~}
  }
-\cs_generate_variant:Nn \tl_replace_all:Nnn {Nnx}
 %    \end{macrocode}
 % \end{macro}
 %
@@ -577,7 +605,6 @@
 % If not found, \meta{font name tl} remains empty.
 % Otherwise, we have a match.
 %    \begin{macrocode}
-\cs_generate_variant:Nn \tl_if_empty:nF {x}
 \cs_new:Nn \@@_set_autofont:Nnn
  {
   \bool_if:NF \l_@@_external_bool
@@ -688,7 +715,7 @@
 
     \bool_if:NF \l_@@_nosc_bool
      {
-      \tl_if_empty:NTF \l_fontspec_fontname_sc_tl
+      \tl_if_empty:NTF \l_@@_fontname_sc_tl
        {
         \@@_make_smallcaps:TF
          {
@@ -700,7 +727,7 @@
           \bool_set_true:N \l_@@_nosc_bool
          }
        }
-       { \@@_load_fontname:n {\l_fontspec_fontname_sc_tl} }% local for each size
+       { \@@_load_fontname:n {\l_@@_fontname_sc_tl} }% local for each size
      }
 
     \bool_if:NF \l_@@_nosc_bool
@@ -834,7 +861,6 @@
      }
    }
  }
-\cs_generate_variant:Nn \tl_if_empty:nF {f}
 %    \end{macrocode}
 % Maybe |\str_if_eq_x:nnF| would be better?
 % \end{macro}
@@ -994,7 +1020,7 @@
 % \begin{macro}{\@@_iv_str_to_num:Nn}
 % This macro takes a four character string and converts it to the
 % numerical representation required for \XeTeX\ OpenType script/language/feature
-% purposes. The output is stored in \cmd\l_fontspec_strnum_int.
+% purposes. The output is stored in \cmd\l_@@_script_int.
 %
 % The reason it's ugly is because the input can be of the form of any of these:
 % `|abcd|', `|abc|', `|abc |', `|ab|', `|ab  |', \etc.

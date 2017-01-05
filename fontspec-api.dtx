@@ -99,7 +99,7 @@
       \int_set:Nn \l_@@_script_int {\l_@@_tmp_tl}
 
       \prop_get:cnN {g_@@_ \f@family _prop} {lang-num} \l_@@_tmp_tl
-      \int_set:Nn \l_@@_script_int {\l_@@_tmp_tl}
+      \int_set:Nn \l_@@_language_int {\l_@@_tmp_tl}
 
       \prop_get:cnN {g_@@_ \f@family _prop} {script-tag}  \l_fontspec_script_tl
       \prop_get:cnN {g_@@_ \f@family _prop} {lang-tag}  \l_fontspec_lang_tl
@@ -132,7 +132,7 @@
     \bool_if:NTF \l_@@_ot_bool
      {
       \@@_iv_str_to_num:Nn \l_@@_script_int {#1}
-      \@@_iv_str_to_num:Nn \l_@@_script_int {#2}
+      \@@_iv_str_to_num:Nn \l_@@_language_int {#2}
       \fontspec_check_ot_feat:nTF {#3} \prg_return_true: \prg_return_false:
      }
      { \prg_return_false: }

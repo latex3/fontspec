@@ -411,7 +411,7 @@
       \fontspec_check_script:nTF {####1}
        {
         \tl_set:Nn \l_fontspec_script_tl {####1}
-        \int_set:Nn \l_@@_script_int {\l_@@_script_int}
+        \int_set:Nn \l_@@_script_int {\l_@@_strnum_int}
         \bool_set_true:N \l_@@_script_exist_bool
         \tl_gset:Nx \g_@@_single_feat_tl { script=####1 }
         \clist_map_break:
@@ -429,7 +429,7 @@
          {
           \@@_warning:nx {script-not-exist-latn} {#1}
           \tl_set:Nn \l_fontspec_script_tl {latn}
-          \int_set:Nn \l_@@_script_int {\l_@@_script_int}
+          \int_set:Nn \l_@@_script_int {\l_@@_strnum_int}
          }
          {
           \@@_warning:nx {script-not-exist} {#1}
@@ -451,7 +451,7 @@
   \fontspec_check_lang:nTF {#2}
      {
       \tl_set:Nn \l_fontspec_lang_tl {#2}
-      \int_set:Nn \l_@@_script_int {\l_@@_script_int}
+      \int_set:Nn \l_@@_language_int {\l_@@_strnum_int}
       \tl_gset:Nx \g_@@_single_feat_tl { language=#2 }
      }
      {
@@ -468,7 +468,7 @@
 \@@_keys_define_code:nnn {fontspec-opentype}{ Language / Default }
  {
   \tl_set:Nn \l_fontspec_lang_tl {DFLT}
-  \int_zero:N \l_@@_script_int
+  \int_zero:N \l_@@_language_int
   \tl_gset:Nn \g_@@_single_feat_tl { language=DFLT }
  }
 %    \end{macrocode}
@@ -481,14 +481,14 @@
    {
     \fontspec_check_lang:nTF {TRK}
      {
-      \int_set:Nn \l_@@_script_int {\l_@@_script_int}
+      \int_set:Nn \l_@@_language_int {\l_@@_strnum_int}
       \tl_set:Nn \l_fontspec_lang_tl {TRK}
       \tl_gset:Nn \g_@@_single_feat_tl { language=TRK }
      }
      {
       \fontspec_check_lang:nTF {TUR}
        {
-        \int_set:Nn \l_@@_script_int {\l_@@_script_int}
+        \int_set:Nn \l_@@_language_int {\l_@@_strnum_int}
         \tl_set:Nn \l_fontspec_lang_tl {TUR}
         \tl_gset:Nn \g_@@_single_feat_tl { language=TUR }
        }

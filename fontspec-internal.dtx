@@ -434,7 +434,7 @@
       { \l_@@_pre_feat_sclist \l_@@_rawfeatures_sclist }
    }
   \prop_gput:cnV {g_@@_ \l_fontspec_family_tl _prop} {script-num} \l_@@_script_int
-  \prop_gput:cnV {g_@@_ \l_fontspec_family_tl _prop} {lang-num} \l_@@_script_int
+  \prop_gput:cnV {g_@@_ \l_fontspec_family_tl _prop} {lang-num} \l_@@_language_int
   \prop_gput:cnV {g_@@_ \l_fontspec_family_tl _prop} {script-tag} \l_fontspec_script_tl
   \prop_gput:cnV {g_@@_ \l_fontspec_family_tl _prop} {lang-tag} \l_fontspec_lang_tl
  }
@@ -1020,7 +1020,7 @@
 % \begin{macro}{\@@_iv_str_to_num:Nn}
 % This macro takes a four character string and converts it to the
 % numerical representation required for \XeTeX\ OpenType script/language/feature
-% purposes. The output is stored in \cmd\l_@@_script_int.
+% purposes. The output is stored in |#1|.
 %
 % The reason it's ugly is because the input can be of the form of any of these:
 % `|abcd|', `|abc|', `|abc |', `|ab|', `|ab  |', \etc.

@@ -45,7 +45,7 @@
     \@@_primitive_font_set:Nnn \l_fontspec_font {\l_@@_fontdef_tl} {\f@size pt}
     \bool_if:NTF \l_@@_atsui_bool
      {
-      \fontspec_make_AAT_feature_string:nnTF {#1}{#2}
+      \@@_make_AAT_feature_string:nnTF {#1}{#2}
         \prg_return_true: \prg_return_false:
      }
      {
@@ -104,7 +104,7 @@
       \prop_get:cnN {g_@@_ \f@family _prop} {script-tag}  \l_fontspec_script_tl
       \prop_get:cnN {g_@@_ \f@family _prop} {lang-tag}  \l_fontspec_lang_tl
 
-      \fontspec_check_ot_feat:nTF {#1} {\prg_return_true:} {\prg_return_false:}
+      \@@_check_ot_feat:nTF {#1} {\prg_return_true:} {\prg_return_false:}
      }
      {
       \prg_return_false:
@@ -133,7 +133,7 @@
      {
       \@@_iv_str_to_num:Nn \l_@@_script_int {#1}
       \@@_iv_str_to_num:Nn \l_@@_language_int {#2}
-      \fontspec_check_ot_feat:nTF {#3} \prg_return_true: \prg_return_false:
+      \@@_check_ot_feat:nTF {#3} \prg_return_true: \prg_return_false:
      }
      { \prg_return_false: }
    }
@@ -157,7 +157,7 @@
     \@@_set_font_type:
     \bool_if:NTF \l_@@_ot_bool
      {
-      \fontspec_check_script:nTF {#1} \prg_return_true: \prg_return_false:
+      \@@_check_script:nTF {#1} \prg_return_true: \prg_return_false:
      }
      { \prg_return_false: }
    }
@@ -185,7 +185,7 @@
       \int_set:Nn \l_@@_script_int {\l_@@_tmp_tl}
       \prop_get:cnN {g_@@_ \f@family _prop} {script-tag}  \l_fontspec_script_tl
 
-      \fontspec_check_lang:nTF {#1} \prg_return_true: \prg_return_false:
+      \@@_check_lang:nTF {#1} \prg_return_true: \prg_return_false:
      }
      { \prg_return_false: }
    }
@@ -211,7 +211,7 @@
      {
       \tl_set:Nn \l_fontspec_script_tl {#1}
       \@@_iv_str_to_num:Nn \l_@@_script_int {#1}
-      \fontspec_check_lang:nTF {#2} \prg_return_true: \prg_return_false:
+      \@@_check_lang:nTF {#2} \prg_return_true: \prg_return_false:
      }
      { \prg_return_false: }
    }

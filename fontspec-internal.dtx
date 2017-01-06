@@ -293,7 +293,7 @@
    {
     \tl_if_empty:NTF \l_@@_script_name_tl
      {
-      \fontspec_check_script:nTF {latn}
+      \@@_check_script:nTF {latn}
        {
         \tl_set:Nn \l_@@_script_name_tl {Latin}
         \tl_if_empty:NT \l_@@_lang_name_tl
@@ -903,24 +903,22 @@
 % \label{mac:makesmallcaps}
 % This macro checks if the font contains small caps.
 %    \begin{macrocode}
-\cs_set:Nn \fontspec_make_ot_smallcaps:TF
+%<luatex>\cs_set:Nn \@@_make_smallcaps:TF
+%<xetexx>\cs_set:Nn \@@_make_ot_smallcaps:TF
  {
-  \fontspec_check_ot_feat:nTF {smcp} {#1} {#2}
+  \@@_check_ot_feat:nTF {smcp} {#1} {#2}
  }
 %<*xetexx>
 \cs_set:Nn \@@_make_smallcaps:TF
  {
   \bool_if:NTF \l_@@_ot_bool
-   { \fontspec_make_ot_smallcaps:TF {#1} {#2} }
+   { \@@_make_ot_smallcaps:TF {#1} {#2} }
    {
      \bool_if:NT \l_@@_atsui_bool
-      { \fontspec_make_AAT_feature_string:nnTF {3}{3} {#1} {#2} }
+      { \@@_make_AAT_feature_string:nnTF {3}{3} {#1} {#2} }
    }
  }
 %</xetexx>
-%<*luatex>
-\cs_set_eq:NN \@@_make_smallcaps:TF \fontspec_make_ot_smallcaps:TF
-%</luatex>
 %    \end{macrocode}
 % \end{macro}
 %

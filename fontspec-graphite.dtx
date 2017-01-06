@@ -21,20 +21,20 @@
  {
   \keys_define:nn {fontspec-aat}
    {
-    #1/#2 .code:n = { \fontspec_make_AAT_feature:nn {#3}{#4} }
+    #1/#2 .code:n = { \@@_make_AAT_feature:nn {#3}{#4} }
    }
  }
 %    \end{macrocode}
 % \end{macro}
 
-% \begin{macro}{\fontspec_make_AAT_feature:nn}
+% \begin{macro}{\@@_make_AAT_feature:nn}
 %    \begin{macrocode}
-\cs_new:Nn \fontspec_make_AAT_feature:nn
+\cs_new:Nn \@@_make_AAT_feature:nn
  {
   \tl_if_empty:nTF {#1}
    { \@@_warning:n {aat-feature-not-exist} }
    {
-     \fontspec_make_AAT_feature_string:nnTF {#1}{#2}
+     \@@_make_AAT_feature_string:nnTF {#1}{#2}
       {
        \@@_update_featstr:n {\l_fontspec_feature_string_tl}
      }
@@ -44,7 +44,7 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\fontspec_make_AAT_feature_string:nnTF}
+% \begin{macro}{\@@_make_AAT_feature_string:nnTF}
 %   This macro takes the numerical codes for a font feature and
 %   creates a specified macro containing the string required in the
 %   font definition to turn that feature on or off. Used primarily in
@@ -62,7 +62,7 @@
 %
 % Finally, save out the complete feature string in \cmd\l_fontspec_feature_string_tl.
 %    \begin{macrocode}
-\prg_new_conditional:Nnn \fontspec_make_AAT_feature_string:nn {TF,T,F}
+\prg_new_conditional:Nnn \@@_make_AAT_feature_string:nn {TF,T,F}
  {
   \tl_set:Nx \l_tmpa_tl { \XeTeXfeaturename \l_fontspec_font #1 }
   \tl_if_empty:NTF \l_tmpa_tl

@@ -21,9 +21,9 @@
 %
 %    \begin{macrocode}
 
-\def\EncodingCommand#1#2{%
+\DeclareDocumentCommand\EncodingCommand{mO{}m}{%
   \bool_if:NF \l_@@_defining_encoding_bool { \ERROR }
-  \DeclareTextCommand{#1}{\LastDeclaredEncoding}{#2}%
+  \DeclareTextCommand{#1}{\LastDeclaredEncoding}[#2]{#3}%
 }
 
 \def\EncodingAccent#1#2{%
@@ -66,19 +66,21 @@
        {<->\UnicodeFontFile{lmroman10-bolditalic}{\UnicodeFontTeXLigatures}}{}
 }
 
-\DeclareDocumentCommand \DeclareUnicodeEncoding {mmm} {
+\DeclareDocumentCommand \DeclareUnicodeEncoding {mm} {
   \@@_new_unicode_encoding:n {#1}
   \bool_set_true:N \l_@@_defining_encoding_bool
-  \clist_map_inline:nn {#2}
-    {
-      \InputIfFileExists{fontrange-##1.def}{}{
-        \@latex@error{Unicode font range file `fontrange-\@ii.def' not found}{\@ehd}%
-      }
-    }
-  #3
+  #2
   \bool_set_false:N \l_@@_defining_encoding_bool
 }
 
+\DeclareDocumentCommand \ImportEncodingFile {m} {
+  \clist_map_inline:nn {#1}
+    {
+      \InputIfFileExists{##1}{}{
+        \@latex@error{Unicode~ encoding~ file~ `##1'~ not~ found}{\@ehd}%
+      }
+    }
+}
 
 % \DeclareUnicodeEncoding{user-legacy}{T1,TS1}{}
 
@@ -95,9 +97,15 @@
 %    where |\T1\foo| is \emph{one} control sequence, not two!
 % \end{quote}
 %    \begin{macrocode}
-\providecommand\UndeclareSymbol[1]
+\DeclareDocumentCommand \UndeclareSymbol {m}
   {
     \cs_undefine:c { \LastDeclaredEncoding \token_to_str:N #1 }
+  }
+
+\DeclareDocumentCommand \UndeclareComposite {mm}
+  {
+    \cs_undefine:c
+      { \c_backslash_str \LastDeclaredEncoding \token_to_str:N #1 - \tl_to_str:n {#2} }
   }
 %    \end{macrocode}
 %

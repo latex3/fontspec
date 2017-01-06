@@ -137,13 +137,13 @@
       { \prg_return_true: }
 %<*xetexx>
  {
-  \@@_iv_str_to_num:Nn \l_@@_script_int {#1}
+  \@@_iv_str_to_num:Nn \l_@@_strnum_int {#1}
   \int_set:Nn \l_tmpb_int { \XeTeXOTcountscripts \l_fontspec_font }
   \int_zero:N \l_tmpa_int
   \bool_set_false:N \l__fontspec_check_bool
   \bool_until_do:nn { \int_compare_p:nNn \l_tmpa_int = \l_tmpb_int }
    {
-    \ifnum \XeTeXOTscripttag\l_fontspec_font \l_tmpa_int = \l_@@_script_int
+    \ifnum \XeTeXOTscripttag\l_fontspec_font \l_tmpa_int = \l_@@_strnum_int
       \bool_set_true:N \l__fontspec_check_bool
       \int_set:Nn \l_tmpa_int {\l_tmpb_int}
     \else
@@ -176,14 +176,14 @@
       { \prg_return_true: }
 %<*xetexx>
  {
-  \@@_iv_str_to_num:Nn \l_@@_language_int {#1}
+  \@@_iv_str_to_num:Nn \l_@@_strnum_int {#1}
   \int_set:Nn \l_tmpb_int
    { \XeTeXOTcountlanguages \l_fontspec_font \l_@@_script_int }
   \int_zero:N \l_tmpa_int
   \bool_set_false:N \l__fontspec_check_bool
   \bool_until_do:nn { \int_compare_p:nNn \l_tmpa_int = \l_tmpb_int }
    {
-    \ifnum\XeTeXOTlanguagetag\l_fontspec_font\l_@@_script_int \l_tmpa_int =\l_@@_language_int
+    \ifnum\XeTeXOTlanguagetag\l_fontspec_font\l_@@_script_int \l_tmpa_int =\l_@@_strnum_int
       \bool_set_true:N \l__fontspec_check_bool
       \int_set:Nn \l_tmpa_int {\l_tmpb_int}
     \else

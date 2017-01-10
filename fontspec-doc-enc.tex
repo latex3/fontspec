@@ -26,16 +26,22 @@ of necessary diacritics or accented letters.
 In these cases, \pkg{fontspec} can leverage the font encoding technology built
 into \LaTeX2\ to provide on a per-font basis either provide fallback options or
 error messages when a desired accent or symbol is not available.
-However, these features can only be provided for input using \LaTeX\ commands rather
+However, at present
+these features can only be provided for input using \LaTeX\ commands rather
 than Unicode input; for example, typing |\`e| instead of |è| or |\textcopyright|
 instead of |©| in the source file.
 
-The most widely-used encoding in \LaTeXe\ was \texttt{T1} with companion `|TS1|' symbols
+The most widely-used encoding in \LaTeXe\ was |T1| with companion `|TS1|' symbols
 provided by the \pkg{textcomp} package.
-As of 2017, in \LaTeXe\ on \XeTeX\ and \LuaTeX, the default encoding is known as |TU|,
-which emulates the basic coverage of |T1+TS1| for command-based input of accents and symbols.
-Wider coverage is not provided by default since it is expected that most users
-will be writing with direct Unicode input.
+These encodings provided glyphs to typeset text in a variety of western European languages.
+As with most legacy \LaTeXe\ input methods, accents and symbols were input using
+encoding-dependent commands such as |\`e| as described above.
+As of 2017, in \LaTeXe\ on \XeTeX\ and \LuaTeX, the default encoding is |TU|,
+which uses Unicode for input and output.
+The |TU| encoding provides appropriate encoding-dependent definitions for input commands
+to match the coverage of the |T1+TS1| encodings.
+Wider coverage is not provided by default since (a)~each font will provide different glyph coverage, and
+(b)~it is expected that most users will be writing with direct Unicode input.
 
 For those users who do need finer-grained control, \pkg{fontspec} provides an
 interface for a more extensible system.
@@ -43,9 +49,9 @@ interface for a more extensible system.
 
 \section{A new Unicode-based encoding from scratch}
 
-Let's say you need to provide backwards-compatible support for the |OT2| encoding,
-which contains definition for Cyrillic letters.
-An example from the OT2 encoding definition file (|ot2enc.def|) reads:
+Let's say you need to provide support for a document originally written with fonts
+in the |OT2| encoding, which contains encoding-dependent commands for Cyrillic letters.
+An example from the |OT2| encoding definition file (|ot2enc.def|) reads:
 \begin{Verbatim}[numbers=left,firstnumber=57]
 \DeclareTextSymbol{\CYRIE}{OT2}{5}
 \DeclareTextSymbol{\CYRDJE}{OT2}{6}
@@ -69,14 +75,14 @@ named, say, |fontrange-cyr.def| and populate it with
 \end{Verbatim}
 The numbers |"0404|, |"0402|, \dots, are the Unicode slots (in hexadecimal)
 of each glyph respectively.
-A number of shorthands are provided to simplify this style of input; in this case,
+The \pkg{fontspec} package provides a number of shorthands to simplify this style of input; in this case,
 you could also write
 \begin{Verbatim}
 \EncodingSymbol{\CYRIE}{"0404}
 ...
 \end{Verbatim}
 
-Then to use this encoding in a \pkg{fontspec} font, you would first add this to your preamble:
+To use this encoding in a \pkg{fontspec} font, you would first add this to your preamble:
 \begin{Verbatim}
 \DeclareUnicodeEncoding{unicyr}{
   \ImportEncoding{fontrange-cyr.def}

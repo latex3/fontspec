@@ -1,0 +1,283 @@
+\ProvidesPackage{fontspec-doc-style}
+
+\usepackage{fontspec,booktabs,calc,caption,color,enumitem,fancyvrb,hologo,graphicx,
+  ifthen,url,varioref,varwidth,microtype,tocloft,framed,xparse,docmute}
+
+%% Various labelling commands:
+\newcommand*\name[1]{{#1}}
+\newcommand*\pkg[1]{\textsf{#1}}
+\newcommand*\opt[1]{\texttt{#1}}
+\newcommand*\feat[1]{\texttt{#1}}
+
+\let\latin\textit
+\def\eg{\latin{e.g.}}
+\def\ie{\latin{i.e.}}
+\def\Eg{\latin{E.g.}}
+\def\Ie{\latin{I.e.}}
+\def\etc{\@ifnextchar.{\latin{etc}}{\latin{etc.}\@}}
+
+\newcommand\note[1]{\unskip\footnote{#1}}
+
+\def\MacOSX{Mac~OS~X}
+\def\AAT{\textsc{aat}}
+\def\ATSUI{\textsc{atsui}}
+
+\newcommand\NFSS{\textsc{nfss}}
+\newcommand\XeTeX{\hologo{XeTeX}}
+\newcommand\XeLaTeX{\hologo{XeLaTeX}}
+\newcommand\LuaTeX{\hologo{LuaTeX}}
+\newcommand\LuaLaTeX{\hologo{LuaLaTeX}}
+
+% ToC formatting:
+\setlength\cftsubsecnumwidth{1.4\cftsubsecnumwidth}
+%\def\@cfttocstart{\small\begin{multicols}{2}}
+%\def\@cfttocfinish{\end{multicols}}
+
+\fvset{gobble=0}
+
+\captionsetup[table]{position=above}
+\captionsetup[figure]{position=above}
+
+
+%% Fonts
+
+\defaultfontfeatures{Numbers=OldStyle}
+\IfFontExistsTF{AldusNovaPro-Book.otf}
+  {
+    \setmainfont{aldus-nova}
+    \setsansfont{palatino-sans-light}
+  }
+  {
+\setmainfont{texgyrepagella}[
+  Extension = .otf,
+  UprightFont = *-regular ,
+  ItalicFont  = *-italic  ,
+  BoldFont    = *-bold    ,
+  BoldItalicFont = *-bolditalic ,
+]
+\setsansfont{texgyreheros}[
+  Extension = .otf,
+  UprightFont = *-regular ,
+  ItalicFont  = *-italic  ,
+  BoldFont    = *-bold    ,
+  BoldItalicFont = *-bolditalic ,
+]
+  }
+\setmonofont{lmmonolt10-regular.otf}[BoldFont=lmmonolt10-bold.otf]
+\newfontfamily\ttcondensed{lmmonoltcond10-regular.otf}
+
+%% (La)TeX font-related declarations:
+\linespread{1.05}      % Pagella needs more space between lines
+\frenchspacing         % Remove ugly extra space after punctuation
+
+\usepackage[
+  bookmarks=true,
+  colorlinks=true,
+  linkcolor=niceblue,
+  urlcolor=niceblue,
+  citecolor=niceblue,
+  pdftitle={The fontspec package},
+  pdfsubject={Advanced font selection for XeLaTeX/LuaLaTeX},
+  pdfauthor={Will Robertson},
+  pdfkeywords={xetex, xelatex, luatex, lualatex, unicode, opentype, aat}
+  ]{hyperref}
+
+
+
+%% ToC
+\def\@dotsep{1000}
+\setcounter{tocdepth}{2}
+\setlength\columnseprule{0.4pt}
+\renewcommand\tableofcontents{\relax
+  \begin{multicols}{2}[\section*{\contentsname}]\relax
+    \@starttoc{toc}\relax
+  \end{multicols}}
+
+
+%% Index
+\setcounter{IndexColumns}{2}
+\renewenvironment{theglossary}
+  {\small\list{}{}
+     \item\relax
+     \glossary@prologue\GlossaryParms
+     \let\item\@idxitem \ignorespaces
+     \def\pfill{\hspace*{\fill}}}
+  {\endlist}
+
+
+
+%% varioref definitions:
+\labelformat{table}{Table~#1}
+\labelformat{section}{Section~#1}
+\labelformat{subsection}{Section~#1}
+
+\definecolor{niceblue}{rgb}{0.1,0.2,0.8}
+
+
+
+
+%% EXAMPLES
+
+\newsavebox\X
+\newsavebox\Y
+
+\newcounter{example}
+
+\newcommand\exref[1]{Example~\ref{ex:#1}}
+\newcommand\Exref[1]{Example~\ref{ex:#1}}
+
+\newenvironment{Xexample}[3][]
+  {\VerbatimEnvironment\begin{Fexample}[#1]{#2}{#3}{X}}
+  {\end{Fexample}}
+
+\newenvironment{Lexample}[3][]
+  {\VerbatimEnvironment\begin{Fexample}[#1]{#2}{#3}{L}}
+  {\end{Fexample}}
+
+\newenvironment{Fexample}[4][]
+  {%
+    \def\options{#1}%
+    \def\filename{#2}%
+    \def\captiontext{#3}%
+    \def\prefix{#4}
+    \refstepcounter{example}%
+    \label{ex:\filename}%
+    \IfFileExists{zzz-\theexample-\prefix-\filename.tex}{}{%
+      \immediate\write18{rm -f zzz-\theexample-* ;}%
+    }%
+    \VerbatimEnvironment
+    \begin{VerbatimOut}{zzz-\theexample-\prefix-\filename.tex}}
+% text in the environment
+  {\end{VerbatimOut}
+    \begin{figure}
+      \setlength\parindent{0pt}%
+      \edef\@tempa{[gobble=0,fontsize=\noexpand\small,\options]}%
+      \savebox\X{%
+                  \expandafter\BVerbatimInput
+                  \@tempa{zzz-\theexample-\prefix-\filename.tex}%
+                }%
+      \IfFileExists{zzz-\theexample-\prefix-\filename.pdf}{}
+         {%
+           \edef\XXcmd{%
+             \unexpanded{%
+               \RequirePackage{luatex85}
+               \documentclass[margin=0.2mm]{standalone}
+               \usepackage{booktabs,ifthen,graphicx,xcolor,varwidth}
+               \usepackage{fontspec}
+               \defaultfontfeatures{Ligatures=TeX}
+               \begin{document}
+               \begin{varwidth}{0.7\linewidth}
+               \input} zzz-\theexample-\prefix-\filename.tex
+             \unexpanded{
+               \end{varwidth}
+               \end{document}
+             }%
+           }%
+           \edef\1{%
+             \csname prog@\prefix\endcsname "\unexpanded\expandafter{\XXcmd}";
+             printf '\@percentchar s' '\unexpanded\expandafter{\XXcmd}' > zzz-\theexample-\prefix-\filename-test.tex;
+           }%
+           \immediate\write18{\unexpanded\expandafter{\1}}%
+         }%
+      \savebox\Y{%
+      \IfFileExists{zzz-\theexample-\prefix-\filename.pdf}
+          {\includegraphics{zzz-\theexample-\prefix-\filename.pdf}}
+          {\color{red}\itshape ---Graphic not generated---}%
+      }
+      % TYPESETTING
+      \rule[0.5\baselineskip]{\columnwidth}{1pt}%
+      \vspace{-1.2ex}%
+      \def\@tempa{\small\textsf{Example~\theexample:~}}%
+      \settowidth\@tempdima{\@tempa\captiontext}%
+      \par
+      \ifdim\@tempdima>\linewidth
+        \settowidth\@tempdima{\@tempa}%
+        \@tempa\parbox[t]{\linewidth-\@tempdima}{\small\captiontext}%
+        \vspace{0.4\baselineskip}%
+      \else
+        \parbox{\linewidth}{\centering\@tempa~\captiontext}%
+      \fi
+      \par\rule[0.4\baselineskip]{\columnwidth}{0.4pt}\par
+      \ifdim\dimexpr\wd\X+\wd\Y>\linewidth\relax
+        \null\hfill\makebox[0pt][r]{\usebox\Y}\usebox\X
+      \else
+        \hfill\usebox\Y\hfill\usebox\X
+      \fi
+      \par\rule[0.5\baselineskip]{\columnwidth}{1pt}
+    \end{figure}
+}
+
+\def\prog@X{xelatex
+               -jobname=zzz-\theexample-X-\filename\space}
+
+\def\prog@L{lualatex
+               -jobname=zzz-\theexample-L-\filename\space}
+
+%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand*\setexsize[1]{\let\examplesize#1}
+\newcommand*\setverbwidth[1]{\def\auxwidth{#1}}
+
+
+
+\newcounter{argument}
+\g@addto@macro\endmacro{\setcounter{argument}{0}}
+\newcommand*\darg[1]{%
+  \stepcounter{argument}%
+  \noindent{\ttfamily\char`\#\theargument~:~}#1\par}
+\newcommand*\doarg[1]{%
+  \stepcounter{argument}%
+  \noindent{\ttfamily\makebox[0pt][r]{[}\char`\#\theargument]:~}#1\par}
+
+\newcommand\unichar[2]{\textsc{\MakeLowercase{u+#1: #2}}}
+
+\newcommand\cmdbox[1]{%
+  \smallskip\par\noindent
+  \fbox{\begin{varwidth}{\linewidth}
+    #1%
+  \end{varwidth}}%
+  \smallskip
+}
+\def\CMD#1{\texttt{\null#1\unskip}}
+
+
+\NewDocumentCommand \otf {somm} {%
+  \featname & #3 & \texttt{#4}
+  \IfBooleanT #1 { & \textdagger }
+  \\
+}
+\newenvironment{features}[1]{%
+  \def\NOTE{}
+  \def\thisfeatname{#1}%
+  \def\featname{\thisfeatname~~\texttt=~~\null\gdef\featname{}}%
+  \begin{table}
+    \caption{Options for the OpenType font feature `\thisfeatname'.}
+    \edef\@tempa{\noexpand\label{feat:\thisfeatname}}\@tempa
+    \centering
+    \begin{tabular}{@{}l@{}l@{\hspace{0.5\tabcolsep}}l@{\hspace{0.5\tabcolsep}}l@{}}
+    \toprule
+    Feature & Option & Tag & \\
+    \midrule
+}{
+    \bottomrule
+    \end{tabular}
+    \par\smallskip
+    \footnotesize
+    \textdagger\ These feature options can be disabled with \texttt{..Off} variants, and reset \\ to default state (neither explicitly on nor off) with \texttt{..Reset}.
+    \NOTE
+  \end{table}
+}
+
+
+%%%%%%%%%%%
+
+\def \MakePrivateLetters {%
+  \catcode `\@ = 11
+  \catcode `\_ = 11
+  \catcode `\: = 11
+}
+
+%% for LaTeX3 csnames
+\catcode `\_= 11
+
+\renewcommand\partname{Part}

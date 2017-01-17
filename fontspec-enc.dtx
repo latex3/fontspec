@@ -108,8 +108,9 @@
 %    \begin{macrocode}
 \DeclareDocumentCommand \UndeclareSymbol {m}
   {
-    \cs_undefine:c { \LastDeclaredEncoding \token_to_str:N #1 }
+    \UndeclareTextCommand {#1} {\LastDeclaredEncoding}
   }
+
 
 \DeclareDocumentCommand \UndeclareComposite {mm}
   {

@@ -2,11 +2,10 @@
 
 module = "fontspec"
 
-sourcefiles  = {"*.dtx","*.fd","*.def","fontspec-doc.tex","*.cfg"}
+sourcefiles  = {"*.dtx","*.fd","*.def","fontspec-doc.tex","fontspec-doc-*.tex","*.cfg"}
 unpackfiles  = {"fontspec.dtx"}
 installfiles = {"*.sty","fontspec.lua","*.fd","*.def","*.cfg"}
 typesetfiles = {"fontspec.dtx"}
-typesetsuppfiles = {"doc-files/"}
 demofiles    = {"fontspec-example.tex"}
 
 typesetopts = " -shell-escape -interaction=batchmode "

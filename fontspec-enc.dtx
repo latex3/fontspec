@@ -73,7 +73,16 @@
   \bool_set_false:N \l_@@_defining_encoding_bool
 }
 
+\DeclareDocumentCommand \ImportTU {} {
+  \bool_if:NF \l_@@_defining_encoding_bool { \ERROR }
+  \tl_set_eq:NN \l_@@_unicode_name_tl \UnicodeEncodingName
+  \tl_set_eq:NN \UnicodeEncodingName \LastDeclaredEncoding
+  \input{tuenc.def}
+  \tl_set_eq:NN \UnicodeEncodingName \l_@@_unicode_name_tl
+}
+
 \DeclareDocumentCommand \ImportEncodingFile {m} {
+  \bool_if:NF \l_@@_defining_encoding_bool { \ERROR }
   \clist_map_inline:nn {#1}
     {
       \InputIfFileExists{##1}{}{

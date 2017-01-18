@@ -5,6 +5,8 @@
 
 \part{Commands for accents and symbols (`encodings')}
 
+\textbf{The functionality described in this section is experimental.}
+
 In the pre-Unicode era, significant work was required by \LaTeX\ to ensure that
 input characters in the source could be interpreted correctly depending on file encoding,
 and that glyphs in the output were selected correctly depending on the font encoding.
@@ -85,7 +87,7 @@ you could also write
 To use this encoding in a \pkg{fontspec} font, you would first add this to your preamble:
 \begin{Verbatim}
 \DeclareUnicodeEncoding{unicyr}{
-  \ImportEncoding{fontrange-cyr.def}
+  \input{fontrange-cyr.def}
 }
 \end{Verbatim}
 Then follow it up with a font loading call such as
@@ -107,8 +109,8 @@ to add, to remove, and to redefine some symbols, letters, and/or accents.
 When adding symbols, etc., simply write
 \begin{Verbatim}
 \DeclareUnicodeEncoding{unicyr}{
-  \ImportTU
-  \ImportEncodingFile{fontrange-cyr.def}
+  \ImportEncoding{TU}
+  \input{fontrange-cyr.def}
   \EncodingSymbol{\textruble}{"20BD}
 }
 \end{Verbatim}
@@ -120,13 +122,14 @@ For example, if you a loading a font that you know is missing, say, the interrob
 (not that unusual a situation), you might write:
 \begin{Verbatim}
 \DeclareUnicodeEncoding{nobang}{
-  \ImportEncodingFile{tuenc.def}
+  \ImportEncoding{TU}
   \UndeclareSymbol\textinterrobang
 }
 \end{Verbatim}
 Provided that you use the command |\textinterrobang| to typeset this symbol,
 it will appear in fonts with the default encoding, while in any font loaded with
-the |nobang| encoding an attempt to access the symbol will return an error.
+the |nobang| encoding an attempt to access the symbol will either use the default
+fallback definition or return an error, depending on the symbol being undeclared.
 
 
 The third use case is to redefine a symbol or accent. The most common use case
@@ -142,7 +145,7 @@ For fonts with a missing (or poorly-spaced) |"0323| accent glyph, the `tradition
 construction could be used instead:
 \begin{Verbatim}
 \DeclareUnicodeEncoding{fakeacc}{
-  \ImportEncodingFile{tuenc.def}
+  \ImportEncoding{TU}
   \EncodingCommand{\d}[1]{%
     \hmode@bgroup
       \o@lign{\relax#1\crcr\hidewidth\ltx@sh@ft{-1ex}.\hidewidth}%
@@ -180,7 +183,7 @@ See |fntguide.pdf| for full documentation of these.
 As shown above, the following shorthands a provided by \pkg{fontspec} to simplify
 the process of defining Unicode font range encodings:
 \begin{quote}\obeylines
-  \cs{ImportEncodingFile}\marg{filename}
+  \cs{ImportEncoding}|{TU}|
   \cs{EncodingCommand}\marg{command}\oarg{num}\oarg{default}\marg{code}
   \cs{EncodingAccent}\marg{command}\marg{code}
   \cs{EncodingSymbol}\marg{command}\marg{code}

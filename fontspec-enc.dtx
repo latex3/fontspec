@@ -6,9 +6,9 @@
 %<*fontspec&(xetexx|luatex)>
 %    \end{macrocode}
 % \fi
-
+%
+% To be removed after the 2017 release of LaTeX2e:
 %    \begin{macrocode}
-
 \providecommand\UnicodeFontFile[2]{"[#1]:#2"}
 \providecommand\UnicodeFontName[2]{"#1:#2"}
 
@@ -16,11 +16,9 @@
 \providecommand\DeclareUnicodeAccent[3]{%
   \DeclareTextCommand{#1}{#2}{\add@unicode@accent{#3}}%
 }
-
 %    \end{macrocode}
 %
 %    \begin{macrocode}
-
 \DeclareDocumentCommand\EncodingCommand{mO{}m}{%
   \bool_if:NF \l_@@_defining_encoding_bool { \ERROR }
   \DeclareTextCommand{#1}{\LastDeclaredEncoding}[#2]{#3}%
@@ -45,10 +43,9 @@
   \bool_if:NF \l_@@_defining_encoding_bool { \ERROR }
   \DeclareTextCompositeCommand{#1}{\LastDeclaredEncoding}{#2}{#3}%
 }
-
-
-%% COMMANDS FOR DEFINING NEW ENCODINGS FROM FONT RANGES
-
+%    \end{macrocode}
+%
+%    \begin{macrocode}
 \cs_new:Nn \@@_new_unicode_encoding:n {%
   \DeclareFontEncoding{#1}{}{}
   \DeclareErrorFont{\LastDeclaredEncoding}{lmr}{m}{n}{10}
@@ -65,7 +62,10 @@
   \DeclareFontShape{\LastDeclaredEncoding}{lmr}{bx}{it}
        {<->\UnicodeFontFile{lmroman10-bolditalic}{\UnicodeFontTeXLigatures}}{}
 }
-
+%    \end{macrocode}
+%
+% \begin{macro}{\DeclareUnicodeEncoding}
+%    \begin{macrocode}
 \DeclareDocumentCommand \DeclareUnicodeEncoding {mm} {
   \@@_new_unicode_encoding:n {#1}
   \bool_set_true:N \l_@@_defining_encoding_bool
@@ -73,53 +73,40 @@
   \bool_set_false:N \l_@@_defining_encoding_bool
 }
 
-\DeclareDocumentCommand \ImportTU {} {
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\ImportEncoding}
+%    \begin{macrocode}
+\DeclareDocumentCommand \ImportEncoding {m} {
   \bool_if:NF \l_@@_defining_encoding_bool { \ERROR }
+  \tl_if_eq:nnF {#1} {TU} { \ERROR }
   \tl_set_eq:NN \l_@@_unicode_name_tl \UnicodeEncodingName
   \tl_set_eq:NN \UnicodeEncodingName \LastDeclaredEncoding
   \input{tuenc.def}
   \tl_set_eq:NN \UnicodeEncodingName \l_@@_unicode_name_tl
 }
-
-\DeclareDocumentCommand \ImportEncodingFile {m} {
-  \bool_if:NF \l_@@_defining_encoding_bool { \ERROR }
-  \clist_map_inline:nn {#1}
-    {
-      \InputIfFileExists{##1}{}{
-        \@latex@error{Unicode~ encoding~ file~ `##1'~ not~ found}{\@ehd}%
-      }
-    }
-}
-
-% \DeclareUnicodeEncoding{user-legacy}{T1,TS1}{}
-
 %    \end{macrocode}
-
-
-% From 2e documenation:
-% \begin{quote}
-%    If you say:
-%\begin{verbatim}
-%    \DeclareTextCommand{\foo}{T1}...
-%\end{verbatim}
-%    then |\foo| is defined to be |\T1-cmd \foo \T1\foo|,
-%    where |\T1\foo| is \emph{one} control sequence, not two!
-% \end{quote}
+% \end{macro}
+% \begin{macro}{\UndeclareSymbol}
 %    \begin{macrocode}
 \DeclareDocumentCommand \UndeclareSymbol {m}
   {
     \UndeclareTextCommand {#1} {\LastDeclaredEncoding}
   }
 
-
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\UndeclareComposite}
+%    \begin{macrocode}
 \DeclareDocumentCommand \UndeclareComposite {mm}
   {
     \cs_undefine:c
       { \c_backslash_str \LastDeclaredEncoding \token_to_str:N #1 - \tl_to_str:n {#2} }
   }
-%    \end{macrocode}
-%
 
+%    \end{macrocode}
+% \end{macro}
+%
 % \iffalse
 %    \begin{macrocode}
 %</fontspec&(xetexx|luatex)>

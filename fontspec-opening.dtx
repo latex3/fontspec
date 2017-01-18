@@ -39,7 +39,22 @@
 %
 % Soon to be the default, with a just-in-case check:
 %    \begin{macrocode}
-\file_if_exist:nF {tuenc.def} { \bool_set_true:N \g_@@_euenc_bool }
+\bool_if:NF \g_@@_euenc_bool
+  {
+    \file_if_exist:nTF {tuenc.def}
+      {
+        \cs_if_exist:cF {T@TU}
+          {
+            \@@_warning:n {tu-clash}
+            \DeclareFontEncoding{TU}{}{}
+            \DeclareFontSubstitution{TU}{lmr}{m}{n}
+          }
+      }
+      {
+        \@@_warning:n {tu-missing}
+        \bool_set_true:N \g_@@_euenc_bool
+      }
+  }
 \bool_if:NTF \g_@@_euenc_bool
   {
 %<xetexx>    \tl_set:Nn \g_fontspec_encoding_tl {EU1}

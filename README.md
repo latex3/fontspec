@@ -72,6 +72,7 @@ Change history
 - v2.5c (2017/01/02) "Christmas 2016 release"
 
     * `TU` font encoding now default, with encoding files provided by the kernel.
+    * Experimental interface added for customising encodings.
     * Add feature `Ornament=`*n* corresponding to OpenType feature `+ornm=`*n*.
     * Add feature `FontIndex=`*n* to support TrueType Collection (TTC) files.
     * Nested `\emph` is now much smarter and will cleverly nest even if manual font changes are made.

@@ -2,13 +2,13 @@
 
 module = "fontspec"
 
-sourcefiles  = {"*.dtx","*.fd","*.def","fontspec-doc.tex","fontspec-doc-*.tex","*.cfg"}
+sourcefiles  = {"*.dtx","*.fd","*.def","*.cfg","fontspec-doc*"}
 unpackfiles  = {"fontspec.dtx"}
 installfiles = {"*.sty","fontspec.lua","*.fd","*.def","*.cfg"}
 typesetfiles = {"fontspec.dtx"}
 demofiles    = {"fontspec-example.tex"}
 
-typesetopts = " -shell-escape -interaction=batchmode "
+typesetopts = " -shell-escape -interaction=errorstopmode "
 unpackopts  = " -interaction=batchmode"
 
 checkengines = {"xetex","luatex"}

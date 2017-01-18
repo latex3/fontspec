@@ -149,6 +149,19 @@
 %
 %
 %
+%    \begin{macrocode}
+\@@_define_aat_feature_group:n  {Vertical}
+\keys_define:nn {fontspec-aat}
+ {
+  Vertical .choice: ,
+  Vertical / RotatedGlyphs .code:n =
+    {
+      \__fontspec_update_featstr:n {vertical}
+    }
+ }
+
+%    \end{macrocode}
+%
 %
 % \subsubsection{Style}
 %    \begin{macrocode}

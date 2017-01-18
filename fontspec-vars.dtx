@@ -150,6 +150,18 @@
 %
 % \subsection{Generic functions}
 %
+% \begin{macro}{\@@_keys_set_known:nnN}
+%    \begin{macrocode}
+\cs_new:Nn \@@_keys_set_known:nnN
+  {
+%<debug>  \typeout{:::: Keys~set:~{#1}~{#2} }
+    \keys_set_known:nnN {#1} {#2} #3
+%<debug>  \typeout{:::: Leftover:~{#3} }
+  }
+\cs_generate_variant:Nn \@@_keys_set_known:nnN {nx}
+%    \end{macrocode}
+% \end{macro}
+%
 % \begin{macro}{\@@_head_ii:n}
 % Expands to the first two \meta{items} of |#1|.
 %    \begin{macrocode}

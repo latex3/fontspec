@@ -8,6 +8,7 @@
 % Shorthands for messages:
 %    \begin{macrocode}
 \cs_new:Npn \@@_error:n     { \msg_error:nn     {fontspec} }
+\cs_new:Npn \@@_error:nn    { \msg_error:nnn    {fontspec} }
 \cs_new:Npn \@@_error:nx    { \msg_error:nnx    {fontspec} }
 \cs_new:Npn \@@_warning:n   { \msg_warning:nn   {fontspec} }
 \cs_new:Npn \@@_warning:nx  { \msg_warning:nnx  {fontspec} }
@@ -20,18 +21,33 @@
 %
 % Allow messages to be written with spaces acting as normal:
 %    \begin{macrocode}
+\cs_generate_variant:Nn \msg_new:nnn  {nnx}
+\cs_generate_variant:Nn \msg_new:nnnn {nnxx}
+\cs_new:Nn \@@_msg_new:nnn
+  { \msg_new:nnx {#1} {#2} { \tl_trim_spaces:n {#3} } }
+\cs_new:Nn \@@_msg_new:nnnn
+  { \msg_new:nnxx {#1} {#2} { \tl_trim_spaces:n {#3} } { \tl_trim_spaces:n {#4} } }
 \char_set_catcode_space:n {32}
 %    \end{macrocode}
 %
 % \subsection{Errors}
 %
 %    \begin{macrocode}
-\msg_new:nnn {fontspec} {no-size-info}
+\@@_msg_new:nnn {fontspec} {only-inside-encdef}
+ {
+  \exp_not:N#1can only be used in the second argument
+  to \string\DeclareUnicodeEncoding.
+ }
+\@@_msg_new:nnn {fontspec} {only-import-tu}
+ {
+  The "\string\ImportEncoding" command can only take "TU" as an argument at this stage.
+ }
+\@@_msg_new:nnn {fontspec} {no-size-info}
  {
   Size information must be supplied.\\
   For example, SizeFeatures={Size={8-12},...}.
  }
-\msg_new:nnnn {fontspec} {font-not-found}
+\@@_msg_new:nnnn {fontspec} {font-not-found}
  {
   The font "#1" cannot be found.
  }
@@ -40,18 +56,18 @@
   Check the spelling, where the font is installed etc. etc.\\\\
   When in doubt, ask someone for help!
  }
-\msg_new:nnnn {fontspec} {rename-feature-not-exist}
+\@@_msg_new:nnnn {fontspec} {rename-feature-not-exist}
  {
   The feature #1 doesn't appear to be defined.
  }
  {
   It looks like you're trying to rename a feature that doesn't exist.
  }
-\msg_new:nnn {fontspec} {no-glyph}
+\@@_msg_new:nnn {fontspec} {no-glyph}
  {
   '\l_fontspec_fontname_tl' does not contain glyph #1.
  }
-\msg_new:nnnn {fontspec} {euler-too-late}
+\@@_msg_new:nnnn {fontspec} {euler-too-late}
  {
   The euler package must be loaded BEFORE fontspec.
  }
@@ -61,7 +77,7 @@
   loaded after euler. Type <return> to proceed
   with incorrect \string\mathit, \string\mathbf, etc.
  }
-\msg_new:nnnn {fontspec} {no-xcolor}
+\@@_msg_new:nnnn {fontspec} {no-xcolor}
  {
   Cannot load named colours without the xcolor package.
  }
@@ -69,7 +85,7 @@
   Sorry, I can't do anything to help. Instead of loading
   the color package, use xcolor instead.
  }
-\msg_new:nnnn {fontspec} {unknown-color-model}
+\@@_msg_new:nnnn {fontspec} {unknown-color-model}
  {
   Error loading colour `#1'; unknown colour model.
  }
@@ -77,7 +93,7 @@
   Sorry, I can't do anything to help. Please report this error
   to my developer with a minimal example that causes the problem.
  }
-\msg_new:nnnn {fontspec} {not-in-addfontfeatures}
+\@@_msg_new:nnnn {fontspec} {not-in-addfontfeatures}
  {
   The "#1" font feature cannot be used in \string\addfontfeatures.
  }
@@ -92,7 +108,17 @@
 % \subsection{Warnings}
 %
 %    \begin{macrocode}
-\msg_new:nnn {fontspec} {addfontfeatures-ignored}
+\@@_msg_new:nnn {fontspec} {tu-clash}
+ {
+  I have found the tuenc.def encoding definition file but the TU encoding is not
+  defined by the LaTeX2e kernel; attempting to correct but you really should update
+  to the latest version of LaTeX2e.
+ }
+\@@_msg_new:nnn {fontspec} {tu-missing}
+ {
+  The TU encoding seems to be missing; please update to the latest version of LaTeX2e.
+ }
+\@@_msg_new:nnn {fontspec} {addfontfeatures-ignored}
  {
   \string\addfontfeature (s) ignored \msg_line_context:;
   it cannot be used with a font that wasn't selected by a fontspec command.\\
@@ -102,83 +128,83 @@
     { The requested feature is "#1". }
     { The requested features are "#1". }
  }
-\msg_new:nnn {fontspec} {feature-option-overwrite}
+\@@_msg_new:nnn {fontspec} {feature-option-overwrite}
  {
   Option '#2' of font feature '#1' overwritten.
  }
-\msg_new:nnn {fontspec} {script-not-exist-latn}
+\@@_msg_new:nnn {fontspec} {script-not-exist-latn}
  {
   Font '\l_fontspec_fontname_tl' does not contain script '#1'.\\
   'Latin' script used instead.
  }
-\msg_new:nnn {fontspec} {script-not-exist}
+\@@_msg_new:nnn {fontspec} {script-not-exist}
  {
   Font '\l_fontspec_fontname_tl' does not contain script '#1'.
  }
-\msg_new:nnn {fontspec} {aat-feature-not-exist}
+\@@_msg_new:nnn {fontspec} {aat-feature-not-exist}
  {
   '\l_keys_key_tl=\l_keys_value_tl' feature not supported
   for AAT font '\l_fontspec_fontname_tl'.
  }
-\msg_new:nnn {fontspec} {aat-feature-not-exist-in-font}
+\@@_msg_new:nnn {fontspec} {aat-feature-not-exist-in-font}
  {
   AAT feature '\l_keys_key_tl=\l_keys_value_tl' (#1) not available
   in font '\l_fontspec_fontname_tl'.
  }
-\msg_new:nnn {fontspec} {icu-feature-not-exist}
+\@@_msg_new:nnn {fontspec} {icu-feature-not-exist}
  {
   '\l_keys_key_tl=\l_keys_value_tl' feature not supported
   for OpenType font '\l_fontspec_fontname_tl'
  }
-\msg_new:nnn {fontspec} {icu-feature-not-exist-in-font}
+\@@_msg_new:nnn {fontspec} {icu-feature-not-exist-in-font}
  {
   OpenType feature '\l_keys_key_tl=\l_keys_value_tl' (#1) not available
   for font '\l_fontspec_fontname_tl'
   with script '\l_@@_script_name_tl' and language '\l_@@_lang_name_tl'.
  }
-\msg_new:nnn {fontspec} {no-opticals}
+\@@_msg_new:nnn {fontspec} {no-opticals}
  {
   '\l_fontspec_fontname_tl' doesn't appear to have an Optical Size axis.
  }
-\msg_new:nnn {fontspec} {language-not-exist}
+\@@_msg_new:nnn {fontspec} {language-not-exist}
  {
   Language '#1' not available
   for font '\l_fontspec_fontname_tl'
   with script '\l_@@_script_name_tl'.\\
   'Default' language used instead.
  }
-\msg_new:nnn {fontspec} {only-xetex-feature}
+\@@_msg_new:nnn {fontspec} {only-xetex-feature}
  {
   Ignored XeTeX only feature: '#1'.
  }
-\msg_new:nnn {fontspec} {only-luatex-feature}
+\@@_msg_new:nnn {fontspec} {only-luatex-feature}
  {
   Ignored LuaTeX only feature: '#1'.
  }
-\msg_new:nnn {fontspec} {no-mapping}
+\@@_msg_new:nnn {fontspec} {no-mapping}
  {
   Input mapping not (yet?) supported in LuaTeX.
  }
-\msg_new:nnn {fontspec} {no-mapping-ligtex}
+\@@_msg_new:nnn {fontspec} {no-mapping-ligtex}
  {
   Input mapping not (yet?) supported in LuaTeX.\\
   Use "Ligatures=TeX" instead of "Mapping=tex-text".
  }
-\msg_new:nnn {fontspec} {cm-default-obsolete}
+\@@_msg_new:nnn {fontspec} {cm-default-obsolete}
  {
   The "cm-default" package option is obsolete.
  }
-\msg_new:nnn {fontspec} {fakebold-only-xetex}
+\@@_msg_new:nnn {fontspec} {fakebold-only-xetex}
  {
   The "FakeBold" and "AutoFakeBold" options are only available with XeLaTeX.\\
   Option ignored.
  }
-\msg_new:nnn {fontspec} {font-index-needs-ttc}
+\@@_msg_new:nnn {fontspec} {font-index-needs-ttc}
  {
   The "FontIndex" feature is only supported by TTC (TrueType Collection) fonts.\\
   Feature ignored.
  }
-\msg_new:nnn {fontspec} {feat-cannot-remove}
+\@@_msg_new:nnn {fontspec} {feat-cannot-remove}
  {
   The "#1" feature cannot be deactivated. Request ignored.
  }
@@ -187,7 +213,7 @@
 % \subsection{Info messages}
 %
 %    \begin{macrocode}
-\msg_new:nnn {fontspec} {defining-font}
+\@@_msg_new:nnn {fontspec} {defining-font}
  {
   Font family '\l_fontspec_family_tl' created for font '#2'
   with options [\l_@@_all_features_clist].\\
@@ -195,33 +221,33 @@
   This font family consists of the following NFSS series/shapes:\\
   \l_fontspec_defined_shapes_tl
  }
-\msg_new:nnn {fontspec} {no-font-shape}
+\@@_msg_new:nnn {fontspec} {no-font-shape}
  {
   Could not resolve font "#1" (it probably doesn't exist).
  }
-\msg_new:nnn {fontspec} {set-scale}
+\@@_msg_new:nnn {fontspec} {set-scale}
  {
   \l_fontspec_fontname_tl\space scale = \l_@@_scale_tl.
  }
-\msg_new:nnn {fontspec} {setup-math}
+\@@_msg_new:nnn {fontspec} {setup-math}
  {
   Adjusting the maths setup (use [no-math] to avoid this).
  }
-\msg_new:nnn {fontspec} {no-scripts}
+\@@_msg_new:nnn {fontspec} {no-scripts}
  {
   Font "\l_fontspec_fontname_tl" does not contain any OpenType `Script' information.
  }
-\msg_new:nnn {fontspec} {opa-twice}
+\@@_msg_new:nnn {fontspec} {opa-twice}
  {
   Opacity set twice, in both Colour and Opacity.\\
   Using specification "Opacity=#1".
  }
-\msg_new:nnn {fontspec} {opa-twice-col}
+\@@_msg_new:nnn {fontspec} {opa-twice-col}
  {
   Opacity set twice, in both Opacity and Colour.\\
   Using an opacity specification in hex of "#1/FF".
  }
-\msg_new:nnn {fontspec} {bad-colour}
+\@@_msg_new:nnn {fontspec} {bad-colour}
  {
   Bad colour declaration "#1".
   Colour must be one of:\\

@@ -11,99 +11,141 @@
 %    \begin{macrocode}
 \providecommand\UnicodeFontFile[2]{"[#1]:#2"}
 \providecommand\UnicodeFontName[2]{"#1:#2"}
-
+%<xetexx>\providecommand\UnicodeFontTeXLigatures{mapping=tex-text;}
+%<luatex>\providecommand\UnicodeFontTeXLigatures{+tlig;}
+%    \end{macrocode}
+%
+%    \begin{macrocode}
 \providecommand\add@unicode@accent[2]{#2\char#1\relax}
 \providecommand\DeclareUnicodeAccent[3]{%
   \DeclareTextCommand{#1}{#2}{\add@unicode@accent{#3}}%
 }
 %    \end{macrocode}
 %
+% \begin{macro}{\EncodingCommand}
 %    \begin{macrocode}
-\DeclareDocumentCommand\EncodingCommand{mO{}m}{%
-  \bool_if:NF \l_@@_defining_encoding_bool { \ERROR }
-  \DeclareTextCommand{#1}{\LastDeclaredEncoding}[#2]{#3}%
-}
-
-\def\EncodingAccent#1#2{%
-  \bool_if:NF \l_@@_defining_encoding_bool { \ERROR }
-  \DeclareTextCommand{#1}{\LastDeclaredEncoding}{\add@unicode@accent{#2}}%
-}
-
-\def\EncodingSymbol#1#2{%
-  \bool_if:NF \l_@@_defining_encoding_bool { \ERROR }
-  \DeclareTextSymbol{#1}{\LastDeclaredEncoding}{#2}%
-}
-
-\def\EncodingComposite#1#2#3{%
-  \bool_if:NF \l_@@_defining_encoding_bool { \ERROR }
-  \DeclareTextComposite{#1}{\LastDeclaredEncoding}{#2}{#3}%
-}
-
-\def\EncodingCompositeCommand#1#2#3{%
-  \bool_if:NF \l_@@_defining_encoding_bool { \ERROR }
-  \DeclareTextCompositeCommand{#1}{\LastDeclaredEncoding}{#2}{#3}%
-}
+\DeclareDocumentCommand \EncodingCommand {mO{}m}
+  {
+    \bool_if:NF \l_@@_defining_encoding_bool
+      { \@@_error:nn {only-inside-encdef} \EncodingCommand }
+    \DeclareTextCommand{#1}{\LastDeclaredEncoding}[#2]{#3}
+  }
 %    \end{macrocode}
+% \end{macro}
 %
+% \begin{macro}{\EncodingAccent}
 %    \begin{macrocode}
-\cs_new:Nn \@@_new_unicode_encoding:n {%
-  \DeclareFontEncoding{#1}{}{}
-  \DeclareErrorFont{\LastDeclaredEncoding}{lmr}{m}{n}{10}
-  \DeclareFontSubstitution{\LastDeclaredEncoding}{lmr}{m}{n}
-  \DeclareFontFamily{\LastDeclaredEncoding}{lmr}{}
-  \DeclareFontShape{\LastDeclaredEncoding}{lmr}{m}{n}
-       {<->\UnicodeFontFile{lmroman10-regular}{\UnicodeFontTeXLigatures}}{}
-  \DeclareFontShape{\LastDeclaredEncoding}{lmr}{m}{it}
-       {<->\UnicodeFontFile{lmroman10-italic}{\UnicodeFontTeXLigatures}}{}
-  \DeclareFontShape{\LastDeclaredEncoding}{lmr}{m}{sc}
-       {<->\UnicodeFontFile{lmromancaps10-regular}{\UnicodeFontTeXLigatures}}{}
-  \DeclareFontShape{\LastDeclaredEncoding}{lmr}{bx}{n}
-       {<->\UnicodeFontFile{lmroman10-bold}{\UnicodeFontTeXLigatures}}{}
-  \DeclareFontShape{\LastDeclaredEncoding}{lmr}{bx}{it}
-       {<->\UnicodeFontFile{lmroman10-bolditalic}{\UnicodeFontTeXLigatures}}{}
-}
+\DeclareDocumentCommand \EncodingAccent {mm}
+  {
+    \bool_if:NF \l_@@_defining_encoding_bool
+      { \@@_error:nn {only-inside-encdef} \EncodingAccent }
+    \DeclareTextCommand{#1}{\LastDeclaredEncoding}{\add@unicode@accent{#2}}
+  }
 %    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\EncodingSymbol}
+%    \begin{macrocode}
+\DeclareDocumentCommand \EncodingSymbol {mm}
+  {
+    \bool_if:NF \l_@@_defining_encoding_bool
+      { \@@_error:nn {only-inside-encdef} \EncodingSymbol }
+    \DeclareTextSymbol{#1}{\LastDeclaredEncoding}{#2}
+  }
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\EncodingComposite}
+%    \begin{macrocode}
+\DeclareDocumentCommand \EncodingComposite {mmm}
+  {
+    \bool_if:NF \l_@@_defining_encoding_bool
+      { \@@_error:nn {only-inside-encdef} \EncodingComposite }
+    \DeclareTextComposite{#1}{\LastDeclaredEncoding}{#2}{#3}
+  }
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\EncodingCompositeCommand}
+%    \begin{macrocode}
+\DeclareDocumentCommand \EncodingCompositeCommand {mmm}
+  {
+    \bool_if:NF \l_@@_defining_encoding_bool
+      { \@@_error:nn {only-inside-encdef} \EncodingCompositeCommand }
+    \DeclareTextCompositeCommand{#1}{\LastDeclaredEncoding}{#2}{#3}
+  }
+%    \end{macrocode}
+% \end{macro}
 %
 % \begin{macro}{\DeclareUnicodeEncoding}
 %    \begin{macrocode}
-\DeclareDocumentCommand \DeclareUnicodeEncoding {mm} {
-  \@@_new_unicode_encoding:n {#1}
-  \bool_set_true:N \l_@@_defining_encoding_bool
-  #2
-  \bool_set_false:N \l_@@_defining_encoding_bool
-}
+\DeclareDocumentCommand \DeclareUnicodeEncoding {mm}
+  {
+    \@@_new_unicode_encoding:n {#1}
+    \bool_set_true:N \l_@@_defining_encoding_bool
+    #2
+    \bool_set_false:N \l_@@_defining_encoding_bool
+  }
 
 %    \end{macrocode}
-% \end{macro}
-% \begin{macro}{\ImportEncoding}
+%
 %    \begin{macrocode}
-\DeclareDocumentCommand \ImportEncoding {m} {
-  \bool_if:NF \l_@@_defining_encoding_bool { \ERROR }
-  \tl_if_eq:nnF {#1} {TU} { \ERROR }
-  \tl_set_eq:NN \l_@@_unicode_name_tl \UnicodeEncodingName
-  \tl_set_eq:NN \UnicodeEncodingName \LastDeclaredEncoding
-  \input{tuenc.def}
-  \tl_set_eq:NN \UnicodeEncodingName \l_@@_unicode_name_tl
-}
+\cs_new:Nn \@@_new_unicode_encoding:n
+  {
+    \DeclareFontEncoding{#1}{}{}
+    \DeclareErrorFont{\LastDeclaredEncoding}{lmr}{m}{n}{10}
+    \DeclareFontSubstitution{\LastDeclaredEncoding}{lmr}{m}{n}
+    \DeclareFontFamily{\LastDeclaredEncoding}{lmr}{}
+    \DeclareFontShape{\LastDeclaredEncoding}{lmr}{m}{n}
+         {<->\UnicodeFontFile{lmroman10-regular}{\UnicodeFontTeXLigatures}}{}
+    \DeclareFontShape{\LastDeclaredEncoding}{lmr}{m}{it}
+         {<->\UnicodeFontFile{lmroman10-italic}{\UnicodeFontTeXLigatures}}{}
+    \DeclareFontShape{\LastDeclaredEncoding}{lmr}{m}{sc}
+         {<->\UnicodeFontFile{lmromancaps10-regular}{\UnicodeFontTeXLigatures}}{}
+    \DeclareFontShape{\LastDeclaredEncoding}{lmr}{bx}{n}
+         {<->\UnicodeFontFile{lmroman10-bold}{\UnicodeFontTeXLigatures}}{}
+    \DeclareFontShape{\LastDeclaredEncoding}{lmr}{bx}{it}
+         {<->\UnicodeFontFile{lmroman10-bolditalic}{\UnicodeFontTeXLigatures}}{}
+  }
 %    \end{macrocode}
 % \end{macro}
+%
+% \begin{macro}{\ImportEncoding}
+%    \begin{macrocode}
+\DeclareDocumentCommand \ImportEncoding {m}
+  {
+    \bool_if:NF \l_@@_defining_encoding_bool
+      { \@@_error:nn {only-inside-encdef} \ImportEncoding }
+    \tl_if_eq:nnF {#1} {TU} { \@@_error:n {only-import-tu} }
+    \tl_set_eq:NN \l_@@_unicode_name_tl \UnicodeEncodingName
+    \tl_set_eq:NN \UnicodeEncodingName \LastDeclaredEncoding
+    \input{tuenc.def}
+    \tl_set_eq:NN \UnicodeEncodingName \l_@@_unicode_name_tl
+  }
+%    \end{macrocode}
+% \end{macro}
+%
 % \begin{macro}{\UndeclareSymbol}
 %    \begin{macrocode}
 \DeclareDocumentCommand \UndeclareSymbol {m}
   {
+    \bool_if:NF \l_@@_defining_encoding_bool
+      { \@@_error:nn {only-inside-encdef} \UndeclareSymbol }
     \UndeclareTextCommand {#1} {\LastDeclaredEncoding}
   }
 
 %    \end{macrocode}
 % \end{macro}
+%
 % \begin{macro}{\UndeclareComposite}
 %    \begin{macrocode}
 \DeclareDocumentCommand \UndeclareComposite {mm}
   {
+    \bool_if:NF \l_@@_defining_encoding_bool
+      { \@@_error:nn {only-inside-encdef} \UndeclareComposite }
     \cs_undefine:c
       { \c_backslash_str \LastDeclaredEncoding \token_to_str:N #1 - \tl_to_str:n {#2} }
   }
-
 %    \end{macrocode}
 % \end{macro}
 %

@@ -46,13 +46,15 @@ Package ifvtex Info: VTeX not detected.
 . 
 . Font family 'texgyrepagella-regular.otf(0)' created for font
 . 'texgyrepagella-regular.otf' with options [Ligatures=TeX].
-. 
-. This font family consists of the following NFSS series/shapes:
+.  
+.  This font family consists of the following NFSS series/shapes:
+.  
 . - 'normal' (m/n) with NFSS spec.:
 . <->"[texgyrepagella-regular.otf]/OT:script=latn;language=DFLT;mapping=tex-text;"
 . - 'small caps'  (m/sc) with NFSS spec.:
 . <->"[texgyrepagella-regular.otf]/OT:script=latn;language=DFLT;mapping=tex-text;+smcp;"
 .................................................
+LaTeX Info: Redefining \rmfamily on input line ....
 No file .aux.
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line ....
 LaTeX Font Info:    ... okay on input line ....

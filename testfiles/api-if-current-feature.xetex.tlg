@@ -6,8 +6,9 @@ Don't change this file in any respect.
 . 
 . Font family 'texgyrepagella-regular.otf(0)' created for font
 . 'texgyrepagella-regular.otf' with options [].
-. 
-. This font family consists of the following NFSS series/shapes:
+.  
+.  This font family consists of the following NFSS series/shapes:
+.  
 . - 'normal' (m/n) with NFSS spec.:
 . <->"[texgyrepagella-regular.otf]/OT:script=latn;language=DFLT;"
 . - 'small caps'  (m/sc) with NFSS spec.:
@@ -19,8 +20,9 @@ CORRECT
 . 
 . Font family 'texgyrepagella-regular.otf(1)' created for font
 . 'texgyrepagella-regular.otf' with options [Numbers=OldStyle].
-. 
-. This font family consists of the following NFSS series/shapes:
+.  
+.  This font family consists of the following NFSS series/shapes:
+.  
 . - 'normal' (m/n) with NFSS spec.:
 . <->"[texgyrepagella-regular.otf]/OT:script=latn;language=DFLT;+onum;"
 . - 'small caps'  (m/sc) with NFSS spec.:
@@ -32,8 +34,9 @@ CORRECT
 . 
 . Font family 'texgyrepagella-regular.otf(2)' created for font
 . 'texgyrepagella-regular.otf' with options [Numbers=OldStyle,Numbers=Lining].
-. 
-. This font family consists of the following NFSS series/shapes:
+.  
+.  This font family consists of the following NFSS series/shapes:
+.  
 . - 'normal' (m/n) with NFSS spec.:
 . <->"[texgyrepagella-regular.otf]/OT:script=latn;language=DFLT;+lnum;"
 . - 'small caps'  (m/sc) with NFSS spec.:

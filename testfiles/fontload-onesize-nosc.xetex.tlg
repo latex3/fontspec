@@ -92,8 +92,8 @@ Completed box being shipped out [1]
 ...\penalty -51
 ...\glue 2.0 plus 1.0 minus 1.0
 ...\glue(\parskip) 2.0 plus 1.0 minus 1.0
-...\glue(\baselineskip) 3.75002
-...\hbox(7.16+0.16199)x202.62204, glue set 135.11905fil, shifted 25.00003
+...\glue(\baselineskip) 3.96558
+...\hbox(6.94444+0.16199)x202.62204, glue set 135.12672fil, shifted 25.00003
 ....\hbox(4.662+0.0)x0.0
 .....\glue 0.0
 .....\glue -20.00003
@@ -107,9 +107,17 @@ Completed box being shipped out [1]
 ....\penalty 0
 ....\TU/TimesLTStd(0)/bx/n/9 bold
 ....\glue 2.25 plus 1.125 minus 0.75
-....\TU/TimesLTStd(0)/bx/sc/9 Bold
-....\glue 3.33 plus 1.665 minus 1.11
-....\TU/TimesLTStd(0)/bx/sc/9 error!
+....\TU/TimesLTStd(0)/bx/sc/9 B
+....\TU/TimesLTStd(0)/bx/sc/9 o
+....\TU/TimesLTStd(0)/bx/sc/9 l
+....\TU/TimesLTStd(0)/bx/sc/9 d
+....\glue 3.33333 plus 1.66666 minus 1.11111
+....\TU/TimesLTStd(0)/bx/sc/9 e
+....\TU/TimesLTStd(0)/bx/sc/9 r
+....\TU/TimesLTStd(0)/bx/sc/9 r
+....\TU/TimesLTStd(0)/bx/sc/9 o
+....\TU/TimesLTStd(0)/bx/sc/9 r
+....\TU/TimesLTStd(0)/bx/sc/9 !
 ....\penalty 10000
 ....\glue(\parfillskip) 0.0 plus 1.0fil
 ....\glue(\rightskip) 0.0

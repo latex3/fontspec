@@ -133,8 +133,8 @@ Completed box being shipped out [1]
 ...\penalty -51
 ...\glue 2.0 plus 1.0 minus 1.0
 ...\glue(\parskip) 2.0 plus 1.0 minus 1.0
-...\glue(\baselineskip) 3.75
-...\hbox(7.16+0.162)x202.62204, glue set 135.11905fil, shifted 25.00003, direction TLT
+...\glue(\baselineskip) 3.96556
+...\hbox(6.94444+0.162)x202.62204, glue set 135.12672fil, shifted 25.00003, direction TLT
 ....\localpar
 .....\localinterlinepenalty=0
 .....\localbrokenpenalty=0
@@ -160,7 +160,7 @@ Completed box being shipped out [1]
 ....\TU/TimesLTStd(0)/bx/sc/9 o
 ....\TU/TimesLTStd(0)/bx/sc/9 l
 ....\TU/TimesLTStd(0)/bx/sc/9 d
-....\glue(\spaceskip) 3.33 plus 1.665 minus 1.11
+....\glue(\spaceskip) 3.33333 plus 1.66666 minus 1.11111
 ....\TU/TimesLTStd(0)/bx/sc/9 e
 ....\TU/TimesLTStd(0)/bx/sc/9 r
 ....\discretionary50|

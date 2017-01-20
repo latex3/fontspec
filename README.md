@@ -69,7 +69,7 @@ To add features to the font family currently in use:
 Change history
 --------------
 
-- v2.5c (2017/01/02) "Christmas 2016 release"
+- v2.5c (2017/01/20) "Christmas 2016 release"
 
     * `TU` font encoding now default, with encoding files provided by the kernel.
     * Experimental interface added for customising encodings.

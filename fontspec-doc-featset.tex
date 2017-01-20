@@ -8,7 +8,8 @@ Commands are provided to set default features to be applied for all fonts, and e
 Different font shapes can be loaded with separate features, and different features can even be selected for different sizes that the font appears in.
 This part discusses these options.
 
-\section{Default settings} \label{sec:defaults}
+\section{Default settings}
+\label{sec:defaults}
 
 \cmdbox{\cmd\defaultfontfeatures\marg{font features}}
 
@@ -338,14 +339,14 @@ For \feat{SizeFeatures} to work with \feat{ItalicFeatures}, \feat{BoldFeatures},
 Suggestions on simplifying this interface welcome.
 
 
-\section{Font independent options} \label{sec:font-ind-features}
+\section{Font independent options}
+\label{sec:font-ind-features}
 
 Features introduced in this section may be used with any font.
 
 \subsection{Colour}
 
-\feat{Color} (or \feat{Colour}), also shown in \vref{sec:defaults}
-and elsewhere, uses font specifications to set the colour of
+\feat{Color} (or \feat{Colour}) uses font specifications to set the colour of
 the text.
 You should think of this as the literal glyphs of the font being coloured in a certain way.
 Notably, this mechanism is different to that of the \pkg{color}/\pkg{xcolor}/\pkg{hyperref}/etc.\ packages, and in fact using \pkg{fontspec} commands to set colour will prevent your text from changing colour using those packages at all!

@@ -87,9 +87,14 @@ And the derived files: fontspec*.sty,fontspec.lua, fontspec.pdf.
 \input{fontspec-doc.tex}
 \StopEventually{}
 \part{Implementation}
-\DocInput{fontspec.dtx}
 \def\DTX#1{\DocInput{#1}}
 \FONTSPECDTX
+\clearpage
+\PrintChanges
+\clearpage
+\setcounter{IndexColumns}{2}
+\PrintIndex
+\Finale
 \end{document}
 %</driver>
 % \fi
@@ -123,10 +128,4 @@ And the derived files: fontspec*.sty,fontspec.lua, fontspec.pdf.
 \endinput
 %</load>
 %    \end{macrocode}
-% \clearpage
-% \PrintChanges
-% \clearpage
-% \setcounter{IndexColumns}{2}
-% \PrintIndex
-% \Finale
 \endinput

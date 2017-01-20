@@ -131,8 +131,8 @@ non-exclusive selectors, like the ligatures, you can turn them off
 by prefixing their name with \opt{No}.
 
 \begin{Xexample}{wordcx}{Contextual glyph for the beginnings and ends of words.}
-  \newfontface\fancy{Hoefler Text Italic}
-      [Contextuals={WordInitial,WordFinal}]
+  \newfontface\fancy{Hoefler Text Italic}[%
+    Contextuals={WordInitial,WordFinal}]
   \fancy where is all the vegemite
 \end{Xexample}
 
@@ -283,8 +283,6 @@ the original font settings.
 
 
 \subsection{Vertical typesetting}
-
-TODO: improve!
 
 \XeTeX\ provides for vertical typesetting simply with the ability to rotate
 the individual glyphs as a font is used for typesetting, as shown in

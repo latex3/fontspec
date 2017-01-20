@@ -82,6 +82,7 @@ Change history
     * Add user function `\IfFontFeatureActiveTF` for querying selected features based on their `fontspec` specification.
     * All "tag-based" OpenType features are now provided in `Feat`/`FeatOff`/`FeatReset` forms to disable and reset them.
     * `ResetAll` provided for all "tag-based" OpenType feature keys. (E.g., `Ligatures=ResetAll`.)
+    * Big table of OpenType feature tags to help cross-reference which fontspec feature (if any) corresponds to which OpenType feature.
     * Bug fixed for `Script` selection.
 
 - v2.5b (2016/05/14) "More bugs" (somehow never released)

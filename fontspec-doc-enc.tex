@@ -4,6 +4,7 @@
 \begin{document}
 
 \part{Commands for accents and symbols (`encodings')}
+\label{part:enc}
 
 \textbf{The functionality described in this section is experimental.}
 
@@ -109,7 +110,7 @@ to add, to remove, and to redefine some symbols, letters, and/or accents.
 When adding symbols, etc., simply write
 \begin{Verbatim}
 \DeclareUnicodeEncoding{unicyr}{
-  \ImportEncoding{TU}
+  \input{tuenc.def}
   \input{fontrange-cyr.def}
   \EncodingSymbol{\textruble}{"20BD}
 }
@@ -122,7 +123,7 @@ For example, if you a loading a font that you know is missing, say, the interrob
 (not that unusual a situation), you might write:
 \begin{Verbatim}
 \DeclareUnicodeEncoding{nobang}{
-  \ImportEncoding{TU}
+  \input{tuenc.def}
   \UndeclareSymbol\textinterrobang
 }
 \end{Verbatim}
@@ -145,7 +146,7 @@ For fonts with a missing (or poorly-spaced) |"0323| accent glyph, the `tradition
 construction could be used instead:
 \begin{Verbatim}
 \DeclareUnicodeEncoding{fakeacc}{
-  \ImportEncoding{TU}
+  \input{tuenc.def}
   \EncodingCommand{\d}[1]{%
     \hmode@bgroup
       \o@lign{\relax#1\crcr\hidewidth\ltx@sh@ft{-1ex}.\hidewidth}%
@@ -183,7 +184,6 @@ See |fntguide.pdf| for full documentation of these.
 As shown above, the following shorthands a provided by \pkg{fontspec} to simplify
 the process of defining Unicode font range encodings:
 \begin{quote}\obeylines
-  \cs{ImportEncoding}|{TU}|
   \cs{EncodingCommand}\marg{command}\oarg{num}\oarg{default}\marg{code}
   \cs{EncodingAccent}\marg{command}\marg{code}
   \cs{EncodingSymbol}\marg{command}\marg{code}

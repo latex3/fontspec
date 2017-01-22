@@ -2,7 +2,7 @@
 
 module = "fontspec"
 
-sourcefiles  = {"*.dtx","*.fd","*.def","*.cfg","fontspec-doc*"}
+sourcefiles  = {"*.dtx","*.fd","*.def","*.cfg","fontspec-doc*.tex"}
 unpackfiles  = {"fontspec.dtx"}
 installfiles = {"*.sty","fontspec.lua","*.fd","*.def","*.cfg"}
 typesetfiles = {"fontspec.dtx"}

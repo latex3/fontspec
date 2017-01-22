@@ -1,0 +1,35 @@
+\input{fontspec-testsetup.tex}
+\usepackage{fontspec}
+\begin{document}
+\begin{fstest}
+\ExplSyntaxOn
+\def\INTEND{\typeout{CORRECT}}
+\def\WRONG {\typeout{WRONG}}
+
+\OMIT
+\fontspec{texgyrepagella-regular.otf}
+\TIMO
+
+\fontspec_if_small_caps:TF{\INTEND}{\WRONG}
+
+\begingroup
+  \scshape
+  \fontspec_if_small_caps:TF{\INTEND}{\WRONG}
+\endgroup
+
+
+\OMIT
+\fontspec{texgyrechorus-mediumitalic.otf}
+\TIMO
+
+\fontspec_if_small_caps:TF{\WRONG}{\INTEND}
+
+\begingroup
+\makeatletter
+  \scshape
+  \fontspec_if_small_caps:TF{\WRONG}{\INTEND}
+\endgroup
+
+\ExplSyntaxOff
+\end{fstest}
+\end{document}

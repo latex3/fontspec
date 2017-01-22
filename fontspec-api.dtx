@@ -334,12 +334,35 @@
   {
     \exp_args:Nxx \tl_if_in:nnTF
       { \fontname\font } { \tl_to_str:n {#1} }
-      { \prg_return_true: } { \prg_return_false: }%
+      { \prg_return_true: } { \prg_return_false: }
   }
 %    \end{macrocode}
 % \end{macro}
+%
+% \begin{macro}{\fontspec_if_small_caps:TF}
+%    \begin{macrocode}
+\prg_new_conditional:Nnn \fontspec_if_small_caps: {TF,T,F}
+  {
+    \@@_if_merge_shape:nTF {sc}
+      {
+        \tl_set_eq:Nc \l_@@_smcp_shape_tl { \@@_shape_merge:nn {\f@shape} {sc} }
+      }
+      {
+        \tl_set:Nn \l_@@_smcp_shape_tl {sc}
+      }
 
-
+    \cs_if_exist:cTF { \f@encoding/\f@family/\f@series/\l_@@_smcp_shape_tl }
+      {
+        \tl_if_eq:ccTF
+          { \f@encoding/\f@family/\f@series/\l_@@_smcp_shape_tl }
+          { \f@encoding/\f@family/\f@series/\updefault }
+          { \prg_return_false: }
+          { \prg_return_true:  }
+      }
+      { \prg_return_false: }
+  }
+%    \end{macrocode}
+% \end{macro}
 %
 % \iffalse
 %    \begin{macrocode}

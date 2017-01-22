@@ -229,6 +229,17 @@ Always true for \LuaTeX{} fonts.
 \end{macro}
 
 
+\begin{macro}{\fontspec_if_small_caps:TF}
+Test whether the currently selected font has a `small caps' face to be selected
+with |\scshape| or similar.
+Note that testing whether the font has the |Letters=SmallCaps| font feature is
+sufficient but not necessary for this command to return true, since small caps
+can also be loaded from separate font files.
+The logic of this command is complicated by the fact that \pkg{fontspec} will
+merge shapes together (for italic small caps, etc.).
+\end{macro}
+
+
 \subsubsection{Availability of features}
 
 \begin{macro}{\fontspec_if_aat_feature:nnTF}

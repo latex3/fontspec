@@ -69,10 +69,6 @@ To add features to the font family currently in use:
 Change history
 --------------
 
-- v2.5d
-
-    * Add `\fontspec_if_small_caps:TF`
-
 - v2.5c (2017/01/20) "Christmas 2016 release"
 
     * `TU` font encoding now default, with encoding files provided by the kernel.

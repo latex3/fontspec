@@ -1,7 +1,5 @@
 
-Archive/
 build/
-zzz-*
 
 *.glo
 *.idx
@@ -15,7 +13,6 @@ zzz-*
 *.sty
 *synctex*
 *.zip
-Fonts/
 
 test*.tex
 
@@ -26,8 +23,6 @@ doc-files/
 
 fontspec.lua
 fontspec.pdf
-
-copy-tu.sh
 
 lucidaot.tex
 

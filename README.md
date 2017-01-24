@@ -1,4 +1,4 @@
-THE FONTSPEC PACKAGE v2.5c
+THE FONTSPEC PACKAGE v2.5d
 ==========================
 
 The fontspec package provides an automatic and unified interface for loading
@@ -69,7 +69,7 @@ To add features to the font family currently in use:
 Change history
 --------------
 
-- v2.5d
+- v2.5d (2017/01/24) "oops"
 
     * Add `\fontspec_if_small_caps:TF`
     * Fix bug in `\emph` (!!)

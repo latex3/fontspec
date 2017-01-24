@@ -72,6 +72,7 @@ Change history
 - v2.5d
 
     * Add `\fontspec_if_small_caps:TF`
+    * Fix bug in `\emph` (!!)
 
 - v2.5c (2017/01/20) "Christmas 2016 release"
 

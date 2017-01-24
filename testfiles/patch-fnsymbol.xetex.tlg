@@ -1,0 +1,319 @@
+This is a generated file for the l3build validation system.
+Don't change this file in any respect.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <17.28> on input line ....
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <12> on input line ....
+Missing character: There is no ⁎ in font [LinLibertine_R.otf]/OT:script=latn;la
+nguage=DFLT;mapping=tex-text;!
+Missing character: There is no ⁎ in font [LinLibertine_R.otf]/OT:script=latn;la
+nguage=DFLT;mapping=tex-text;!
+Missing character: There is no ⁎ in font [LinLibertine_R.otf]/OT:script=latn;la
+nguage=DFLT;mapping=tex-text;!
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line ....
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line ....
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line ....
+Missing character: There is no ⁎ in font [LinLibertine_R.otf]/OT:script=latn;la
+nguage=DFLT;mapping=tex-text;!
+Missing character: There is no ⁎ in font [LinLibertine_R.otf]/OT:script=latn;la
+nguage=DFLT;mapping=tex-text;!
+Missing character: There is no ⁎ in font [LinLibertine_R.otf]/OT:script=latn;la
+nguage=DFLT;mapping=tex-text;!
+Completed box being shipped out [1]
+\vbox(114.22017+0.01999)x169.57845
+.\glue -95.04362
+.\vbox(209.2638+0.01999)x227.62207, shifted -58.04362
+..\vbox(12.0+0.0)x227.62207, glue set 12.0fil
+...\glue 0.0 plus 1.0fil
+...\hbox(0.0+0.0)x227.62207
+..\glue 25.0
+..\glue(\lineskip) 0.0
+..\vbox(142.2638+0.0)x227.62207, glue set >20000.0fil
+...\write-{}
+...\glue(\topskip) 10.0
+...\hbox(0.0+0.0)x0.0
+...\glue 20.0
+...\glue -20.0
+...\penalty -51
+...\glue 20.0
+...\glue(\parskip) 0.0 plus 1.0
+...\glue(\baselineskip) 5.43323
+...\hbox(16.56677+2.29822)x227.62207, glue set 63.37067fil
+....\glue(\leftskip) 0.0 plus 1.0fil
+....\hbox(0.0+0.0)x0.0
+.....\glue 0.0
+.....\glue 0.0
+.....\glue -5.0
+.....\hbox(0.0+0.0)x0.0
+.....\glue 5.0
+....\penalty 0
+....\TU/LinLibertine_R.otf(0)/m/n/17.28 abc,
+....\glue 4.32 plus 2.7 minus 1.152
+....\penalty 10000
+....\hbox(14.64677+0.0)x0.0, glue set - 6.5fil
+.....\mathon
+.....\hbox(8.376+0.0)x6.5, shifted -6.27077
+......\TU/LinLibertine_R.otf(0)/m/n/12 ⁎
+.....\mathoff
+.....\glue 0.0 plus 1.0fil minus 1.0fil
+....\TU/LinLibertine_R.otf(0)/m/n/17.28 ,
+....\glue 4.32 plus 2.7 minus 1.152
+....\penalty 10000
+....\hbox(14.63477+0.0)x0.0, glue set - 7.556fil
+.....\mathon
+.....\hbox(8.364+2.48398)x7.556, shifted -6.27077
+......\TU/LinLibertine_R.otf(0)/m/n/12 †
+.....\mathoff
+.....\glue 0.0 plus 1.0fil minus 1.0fil
+....\TU/LinLibertine_R.otf(0)/m/n/17.28 ,
+....\glue 4.32 plus 2.7 minus 1.152
+....\penalty 10000
+....\hbox(14.63477+0.0)x0.0, glue set - 7.556fil
+.....\mathon
+.....\hbox(8.364+2.48398)x7.556, shifted -6.27077
+......\TU/LinLibertine_R.otf(0)/m/n/12 ‡
+.....\mathoff
+.....\glue 0.0 plus 1.0fil minus 1.0fil
+....\TU/LinLibertine_R.otf(0)/m/n/17.28 ,
+....\glue 4.32 plus 2.7 minus 1.152
+....\penalty 10000
+....\hbox(14.16676+0.0)x0.0, glue set - 6.176fil
+.....\mathon
+.....\hbox(7.896+2.06398)x6.176, shifted -6.27077
+......\TU/LinLibertine_R.otf(0)/m/n/12 ^^a7
+.....\mathoff
+.....\glue 0.0 plus 1.0fil minus 1.0fil
+....\TU/LinLibertine_R.otf(0)/m/n/17.28 ,
+....\glue 4.32 plus 2.7 minus 1.152
+....\penalty 10000
+....\hbox(14.03477+0.0)x0.0, glue set - 7.724fil
+.....\mathon
+.....\hbox(7.764+2.80798)x7.724, shifted -6.27077
+......\TU/LinLibertine_R.otf(0)/m/n/12 ^^b6
+.....\mathoff
+.....\glue 0.0 plus 1.0fil minus 1.0fil
+....\TU/LinLibertine_R.otf(0)/m/n/17.28 ,
+....\glue 4.32 plus 2.7 minus 1.152
+....\penalty 10000
+....\hbox(16.56677+0.0)x0.0, glue set - 3.836fil
+.....\mathon
+.....\hbox(10.296+2.44798)x3.836, shifted -6.27077
+......\TU/LinLibertine_R.otf(0)/m/n/12 ‖
+.....\mathoff
+.....\glue 0.0 plus 1.0fil minus 1.0fil
+....\TU/LinLibertine_R.otf(0)/m/n/17.28 ,
+....\glue 4.32 plus 2.7 minus 1.152
+....\penalty 10000
+....\hbox(14.64677+0.0)x0.0, glue set - 12.5fil
+.....\mathon
+.....\hbox(8.376+0.0)x12.5, shifted -6.27077
+......\TU/LinLibertine_R.otf(0)/m/n/12 ⁎⁎
+.....\mathoff
+.....\glue 0.0 plus 1.0fil minus 1.0fil
+....\TU/LinLibertine_R.otf(0)/m/n/17.28 ,
+....\glue 4.32 plus 2.7 minus 1.152
+....\penalty 10000
+....\hbox(14.63477+0.0)x0.0, glue set - 14.612fil
+.....\mathon
+.....\hbox(8.364+2.48398)x14.612, shifted -6.27077
+......\TU/LinLibertine_R.otf(0)/m/n/12 ††
+.....\mathoff
+.....\glue 0.0 plus 1.0fil minus 1.0fil
+....\TU/LinLibertine_R.otf(0)/m/n/17.28 ,
+....\glue 4.32 plus 2.7 minus 1.152
+....\penalty 10000
+....\hbox(14.63477+0.0)x0.0, glue set - 14.612fil
+.....\mathon
+.....\hbox(8.364+2.48398)x14.612, shifted -6.27077
+......\TU/LinLibertine_R.otf(0)/m/n/12 ‡‡
+.....\mathoff
+.....\glue 0.0 plus 1.0fil minus 1.0fil
+....\TU/LinLibertine_R.otf(0)/m/n/17.28 ,
+....\penalty 10000
+....\glue(\parfillskip) 0.0
+....\glue(\rightskip) 0.0 plus 1.0fil
+...\glue 15.0
+...\glue(\parskip) 0.0 plus 1.0
+...\glue(\baselineskip) 11.70178
+...\hbox(0.0+0.0)x227.62207, glue set 113.81104fil
+....\glue(\leftskip) 0.0 plus 1.0fil
+....\hbox(0.0+0.0)x0.0
+....\hbox(0.0+0.0)x0.0
+.....\mathon
+.....\vbox(0.0+0.0)x0.0
+.....\mathoff
+....\penalty 10000
+....\glue(\parfillskip) 0.0
+....\glue(\rightskip) 0.0 plus 1.0fil
+...\glue 10.0
+...\glue -10.0
+...\glue 10.0
+...\glue -10.0
+...\glue 0.0
+...\glue 0.0 plus 0.0001fil
+..\glue(\baselineskip) 23.92
+..\hbox(6.08+0.01999)x227.62207, glue set 111.48604fil
+...\glue 0.0 plus 1.0fil
+...\TU/LinLibertine_R.otf(0)/m/n/10 1
+...\glue 0.0 plus 1.0fil
+Completed box being shipped out [2]
+\vbox(114.22017+0.0)x169.57845
+.\glue -95.04362
+.\vbox(209.2638+0.0)x227.62207, shifted -58.04362
+..\vbox(12.0+0.0)x227.62207, glue set 12.0fil
+...\glue 0.0 plus 1.0fil
+...\hbox(0.0+0.0)x227.62207
+..\glue 25.0
+..\glue(\lineskip) 0.0
+..\vbox(142.2638+0.0)x227.62207, glue set 2.84972fil
+...\vbox(44.12157+0.0)x0.0
+....\write-{}
+....\glue(\topskip) 10.0
+....\vbox(0.0+0.0)x0.0
+...\glue 0.0 plus 1.0fil
+...\glue 9.0 plus 4.0 minus 2.0
+...\kern -3.0
+...\rule(0.4+0.0)x91.04742
+...\kern 2.6
+...\hbox(7.01134+2.85002)x227.62207, glue set 209.50204fil
+....\hbox(7.01134+0.0)x14.40002, glue set 10.90002fil
+.....\glue 0.0 plus 1.0fil minus 1.0fil
+.....\mathon
+.....\hbox(4.188+0.0)x3.5, shifted -2.82333
+......\TU/LinLibertine_R.otf(0)/m/n/6 ⁎
+.....\mathoff
+....\hbox(6.65+0.0)x0.0
+.....\rule(6.65+0.0)x0.0
+....\TU/LinLibertine_R.otf(0)/m/n/8 1
+....\penalty 10000
+....\rule(0.0+2.85002)x0.0
+....\penalty 10000
+....\glue(\parfillskip) 0.0 plus 1.0fil
+....\glue(\rightskip) 0.0
+...\hbox(7.00534+2.85002)x227.62207, glue set 209.50204fil
+....\hbox(7.00534+0.0)x14.40002, glue set 10.37202fil
+.....\glue 0.0 plus 1.0fil minus 1.0fil
+.....\mathon
+.....\hbox(4.182+1.24199)x4.028, shifted -2.82333
+......\TU/LinLibertine_R.otf(0)/m/n/6 †
+.....\mathoff
+....\hbox(6.65+0.0)x0.0
+.....\rule(6.65+0.0)x0.0
+....\TU/LinLibertine_R.otf(0)/m/n/8 2
+....\penalty 10000
+....\rule(0.0+2.85002)x0.0
+....\penalty 10000
+....\glue(\parfillskip) 0.0 plus 1.0fil
+....\glue(\rightskip) 0.0
+...\hbox(7.00534+2.85002)x227.62207, glue set 209.50204fil
+....\hbox(7.00534+0.0)x14.40002, glue set 10.37202fil
+.....\glue 0.0 plus 1.0fil minus 1.0fil
+.....\mathon
+.....\hbox(4.182+1.24199)x4.028, shifted -2.82333
+......\TU/LinLibertine_R.otf(0)/m/n/6 ‡
+.....\mathoff
+....\hbox(6.65+0.0)x0.0
+.....\rule(6.65+0.0)x0.0
+....\TU/LinLibertine_R.otf(0)/m/n/8 3
+....\penalty 10000
+....\rule(0.0+2.85002)x0.0
+....\penalty 10000
+....\glue(\parfillskip) 0.0 plus 1.0fil
+....\glue(\rightskip) 0.0
+...\hbox(6.77133+2.85002)x227.62207, glue set 209.50204fil
+....\hbox(6.77133+0.0)x14.40002, glue set 11.06203fil
+.....\glue 0.0 plus 1.0fil minus 1.0fil
+.....\mathon
+.....\hbox(3.948+1.03198)x3.338, shifted -2.82333
+......\TU/LinLibertine_R.otf(0)/m/n/6 ^^a7
+.....\mathoff
+....\hbox(6.65+0.0)x0.0
+.....\rule(6.65+0.0)x0.0
+....\TU/LinLibertine_R.otf(0)/m/n/8 4
+....\penalty 10000
+....\rule(0.0+2.85002)x0.0
+....\penalty 10000
+....\glue(\parfillskip) 0.0 plus 1.0fil
+....\glue(\rightskip) 0.0
+...\hbox(6.70534+2.85002)x227.62207, glue set 209.50204fil
+....\hbox(6.70534+0.0)x14.40002, glue set 10.28802fil
+.....\glue 0.0 plus 1.0fil minus 1.0fil
+.....\mathon
+.....\hbox(3.882+1.40399)x4.112, shifted -2.82333
+......\TU/LinLibertine_R.otf(0)/m/n/6 ^^b6
+.....\mathoff
+....\hbox(6.65+0.0)x0.0
+.....\rule(6.65+0.0)x0.0
+....\TU/LinLibertine_R.otf(0)/m/n/8 5
+....\penalty 10000
+....\rule(0.0+2.85002)x0.0
+....\penalty 10000
+....\glue(\parfillskip) 0.0 plus 1.0fil
+....\glue(\rightskip) 0.0
+...\hbox(7.97133+2.85002)x227.62207, glue set 209.50204fil
+....\hbox(7.97133+0.0)x14.40002, glue set 12.23203fil
+.....\glue 0.0 plus 1.0fil minus 1.0fil
+.....\mathon
+.....\hbox(5.148+1.22398)x2.168, shifted -2.82333
+......\TU/LinLibertine_R.otf(0)/m/n/6 ‖
+.....\mathoff
+....\hbox(6.65+0.0)x0.0
+.....\rule(6.65+0.0)x0.0
+....\TU/LinLibertine_R.otf(0)/m/n/8 6
+....\penalty 10000
+....\rule(0.0+2.85002)x0.0
+....\penalty 10000
+....\glue(\parfillskip) 0.0 plus 1.0fil
+....\glue(\rightskip) 0.0
+...\hbox(7.01134+2.85002)x227.62207, glue set 209.50204fil
+....\hbox(7.01134+0.0)x14.40002, glue set 7.90002fil
+.....\glue 0.0 plus 1.0fil minus 1.0fil
+.....\mathon
+.....\hbox(4.188+0.0)x6.5, shifted -2.82333
+......\TU/LinLibertine_R.otf(0)/m/n/6 ⁎⁎
+.....\mathoff
+....\hbox(6.65+0.0)x0.0
+.....\rule(6.65+0.0)x0.0
+....\TU/LinLibertine_R.otf(0)/m/n/8 7
+....\penalty 10000
+....\rule(0.0+2.85002)x0.0
+....\penalty 10000
+....\glue(\parfillskip) 0.0 plus 1.0fil
+....\glue(\rightskip) 0.0
+...\hbox(7.00534+2.85002)x227.62207, glue set 209.50204fil
+....\hbox(7.00534+0.0)x14.40002, glue set 6.84402fil
+.....\glue 0.0 plus 1.0fil minus 1.0fil
+.....\mathon
+.....\hbox(4.182+1.24199)x7.556, shifted -2.82333
+......\TU/LinLibertine_R.otf(0)/m/n/6 ††
+.....\mathoff
+....\hbox(6.65+0.0)x0.0
+.....\rule(6.65+0.0)x0.0
+....\TU/LinLibertine_R.otf(0)/m/n/8 8
+....\penalty 10000
+....\rule(0.0+2.85002)x0.0
+....\penalty 10000
+....\glue(\parfillskip) 0.0 plus 1.0fil
+....\glue(\rightskip) 0.0
+...\hbox(7.00534+2.85002)x227.62207, glue set 209.50204fil
+....\hbox(7.00534+0.0)x14.40002, glue set 6.84402fil
+.....\glue 0.0 plus 1.0fil minus 1.0fil
+.....\mathon
+.....\hbox(4.182+1.24199)x7.556, shifted -2.82333
+......\TU/LinLibertine_R.otf(0)/m/n/6 ‡‡
+.....\mathoff
+....\hbox(6.65+0.0)x0.0
+.....\rule(6.65+0.0)x0.0
+....\TU/LinLibertine_R.otf(0)/m/n/8 9
+....\penalty 10000
+....\rule(0.0+2.85002)x0.0
+....\penalty 10000
+....\glue(\parfillskip) 0.0 plus 1.0fil
+....\glue(\rightskip) 0.0
+...\glue -2.85002
+...\glue 0.0 plus 0.0001fil
+..\glue(\baselineskip) 30.0
+..\hbox(0.0+0.0)x227.62207

@@ -1,8 +1,9 @@
-\documentclass[twocolumn]{testsuite}
+\input{fontspec-testsetup.tex}
 \usepackage{fontspec}
 \begin{document}
 \makeatletter
 
+\begin{fstest}
 \setmainfont{texgyretermes-regular.otf}
 \noindent set main font\\
 \addfontfeatures{Color = AA00AA}
@@ -15,8 +16,10 @@ after AFF\\ \normalfont after `normalfont'\\
 AFF in group\\
 \endgroup
 after group\\
+\end{fstest}
 
-\newpage
+
+\begin{fstest}
 \setmainfont{texgyretermes-regular.otf}
 \noindent set main font\\
 \addfontfeatures{Color=AA00AA,NFSSFamily=\f@family}
@@ -29,6 +32,6 @@ after AFF\\ \normalfont after `normalfont' (should now match)\\
 AFF in group\\
 \endgroup
 after group\\
-
+\end{fstest}
 
 \end{document}

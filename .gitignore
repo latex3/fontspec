@@ -16,6 +16,7 @@ build/
 
 test*.tex
 
+fontspec/
 testsuite/build/
 testsuite/fonts/
 testsuite/tests/*.pdf

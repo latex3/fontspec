@@ -1,0 +1,386 @@
+This is a generated file for the l3build validation system.
+Don't change this file in any respect.
+Completed box being shipped out [1]
+\vbox(114.22017+0.02)x169.57845, direction TLT
+.\glue -95.04362
+.\vbox(209.2638+0.02)x227.62207, shifted -58.04362, direction TLT
+..\vbox(12.0+0.0)x227.62207, glue set 12.0fil, direction TLT
+...\glue 0.0 plus 1.0fil
+...\hbox(0.0+0.0)x227.62207, direction TLT
+..\glue 25.0
+..\glue(\lineskip) 0.0
+..\vbox(142.2638+0.0)x227.62207, glue set >20000.0fil, direction TLT
+...\write-{}
+...\glue(\topskip) 10.0
+...\hbox(0.0+0.0)x0.0, direction TLT
+...\glue 20.0
+...\glue -20.0
+...\penalty -51
+...\glue 20.0
+...\glue(\parskip) 0.0 plus 1.0
+...\glue(\baselineskip) 5.43323
+...\hbox(16.56677+2.29823)x227.62207, glue set 63.37067fil, direction TLT
+....\glue(\leftskip) 0.0 plus 1.0fil
+....\localpar
+.....\localinterlinepenalty=0
+.....\localbrokenpenalty=0
+.....\localleftbox=null
+.....\localrightbox=null
+....\hbox(0.0+0.0)x0.0, direction TLT
+.....\glue 0.0
+.....\glue 0.0
+.....\glue -5.0
+.....\hbox(0.0+0.0)x0.0, direction TLT
+.....\glue 5.0
+....\penalty 0
+....\TU/LinLibertine_R.otf(0)/m/n/17.28 a
+....\TU/LinLibertine_R.otf(0)/m/n/17.28 b
+....\kern 0.17279
+....\TU/LinLibertine_R.otf(0)/m/n/17.28 c
+....\TU/LinLibertine_R.otf(0)/m/n/17.28 ,
+....\glue(\spaceskip) 4.32 plus 2.7 minus 1.152
+....\penalty 10000
+....\hbox(6.27077+0.0)x0.0, glue set - 0.74303fil, direction TLT
+.....\mathon
+.....\hbox(0.0+0.0)x0.0, direction TLT
+.....\hbox(0.0+0.0)x0.74303, shifted -6.27077, direction TLT
+......\TU/LinLibertine_R.otf(0)/m/n/12 ⁎
+.....\mathoff
+.....\glue 0.0 plus 1.0fil minus 1.0fil
+....\TU/LinLibertine_R.otf(0)/m/n/17.28 ,
+....\glue(\spaceskip) 4.32 plus 2.7 minus 1.152
+....\penalty 10000
+....\hbox(14.63477+0.0)x0.0, glue set - 7.79903fil, direction TLT
+.....\mathon
+.....\hbox(0.0+0.0)x0.0, direction TLT
+.....\hbox(8.364+2.484)x7.79903, shifted -6.27077, direction TLT
+......\TU/LinLibertine_R.otf(0)/m/n/12 †
+.....\mathoff
+.....\glue 0.0 plus 1.0fil minus 1.0fil
+....\TU/LinLibertine_R.otf(0)/m/n/17.28 ,
+....\glue(\spaceskip) 4.32 plus 2.7 minus 1.152
+....\penalty 10000
+....\hbox(14.63477+0.0)x0.0, glue set - 7.79903fil, direction TLT
+.....\mathon
+.....\hbox(0.0+0.0)x0.0, direction TLT
+.....\hbox(8.364+2.484)x7.79903, shifted -6.27077, direction TLT
+......\TU/LinLibertine_R.otf(0)/m/n/12 ‡
+.....\mathoff
+.....\glue 0.0 plus 1.0fil minus 1.0fil
+....\TU/LinLibertine_R.otf(0)/m/n/17.28 ,
+....\glue(\spaceskip) 4.32 plus 2.7 minus 1.152
+....\penalty 10000
+....\hbox(14.16676+0.0)x0.0, glue set - 6.41902fil, direction TLT
+.....\mathon
+.....\hbox(0.0+0.0)x0.0, direction TLT
+.....\hbox(7.896+2.064)x6.41902, shifted -6.27077, direction TLT
+......\TU/LinLibertine_R.otf(0)/m/n/12 ^^a7
+.....\mathoff
+.....\glue 0.0 plus 1.0fil minus 1.0fil
+....\TU/LinLibertine_R.otf(0)/m/n/17.28 ,
+....\glue(\spaceskip) 4.32 plus 2.7 minus 1.152
+....\penalty 10000
+....\hbox(14.03477+0.0)x0.0, glue set - 7.96703fil, direction TLT
+.....\mathon
+.....\hbox(0.0+0.0)x0.0, direction TLT
+.....\hbox(7.764+2.808)x7.96703, shifted -6.27077, direction TLT
+......\TU/LinLibertine_R.otf(0)/m/n/12 ^^b6
+.....\mathoff
+.....\glue 0.0 plus 1.0fil minus 1.0fil
+....\TU/LinLibertine_R.otf(0)/m/n/17.28 ,
+....\glue(\spaceskip) 4.32 plus 2.7 minus 1.152
+....\penalty 10000
+....\hbox(16.56677+0.0)x0.0, glue set - 4.07903fil, direction TLT
+.....\mathon
+.....\hbox(0.0+0.0)x0.0, direction TLT
+.....\hbox(10.296+2.448)x4.07903, shifted -6.27077, direction TLT
+......\TU/LinLibertine_R.otf(0)/m/n/12 ‖
+.....\mathoff
+.....\glue 0.0 plus 1.0fil minus 1.0fil
+....\TU/LinLibertine_R.otf(0)/m/n/17.28 ,
+....\glue(\spaceskip) 4.32 plus 2.7 minus 1.152
+....\penalty 10000
+....\hbox(6.27077+0.0)x0.0, glue set - 0.74303fil, direction TLT
+.....\mathon
+.....\hbox(0.0+0.0)x0.0, direction TLT
+.....\hbox(0.0+0.0)x0.74303, shifted -6.27077, direction TLT
+......\TU/LinLibertine_R.otf(0)/m/n/12 ⁎
+......\TU/LinLibertine_R.otf(0)/m/n/12 ⁎
+.....\mathoff
+.....\glue 0.0 plus 1.0fil minus 1.0fil
+....\TU/LinLibertine_R.otf(0)/m/n/17.28 ,
+....\glue(\spaceskip) 4.32 plus 2.7 minus 1.152
+....\penalty 10000
+....\hbox(14.63477+0.0)x0.0, glue set - 14.85503fil, direction TLT
+.....\mathon
+.....\hbox(0.0+0.0)x0.0, direction TLT
+.....\hbox(8.364+2.484)x14.85503, shifted -6.27077, direction TLT
+......\TU/LinLibertine_R.otf(0)/m/n/12 †
+......\TU/LinLibertine_R.otf(0)/m/n/12 †
+.....\mathoff
+.....\glue 0.0 plus 1.0fil minus 1.0fil
+....\TU/LinLibertine_R.otf(0)/m/n/17.28 ,
+....\glue(\spaceskip) 4.32 plus 2.7 minus 1.152
+....\penalty 10000
+....\hbox(14.63477+0.0)x0.0, glue set - 14.85503fil, direction TLT
+.....\mathon
+.....\hbox(0.0+0.0)x0.0, direction TLT
+.....\hbox(8.364+2.484)x14.85503, shifted -6.27077, direction TLT
+......\TU/LinLibertine_R.otf(0)/m/n/12 ‡
+......\TU/LinLibertine_R.otf(0)/m/n/12 ‡
+.....\mathoff
+.....\glue 0.0 plus 1.0fil minus 1.0fil
+....\TU/LinLibertine_R.otf(0)/m/n/17.28 ,
+....\penalty 10000
+....\glue(\parfillskip) 0.0
+....\glue(\rightskip) 0.0 plus 1.0fil
+...\glue 15.0
+...\glue(\parskip) 0.0 plus 1.0
+...\glue(\baselineskip) 11.70177
+...\hbox(0.0+0.0)x227.62207, glue set 113.81104fil, direction TLT
+....\glue(\leftskip) 0.0 plus 1.0fil
+....\localpar
+.....\localinterlinepenalty=0
+.....\localbrokenpenalty=0
+.....\localleftbox=null
+.....\localrightbox=null
+....\hbox(0.0+0.0)x0.0, direction TLT
+....\hbox(0.0+0.0)x0.0, direction TLT
+.....\mathon
+.....\vbox(0.0+0.0)x0.0, direction TLT
+.....\mathoff
+....\penalty 10000
+....\glue(\parfillskip) 0.0
+....\glue(\rightskip) 0.0 plus 1.0fil
+...\glue 10.0
+...\glue -10.0
+...\glue 10.0
+...\glue -10.0
+...\glue 0.0
+...\glue 0.0 plus 0.0001fil
+..\glue(\baselineskip) 23.92
+..\hbox(6.08+0.02)x227.62207, glue set 111.48604fil, direction TLT
+...\glue 0.0 plus 1.0fil
+...\TU/LinLibertine_R.otf(0)/m/n/10 1
+...\glue 0.0 plus 1.0fil
+Missing character: There is no ⁎ (U+204E) in font file:LinLibertine_R.otf:mode=node;script=latn;language=DFLT;+tlig;!
+Missing character: There is no ⁎ (U+204E) in font file:LinLibertine_R.otf:mode=node;script=latn;language=DFLT;+tlig;!
+Missing character: There is no ⁎ (U+204E) in font file:LinLibertine_R.otf:mode=node;script=latn;language=DFLT;+tlig;!
+Completed box being shipped out [2]
+\vbox(114.22017+0.0)x169.57845, direction TLT
+.\glue -95.04362
+.\vbox(209.2638+0.0)x227.62207, shifted -58.04362, direction TLT
+..\vbox(12.0+0.0)x227.62207, glue set 12.0fil, direction TLT
+...\glue 0.0 plus 1.0fil
+...\hbox(0.0+0.0)x227.62207, direction TLT
+..\glue 25.0
+..\glue(\lineskip) 0.0
+..\vbox(142.2638+0.0)x227.62207, glue set 2.84972fil, direction TLT
+...\vbox(44.84425+0.0)x0.0, direction TLT
+....\write-{}
+....\glue(\topskip) 10.0
+....\vbox(0.0+0.0)x0.0, direction TLT
+...\glue 0.0 plus 1.0fil
+...\glue 9.0 plus 4.0 minus 2.0
+...\kern -3.0
+...\rule(0.4+0.0)x91.04742
+...\kern 2.6
+...\hbox(6.65+2.85002)x227.62207, glue set 209.50204fil, direction TLT
+....\localpar
+.....\localinterlinepenalty=0
+.....\localbrokenpenalty=0
+.....\localleftbox=null
+.....\localrightbox=null
+....\hbox(2.82333+0.0)x14.40002, glue set 14.05603fil, direction TLT
+.....\glue 0.0 plus 1.0fil minus 1.0fil
+.....\mathon
+.....\hbox(0.0+0.0)x0.0, direction TLT
+.....\hbox(0.0+0.0)x0.344, shifted -2.82333, direction TLT
+......\TU/LinLibertine_R.otf(0)/m/n/6 ⁎
+.....\mathoff
+....\hbox(6.65+0.0)x0.0, direction TLT
+.....\rule(6.65+0.0)x0.0
+....\TU/LinLibertine_R.otf(0)/m/n/8 1
+....\penalty 10000
+....\rule(0.0+2.85002)x0.0
+....\penalty 10000
+....\glue(\parfillskip) 0.0 plus 1.0fil
+....\glue(\rightskip) 0.0
+...\hbox(7.00534+2.85002)x227.62207, glue set 209.50204fil, direction TLT
+....\localpar
+.....\localinterlinepenalty=0
+.....\localbrokenpenalty=0
+.....\localleftbox=null
+.....\localrightbox=null
+....\hbox(7.00534+0.0)x14.40002, glue set 10.52803fil, direction TLT
+.....\glue 0.0 plus 1.0fil minus 1.0fil
+.....\mathon
+.....\hbox(0.0+0.0)x0.0, direction TLT
+.....\hbox(4.182+1.242)x3.872, shifted -2.82333, direction TLT
+......\TU/LinLibertine_R.otf(0)/m/n/6 †
+.....\mathoff
+....\hbox(6.65+0.0)x0.0, direction TLT
+.....\rule(6.65+0.0)x0.0
+....\TU/LinLibertine_R.otf(0)/m/n/8 2
+....\penalty 10000
+....\rule(0.0+2.85002)x0.0
+....\penalty 10000
+....\glue(\parfillskip) 0.0 plus 1.0fil
+....\glue(\rightskip) 0.0
+...\hbox(7.00534+2.85002)x227.62207, glue set 209.50204fil, direction TLT
+....\localpar
+.....\localinterlinepenalty=0
+.....\localbrokenpenalty=0
+.....\localleftbox=null
+.....\localrightbox=null
+....\hbox(7.00534+0.0)x14.40002, glue set 10.52803fil, direction TLT
+.....\glue 0.0 plus 1.0fil minus 1.0fil
+.....\mathon
+.....\hbox(0.0+0.0)x0.0, direction TLT
+.....\hbox(4.182+1.242)x3.872, shifted -2.82333, direction TLT
+......\TU/LinLibertine_R.otf(0)/m/n/6 ‡
+.....\mathoff
+....\hbox(6.65+0.0)x0.0, direction TLT
+.....\rule(6.65+0.0)x0.0
+....\TU/LinLibertine_R.otf(0)/m/n/8 3
+....\penalty 10000
+....\rule(0.0+2.85002)x0.0
+....\penalty 10000
+....\glue(\parfillskip) 0.0 plus 1.0fil
+....\glue(\rightskip) 0.0
+...\hbox(6.77133+2.85002)x227.62207, glue set 209.50204fil, direction TLT
+....\localpar
+.....\localinterlinepenalty=0
+.....\localbrokenpenalty=0
+.....\localleftbox=null
+.....\localrightbox=null
+....\hbox(6.77133+0.0)x14.40002, glue set 11.21803fil, direction TLT
+.....\glue 0.0 plus 1.0fil minus 1.0fil
+.....\mathon
+.....\hbox(0.0+0.0)x0.0, direction TLT
+.....\hbox(3.948+1.032)x3.18199, shifted -2.82333, direction TLT
+......\TU/LinLibertine_R.otf(0)/m/n/6 ^^a7
+.....\mathoff
+....\hbox(6.65+0.0)x0.0, direction TLT
+.....\rule(6.65+0.0)x0.0
+....\TU/LinLibertine_R.otf(0)/m/n/8 4
+....\penalty 10000
+....\rule(0.0+2.85002)x0.0
+....\penalty 10000
+....\glue(\parfillskip) 0.0 plus 1.0fil
+....\glue(\rightskip) 0.0
+...\hbox(6.70534+2.85002)x227.62207, glue set 209.50204fil, direction TLT
+....\localpar
+.....\localinterlinepenalty=0
+.....\localbrokenpenalty=0
+.....\localleftbox=null
+.....\localrightbox=null
+....\hbox(6.70534+0.0)x14.40002, glue set 10.44403fil, direction TLT
+.....\glue 0.0 plus 1.0fil minus 1.0fil
+.....\mathon
+.....\hbox(0.0+0.0)x0.0, direction TLT
+.....\hbox(3.882+1.404)x3.956, shifted -2.82333, direction TLT
+......\TU/LinLibertine_R.otf(0)/m/n/6 ^^b6
+.....\mathoff
+....\hbox(6.65+0.0)x0.0, direction TLT
+.....\rule(6.65+0.0)x0.0
+....\TU/LinLibertine_R.otf(0)/m/n/8 5
+....\penalty 10000
+....\rule(0.0+2.85002)x0.0
+....\penalty 10000
+....\glue(\parfillskip) 0.0 plus 1.0fil
+....\glue(\rightskip) 0.0
+...\hbox(7.97133+2.85002)x227.62207, glue set 209.50204fil, direction TLT
+....\localpar
+.....\localinterlinepenalty=0
+.....\localbrokenpenalty=0
+.....\localleftbox=null
+.....\localrightbox=null
+....\hbox(7.97133+0.0)x14.40002, glue set 12.38803fil, direction TLT
+.....\glue 0.0 plus 1.0fil minus 1.0fil
+.....\mathon
+.....\hbox(0.0+0.0)x0.0, direction TLT
+.....\hbox(5.148+1.224)x2.012, shifted -2.82333, direction TLT
+......\TU/LinLibertine_R.otf(0)/m/n/6 ‖
+.....\mathoff
+....\hbox(6.65+0.0)x0.0, direction TLT
+.....\rule(6.65+0.0)x0.0
+....\TU/LinLibertine_R.otf(0)/m/n/8 6
+....\penalty 10000
+....\rule(0.0+2.85002)x0.0
+....\penalty 10000
+....\glue(\parfillskip) 0.0 plus 1.0fil
+....\glue(\rightskip) 0.0
+...\hbox(6.65+2.85002)x227.62207, glue set 209.50204fil, direction TLT
+....\localpar
+.....\localinterlinepenalty=0
+.....\localbrokenpenalty=0
+.....\localleftbox=null
+.....\localrightbox=null
+....\hbox(2.82333+0.0)x14.40002, glue set 14.05603fil, direction TLT
+.....\glue 0.0 plus 1.0fil minus 1.0fil
+.....\mathon
+.....\hbox(0.0+0.0)x0.0, direction TLT
+.....\hbox(0.0+0.0)x0.344, shifted -2.82333, direction TLT
+......\TU/LinLibertine_R.otf(0)/m/n/6 ⁎
+......\TU/LinLibertine_R.otf(0)/m/n/6 ⁎
+.....\mathoff
+....\hbox(6.65+0.0)x0.0, direction TLT
+.....\rule(6.65+0.0)x0.0
+....\TU/LinLibertine_R.otf(0)/m/n/8 7
+....\penalty 10000
+....\rule(0.0+2.85002)x0.0
+....\penalty 10000
+....\glue(\parfillskip) 0.0 plus 1.0fil
+....\glue(\rightskip) 0.0
+...\hbox(7.00534+2.85002)x227.62207, glue set 209.50204fil, direction TLT
+....\localpar
+.....\localinterlinepenalty=0
+.....\localbrokenpenalty=0
+.....\localleftbox=null
+.....\localrightbox=null
+....\hbox(7.00534+0.0)x14.40002, glue set 7.00003fil, direction TLT
+.....\glue 0.0 plus 1.0fil minus 1.0fil
+.....\mathon
+.....\hbox(0.0+0.0)x0.0, direction TLT
+.....\hbox(4.182+1.242)x7.4, shifted -2.82333, direction TLT
+......\TU/LinLibertine_R.otf(0)/m/n/6 †
+......\TU/LinLibertine_R.otf(0)/m/n/6 †
+.....\mathoff
+....\hbox(6.65+0.0)x0.0, direction TLT
+.....\rule(6.65+0.0)x0.0
+....\TU/LinLibertine_R.otf(0)/m/n/8 8
+....\penalty 10000
+....\rule(0.0+2.85002)x0.0
+....\penalty 10000
+....\glue(\parfillskip) 0.0 plus 1.0fil
+....\glue(\rightskip) 0.0
+...\hbox(7.00534+2.85002)x227.62207, glue set 209.50204fil, direction TLT
+....\localpar
+.....\localinterlinepenalty=0
+.....\localbrokenpenalty=0
+.....\localleftbox=null
+.....\localrightbox=null
+....\hbox(7.00534+0.0)x14.40002, glue set 7.00003fil, direction TLT
+.....\glue 0.0 plus 1.0fil minus 1.0fil
+.....\mathon
+.....\hbox(0.0+0.0)x0.0, direction TLT
+.....\hbox(4.182+1.242)x7.4, shifted -2.82333, direction TLT
+......\TU/LinLibertine_R.otf(0)/m/n/6 ‡
+......\TU/LinLibertine_R.otf(0)/m/n/6 ‡
+.....\mathoff
+....\hbox(6.65+0.0)x0.0, direction TLT
+.....\rule(6.65+0.0)x0.0
+....\TU/LinLibertine_R.otf(0)/m/n/8 9
+....\penalty 10000
+....\rule(0.0+2.85002)x0.0
+....\penalty 10000
+....\glue(\parfillskip) 0.0 plus 1.0fil
+....\glue(\rightskip) 0.0
+...\glue -2.85002
+...\glue 0.0 plus 0.0001fil
+..\glue(\baselineskip) 30.0
+..\hbox(0.0+0.0)x227.62207, direction TLT
+Missing character: There is no ⁎ (U+204E) in font file:LinLibertine_R.otf:mode=node;script=latn;language=DFLT;+tlig;!
+Missing character: There is no ⁎ (U+204E) in font file:LinLibertine_R.otf:mode=node;script=latn;language=DFLT;+tlig;!
+Missing character: There is no ⁎ (U+204E) in font file:LinLibertine_R.otf:mode=node;script=latn;language=DFLT;+tlig;!

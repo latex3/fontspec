@@ -1,6 +1,6 @@
-\documentclass[twocolumn]{testsuite}
+\input{fontspec-testsetup.tex}
 \usepackage{fontspec}
-\setmainfont{texgyrepagella-regular.otf}
+\setmainfont{LinLibertine_R.otf}
 \begin{document}
 \title{abc,
 \thanks{1},
@@ -15,6 +15,9 @@
 }
 \author{}
 \date{}
+
+\begin{fstest}
 \maketitle
+\end{fstest}
 
 \end{document}

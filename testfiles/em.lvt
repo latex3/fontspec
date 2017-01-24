@@ -1,0 +1,16 @@
+\input{fontspec-testsetup.tex}
+\usepackage{fontspec}
+\setmainfont{texgyrepagella}[
+  Extension = .otf,
+  UprightFont = *-regular ,
+  ItalicFont  = *-italic  ,
+  BoldFont    = *-bold    ,
+  BoldItalicFont = *-bolditalic ,
+]
+\begin{document}
+
+\begin{fstest}
+hello \emph{hello \emph{hello \emph{hello \emph{hello \emph{hello}}}}}
+\end{fstest}
+
+\end{document}

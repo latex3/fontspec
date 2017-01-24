@@ -1,0 +1,83 @@
+This is a generated file for the l3build validation syst.
+Don't change this file in any respect.
+The property list \g__fontspec__prop contains the pairs (without outer
+braces):
+>  {m/n}  =>  {0}
+>  {switch-0}  =>  {\reset }
+>  {m/it}  =>  {1}
+>  {switch-1}  =>  {\shape }
+>  {switch-2}  =>  {\innershape }.
+<recently read> }
+l. ......o \ph{hello \ph{hello \ph{hello}}}}}
+The property list \g__fontspec__prop contains the pairs (without outer
+braces):
+>  {m/n}  =>  {0}
+>  {switch-0}  =>  {\reset }
+>  {m/it}  =>  {1}
+>  {switch-1}  =>  {\shape }
+>  {switch-2}  =>  {\innershape }.
+<recently read> }
+l. ......o \ph{hello \ph{hello \ph{hello}}}}}
+The property list \g__fontspec__prop contains the pairs (without outer
+braces):
+>  {m/n}  =>  {0}
+>  {switch-0}  =>  {\reset }
+>  {m/it}  =>  {1}
+>  {switch-1}  =>  {\shape }
+>  {switch-2}  =>  {\innershape }.
+<recently read> }
+l. ......o \ph{hello \ph{hello \ph{hello}}}}}
+The property list \g__fontspec__prop contains the pairs (without outer
+braces):
+>  {m/n}  =>  {0}
+>  {switch-0}  =>  {\reset }
+>  {m/it}  =>  {1}
+>  {switch-1}  =>  {\shape }
+>  {switch-2}  =>  {\innershape }.
+<recently read> }
+l. ......o \ph{hello \ph{hello \ph{hello}}}}}
+The property list \g__fontspec__prop contains the pairs (without outer
+braces):
+>  {m/n}  =>  {0}
+>  {switch-0}  =>  {\reset }
+>  {m/it}  =>  {1}
+>  {switch-1}  =>  {\shape }
+>  {switch-2}  =>  {\innershape }.
+<recently read> }
+l. ......o \ph{hello \ph{hello \ph{hello}}}}}
+Completed box being shipped out [1]
+\vbox(114.22017+0.0)x169.57845
+.\glue -95.04362
+.\vbox(209.2638+0.0)x227.62207, shifted -58.04362
+..\vbox(12.0+0.0)x227.62207, glue set 12.0fil
+...\glue 0.0 plus 1.0fil
+...\hbox(0.0+0.0)x227.62207
+..\glue 25.0
+..\glue(\lineskip) 0.0
+..\vbox(142.2638+0.0)x227.62207, glue set 132.04971fil
+...\write-{}
+...\glue(\topskip) 2.67
+...\hbox(7.33+0.19998)x227.62207, glue set 77.78207fil
+....\hbox(0.0+0.0)x15.0
+....\TU/texgyrepagella(0)/m/n/10 hello
+....\glue 2.5 plus 1.25 minus 0.83333
+....\TU/texgyrepagella(0)/m/it/10 hello
+....\kern 0.0
+....\glue 2.5 plus 1.25 minus 0.83333
+....\TU/texgyrepagella(0)/m/n/10 hello
+....\glue 2.5 plus 1.25 minus 0.83333
+....\TU/texgyrepagella(0)/m/it/10 hello
+....\kern 0.0
+....\glue 2.5 plus 1.25 minus 0.83333
+....\TU/texgyrepagella(0)/m/n/10 hello
+....\glue 2.5 plus 1.25 minus 0.83333
+....\TU/texgyrepagella(0)/m/it/10 hello
+....\kern 0.0
+....\penalty 10000
+....\glue(\parfillskip) 0.0 plus 1.0fil
+....\glue(\rightskip) 0.0
+...\glue 0.0 plus 1.0fil
+...\glue 0.0
+...\glue 0.0 plus 0.0001fil
+..\glue(\baselineskip) 30.0
+..\hbox(0.0+0.0)x227.62207

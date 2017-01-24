@@ -1,50 +1,5 @@
 This is a generated file for the l3build validation syst.
 Don't change this file in any respect.
-The property list \g__fontspec__prop contains the pairs (without outer
-braces):
->  {m/n}  =>  {0}
->  {switch-0}  =>  {\reset }
->  {m/it}  =>  {1}
->  {switch-1}  =>  {\shape }
->  {switch-2}  =>  {\innershape }.
-<recently read> }
-l. ......o \ph{hello \ph{hello \ph{hello}}}}}
-The property list \g__fontspec__prop contains the pairs (without outer
-braces):
->  {m/n}  =>  {0}
->  {switch-0}  =>  {\reset }
->  {m/it}  =>  {1}
->  {switch-1}  =>  {\shape }
->  {switch-2}  =>  {\innershape }.
-<recently read> }
-l. ......o \ph{hello \ph{hello \ph{hello}}}}}
-The property list \g__fontspec__prop contains the pairs (without outer
-braces):
->  {m/n}  =>  {0}
->  {switch-0}  =>  {\reset }
->  {m/it}  =>  {1}
->  {switch-1}  =>  {\shape }
->  {switch-2}  =>  {\innershape }.
-<recently read> }
-l. ......o \ph{hello \ph{hello \ph{hello}}}}}
-The property list \g__fontspec__prop contains the pairs (without outer
-braces):
->  {m/n}  =>  {0}
->  {switch-0}  =>  {\reset }
->  {m/it}  =>  {1}
->  {switch-1}  =>  {\shape }
->  {switch-2}  =>  {\innershape }.
-<recently read> }
-l. ......o \ph{hello \ph{hello \ph{hello}}}}}
-The property list \g__fontspec__prop contains the pairs (without outer
-braces):
->  {m/n}  =>  {0}
->  {switch-0}  =>  {\reset }
->  {m/it}  =>  {1}
->  {switch-1}  =>  {\shape }
->  {switch-2}  =>  {\innershape }.
-<recently read> }
-l. ......o \ph{hello \ph{hello \ph{hello}}}}}
 Completed box being shipped out [1]
 \vbox(114.22017+0.0)x169.57845
 .\glue -95.04362

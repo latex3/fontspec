@@ -1,0 +1,94 @@
+This is a generated file for the l3build validation system.
+Don't change this file in any respect.
+(../texgyretermes-regular.luc
+\g__fontspec_family_texgyretermes-regular.otf_int=\count124
+(../texgyretermes-italic.luc
+.................................................
+. fontspec info: "defining-font"
+. 
+. Font family 'texgyretermes-regular.otf(0)' created for font
+. 'texgyretermes-regular.otf' with options [II = texgyretermes-italic.otf,IF =
+. {Colour=FF0000}].
+.  
+.  This font family consists of the following NFSS series/shapes:
+.  
+. - 'normal' (m/n) with NFSS spec.:
+. <->"file:texgyretermes-regular.otf:mode=node;script=latn;language=DFLT;"
+. - 'small caps'  (m/sc) with NFSS spec.:
+. <->"file:texgyretermes-regular.otf:mode=node;script=latn;language=DFLT;+smcp;"
+. - 'italic' (m/it) with NFSS spec.:
+. <->"file:texgyretermes-italic.otf:mode=node;script=latn;language=DFLT;color=FF0000FF
+. ;"
+. - 'italic small caps'  (m/itsc) with NFSS spec.:
+. <->"file:texgyretermes-italic.otf:mode=node;script=latn;language=DFLT;+smcp;color=FF0000FF
+. ;"
+.................................................
+Inserting `luaotfload.color_handler' at position 1 in `post_linebreak_filter'.
+Inserting `luaotfload.color_handler' at position 2 in `hpack_filter'.
+Inserting `luaotfload.color_handler' at position 1 in `mlist_to_hlist'.
+Completed box being shipped out [1]
+\vbox(114.22017+0.0)x169.57845, direction TLT
+.\glue -95.04362
+.\vbox(209.2638+0.0)x227.62207, shifted -58.04362, direction TLT
+..\vbox(12.0+0.0)x227.62207, glue set 12.0fil, direction TLT
+...\glue 0.0 plus 1.0fil
+...\hbox(0.0+0.0)x227.62207, direction TLT
+..\glue 25.0
+..\glue(\lineskip) 0.0
+..\vbox(142.2638+0.0)x227.62207, glue set 132.11967fil, direction TLT
+...\write-{}
+...\glue(\topskip) 3.17
+...\hbox(6.83+0.13)x227.62207, glue set 97.16205fil, direction TLT
+....\localpar
+.....\localinterlinepenalty=0
+.....\localbrokenpenalty=0
+.....\localleftbox=null
+.....\localrightbox=null
+....\hbox(0.0+0.0)x15.0, direction TLT
+....\TU/texgyretermes-regular.otf(0)/m/n/10 R
+....\kern -0.34999
+....\TU/texgyretermes-regular.otf(0)/m/n/10 o
+....\discretionary50|
+.....\TU/texgyretermes-regular.otf(0)/m/n/10 -
+....\TU/texgyretermes-regular.otf(0)/m/n/10 m
+....\TU/texgyretermes-regular.otf(0)/m/n/10 a
+....\TU/texgyretermes-regular.otf(0)/m/n/10 n
+....\glue(\spaceskip) 2.5 plus 1.25 minus 0.83333
+....\TU/texgyretermes-regular.otf(0)/m/n/10 l
+....\TU/texgyretermes-regular.otf(0)/m/n/10 e
+....\TU/texgyretermes-regular.otf(0)/m/n/10 t
+....\discretionary50|
+.....\TU/texgyretermes-regular.otf(0)/m/n/10 -
+....\TU/texgyretermes-regular.otf(0)/m/n/10 t
+....\TU/texgyretermes-regular.otf(0)/m/n/10 e
+....\TU/texgyretermes-regular.otf(0)/m/n/10 r
+....\TU/texgyretermes-regular.otf(0)/m/n/10 s
+....\glue(\spaceskip) 2.5 plus 1.25 minus 0.83333
+....\pdfcolorstack 0 push {1 0 0 rg}
+....\TU/texgyretermes-regular.otf(0)/m/it/10 a
+....\TU/texgyretermes-regular.otf(0)/m/it/10 n
+....\TU/texgyretermes-regular.otf(0)/m/it/10 d
+....\glue(\spaceskip) 2.5 plus 1.25 minus 0.83333
+....\TU/texgyretermes-regular.otf(0)/m/it/10 r
+....\kern -0.29999
+....\TU/texgyretermes-regular.otf(0)/m/it/10 e
+....\TU/texgyretermes-regular.otf(0)/m/it/10 d
+....\glue(\spaceskip) 2.5 plus 1.25 minus 0.83333
+....\TU/texgyretermes-regular.otf(0)/m/it/10 i
+....\TU/texgyretermes-regular.otf(0)/m/it/10 t
+....\TU/texgyretermes-regular.otf(0)/m/it/10 a
+....\TU/texgyretermes-regular.otf(0)/m/it/10 l
+....\discretionary50|
+.....\TU/texgyretermes-regular.otf(0)/m/it/10 -
+....\TU/texgyretermes-regular.otf(0)/m/it/10 i
+....\TU/texgyretermes-regular.otf(0)/m/it/10 c
+....\TU/texgyretermes-regular.otf(0)/m/it/10 s
+....\penalty 10000
+....\glue(\parfillskip) 0.0 plus 1.0fil
+....\glue(\rightskip) 0.0
+....\pdfcolorstack 0 pop
+...\glue 0.0 plus 1.0fil
+...\glue 0.0
+...\glue 0.0 plus 0.0001fil
+..\glue(\baselineskip) 30.0
+..\hbox(0.0+0.0)x227.62207, direction TLT

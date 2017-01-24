@@ -1,4 +1,4 @@
-\documentclass{testsuite}
+\input{fontspec-testsetup.tex}
 \usepackage{fontspec}
 \begin{document}
 
@@ -6,10 +6,12 @@
 \aliasfontfeatureoption{Numbers}{Lining}{UC}
 \aliasfontfeatureoption{Numbers}{OldStyle}{LC}
 
+\begin{fstest}
 \fontspec[123=UC]{texgyrepagella-regular.otf}
 Numbers: 12345
 
 \fontspec[123=LC]{texgyrepagella-regular.otf}
 Numbers: 12345
+\end{fstest}
 
 \end{document}

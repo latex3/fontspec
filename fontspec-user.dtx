@@ -356,6 +356,7 @@
 %    \begin{macrocode}
 \DeclareDocumentCommand \aliasfontfeature {mm}
  {
+%<debug> \typeout{::::::::::::::::::::^^J:: aliasfontfeature{#1}{#2}}
   \bool_set_false:N \l_@@_alias_bool
 
   \clist_map_inline:nn
@@ -365,6 +366,7 @@
 
      \keys_if_exist:nnT {##1} {#1}
       {
+%<debug> \typeout{:::: Key~exists~##1~/~#1}
         \bool_set_true:N \l_@@_alias_bool
         \keys_define:nn {##1}
           { #2 .code:n = { \keys_set:nn {##1} { #1 = {####1} } } }

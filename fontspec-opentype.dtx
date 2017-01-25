@@ -119,9 +119,9 @@
 %    \end{macrocode}
 %
 %    \begin{macrocode}
-\cs_new:Nn \@@_swap_plus_minus:n { \@@_swap_plus_minus_aux:NNNNN #1 }
-\cs_new:Nn \@@_swap_plus_minus_aux:NNNNN
-  { \str_case:nn {#1} { {+} {-#2#3#4#5} {-} {+#2#3#4#5} } }
+\cs_new:Nn \@@_swap_plus_minus:n { \@@_swap_plus_minus_aux:Nq #1 \q_nil }
+\cs_new:Npn \@@_swap_plus_minus_aux:Nq #1#2 \q_nil
+  { \str_case:nn {#1} { {+} {-#2} {-} {+#2} } }
 %    \end{macrocode}
 % \end{macro}
 %

@@ -14,17 +14,19 @@ fonts.
 }
 
 These are the main font-selecting commands of this package.
-The \cs{fontspec} command selects a font for one-time use; all
+The \cs{fontspec} command selects a font for one-time use only; all
 others should be used to define the standard fonts used in a document, as shown in \exref{fontload}.
 Here, the scales of the fonts have been chosen to equalise their
 lowercase letter heights. The \feat{Scale} font feature will be discussed
 further in \vref{sec:font-ind-features}, including methods for automatic
 scaling.
+Note that further options may need to be added to select appropriate bold/italic fonts,
+but this shows the main idea.
 
 \begin{Lexample}{fontload}{Loading the default, sans serif, and monospaced fonts.}
   \setmainfont{texgyrebonum-regular.otf}
   \setsansfont{lmsans10-regular.otf}[Scale=MatchLowercase]
-  \setmonofont{Inconsolata.otf}[Scale=MatchLowercase]
+  \setmonofont{Inconsolatazi4-Regular.otf}[Scale=MatchLowercase]
 
   \rmfamily Pack my box with five dozen liquor jugs\par
   \sffamily Pack my box with five dozen liquor jugs\par

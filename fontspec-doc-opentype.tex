@@ -280,7 +280,7 @@ will look. OpenType fonts may contain the following options:
    \Huge\centering
    \def\test#1#2{%
      #2 $\to$ {\addfontfeature{#1} #2}\\}
-   \fontspec{Linux Libertine O}
+   \fontspec{LinLibertine_R.otf}
    \test{Ligatures=Historic}{strict}
    \test{Ligatures=Rare}{wurtzite}
    \test{Ligatures=NoCommon}{firefly}
@@ -324,7 +324,7 @@ in \exref{letters-uppercase}; note the raised position of the hyphen
 to better match the surrounding letters.
 
 \begin{Lexample}{letters-uppercase}{An example of the \opt{Uppercase} option of the \feat{Letters} feature.}
-  \fontspec{Linux Libertine O}
+  \fontspec{LinLibertine_R.otf}
    UPPER-CASE example \\
   \addfontfeature{Letters=Uppercase}
    UPPER-CASE example
@@ -775,7 +775,7 @@ to \texttt{Alternate=0} to access the default case.
 
 \begin{Xexample}[firstline=2]{salt}{The \feat{Alternate} feature.}
   \huge
-  \fontspec{Linux Libertine O}
+  \fontspec{LinLibertine_R.otf}
   \textsc{a} \& h \\
   \addfontfeature{Alternate=0}
   \textsc{a} \& h

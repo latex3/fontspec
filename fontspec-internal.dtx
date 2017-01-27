@@ -354,6 +354,9 @@
   \keys_set:nx {fontspec-opentype} {\l_@@_keys_leftover_clist}
 %</luatex>
 
+  \tl_if_empty:NF \l_@@_mapping_tl
+    { \@@_update_featstr:n { mapping = \l_@@_mapping_tl } }
+
   \str_if_eq_x:nnF { \l_@@_hexcol_tl \l_@@_opacity_tl }
                    { \g_@@_hexcol_tl \g_@@_opacity_tl }
     { \@@_update_featstr:n { color = \l_@@_hexcol_tl\l_@@_opacity_tl } }

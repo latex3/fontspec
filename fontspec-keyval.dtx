@@ -648,9 +648,9 @@
 %    \begin{macrocode}
 \@@_keys_define_code:nnn {fontspec} {Mapping}
 %<*xetexx>
- {
-  \@@_update_featstr:n { mapping = #1 }
- }
+  {
+    \tl_set:Nn \l_@@_mapping_tl { #1 }
+  }
 %</xetexx>
 %<*luatex>
  {

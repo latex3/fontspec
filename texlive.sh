@@ -45,6 +45,7 @@ tlmgr install  \
   luaotfload   \
   metafont     \
   mfware       \
+  tex-gyre     \
   xunicode
 
 # Keep no backups (not required, simply makes cache bigger)

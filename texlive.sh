@@ -30,23 +30,14 @@ tlmgr install cm etex knuth-lib latex-bin tex tex-ini-files unicode-data \
 
 # Dependencies
 tlmgr install  \
-  euenc        \
   geometry     \
   graphics     \
-  graphics-cfg \
-  graphics-def \
   ifluatex     \
   ifxetex      \
-  oberdiek     \
-  l3kernel     \
-  l3packages   \
-  lm           \
-  lualibs      \
   luaotfload   \
-  metafont     \
-  mfware       \
+  oberdiek     \
   tex-gyre     \
-  xunicode
+  unicode-math
 
 # Keep no backups (not required, simply makes cache bigger)
 tlmgr option -- autobackup 0

@@ -110,8 +110,18 @@
 %    \begin{macrocode}
 \cs_new_protected:Npn \emfontdeclare #1
   {
-    \prop_clear:N \g_@@_em_prop
-    \int_zero:N   \l_@@_emdef_int
+    \prop_clear:N    \g_@@_em_prop
+    \int_zero:N      \l_@@_emdef_int
+    \bool_set_true:N \g_@@_em_normalise_slant_bool
+    
+    \tl_if_in:nnT {#1} {\slshape}
+      {
+        \tl_if_in:nnT {#1} {\itshape}
+          {
+            \bool_set_false:N \g_@@_em_normalise_slant_bool
+          }
+      }
+    
     \group_begin:
       \normalfont
       \clist_map_inline:nn {\emreset,#1}
@@ -129,9 +139,19 @@
 \DeclareRobustCommand \em
   {
     \@nomath\em
+    \tl_set:Nx \l_@@_emshape_query_tl { \f@series/\f@shape }
+    
+    \bool_if:NT \g_@@_em_normalise_slant_bool
+      {
+        \tl_replace_all:Nnn \l_@@_emshape_query_tl {/sl} {/it}
+      }
 
-    \prop_get:NxNT \g_@@_em_prop { \f@series/\f@shape } \l_@@_em_tmp_tl
-      { \int_set:Nn \l_@@_em_int { \l_@@_em_tmp_tl } }
+%<debug> \typeout{Emph~ level:~\int_use:N \l_@@_em_int}
+    \prop_get:NxNT \g_@@_em_prop { \l_@@_emshape_query_tl } \l_@@_em_tmp_tl
+      {
+        \int_set:Nn \l_@@_em_int { \l_@@_em_tmp_tl }
+%<debug> \typeout{Shape/series~ (\l_@@_emshape_query_tl)~ detected;~ new~ level:~\int_use:N \l_@@_em_int}
+      }
 
     \int_incr:N \l_@@_em_int
 

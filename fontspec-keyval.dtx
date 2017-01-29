@@ -805,7 +805,11 @@
 % This allows savvy \XeTeX-ers to input font features manually if they have
 % already memorised the OpenType abbreviations and don't mind not having error checking.
 %    \begin{macrocode}
-\@@_keys_define_code:nnn {fontspec} {RawFeature}
+\@@_keys_define_code:nnn {fontspec-opentype} {RawFeature}
+ {
+  \@@_update_featstr:n {#1}
+ }
+\@@_keys_define_code:nnn {fontspec-aat} {RawFeature}
  {
   \@@_update_featstr:n {#1}
  }

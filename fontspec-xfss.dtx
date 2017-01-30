@@ -127,7 +127,7 @@
       \clist_map_inline:nn {\emreset,#1}
         {
           ##1
-          \prop_gput_if_new:NxV \g_@@_em_prop { \f@series/\f@shape } { \l_@@_emdef_int }
+          \prop_gput_if_new:NxV \g_@@_em_prop { \f@shape } { \l_@@_emdef_int }
           \prop_gput:Nxn \g_@@_em_prop { switch-\int_use:N \l_@@_emdef_int } { ##1 }
           \int_incr:N \l_@@_emdef_int
         }
@@ -139,7 +139,7 @@
 \DeclareRobustCommand \em
   {
     \@nomath\em
-    \tl_set:Nx \l_@@_emshape_query_tl { \f@series/\f@shape }
+    \tl_set:Nx \l_@@_emshape_query_tl { \f@shape }
 
     \bool_if:NT \g_@@_em_normalise_slant_bool
       {

@@ -180,16 +180,15 @@ For example,
 will produce small caps within |\emph{\emph{...}}|.
 
 \DescribeMacro{\emfontdeclare}
-The \pkg{fontspec} package takes this idea one step further to allow arbitrary font changes (e.g., boldness) and arbitrary levels of nesting within emphasis.
+The \pkg{fontspec} package takes this idea one step further to allow arbitrary font shape changes and arbitrary levels of nesting within emphasis.
 This is performed using the |\emfontdeclare| command, which takes a comma-separated list of font switches corresponding to increasing levels of emphasis.
-Two examples:
+An example:
 \begin{enumerate}
 \item |\emfontdeclare{\itshape,\upshape\scshape,\itshape}| will lead to `italics', `small caps', then `italic small caps' as the level of emphasis increases, as long as italic small caps are defined for the font.
   Note that |\upshape| is required because the font changes are cascading.
-\item |\emfontdeclare{\bfseries,\fontseries{h}\selectfont,\fontseries{x}\selectfont}| could lead to (if fonts are set up correctly) `bold', `heavy', and `extra bold'.
 \end{enumerate}
-The implementation of these feature tries to be `smart' and guess what level of emphasis to use in the case of manual font changing.
-This is reliable only if you use series- and/or shape- changing commands in \cs{emfontdeclare}.
+The implementation of this feature tries to be `smart' and guess what level of emphasis to use in the case of manual font changing.
+This is reliable only if you use shape-changing commands in \cs{emfontdeclare}.
 For example:
 \begin{Verbatim}
     \emfontdeclare{\itshape,\upshape\scshape,\itshape}

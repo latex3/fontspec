@@ -276,8 +276,7 @@
   }
 \cs_new:Nn \@@_font_is_file:
   {
-%<xetexx>    \cs_set:Npn \@@_fontname_wrap:n ##1 { [ \l_@@_font_path_tl ##1 ] }
-%<luatex>    \cs_set:Npn \@@_fontname_wrap:n ##1 { file:\l_@@_font_path_tl ##1 }
+    \cs_set:Npn \@@_fontname_wrap:n ##1 { [ \l_@@_font_path_tl ##1 ] }
   }
 %    \end{macrocode}
 % \end{macro}

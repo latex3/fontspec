@@ -337,10 +337,17 @@
  {
   \keys_if_exist:nnF { fontspec / options } {#1}
     { \@@_define_opentype_feature_group:n {#1} }
+
   \keys_if_choice_exist:nnnT {fontspec} {#1} {#2}
     { \@@_warning:nxx {feature-option-overwrite} {#1} {#2} }
-  \@@_define_opentype_feature:nnn {#1}{#2}{#3}
+
+  \exp_args:Nnnx \@@_define_opentype_feature:nnnnn {#1}{#2}{ \@@_strip_plus_minus:n {#3} }{#3}{}
  }
+
+\cs_new:Nn \@@_strip_plus_minus:n { \@@_strip_plus_minus_aux:Nq #1 \q_nil }
+\cs_new:Npn \@@_strip_plus_minus_aux:Nq #1#2 \q_nil
+  { \str_case:nnF {#1} { {+} {#2} {-} {#2} } {#1#2} }
+
 %    \end{macrocode}
 % \end{macro}
 %

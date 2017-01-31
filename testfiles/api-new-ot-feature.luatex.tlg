@@ -1,0 +1,17 @@
+This is a generated file for the l3build validation system.
+Don't change this file in any respect.
+(../texgyretermes-regular.luc
+\g__fontspec_family_texgyretermes-regular.otf_int=\count126
+.................................................
+. fontspec info: "defining-font"
+. 
+. Font family 'texgyretermes-regular.otf(0)' created for font
+. 'texgyretermes-regular.otf' with options [Ligatures=TeX,Style=AllAlts].
+.  
+.  This font family consists of the following NFSS series/shapes:
+.  
+. - 'normal' (m/n) with NFSS spec.:
+. <->"[texgyretermes-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;+aalt;"
+. - 'small caps'  (m/sc) with NFSS spec.:
+. <->"[texgyretermes-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;+aalt;+smcp;"
+.................................................

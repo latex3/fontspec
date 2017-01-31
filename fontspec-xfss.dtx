@@ -150,7 +150,7 @@
     \prop_get:NxNT \g_@@_em_prop { \l_@@_emshape_query_tl } \l_@@_em_tmp_tl
       {
         \int_set:Nn \l_@@_em_int { \l_@@_em_tmp_tl }
-%<debug> \typeout{Shape/series~ (\l_@@_emshape_query_tl)~ detected;~ new~ level:~\int_use:N \l_@@_em_int}
+%<debug> \typeout{Shape~ (\l_@@_emshape_query_tl)~ detected;~ new~ level:~\int_use:N \l_@@_em_int}
       }
 
     \int_incr:N \l_@@_em_int
@@ -172,193 +172,81 @@
 \cs_set:Npn \eminnershape { \upshape }
 \emfontdeclare{ \emshape, \eminnershape }
 %    \end{macrocode}
+% \end{macro} \end{macro} \end{macro} \end{macro} \end{macro}
+%
+%
+%
+% \subsection{Strong emphasis}
+%
+% \begin{macro}{\strongenv}
+% \begin{macro}{\strong}
+% \begin{macro}{\strongseries}
+% \begin{macro}{\strongfontdeclare}
+%
+%    \begin{macrocode}
+\cs_new_protected:Npn \strongfontdeclare #1
+  {
+    \prop_clear:N    \g_@@_strong_prop
+    \int_zero:N      \l_@@_strongdef_int
+
+    \group_begin:
+      \normalfont
+      \clist_map_inline:nn {\strongreset,#1}
+        {
+          ##1
+          \prop_gput_if_new:NxV \g_@@_strong_prop { \f@series } { \l_@@_strongdef_int }
+          \prop_gput:Nxn \g_@@_strong_prop { switch-\int_use:N \l_@@_strongdef_int } { ##1 }
+          \int_incr:N \l_@@_strongdef_int
+        }
+    \group_end:
+  }
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+\DeclareRobustCommand \strongenv
+  {
+    \@nomath\strongenv
+
+%<debug> \typeout{Strong~ level:~\int_use:N \l_@@_strong_int}
+    \prop_get:NxNT \g_@@_strong_prop { \f@series } \l_@@_strong_tmp_tl
+      {
+        \int_set:Nn \l_@@_strong_int { \l_@@_strong_tmp_tl }
+%<debug> \typeout{Series~ (\f@series)~ detected;~ new~ level:~\int_use:N \l_@@_strong_int}
+      }
+
+    \int_incr:N \l_@@_strong_int
+
+    \prop_get:NxNTF \g_@@_strong_prop { switch-\int_use:N \l_@@_strong_int } \l_@@_strong_switch_tl
+      { \l_@@_strong_switch_tl }
+      {
+        \int_zero:N \l_@@_strong_int
+        \strongreset
+      }
+
+  }
+%    \end{macrocode}
+% Document commands:
+%    \begin{macrocode}
+\DeclareTextFontCommand{\strong}{\strongenv}
+\cs_set:Npn \strongreset { \mdseries }
+\strongfontdeclare{ \bfseries }
+%    \end{macrocode}
 % Ensure nesting resets when necessary:
 %    \begin{macrocode}
-\cs_set:Npn \reset@font { \normalfont \int_zero:N \l__fontspec_em_int }
+\cs_set:Npn \reset@font
+  {
+    \normalfont
+    \int_zero:N \l_@@_em_int
+    \int_zero:N \l_@@_strong_int
+  }
 %    \end{macrocode}
-% Programmer's interface for setting nesting level:
+% Programmer's interface for setting nesting levels:
 %    \begin{macrocode}
 \cs_new:Nn \fontspec_set_em_level:n { \int_set:Nn \l_@@_em_int {#1} }
+\cs_new:Nn \fontspec_set_strong_level:n { \int_set:Nn \l_@@_strong_int {#1} }
 %    \end{macrocode}
 % \end{macro} \end{macro} \end{macro} \end{macro} \end{macro}
 %
-% \subsection{\cmd\-}
-%
-% \begin{macro}{\-}
-% This macro is courtesy of Frank Mittelbach and the \LaTeXe\ source code.
-%    \begin{macrocode}
-\DeclareRobustCommand{\-}
- {
-  \discretionary
-   {
-    \char\ifnum\hyphenchar\font<\z@
-           \xlx@defaulthyphenchar
-         \else
-           \hyphenchar\font
-         \fi
-   }{}{}
- }
-\def\xlx@defaulthyphenchar{`\-}
-%    \end{macrocode}
-% \end{macro}
-%
-%
-% \subsection{Verbatims}
-%
-% Many thanks to Apostolos Syropoulos for discovering this problem and writing the  redefinion of \LaTeX's |verbatim| environment and \cs{verb*} command.
-%
-% \begin{macro}{\fontspec_visible_space:}
-% Print \unichar{2423}{Open box}, which is used to visibly display a space character.
-%    \begin{macrocode}
-\cs_new:Nn \fontspec_visible_space:
- {
-  \@@_primitive_font_glyph_if_exist:NnTF \font {"2423}
-   { \char"2423\scan_stop: }
-   { \fontspec_visible_space_fallback: }
- }
-%    \end{macrocode}
-% \end{macro}
-%
-% \begin{macro}{\fontspec_visible_space_fallback:}
-% If the current font doesn't have \unichar{2423}{Open box}, use Latin Modern Mono instead.
-%    \begin{macrocode}
-\cs_new:Nn \fontspec_visible_space_fallback:
- {
-  {
-   \usefont{\g_fontspec_encoding_tl}{lmtt}{\f@series}{\f@shape}
-   \textvisiblespace
-  }
- }
-%    \end{macrocode}
-% \end{macro}
-%
-% \begin{macro}{\fontspec_print_visible_spaces:}
-% Helper macro to turn spaces (\verb|^^20|) active and print visible space instead.
-%    \begin{macrocode}
-\group_begin:
-\char_set_catcode_active:n{"20}%
-\cs_gset:Npn\fontspec_print_visible_spaces:{%
-\char_set_catcode_active:n{"20}%
-\cs_set_eq:NN^^20\fontspec_visible_space:%
-}%
-\group_end:
-%    \end{macrocode}
-% \end{macro}
-%
-% \begin{macro}{\verb}
-% \begin{macro}{\verb*}
-% Redefine \cmd\verb\ to use \cmd\fontspec_print_visible_spaces:.
-%    \begin{macrocode}
-\def\verb
- {
-  \relax\ifmmode\hbox\else\leavevmode\null\fi
-  \bgroup
-    \verb@eol@error \let\do\@makeother \dospecials
-    \verbatim@font\@noligs
-    \@ifstar\@@sverb\@verb
- }
-\def\@@sverb{\fontspec_print_visible_spaces:\@sverb}
-%    \end{macrocode}
-% \end{macro}
-% \end{macro}
-%
-% It's better to put small things into \cmd\AtBeginDocument, so here we go:
-%    \begin{macrocode}
-\AtBeginDocument
- {
-  \fontspec_patch_verbatim:
-  \fontspec_patch_moreverb:
-  \fontspec_patch_fancyvrb:
-  \fontspec_patch_listings:
- }
-%    \end{macrocode}
-%
-% \begin{environment}{verbatim*}
-% With the \pkg{verbatim} package.
-%    \begin{macrocode}
-\cs_set:Npn \fontspec_patch_verbatim:
- {
-  \@ifpackageloaded{verbatim}
-   {
-    \cs_set:cpn {verbatim*}
-     {
-      \group_begin: \@verbatim \fontspec_print_visible_spaces: \verbatim@start
-     }
-   }
-%    \end{macrocode}
-% This is for vanilla \LaTeX.
-%    \begin{macrocode}
-   {
-    \cs_set:cpn {verbatim*}
-     {
-      \@verbatim \fontspec_print_visible_spaces: \@sxverbatim
-     }
-   }
- }
-%    \end{macrocode}
-% \end{environment}
-%
-% \begin{environment}{listingcont*}
-% This is for \pkg{moreverb}.
-% The main |listing*| environment inherits this definition.
-%    \begin{macrocode}
-\cs_set:Npn \fontspec_patch_moreverb:
- {
-  \@ifpackageloaded{moreverb}{
-    \cs_set:cpn {listingcont*}
-     {
-      \cs_set:Npn \verbatim@processline
-       {
-        \thelisting@line \global\advance\listing@line\c_one
-        \the\verbatim@line\par
-       }
-      \@verbatim \fontspec_print_visible_spaces: \verbatim@start
-     }
-  }{}
- }
-%    \end{macrocode}
-% \end{environment}
-%
-% \pkg{listings} and \pkg{fancvrb} make things nice and easy:
-%    \begin{macrocode}
-\cs_set:Npn \fontspec_patch_fancyvrb:
- {
-  \@ifpackageloaded{fancyvrb}
-   {
-    \cs_set_eq:NN \FancyVerbSpace \fontspec_visible_space:
-   }{}
- }
-%    \end{macrocode}
-%
-%    \begin{macrocode}
-\cs_set:Npn \fontspec_patch_listings:
- {
-  \@ifpackageloaded{listings}
-   {
-    \cs_set_eq:NN \lst@visiblespace \fontspec_visible_space:
-   }{}
- }
-%    \end{macrocode}
-%
-% \subsection{\cs{oldstylenums}}
-%
-%
-% \begin{macro}{\oldstylenums}
-% \begin{macro}{\liningnums}
-% This command obviously needs a redefinition.
-% And we may as well provide the reverse command.
-%    \begin{macrocode}
-\RenewDocumentCommand \oldstylenums {m}
- {
-  { \addfontfeature{Numbers=OldStyle} #1 }
- }
-\NewDocumentCommand \liningnums {m}
- {
-  { \addfontfeature{Numbers=Lining} #1 }
- }
-%    \end{macrocode}
-% \end{macro}
-% \end{macro}
 %
 %
 %    \begin{macrocode}

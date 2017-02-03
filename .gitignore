@@ -27,5 +27,5 @@ fontspec.pdf
 
 lucidaot.tex
 
-*.bbprojectdata
-*.bbprojectd*
+# for local (in-place) doc typesetting:
+zzz-*

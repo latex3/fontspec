@@ -180,7 +180,6 @@
 %
 % \begin{macro}{\strongenv}
 % \begin{macro}{\strong}
-% \begin{macro}{\strongseries}
 % \begin{macro}{\strongfontdeclare}
 %
 %    \begin{macrocode}
@@ -228,7 +227,7 @@
 % Document commands:
 %    \begin{macrocode}
 \DeclareTextFontCommand{\strong}{\strongenv}
-\cs_set:Npn \strongreset { \mdseries }
+\cs_set:Npn \strongreset {}
 \strongfontdeclare{ \bfseries }
 %    \end{macrocode}
 % Ensure nesting resets when necessary:

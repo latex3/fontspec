@@ -1,0 +1,63 @@
+This is a generated file for the l3build validation system.
+Don't change this file in any respect.
+"Light":
+    [SourceCodePro-Light.otf]:mode=node;script=latn;language=DFLT;+tlig; at 10.0pt
+"Regular":
+    [SourceCodePro-Regular.otf]:mode=node;script=latn;language=DFLT;+tlig; at 10.0pt
+"Black":
+    [SourceCodePro-Black.otf]:mode=node;script=latn;language=DFLT;+tlig; at 10.0pt
+"Now what?":
+    [SourceCodePro-Black.otf]:mode=node;script=latn;language=DFLT;+tlig; at 10.0pt
+Overfull \hbox (3.37793pt too wide) in paragraph at lines 14--26
+[]\TU/SourceCodePro(0)/m/n/10 light   \TU/SourceCodePro(0)/bx/n/10 reg-u-lar   
+\TU/SourceCodePro(0)/k/n/10 black   not sure   
+\hbox(7.19+2.31)x227.62207, direction TLT
+.\localpar
+..\localinterlinepenalty=0
+..\localbrokenpenalty=0
+..\localleftbox=null
+..\localrightbox=null
+.\hbox(0.0+0.0)x15.0, direction TLT
+.\TU/SourceCodePro(0)/m/n/10 l
+.\TU/SourceCodePro(0)/m/n/10 i
+.\TU/SourceCodePro(0)/m/n/10 g
+.\TU/SourceCodePro(0)/m/n/10 h
+.\TU/SourceCodePro(0)/m/n/10 t
+.\glue(\spaceskip) 6.0
+.\glue(\spaceskip) 6.0
+.\glue 6.0
+.\TU/SourceCodePro(0)/bx/n/10 r
+.\TU/SourceCodePro(0)/bx/n/10 e
+.\TU/SourceCodePro(0)/bx/n/10 g
+.\discretionary50|
+..\TU/SourceCodePro(0)/bx/n/10 -
+.\TU/SourceCodePro(0)/bx/n/10 u
+.\discretionary50|
+..\TU/SourceCodePro(0)/bx/n/10 -
+.\TU/SourceCodePro(0)/bx/n/10 l
+.\TU/SourceCodePro(0)/bx/n/10 a
+.\TU/SourceCodePro(0)/bx/n/10 r
+.\glue(\spaceskip) 6.0
+.\glue(\spaceskip) 6.0
+.\glue 6.0
+.\TU/SourceCodePro(0)/k/n/10 b
+.\TU/SourceCodePro(0)/k/n/10 l
+.\TU/SourceCodePro(0)/k/n/10 a
+.\TU/SourceCodePro(0)/k/n/10 c
+.\TU/SourceCodePro(0)/k/n/10 k
+.\glue(\spaceskip) 6.0
+.\glue(\spaceskip) 6.0
+.\glue 6.0
+.\TU/SourceCodePro(0)/k/n/10 n
+.\TU/SourceCodePro(0)/k/n/10 o
+.\TU/SourceCodePro(0)/k/n/10 t
+.\glue(\spaceskip) 6.0
+.\TU/SourceCodePro(0)/k/n/10 s
+.\TU/SourceCodePro(0)/k/n/10 u
+.\TU/SourceCodePro(0)/k/n/10 r
+.\TU/SourceCodePro(0)/k/n/10 e
+.\glue(\spaceskip) 6.0
+.\glue 6.0
+.\penalty 10000
+.\glue(\parfillskip) 0.0 plus 1.0fil
+.\glue(\rightskip) 0.0

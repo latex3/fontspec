@@ -1,0 +1,27 @@
+\input{fontspec-testsetup.tex}
+\usepackage{fontspec}
+\setmainfont{SourceCodePro}[
+  Extension = .otf ,
+  UprightFont = *-Light ,
+  BoldFont = *-Regular ,
+  FontFace = {k}{n}{*-Black} ,
+]
+\begin{document}
+
+\TIMO
+\strongfontdeclare{\bfseries,\fontseries{k}\selectfont}
+\typeout{"Light":}
+light
+\typeout{\space\space\space\space\fontname\font}
+\typeout{"Regular":}
+\strong{regular
+\typeout{\space\space\space\space\fontname\font}
+\typeout{"Black":}
+\strong{black
+\typeout{\space\space\space\space\fontname\font}
+\typeout{"Now what?":}
+\strong{not sure
+\typeout{\space\space\space\space\fontname\font}
+}}}
+
+\end{document}

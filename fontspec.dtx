@@ -27,7 +27,7 @@ And the derived files: fontspec*.sty,fontspec.lua, fontspec.pdf.
 \endpostamble
 \askforoverwritefalse
 \def\MetaPrefix{-- }
-\generate{\file{fontspec.lua}{\from{fontspec-lua.dtx}{lua}}}
+\generate{\file{fontspec.lua}{\from{fontspec.dtx}{lua}\from{fontspec-lua.dtx}{lua}}}
 \let\MetaPrefix\DoubleperCent
 \ifx\FontspecDebug\undefined\def\FSDEBUG{}\else\def\FSDEBUG{,debug}\fi
 
@@ -81,6 +81,17 @@ And the derived files: fontspec*.sty,fontspec.lua, fontspec.pdf.
 %<*fontspec>
   {2017/01/31}{2.5e}{Font selection for XeLaTeX and LuaLaTeX}
 %</fontspec>
+%<lua>fontspec          = fontspec or {}
+%<lua>local fontspec    = fontspec
+%<lua>fontspec.module   = {
+%<lua>    name          = "fontspec",
+%<lua>    version       = "2.5a",
+%<lua>    date          = "2016/02/01",
+%<lua>    description   = "Advanced font selection for LuaLaTeX.",
+%<lua>    author        = "Khaled Hosny, Philipp Gesang, Will Robertson",
+%<lua>    copyright     = "Khaled Hosny, Philipp Gesang, Will Robertson",
+%<lua>    license       = "LPPL"
+%<lua>}
 %
 %<*driver>
 \ExplSyntaxOff

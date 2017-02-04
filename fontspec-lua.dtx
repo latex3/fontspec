@@ -3,20 +3,7 @@
 %    \begin{macrocode}
 %<*lua>
 %    \end{macrocode}
-% First we define some metadata.
 %    \begin{macrocode}
-fontspec          = fontspec or {}
-local fontspec    = fontspec
-fontspec.module   = {
-    name          = "fontspec",
-    version       = "2.5a",
-    date          = "2016/02/01",
-    description   = "Advanced font selection for LuaLaTeX.",
-    author        = "Khaled Hosny, Philipp Gesang, Will Robertson",
-    copyright     = "Khaled Hosny, Philipp Gesang, Will Robertson",
-    license       = "LPPL"
-}
-
 local err, warn, info, log = luatexbase.provides_module(fontspec.module)
 %    \end{macrocode}
 % Some utility functions

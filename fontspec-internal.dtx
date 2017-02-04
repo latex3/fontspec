@@ -340,17 +340,19 @@
   \bool_if:NTF \l_@@_ot_bool
     {
 %<debug>  \typeout{::: Setting~ keys~ for~ OpenType~ font~ features:~"\l_@@_keys_leftover_clist"}
-      \keys_set:nx {fontspec-opentype} {\l_@@_keys_leftover_clist}
+    %  \tracingall
+      \keys_set:nV {fontspec-opentype} \l_@@_keys_leftover_clist
+    %  \EROROR
     }
     {
 %<debug>  \typeout{::: Setting~ keys~ for~ AAT~ font~ features:~"\l_@@_keys_leftover_clist"}
       \bool_if:NT \l_@@_atsui_bool
-        { \keys_set:nx {fontspec-aat} {\l_@@_keys_leftover_clist} }
+        { \keys_set:nV {fontspec-aat} \l_@@_keys_leftover_clist }
     }
 %</xetexx>
 %<*luatex>
 %<debug>  \typeout{::: Setting~ keys~ for~ OpenType~ font~ features:~"\l_@@_keys_leftover_clist"}
-  \keys_set:nx {fontspec-opentype} {\l_@@_keys_leftover_clist}
+  \keys_set:nV {fontspec-opentype} \l_@@_keys_leftover_clist
 %</luatex>
 
   \tl_if_empty:NF \l_@@_mapping_tl

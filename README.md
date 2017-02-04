@@ -69,9 +69,16 @@ To add features to the font family currently in use:
 Change history
 --------------
 
-- v2.5e ()
+- v2.5e (2017/02/05)
 
-    * Add `Numbers=Tabular` alias for `Numbers=Monospaced`
+    * Change the new behaviour of `\emph` (and `\emfontdeclare`) to act only on the NFSS font shape; using the series as well was too fragile.
+    * Add `\strong` as the "weight" analogy to `\emph`. This will need some extra syntactic sugar from `fontspec` before it becomes truly useful.
+    * Add `Numbers=Tabular` alias for `Numbers=Monospaced`.
+    * Fix occasional bug with "chained" keyval choices such as `Numbers={Lining,Proportional}` in which only the first choice would be recognised.
+    * Fix interaction with `RawFeature` and "proper" `fontspec` features.
+    * Fix regression in which `C:\...` file paths in Windows couldn't be used.
+    * Fix bug (sorry!) in `\newopentypefeature`.
+    * Improve monospace font in documentation.
 
 - v2.5d (2017/01/24) "oops"
 

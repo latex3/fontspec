@@ -392,6 +392,24 @@ The \feat{FontFace} command also interacts properly with the \feat{SizeFeatures}
 \end{Verbatim}
 Note that if the first \feat{Font} feature is omitted then each size needs its own inner \feat{Font} declaration.
 
+\subsubsection{An example for \cs{strong}}
+\label{sec:strong-example}
+
+If you wanted to set up a font family to allow nesting of the \cs{strong}
+to easily access increasing font weights, you might use a declaration along the following lines:
+\begin{Verbatim}
+\setmonofont{SourceCodePro}[
+  Extension = .otf ,
+  UprightFont = *-Light ,
+  BoldFont = *-Regular ,
+  FontFace = {k}{n}{*-Black} ,
+]
+\strongfontdeclare{\bfseries,\fontseries{k}\selectfont}
+\end{Verbatim}
+
+Further `syntactic sugar' is planned to make this process somewhat easier.
+
+
 \subsection{Math(s) fonts}
 
 When \cmd\setmainfont, \cmd\setsansfont\ and \cmd\setmonofont\ are used in the

@@ -199,3 +199,31 @@ Here, the emphasised text `hello' will be printed in italic small caps since |\e
 
 \DescribeMacro{\emreset}
 Finally, if you have so much nested emphasis that |\emfontdeclare| runs out of options, it will insert |\emreset| (by default just |\upshape|) and start again from the beginning.
+
+
+\subsection{Strong emphasis}
+
+\DescribeMacro{\strong}
+\DescribeMacro{\strongenv}
+The \cs{strong} macro is used analogously to \cs{emph} but produces variations in weight.
+If you need it in environment form, use |\begin{strongenv}...\end{strongenv}|.
+
+As with emphasis, this font-switching command is intended to move through a range
+of font weights. For example, if the fonts are set up correctly it allows usage such as
+|\strong{...\strong{...}}| in which each nested \cs{strong} macro increases the
+weight of the font.
+
+\DescribeMacro{\strongfontdeclare}
+Currently this feature set is somewhat experimental and there is no syntactic sugar
+to easily define a range of font weights using \pkg{fontspec} commands.
+Use, say, the following to define first bold and then black (|k|) font faces for \cs{strong}:
+\begin{Verbatim}
+  \strongfontdeclare{\bfseries,\fontseries{k}\selectfont}
+\end{Verbatim}
+
+\DescribeMacro{\strongreset}
+If too many levels of \cs{strong} are reached, \cs{strongreset} is inserted.
+By default this is a no-op and the font will simply remain the same.
+Use \cs{renewcommand}\cs{strongreset}|{\mdseries}| to start again from the beginning if desired.
+
+An example for setting up a font family for use with \cs{strong} is discussed in \vref{strong-example}.

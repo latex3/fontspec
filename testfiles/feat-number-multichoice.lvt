@@ -1,0 +1,21 @@
+\input{fontspec-testsetup.tex}
+\usepackage{fontspec}
+\begin{document}
+% This test also checks that "aliased" options are working correctly.
+\OMIT
+\fontspec{texgyrepagella-regular.otf}
+\TIMO
+
+\begin{fstest}
+\fontspec{texgyrepagella-regular.otf}[Numbers={OldStyle,Monospaced}]
+\end{fstest}
+\begin{fstest}
+\fontspec{texgyrepagella-regular.otf}[Numbers={Lowercase,Monospaced}]
+\end{fstest}
+\begin{fstest}
+\fontspec{texgyrepagella-regular.otf}[Numbers={OldStyle,Tabular}]
+\end{fstest}
+\begin{fstest}
+\fontspec{texgyrepagella-regular.otf}[Numbers={Lowercase,Tabular}]
+\end{fstest}
+\end{document}

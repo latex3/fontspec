@@ -69,6 +69,10 @@ To add features to the font family currently in use:
 Change history
 --------------
 
+- v2.5e ()
+
+    * Add `Numbers=Tabular` alias for `Numbers=Monospaced`
+
 - v2.5d (2017/01/24) "oops"
 
     * Add `\fontspec_if_small_caps:TF`

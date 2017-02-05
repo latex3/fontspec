@@ -1,7 +1,7 @@
 This is a generated file for the l3build validation system.
 Don't change this file in any respect.
 (../texgyretermes-regular.luc
-\g__fontspec_family_texgyretermes-regular.otf_int=\count126
+\g__fontspec_family_texgyretermes-regular.otf_int=\count129
 .................................................
 . fontspec info: "defining-font"
 . 
@@ -15,3 +15,4 @@ Don't change this file in any respect.
 . - 'small caps'  (m/sc) with NFSS spec.:
 . <->"[texgyretermes-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;+aalt;+smcp;"
 .................................................
+LaTeX Info: Redefining \rmfamily on input line ....

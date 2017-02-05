@@ -163,9 +163,9 @@ Completed box being shipped out [1]
 ...\glue 0.0 plus 1.0fil
 ...\TU/LinLibertine_R.otf(0)/m/n/10 1
 ...\glue 0.0 plus 1.0fil
-Missing character: There is no ⁎ (U+204E) in font file:LinLibertine_R.otf:mode=node;script=latn;language=DFLT;+tlig;!
-Missing character: There is no ⁎ (U+204E) in font file:LinLibertine_R.otf:mode=node;script=latn;language=DFLT;+tlig;!
-Missing character: There is no ⁎ (U+204E) in font file:LinLibertine_R.otf:mode=node;script=latn;language=DFLT;+tlig;!
+Missing character: There is no ⁎ (U+204E) in font [LinLibertine_R.otf]:mode=node;script=latn;language=DFLT;+tlig;!
+Missing character: There is no ⁎ (U+204E) in font [LinLibertine_R.otf]:mode=node;script=latn;language=DFLT;+tlig;!
+Missing character: There is no ⁎ (U+204E) in font [LinLibertine_R.otf]:mode=node;script=latn;language=DFLT;+tlig;!
 Completed box being shipped out [2]
 \vbox(114.22017+0.0)x169.57845, direction TLT
 .\glue -95.04362
@@ -381,6 +381,6 @@ Completed box being shipped out [2]
 ...\glue 0.0 plus 0.0001fil
 ..\glue(\baselineskip) 30.0
 ..\hbox(0.0+0.0)x227.62207, direction TLT
-Missing character: There is no ⁎ (U+204E) in font file:LinLibertine_R.otf:mode=node;script=latn;language=DFLT;+tlig;!
-Missing character: There is no ⁎ (U+204E) in font file:LinLibertine_R.otf:mode=node;script=latn;language=DFLT;+tlig;!
-Missing character: There is no ⁎ (U+204E) in font file:LinLibertine_R.otf:mode=node;script=latn;language=DFLT;+tlig;!
+Missing character: There is no ⁎ (U+204E) in font [LinLibertine_R.otf]:mode=node;script=latn;language=DFLT;+tlig;!
+Missing character: There is no ⁎ (U+204E) in font [LinLibertine_R.otf]:mode=node;script=latn;language=DFLT;+tlig;!
+Missing character: There is no ⁎ (U+204E) in font [LinLibertine_R.otf]:mode=node;script=latn;language=DFLT;+tlig;!

@@ -5,8 +5,10 @@
 \ExplSyntaxOn
 \fontspec_font_if_exist:nTF {cmr10}
    {\TIMO\TRUE\OMIT} {\TIMO\FALSE\OMIT}
+\NEWLINE
 \fontspec_font_if_exist:nTF {texgyrepagella-regular.otf}
    {\TIMO\TRUE\OMIT} {\TIMO\FALSE\OMIT}
+\NEWLINE
 \fontspec_font_if_exist:nTF {mystery-font.otf}
    {\TIMO\TRUE\OMIT} {\TIMO\FALSE\OMIT}
 \ExplSyntaxOff

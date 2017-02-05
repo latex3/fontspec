@@ -22,10 +22,10 @@
 
 \IfFontFeatureActiveTF{Language=Default}{\INTEND}{\WRONG}
 
-\xetex_if_engine:T {
+\sys_if_engine_xetex:T {
   \IfFontFeatureActiveTF{Renderer=OpenType}{\INTEND}{\WRONG}
 }
-\luatex_if_engine:T {
+\sys_if_engine_luatex:T {
   \IfFontFeatureActiveTF{Renderer=Full}{\INTEND}{\WRONG}
 }
 

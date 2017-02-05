@@ -1,7 +1,7 @@
 This is a generated file for the l3build validation system.
 Don't change this file in any respect.
 (../texgyretermes-regular.luc
-\g__fontspec_family_texgyretermes-regular.otf_int=\count124
+\g__fontspec_family_texgyretermes-regular.otf_int=\count129
 (../texgyretermes-italic.luc
 .................................................
 . fontspec info: "defining-font"
@@ -13,14 +13,14 @@ Don't change this file in any respect.
 .  This font family consists of the following NFSS series/shapes:
 .  
 . - 'normal' (m/n) with NFSS spec.:
-. <->"file:texgyretermes-regular.otf:mode=node;script=latn;language=DFLT;"
+. <->"[texgyretermes-regular.otf]:mode=node;script=latn;language=DFLT;"
 . - 'small caps'  (m/sc) with NFSS spec.:
-. <->"file:texgyretermes-regular.otf:mode=node;script=latn;language=DFLT;+smcp;"
+. <->"[texgyretermes-regular.otf]:mode=node;script=latn;language=DFLT;+smcp;"
 . - 'italic' (m/it) with NFSS spec.:
-. <->"file:texgyretermes-italic.otf:mode=node;script=latn;language=DFLT;color=FF0000FF
+. <->"[texgyretermes-italic.otf]:mode=node;script=latn;language=DFLT;color=FF0000FF
 . ;"
 . - 'italic small caps'  (m/itsc) with NFSS spec.:
-. <->"file:texgyretermes-italic.otf:mode=node;script=latn;language=DFLT;+smcp;color=FF0000FF
+. <->"[texgyretermes-italic.otf]:mode=node;script=latn;language=DFLT;+smcp;color=FF0000FF
 . ;"
 .................................................
 Inserting `luaotfload.color_handler' at position 1 in `post_linebreak_filter'.

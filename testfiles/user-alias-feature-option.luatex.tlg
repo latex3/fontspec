@@ -1,7 +1,7 @@
 This is a generated file for the l3build validation system.
 Don't change this file in any respect.
 (../texgyrepagella-regular.luc
-\g__fontspec_family_texgyrepagella-regular.otf_int=\count124
+\g__fontspec_family_texgyrepagella-regular.otf_int=\count129
 .................................................
 . fontspec info: "defining-font"
 . 
@@ -11,9 +11,9 @@ Don't change this file in any respect.
 .  This font family consists of the following NFSS series/shapes:
 .  
 . - 'normal' (m/n) with NFSS spec.:
-. <->"file:texgyrepagella-regular.otf:mode=node;script=latn;language=DFLT;+lnum;"
+. <->"[texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;+lnum;"
 . - 'small caps'  (m/sc) with NFSS spec.:
-. <->"file:texgyrepagella-regular.otf:mode=node;script=latn;language=DFLT;+lnum;+smcp;"
+. <->"[texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;+lnum;+smcp;"
 .................................................
 .................................................
 . fontspec info: "defining-font"
@@ -24,9 +24,9 @@ Don't change this file in any respect.
 .  This font family consists of the following NFSS series/shapes:
 .  
 . - 'normal' (m/n) with NFSS spec.:
-. <->"file:texgyrepagella-regular.otf:mode=node;script=latn;language=DFLT;+onum;"
+. <->"[texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;+onum;"
 . - 'small caps'  (m/sc) with NFSS spec.:
-. <->"file:texgyrepagella-regular.otf:mode=node;script=latn;language=DFLT;+onum;+smcp;"
+. <->"[texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;+onum;+smcp;"
 .................................................
 Completed box being shipped out [1]
 \vbox(114.22017+0.0)x169.57845, direction TLT

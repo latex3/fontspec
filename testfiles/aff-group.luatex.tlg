@@ -1,7 +1,7 @@
 This is a generated file for the l3build validation system.
 Don't change this file in any respect.
 (../texgyretermes-regular.luc
-\g__fontspec_family_texgyretermes-regular.otf_int=\count124
+\g__fontspec_family_texgyretermes-regular.otf_int=\count129
 .................................................
 . fontspec info: "defining-font"
 . 
@@ -11,10 +11,11 @@ Don't change this file in any respect.
 .  This font family consists of the following NFSS series/shapes:
 .  
 . - 'normal' (m/n) with NFSS spec.:
-. <->"file:texgyretermes-regular.otf:mode=node;script=latn;language=DFLT;+tlig;"
+. <->"[texgyretermes-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;"
 . - 'small caps'  (m/sc) with NFSS spec.:
-. <->"file:texgyretermes-regular.otf:mode=node;script=latn;language=DFLT;+tlig;+smcp;"
+. <->"[texgyretermes-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;+smcp;"
 .................................................
+LaTeX Info: Redefining \rmfamily on input line ....
 .................................................
 . fontspec info: "defining-font"
 . 
@@ -24,10 +25,10 @@ Don't change this file in any respect.
 .  This font family consists of the following NFSS series/shapes:
 .  
 . - 'normal' (m/n) with NFSS spec.:
-. <->"file:texgyretermes-regular.otf:mode=node;script=latn;language=DFLT;+tlig;color=AA00AAFF
+. <->"[texgyretermes-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;color=AA00AAFF
 . ;"
 . - 'small caps'  (m/sc) with NFSS spec.:
-. <->"file:texgyretermes-regular.otf:mode=node;script=latn;language=DFLT;+tlig;+smcp;color=AA00AAFF
+. <->"[texgyretermes-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;+smcp;color=AA00AAFF
 . ;"
 .................................................
 Inserting `luaotfload.color_handler' at position 1 in `post_linebreak_filter'.
@@ -36,6 +37,7 @@ Inserting `luaotfload.color_handler' at position 1 in `mlist_to_hlist'.
 Underfull \hbox (badness 10000) in paragraph at lines 8--11
 \hbox(0.0+0.0)x227.62207, direction TLT
 .\glue(\rightskip) 0.0
+LaTeX Info: Redefining \rmfamily on input line ....
 Underfull \hbox (badness 10000) in paragraph at lines 13--19
 \hbox(0.0+0.0)x227.62207, direction TLT
 .\glue(\rightskip) 0.0
@@ -204,6 +206,7 @@ Completed box being shipped out [1]
 ...\glue 0.0 plus 0.0001fil
 ..\glue(\baselineskip) 30.0
 ..\hbox(0.0+0.0)x227.62207, direction TLT
+LaTeX Info: Redefining \rmfamily on input line ....
 .................................................
 . fontspec info: "defining-font"
 . 
@@ -214,15 +217,16 @@ Completed box being shipped out [1]
 .  This font family consists of the following NFSS series/shapes:
 .  
 . - 'normal' (m/n) with NFSS spec.:
-. <->"file:texgyretermes-regular.otf:mode=node;script=latn;language=DFLT;+tlig;color=AA00AAFF
+. <->"[texgyretermes-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;color=AA00AAFF
 . ;"
 . - 'small caps'  (m/sc) with NFSS spec.:
-. <->"file:texgyretermes-regular.otf:mode=node;script=latn;language=DFLT;+tlig;+smcp;color=AA00AAFF
+. <->"[texgyretermes-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;+smcp;color=AA00AAFF
 . ;"
 .................................................
 Underfull \hbox (badness 10000) in paragraph at lines 24--27
 \hbox(0.0+0.0)x227.62207, direction TLT
 .\glue(\rightskip) 0.0
+LaTeX Info: Redefining \rmfamily on input line ....
 .................................................
 . fontspec info: "defining-font"
 . 
@@ -233,10 +237,10 @@ Underfull \hbox (badness 10000) in paragraph at lines 24--27
 .  This font family consists of the following NFSS series/shapes:
 .  
 . - 'normal' (m/n) with NFSS spec.:
-. <->"file:texgyretermes-regular.otf:mode=node;script=latn;language=DFLT;+tlig;color=AA00AAFF
+. <->"[texgyretermes-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;color=AA00AAFF
 . ;"
 . - 'small caps'  (m/sc) with NFSS spec.:
-. <->"file:texgyretermes-regular.otf:mode=node;script=latn;language=DFLT;+tlig;+smcp;color=AA00AAFF
+. <->"[texgyretermes-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;+smcp;color=AA00AAFF
 . ;"
 .................................................
 Underfull \hbox (badness 10000) in paragraph at lines 29--35

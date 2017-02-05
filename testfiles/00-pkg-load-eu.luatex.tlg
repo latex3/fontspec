@@ -2,23 +2,25 @@ This is a generated file for the l3build validation system.
 Don't change this file in any respect.
 (fontspec.sty
 ontspec-luatex.sty
-\l__fontspec_script_int=\count118
-\l__fontspec_language_int=\count119
-\l__fontspec_strnum_int=\count120
-\l__fontspec_tmp_int=\count121
-\l__fontspec_em_int=\count122
-\l__fontspec_emdef_int=\count123
+\l__fontspec_script_int=\count121
+\l__fontspec_language_int=\count122
+\l__fontspec_strnum_int=\count123
+\l__fontspec_tmp_int=\count124
+\l__fontspec_em_int=\count125
+\l__fontspec_emdef_int=\count126
+\l__fontspec_strong_int=\count127
+\l__fontspec_strongdef_int=\count128
 \l__fontspec_tmpa_dim=\dimen142
 \l__fontspec_tmpb_dim=\dimen143
 \l__fontspec_tmpc_dim=\dimen144
 (/usr/local/texlive/2016/texmf-dist/tex/latex/base/fontenc.sty (/usr/local/texl
 ive/2016/texmf-dist/tex/latex/euenc/eu2enc.def) (/usr/local/texlive/2016/texmf-
 dist/tex/latex/euenc/eu2lmr.fd)
-luaotfload | db : Font names database loaded from /Users/will/Library/texlive/2016/texmf-var/luatex-cache/generic/names/luaotfload-names.luc(compiling luc: /usr/local/texlive/2016/texmf-var/luatex-cache/generic/fonts/otl/lmroman10-regular.luc)(load luc: /Users/will/Library/texlive/2016/texmf-var/luatex-cache/generic/fonts/otl/lmroman10-regular.luc))
+luaotfload | db : Font names database loaded from /Users/will/Library/texlive/2016/texmf-var/luatex-cache/generic/names/luaotfload-names.luc(load luc: /Users/will/Library/texlive/2016/texmf-var/luatex-cache/generic/fonts/otl/lmroman10-regular.luc))
 (/usr/local/texlive/2016/texmf-dist/tex/xelatex/xunicode/xunicode.sty (/usr/loc
-al/texlive/2016/texmf-dist/tex/latex/tipa/t3enc.def(compiling luc: /usr/local/texlive/2016/texmf-var/luatex-cache/generic/fonts/otl/lmromanslant10-regular.luc)(load luc: /Users/will/Library/texlive/2016/texmf-var/luatex-cache/generic/fonts/otl/lmromanslant10-regular.luc)(compiling luc: /usr/local/texlive/2016/texmf-var/luatex-cache/generic/fonts/otl/lmroman10-italic.luc)(load luc: /Users/will/Library/texlive/2016/texmf-var/luatex-cache/generic/fonts/otl/lmroman10-italic.luc)(compiling luc: /usr/local/texlive/2016/texmf-var/luatex-cache/generic/fonts/otl/lmroman10-bold.luc)(load luc: /Users/will/Library/texlive/2016/texmf-var/luatex-cache/generic/fonts/otl/lmroman10-bold.luc) (/usr/local/texlive/2016/texmf-dist
-/tex/latex/euenc/eu2lmss.fd)(compiling luc: /usr/local/texlive/2016/texmf-var/luatex-cache/generic/fonts/otl/lmsans10-regular.luc)(load luc: /Users/will/Library/texlive/2016/texmf-var/luatex-cache/generic/fonts/otl/lmsans10-regular.luc))
-\tipaTiiicode=\count124
+al/texlive/2016/texmf-dist/tex/latex/tipa/t3enc.def(load luc: /Users/will/Library/texlive/2016/texmf-var/luatex-cache/generic/fonts/otl/lmromanslant10-regular.luc)(load luc: /Users/will/Library/texlive/2016/texmf-var/luatex-cache/generic/fonts/otl/lmroman10-italic.luc)(load luc: /Users/will/Library/texlive/2016/texmf-var/luatex-cache/generic/fonts/otl/lmroman10-bold.luc) (/usr/local/texlive/2016/
+texmf-dist/tex/latex/euenc/eu2lmss.fd)(load luc: /Users/will/Library/texlive/2016/texmf-var/luatex-cache/generic/fonts/otl/lmsans10-regular.luc))
+\tipaTiiicode=\count129
 \tipasavetokens=\toks16
 \tipachecktokens=\toks17
 (/usr/local/texlive/2016/texmf-dist/tex/latex/graphics/graphicx.sty (/usr/local
@@ -28,7 +30,7 @@ tex/latex/graphics-cfg/graphics.cfg) (/usr/local/texlive/2016/texmf-dist/tex/lu
 alatex/luatex-def/luatex.def (/usr/local/texlive/2016/texmf-dist/tex/generic/ob
 erdiek/infwarerr.sty) (/usr/local/texlive/2016/texmf-dist/tex/generic/oberdiek/
 ltxcmds.sty)
-\Gread@gobject=\count125
+\Gread@gobject=\count130
 ))
 \Gin@req@height=\dimen145
 \Gin@req@width=\dimen146
@@ -192,7 +194,7 @@ ltxcmds.sty)
 ))
 \g__file_internal_ior=\read1
 (../texgyrepagella-regular.luc
-\g__fontspec_family_texgyrepagella-regular.otf_int=\count126
+\g__fontspec_family_texgyrepagella-regular.otf_int=\count131
 .................................................
 . fontspec info: "defining-font"
 . 
@@ -202,9 +204,9 @@ ltxcmds.sty)
 .  This font family consists of the following NFSS series/shapes:
 .  
 . - 'normal' (m/n) with NFSS spec.:
-. <->"file:texgyrepagella-regular.otf:mode=node;script=latn;language=DFLT;+tlig;"
+. <->"[texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;"
 . - 'small caps'  (m/sc) with NFSS spec.:
-. <->"file:texgyrepagella-regular.otf:mode=node;script=latn;language=DFLT;+tlig;+smcp;"
+. <->"[texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;+smcp;"
 .................................................
 No file .aux.
 (../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting*geometry* detected driver: pdftex(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting*geometry* detected driver: pdftex*geometry* verbose mode - [ preamble ] result:(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting*geometry* detected driver: pdftex(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting*geometry* detected driver: pdftex*geometry* verbose mode - [ preamble ] result:* driver: pdftex(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting*geometry* detected driver: pdftex(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting*geometry* detected driver: pdftex*geometry* verbose mode - [ preamble ] result:(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting*geometry* detected driver: pdftex(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting*geometry* detected driver: pdftex*geometry* verbose mode - [ preamble ] result:* driver: pdftex* paper: custom(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting*geometry* detected driver: pdftex(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting*geometry* detected driver: pdftex*geometry* verbose mode - [ preamble ] result:(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting*geometry* detected driver: pdftex(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting*geometry* detected driver: pdftex*geometry* verbose mode - [ preamble ] result:* driver: pdftex(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting*geometry* detected driver: pdftex(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting*geometry* detected driver: pdftex*geometry* verbose mode - [ preamble ] result:(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting*geometry* detected driver: pdftex(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting*geometry* detected driver: pdftex*geometry* verbose mode - [ preamble ] result:* driver: pdftex* paper: custom* layout: <same size as paper>(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting*geometry* detected driver: pdftex(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting*geometry* detected driver: pdftex*geometry* verbose mode - [ preamble ] result:(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting*geometry* detected driver: pdftex(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting*geometry* detected driver: pdftex*geometry* verbose mode - [ preamble ] result:* driver: pdftex(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting*geometry* detected driver: pdftex(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting*geometry* detected driver: pdftex*geometry* verbose mode - [ preamble ] result:(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting*geometry* detected driver: pdftex(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting*geometry* detected driver: pdftex*geometry* verbose mode - [ preamble ] result:* driver: pdftex* paper: custom(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting*geometry* detected driver: pdftex(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting*geometry* detected driver: pdftex*geometry* verbose mode - [ preamble ] result:(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting*geometry* detected driver: pdftex(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting*geometry* detected driver: pdftex*geometry* verbose mode - [ preamble ] result:* driver: pdftex(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting*geometry* detected driver: pdftex(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting*geometry* detected driver: pdftex*geometry* verbose mode - [ preamble ] result:(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting*geometry* detected driver: pdftex(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting*geometry* detected driver: pdftex*geometry* verbose mode - [ preamble ] result:* driver: pdftex* paper: custom* layout: <same size as paper>* layoutoffset:(h,v)=(0.0pt,0.0pt)

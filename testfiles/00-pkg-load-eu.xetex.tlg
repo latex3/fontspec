@@ -8,6 +8,8 @@ Don't change this file in any respect.
 \l__fontspec_tmp_int=\count120
 \l__fontspec_em_int=\count121
 \l__fontspec_emdef_int=\count122
+\l__fontspec_strong_int=\count123
+\l__fontspec_strongdef_int=\count124
 \l__fontspec_tmpa_dim=\dimen142
 \l__fontspec_tmpb_dim=\dimen143
 \l__fontspec_tmpc_dim=\dimen144
@@ -18,7 +20,7 @@ LaTeX Font Info:    Try loading font information for EU1+lmr on input line ....
 (../xunicode.sty
 (../t3enc.def
 LaTeX Font Info:    Try loading font information for EU1+lmss on input line ....
-\tipaTiiicode=\count123
+\tipaTiiicode=\count125
 \tipasavetokens=\toks16
 \tipachecktokens=\toks17
 (../graphicx.sty
@@ -201,7 +203,7 @@ LaTeX Info: Redefining \- on input line ....
 .................................................
 ))
 \g__file_internal_ior=\read1
-\g__fontspec_family_texgyrepagella-regular.otf_int=\count124
+\g__fontspec_family_texgyrepagella-regular.otf_int=\count126
 .................................................
 . fontspec info: "defining-font"
 . 

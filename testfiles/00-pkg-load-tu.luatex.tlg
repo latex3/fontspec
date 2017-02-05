@@ -2,12 +2,14 @@ This is a generated file for the l3build validation system.
 Don't change this file in any respect.
 (fontspec.sty
 ontspec-luatex.sty
-\l__fontspec_script_int=\count118
-\l__fontspec_language_int=\count119
-\l__fontspec_strnum_int=\count120
-\l__fontspec_tmp_int=\count121
-\l__fontspec_em_int=\count122
-\l__fontspec_emdef_int=\count123
+\l__fontspec_script_int=\count121
+\l__fontspec_language_int=\count122
+\l__fontspec_strnum_int=\count123
+\l__fontspec_tmp_int=\count124
+\l__fontspec_em_int=\count125
+\l__fontspec_emdef_int=\count126
+\l__fontspec_strong_int=\count127
+\l__fontspec_strongdef_int=\count128
 \l__fontspec_tmpa_dim=\dimen142
 \l__fontspec_tmpb_dim=\dimen143
 \l__fontspec_tmpc_dim=\dimen144
@@ -23,7 +25,7 @@ ontspec-luatex.sty
 /tulmr.fd)
 LaTeX Font Warning: Font shape `TU/cmr/m/n' undefined
 (Font)              using `TU/lmr/m/n' instead on input line ....
-luaotfload | db : Font names database loaded from /Users/will/Library/texlive/2016/texmf-var/luatex-cache/generic/names/luaotfload-names.luc(compiling luc: /usr/local/texlive/2016/texmf-var/luatex-cache/generic/fonts/otl/lmroman10-regular.luc)(load luc: /Users/will/Library/texlive/2016/texmf-var/luatex-cache/generic/fonts/otl/lmroman10-regular.luc))
+luaotfload | db : Font names database loaded from /Users/will/Library/texlive/2016/texmf-var/luatex-cache/generic/names/luaotfload-names.luc(load luc: /Users/will/Library/texlive/2016/texmf-var/luatex-cache/generic/fonts/otl/lmroman10-regular.luc))
 .................................................
 . LaTeX info: "xparse/define-command"
 . 
@@ -169,7 +171,7 @@ luaotfload | db : Font names database loaded from /Users/will/Library/texlive/20
 . 
 . Defining command \UndeclareComposite with sig. 'mm' on line ....
 .................................................
- (../lmroman10-italic.luc
+ (../lmroman10-bold.luc
 .................................................
 . LaTeX info: "xparse/redefine-command"
 . 
@@ -181,7 +183,7 @@ luaotfload | db : Font names database loaded from /Users/will/Library/texlive/20
 . Defining command \liningnums with sig. 'm' on line ....
 .................................................
 ))(../texgyrepagella-regular.luc
-\g__fontspec_family_texgyrepagella-regular.otf_int=\count124
+\g__fontspec_family_texgyrepagella-regular.otf_int=\count129
 .................................................
 . fontspec info: "defining-font"
 . 
@@ -191,9 +193,9 @@ luaotfload | db : Font names database loaded from /Users/will/Library/texlive/20
 .  This font family consists of the following NFSS series/shapes:
 .  
 . - 'normal' (m/n) with NFSS spec.:
-. <->"file:texgyrepagella-regular.otf:mode=node;script=latn;language=DFLT;+tlig;"
+. <->"[texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;"
 . - 'small caps'  (m/sc) with NFSS spec.:
-. <->"file:texgyrepagella-regular.otf:mode=node;script=latn;language=DFLT;+tlig;+smcp;"
+. <->"[texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;+smcp;"
 .................................................
 No file .aux.
 *geometry* driver: auto-detecting

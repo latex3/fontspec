@@ -2,12 +2,14 @@ This is a generated file for the l3build validation system.
 Don't change this file in any respect.
 (fontspec.sty
 ontspec-luatex.sty
-\l__fontspec_script_int=\count118
-\l__fontspec_language_int=\count119
-\l__fontspec_strnum_int=\count120
-\l__fontspec_tmp_int=\count121
-\l__fontspec_em_int=\count122
-\l__fontspec_emdef_int=\count123
+\l__fontspec_script_int=\count121
+\l__fontspec_language_int=\count122
+\l__fontspec_strnum_int=\count123
+\l__fontspec_tmp_int=\count124
+\l__fontspec_em_int=\count125
+\l__fontspec_emdef_int=\count126
+\l__fontspec_strong_int=\count127
+\l__fontspec_strongdef_int=\count128
 \l__fontspec_tmpa_dim=\dimen142
 \l__fontspec_tmpb_dim=\dimen143
 \l__fontspec_tmpc_dim=\dimen144
@@ -23,7 +25,7 @@ ontspec-luatex.sty
 /tulmr.fd)
 LaTeX Font Warning: Font shape `TU/cmr/m/n' undefined
 (Font)              using `TU/lmr/m/n' instead on input line ....
-luaotfload | db : Font names database loaded from /Users/will/Library/texlive/2016/texmf-var/luatex-cache/generic/names/luaotfload-names.luc(compiling luc: /usr/local/texlive/2016/texmf-var/luatex-cache/generic/fonts/otl/lmroman10-regular.luc)(load luc: /Users/will/Library/texlive/2016/texmf-var/luatex-cache/generic/fonts/otl/lmroman10-regular.luc))
+(load luc: /Users/will/Library/texlive/2016/texmf-var/luatex-cache/generic/fonts/otl/lmroman10-regular.luc))
 .................................................
 . LaTeX info: "xparse/define-command"
 . 
@@ -169,7 +171,7 @@ luaotfload | db : Font names database loaded from /Users/will/Library/texlive/20
 . 
 . Defining command \UndeclareComposite with sig. 'mm' on line ....
 .................................................
- (../lmroman10-italic.luc
+ (../lmroman10-bold.luc
 .................................................
 . LaTeX info: "xparse/redefine-command"
 . 
@@ -186,9 +188,9 @@ cal/texlive/2016/texmf-dist/tex/latex/ucharcat/ucharcat.sty
 \ucharcat@table=\catcodetable6
 )
 (../filehook.sty
-\g__um_fam_int=\count124
+\g__um_fam_int=\count129
 \g__um_primekern_muskip=\muskip16
-\l__um_primecount_int=\count125
+\l__um_primecount_int=\count130
 .................................................
 . LaTeX info: "xparse/define-command"
 . 
@@ -198,7 +200,7 @@ cal/texlive/2016/texmf-dist/tex/latex/ucharcat/ucharcat.sty
 sty
 (../lualatex-math.st
 y (../etoolbox.sty
-\etb@tempcnta=\count126
+\etb@tempcnta=\count131
 )
 .................................................
 . LaTeX info: "xparse/define-command"
@@ -227,7 +229,7 @@ y (../etoolbox.sty
 .................................................
 (../unicode-math-table.t
 ex)))(../texgyrepagella-regular.luc
-\g__fontspec_family_texgyrepagella-regular.otf_int=\count127
+\g__fontspec_family_texgyrepagella-regular.otf_int=\count132
 .................................................
 . fontspec info: "defining-font"
 . 
@@ -237,14 +239,12 @@ ex)))(../texgyrepagella-regular.luc
 .  This font family consists of the following NFSS series/shapes:
 .  
 . - 'normal' (m/n) with NFSS spec.:
-. <->"file:texgyrepagella-regular.otf:mode=node;script=latn;language=DFLT;+tlig;"
+. <->"[texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;"
 . - 'small caps'  (m/sc) with NFSS spec.:
-. <->"file:texgyrepagella-regular.otf:mode=node;script=latn;language=DFLT;+tlig;+smcp;"
+. <->"[texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;+smcp;"
 .................................................
 (../texgyrepagella-math.luc
-\g__fontspec_family_texgyrepagella-math.otf_int=\count128
-luaotfload | aux : font no 20 (<unknown>) does not define feature smcp for script math with language dflt
-luaotfload | aux : no font with id 20
+\g__fontspec_family_texgyrepagella-math.otf_int=\count133
 .................................................
 . fontspec info: "defining-font"
 . 
@@ -255,11 +255,9 @@ luaotfload | aux : no font with id 20
 .  This font family consists of the following NFSS series/shapes:
 .  
 . - 'normal' (m/n) with NFSS spec.:
-. <10->"file:texgyrepagella-math.otf:mode=base;script=math;language=DFLT;"<7-10>"file:texgyrepagella-math.otf:mode=base;script=math;language=DFLT;+ssty=0;"<-7>"file:texgyrepagella-math.otf:mode=base;script=math;language=DFLT;+ssty=1;"
+. <10->"[texgyrepagella-math.otf]:mode=base;script=math;language=DFLT;"<7-10>"[texgyrepagella-math.otf]:mode=base;script=math;language=DFLT;+ssty=0;"<-7>"[texgyrepagella-math.otf]:mode=base;script=math;language=DFLT;+ssty=1;"
 . - 'small caps'  (m/sc) with NFSS spec.: 
 .................................................
-luaotfload | aux : font no 20 (<unknown>) does not define feature smcp for script math with language dflt
-luaotfload | aux : no font with id 20
 .................................................
 . fontspec info: "defining-font"
 . 
@@ -278,7 +276,7 @@ luaotfload | aux : no font with id 20
 .  This font family consists of the following NFSS series/shapes:
 .  
 . - 'normal' (m/n) with NFSS spec.:
-. <10->s*[1.00001]"file:texgyrepagella-math.otf:mode=base;script=math;language=DFLT;"<7-10>s*[1.00001]"file:texgyrepagella-math.otf:mode=base;script=math;language=DFLT;+ssty=0;"<-7>s*[1.00001]"file:texgyrepagella-math.otf:mode=base;script=math;language=DFLT;+ssty=1;"
+. <10->s*[1.00001]"[texgyrepagella-math.otf]:mode=base;script=math;language=DFLT;"<7-10>s*[1.00001]"[texgyrepagella-math.otf]:mode=base;script=math;language=DFLT;+ssty=0;"<-7>s*[1.00001]"[texgyrepagella-math.otf]:mode=base;script=math;language=DFLT;+ssty=1;"
 . - 'small caps'  (m/sc) with NFSS spec.: 
 . and font adjustment code:
 . \fontdimen 8\font =471859.2sp\relax \fontdimen 9\font =307363.84sp\relax
@@ -290,8 +288,6 @@ luaotfload | aux : no font with id 20
 . \fontdimen 20\font =0pt\relax \fontdimen 21\font =0pt\relax \fontdimen
 . 22\font =163840sp\relax 
 .................................................
-luaotfload | aux : font no 20 (<unknown>) does not define feature smcp for script math with language dflt
-luaotfload | aux : no font with id 20
 .................................................
 . fontspec info: "defining-font"
 . 
@@ -305,7 +301,7 @@ luaotfload | aux : no font with id 20
 .  This font family consists of the following NFSS series/shapes:
 .  
 . - 'normal' (m/n) with NFSS spec.:
-. <10->s*[0.99999]"file:texgyrepagella-math.otf:mode=base;script=math;language=DFLT;"<7-10>s*[0.99999]"file:texgyrepagella-math.otf:mode=base;script=math;language=DFLT;+ssty=0;"<-7>s*[0.99999]"file:texgyrepagella-math.otf:mode=base;script=math;language=DFLT;+ssty=1;"
+. <10->s*[0.99999]"[texgyrepagella-math.otf]:mode=base;script=math;language=DFLT;"<7-10>s*[0.99999]"[texgyrepagella-math.otf]:mode=base;script=math;language=DFLT;+ssty=0;"<-7>s*[0.99999]"[texgyrepagella-math.otf]:mode=base;script=math;language=DFLT;+ssty=1;"
 . - 'small caps'  (m/sc) with NFSS spec.: 
 . and font adjustment code:
 . \fontdimen 8\font =39321.6sp\relax \fontdimen 9\font =78643.2sp\relax

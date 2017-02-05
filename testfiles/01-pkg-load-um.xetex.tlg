@@ -8,6 +8,8 @@ Don't change this file in any respect.
 \l__fontspec_tmp_int=\count120
 \l__fontspec_em_int=\count121
 \l__fontspec_emdef_int=\count122
+\l__fontspec_strong_int=\count123
+\l__fontspec_strongdef_int=\count124
 \l__fontspec_tmpa_dim=\dimen142
 \l__fontspec_tmpb_dim=\dimen143
 \l__fontspec_tmpc_dim=\dimen144
@@ -205,9 +207,9 @@ Package ifluatex Info: LuaTeX not detected.
 ))
 (../filehook.sty
 )
-\g__um_fam_int=\count123
+\g__um_fam_int=\count125
 \g__um_primekern_muskip=\muskip16
-\l__um_primecount_int=\count124
+\l__um_primecount_int=\count126
 .................................................
 . LaTeX info: "xparse/define-command"
 . 
@@ -240,7 +242,7 @@ Package ifluatex Info: LuaTeX not detected.
 . Defining command \removenolimits with sig. 'm' on line ....
 .................................................
 (/usr/local/texlive/2016/texmf-dist/tex/latex/unicode-math/unicode-math-table.tex)))
-\g__fontspec_family_texgyrepagella-regular.otf_int=\count125
+\g__fontspec_family_texgyrepagella-regular.otf_int=\count127
 .................................................
 . fontspec info: "defining-font"
 . 
@@ -255,7 +257,7 @@ Package ifluatex Info: LuaTeX not detected.
 . <->"[texgyrepagella-regular.otf]/OT:script=latn;language=DFLT;mapping=tex-text;+smcp;"
 .................................................
 LaTeX Info: Redefining \rmfamily on input line ....
-\g__fontspec_family_texgyrepagella-math.otf_int=\count126
+\g__fontspec_family_texgyrepagella-math.otf_int=\count128
 .................................................
 . fontspec info: "defining-font"
 . 

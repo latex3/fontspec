@@ -9,10 +9,10 @@ Completed box being shipped out [1]
 ...\hbox(0.0+0.0)x227.62207
 ..\glue 25.0
 ..\glue(\lineskip) 0.0
-..\vbox(142.2638+0.0)x227.62207, glue set 96.05356fil
+..\vbox(142.2638+0.0)x227.62207, glue set 108.05228fil
 ...\write-{}
 ...\glue(\topskip) 2.67
-...\hbox(7.33+0.19998)x227.62207, glue set 56.73206fil
+...\hbox(7.33+0.19998)x227.62207, glue set 58.98206fil
 ....\hbox(0.0+0.0)x15.0
 ....\TU/texgyrepagella(0)/m/n/10 hello
 ....\glue 2.5 plus 1.25 minus 0.83333
@@ -22,34 +22,18 @@ Completed box being shipped out [1]
 ....\TU/texgyrepagella(0)/m/sc/10 hello
 ....\glue 2.5 plus 1.25 minus 0.83333
 ....\TU/texgyrepagella(0)/m/itsc/10 hello
-....\glue 2.5 plus 1.25 minus 0.83333
-....\TU/texgyrepagella(0)/bx/itsc/10 hello
 ....\kern 0.0
 ....\glue 2.5 plus 1.25 minus 0.83333
-....\TU/texgyrepagella(0)/bx/sc/10 hello
+....\TU/texgyrepagella(0)/m/sc/10 hello
+....\glue 2.5 plus 1.25 minus 0.83333
+....\TU/texgyrepagella(0)/m/itsc/10 hello
 ....\kern 0.0
 ....\penalty 10000
 ....\glue(\parfillskip) 0.0 plus 1.0fil
 ....\glue(\rightskip) 0.0
 ...\glue(\parskip) 0.0 plus 1.0
 ...\glue(\baselineskip) 4.47002
-...\hbox(7.33+0.19998)x227.62207, glue set 85.73206fil
-....\hbox(0.0+0.0)x15.0
-....\TU/texgyrepagella(0)/m/n/10 hello
-....\glue 2.5 plus 1.25 minus 0.83333
-....\TU/texgyrepagella(0)/m/it/10 hello
-....\glue 2.5 plus 1.25 minus 0.83333
-....\TU/texgyrepagella(0)/m/sc/10 hello
-....\glue 2.5 plus 1.25 minus 0.83333
-....\TU/texgyrepagella(0)/m/itsc/10 hello
-....\glue 2.5 plus 1.25 minus 0.83333
-....\TU/texgyrepagella(0)/bx/itsc/10 hello
-....\penalty 10000
-....\glue(\parfillskip) 0.0 plus 1.0fil
-....\glue(\rightskip) 0.0
-...\glue(\parskip) 0.0 plus 1.0
-...\glue(\baselineskip) 4.47002
-...\hbox(7.33+0.19998)x227.62207, glue set 85.73206fil
+...\hbox(7.33+0.19998)x227.62207, glue set 86.33206fil
 ....\hbox(0.0+0.0)x15.0
 ....\TU/texgyrepagella(0)/m/n/10 hello
 ....\glue 2.5 plus 1.25 minus 0.83333
@@ -59,8 +43,9 @@ Completed box being shipped out [1]
 ....\TU/texgyrepagella(0)/m/sc/10 hello
 ....\glue 2.5 plus 1.25 minus 0.83333
 ....\TU/texgyrepagella(0)/m/itsc/10 hello
+....\kern 0.0
 ....\glue 2.5 plus 1.25 minus 0.83333
-....\TU/texgyrepagella(0)/bx/itsc/10 hello
+....\TU/texgyrepagella(0)/m/sc/10 hello
 ....\kern 0.0
 ....\penalty 10000
 ....\glue(\parfillskip) 0.0 plus 1.0fil
@@ -82,6 +67,82 @@ Completed box being shipped out [1]
 ....\TU/texgyrepagella(0)/m/n/10 hello
 ....\glue 2.5 plus 1.25 minus 0.83333
 ....\TU/texgyrepagella(0)/m/it/10 hello
+....\kern 0.0
+....\penalty 10000
+....\glue(\parfillskip) 0.0 plus 1.0fil
+....\glue(\rightskip) 0.0
+...\glue 0.0 plus 1.0fil
+...\glue 0.0
+...\glue 0.0 plus 0.0001fil
+..\glue(\baselineskip) 30.0
+..\hbox(0.0+0.0)x227.62207
+Completed box being shipped out [2]
+\vbox(114.22017+0.0)x169.57845
+.\glue -95.04362
+.\vbox(209.2638+0.0)x227.62207, shifted -58.04362
+..\vbox(12.0+0.0)x227.62207, glue set 12.0fil
+...\glue 0.0 plus 1.0fil
+...\hbox(0.0+0.0)x227.62207
+..\glue 25.0
+..\glue(\lineskip) 0.0
+..\vbox(142.2638+0.0)x227.62207, glue set 108.08226fil
+...\write-{}
+...\glue(\topskip) 2.74
+...\hbox(7.26+0.16998)x227.62207, glue set 49.71205fil
+....\hbox(0.0+0.0)x15.0
+....\TU/texgyrepagella(0)/bx/n/10 hello
+....\glue 2.5 plus 1.25 minus 0.83333
+....\TU/texgyrepagella(0)/bx/it/10 hello
+....\kern 0.0
+....\glue 2.5 plus 1.25 minus 0.83333
+....\TU/texgyrepagella(0)/bx/sc/10 hello
+....\glue 2.5 plus 1.25 minus 0.83333
+....\TU/texgyrepagella(0)/bx/itsc/10 hello
+....\kern 0.0
+....\glue 2.5 plus 1.25 minus 0.83333
+....\TU/texgyrepagella(0)/bx/sc/10 hello
+....\glue 2.5 plus 1.25 minus 0.83333
+....\TU/texgyrepagella(0)/bx/itsc/10 hello
+....\kern 0.0
+....\penalty 10000
+....\glue(\parfillskip) 0.0 plus 1.0fil
+....\glue(\rightskip) 0.0
+...\glue(\parskip) 0.0 plus 1.0
+...\glue(\baselineskip) 4.57002
+...\hbox(7.26+0.16998)x227.62207, glue set 78.14206fil
+....\hbox(0.0+0.0)x15.0
+....\TU/texgyrepagella(0)/bx/n/10 hello
+....\glue 2.5 plus 1.25 minus 0.83333
+....\TU/texgyrepagella(0)/bx/it/10 hello
+....\kern 0.0
+....\glue 2.5 plus 1.25 minus 0.83333
+....\TU/texgyrepagella(0)/bx/sc/10 hello
+....\glue 2.5 plus 1.25 minus 0.83333
+....\TU/texgyrepagella(0)/bx/itsc/10 hello
+....\kern 0.0
+....\glue 2.5 plus 1.25 minus 0.83333
+....\TU/texgyrepagella(0)/bx/sc/10 hello
+....\kern 0.0
+....\penalty 10000
+....\glue(\parfillskip) 0.0 plus 1.0fil
+....\glue(\rightskip) 0.0
+...\glue(\parskip) 0.0 plus 1.0
+...\glue(\baselineskip) 4.57002
+...\hbox(7.26+0.16998)x227.62207, glue set 63.47206fil
+....\hbox(0.0+0.0)x15.0
+....\TU/texgyrepagella(0)/bx/n/10 hello
+....\glue 2.5 plus 1.25 minus 0.83333
+....\TU/texgyrepagella(0)/bx/it/10 hello
+....\kern 0.0
+....\glue 2.5 plus 1.25 minus 0.83333
+....\TU/texgyrepagella(0)/bx/n/10 hello
+....\glue 2.5 plus 1.25 minus 0.83333
+....\TU/texgyrepagella(0)/bx/it/10 hello
+....\kern 0.0
+....\glue 2.5 plus 1.25 minus 0.83333
+....\TU/texgyrepagella(0)/bx/n/10 hello
+....\glue 2.5 plus 1.25 minus 0.83333
+....\TU/texgyrepagella(0)/bx/it/10 hello
 ....\kern 0.0
 ....\penalty 10000
 ....\glue(\parfillskip) 0.0 plus 1.0fil

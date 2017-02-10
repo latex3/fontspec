@@ -7,19 +7,32 @@
   BoldFont    = *-bold    ,
   BoldItalicFont = *-bolditalic ,
 ]
-\emfontdeclare{ \itshape , \upshape\scshape , \itshape , \bfseries }
 \begin{document}
 
 \begin{fstest}
+\emfontdeclare{ \itshape , \upshape\scshape , \itshape }
 hello \emph{hello \emph{hello \emph{hello \emph{hello \emph{hello}}}}}
-
-\normalfont
-hello \itshape hello \upshape\scshape hello \itshape hello \bfseries hello
 
 \normalfont
 hello \itshape hello \emph{hello \emph{hello \emph{hello}}}
 
 \normalfont
+\emfontdeclare{\itshape}
+hello \emph{hello \emph{hello \emph{hello \emph{hello \emph{hello}}}}}
+
+\end{fstest}
+
+\begin{fstest}
+\emfontdeclare{ \itshape , \upshape\scshape , \itshape }
+\bfseries
+hello \emph{hello \emph{hello \emph{hello \emph{hello \emph{hello}}}}}
+
+\normalfont
+\bfseries
+hello \itshape hello \emph{hello \emph{hello \emph{hello}}}
+
+\normalfont
+\bfseries
 \emfontdeclare{\itshape}
 hello \emph{hello \emph{hello \emph{hello \emph{hello \emph{hello}}}}}
 

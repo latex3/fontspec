@@ -2,35 +2,41 @@ This is a generated file for the l3build validation system.
 Don't change this file in any respect.
 (fontspec.sty
 ontspec-luatex.sty
-\l__fontspec_script_int=\count121
-\l__fontspec_language_int=\count122
-\l__fontspec_strnum_int=\count123
-\l__fontspec_tmp_int=\count124
-\l__fontspec_em_int=\count125
-\l__fontspec_emdef_int=\count126
-\l__fontspec_strong_int=\count127
-\l__fontspec_strongdef_int=\count128
+\l__fontspec_script_int=\count148
+\l__fontspec_language_int=\count149
+\l__fontspec_strnum_int=\count150
+\l__fontspec_tmp_int=\count151
+\l__fontspec_em_int=\count152
+\l__fontspec_emdef_int=\count153
+\l__fontspec_strong_int=\count154
+\l__fontspec_strongdef_int=\count155
 \l__fontspec_tmpa_dim=\dimen142
 \l__fontspec_tmpb_dim=\dimen143
 \l__fontspec_tmpc_dim=\dimen144
-(/usr/local/texlive/2016/texmf-dist/tex/latex/base/fontenc.sty (/usr/local/texl
-ive/2016/texmf-dist/tex/latex/euenc/eu2enc.def) (/usr/local/texlive/2016/texmf-
-dist/tex/latex/euenc/eu2lmr.fd)
-luaotfload | db : Font names database loaded from /Users/will/Library/texlive/2016/texmf-var/luatex-cache/generic/names/luaotfload-names.luc(load luc: /Users/will/Library/texlive/2016/texmf-var/luatex-cache/generic/fonts/otl/lmroman10-regular.luc))
-(/usr/local/texlive/2016/texmf-dist/tex/xelatex/xunicode/xunicode.sty (/usr/loc
-al/texlive/2016/texmf-dist/tex/latex/tipa/t3enc.def(load luc: /Users/will/Library/texlive/2016/texmf-var/luatex-cache/generic/fonts/otl/lmromanslant10-regular.luc)(load luc: /Users/will/Library/texlive/2016/texmf-var/luatex-cache/generic/fonts/otl/lmroman10-italic.luc)(load luc: /Users/will/Library/texlive/2016/texmf-var/luatex-cache/generic/fonts/otl/lmroman10-bold.luc) (/usr/local/texlive/2016/
-texmf-dist/tex/latex/euenc/eu2lmss.fd)(load luc: /Users/will/Library/texlive/2016/texmf-var/luatex-cache/generic/fonts/otl/lmsans10-regular.luc))
-\tipaTiiicode=\count129
+(../fontenc.sty
+(../eu2enc.def
+)
+LaTeX Font Info:    Try loading font information for EU2+lmr on input line ....
+(../xunicode.sty
+(../t3enc.def
+(../lmroman10-bold.luc
+LaTeX Font Info:    Try loading font information for EU2+lmss on input line ....
+\tipaTiiicode=\count156
 \tipasavetokens=\toks16
 \tipachecktokens=\toks17
-(/usr/local/texlive/2016/texmf-dist/tex/latex/graphics/graphicx.sty (/usr/local
-/texlive/2016/texmf-dist/tex/latex/graphics/graphics.sty (/usr/local/texlive/20
-16/texmf-dist/tex/latex/graphics/trig.sty) (/usr/local/texlive/2016/texmf-dist/
-tex/latex/graphics-cfg/graphics.cfg) (/usr/local/texlive/2016/texmf-dist/tex/lu
-alatex/luatex-def/luatex.def (/usr/local/texlive/2016/texmf-dist/tex/generic/ob
-erdiek/infwarerr.sty) (/usr/local/texlive/2016/texmf-dist/tex/generic/oberdiek/
-ltxcmds.sty)
-\Gread@gobject=\count130
+(../graphicx.sty
+(../graphics.sty
+(../trig.sty
+)
+(../graphics.cfg
+)
+Package graphics Info: Driver file: luatex.def on input line ....
+(../luatex.def
+(../infwarerr.sty
+)
+(../ltxcmds.sty
+)
+\Gread@gobject=\count157
 ))
 \Gin@req@height=\dimen145
 \Gin@req@width=\dimen146
@@ -180,7 +186,14 @@ ltxcmds.sty)
 . 
 . Defining command \UndeclareComposite with sig. 'mm' on line ....
 .................................................
- (fontspec.cfg)
+(fontspec.cfg)
+LaTeX Info: Redefining \itshape on input line ....
+LaTeX Info: Redefining \slshape on input line ....
+LaTeX Info: Redefining \scshape on input line ....
+LaTeX Info: Redefining \upshape on input line ....
+LaTeX Info: Redefining \em on input line ....
+LaTeX Info: Redefining \emph on input line ....
+LaTeX Info: Redefining \- on input line ....
 .................................................
 . LaTeX info: "xparse/redefine-command"
 . 
@@ -194,7 +207,7 @@ ltxcmds.sty)
 ))
 \g__file_internal_ior=\read1
 (../texgyrepagella-regular.luc
-\g__fontspec_family_texgyrepagella-regular.otf_int=\count131
+\g__fontspec_family_texgyrepagella-regular.otf_int=\count158
 .................................................
 . fontspec info: "defining-font"
 . 
@@ -208,8 +221,32 @@ ltxcmds.sty)
 . - 'small caps'  (m/sc) with NFSS spec.:
 . <->"[texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;+smcp;"
 .................................................
+LaTeX Info: Redefining \rmfamily on input line ....
 No file .aux.
-(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting*geometry* detected driver: pdftex(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting*geometry* detected driver: pdftex*geometry* verbose mode - [ preamble ] result:(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting*geometry* detected driver: pdftex(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting*geometry* detected driver: pdftex*geometry* verbose mode - [ preamble ] result:* driver: pdftex(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting*geometry* detected driver: pdftex(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting*geometry* detected driver: pdftex*geometry* verbose mode - [ preamble ] result:(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting*geometry* detected driver: pdftex(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting*geometry* detected driver: pdftex*geometry* verbose mode - [ preamble ] result:* driver: pdftex* paper: custom(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting*geometry* detected driver: pdftex(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting*geometry* detected driver: pdftex*geometry* verbose mode - [ preamble ] result:(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting*geometry* detected driver: pdftex(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting*geometry* detected driver: pdftex*geometry* verbose mode - [ preamble ] result:* driver: pdftex(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting*geometry* detected driver: pdftex(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting*geometry* detected driver: pdftex*geometry* verbose mode - [ preamble ] result:(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting*geometry* detected driver: pdftex(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting*geometry* detected driver: pdftex*geometry* verbose mode - [ preamble ] result:* driver: pdftex* paper: custom* layout: <same size as paper>(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting*geometry* detected driver: pdftex(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting*geometry* detected driver: pdftex*geometry* verbose mode - [ preamble ] result:(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting*geometry* detected driver: pdftex(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting*geometry* detected driver: pdftex*geometry* verbose mode - [ preamble ] result:* driver: pdftex(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting*geometry* detected driver: pdftex(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting*geometry* detected driver: pdftex*geometry* verbose mode - [ preamble ] result:(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting*geometry* detected driver: pdftex(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting*geometry* detected driver: pdftex*geometry* verbose mode - [ preamble ] result:* driver: pdftex* paper: custom(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting*geometry* detected driver: pdftex(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting*geometry* detected driver: pdftex*geometry* verbose mode - [ preamble ] result:(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting*geometry* detected driver: pdftex(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting*geometry* detected driver: pdftex*geometry* verbose mode - [ preamble ] result:* driver: pdftex(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting*geometry* detected driver: pdftex(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting*geometry* detected driver: pdftex*geometry* verbose mode - [ preamble ] result:(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting*geometry* detected driver: pdftex(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting(../t3cmr.fd(../t3cmr.fd*geometry* driver: auto-detecting*geometry* detected driver: pdftex*geometry* verbose mode - [ preamble ] result:* driver: pdftex* paper: custom* layout: <same size as paper>* layoutoffset:(h,v)=(0.0pt,0.0pt)
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line ....
+LaTeX Font Info:    ... okay on input line ....
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line ....
+LaTeX Font Info:    ... okay on input line ....
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line ....
+LaTeX Font Info:    ... okay on input line ....
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line ....
+LaTeX Font Info:    ... okay on input line ....
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line ....
+LaTeX Font Info:    ... okay on input line ....
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line ....
+LaTeX Font Info:    ... okay on input line ....
+LaTeX Font Info:    Checking defaults for EU2/lmr/m/n on input line ....
+LaTeX Font Info:    ... okay on input line ....
+LaTeX Font Info:    Checking defaults for T3/cmr/m/n on input line ....
+LaTeX Font Info:    Try loading font information for T3+cmr on input line ....
+LaTeX Font Info:    ... okay on input line ....
+*geometry* driver: auto-detecting
+*geometry* detected driver: pdftex
+*geometry* verbose mode - [ preamble ] result:
+* driver: pdftex
+* paper: custom
+* layout: <same size as paper>
+* layoutoffset:(h,v)=(0.0pt,0.0pt)
 * modes: 
 * h-part:(L,W,R)=(14.22636pt, 227.62207pt, 14.22636pt)
 * v-part:(T,H,B)=(14.22636pt, 142.2638pt, 14.22636pt)

@@ -3,14 +3,14 @@ Don't change this file in any respect.
 (../article.cls
 (../size10.clo
 )
-\c@part=\count112
-\c@section=\count113
-\c@subsection=\count114
-\c@subsubsection=\count115
-\c@paragraph=\count116
-\c@subparagraph=\count117
-\c@figure=\count118
-\c@table=\count119
+\c@part=\count145
+\c@section=\count146
+\c@subsection=\count147
+\c@subsubsection=\count148
+\c@paragraph=\count149
+\c@subparagraph=\count150
+\c@figure=\count151
+\c@table=\count152
 \abovecaptionskip=\skip47
 \belowcaptionskip=\skip48
 \bibindent=\dimen136
@@ -26,9 +26,9 @@ Package ifvtex Info: VTeX not detected.
 )
 (../ifxetex.sty
 )
-\Gm@cnth=\count120
-\Gm@cntv=\count121
-\c@Gm@tempcnt=\count122
+\Gm@cnth=\count153
+\Gm@cntv=\count154
+\c@Gm@tempcnt=\count155
 \Gm@bindingoffset=\dimen137
 \Gm@wd@mp=\dimen138
 \Gm@odd@mp=\dimen139
@@ -40,7 +40,7 @@ Package ifvtex Info: VTeX not detected.
 \Gm@dimlist=\toks15
 )
 \TESTBOX=\box42
-\g__fontspec_family_texgyrepagella-regular.otf_int=\count123
+\g__fontspec_family_texgyrepagella-regular.otf_int=\count156
 .................................................
 . fontspec info: "defining-font"
 . 

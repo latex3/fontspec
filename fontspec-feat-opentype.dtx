@@ -39,7 +39,14 @@
 %    \end{macrocode}
 % Emulate CM extra ligatures.
 %    \begin{macrocode}
-%<xetexx>\@@_define_opentype_onreset:nnnnn {Ligatures} {TeX} {} { mapping = tex-text } {}
+%<*xetexx>
+\keys_define:nn {fontspec}
+  {
+    Ligatures .multichoice: ,
+    Ligatures / TeX .code:n = { \tl_set:Nn \l_@@_mapping_tl {tex-text} },
+    Ligatures / TeXReset .code:n = { \tl_clear:N \l_@@_mapping_tl },
+  }
+%</xetexx>
 %<luatex>\@@_define_opentype_onreset:nnnnn {Ligatures} {TeX} {} { +tlig } {}
 %    \end{macrocode}
 %

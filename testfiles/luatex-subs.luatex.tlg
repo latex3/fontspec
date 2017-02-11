@@ -1,0 +1,75 @@
+This is a generated file for the l3build validation system.
+Don't change this file in any respect.
+(../vollkorn-regular.luc
+\g__fontspec_family_Vollkorn-Regular.otf_int=\count156
+.................................................
+. fontspec info: "defining-font"
+. 
+. Font family 'Vollkorn-Regular.otf(0)' created for font
+. 'Vollkorn-Regular.otf' with options [Ligatures=TeX].
+.  
+.  This font family consists of the following NFSS series/shapes:
+.  
+. - 'normal' (m/n) with NFSS spec.:
+. <->"[Vollkorn-Regular.otf]:mode=node;script=latn;language=DFLT;+tlig;"
+. - 'small caps'  (m/sc) with NFSS spec.: 
+.................................................
+LaTeX Info: Redefining \rmfamily on input line ....
+.................................................
+. fontspec info: "defining-font"
+. 
+. Font family 'Vollkorn-Regular.otf(1)' created for font
+. 'Vollkorn-Regular.otf' with options [Ligatures=TeX,RawFeature=+oneb].
+.  
+.  This font family consists of the following NFSS series/shapes:
+.  
+. - 'normal' (m/n) with NFSS spec.:
+. <->"[Vollkorn-Regular.otf]:mode=node;script=latn;language=DFLT;+tlig;+oneb;"
+. - 'small caps'  (m/sc) with NFSS spec.: 
+.................................................
+LaTeX Info: Redefining \rmfamily on input line ....
+Completed box being shipped out [1]
+\vbox(114.22017+0.0)x169.57845, direction TLT
+.\glue -95.04362
+.\vbox(209.2638+0.0)x227.62207, shifted -58.04362, direction TLT
+..\vbox(12.0+0.0)x227.62207, glue set 12.0fil, direction TLT
+...\glue 0.0 plus 1.0fil
+...\hbox(0.0+0.0)x227.62207, direction TLT
+..\glue 25.0
+..\glue(\lineskip) 0.0
+..\vbox(142.2638+0.0)x227.62207, glue set 120.16096fil, direction TLT
+...\write-{}
+...\glue(\topskip) 4.94
+...\hbox(5.06+0.09)x227.62207, glue set 197.36208fil, direction TLT
+....\localpar
+.....\localinterlinepenalty=0
+.....\localbrokenpenalty=0
+.....\localleftbox=null
+.....\localrightbox=null
+....\hbox(0.0+0.0)x15.0, direction TLT
+....\TU/Vollkorn-Regular.otf(0)/m/n/10 0
+....\TU/Vollkorn-Regular.otf(0)/m/n/10 1
+....\TU/Vollkorn-Regular.otf(0)/m/n/10 2
+....\penalty 10000
+....\glue(\parfillskip) 0.0 plus 1.0fil
+....\glue(\rightskip) 0.0
+...\glue(\parskip) 0.0 plus 1.0
+...\glue(\baselineskip) 6.85
+...\hbox(5.06+0.09)x227.62207, glue set 196.92207fil, direction TLT
+....\localpar
+.....\localinterlinepenalty=0
+.....\localbrokenpenalty=0
+.....\localleftbox=null
+.....\localrightbox=null
+....\hbox(0.0+0.0)x15.0, direction TLT
+....\TU/Vollkorn-Regular.otf(1)/m/n/10 0
+....\TU/Vollkorn-Regular.otf(1)/m/n/10 󰀳
+....\TU/Vollkorn-Regular.otf(1)/m/n/10 2
+....\penalty 10000
+....\glue(\parfillskip) 0.0 plus 1.0fil
+....\glue(\rightskip) 0.0
+...\glue 0.0 plus 1.0fil
+...\glue 0.0
+...\glue 0.0 plus 0.0001fil
+..\glue(\baselineskip) 30.0
+..\hbox(0.0+0.0)x227.62207, direction TLT

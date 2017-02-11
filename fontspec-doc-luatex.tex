@@ -21,13 +21,10 @@ Please refer to the \LuaTeX/\pkg{luaotfload} documentation for more details.
 \directlua{
     fonts.handlers.otf.addfeature {
         name = "oneb",
-        {
-            type = "substitution",
-            data = {
+        type = "substitution",
+        data = {
                 ["1"] = "one.ss01",
-            },
-        },
-        "feature oneb for vollkorn font",
+        }
     }
 }
 \setmainfont{Vollkorn-Regular.otf}[RawFeature=+oneb]

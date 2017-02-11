@@ -1,0 +1,24 @@
+\input{fontspec-testsetup.tex}
+\usepackage{fontspec}
+\begin{document}
+\TIMO
+
+\begin{fstest}
+\directlua{
+    fonts.handlers.otf.addfeature {
+        name = "oneb",
+        type = "substitution",
+        data = {
+                ["1"] = "one.ss01",
+        }
+    }
+}
+
+\setmainfont{Vollkorn-Regular.otf}
+012
+
+\setmainfont{Vollkorn-Regular.otf}[RawFeature=+oneb]
+012
+\end{fstest}
+
+\end{document}

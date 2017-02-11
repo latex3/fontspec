@@ -1,0 +1,37 @@
+\input{fontspec-testsetup.tex}
+\usepackage{fontspec}
+\begin{document}
+
+\begin{fstest}
+\fontspec{Code2000}[Renderer=AAT,Ligatures=Rare] `123--456'
+
+\fontspec{Code2000}[Renderer=AAT,Mapping=tex-text] `123--456'
+
+\fontspec{Code2000}[Renderer=AAT,Mapping=thaidigits] `123--456'
+
+\fontspec{Code2000}[Renderer=AAT,Mapping=tex-text,Mapping=thaidigits] `123--456'
+
+\fontspec{Code2000}[Renderer=AAT,Mapping=thaidigits,Mapping=tex-text] `123--456'
+
+\fontspec{Code2000}[Renderer=AAT,Ligatures=TeX,Mapping=thaidigits] `123--456'
+
+\fontspec{Code2000}[Renderer=AAT,Mapping=thaidigits,Ligatures={TeX,Rare}] `123--456'
+\end{fstest}
+
+\begin{fstest}
+\fontspec{Code2000}[Renderer=OpenType,Ligatures=Rare] `123--456'
+
+\fontspec{Code2000}[Renderer=OpenType,Mapping=tex-text] `123--456'
+
+\fontspec{Code2000}[Renderer=OpenType,Mapping=thaidigits] `123--456'
+
+\fontspec{Code2000}[Renderer=OpenType,Mapping=tex-text,Mapping=thaidigits] `123--456'
+
+\fontspec{Code2000}[Renderer=OpenType,Mapping=thaidigits,Mapping=tex-text] `123--456'
+
+\fontspec{Code2000}[Renderer=OpenType,Ligatures=TeX,Mapping=thaidigits] `123--456'
+
+\fontspec{Code2000}[Renderer=OpenType,Mapping=thaidigits,Ligatures={TeX,Rare}] `123--456'
+\end{fstest}
+
+\end{document}

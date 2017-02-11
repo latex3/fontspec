@@ -1,0 +1,553 @@
+This is a generated file for the l3build validation system.
+Don't change this file in any respect.
+.................................................
+. fontspec info: "no-scripts"
+. 
+. Font "Code2000" does not contain any OpenType `Script' information.
+.................................................
+\g__fontspec_family_Code2000_int=\count156
+.................................................
+. fontspec info: "no-font-shape"
+. 
+. Could not resolve font "Code2000/BI" (it probably doesn't exist).
+.................................................
+.................................................
+. fontspec info: "no-font-shape"
+. 
+. Could not resolve font "Code2000/B" (it probably doesn't exist).
+.................................................
+.................................................
+. fontspec info: "no-font-shape"
+. 
+. Could not resolve font "Code2000/I" (it probably doesn't exist).
+.................................................
+.................................................
+. fontspec info: "defining-font"
+. 
+. Font family 'Code2000(0)' created for font 'Code2000' with options
+. [Renderer=AAT,Ligatures=Rare].
+.  
+.  This font family consists of the following NFSS series/shapes:
+.  
+. - 'normal' (m/n) with NFSS spec.: <->"Code2000/AAT:Ligatures=Rare
+. Ligatures;"
+. - 'small caps'  (m/sc) with NFSS spec.: 
+.................................................
+.................................................
+. fontspec info: "no-scripts"
+. 
+. Font "Code2000" does not contain any OpenType `Script' information.
+.................................................
+.................................................
+. fontspec info: "no-font-shape"
+. 
+. Could not resolve font "Code2000/BI" (it probably doesn't exist).
+.................................................
+.................................................
+. fontspec info: "no-font-shape"
+. 
+. Could not resolve font "Code2000/B" (it probably doesn't exist).
+.................................................
+.................................................
+. fontspec info: "no-font-shape"
+. 
+. Could not resolve font "Code2000/I" (it probably doesn't exist).
+.................................................
+.................................................
+. fontspec info: "defining-font"
+. 
+. Font family 'Code2000(1)' created for font 'Code2000' with options
+. [Renderer=AAT,Mapping=tex-text].
+.  
+.  This font family consists of the following NFSS series/shapes:
+.  
+. - 'normal' (m/n) with NFSS spec.: <->"Code2000/AAT:mapping=tex-text;"
+. - 'small caps'  (m/sc) with NFSS spec.: 
+.................................................
+.................................................
+. fontspec info: "no-scripts"
+. 
+. Font "Code2000" does not contain any OpenType `Script' information.
+.................................................
+.................................................
+. fontspec info: "no-font-shape"
+. 
+. Could not resolve font "Code2000/BI" (it probably doesn't exist).
+.................................................
+.................................................
+. fontspec info: "no-font-shape"
+. 
+. Could not resolve font "Code2000/B" (it probably doesn't exist).
+.................................................
+.................................................
+. fontspec info: "no-font-shape"
+. 
+. Could not resolve font "Code2000/I" (it probably doesn't exist).
+.................................................
+.................................................
+. fontspec info: "defining-font"
+. 
+. Font family 'Code2000(2)' created for font 'Code2000' with options
+. [Renderer=AAT,Mapping=thaidigits].
+.  
+.  This font family consists of the following NFSS series/shapes:
+.  
+. - 'normal' (m/n) with NFSS spec.: <->"Code2000/AAT:mapping=thaidigits;"
+. - 'small caps'  (m/sc) with NFSS spec.: 
+.................................................
+.................................................
+. fontspec info: "no-scripts"
+. 
+. Font "Code2000" does not contain any OpenType `Script' information.
+.................................................
+.................................................
+. fontspec info: "no-font-shape"
+. 
+. Could not resolve font "Code2000/BI" (it probably doesn't exist).
+.................................................
+.................................................
+. fontspec info: "no-font-shape"
+. 
+. Could not resolve font "Code2000/B" (it probably doesn't exist).
+.................................................
+.................................................
+. fontspec info: "no-font-shape"
+. 
+. Could not resolve font "Code2000/I" (it probably doesn't exist).
+.................................................
+.................................................
+. fontspec info: "defining-font"
+. 
+. Font family 'Code2000(3)' created for font 'Code2000' with options
+. [Renderer=AAT,Mapping=tex-text,Mapping=thaidigits].
+.  
+.  This font family consists of the following NFSS series/shapes:
+.  
+. - 'normal' (m/n) with NFSS spec.: <->"Code2000/AAT:mapping=thaidigits;"
+. - 'small caps'  (m/sc) with NFSS spec.: 
+.................................................
+.................................................
+. fontspec info: "no-scripts"
+. 
+. Font "Code2000" does not contain any OpenType `Script' information.
+.................................................
+.................................................
+. fontspec info: "no-font-shape"
+. 
+. Could not resolve font "Code2000/BI" (it probably doesn't exist).
+.................................................
+.................................................
+. fontspec info: "no-font-shape"
+. 
+. Could not resolve font "Code2000/B" (it probably doesn't exist).
+.................................................
+.................................................
+. fontspec info: "no-font-shape"
+. 
+. Could not resolve font "Code2000/I" (it probably doesn't exist).
+.................................................
+.................................................
+. fontspec info: "defining-font"
+. 
+. Font family 'Code2000(4)' created for font 'Code2000' with options
+. [Renderer=AAT,Mapping=thaidigits,Mapping=tex-text].
+.  
+.  This font family consists of the following NFSS series/shapes:
+.  
+. - 'normal' (m/n) with NFSS spec.: <->"Code2000/AAT:mapping=tex-text;"
+. - 'small caps'  (m/sc) with NFSS spec.: 
+.................................................
+.................................................
+. fontspec info: "no-scripts"
+. 
+. Font "Code2000" does not contain any OpenType `Script' information.
+.................................................
+.................................................
+. fontspec info: "no-font-shape"
+. 
+. Could not resolve font "Code2000/BI" (it probably doesn't exist).
+.................................................
+.................................................
+. fontspec info: "no-font-shape"
+. 
+. Could not resolve font "Code2000/B" (it probably doesn't exist).
+.................................................
+.................................................
+. fontspec info: "no-font-shape"
+. 
+. Could not resolve font "Code2000/I" (it probably doesn't exist).
+.................................................
+.................................................
+. fontspec info: "defining-font"
+. 
+. Font family 'Code2000(5)' created for font 'Code2000' with options
+. [Renderer=AAT,Ligatures=TeX,Mapping=thaidigits].
+.  
+.  This font family consists of the following NFSS series/shapes:
+.  
+. - 'normal' (m/n) with NFSS spec.: <->"Code2000/AAT:mapping=thaidigits;"
+. - 'small caps'  (m/sc) with NFSS spec.: 
+.................................................
+.................................................
+. fontspec info: "no-scripts"
+. 
+. Font "Code2000" does not contain any OpenType `Script' information.
+.................................................
+.................................................
+. fontspec info: "no-font-shape"
+. 
+. Could not resolve font "Code2000/BI" (it probably doesn't exist).
+.................................................
+.................................................
+. fontspec info: "no-font-shape"
+. 
+. Could not resolve font "Code2000/B" (it probably doesn't exist).
+.................................................
+.................................................
+. fontspec info: "no-font-shape"
+. 
+. Could not resolve font "Code2000/I" (it probably doesn't exist).
+.................................................
+.................................................
+. fontspec info: "defining-font"
+. 
+. Font family 'Code2000(6)' created for font 'Code2000' with options
+. [Renderer=AAT,Mapping=thaidigits,Ligatures={TeX,Rare}].
+.  
+.  This font family consists of the following NFSS series/shapes:
+.  
+. - 'normal' (m/n) with NFSS spec.: <->"Code2000/AAT:Ligatures=Rare
+. Ligatures;mapping=tex-text;"
+. - 'small caps'  (m/sc) with NFSS spec.: 
+.................................................
+Completed box being shipped out [1]
+\vbox(114.22017+0.0)x169.57845
+.\glue -95.04362
+.\vbox(209.2638+0.0)x227.62207, shifted -58.04362
+..\vbox(12.0+0.0)x227.62207, glue set 12.0fil
+...\glue 0.0 plus 1.0fil
+...\hbox(0.0+0.0)x227.62207
+..\glue 25.0
+..\glue(\lineskip) 0.0
+..\vbox(142.2638+0.0)x227.62207, glue set 60.00348fil
+...\write-{}
+...\glue(\topskip) 0.0
+...\hbox(10.2539+0.0)x227.62207, glue set 165.66895fil
+....\hbox(0.0+0.0)x15.0
+....\TU/Code2000(0)/m/n/10 `123--456'
+....\penalty 10000
+....\glue(\parfillskip) 0.0 plus 1.0fil
+....\glue(\rightskip) 0.0
+...\glue(\parskip) 0.0 plus 1.0
+...\glue(\baselineskip) 1.7461
+...\hbox(10.2539+0.0)x227.62207, glue set 167.21191fil
+....\hbox(0.0+0.0)x15.0
+....\TU/Code2000(4)/m/n/10 ‘123–456’
+....\penalty 10000
+....\glue(\parfillskip) 0.0 plus 1.0fil
+....\glue(\rightskip) 0.0
+...\glue(\parskip) 0.0 plus 1.0
+...\glue(\baselineskip) 0.76953
+...\hbox(11.23047+0.0)x227.62207, glue set 154.90723fil
+....\hbox(0.0+0.0)x15.0
+....\TU/Code2000(5)/m/n/10 `๑๒๓--๔๕๖'
+....\penalty 10000
+....\glue(\parfillskip) 0.0 plus 1.0fil
+....\glue(\rightskip) 0.0
+...\glue(\parskip) 0.0 plus 1.0
+...\glue(\baselineskip) 0.76953
+...\hbox(11.23047+0.0)x227.62207, glue set 154.90723fil
+....\hbox(0.0+0.0)x15.0
+....\TU/Code2000(5)/m/n/10 `๑๒๓--๔๕๖'
+....\penalty 10000
+....\glue(\parfillskip) 0.0 plus 1.0fil
+....\glue(\rightskip) 0.0
+...\glue(\parskip) 0.0 plus 1.0
+...\glue(\baselineskip) 1.7461
+...\hbox(10.2539+0.0)x227.62207, glue set 167.21191fil
+....\hbox(0.0+0.0)x15.0
+....\TU/Code2000(4)/m/n/10 ‘123–456’
+....\penalty 10000
+....\glue(\parfillskip) 0.0 plus 1.0fil
+....\glue(\rightskip) 0.0
+...\glue(\parskip) 0.0 plus 1.0
+...\glue(\baselineskip) 0.76953
+...\hbox(11.23047+0.0)x227.62207, glue set 154.90723fil
+....\hbox(0.0+0.0)x15.0
+....\TU/Code2000(5)/m/n/10 `๑๒๓--๔๕๖'
+....\penalty 10000
+....\glue(\parfillskip) 0.0 plus 1.0fil
+....\glue(\rightskip) 0.0
+...\glue(\parskip) 0.0 plus 1.0
+...\glue(\baselineskip) 1.7461
+...\hbox(10.2539+0.0)x227.62207, glue set 167.21191fil
+....\hbox(0.0+0.0)x15.0
+....\TU/Code2000(6)/m/n/10 ‘123–456’
+....\penalty 10000
+....\glue(\parfillskip) 0.0 plus 1.0fil
+....\glue(\rightskip) 0.0
+...\glue 0.0 plus 1.0fil
+...\glue 0.0
+...\glue 0.0 plus 0.0001fil
+..\glue(\baselineskip) 30.0
+..\hbox(0.0+0.0)x227.62207
+.................................................
+. fontspec info: "no-font-shape"
+. 
+. Could not resolve font "Code2000/BI" (it probably doesn't exist).
+.................................................
+.................................................
+. fontspec info: "no-font-shape"
+. 
+. Could not resolve font "Code2000/B" (it probably doesn't exist).
+.................................................
+.................................................
+. fontspec info: "no-font-shape"
+. 
+. Could not resolve font "Code2000/I" (it probably doesn't exist).
+.................................................
+.................................................
+. fontspec info: "defining-font"
+. 
+. Font family 'Code2000(7)' created for font 'Code2000' with options
+. [Renderer=OpenType,Ligatures=Rare].
+.  
+.  This font family consists of the following NFSS series/shapes:
+.  
+. - 'normal' (m/n) with NFSS spec.:
+. <->"Code2000/OT:script=latn;language=DFLT;+dlig;"
+. - 'small caps'  (m/sc) with NFSS spec.: 
+.................................................
+.................................................
+. fontspec info: "no-font-shape"
+. 
+. Could not resolve font "Code2000/BI" (it probably doesn't exist).
+.................................................
+.................................................
+. fontspec info: "no-font-shape"
+. 
+. Could not resolve font "Code2000/B" (it probably doesn't exist).
+.................................................
+.................................................
+. fontspec info: "no-font-shape"
+. 
+. Could not resolve font "Code2000/I" (it probably doesn't exist).
+.................................................
+.................................................
+. fontspec info: "defining-font"
+. 
+. Font family 'Code2000(8)' created for font 'Code2000' with options
+. [Renderer=OpenType,Mapping=tex-text].
+.  
+.  This font family consists of the following NFSS series/shapes:
+.  
+. - 'normal' (m/n) with NFSS spec.:
+. <->"Code2000/OT:script=latn;language=DFLT;mapping=tex-text;"
+. - 'small caps'  (m/sc) with NFSS spec.: 
+.................................................
+.................................................
+. fontspec info: "no-font-shape"
+. 
+. Could not resolve font "Code2000/BI" (it probably doesn't exist).
+.................................................
+.................................................
+. fontspec info: "no-font-shape"
+. 
+. Could not resolve font "Code2000/B" (it probably doesn't exist).
+.................................................
+.................................................
+. fontspec info: "no-font-shape"
+. 
+. Could not resolve font "Code2000/I" (it probably doesn't exist).
+.................................................
+.................................................
+. fontspec info: "defining-font"
+. 
+. Font family 'Code2000(9)' created for font 'Code2000' with options
+. [Renderer=OpenType,Mapping=thaidigits].
+.  
+.  This font family consists of the following NFSS series/shapes:
+.  
+. - 'normal' (m/n) with NFSS spec.:
+. <->"Code2000/OT:script=latn;language=DFLT;mapping=thaidigits;"
+. - 'small caps'  (m/sc) with NFSS spec.: 
+.................................................
+.................................................
+. fontspec info: "no-font-shape"
+. 
+. Could not resolve font "Code2000/BI" (it probably doesn't exist).
+.................................................
+.................................................
+. fontspec info: "no-font-shape"
+. 
+. Could not resolve font "Code2000/B" (it probably doesn't exist).
+.................................................
+.................................................
+. fontspec info: "no-font-shape"
+. 
+. Could not resolve font "Code2000/I" (it probably doesn't exist).
+.................................................
+.................................................
+. fontspec info: "defining-font"
+. 
+. Font family 'Code2000(10)' created for font 'Code2000' with options
+. [Renderer=OpenType,Mapping=tex-text,Mapping=thaidigits].
+.  
+.  This font family consists of the following NFSS series/shapes:
+.  
+. - 'normal' (m/n) with NFSS spec.:
+. <->"Code2000/OT:script=latn;language=DFLT;mapping=thaidigits;"
+. - 'small caps'  (m/sc) with NFSS spec.: 
+.................................................
+.................................................
+. fontspec info: "no-font-shape"
+. 
+. Could not resolve font "Code2000/BI" (it probably doesn't exist).
+.................................................
+.................................................
+. fontspec info: "no-font-shape"
+. 
+. Could not resolve font "Code2000/B" (it probably doesn't exist).
+.................................................
+.................................................
+. fontspec info: "no-font-shape"
+. 
+. Could not resolve font "Code2000/I" (it probably doesn't exist).
+.................................................
+.................................................
+. fontspec info: "defining-font"
+. 
+. Font family 'Code2000(11)' created for font 'Code2000' with options
+. [Renderer=OpenType,Mapping=thaidigits,Mapping=tex-text].
+.  
+.  This font family consists of the following NFSS series/shapes:
+.  
+. - 'normal' (m/n) with NFSS spec.:
+. <->"Code2000/OT:script=latn;language=DFLT;mapping=tex-text;"
+. - 'small caps'  (m/sc) with NFSS spec.: 
+.................................................
+.................................................
+. fontspec info: "no-font-shape"
+. 
+. Could not resolve font "Code2000/BI" (it probably doesn't exist).
+.................................................
+.................................................
+. fontspec info: "no-font-shape"
+. 
+. Could not resolve font "Code2000/B" (it probably doesn't exist).
+.................................................
+.................................................
+. fontspec info: "no-font-shape"
+. 
+. Could not resolve font "Code2000/I" (it probably doesn't exist).
+.................................................
+.................................................
+. fontspec info: "defining-font"
+. 
+. Font family 'Code2000(12)' created for font 'Code2000' with options
+. [Renderer=OpenType,Ligatures=TeX,Mapping=thaidigits].
+.  
+.  This font family consists of the following NFSS series/shapes:
+.  
+. - 'normal' (m/n) with NFSS spec.:
+. <->"Code2000/OT:script=latn;language=DFLT;mapping=thaidigits;"
+. - 'small caps'  (m/sc) with NFSS spec.: 
+.................................................
+.................................................
+. fontspec info: "no-font-shape"
+. 
+. Could not resolve font "Code2000/BI" (it probably doesn't exist).
+.................................................
+.................................................
+. fontspec info: "no-font-shape"
+. 
+. Could not resolve font "Code2000/B" (it probably doesn't exist).
+.................................................
+.................................................
+. fontspec info: "no-font-shape"
+. 
+. Could not resolve font "Code2000/I" (it probably doesn't exist).
+.................................................
+.................................................
+. fontspec info: "defining-font"
+. 
+. Font family 'Code2000(13)' created for font 'Code2000' with options
+. [Renderer=OpenType,Mapping=thaidigits,Ligatures={TeX,Rare}].
+.  
+.  This font family consists of the following NFSS series/shapes:
+.  
+. - 'normal' (m/n) with NFSS spec.:
+. <->"Code2000/OT:script=latn;language=DFLT;+dlig;mapping=tex-text;"
+. - 'small caps'  (m/sc) with NFSS spec.: 
+.................................................
+Completed box being shipped out [2]
+\vbox(114.22017+0.0)x169.57845
+.\glue -95.04362
+.\vbox(209.2638+0.0)x227.62207, shifted -58.04362
+..\vbox(12.0+0.0)x227.62207, glue set 12.0fil
+...\glue 0.0 plus 1.0fil
+...\hbox(0.0+0.0)x227.62207
+..\glue 25.0
+..\glue(\lineskip) 0.0
+..\vbox(142.2638+0.0)x227.62207, glue set 60.25735fil
+...\write-{}
+...\glue(\topskip) 1.75781
+...\hbox(8.24219+0.0)x227.62207, glue set 165.66895fil
+....\hbox(0.0+0.0)x15.0
+....\TU/Code2000(7)/m/n/10 `123--456'
+....\penalty 10000
+....\glue(\parfillskip) 0.0 plus 1.0fil
+....\glue(\rightskip) 0.0
+...\glue(\parskip) 0.0 plus 1.0
+...\glue(\baselineskip) 3.83594
+...\hbox(8.16406+0.0)x227.62207, glue set 167.21191fil
+....\hbox(0.0+0.0)x15.0
+....\TU/Code2000(11)/m/n/10 ‘123–456’
+....\penalty 10000
+....\glue(\parfillskip) 0.0 plus 1.0fil
+....\glue(\rightskip) 0.0
+...\glue(\parskip) 0.0 plus 1.0
+...\glue(\baselineskip) 3.75781
+...\hbox(8.24219+0.01952)x227.62207, glue set 154.90723fil
+....\hbox(0.0+0.0)x15.0
+....\TU/Code2000(12)/m/n/10 `๑๒๓--๔๕๖'
+....\penalty 10000
+....\glue(\parfillskip) 0.0 plus 1.0fil
+....\glue(\rightskip) 0.0
+...\glue(\parskip) 0.0 plus 1.0
+...\glue(\baselineskip) 3.7383
+...\hbox(8.24219+0.01952)x227.62207, glue set 154.90723fil
+....\hbox(0.0+0.0)x15.0
+....\TU/Code2000(12)/m/n/10 `๑๒๓--๔๕๖'
+....\penalty 10000
+....\glue(\parfillskip) 0.0 plus 1.0fil
+....\glue(\rightskip) 0.0
+...\glue(\parskip) 0.0 plus 1.0
+...\glue(\baselineskip) 3.81642
+...\hbox(8.16406+0.0)x227.62207, glue set 167.21191fil
+....\hbox(0.0+0.0)x15.0
+....\TU/Code2000(11)/m/n/10 ‘123–456’
+....\penalty 10000
+....\glue(\parfillskip) 0.0 plus 1.0fil
+....\glue(\rightskip) 0.0
+...\glue(\parskip) 0.0 plus 1.0
+...\glue(\baselineskip) 3.75781
+...\hbox(8.24219+0.01952)x227.62207, glue set 154.90723fil
+....\hbox(0.0+0.0)x15.0
+....\TU/Code2000(12)/m/n/10 `๑๒๓--๔๕๖'
+....\penalty 10000
+....\glue(\parfillskip) 0.0 plus 1.0fil
+....\glue(\rightskip) 0.0
+...\glue(\parskip) 0.0 plus 1.0
+...\glue(\baselineskip) 3.81642
+...\hbox(8.16406+0.0)x227.62207, glue set 167.21191fil
+....\hbox(0.0+0.0)x15.0
+....\TU/Code2000(13)/m/n/10 ‘123–456’
+....\penalty 10000
+....\glue(\parfillskip) 0.0 plus 1.0fil
+....\glue(\rightskip) 0.0
+...\glue 0.0 plus 1.0fil
+...\glue 0.0
+...\glue 0.0 plus 0.0001fil
+..\glue(\baselineskip) 30.0
+..\hbox(0.0+0.0)x227.62207

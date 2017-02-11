@@ -646,13 +646,18 @@
 %
 % \paragraph{Mapping}
 %    \begin{macrocode}
-\@@_keys_define_code:nnn {fontspec} {Mapping}
 %<*xetexx>
+\@@_keys_define_code:nnn {fontspec-aat} {Mapping}
+  {
+    \tl_set:Nn \l_@@_mapping_tl { #1 }
+  }
+\@@_keys_define_code:nnn {fontspec-opentype} {Mapping}
   {
     \tl_set:Nn \l_@@_mapping_tl { #1 }
   }
 %</xetexx>
 %<*luatex>
+\@@_keys_define_code:nnn {fontspec-opentype} {Mapping}
  {
   \str_if_eq:nnTF {#1} {tex-text}
    {

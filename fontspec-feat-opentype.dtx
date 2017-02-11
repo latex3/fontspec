@@ -40,9 +40,8 @@
 % Emulate CM extra ligatures.
 %    \begin{macrocode}
 %<*xetexx>
-\keys_define:nn {fontspec}
+\keys_define:nn {fontspec-opentype}
   {
-    Ligatures .multichoice: ,
     Ligatures / TeX .code:n = { \tl_set:Nn \l_@@_mapping_tl {tex-text} },
     Ligatures / TeXReset .code:n = { \tl_clear:N \l_@@_mapping_tl },
   }

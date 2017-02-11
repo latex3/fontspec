@@ -18,6 +18,8 @@ selected by \pkg{fontspec}.
   ``!`A small amount of---text!''
 \end{Xexample}
 
+Only one mapping can be active at a time and a second call to \feat{Mapping}
+will simply override the first.
 Using the |tex-text| mapping is also equivalent to writing |Ligatures=TeX|.
 The use of the latter syntax is recommended for better compatibility with
 \LuaTeX\ documents.

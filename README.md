@@ -1,5 +1,5 @@
-THE FONTSPEC PACKAGE v2.5d
-==========================
+The FONTSPEC package
+====================
 
 The fontspec package provides an automatic and unified interface for loading
 fonts in LaTeX. XeTeX and LuaTeX (the latter through the `luaotfload` package)

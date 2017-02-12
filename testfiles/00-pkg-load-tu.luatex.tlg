@@ -1,7 +1,7 @@
 This is a generated file for the l3build validation system.
 Don't change this file in any respect.
 (fontspec.sty
-ontspec-luatex.sty
+fontspec-luatex.sty
 \l__fontspec_script_int=\count148
 \l__fontspec_language_int=\count149
 \l__fontspec_strnum_int=\count150

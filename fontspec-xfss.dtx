@@ -100,13 +100,7 @@
 %
 % \subsection{Emphasis}
 %
-% \begin{macro}{\em}
-% \begin{macro}{\emph}
-% \begin{macro}{\emshape}
-% \begin{macro}{\eminnershape}
 % \begin{macro}{\emfontdeclare}
-% Redefinition of |{\em ...}| and |\emph{...}| to allow nesting of emphases.
-%
 %    \begin{macrocode}
 \cs_new_protected:Npn \emfontdeclare #1
   {
@@ -134,7 +128,9 @@
     \group_end:
   }
 %    \end{macrocode}
+% \end{macro}
 %
+% \begin{macro}{\em}
 %    \begin{macrocode}
 \DeclareRobustCommand \em
   {
@@ -164,24 +160,28 @@
 
   }
 %    \end{macrocode}
-% Document commands:
+% \end{macro}
+%
+% \begin{macro}{\emph}
+% \begin{macro}{\emshape}
+% \begin{macro}{\eminnershape}
+% \begin{macro}{\emreset}
 %    \begin{macrocode}
 \DeclareTextFontCommand{\emph}{\em}
 \cs_set:Npn \emreset { \upshape }
 \cs_set:Npn \emshape { \itshape }
 \cs_set:Npn \eminnershape { \upshape }
-\emfontdeclare{ \emshape, \eminnershape }
 %    \end{macrocode}
-% \end{macro} \end{macro} \end{macro} \end{macro} \end{macro}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+% \end{macro}
 %
 %
 %
 % \subsection{Strong emphasis}
 %
-% \begin{macro}{\strongenv}
-% \begin{macro}{\strong}
 % \begin{macro}{\strongfontdeclare}
-%
 %    \begin{macrocode}
 \cs_new_protected:Npn \strongfontdeclare #1
   {
@@ -200,7 +200,9 @@
     \group_end:
   }
 %    \end{macrocode}
+% \end{macro}
 %
+% \begin{macro}{\strongenv}
 %    \begin{macrocode}
 \DeclareRobustCommand \strongenv
   {
@@ -224,12 +226,18 @@
 
   }
 %    \end{macrocode}
-% Document commands:
+% \end{macro}
+%
+% \begin{macro}{\strong}
+% \begin{macro}{\strongreset}
 %    \begin{macrocode}
 \DeclareTextFontCommand{\strong}{\strongenv}
 \cs_set:Npn \strongreset {}
-\strongfontdeclare{ \bfseries }
 %    \end{macrocode}
+% \end{macro}
+% \end{macro}
+%
+% \begin{macro}{\reset@font}
 % Ensure nesting resets when necessary:
 %    \begin{macrocode}
 \cs_set:Npn \reset@font
@@ -239,14 +247,19 @@
     \int_zero:N \l_@@_strong_int
   }
 %    \end{macrocode}
+% \end{macro}
+%
 % Programmer's interface for setting nesting levels:
 %    \begin{macrocode}
-\cs_new:Nn \fontspec_set_em_level:n { \int_set:Nn \l_@@_em_int {#1} }
+\cs_new:Nn \fontspec_set_em_level:n     { \int_set:Nn \l_@@_em_int     {#1} }
 \cs_new:Nn \fontspec_set_strong_level:n { \int_set:Nn \l_@@_strong_int {#1} }
 %    \end{macrocode}
-% \end{macro} \end{macro} \end{macro} \end{macro} \end{macro}
 %
-%
+% Defaults:
+%    \begin{macrocode}
+\strongfontdeclare{ \bfseries }
+\emfontdeclare{ \emshape, \eminnershape }
+%    \end{macrocode}
 %
 %    \begin{macrocode}
 %</fontspec>

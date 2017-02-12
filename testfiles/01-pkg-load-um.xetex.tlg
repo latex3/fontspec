@@ -254,7 +254,7 @@ Package ifluatex Info: LuaTeX not detected.
 . - 'normal' (m/n) with NFSS spec.:
 . <->"[texgyrepagella-regular.otf]/OT:script=latn;language=DFLT;mapping=tex-text;"
 . - 'small caps'  (m/sc) with NFSS spec.:
-. <->"[texgyrepagella-regular.otf]/OT:script=latn;language=DFLT;mapping=tex-text;+smcp;"
+. <->"[texgyrepagella-regular.otf]/OT:script=latn;language=DFLT;+smcp;mapping=tex-text;"
 .................................................
 LaTeX Info: Redefining \rmfamily on input line ....
 \g__fontspec_family_texgyrepagella-math.otf_int=\count159

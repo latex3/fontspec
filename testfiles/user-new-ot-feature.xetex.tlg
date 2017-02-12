@@ -10,8 +10,8 @@ Don't change this file in any respect.
 .  This font family consists of the following NFSS series/shapes:
 .  
 . - 'normal' (m/n) with NFSS spec.:
-. <->"[texgyretermes-regular.otf]/OT:script=latn;language=DFLT;mapping=tex-text;+aalt;"
+. <->"[texgyretermes-regular.otf]/OT:script=latn;language=DFLT;+aalt;mapping=tex-text;"
 . - 'small caps'  (m/sc) with NFSS spec.:
-. <->"[texgyretermes-regular.otf]/OT:script=latn;language=DFLT;mapping=tex-text;+aalt;+smcp;"
+. <->"[texgyretermes-regular.otf]/OT:script=latn;language=DFLT;+aalt;+smcp;mapping=tex-text;"
 .................................................
 LaTeX Info: Redefining \rmfamily on input line ....

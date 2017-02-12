@@ -4,24 +4,12 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <17.28> on input line ....
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <12> on input line ....
-Missing character: There is no ⁎ in font [LinLibertine_R.otf]/OT:script=latn;la
-nguage=DFLT;mapping=tex-text;!
-Missing character: There is no ⁎ in font [LinLibertine_R.otf]/OT:script=latn;la
-nguage=DFLT;mapping=tex-text;!
-Missing character: There is no ⁎ in font [LinLibertine_R.otf]/OT:script=latn;la
-nguage=DFLT;mapping=tex-text;!
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <8> on input line ....
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <6> on input line ....
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <5> on input line ....
-Missing character: There is no ⁎ in font [LinLibertine_R.otf]/OT:script=latn;la
-nguage=DFLT;mapping=tex-text;!
-Missing character: There is no ⁎ in font [LinLibertine_R.otf]/OT:script=latn;la
-nguage=DFLT;mapping=tex-text;!
-Missing character: There is no ⁎ in font [LinLibertine_R.otf]/OT:script=latn;la
-nguage=DFLT;mapping=tex-text;!
 Completed box being shipped out [1]
 \vbox(114.22017+0.01999)x169.57845
 .\glue -95.04362
@@ -53,10 +41,10 @@ Completed box being shipped out [1]
 ....\TU/LinLibertine_R.otf(0)/m/n/17.28 abc,
 ....\glue 4.32 plus 2.7 minus 1.152
 ....\penalty 10000
-....\hbox(14.64677+0.0)x0.0, glue set - 6.5fil
+....\hbox(10.65077+0.0)x0.0, glue set - 4.592fil
 .....\mathon
-.....\hbox(8.376+0.0)x6.5, shifted -6.27077
-......\TU/LinLibertine_R.otf(0)/m/n/12 ⁎
+.....\hbox(4.38+0.0)x4.592, shifted -6.27077
+......\TU/LinLibertine_R.otf(0)/m/n/12 ∗
 .....\mathoff
 .....\glue 0.0 plus 1.0fil minus 1.0fil
 ....\TU/LinLibertine_R.otf(0)/m/n/17.28 ,
@@ -107,10 +95,10 @@ Completed box being shipped out [1]
 ....\TU/LinLibertine_R.otf(0)/m/n/17.28 ,
 ....\glue 4.32 plus 2.7 minus 1.152
 ....\penalty 10000
-....\hbox(14.64677+0.0)x0.0, glue set - 12.5fil
+....\hbox(10.65077+0.0)x0.0, glue set - 8.684fil
 .....\mathon
-.....\hbox(8.376+0.0)x12.5, shifted -6.27077
-......\TU/LinLibertine_R.otf(0)/m/n/12 ⁎⁎
+.....\hbox(4.38+0.0)x8.684, shifted -6.27077
+......\TU/LinLibertine_R.otf(0)/m/n/12 ∗∗
 .....\mathoff
 .....\glue 0.0 plus 1.0fil minus 1.0fil
 ....\TU/LinLibertine_R.otf(0)/m/n/17.28 ,
@@ -169,7 +157,7 @@ Completed box being shipped out [2]
 ..\glue 25.0
 ..\glue(\lineskip) 0.0
 ..\vbox(142.2638+0.0)x227.62207, glue set 2.84972fil
-...\vbox(44.12157+0.0)x0.0
+...\vbox(44.84425+0.0)x0.0
 ....\write-{}
 ....\glue(\topskip) 10.0
 ....\vbox(0.0+0.0)x0.0
@@ -178,12 +166,12 @@ Completed box being shipped out [2]
 ...\kern -3.0
 ...\rule(0.4+0.0)x91.04742
 ...\kern 2.6
-...\hbox(7.01134+2.85002)x227.62207, glue set 209.50204fil
-....\hbox(7.01134+0.0)x14.40002, glue set 10.90002fil
+...\hbox(6.65+2.85002)x227.62207, glue set 209.50204fil
+....\hbox(5.01334+0.0)x14.40002, glue set 11.85402fil
 .....\glue 0.0 plus 1.0fil minus 1.0fil
 .....\mathon
-.....\hbox(4.188+0.0)x3.5, shifted -2.82333
-......\TU/LinLibertine_R.otf(0)/m/n/6 ⁎
+.....\hbox(2.19+0.0)x2.546, shifted -2.82333
+......\TU/LinLibertine_R.otf(0)/m/n/6 ∗
 .....\mathoff
 ....\hbox(6.65+0.0)x0.0
 .....\rule(6.65+0.0)x0.0
@@ -268,12 +256,12 @@ Completed box being shipped out [2]
 ....\penalty 10000
 ....\glue(\parfillskip) 0.0 plus 1.0fil
 ....\glue(\rightskip) 0.0
-...\hbox(7.01134+2.85002)x227.62207, glue set 209.50204fil
-....\hbox(7.01134+0.0)x14.40002, glue set 7.90002fil
+...\hbox(6.65+2.85002)x227.62207, glue set 209.50204fil
+....\hbox(5.01334+0.0)x14.40002, glue set 9.80803fil
 .....\glue 0.0 plus 1.0fil minus 1.0fil
 .....\mathon
-.....\hbox(4.188+0.0)x6.5, shifted -2.82333
-......\TU/LinLibertine_R.otf(0)/m/n/6 ⁎⁎
+.....\hbox(2.19+0.0)x4.592, shifted -2.82333
+......\TU/LinLibertine_R.otf(0)/m/n/6 ∗∗
 .....\mathoff
 ....\hbox(6.65+0.0)x0.0
 .....\rule(6.65+0.0)x0.0

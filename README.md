@@ -69,7 +69,7 @@ To add features to the font family currently in use:
 Change history
 --------------
 
-- v2.5e (2017/02/10)
+- v2.6 (2017/02/12)
 
     * Change the new behaviour of `\emph` (and `\emfontdeclare`) to act only on the NFSS font shape; using the series as well was too fragile.
     * Add `\strong` as the "weight" analogy to `\emph`. This will need some extra syntactic sugar from `fontspec` before it becomes truly useful.
@@ -81,7 +81,7 @@ Change history
     * Fix bug (sorry!) in `\newopentypefeature`.
     * Improve monospace font in documentation.
 
-    * N.B. There is currently a known issue with TTC fonts and LuaTeX; currently they cannot be loaded through the `fontspec` interface, but I hope that the issue will soon be addressed in the `luaotfload` package.
+    * N.B. There is currently a known issue with TTC fonts and LuaTeX; currently they cannot be loaded through the `fontspec` interface, but this issue should soon be addressed by the `luaotfload` package.
 
 - v2.5d (2017/01/24) "oops"
 

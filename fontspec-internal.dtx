@@ -247,7 +247,9 @@
 %    \begin{macrocode}
 \cs_set:Nn \@@_construct_font_call:nnnnnn
  {
-  " \@@_fontname_wrap:n { #1 #2 #3 } #4 #5
+%<xetexx>  " \@@_fontname_wrap:n { #1 #2 #3 }
+%<luatex>  " \@@_fontname_wrap:n { #1 #2 } #3
+    #4 #5
     \str_if_eq_x:nnF {#6}{} {:#6} "
  }
 %    \end{macrocode}

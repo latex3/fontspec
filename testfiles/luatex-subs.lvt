@@ -1,7 +1,8 @@
 \input{fontspec-testsetup.tex}
 \usepackage{fontspec}
 \begin{document}
-\TIMO
+
+\LUATEXONLY
 
 \begin{fstest}
 \directlua{

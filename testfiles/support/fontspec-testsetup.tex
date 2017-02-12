@@ -9,6 +9,17 @@
 
 \tracingoutput=1\relax
 
+\newcommand\XETEXONLY{%
+  \ifdefined\directlua
+    \def\NEXT{\TIMO\typeout{*** XeTeX-only test ***}\end{document}\endinput}\fi
+  \csname NEXT\endcsname
+}
+\newcommand\LUATEXONLY{%
+  \ifdefined\directlua\else
+    \def\NEXT{\TIMO\typeout{*** LuaTeX-only test ***}\end{document}\endinput}\fi
+  \csname NEXT\endcsname
+}
+
 \newbox\TESTBOX
 \newenvironment{fstest}
   {%

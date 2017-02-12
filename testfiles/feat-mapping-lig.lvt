@@ -2,6 +2,8 @@
 \usepackage{fontspec}
 \begin{document}
 
+\XETEXONLY
+
 \begin{fstest}
 \fontspec{Code2000}[Renderer=AAT,Ligatures=Rare] `123--456'
 

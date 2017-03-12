@@ -35,27 +35,27 @@
      }
   }
 \cs_new:Nn \@@_define_opentype_feature:nnnnn
- {
-  \@@_feat_prop_add:nn {#3} {#1\,=\,#2}
-    \tl_if_empty:nTF {#4}
-      {
-        \keys_define:nn {fontspec-opentype}
-          {
-            #1/#2 .code:n =
-              { \@@_remove_clashing_featstr:n {#5} }
-          }
-      }
-      {
-  \keys_define:nn {fontspec-opentype}
-   {
-    #1/#2 .code:n =
-      {
-%<debug>        \typeout{::::::::fontspec-opentype~#1/#2~=~#3/#4/#5}
-        \@@_make_OT_feature:nnn {#3} {#4} {#5}
-      }
-   }
-      }
- }
+  {
+    \@@_feat_prop_add:nn {#3} {#1\,=\,#2}
+      \tl_if_empty:nTF {#4}
+        {
+          \keys_define:nn {fontspec-opentype}
+            {
+              #1/#2 .code:n =
+                { \@@_remove_clashing_featstr:n {#5} }
+            }
+        }
+        {
+          \keys_define:nn {fontspec-opentype}
+            {
+              #1/#2 .code:n =
+                {
+%<debug>          \typeout{::::::::fontspec-opentype~#1/#2~=~#3/#4/#5}
+                  \@@_make_OT_feature:nnn {#3} {#4} {#5}
+                }
+            }
+        }
+  }
 %    \end{macrocode}
 % \end{macro}
 %

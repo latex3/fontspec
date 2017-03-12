@@ -398,6 +398,20 @@
         \keys_define:nn { ##1 / #1 }
           { #3 .code:n = { \keys_set:nn {##1} { #1 = {#2} } } }
       }
+
+     \keys_if_exist:nnT { ##1 / #1 } {#2Reset}
+      {
+%<debug> \typeout{:::: Keyval~exists~##1~/~#1~=~#2Reset}
+        \keys_define:nn { ##1 / #1 }
+          { #3Reset .code:n = { \keys_set:nn {##1} { #1 = {#2Reset} } } }
+      }
+
+     \keys_if_exist:nnT { ##1 / #1 } {#2Off}
+      {
+%<debug> \typeout{:::: Keyval~exists~##1~/~#1~=~#2Off}
+        \keys_define:nn { ##1 / #1 }
+          { #3Off .code:n = { \keys_set:nn {##1} { #1 = {#2Off} } } }
+      }
    }
 
   \bool_if:NF \l_@@_alias_bool

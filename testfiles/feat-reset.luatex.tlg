@@ -1,0 +1,16 @@
+This is a generated file for the l3build validation system.
+Don't change this file in any respect.
+====== RESET ======
+[texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;+onum;
+[texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;
+[texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;+onum;
+[texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;
+[texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;+onum;
+[texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;
+[texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;+onum;
+[texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;
+======= OFF =======
+[texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;+onum;
+[texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;-onum;
+[texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;+onum;
+[texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;-onum;

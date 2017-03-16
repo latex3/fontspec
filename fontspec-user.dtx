@@ -595,12 +595,12 @@
 %    \begin{macrocode}
 \DeclareDocumentCommand \IfFontFeatureActiveTF {mmm}
   {
-    \@@_main_aliasfontfeatureoption:nnn {#1} {#2} {#3}
+    \@@_main_IfFontFeatureActiveTF:nnn {#1} {#2} {#3}
   }
 %    \end{macrocode}
 %
 %    \begin{macrocode}
-\cs_set:Nn \@@_main_aliasfontfeatureoption:nnn
+\cs_set:Nn \@@_main_IfFontFeatureActiveTF:nnn
   {
 %<debug>    \typeout{^^J:::::::::::::::::::::::::::::::::::::::::::::::}
 %<debug>    \typeout{:IfFontFeatureActiveTF \exp_not:n{{#1}{#2}{#3}}}

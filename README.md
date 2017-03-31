@@ -69,6 +69,11 @@ To add features to the font family currently in use:
 Change history
 --------------
 
+- v2.6a (2017/03/31)
+
+    * Fix crashing bug with `..Reset` and `ResetAll` keys.
+    * Fix crashing bug with `\newfontface`.
+
 - v2.6 (2017/02/12)
 
     * Change the new behaviour of `\emph` (and `\emfontdeclare`) to act only on the NFSS font shape; using the series as well was too fragile.

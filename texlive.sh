@@ -38,7 +38,8 @@ tlmgr install  \
   oberdiek     \
   tex-gyre     \
   unicode-math \
-  ucharcat
+  ucharcat     \
+  filehook
 
 # Keep no backups (not required, simply makes cache bigger)
 tlmgr option -- autobackup 0

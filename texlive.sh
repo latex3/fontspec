@@ -36,9 +36,10 @@ tlmgr install  \
   ifxetex      \
   luaotfload   \
   oberdiek     \
-  tex-gyre     \
-  unicode-math \
-  ucharcat     \
+  tex-gyre      \
+  tex-gyre-math \
+  unicode-math  \
+  ucharcat      \
   filehook
 
 # Keep no backups (not required, simply makes cache bigger)

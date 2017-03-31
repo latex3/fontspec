@@ -40,7 +40,7 @@ Package ifvtex Info: VTeX not detected.
 \Gm@dimlist=\toks15
 )
 \TESTBOX=\box42
-(../texgyrepagella-regular.luc
+(load luc: ../texgyrepagella-regular.luc)
 \g__fontspec_family_texgyrepagella-regular.otf_int=\count156
 .................................................
 . fontspec info: "defining-font"

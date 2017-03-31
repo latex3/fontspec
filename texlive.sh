@@ -37,7 +37,8 @@ tlmgr install  \
   luaotfload   \
   oberdiek     \
   tex-gyre     \
-  unicode-math
+  unicode-math \
+  ucharcat
 
 # Keep no backups (not required, simply makes cache bigger)
 tlmgr option -- autobackup 0

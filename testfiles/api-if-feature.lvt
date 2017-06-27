@@ -1,0 +1,18 @@
+\input{fontspec-testsetup.tex}
+\usepackage{fontspec}
+\begin{document}
+
+\fontspec{texgyrepagella-regular.otf}
+
+\begin{fstest}
+\ExplSyntaxOn
+
+\fontspec_if_feature:nTF {+onum} {\typeout{CORRECT}} {\typeout{WRONG}}
+\fontspec_if_feature:nTF  {onum} {\typeout{CORRECT}} {\typeout{WRONG}}
+
+\fontspec_if_feature:nTF {+znum} {\typeout{WRONG}} {\typeout{CORRECT}}
+\fontspec_if_feature:nTF  {znum} {\typeout{WRONG}} {\typeout{CORRECT}}
+
+\ExplSyntaxOff
+\end{fstest}
+\end{document}

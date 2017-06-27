@@ -424,7 +424,12 @@
 \cs_new:Nn \@@_calc_scale:n
  {
   \group_begin:
-    \rmfamily
+
+    % change to \rmfamily but use internal commands in case \rmfamily has been overwritten:
+    \fontencoding { \l_@@_nfss_enc_tl }
+    \fontfamily { \g_@@_rmfamily_family }
+    \selectfont
+
     \@@_set_font_dimen:NnN \l_@@_tmpa_dim {#1} \font
     \@@_set_font_dimen:NnN \l_@@_tmpb_dim {#1} \l_fontspec_font
     \tl_gset:Nx \l_@@_scale_tl

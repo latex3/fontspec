@@ -72,8 +72,8 @@ Change history
 - v2.6b (2017)
 
     * Fix conflict with Polyglossia and `Scale=MatchLowercase`.
-    * New feature `NoFontCfg` to avoid loading the `.fontspec` file for a font.
-    
+    * New feature `IgnoreFontspecFile` to avoid loading the `.fontspec` file for a font.
+
 
 - v2.6a (2017/03/31)
 

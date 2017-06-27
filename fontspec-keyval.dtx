@@ -15,7 +15,7 @@
 \clist_set:Nn \g_@@_all_keyval_modules_clist
   {
     fontspec, fontspec-opentype, fontspec-aat,
-    fontspec-preparse, fontspec-preparse-external, fontspec-preparse-nested,
+    fontspec-preparse, fontspec-preparse-cfg, fontspec-preparse-external, fontspec-preparse-nested,
     fontspec-renderer
   }
 %    \end{macrocode}
@@ -39,6 +39,18 @@
 % \subsubsection{Pre-parsing naming information}
 %
 % These features are extracted from the font feature list before all others.
+%
+% \paragraph{Don't load font config file}
+%    \begin{macrocode}
+\@@_keys_define_code:nnn {fontspec-preparse-cfg} {NoFontCfg}
+  {
+    \bool_set_false:N \l_@@_fontcfg_bool
+  }
+\@@_keys_define_code:nnn {fontspec-preparse-external} {NoFontCfg}
+  {
+    \bool_set_false:N \l_@@_fontcfg_bool
+  }
+%    \end{macrocode}
 %
 % \begin{macro}{Path}
 % For fonts that aren't installed in the system. If no argument is given, the font is located

@@ -1,0 +1,14 @@
+\input{fontspec-testsetup.tex}
+\usepackage{fontspec}
+\setmainfont{texgyretermes-regular.otf}%
+ [
+  FontFace={m}{it}{texgyreheros-italic.otf},
+  FontFace={blub}{it}{texgyreheros-italic.otf},
+ ] 
+\begin{document}
+\begin{fstest}
+Test
+\fontseries{m}\fontshape{it}\selectfont Test %fails
+\fontseries{blub}\fontshape{it}\selectfont Test %works
+\end{fstest}
+\end{document}

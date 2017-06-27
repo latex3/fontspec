@@ -69,6 +69,12 @@ To add features to the font family currently in use:
 Change history
 --------------
 
+- v2.6b (2017)
+
+    * Fix conflict with Polyglossia and `Scale=MatchLowercase`.
+    * New feature `NoFontCfg` to avoid loading the `.fontspec` file for a font.
+    
+
 - v2.6a (2017/03/31)
 
     * Fix crashing bug with `..Reset` and `ResetAll` keys.

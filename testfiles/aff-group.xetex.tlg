@@ -1,19 +1,5 @@
 This is a generated file for the l3build validation system.
 Don't change this file in any respect.
-\g__fontspec_family_texgyretermes-regular.otf_int=\count156
-.................................................
-. fontspec info: "defining-font"
-. 
-. Font family 'texgyretermes-regular.otf(0)' created for font
-. 'texgyretermes-regular.otf' with options [Ligatures=TeX].
-.  
-.  This font family consists of the following NFSS series/shapes:
-.  
-. - 'normal' (m/n) with NFSS spec.:
-. <->"[texgyretermes-regular.otf]/OT:script=latn;language=DFLT;mapping=tex-text;"
-. - 'small caps'  (m/sc) with NFSS spec.:
-. <->"[texgyretermes-regular.otf]/OT:script=latn;language=DFLT;+smcp;mapping=tex-text;"
-.................................................
 LaTeX Info: Redefining \rmfamily on input line ....
 .................................................
 . fontspec info: "defining-font"
@@ -30,11 +16,11 @@ LaTeX Info: Redefining \rmfamily on input line ....
 . <->"[texgyretermes-regular.otf]/OT:script=latn;language=DFLT;+smcp;mapping=tex-text;color=AA00AAFF
 . ;"
 .................................................
-Underfull \hbox (badness 10000) in paragraph at lines 8--11
+Underfull \hbox (badness 10000) in paragraph at lines 10--13
 \hbox(0.0+0.0)x227.62207
 .\glue(\rightskip) 0.0
 LaTeX Info: Redefining \rmfamily on input line ....
-Underfull \hbox (badness 10000) in paragraph at lines 13--19
+Underfull \hbox (badness 10000) in paragraph at lines 15--21
 \hbox(0.0+0.0)x227.62207
 .\glue(\rightskip) 0.0
 Completed box being shipped out [1]
@@ -141,7 +127,7 @@ LaTeX Info: Redefining \rmfamily on input line ....
 . <->"[texgyretermes-regular.otf]/OT:script=latn;language=DFLT;+smcp;mapping=tex-text;color=AA00AAFF
 . ;"
 .................................................
-Underfull \hbox (badness 10000) in paragraph at lines 24--27
+Underfull \hbox (badness 10000) in paragraph at lines 26--29
 \hbox(0.0+0.0)x227.62207
 .\glue(\rightskip) 0.0
 LaTeX Info: Redefining \rmfamily on input line ....
@@ -161,7 +147,7 @@ LaTeX Info: Redefining \rmfamily on input line ....
 . <->"[texgyretermes-regular.otf]/OT:script=latn;language=DFLT;+smcp;mapping=tex-text;color=AA00AAFF
 . ;"
 .................................................
-Underfull \hbox (badness 10000) in paragraph at lines 29--35
+Underfull \hbox (badness 10000) in paragraph at lines 31--37
 \hbox(0.0+0.0)x227.62207
 .\glue(\rightskip) 0.0
 Completed box being shipped out [2]

@@ -3,6 +3,8 @@
 \begin{document}
 \makeatletter
 
+\setmainfont{texgyretermes-regular.otf}
+
 \begin{fstest}
 \setmainfont{texgyretermes-regular.otf}
 \noindent set main font\\

@@ -69,10 +69,12 @@ To add features to the font family currently in use:
 Change history
 --------------
 
-- v2.6b (2017)
+- v2.6b (2017/07/16)
 
     * Fix conflict with Polyglossia and `Scale=MatchLowercase`.
     * New feature `IgnoreFontspecFile` to avoid loading the `.fontspec` file for a font.
+    * Fix regression with `\fontspec_if_feature:nTF`
+      (which broke `realscripts`, oops — must improve my test suite)
 
 
 - v2.6a (2017/03/31)

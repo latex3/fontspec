@@ -56,9 +56,9 @@
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \@@_if_merge_shape:n {TF}
   {
-    \bool_if:nTF
+    \bool_lazy_and:nnTF
+      { \tl_if_exist_p:c { \@@_shape_merge:nn {\f@shape} {#1} } }
       {
-        \tl_if_exist_p:c { \@@_shape_merge:nn {\f@shape} {#1} }   &&
         \cs_if_exist_p:c
           {
             \f@encoding/\f@family/\f@series/

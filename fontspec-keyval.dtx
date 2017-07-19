@@ -586,7 +586,7 @@
   \str_if_eq:nnTF {#1} {None}
    {
     \tl_put_right:Nn \l_@@_postadjust_tl
-      { \hyphenchar \font = \c_minus_one }
+      { \hyphenchar \font = -1 \relax }
    }
    {
     \tl_if_single:nTF {#1}

@@ -69,6 +69,11 @@ To add features to the font family currently in use:
 Change history
 --------------
 
+- v2.6c (2017/07/23)
+
+    * Emergency bug-fix.
+
+
 - v2.6b (2017/07/16)
 
     * Fix conflict with Polyglossia and `Scale=MatchLowercase`.

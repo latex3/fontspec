@@ -1,6 +1,6 @@
 This is a generated file for the l3build validation system.
 Don't change this file in any respect.
-\g__fontspec_family_texgyrepagella-regular.otf_int=\count156
+\g__fontspec_family_texgyrepagella-regular.otf_int=\count526
 .................................................
 . fontspec info: "defining-font"
 . 
@@ -36,7 +36,7 @@ Completed box being shipped out [1]
 ...\hbox(0.0+0.0)x227.62207
 ..\glue 25.0
 ..\glue(\lineskip) 0.0
-..\vbox(142.2638+0.0)x227.62207, glue set 117.87122fil
+..\vbox(142.2638+0.0)x227.62207, glue set 120.25095fil
 ...\write-{}
 ...\glue(\topskip) 2.74
 ...\hbox(7.26+0.19998)x227.62207, glue set 140.50874fil
@@ -57,6 +57,7 @@ Completed box being shipped out [1]
 ....\penalty 10000
 ....\glue(\parfillskip) 0.0 plus 1.0fil
 ....\glue(\rightskip) 0.0
+...\glue -2.37999
 ...\glue 0.0 plus 1.0fil
 ...\glue 0.0
 ...\glue 0.0 plus 0.0001fil

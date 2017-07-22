@@ -2,14 +2,14 @@ This is a generated file for the l3build validation system.
 Don't change this file in any respect.
 (fontspec.sty
  (fontspec-xetex.sty
-\l__fontspec_script_int=\count148
-\l__fontspec_language_int=\count149
-\l__fontspec_strnum_int=\count150
-\l__fontspec_tmp_int=\count151
-\l__fontspec_em_int=\count152
-\l__fontspec_emdef_int=\count153
-\l__fontspec_strong_int=\count154
-\l__fontspec_strongdef_int=\count155
+\l__fontspec_script_int=\count518
+\l__fontspec_language_int=\count519
+\l__fontspec_strnum_int=\count520
+\l__fontspec_tmp_int=\count521
+\l__fontspec_em_int=\count522
+\l__fontspec_emdef_int=\count523
+\l__fontspec_strong_int=\count524
+\l__fontspec_strongdef_int=\count525
 \l__fontspec_tmpa_dim=\dimen142
 \l__fontspec_tmpb_dim=\dimen143
 \l__fontspec_tmpc_dim=\dimen144
@@ -20,7 +20,7 @@ LaTeX Font Info:    Try loading font information for EU1+lmr on input line ....
 (../xunicode.sty
 (../t3enc.def
 LaTeX Font Info:    Try loading font information for EU1+lmss on input line ....
-\tipaTiiicode=\count156
+\tipaTiiicode=\count526
 \tipasavetokens=\toks16
 \tipachecktokens=\toks17
 (../graphicx.sty
@@ -31,10 +31,7 @@ LaTeX Font Info:    Try loading font information for EU1+lmss on input line ....
 )
 Package graphics Info: Driver file: xetex.def on input line ....
 (../xetex.def
-(../infwarerr.sty
-)
-(../ltxcmds.sty
-)))
+))
 \Gin@req@height=\dimen145
 \Gin@req@width=\dimen146
 ))
@@ -213,7 +210,7 @@ LaTeX Info: Redefining \- on input line ....
 .................................................
 ))
 \g__file_internal_ior=\read1
-\g__fontspec_family_texgyrepagella-regular.otf_int=\count157
+\g__fontspec_family_texgyrepagella-regular.otf_int=\count527
 .................................................
 . fontspec info: "defining-font"
 . 
@@ -228,7 +225,7 @@ LaTeX Info: Redefining \- on input line ....
 . <->"[texgyrepagella-regular.otf]/OT:script=latn;language=DFLT;+smcp;mapping=tex-text;"
 .................................................
 LaTeX Info: Redefining \rmfamily on input line ....
-No file .aux.
+No file 00-pkg-load-eu.aux.
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line ....
 LaTeX Font Info:    ... okay on input line ....
 LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line ....
@@ -292,7 +289,7 @@ Completed box being shipped out [1]
 ...\hbox(0.0+0.0)x227.62207
 ..\glue 25.0
 ..\glue(\lineskip) 0.0
-..\vbox(142.2638+0.0)x227.62207, glue set 132.04971fil
+..\vbox(142.2638+0.0)x227.62207, glue set 132.24966fil
 ...\write-{}
 ...\glue(\topskip) 2.74
 ...\hbox(7.26+0.19998)x227.62207, glue set 190.73207fil
@@ -301,6 +298,7 @@ Completed box being shipped out [1]
 ....\penalty 10000
 ....\glue(\parfillskip) 0.0 plus 1.0fil
 ....\glue(\rightskip) 0.0
+...\glue -0.19998
 ...\glue 0.0 plus 1.0fil
 ...\glue 0.0
 ...\glue 0.0 plus 0.0001fil

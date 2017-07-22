@@ -1,7 +1,7 @@
 This is a generated file for the l3build validation system.
 Don't change this file in any respect.
 (load luc: ../vollkorn-regular.luc)
-\g__fontspec_family_Vollkorn-Regular.otf_int=\count156
+\g__fontspec_family_Vollkorn-Regular.otf_int=\count526
 .................................................
 . fontspec info: "defining-font"
 . 
@@ -37,7 +37,7 @@ Completed box being shipped out [1]
 ...\hbox(0.0+0.0)x227.62207, direction TLT
 ..\glue 25.0
 ..\glue(\lineskip) 0.0
-..\vbox(142.2638+0.0)x227.62207, glue set 120.16096fil, direction TLT
+..\vbox(142.2638+0.0)x227.62207, glue set 120.25095fil, direction TLT
 ...\write-{}
 ...\glue(\topskip) 4.94
 ...\hbox(5.06+0.09)x227.62207, glue set 197.36208fil, direction TLT
@@ -68,6 +68,7 @@ Completed box being shipped out [1]
 ....\penalty 10000
 ....\glue(\parfillskip) 0.0 plus 1.0fil
 ....\glue(\rightskip) 0.0
+...\glue -0.09
 ...\glue 0.0 plus 1.0fil
 ...\glue 0.0
 ...\glue 0.0 plus 0.0001fil

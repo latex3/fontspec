@@ -1,7 +1,7 @@
 This is a generated file for the l3build validation system.
 Don't change this file in any respect.
 (load luc: ../texgyretermes-regular.luc)
-\g__fontspec_family_texgyretermes-regular.otf_int=\count156
+\g__fontspec_family_texgyretermes-regular.otf_int=\count526
 (load luc: ../texgyretermes-italic.luc)
 .................................................
 . fontspec info: "defining-font"
@@ -35,10 +35,10 @@ Completed box being shipped out [1]
 ...\hbox(0.0+0.0)x227.62207, direction TLT
 ..\glue 25.0
 ..\glue(\lineskip) 0.0
-..\vbox(142.2638+0.0)x227.62207, glue set 132.11967fil, direction TLT
+..\vbox(142.2638+0.0)x227.62207, glue set 132.24966fil, direction TLT
 ...\write-{}
 ...\glue(\topskip) 3.17
-...\hbox(6.83+0.13)x227.62207, glue set 97.16205fil, direction TLT
+...\hbox(6.83+0.13)x227.62207, glue set 97.16208fil, direction TLT
 ....\localpar
 .....\localinterlinepenalty=0
 .....\localbrokenpenalty=0
@@ -46,10 +46,10 @@ Completed box being shipped out [1]
 .....\localrightbox=null
 ....\hbox(0.0+0.0)x15.0, direction TLT
 ....\TU/texgyretermes-regular.otf(0)/m/n/10 R
-....\kern -0.34999
+....\kern -0.35
 ....\TU/texgyretermes-regular.otf(0)/m/n/10 o
-....\discretionary50|
-.....\TU/texgyretermes-regular.otf(0)/m/n/10 -
+....\discretionary (penalty 50)
+.....< \TU/texgyretermes-regular.otf(0)/m/n/10 -
 ....\TU/texgyretermes-regular.otf(0)/m/n/10 m
 ....\TU/texgyretermes-regular.otf(0)/m/n/10 a
 ....\TU/texgyretermes-regular.otf(0)/m/n/10 n
@@ -57,8 +57,8 @@ Completed box being shipped out [1]
 ....\TU/texgyretermes-regular.otf(0)/m/n/10 l
 ....\TU/texgyretermes-regular.otf(0)/m/n/10 e
 ....\TU/texgyretermes-regular.otf(0)/m/n/10 t
-....\discretionary50|
-.....\TU/texgyretermes-regular.otf(0)/m/n/10 -
+....\discretionary (penalty 50)
+.....< \TU/texgyretermes-regular.otf(0)/m/n/10 -
 ....\TU/texgyretermes-regular.otf(0)/m/n/10 t
 ....\TU/texgyretermes-regular.otf(0)/m/n/10 e
 ....\TU/texgyretermes-regular.otf(0)/m/n/10 r
@@ -70,7 +70,7 @@ Completed box being shipped out [1]
 ....\TU/texgyretermes-regular.otf(0)/m/it/10 d
 ....\glue(\spaceskip) 2.5 plus 1.25 minus 0.83333
 ....\TU/texgyretermes-regular.otf(0)/m/it/10 r
-....\kern -0.29999
+....\kern -0.3
 ....\TU/texgyretermes-regular.otf(0)/m/it/10 e
 ....\TU/texgyretermes-regular.otf(0)/m/it/10 d
 ....\glue(\spaceskip) 2.5 plus 1.25 minus 0.83333
@@ -78,8 +78,8 @@ Completed box being shipped out [1]
 ....\TU/texgyretermes-regular.otf(0)/m/it/10 t
 ....\TU/texgyretermes-regular.otf(0)/m/it/10 a
 ....\TU/texgyretermes-regular.otf(0)/m/it/10 l
-....\discretionary50|
-.....\TU/texgyretermes-regular.otf(0)/m/it/10 -
+....\discretionary (penalty 50)
+.....< \TU/texgyretermes-regular.otf(0)/m/it/10 -
 ....\TU/texgyretermes-regular.otf(0)/m/it/10 i
 ....\TU/texgyretermes-regular.otf(0)/m/it/10 c
 ....\TU/texgyretermes-regular.otf(0)/m/it/10 s
@@ -87,6 +87,7 @@ Completed box being shipped out [1]
 ....\glue(\parfillskip) 0.0 plus 1.0fil
 ....\glue(\rightskip) 0.0
 ....\pdfcolorstack 0 pop
+...\glue -0.13
 ...\glue 0.0 plus 1.0fil
 ...\glue 0.0
 ...\glue 0.0 plus 0.0001fil

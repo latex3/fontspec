@@ -9,7 +9,7 @@ Completed box being shipped out [1]
 ...\hbox(0.0+0.0)x227.62207, direction TLT
 ..\glue 25.0
 ..\glue(\lineskip) 0.0
-..\vbox(142.2638+0.0)x227.62207, glue set 108.05226fil, direction TLT
+..\vbox(142.2638+0.0)x227.62207, glue set 108.25223fil, direction TLT
 ...\write-{}
 ...\glue(\topskip) 2.67
 ...\hbox(7.33+0.2)x227.62207, glue set 58.98204fil, direction TLT
@@ -158,6 +158,7 @@ Completed box being shipped out [1]
 ....\penalty 10000
 ....\glue(\parfillskip) 0.0 plus 1.0fil
 ....\glue(\rightskip) 0.0
+...\glue -0.2
 ...\glue 0.0 plus 1.0fil
 ...\glue 0.0
 ...\glue 0.0 plus 0.0001fil
@@ -172,7 +173,7 @@ Completed box being shipped out [2]
 ...\hbox(0.0+0.0)x227.62207, direction TLT
 ..\glue 25.0
 ..\glue(\lineskip) 0.0
-..\vbox(142.2638+0.0)x227.62207, glue set 108.08226fil, direction TLT
+..\vbox(142.2638+0.0)x227.62207, glue set 108.25223fil, direction TLT
 ...\write-{}
 ...\glue(\topskip) 2.74
 ...\hbox(7.26+0.17)x227.62207, glue set 49.71199fil, direction TLT
@@ -317,6 +318,7 @@ Completed box being shipped out [2]
 ....\penalty 10000
 ....\glue(\parfillskip) 0.0 plus 1.0fil
 ....\glue(\rightskip) 0.0
+...\glue -0.17
 ...\glue 0.0 plus 1.0fil
 ...\glue 0.0
 ...\glue 0.0 plus 0.0001fil

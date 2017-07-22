@@ -3,14 +3,14 @@ Don't change this file in any respect.
 (../article.cls
 (../size10.clo
 )
-\c@part=\count145
-\c@section=\count146
-\c@subsection=\count147
-\c@subsubsection=\count148
-\c@paragraph=\count149
-\c@subparagraph=\count150
-\c@figure=\count151
-\c@table=\count152
+\c@part=\count515
+\c@section=\count516
+\c@subsection=\count517
+\c@subsubsection=\count518
+\c@paragraph=\count519
+\c@subparagraph=\count520
+\c@figure=\count521
+\c@table=\count522
 \abovecaptionskip=\skip47
 \belowcaptionskip=\skip48
 \bibindent=\dimen136
@@ -26,9 +26,9 @@ Package ifvtex Info: VTeX not detected.
 )
 (../ifxetex.sty
 )
-\Gm@cnth=\count153
-\Gm@cntv=\count154
-\c@Gm@tempcnt=\count155
+\Gm@cnth=\count523
+\Gm@cntv=\count524
+\c@Gm@tempcnt=\count525
 \Gm@bindingoffset=\dimen137
 \Gm@wd@mp=\dimen138
 \Gm@odd@mp=\dimen139
@@ -41,7 +41,7 @@ Package ifvtex Info: VTeX not detected.
 )
 \TESTBOX=\box42
 (load luc: ../texgyrepagella-regular.luc)
-\g__fontspec_family_texgyrepagella-regular.otf_int=\count156
+\g__fontspec_family_texgyrepagella-regular.otf_int=\count526
 .................................................
 . fontspec info: "defining-font"
 . 
@@ -56,7 +56,7 @@ Package ifvtex Info: VTeX not detected.
 . <->"[texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;+smcp;"
 .................................................
 LaTeX Info: Redefining \rmfamily on input line ....
-No file .aux.
+No file 02-pkg-load-predocclass.aux.
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line ....
 LaTeX Font Info:    ... okay on input line ....
 LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line ....
@@ -171,7 +171,7 @@ Completed box being shipped out [1]
 ...\hbox(0.0+0.0)x227.62207, direction TLT
 ..\glue 25.0
 ..\glue(\lineskip) 0.0
-..\vbox(142.2638+0.0)x227.62207, glue set 132.0497fil, direction TLT
+..\vbox(142.2638+0.0)x227.62207, glue set 132.24966fil, direction TLT
 ...\write-{}
 ...\glue(\topskip) 2.74
 ...\hbox(7.26+0.2)x227.62207, glue set 190.73206fil, direction TLT
@@ -189,6 +189,7 @@ Completed box being shipped out [1]
 ....\penalty 10000
 ....\glue(\parfillskip) 0.0 plus 1.0fil
 ....\glue(\rightskip) 0.0
+...\glue -0.2
 ...\glue 0.0 plus 1.0fil
 ...\glue 0.0
 ...\glue 0.0 plus 0.0001fil

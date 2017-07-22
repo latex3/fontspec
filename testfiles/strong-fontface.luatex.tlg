@@ -29,11 +29,11 @@ Overfull \hbox (3.37793pt too wide) in paragraph at lines 14--26
 .\TU/SourceCodePro(0)/bx/n/10 r
 .\TU/SourceCodePro(0)/bx/n/10 e
 .\TU/SourceCodePro(0)/bx/n/10 g
-.\discretionary50|
-..\TU/SourceCodePro(0)/bx/n/10 -
+.\discretionary (penalty 50)
+..< \TU/SourceCodePro(0)/bx/n/10 -
 .\TU/SourceCodePro(0)/bx/n/10 u
-.\discretionary50|
-..\TU/SourceCodePro(0)/bx/n/10 -
+.\discretionary (penalty 50)
+..< \TU/SourceCodePro(0)/bx/n/10 -
 .\TU/SourceCodePro(0)/bx/n/10 l
 .\TU/SourceCodePro(0)/bx/n/10 a
 .\TU/SourceCodePro(0)/bx/n/10 r

@@ -81,7 +81,7 @@ Completed box being shipped out [1]
 ....\glue(\rightskip) 0.0
 ....\pdfcolorstack 0 pop
 ...\glue(\baselineskip) 5.06999
-...\hbox(6.83+0.1)x227.62207, glue set 156.20204fil, direction TLT
+...\hbox(6.83+0.1)x227.62207, glue set 156.20206fil, direction TLT
 ....\TU/texgyretermes-regular.otf(0)/m/n/10 a
 ....\TU/texgyretermes-regular.otf(0)/m/n/10 f
 ....\TU/texgyretermes-regular.otf(0)/m/n/10 t
@@ -92,21 +92,21 @@ Completed box being shipped out [1]
 ....\TU/texgyretermes-regular.otf(0)/m/n/10 n
 ....\TU/texgyretermes-regular.otf(0)/m/n/10 o
 ....\TU/texgyretermes-regular.otf(0)/m/n/10 r
-....\discretionary50| replacing 
-.....\kern 0.2
-.....\kern -0.45
-.....\TU/texgyretermes-regular.otf(0)/m/n/10 -
+....\discretionary (penalty 50)
+.....< \kern -0.45
+.....< \TU/texgyretermes-regular.otf(0)/m/n/10 -
+.....= \kern 0.2
 ....\TU/texgyretermes-regular.otf(0)/m/n/10 m
 ....\TU/texgyretermes-regular.otf(0)/m/n/10 a
 ....\TU/texgyretermes-regular.otf(0)/m/n/10 l
-....\discretionary50|
-.....\TU/texgyretermes-regular.otf(0)/m/n/10 -
+....\discretionary (penalty 50)
+.....< \TU/texgyretermes-regular.otf(0)/m/n/10 -
 ....\TU/texgyretermes-regular.otf(0)/m/n/10 f
 ....\kern -0.4
 ....\TU/texgyretermes-regular.otf(0)/m/n/10 o
 ....\TU/texgyretermes-regular.otf(0)/m/n/10 n
 ....\TU/texgyretermes-regular.otf(0)/m/n/10 t
-....\kern -0.29999
+....\kern -0.3
 ....\TU/texgyretermes-regular.otf(0)/m/n/10 ’
 ....\penalty 10000
 ....\glue 0.0 plus 1.0fil
@@ -144,7 +144,7 @@ Completed box being shipped out [1]
 ....\glue(\rightskip) 0.0
 ...\penalty 150
 ...\glue(\baselineskip) 5.15999
-...\hbox(6.74+2.18)x227.62207, glue set 173.07208fil, direction TLT
+...\hbox(6.74+2.18)x227.62207, glue set 173.07207fil, direction TLT
 ....\pdfcolorstack 0 push {0.667 0 0.667 rg}
 ....\TU/texgyretermes-regular.otf(1)/m/n/10 A
 ....\TU/texgyretermes-regular.otf(1)/m/n/10 F
@@ -154,7 +154,7 @@ Completed box being shipped out [1]
 ....\TU/texgyretermes-regular.otf(1)/m/n/10 n
 ....\glue(\spaceskip) 2.5 plus 1.25 minus 0.83333
 ....\TU/texgyretermes-regular.otf(1)/m/n/10 g
-....\kern 0.09999
+....\kern 0.1
 ....\TU/texgyretermes-regular.otf(1)/m/n/10 r
 ....\TU/texgyretermes-regular.otf(1)/m/n/10 o
 ....\TU/texgyretermes-regular.otf(1)/m/n/10 u
@@ -165,7 +165,7 @@ Completed box being shipped out [1]
 ....\glue(\rightskip) 0.0
 ....\pdfcolorstack 0 pop
 ...\glue(\baselineskip) 2.99
-...\hbox(6.83+2.18)x227.62207, glue set 183.37207fil, direction TLT
+...\hbox(6.83+2.18)x227.62207, glue set 183.37206fil, direction TLT
 ....\TU/texgyretermes-regular.otf(0)/m/n/10 a
 ....\TU/texgyretermes-regular.otf(0)/m/n/10 f
 ....\TU/texgyretermes-regular.otf(0)/m/n/10 t
@@ -173,7 +173,7 @@ Completed box being shipped out [1]
 ....\TU/texgyretermes-regular.otf(0)/m/n/10 r
 ....\glue(\spaceskip) 2.5 plus 1.25 minus 0.83333
 ....\TU/texgyretermes-regular.otf(0)/m/n/10 g
-....\kern 0.09999
+....\kern 0.1
 ....\TU/texgyretermes-regular.otf(0)/m/n/10 r
 ....\TU/texgyretermes-regular.otf(0)/m/n/10 o
 ....\TU/texgyretermes-regular.otf(0)/m/n/10 u
@@ -286,7 +286,7 @@ Completed box being shipped out [2]
 ....\glue(\rightskip) 0.0
 ....\pdfcolorstack 0 pop
 ...\glue(\baselineskip) 5.06999
-...\hbox(6.83+1.77)x227.62207, glue set 74.21202fil, direction TLT
+...\hbox(6.83+1.77)x227.62207, glue set 74.21205fil, direction TLT
 ....\pdfcolorstack 0 push {0.667 0 0.667 rg}
 ....\TU/texgyretermes-regular.otf(0)/m/n/10 a
 ....\TU/texgyretermes-regular.otf(0)/m/n/10 f
@@ -298,21 +298,21 @@ Completed box being shipped out [2]
 ....\TU/texgyretermes-regular.otf(0)/m/n/10 n
 ....\TU/texgyretermes-regular.otf(0)/m/n/10 o
 ....\TU/texgyretermes-regular.otf(0)/m/n/10 r
-....\discretionary50| replacing 
-.....\kern 0.2
-.....\kern -0.45
-.....\TU/texgyretermes-regular.otf(0)/m/n/10 -
+....\discretionary (penalty 50)
+.....< \kern -0.45
+.....< \TU/texgyretermes-regular.otf(0)/m/n/10 -
+.....= \kern 0.2
 ....\TU/texgyretermes-regular.otf(0)/m/n/10 m
 ....\TU/texgyretermes-regular.otf(0)/m/n/10 a
 ....\TU/texgyretermes-regular.otf(0)/m/n/10 l
-....\discretionary50|
-.....\TU/texgyretermes-regular.otf(0)/m/n/10 -
+....\discretionary (penalty 50)
+.....< \TU/texgyretermes-regular.otf(0)/m/n/10 -
 ....\TU/texgyretermes-regular.otf(0)/m/n/10 f
 ....\kern -0.4
 ....\TU/texgyretermes-regular.otf(0)/m/n/10 o
 ....\TU/texgyretermes-regular.otf(0)/m/n/10 n
 ....\TU/texgyretermes-regular.otf(0)/m/n/10 t
-....\kern -0.29999
+....\kern -0.3
 ....\TU/texgyretermes-regular.otf(0)/m/n/10 ’
 ....\glue(\spaceskip) 2.5 plus 1.25 minus 0.83333
 ....\TU/texgyretermes-regular.otf(0)/m/n/10 (
@@ -325,7 +325,7 @@ Completed box being shipped out [2]
 ....\glue(\spaceskip) 2.5 plus 1.25 minus 0.83333
 ....\TU/texgyretermes-regular.otf(0)/m/n/10 n
 ....\TU/texgyretermes-regular.otf(0)/m/n/10 o
-....\kern -0.34999
+....\kern -0.35
 ....\TU/texgyretermes-regular.otf(0)/m/n/10 w
 ....\glue(\spaceskip) 2.5 plus 1.25 minus 0.83333
 ....\TU/texgyretermes-regular.otf(0)/m/n/10 m
@@ -346,7 +346,7 @@ Completed box being shipped out [2]
 ....\glue(\rightskip) 0.0
 ...\glue(\parskip) 0.0 plus 1.0
 ...\glue(\baselineskip) 5.17
-...\hbox(6.83+2.18)x227.62207, glue set 104.46204fil, direction TLT
+...\hbox(6.83+2.18)x227.62207, glue set 104.46205fil, direction TLT
 ....\localpar
 .....\localinterlinepenalty=0
 .....\localbrokenpenalty=0
@@ -371,7 +371,7 @@ Completed box being shipped out [2]
 ....\TU/texgyretermes-regular.otf(0)/m/n/10 (
 ....\TU/texgyretermes-regular.otf(0)/m/n/10 w
 ....\TU/texgyretermes-regular.otf(0)/m/n/10 h
-....\kern -0.29999
+....\kern -0.3
 ....\TU/texgyretermes-regular.otf(0)/m/n/10 y
 ....\glue(\spaceskip) 2.5 plus 1.25 minus 0.83333
 ....\TU/texgyretermes-regular.otf(0)/m/n/10 c
@@ -392,7 +392,7 @@ Completed box being shipped out [2]
 ....\pdfcolorstack 0 pop
 ...\penalty 150
 ...\glue(\baselineskip) 3.08
-...\hbox(6.74+2.18)x227.62207, glue set 173.07208fil, direction TLT
+...\hbox(6.74+2.18)x227.62207, glue set 173.07207fil, direction TLT
 ....\pdfcolorstack 0 push {0.667 0 0.667 rg}
 ....\TU/texgyretermes-regular.otf(0)/m/n/10 A
 ....\TU/texgyretermes-regular.otf(0)/m/n/10 F
@@ -402,7 +402,7 @@ Completed box being shipped out [2]
 ....\TU/texgyretermes-regular.otf(0)/m/n/10 n
 ....\glue(\spaceskip) 2.5 plus 1.25 minus 0.83333
 ....\TU/texgyretermes-regular.otf(0)/m/n/10 g
-....\kern 0.09999
+....\kern 0.1
 ....\TU/texgyretermes-regular.otf(0)/m/n/10 r
 ....\TU/texgyretermes-regular.otf(0)/m/n/10 o
 ....\TU/texgyretermes-regular.otf(0)/m/n/10 u
@@ -413,7 +413,7 @@ Completed box being shipped out [2]
 ....\glue(\rightskip) 0.0
 ....\pdfcolorstack 0 pop
 ...\glue(\baselineskip) 2.99
-...\hbox(6.83+2.18)x227.62207, glue set 183.37207fil, direction TLT
+...\hbox(6.83+2.18)x227.62207, glue set 183.37206fil, direction TLT
 ....\pdfcolorstack 0 push {0.667 0 0.667 rg}
 ....\TU/texgyretermes-regular.otf(0)/m/n/10 a
 ....\TU/texgyretermes-regular.otf(0)/m/n/10 f
@@ -422,7 +422,7 @@ Completed box being shipped out [2]
 ....\TU/texgyretermes-regular.otf(0)/m/n/10 r
 ....\glue(\spaceskip) 2.5 plus 1.25 minus 0.83333
 ....\TU/texgyretermes-regular.otf(0)/m/n/10 g
-....\kern 0.09999
+....\kern 0.1
 ....\TU/texgyretermes-regular.otf(0)/m/n/10 r
 ....\TU/texgyretermes-regular.otf(0)/m/n/10 o
 ....\TU/texgyretermes-regular.otf(0)/m/n/10 u

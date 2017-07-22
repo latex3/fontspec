@@ -29,7 +29,7 @@ Completed box being shipped out [1]
 ...\glue 20.0
 ...\glue(\parskip) 0.0 plus 1.0
 ...\glue(\baselineskip) 5.43323
-...\hbox(16.56677+2.29823)x227.62207, glue set 63.37067fil, direction TLT
+...\hbox(16.56677+2.29823)x227.62207, glue set 63.37065fil, direction TLT
 ....\glue(\leftskip) 0.0 plus 1.0fil
 ....\localpar
 .....\localinterlinepenalty=0
@@ -45,75 +45,75 @@ Completed box being shipped out [1]
 ....\penalty 0
 ....\TU/LinLibertine_R.otf(0)/m/n/17.28 a
 ....\TU/LinLibertine_R.otf(0)/m/n/17.28 b
-....\kern 0.17279
+....\kern 0.1728
 ....\TU/LinLibertine_R.otf(0)/m/n/17.28 c
 ....\TU/LinLibertine_R.otf(0)/m/n/17.28 ,
 ....\glue(\spaceskip) 4.32 plus 2.7 minus 1.152
 ....\penalty 10000
-....\hbox(10.65077+0.0)x0.0, glue set - 4.83502fil, direction TLT
+....\hbox(10.65077+0.0)x0.0, glue set - 4.83504fil, direction TLT
 .....\mathon
 .....\hbox(0.0+0.0)x0.0, direction TLT
-.....\hbox(4.38+0.0)x4.83502, shifted -6.27077, direction TLT
+.....\hbox(4.38+0.0)x4.83504, shifted -6.27077, direction TLT
 ......\TU/LinLibertine_R.otf(0)/m/n/12 ∗
 .....\mathoff
 .....\glue 0.0 plus 1.0fil minus 1.0fil
 ....\TU/LinLibertine_R.otf(0)/m/n/17.28 ,
 ....\glue(\spaceskip) 4.32 plus 2.7 minus 1.152
 ....\penalty 10000
-....\hbox(14.63477+0.0)x0.0, glue set - 7.79903fil, direction TLT
+....\hbox(14.63477+0.0)x0.0, glue set - 7.79904fil, direction TLT
 .....\mathon
 .....\hbox(0.0+0.0)x0.0, direction TLT
-.....\hbox(8.364+2.484)x7.79903, shifted -6.27077, direction TLT
+.....\hbox(8.364+2.484)x7.79904, shifted -6.27077, direction TLT
 ......\TU/LinLibertine_R.otf(0)/m/n/12 †
 .....\mathoff
 .....\glue 0.0 plus 1.0fil minus 1.0fil
 ....\TU/LinLibertine_R.otf(0)/m/n/17.28 ,
 ....\glue(\spaceskip) 4.32 plus 2.7 minus 1.152
 ....\penalty 10000
-....\hbox(14.63477+0.0)x0.0, glue set - 7.79903fil, direction TLT
+....\hbox(14.63477+0.0)x0.0, glue set - 7.79904fil, direction TLT
 .....\mathon
 .....\hbox(0.0+0.0)x0.0, direction TLT
-.....\hbox(8.364+2.484)x7.79903, shifted -6.27077, direction TLT
+.....\hbox(8.364+2.484)x7.79904, shifted -6.27077, direction TLT
 ......\TU/LinLibertine_R.otf(0)/m/n/12 ‡
 .....\mathoff
 .....\glue 0.0 plus 1.0fil minus 1.0fil
 ....\TU/LinLibertine_R.otf(0)/m/n/17.28 ,
 ....\glue(\spaceskip) 4.32 plus 2.7 minus 1.152
 ....\penalty 10000
-....\hbox(14.16676+0.0)x0.0, glue set - 6.41902fil, direction TLT
+....\hbox(14.16676+0.0)x0.0, glue set - 6.41904fil, direction TLT
 .....\mathon
 .....\hbox(0.0+0.0)x0.0, direction TLT
-.....\hbox(7.896+2.064)x6.41902, shifted -6.27077, direction TLT
+.....\hbox(7.896+2.064)x6.41904, shifted -6.27077, direction TLT
 ......\TU/LinLibertine_R.otf(0)/m/n/12 ^^a7
 .....\mathoff
 .....\glue 0.0 plus 1.0fil minus 1.0fil
 ....\TU/LinLibertine_R.otf(0)/m/n/17.28 ,
 ....\glue(\spaceskip) 4.32 plus 2.7 minus 1.152
 ....\penalty 10000
-....\hbox(14.03477+0.0)x0.0, glue set - 7.96703fil, direction TLT
+....\hbox(14.03477+0.0)x0.0, glue set - 7.96704fil, direction TLT
 .....\mathon
 .....\hbox(0.0+0.0)x0.0, direction TLT
-.....\hbox(7.764+2.808)x7.96703, shifted -6.27077, direction TLT
+.....\hbox(7.764+2.808)x7.96704, shifted -6.27077, direction TLT
 ......\TU/LinLibertine_R.otf(0)/m/n/12 ^^b6
 .....\mathoff
 .....\glue 0.0 plus 1.0fil minus 1.0fil
 ....\TU/LinLibertine_R.otf(0)/m/n/17.28 ,
 ....\glue(\spaceskip) 4.32 plus 2.7 minus 1.152
 ....\penalty 10000
-....\hbox(16.56677+0.0)x0.0, glue set - 4.07903fil, direction TLT
+....\hbox(16.56677+0.0)x0.0, glue set - 4.07904fil, direction TLT
 .....\mathon
 .....\hbox(0.0+0.0)x0.0, direction TLT
-.....\hbox(10.296+2.448)x4.07903, shifted -6.27077, direction TLT
+.....\hbox(10.296+2.448)x4.07904, shifted -6.27077, direction TLT
 ......\TU/LinLibertine_R.otf(0)/m/n/12 ‖
 .....\mathoff
 .....\glue 0.0 plus 1.0fil minus 1.0fil
 ....\TU/LinLibertine_R.otf(0)/m/n/17.28 ,
 ....\glue(\spaceskip) 4.32 plus 2.7 minus 1.152
 ....\penalty 10000
-....\hbox(10.65077+0.0)x0.0, glue set - 8.92702fil, direction TLT
+....\hbox(10.65077+0.0)x0.0, glue set - 8.92703fil, direction TLT
 .....\mathon
 .....\hbox(0.0+0.0)x0.0, direction TLT
-.....\hbox(4.38+0.0)x8.92702, shifted -6.27077, direction TLT
+.....\hbox(4.38+0.0)x8.92703, shifted -6.27077, direction TLT
 ......\TU/LinLibertine_R.otf(0)/m/n/12 ∗
 ......\TU/LinLibertine_R.otf(0)/m/n/12 ∗
 .....\mathoff
@@ -121,10 +121,10 @@ Completed box being shipped out [1]
 ....\TU/LinLibertine_R.otf(0)/m/n/17.28 ,
 ....\glue(\spaceskip) 4.32 plus 2.7 minus 1.152
 ....\penalty 10000
-....\hbox(14.63477+0.0)x0.0, glue set - 14.85503fil, direction TLT
+....\hbox(14.63477+0.0)x0.0, glue set - 14.85504fil, direction TLT
 .....\mathon
 .....\hbox(0.0+0.0)x0.0, direction TLT
-.....\hbox(8.364+2.484)x14.85503, shifted -6.27077, direction TLT
+.....\hbox(8.364+2.484)x14.85504, shifted -6.27077, direction TLT
 ......\TU/LinLibertine_R.otf(0)/m/n/12 †
 ......\TU/LinLibertine_R.otf(0)/m/n/12 †
 .....\mathoff
@@ -132,10 +132,10 @@ Completed box being shipped out [1]
 ....\TU/LinLibertine_R.otf(0)/m/n/17.28 ,
 ....\glue(\spaceskip) 4.32 plus 2.7 minus 1.152
 ....\penalty 10000
-....\hbox(14.63477+0.0)x0.0, glue set - 14.85503fil, direction TLT
+....\hbox(14.63477+0.0)x0.0, glue set - 14.85504fil, direction TLT
 .....\mathon
 .....\hbox(0.0+0.0)x0.0, direction TLT
-.....\hbox(8.364+2.484)x14.85503, shifted -6.27077, direction TLT
+.....\hbox(8.364+2.484)x14.85504, shifted -6.27077, direction TLT
 ......\TU/LinLibertine_R.otf(0)/m/n/12 ‡
 ......\TU/LinLibertine_R.otf(0)/m/n/12 ‡
 .....\mathoff

@@ -580,9 +580,6 @@
 %    \begin{macrocode}
 \@@_keys_define_code:nnn {fontspec} {HyphenChar}
  {
-  \bool_if:NT \l_@@_addfontfeatures_bool
-   { \@@_error:nx {not-in-addfontfeatures} {HyphenChar} }
-
   \str_if_eq:nnTF {#1} {None}
    {
     \tl_put_right:Nn \l_@@_postadjust_tl

@@ -1,0 +1,27 @@
+\input{fontspec-testsetup.tex}
+\usepackage{fontspec}
+\begin{document}
+
+\defaultfontfeatures[\codefont]{Color=FF0000}
+\newfontfamily\codefont[NFSSFamily=ABC]{Inconsolata}
+
+\MSG{Default font:}
+`hello' 123
+\CURRNFSS
+
+\MSG{Code with particular NFSS family font:}
+\codefont
+hello again
+\CURRNFSS
+
+\MSG{Back to normal font:}
+\normalfont
+bleah
+\CURRNFSS
+
+\MSG{Loading NFSS family explicit:}
+\fontfamily{ABC}\selectfont
+hi
+\CURRNFSS
+
+\end{document}

@@ -1,0 +1,16 @@
+\input{fontspec-testsetup.tex}
+\usepackage{fontspec}
+\usepackage{xcolor}
+\begin{document}
+
+\MSG{Loading a font with hex colour:}
+{\fontspec[Color=5500FF]{texgyreheros-regular.otf}\CURRNFSS}
+
+\MSG{Loading a font by name (xcolor):}
+{\fontspec[Color=red]{texgyreheros-regular.otf}\CURRNFSS}
+
+\MSG{Defining a new xcolor colour and using it:}
+\definecolor{Foo}{rgb}{0.3,0.4,0.5}
+{\fontspec[Color=Foo]{texgyreheros-regular.otf}\CURRNFSS}
+
+\end{document}

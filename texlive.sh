@@ -30,6 +30,7 @@ tlmgr install cm etex knuth-lib latex-bin tex tex-ini-files unicode-data \
 
 # Dependencies
 tlmgr install  \
+  Asana-Math   \
   geometry     \
   graphics     \
   ifluatex     \

@@ -4,11 +4,16 @@
  [
   FontFace={m}{it}{texgyreheros-italic.otf},
   FontFace={blub}{it}{texgyreheros-italic.otf},
- ] 
+ ]
 \begin{document}
-\begin{fstest}
+
 Test
-\fontseries{m}\fontshape{it}\selectfont Test %fails
-\fontseries{blub}\fontshape{it}\selectfont Test %works
-\end{fstest}
+\CURRNFSS
+
+\fontseries{m}\fontshape{it}\selectfont Test
+\CURRNFSS
+
+\fontseries{blub}\fontshape{it}\selectfont Test
+\CURRNFSS
+
 \end{document}

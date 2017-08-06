@@ -1,54 +1,13 @@
 This is a generated file for the l3build validation system.
 Don't change this file in any respect.
-.................................................
-. fontspec info: "defining-font"
-. 
-. Font family 'texgyrepagella-regular.otf(1)' created for font
-. 'texgyrepagella-regular.otf' with options [Numbers={OldStyle,Monospaced}].
-.  
-.  This font family consists of the following NFSS series/shapes:
-.  
-. - 'normal' (m/n) with NFSS spec.:
-. <->"[texgyrepagella-regular.otf]/OT:script=latn;language=DFLT;+onum;+tnum;"
-. - 'small caps'  (m/sc) with NFSS spec.:
-. <->"[texgyrepagella-regular.otf]/OT:script=latn;language=DFLT;+onum;+tnum;+smcp;"
-.................................................
-.................................................
-. fontspec info: "defining-font"
-. 
-. Font family 'texgyrepagella-regular.otf(2)' created for font
-. 'texgyrepagella-regular.otf' with options [Numbers={Lowercase,Monospaced}].
-.  
-.  This font family consists of the following NFSS series/shapes:
-.  
-. - 'normal' (m/n) with NFSS spec.:
-. <->"[texgyrepagella-regular.otf]/OT:script=latn;language=DFLT;+onum;+tnum;"
-. - 'small caps'  (m/sc) with NFSS spec.:
-. <->"[texgyrepagella-regular.otf]/OT:script=latn;language=DFLT;+onum;+tnum;+smcp;"
-.................................................
-.................................................
-. fontspec info: "defining-font"
-. 
-. Font family 'texgyrepagella-regular.otf(3)' created for font
-. 'texgyrepagella-regular.otf' with options [Numbers={OldStyle,Tabular}].
-.  
-.  This font family consists of the following NFSS series/shapes:
-.  
-. - 'normal' (m/n) with NFSS spec.:
-. <->"[texgyrepagella-regular.otf]/OT:script=latn;language=DFLT;+onum;+tnum;"
-. - 'small caps'  (m/sc) with NFSS spec.:
-. <->"[texgyrepagella-regular.otf]/OT:script=latn;language=DFLT;+onum;+tnum;+smcp;"
-.................................................
-.................................................
-. fontspec info: "defining-font"
-. 
-. Font family 'texgyrepagella-regular.otf(4)' created for font
-. 'texgyrepagella-regular.otf' with options [Numbers={Lowercase,Tabular}].
-.  
-.  This font family consists of the following NFSS series/shapes:
-.  
-. - 'normal' (m/n) with NFSS spec.:
-. <->"[texgyrepagella-regular.otf]/OT:script=latn;language=DFLT;+onum;+tnum;"
-. - 'small caps'  (m/sc) with NFSS spec.:
-. <->"[texgyrepagella-regular.otf]/OT:script=latn;language=DFLT;+onum;+tnum;+smcp;"
-.................................................
+This test also checks that "aliased" options are working correctly.
+TU/texgyrepagella-regular.otf(0)/m/n:
+  "[texgyrepagella-regular.otf]/OT:script=latn;language=DFLT;"
+TU/texgyrepagella-regular.otf(1)/m/n:
+  "[texgyrepagella-regular.otf]/OT:script=latn;language=DFLT;+onum;+tnum;"
+TU/texgyrepagella-regular.otf(2)/m/n:
+  "[texgyrepagella-regular.otf]/OT:script=latn;language=DFLT;+onum;+tnum;"
+TU/texgyrepagella-regular.otf(3)/m/n:
+  "[texgyrepagella-regular.otf]/OT:script=latn;language=DFLT;+onum;+tnum;"
+TU/texgyrepagella-regular.otf(4)/m/n:
+  "[texgyrepagella-regular.otf]/OT:script=latn;language=DFLT;+onum;+tnum;"

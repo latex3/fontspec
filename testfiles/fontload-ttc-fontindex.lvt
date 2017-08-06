@@ -1,14 +1,19 @@
 \input{fontspec-testsetup.tex}
 \usepackage{fontspec}
 \begin{document}
-%\ifdefined\directlua\typeout{}
-\begin{fstest}
-\OMIT
+
+\ExplSyntaxOn
+  \fontspec_font_if_exist:nF {ASANA.TTC}
+    { \MSG{ ASANA.TTC~not~found.~Errors~will~follow.} }
+\ExplSyntaxOff
+
 \fontspec{ASANA.TTC}
     \TIMO\typeout{\fontname\font}\OMIT
+
 \fontspec{ASANA.TTC}[FontIndex=0]
     \TIMO\typeout{\fontname\font}\OMIT
+
 \fontspec{ASANA.TTC}[FontIndex=1]
     \TIMO\typeout{\fontname\font}\OMIT
-\end{fstest}
+
 \end{document}

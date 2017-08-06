@@ -62,3 +62,4 @@ fi
 
 cd /tmp/fontspec-test-fonts
 sh install.sh
+cd -

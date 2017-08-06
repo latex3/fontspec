@@ -4,6 +4,7 @@ install:
 cache:
   directories:
     - /tmp/texlive
+    - /tmp/fontspec-test-fonts
 
 script:
  - texlua build.lua check -H

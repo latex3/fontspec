@@ -1,131 +1,19 @@
 This is a generated file for the l3build validation system.
 Don't change this file in any respect.
-! LaTeX Error: Font TU/TimesLTStd(0)/bx/sc/9 not found.
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-l. ...\item \bfseries bold   {\scshape
-                                      Bold error!}
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-Completed box being shipped out [1]
-\vbox(114.22017+0.0)x169.57845
-.\glue -95.04362
-.\vbox(209.2638+0.0)x227.62207, shifted -58.04362
-..\vbox(12.0+0.0)x227.62207, glue set 12.0fil
-...\glue 0.0 plus 1.0fil
-...\hbox(0.0+0.0)x227.62207
-..\glue 25.0
-..\glue(\lineskip) 0.0
-..\vbox(142.2638+0.0)x227.62207, glue set 70.25629fil
-...\write-{}
-...\glue(\topskip) 3.17
-...\hbox(6.83+0.09999)x202.62207, glue set 132.33208fil, shifted 25.0
-....\hbox(4.66+0.0)x0.0
-.....\glue 0.0
-.....\glue -20.0
-.....\glue -5.0
-.....\hbox(4.66+0.0)x20.0, glue set 20.0fil
-......\glue 0.0 plus 1.0fil minus 1.0fil
-......\hbox(4.66+0.0)x0.0, glue set - 3.5fil
-.......\glue 0.0 plus 1.0fil minus 1.0fil
-.......\TU/TimesLTStd(0)/m/n/10 •
-.....\glue 5.0
-....\penalty 0
-....\TU/TimesLTStd(0)/m/n/10 medium
-....\glue 2.5 plus 1.25 minus 0.83333
-....\TU/TimesLTStd(0)/m/sc/10 Medium
-....\penalty 10000
-....\glue(\parfillskip) 0.0 plus 1.0fil
-....\glue(\rightskip) 0.0
-...\penalty -51
-...\glue 4.0 plus 2.0 minus 1.0
-...\glue(\parskip) 4.0 plus 2.0 minus 1.0
-...\glue(\baselineskip) 5.14001
-...\hbox(6.76+0.13998)x202.62207, glue set 156.77208fil, shifted 25.0
-....\hbox(4.66+0.0)x0.0
-.....\glue 0.0
-.....\glue -20.0
-.....\glue -5.0
-.....\hbox(4.66+0.0)x20.0, glue set 20.0fil
-......\glue 0.0 plus 1.0fil minus 1.0fil
-......\hbox(4.66+0.0)x0.0, glue set - 3.5fil
-.......\glue 0.0 plus 1.0fil minus 1.0fil
-.......\TU/TimesLTStd(0)/m/n/10 •
-.....\glue 5.0
-....\penalty 0
-....\TU/TimesLTStd(0)/bx/n/10 bold
-....\glue 2.5 plus 1.25 minus 0.83333
-....\TU/TimesLTStd(0)/bx/sc/10 Bold
-....\penalty 10000
-....\glue(\parfillskip) 0.0 plus 1.0fil
-....\glue(\rightskip) 0.0
-...\penalty -51
-...\glue 10.0 plus 3.0 minus 5.0
-...\glue -10.13998 plus -3.0 minus -5.0
-...\penalty -51
-...\glue 0.13998
-...\glue 10.0 plus 3.0 minus 5.0
-...\glue -10.0 plus -3.0 minus -5.0
-...\glue 8.0 plus 2.0 minus 4.0
-...\glue(\parskip) 2.0 plus 1.0 minus 1.0
-...\glue(\baselineskip) 4.42502
-...\hbox(6.435+0.08998)x202.62207, glue set 135.86906fil, shifted 25.0
-....\hbox(4.662+0.0)x0.0
-.....\glue 0.0
-.....\glue -20.0
-.....\glue -5.0
-.....\hbox(4.662+0.0)x20.0, glue set 20.0fil
-......\glue 0.0 plus 1.0fil minus 1.0fil
-......\hbox(4.662+0.0)x0.0, glue set - 4.5fil
-.......\glue 0.0 plus 1.0fil minus 1.0fil
-.......\TU/TimesLTStd(0)/m/n/9 •
-.....\glue 5.0
-....\penalty 0
-....\TU/TimesLTStd(0)/m/n/9 medium
-....\glue 2.25 plus 1.125 minus 0.75
-....\TU/TimesLTStd(0)/m/sc/9 Medium
-....\penalty 10000
-....\glue(\parfillskip) 0.0 plus 1.0fil
-....\glue(\rightskip) 0.0
-...\penalty -51
-...\glue 2.0 plus 1.0 minus 1.0
-...\glue(\parskip) 2.0 plus 1.0 minus 1.0
-...\glue(\baselineskip) 3.96558
-...\hbox(6.94444+0.16199)x202.62207, glue set 135.12675fil, shifted 25.0
-....\hbox(4.662+0.0)x0.0
-.....\glue 0.0
-.....\glue -20.0
-.....\glue -5.0
-.....\hbox(4.662+0.0)x20.0, glue set 20.0fil
-......\glue 0.0 plus 1.0fil minus 1.0fil
-......\hbox(4.662+0.0)x0.0, glue set - 4.5fil
-.......\glue 0.0 plus 1.0fil minus 1.0fil
-.......\TU/TimesLTStd(0)/m/n/9 •
-.....\glue 5.0
-....\penalty 0
-....\TU/TimesLTStd(0)/bx/n/9 bold
-....\glue 2.25 plus 1.125 minus 0.75
-....\TU/TimesLTStd(0)/bx/sc/9 B
-....\TU/TimesLTStd(0)/bx/sc/9 o
-....\TU/TimesLTStd(0)/bx/sc/9 l
-....\TU/TimesLTStd(0)/bx/sc/9 d
-....\glue 3.33333 plus 1.66666 minus 1.11111
-....\TU/TimesLTStd(0)/bx/sc/9 e
-....\TU/TimesLTStd(0)/bx/sc/9 r
-....\TU/TimesLTStd(0)/bx/sc/9 r
-....\TU/TimesLTStd(0)/bx/sc/9 o
-....\TU/TimesLTStd(0)/bx/sc/9 r
-....\TU/TimesLTStd(0)/bx/sc/9 !
-....\penalty 10000
-....\glue(\parfillskip) 0.0 plus 1.0fil
-....\glue(\rightskip) 0.0
-...\penalty -51
-...\glue 6.0 plus 3.0 minus 3.0
-...\glue -0.16199
-...\glue 0.0 plus 1.0fil
-...\glue 0.0
-...\glue 0.0 plus 0.0001fil
-..\glue(\baselineskip) 30.0
-..\hbox(0.0+0.0)x227.62207
+This originally was a bug report. One of these fonts lacks small caps, and at one stage this caused a problem.
+TU/TimesLTStd(0)/m/n:
+  "[TimesLTStd-Roman.otf]/OT:script=latn;language=DFLT;mapping=tex-text;" at 10.0pt
+TU/TimesLTStd(0)/m/sc:
+  "[TimesLTStd-Roman.otf]/OT:script=latn;language=DFLT;+smcp;mapping=tex-text;" at 10.0pt
+TU/TimesLTStd(0)/bx/n:
+  "[TimesLTStd-Bold.otf]/OT:script=latn;language=DFLT;mapping=tex-text;" at 10.0pt
+TU/TimesLTStd(0)/bx/sc:
+  "[TimesLTStd-Bold.otf]/OT:script=latn;language=DFLT;+smcp;mapping=tex-text;" at 10.0pt
+TU/TimesLTStd(0)/m/n:
+  "[TimesTenLTStd-Roman.otf]/OT:script=latn;language=DFLT;mapping=tex-text;" at 9.0pt
+TU/TimesLTStd(0)/m/sc:
+  "[TimesTenLTStd-Roman.otf]/OT:script=latn;language=DFLT;+smcp;mapping=tex-text;" at 9.0pt
+TU/TimesLTStd(0)/bx/n:
+  "[TimesTenLTStd-Bold.otf]/OT:script=latn;language=DFLT;mapping=tex-text;" at 9.0pt
+TU/TimesLTStd(0)/bx/sc:
+  cmr10

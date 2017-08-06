@@ -13,15 +13,15 @@
     }},
 ]
 \begin{document}
-\begin{fstest}
-\begin{itemize}
-\item \mdseries medium {\scshape Medium}
-\item \bfseries bold {\scshape Bold}
-\end{itemize}
+
+\MSG{This originally was a bug report. One of these fonts lacks small caps, and at one stage this caused a problem.}
+
+{\mdseries \CURRNFSS medium {\scshape \CURRNFSS Medium}}
+{\bfseries \CURRNFSS bold {\scshape \CURRNFSS Bold}}
+
 \small
-\begin{itemize}
-\item \mdseries medium {\scshape Medium}
-\item \bfseries bold   {\scshape Bold error!}
-\end{itemize}
-\end{fstest}
+
+\mdseries \CURRNFSS medium {\scshape \CURRNFSS Medium}}
+\bfseries \CURRNFSS bold   {\scshape Bold \CURRNFSS error!}}
+
 \end{document}

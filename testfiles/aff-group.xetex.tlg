@@ -1,249 +1,38 @@
 This is a generated file for the l3build validation system.
 Don't change this file in any respect.
-LaTeX Info: Redefining \rmfamily on input line ....
-.................................................
-. fontspec info: "defining-font"
-. 
-. Font family 'texgyretermes-regular.otf(1)' created for font
-. 'texgyretermes-regular.otf' with options [Ligatures=TeX,Color = AA00AA].
-.  
-.  This font family consists of the following NFSS series/shapes:
-.  
-. - 'normal' (m/n) with NFSS spec.:
-. <->"[texgyretermes-regular.otf]/OT:script=latn;language=DFLT;mapping=tex-text;color=AA00AAFF
-. ;"
-. - 'small caps'  (m/sc) with NFSS spec.:
-. <->"[texgyretermes-regular.otf]/OT:script=latn;language=DFLT;+smcp;mapping=tex-text;color=AA00AAFF
-. ;"
-.................................................
-Underfull \hbox (badness 10000) in paragraph at lines 10--13
-\hbox(0.0+0.0)x227.62207
-.\glue(\rightskip) 0.0
-LaTeX Info: Redefining \rmfamily on input line ....
-Underfull \hbox (badness 10000) in paragraph at lines 15--21
-\hbox(0.0+0.0)x227.62207
-.\glue(\rightskip) 0.0
-Completed box being shipped out [1]
-\vbox(114.22017+0.0)x169.57845
-.\glue -95.04362
-.\vbox(209.2638+0.0)x227.62207, shifted -58.04362
-..\vbox(12.0+0.0)x227.62207, glue set 12.0fil
-...\glue 0.0 plus 1.0fil
-...\hbox(0.0+0.0)x227.62207
-..\glue 25.0
-..\glue(\lineskip) 0.0
-..\vbox(142.2638+0.0)x227.62207, glue set 48.25864fil
-...\write-{}
-...\glue(\topskip) 3.17
-...\hbox(6.83+0.09999)x227.62207, glue set 175.80206fil
-....\TU/texgyretermes-regular.otf(0)/m/n/10 set
-....\glue 2.5 plus 1.25 minus 0.83333
-....\TU/texgyretermes-regular.otf(0)/m/n/10 main
-....\glue 2.5 plus 1.25 minus 0.83333
-....\TU/texgyretermes-regular.otf(0)/m/n/10 font
-....\penalty 10000
-....\glue 0.0 plus 1.0fil
-....\penalty -10000
-....\glue(\rightskip) 0.0
-...\penalty 150
-...\glue(\baselineskip) 5.07
-...\hbox(6.83+0.09999)x227.62207, glue set 188.46207fil
-....\TU/texgyretermes-regular.otf(1)/m/n/10 after
-....\glue 2.5 plus 1.25 minus 0.83333
-....\TU/texgyretermes-regular.otf(1)/m/n/10 AFF
-....\penalty 10000
-....\glue 0.0 plus 1.0fil
-....\penalty -10000
-....\glue(\rightskip) 0.0
-...\glue(\baselineskip) 5.07
-...\hbox(6.83+0.09999)x227.62207, glue set 156.20206fil
-....\TU/texgyretermes-regular.otf(0)/m/n/10 after
-....\glue 2.5 plus 1.25 minus 0.83333
-....\TU/texgyretermes-regular.otf(0)/m/n/10 ‘normalfont’
-....\penalty 10000
-....\glue 0.0 plus 1.0fil
-....\penalty -10000
-....\glue(\rightskip) 0.0
-...\penalty 150
-...\glue(\baselineskip) 11.90001
-...\hbox(0.0+0.0)x227.62207
-....\glue(\rightskip) 0.0
-...\glue(\parskip) 0.0 plus 1.0
-...\glue(\baselineskip) 5.17
-...\hbox(6.83+0.09999)x227.62207, glue set 175.80206fil
-....\TU/texgyretermes-regular.otf(0)/m/n/10 set
-....\glue 2.5 plus 1.25 minus 0.83333
-....\TU/texgyretermes-regular.otf(0)/m/n/10 main
-....\glue 2.5 plus 1.25 minus 0.83333
-....\TU/texgyretermes-regular.otf(0)/m/n/10 font
-....\penalty 10000
-....\glue 0.0 plus 1.0fil
-....\penalty -10000
-....\glue(\rightskip) 0.0
-...\penalty 150
-...\glue(\baselineskip) 5.16
-...\hbox(6.74+2.17998)x227.62207, glue set 173.07207fil
-....\TU/texgyretermes-regular.otf(1)/m/n/10 AFF
-....\glue 2.5 plus 1.24875 minus 0.83415
-....\TU/texgyretermes-regular.otf(1)/m/n/10 in
-....\glue 2.5 plus 1.25 minus 0.83333
-....\TU/texgyretermes-regular.otf(1)/m/n/10 group
-....\penalty 10000
-....\glue 0.0 plus 1.0fil
-....\penalty -10000
-....\glue(\rightskip) 0.0
-...\glue(\baselineskip) 2.99002
-...\hbox(6.83+2.17998)x227.62207, glue set 183.37206fil
-....\TU/texgyretermes-regular.otf(0)/m/n/10 after
-....\glue 2.5 plus 1.25 minus 0.83333
-....\TU/texgyretermes-regular.otf(0)/m/n/10 group
-....\penalty 10000
-....\glue 0.0 plus 1.0fil
-....\penalty -10000
-....\glue(\rightskip) 0.0
-...\penalty 150
-...\glue(\baselineskip) 9.82002
-...\hbox(0.0+0.0)x227.62207
-....\glue(\rightskip) 0.0
-...\glue 0.0 plus 1.0fil
-...\glue 0.0
-...\glue 0.0 plus 0.0001fil
-..\glue(\baselineskip) 30.0
-..\hbox(0.0+0.0)x227.62207
-LaTeX Info: Redefining \rmfamily on input line ....
-.................................................
-. fontspec info: "defining-font"
-. 
-. Font family 'texgyretermes-regular.otf(0)' created for font
-. 'texgyretermes-regular.otf' with options
-. [Ligatures=TeX,Color=AA00AA,NFSSFamily=texgyretermes-regular.otf(0)].
-.  
-.  This font family consists of the following NFSS series/shapes:
-.  
-. - 'normal' (m/n) with NFSS spec.:
-. <->"[texgyretermes-regular.otf]/OT:script=latn;language=DFLT;mapping=tex-text;color=AA00AAFF
-. ;"
-. - 'small caps'  (m/sc) with NFSS spec.:
-. <->"[texgyretermes-regular.otf]/OT:script=latn;language=DFLT;+smcp;mapping=tex-text;color=AA00AAFF
-. ;"
-.................................................
-Underfull \hbox (badness 10000) in paragraph at lines 26--29
-\hbox(0.0+0.0)x227.62207
-.\glue(\rightskip) 0.0
-LaTeX Info: Redefining \rmfamily on input line ....
-.................................................
-. fontspec info: "defining-font"
-. 
-. Font family 'texgyretermes-regular.otf(0)' created for font
-. 'texgyretermes-regular.otf' with options
-. [Ligatures=TeX,Color=AA00AA,NFSSFamily=texgyretermes-regular.otf(0),Color=AA00AA,NFSSFamily=texgyretermes-regular.otf(0)].
-.  
-.  This font family consists of the following NFSS series/shapes:
-.  
-. - 'normal' (m/n) with NFSS spec.:
-. <->"[texgyretermes-regular.otf]/OT:script=latn;language=DFLT;mapping=tex-text;color=AA00AAFF
-. ;"
-. - 'small caps'  (m/sc) with NFSS spec.:
-. <->"[texgyretermes-regular.otf]/OT:script=latn;language=DFLT;+smcp;mapping=tex-text;color=AA00AAFF
-. ;"
-.................................................
-Underfull \hbox (badness 10000) in paragraph at lines 31--37
-\hbox(0.0+0.0)x227.62207
-.\glue(\rightskip) 0.0
-Completed box being shipped out [2]
-\vbox(114.22017+0.0)x169.57845
-.\glue -95.04362
-.\vbox(209.2638+0.0)x227.62207, shifted -58.04362
-..\vbox(12.0+0.0)x227.62207, glue set 12.0fil
-...\glue 0.0 plus 1.0fil
-...\hbox(0.0+0.0)x227.62207
-..\glue 25.0
-..\glue(\lineskip) 0.0
-..\vbox(142.2638+0.0)x227.62207, glue set 48.25864fil
-...\write-{}
-...\glue(\topskip) 3.17
-...\hbox(6.83+0.09999)x227.62207, glue set 175.80206fil
-....\TU/texgyretermes-regular.otf(0)/m/n/10 set
-....\glue 2.5 plus 1.25 minus 0.83333
-....\TU/texgyretermes-regular.otf(0)/m/n/10 main
-....\glue 2.5 plus 1.25 minus 0.83333
-....\TU/texgyretermes-regular.otf(0)/m/n/10 font
-....\penalty 10000
-....\glue 0.0 plus 1.0fil
-....\penalty -10000
-....\glue(\rightskip) 0.0
-...\penalty 150
-...\glue(\baselineskip) 5.07
-...\hbox(6.83+0.09999)x227.62207, glue set 188.46207fil
-....\TU/texgyretermes-regular.otf(0)/m/n/10 after
-....\glue 2.5 plus 1.25 minus 0.83333
-....\TU/texgyretermes-regular.otf(0)/m/n/10 AFF
-....\penalty 10000
-....\glue 0.0 plus 1.0fil
-....\penalty -10000
-....\glue(\rightskip) 0.0
-...\glue(\baselineskip) 5.07
-...\hbox(6.83+1.76999)x227.62207, glue set 74.21207fil
-....\TU/texgyretermes-regular.otf(0)/m/n/10 after
-....\glue 2.5 plus 1.25 minus 0.83333
-....\TU/texgyretermes-regular.otf(0)/m/n/10 ‘normalfont’
-....\glue 2.5 plus 1.25 minus 0.83333
-....\TU/texgyretermes-regular.otf(0)/m/n/10 (should
-....\glue 2.5 plus 1.25 minus 0.83333
-....\TU/texgyretermes-regular.otf(0)/m/n/10 now
-....\glue 2.5 plus 1.25 minus 0.83333
-....\TU/texgyretermes-regular.otf(0)/m/n/10 match)
-....\penalty 10000
-....\glue 0.0 plus 1.0fil
-....\penalty -10000
-....\glue(\rightskip) 0.0
-...\penalty 150
-...\glue(\baselineskip) 10.23001
-...\hbox(0.0+0.0)x227.62207
-....\glue(\rightskip) 0.0
-...\glue(\parskip) 0.0 plus 1.0
-...\glue(\baselineskip) 5.17
-...\hbox(6.83+2.17998)x227.62207, glue set 104.46207fil
-....\TU/texgyretermes-regular.otf(0)/m/n/10 set
-....\glue 2.5 plus 1.25 minus 0.83333
-....\TU/texgyretermes-regular.otf(0)/m/n/10 main
-....\glue 2.5 plus 1.25 minus 0.83333
-....\TU/texgyretermes-regular.otf(0)/m/n/10 font
-....\glue 2.5 plus 1.25 minus 0.83333
-....\TU/texgyretermes-regular.otf(0)/m/n/10 (why
-....\glue 2.5 plus 1.25 minus 0.83333
-....\TU/texgyretermes-regular.otf(0)/m/n/10 coloured?!)
-....\penalty 10000
-....\glue 0.0 plus 1.0fil
-....\penalty -10000
-....\glue(\rightskip) 0.0
-...\penalty 150
-...\glue(\baselineskip) 3.08002
-...\hbox(6.74+2.17998)x227.62207, glue set 173.07207fil
-....\TU/texgyretermes-regular.otf(0)/m/n/10 AFF
-....\glue 2.5 plus 1.24875 minus 0.83415
-....\TU/texgyretermes-regular.otf(0)/m/n/10 in
-....\glue 2.5 plus 1.25 minus 0.83333
-....\TU/texgyretermes-regular.otf(0)/m/n/10 group
-....\penalty 10000
-....\glue 0.0 plus 1.0fil
-....\penalty -10000
-....\glue(\rightskip) 0.0
-...\glue(\baselineskip) 2.99002
-...\hbox(6.83+2.17998)x227.62207, glue set 183.37206fil
-....\TU/texgyretermes-regular.otf(0)/m/n/10 after
-....\glue 2.5 plus 1.25 minus 0.83333
-....\TU/texgyretermes-regular.otf(0)/m/n/10 group
-....\penalty 10000
-....\glue 0.0 plus 1.0fil
-....\penalty -10000
-....\glue(\rightskip) 0.0
-...\penalty 150
-...\glue(\baselineskip) 9.82002
-...\hbox(0.0+0.0)x227.62207
-....\glue(\rightskip) 0.0
-...\glue 0.0 plus 1.0fil
-...\glue 0.0
-...\glue 0.0 plus 0.0001fil
-..\glue(\baselineskip) 30.0
-..\hbox(0.0+0.0)x227.62207
+============================================================
+Loading a font:
+TU/texgyretermes-regular.otf(0)/m/n:
+  "[texgyretermes-regular.otf]/OT:script=latn;language=DFLT;mapping=tex-text;"
+Adding a colour:
+TU/texgyretermes-regular.otf(1)/m/n:
+  "[texgyretermes-regular.otf]/OT:script=latn;language=DFLT;mapping=tex-text;color=AA00AAFF ;"
+Back to normalfont:
+TU/texgyretermes-regular.otf(0)/m/n:
+  "[texgyretermes-regular.otf]/OT:script=latn;language=DFLT;mapping=tex-text;"
+Open group and add a different colour:
+TU/texgyretermes-regular.otf(2)/m/n:
+  "[texgyretermes-regular.otf]/OT:script=latn;language=DFLT;mapping=tex-text;color=00AAAAFF ;"
+End the group:
+TU/texgyretermes-regular.otf(0)/m/n:
+  "[texgyretermes-regular.otf]/OT:script=latn;language=DFLT;mapping=tex-text;"
+============================================================
+The following demonstrates strange behaviour to be wary of.
+TU/texgyrepagella-regular.otf(0)/m/n:
+  "[texgyrepagella-regular.otf]/OT:script=latn;language=DFLT;mapping=tex-text;"
+TU/texgyrepagella-regular.otf(0)/m/n:
+  "[texgyrepagella-regular.otf]/OT:script=latn;language=DFLT;mapping=tex-text;color=AA00AAFF ;"
+TU/texgyrepagella-regular.otf(0)/m/n:
+  "[texgyrepagella-regular.otf]/OT:script=latn;language=DFLT;mapping=tex-text;color=AA00AAFF ;"
+============================================================
+And check NFSSFamily use inside a group.
+Reload another font:
+TU/texgyreheros-regular.otf(0)/m/n:
+  "[texgyreheros-regular.otf]/OT:script=latn;language=DFLT;mapping=tex-text;"
+Open group and add a different colour, without changing family:
+TU/texgyreheros-regular.otf(0)/m/n:
+  "[texgyreheros-regular.otf]/OT:script=latn;language=DFLT;mapping=tex-text;color=00AAAAFF ;"
+End the group:
+TU/texgyreheros-regular.otf(0)/m/n:
+  "[texgyreheros-regular.otf]/OT:script=latn;language=DFLT;mapping=tex-text;"
+============================================================

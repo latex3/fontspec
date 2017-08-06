@@ -20,6 +20,26 @@
   \csname NEXT\endcsname
 }
 
+\newcommand\MSG[1]{%
+  \TIMO
+  \typeout{#1}%
+  \OMIT
+}
+
+\newcommand\FONTNAME{%
+  \TIMO
+  \typeout{\fontname\font}%
+  \OMIT
+}
+
+\makeatletter
+\newcommand\CURRNFSS{%
+  \TIMO
+  \typeout{\curr@fontshape:^^J\space\space\fontname\font}%
+  \OMIT
+}
+\makeatother
+
 \newbox\TESTBOX
 \newenvironment{fstest}
   {%

@@ -3,37 +3,62 @@
 \begin{document}
 \makeatletter
 
-\setmainfont{texgyretermes-regular.otf}
+\TIMO\SEPARATOR\OMIT
 
-\begin{fstest}
+\MSG{Loading a font:}
 \setmainfont{texgyretermes-regular.otf}
-\noindent set main font\\
+\CURRNFSS
+
+\MSG{Adding a colour:}
 \addfontfeatures{Color = AA00AA}
-after AFF\\ \normalfont after `normalfont'\\
+\CURRNFSS
 
-\setmainfont{texgyretermes-regular.otf}
-\noindent set main font\\
+\MSG{Back to normalfont:}
+\normalfont
+\CURRNFSS
+
+\MSG{Open group and add a different colour:}
 \begingroup
-\addfontfeatures{Color = AA00AA}
-AFF in group\\
+\addfontfeatures{Color = 00AAAA}
+\CURRNFSS
+
+\MSG{End the group:}
 \endgroup
-after group\\
-\end{fstest}
+\CURRNFSS
 
 
-\begin{fstest}
-\setmainfont{texgyretermes-regular.otf}
-\noindent set main font\\
-\addfontfeatures{Color=AA00AA,NFSSFamily=\f@family}
-after AFF\\ \normalfont after `normalfont' (should now match)\\
 
-\setmainfont{texgyretermes-regular.otf}
-\noindent set main font (why coloured?!)\\
+
+\TIMO\SEPARATOR\OMIT
+\MSG{The following demonstrates strange behaviour to be wary of.}
+
+\setmainfont{texgyrepagella-regular.otf}
+\CURRNFSS
+\addfontfeatures{Color = AA00AA,NFSSFamily=\rmdefault}
+\CURRNFSS
+\setmainfont{texgyrepagella-regular.otf}
+\CURRNFSS
+
+
+
+\TIMO\SEPARATOR\OMIT
+\MSG{And check NFSSFamily use inside a group.}
+
+\MSG{Reload another font:}
+\setmainfont{texgyreheros-regular.otf}
+\CURRNFSS
+
+\MSG{Open group and add a different colour,  without changing family:}
 \begingroup
-\addfontfeatures{Color=AA00AA,NFSSFamily=\f@family}
-AFF in group\\
+\addfontfeatures{Color = 00AAAA,NFSSFamily=\rmdefault}
+\CURRNFSS
+
+\MSG{End the group:}
 \endgroup
-after group\\
-\end{fstest}
+\CURRNFSS
+
+
+\TIMO\SEPARATOR\OMIT
+
 
 \end{document}

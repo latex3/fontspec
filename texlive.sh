@@ -32,17 +32,18 @@ tlmgr install cm etex knuth-lib latex-bin tex tex-ini-files unicode-data \
 tlmgr install   \
   sourcecodepro \
   Asana-Math    \
-  geometry     \
-  graphics     \
-  ifluatex     \
-  ifxetex      \
-  luaotfload   \
-  oberdiek     \
+  geometry      \
+  graphics      \
+  ifluatex      \
+  ifxetex       \
+  luaotfload    \
+  oberdiek      \
   tex-gyre      \
   tex-gyre-math \
   unicode-math  \
   ucharcat      \
-  filehook
+  filehook      \
+  xcolor
 
 # Keep no backups (not required, simply makes cache bigger)
 tlmgr option -- autobackup 0

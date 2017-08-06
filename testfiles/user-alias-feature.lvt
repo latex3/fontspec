@@ -2,13 +2,17 @@
 \usepackage{fontspec}
 \begin{document}
 
-\begin{fstest}
 \aliasfontfeature{ItalicFeatures}{IF}
 \aliasfontfeature{ItalicFont}{II}
+
 \fontspec[
-  II = texgyretermes-italic.otf, 
+  II = texgyretermes-italic.otf,
   IF = {Colour=FF0000}]{texgyretermes-regular.otf}
-Roman letters \itshape and red italics
-\end{fstest}
+
+Roman letters
+\CURRNFSS
+
+\itshape and red italics
+\CURRNFSS
 
 \end{document}

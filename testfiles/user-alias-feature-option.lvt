@@ -6,12 +6,12 @@
 \aliasfontfeatureoption{Numbers}{Lining}{UC}
 \aliasfontfeatureoption{Numbers}{OldStyle}{LC}
 
-\begin{fstest}
 \fontspec[123=UC]{texgyrepagella-regular.otf}
 Numbers: 12345
+\CURRNFSS
 
 \fontspec[123=LC]{texgyrepagella-regular.otf}
 Numbers: 12345
-\end{fstest}
+\CURRNFSS
 
 \end{document}

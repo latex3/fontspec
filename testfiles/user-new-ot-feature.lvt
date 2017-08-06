@@ -2,9 +2,8 @@
 \usepackage{fontspec}
 \begin{document}
 
-\begin{fstest}
 \newopentypefeature{Style}{AllAlts}{+aalt}
 \setmainfont{texgyretermes-regular.otf}[Style=AllAlts]
-\end{fstest}
+\CURRNFSS
 
 \end{document}

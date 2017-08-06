@@ -9,33 +9,95 @@
 ]
 \begin{document}
 
-\begin{fstest}
+\==========================
+\MSG{Declare three emph levels:}
+\==========================
+
 \emfontdeclare{ \itshape , \upshape\scshape , \itshape }
-hello \emph{hello \emph{hello \emph{hello \emph{hello \emph{hello}}}}}
+
+hello \CURRNFSS
+\emph{hello \CURRNFSS
+  \emph{hello \CURRNFSS
+    \emph{hello \CURRNFSS
+      \emph{hello \CURRNFSS
+        \emph{hello \CURRNFSS
+        }}}}}
+
+\==========================
+\MSG{Check manually entering a level of emph: (should be same as above)}
+\==========================
 
 \normalfont
-hello \itshape hello \emph{hello \emph{hello \emph{hello}}}
+hello \CURRNFSS
+\textit{hello \CURRNFSS
+  \emph{hello \CURRNFSS
+    \emph{hello \CURRNFSS
+      \emph{hello \CURRNFSS
+        \emph{hello \CURRNFSS
+        }}}}}
+
+
+\==========================
+\MSG{Check just one emphasis (itshape):}
+\==========================
 
 \normalfont
 \emfontdeclare{\itshape}
-hello \emph{hello \emph{hello \emph{hello \emph{hello \emph{hello}}}}}
+hello \CURRNFSS
+\emph{hello \CURRNFSS
+  \emph{hello \CURRNFSS
+    \emph{hello \CURRNFSS
+      \emph{hello \CURRNFSS
+        \emph{hello \CURRNFSS
+        }}}}}
 
-\end{fstest}
 
-\begin{fstest}
+\==========================
+\MSG{As above with bold; three emph:}
+\==========================
+
 \emfontdeclare{ \itshape , \upshape\scshape , \itshape }
 \bfseries
-hello \emph{hello \emph{hello \emph{hello \emph{hello \emph{hello}}}}}
+
+hello \CURRNFSS
+\emph{hello \CURRNFSS
+  \emph{hello \CURRNFSS
+    \emph{hello \CURRNFSS
+      \emph{hello \CURRNFSS
+        \emph{hello \CURRNFSS
+        }}}}}
+
+\==========================
+\MSG{As above with bold; manual emph:}
+\==========================
 
 \normalfont
 \bfseries
-hello \itshape hello \emph{hello \emph{hello \emph{hello}}}
+
+hello \CURRNFSS
+\textit{hello \CURRNFSS
+  \emph{hello \CURRNFSS
+    \emph{hello \CURRNFSS
+      \emph{hello \CURRNFSS
+        \emph{hello \CURRNFSS
+        }}}}}
+
+\==========================
+\MSG{As above with bold; one emph:}
+\==========================
 
 \normalfont
 \bfseries
 \emfontdeclare{\itshape}
-hello \emph{hello \emph{hello \emph{hello \emph{hello \emph{hello}}}}}
 
-\end{fstest}
+hello \CURRNFSS
+\emph{hello \CURRNFSS
+  \emph{hello \CURRNFSS
+    \emph{hello \CURRNFSS
+      \emph{hello \CURRNFSS
+        \emph{hello \CURRNFSS
+        }}}}}
+
+\==========================
 
 \end{document}

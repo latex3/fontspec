@@ -9,8 +9,14 @@
 ]
 \begin{document}
 
-\begin{fstest}
-hello \emph{hello \emph{hello \emph{hello \emph{hello \emph{hello}}}}}
-\end{fstest}
+\MSG{Checking default emph behaviour.}
+
+hello \CURRNFSS
+\emph{hello \CURRNFSS
+  \emph{hello \CURRNFSS
+    \emph{hello \CURRNFSS
+      \emph{hello \CURRNFSS
+        \emph{hello \CURRNFSS
+        }}}}}
 
 \end{document}

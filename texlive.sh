@@ -52,10 +52,10 @@ tlmgr update --self --all --no-auto-install
 
 # Install custom fontspec fonts
 if [ -d "/tmp/fontspec-test-fonts" ]; then
-  cd /tmp/fontspec-test-fonts
-  git pull
+  cd /tmp/fontspec-test-fonts ;
+  git pull ;
 else
-  git clone git@github.com:wspr/fontspec-test-fonts.git /tmp/fontspec-test-fonts
+  git clone git@github.com:wspr/fontspec-test-fonts.git /tmp/fontspec-test-fonts ;
 fi
 
 sh /tmp/fontspec-test-fonts/install.sh

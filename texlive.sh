@@ -29,8 +29,9 @@ tlmgr install cm etex knuth-lib latex-bin tex tex-ini-files unicode-data \
   xetex
 
 # Dependencies
-tlmgr install  \
-  Asana-Math   \
+tlmgr install   \
+  sourcecodepro \
+  Asana-Math    \
   geometry     \
   graphics     \
   ifluatex     \

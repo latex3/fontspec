@@ -60,6 +60,4 @@ else
   git clone https://github.com/wspr/fontspec-test-fonts.git /tmp/fontspec-test-fonts ;
 fi
 
-cd /tmp/fontspec-test-fonts
-sh install.sh
-cd -
+sh /tmp/fontspec-test-fonts/install.sh

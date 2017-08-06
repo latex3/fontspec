@@ -1,18 +1,18 @@
 \input{fontspec-testsetup.tex}
 \usepackage{fontspec}
 \begin{document}
-\begin{fstest}
+
 \ExplSyntaxOn
 
 \fontspec{texgyrepagella-regular.otf}
-\fontspec_if_current_feature:nTF {+onum} {\typeout{WRONG}} {\typeout{CORRECT}}
+\fontspec_if_current_feature:nTF {+onum} {\MSG{WRONG}} {\MSG{CORRECT}}
 
 \addfontfeature{Numbers=OldStyle}
-\fontspec_if_current_feature:nTF {+onum} {\typeout{CORRECT}} {\typeout{WRONG}}
+\fontspec_if_current_feature:nTF {+onum} {\MSG{CORRECT}} {\MSG{WRONG}}
 
 \addfontfeature{Numbers=Lining}
-\fontspec_if_current_feature:nTF {+onum} {\typeout{WRONG}} {\typeout{CORRECT}}
+\fontspec_if_current_feature:nTF {+onum} {\MSG{WRONG}} {\MSG{CORRECT}}
 
 \ExplSyntaxOff
-\end{fstest}
+
 \end{document}

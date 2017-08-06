@@ -26,7 +26,9 @@
 
 \begingroup
 \makeatletter
+  \OMIT
   \scshape
+  \TIMO
   \fontspec_if_small_caps:TF{\WRONG}{\INTEND}
 \endgroup
 

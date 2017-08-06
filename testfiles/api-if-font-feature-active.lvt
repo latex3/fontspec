@@ -3,8 +3,8 @@
 \begin{document}
 \begin{fstest}
 \ExplSyntaxOn
-\def\INTEND{\typeout{CORRECT}}
-\def\WRONG {\typeout{WRONG}}
+\def\INTEND{\MSG{CORRECT}}
+\def\WRONG {\MSG{WRONG}}
 
 \OMIT
 \fontspec{texgyrepagella-regular.otf}

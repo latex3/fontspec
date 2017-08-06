@@ -4,15 +4,14 @@
 
 \fontspec{texgyrepagella-regular.otf}
 
-\begin{fstest}
 \ExplSyntaxOn
 
-\fontspec_if_feature:nTF {+onum} {\typeout{CORRECT}} {\typeout{WRONG}}
-\fontspec_if_feature:nTF  {onum} {\typeout{CORRECT}} {\typeout{WRONG}}
+\fontspec_if_feature:nTF {+onum} {\MSG{CORRECT}} {\MSG{WRONG}}
+\fontspec_if_feature:nTF  {onum} {\MSG{CORRECT}} {\MSG{WRONG}}
 
-\fontspec_if_feature:nTF {+znum} {\typeout{WRONG}} {\typeout{CORRECT}}
-\fontspec_if_feature:nTF  {znum} {\typeout{WRONG}} {\typeout{CORRECT}}
+\fontspec_if_feature:nTF {+znum} {\MSG{WRONG}} {\MSG{CORRECT}}
+\fontspec_if_feature:nTF  {znum} {\MSG{WRONG}} {\MSG{CORRECT}}
 
 \ExplSyntaxOff
-\end{fstest}
+
 \end{document}

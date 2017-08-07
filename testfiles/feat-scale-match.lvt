@@ -1,0 +1,25 @@
+\input{fontspec-testsetup.tex}
+\usepackage{fontspec}
+\begin{document}
+
+\def\X{%
+  \CURRNFSS
+  \MSG{font dimen 5: \the\fontdimen5\font}%
+  \MSG{font dimen 8: \the\fontdimen8\font}%
+}
+
+\setmainfont{texgyretermes-regular.otf} \X
+
+\MSG{WITHOUT SCALING}
+\fontspec{texgyreheros-regular.otf}     \X
+\fontspec{texgyrecursor-regular.otf}    \X
+
+\MSG{MATCH UPPERCASE}
+\fontspec[Scale=MatchUppercase]{texgyreheros-regular.otf}  \X
+\fontspec[Scale=MatchUppercase]{texgyrecursor-regular.otf} \X
+
+\MSG{MATCH LOWERCASE}
+\fontspec[Scale=MatchLowercase]{texgyreheros-regular.otf}  \X
+\fontspec[Scale=MatchLowercase]{texgyrecursor-regular.otf} \X
+
+\end{document}

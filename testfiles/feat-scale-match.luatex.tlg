@@ -1,0 +1,33 @@
+This is a generated file for the l3build validation system.
+Don't change this file in any respect.
+TU/texgyretermes-regular.otf(0)/m/n:
+  [texgyretermes-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;
+font dimen 5: 4.5pt
+font dimen 8: 6.62pt
+WITHOUT SCALING
+TU/texgyreheros-regular.otf(0)/m/n:
+  [texgyreheros-regular.otf]:mode=node;script=latn;language=DFLT;
+font dimen 5: 5.24pt
+font dimen 8: 7.29pt
+TU/texgyrecursor-regular.otf(0)/m/n:
+  [texgyrecursor-regular.otf]:mode=node;script=latn;language=DFLT;
+font dimen 5: 4.17pt
+font dimen 8: 5.63pt
+MATCH UPPERCASE
+TU/texgyreheros-regular.otf(1)/m/n:
+  [texgyreheros-regular.otf]:mode=node;script=latn;language=DFLT; at 9.08096pt
+font dimen 5: 4.75842pt
+font dimen 8: 6.62003pt
+TU/texgyrecursor-regular.otf(1)/m/n:
+  [texgyrecursor-regular.otf]:mode=node;script=latn;language=DFLT; at 11.75842pt
+font dimen 5: 4.90326pt
+font dimen 8: 6.62pt
+MATCH LOWERCASE
+TU/texgyreheros-regular.otf(2)/m/n:
+  [texgyreheros-regular.otf]:mode=node;script=latn;language=DFLT; at 8.5878pt
+font dimen 5: 4.5pt
+font dimen 8: 6.2605pt
+TU/texgyrecursor-regular.otf(2)/m/n:
+  [texgyrecursor-regular.otf]:mode=node;script=latn;language=DFLT; at 10.79132pt
+font dimen 5: 4.49998pt
+font dimen 8: 6.07552pt

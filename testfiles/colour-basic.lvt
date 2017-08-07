@@ -1,6 +1,9 @@
 \input{fontspec-testsetup.tex}
+\START\OMIT
 \usepackage{fontspec}
+\MSG{Loading xcolor...}
 \usepackage{xcolor}
+\MSG{...done}
 \begin{document}
 
 \MSG{Loading a font with hex colour:}

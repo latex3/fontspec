@@ -5,10 +5,10 @@ TU/lmr/m/n:
   "[lmroman10-regular]:mapping=tex-text;"
 Code with particular NFSS family font:
 TU/ABC/m/n:
-  "Inconsolata/AAT:color=FF0000FF ;"
+  "[texgyreheros-regular.otf]/OT:script=latn;language=DFLT;color=FF0000FF ;"
 Back to normal font:
 TU/lmr/m/n:
   "[lmroman10-regular]:mapping=tex-text;"
 Loading NFSS family explicit:
 TU/ABC/m/n:
-  "Inconsolata/AAT:color=FF0000FF ;"
+  "[texgyreheros-regular.otf]/OT:script=latn;language=DFLT;color=FF0000FF ;"

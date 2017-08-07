@@ -3,7 +3,7 @@
 \begin{document}
 
 \defaultfontfeatures[\codefont]{Color=FF0000}
-\newfontfamily\codefont[NFSSFamily=ABC]{Inconsolata}
+\newfontfamily\codefont[NFSSFamily=ABC]{texgyreheros-regular.otf}
 
 \MSG{Default font:}
 `hello' 123

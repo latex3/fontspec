@@ -2,7 +2,6 @@
 \START\OMIT
 \usepackage{fontspec}
 \MSG{Loading xcolor...}
-\TIMO
 \usepackage{xcolor}
 \MSG{...done}
 \begin{document}

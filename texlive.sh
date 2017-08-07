@@ -34,6 +34,7 @@ tlmgr install   \
   Asana-Math    \
   geometry      \
   graphics      \
+  graphics-def  \
   ifluatex      \
   ifxetex       \
   luaotfload    \

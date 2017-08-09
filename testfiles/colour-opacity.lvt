@@ -1,17 +1,22 @@
-\documentclass{testsuite}
+\input{fontspec-testsetup.tex}
 \usepackage{fontspec}
 \usepackage{xcolor}
 \begin{document}
+
 \fontspec[Color=red]{Verdana}
 Test
+\CURRNFSS
 
 \fontspec[
     Color=red,Opacity=0.5
       ]{Verdana}
 Test
+\CURRNFSS
 
 \fontspec[
     Color=00FF00,Opacity=0.5
       ]{Verdana}
 Test
+\CURRNFSS
+
 \end{document}

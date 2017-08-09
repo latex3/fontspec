@@ -1,0 +1,14 @@
+This is a generated file for the l3build validation system.
+Don't change this file in any respect.
+RM:
+TU/texgyrepagella-regular.otf(0)/m/n:
+  "[texgyrepagella-regular.otf]/OT:script=latn;language=DFLT;mapping=tex-text;"
+SF:
+TU/texgyreheros-regular.otf(0)/m/n:
+  "[texgyreheros-regular.otf]/OT:script=latn;language=DFLT;mapping=tex-text;"
+TT:
+TU/texgyrecursor-regular.otf(0)/m/n:
+  "[texgyrecursor-regular.otf]/OT:script=latn;language=DFLT;color=FF0000FF ;"
+"CODE":
+TU/texgyrecursor-regular.otf(1)/m/n:
+  "[texgyrecursor-regular.otf]/OT:script=latn;language=DFLT;color=0000FFFF ;"

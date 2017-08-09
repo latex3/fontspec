@@ -1,0 +1,59 @@
+
+\input{fontspec-testsetup.tex}
+
+\usepackage{fontspec}
+\setmainfont{texgyrepagella-regular.otf}[ItalicFont=texgyrepagella-italic.otf]
+
+\begin{document}
+
+\MSG{Pagella as main font:}
+\CURRNFSS
+
+\MSG{Checking small caps:}
+\textsc{small caps \CURRNFSS}
+
+\MSG{This is textit:}
+\textit{slanted \CURRNFSS}
+
+\MSG{This is textsl:}
+\textsl{slanted \CURRNFSS}
+
+\MSG{=========================}
+\MSG{When slanted = itdefault:}
+\def\itdefault{sl}
+\setmainfont{texgyreheros-regular.otf}[ItalicFont=texgyreheros-italic.otf]
+
+\MSG{This is normal:}
+Testing \CURRNFSS
+
+\MSG{This is textit:}
+\textit{slanted \CURRNFSS}
+
+\MSG{This is textsl:}
+\textsl{slanted \CURRNFSS}
+
+\MSG{=========================}
+\MSG{LATIN MODERN italic and slanted etc.}
+
+\def\itdefault{it}
+\setmainfont{lmroman}[
+  Extension   = .otf,
+  UprightFont = *10-regular,
+  ItalicFont  = *10-italic,
+  SlantedFont = *slant10-regular,
+  SmallCapsFont = *caps10-regular,
+]
+
+\MSG{Normal}
+\CURRNFSS
+
+\MSG{Checking small caps:}
+\textsc{small caps \CURRNFSS}
+
+\MSG{This is textit:}
+\textit{slanted \CURRNFSS}
+
+\MSG{This is textsl:}
+\textsl{slanted \CURRNFSS}
+
+\end{document}

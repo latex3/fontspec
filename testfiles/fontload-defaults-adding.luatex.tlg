@@ -1,0 +1,32 @@
+This is a generated file for the l3build validation system.
+Don't change this file in any respect.
+=================
+All font defaults
+=================
+TU/texgyrepagella-regular.otf(0)/m/n:
+  "[texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;+smcp;+tlig;color=00AA00FF ;"
+TU/texgyreheros-regular.otf(0)/m/n:
+  "[texgyreheros-regular.otf]:mode=node;script=latn;language=DFLT;+smcp;+tlig;color=00AA00FF ;"
+TU/texgyrepagella-regular.otf(1)/m/n:
+  [texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;
+TU/texgyreheros-regular.otf(1)/m/n:
+  [texgyreheros-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;
+TU/texgyrepagella-regular.otf(2)/m/n:
+  [texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;+smcp;+tlig;
+TU/texgyreheros-regular.otf(0)/m/n:
+  "[texgyreheros-regular.otf]:mode=node;script=latn;language=DFLT;+smcp;+tlig;color=00AA00FF ;"
+=================
+Family specific
+=================
+TU/texgyrepagella-regular.otf(3)/m/n:
+  "[texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;+smcp;color=00AA00FF ;"
+TU/texgyreheros-regular.otf(1)/m/n:
+  [texgyreheros-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;
+TU/texgyrepagella-regular.otf(4)/m/n:
+  [texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;
+TU/texgyreheros-regular.otf(1)/m/n:
+  [texgyreheros-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;
+TU/texgyrepagella-regular.otf(3)/m/n:
+  "[texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;+smcp;color=00AA00FF ;"
+TU/texgyreheros-regular.otf(1)/m/n:
+  [texgyreheros-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;

@@ -1,11 +1,20 @@
-\documentclass{testsuite}
+
+\input{fontspec-testsetup.tex}
+
 \usepackage{fontspec}
-\usepackage{xcolor}
+
 \begin{document}
-   \fontspec[ SizeFeatures={
+
+\fontspec[
+   SizeFeatures={
        {Size={-8}, Font=texgyrebonum-italic.otf, Color=AA0000},
        {Size={8-14}, Color=00AA00},
        {Size={14-}, Color=0000AA}} ]{texgyrechorus-mediumitalic.otf}
 
-   {\scriptsize Small\par} Normal size\par {\Large Large\par}
+   {\scriptsize Small \CURRNFSS}
+   
+   Normal size \CURRNFSS
+   
+   {\Large Large \CURRNFSS}
+
 \end{document}

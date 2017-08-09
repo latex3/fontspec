@@ -1,20 +1,34 @@
-\documentclass{testsuite}
+
+\input{fontspec-testsetup.tex}
+
 \usepackage{xcolor,fontspec}
+
 \begin{document}
 
 \defaultfontfeatures[\ttfamily]{Color=red}
 \setmainfont{texgyrepagella-regular.otf}
 \setsansfont{texgyreheros-regular.otf}
-\setmonofont{Inconsolata}
+\setmonofont{texgyrecursor-regular.otf}
 \defaultfontfeatures[\codefont]{Color=blue}
-\newfontfamily\codefont{Inconsolata}
+\newfontfamily\codefont{texgyrecursor-regular.otf}
 
+\MSG{RM:}
 `hello' 123
+\CURRNFSS
+
+\MSG{SF:}
 \sffamily
 `hello' 123
+\CURRNFSS
+
+\MSG{TT:}
 \ttfamily
 `hello' 123
+\CURRNFSS
+
+\MSG{"CODE":}
 \codefont
 hello again
+\CURRNFSS
 
 \end{document}

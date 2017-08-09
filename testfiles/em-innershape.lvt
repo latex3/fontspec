@@ -1,0 +1,19 @@
+\input{fontspec-testsetup.tex}
+\usepackage{fontspec}
+\renewcommand\eminnershape{\upshape\scshape}
+\begin{document}
+\setmainfont[
+    ItalicFont=texgyrepagella-italic.otf
+  ]{texgyrepagella-regular.otf}
+
+\MSG{\string\eminnershape==\meaning\eminnershape}
+
+hello \CURRNFSS
+\emph{hello \CURRNFSS
+  \emph{hello \CURRNFSS
+    \emph{hello \CURRNFSS
+      \emph{hello \CURRNFSS
+        \emph{hello \CURRNFSS
+        }}}}}
+
+\end{document}

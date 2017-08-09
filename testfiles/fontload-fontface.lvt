@@ -1,5 +1,8 @@
-\documentclass{testsuite}
+
+\input{fontspec-testsetup.tex}
+
 \usepackage{fontspec}
+
 \begin{document}
 
 \setmainfont{texgyre}[
@@ -10,7 +13,12 @@
 ]
 
 pagella
+\CURRNFSS
+
 \fontseries{c}\selectfont bonum (red)
+\CURRNFSS
+
 \fontseries{nc}\selectfont heros
+\CURRNFSS
 
 \end{document}

@@ -1,0 +1,28 @@
+This is a generated file for the l3build validation system.
+Don't change this file in any respect.
+SERIES (sc shapes defined)
+TU/texgyrepagella-regular.otf(0)/m/n:
+  [texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;
+TU/texgyrepagella-regular.otf(0)/m/sc:
+  [texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;+smcp;
+TU/texgyrepagella-regular.otf(0)/col1/n:
+  "[texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;color=FF0000FF ;"
+TU/texgyrepagella-regular.otf(0)/col1/sc:
+  "[texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;+smcp;color=FF0000FF ;"
+TU/texgyrepagella-regular.otf(0)/col2/n:
+  "[texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;color=0000FFFF ;"
+TU/texgyrepagella-regular.otf(0)/col2/sc:
+  "[texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;+smcp;color=0000FFFF ;"
+SHAPE (sc shapes not defined; falls back to default)
+TU/texgyrepagella-regular.otf(1)/m/n:
+  [texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;
+TU/texgyrepagella-regular.otf(1)/m/sc:
+  [texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;+smcp;
+TU/texgyrepagella-regular.otf(1)/m/col1:
+  "[texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;color=FF0000FF ;"
+TU/texgyrepagella-regular.otf(1)/m/sc:
+  [texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;+smcp;
+TU/texgyrepagella-regular.otf(1)/m/col2:
+  "[texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;color=0000FFFF ;"
+TU/texgyrepagella-regular.otf(1)/m/sc:
+  [texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;+smcp;

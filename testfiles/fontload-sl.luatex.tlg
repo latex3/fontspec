@@ -1,0 +1,39 @@
+This is a generated file for the l3build validation system.
+Don't change this file in any respect.
+Pagella as main font:
+TU/texgyrepagella-regular.otf(0)/m/n:
+  [texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;
+Checking small caps:
+TU/texgyrepagella-regular.otf(0)/m/sc:
+  [texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;+smcp;
+This is textit:
+TU/texgyrepagella-regular.otf(0)/m/it:
+  [texgyrepagella-italic.otf]:mode=node;script=latn;language=DFLT;+tlig;
+This is textsl:
+TU/texgyrepagella-regular.otf(0)/m/sl:
+  [texgyrepagella-italic.otf]:mode=node;script=latn;language=DFLT;+tlig;
+=========================
+When slanted = itdefault:
+This is normal:
+TU/texgyreheros-regular.otf(0)/m/n:
+  [texgyreheros-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;
+This is textit:
+TU/texgyreheros-regular.otf(0)/m/sl:
+  [texgyreheros-italic.otf]:mode=node;script=latn;language=DFLT;+tlig;
+This is textsl:
+TU/texgyreheros-regular.otf(0)/m/sl:
+  [texgyreheros-italic.otf]:mode=node;script=latn;language=DFLT;+tlig;
+=========================
+LATIN MODERN italic and slanted etc.
+Normal
+TU/lmroman(0)/m/n:
+  [lmroman10-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;
+Checking small caps:
+TU/lmroman(0)/m/sc:
+  [lmromancaps10-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;
+This is textit:
+TU/lmroman(0)/m/it:
+  [lmroman10-italic.otf]:mode=node;script=latn;language=DFLT;+tlig;
+This is textsl:
+TU/lmroman(0)/m/sl:
+  [lmromanslant10-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;

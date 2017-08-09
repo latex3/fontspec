@@ -1,0 +1,15 @@
+This is a generated file for the l3build validation system.
+Don't change this file in any respect.
+\eminnershape==\long macro:->\upshape \scshape 
+TU/texgyrepagella-regular.otf(0)/m/n:
+  [texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;
+TU/texgyrepagella-regular.otf(0)/m/it:
+  [texgyrepagella-italic.otf]:mode=node;script=latn;language=DFLT;+tlig;
+TU/texgyrepagella-regular.otf(0)/m/sc:
+  [texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;+smcp;
+TU/texgyrepagella-regular.otf(0)/m/n:
+  [texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;
+TU/texgyrepagella-regular.otf(0)/m/it:
+  [texgyrepagella-italic.otf]:mode=node;script=latn;language=DFLT;+tlig;
+TU/texgyrepagella-regular.otf(0)/m/sc:
+  [texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;+smcp;

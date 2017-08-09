@@ -1,0 +1,8 @@
+This is a generated file for the l3build validation system.
+Don't change this file in any respect.
+TU/texgyre(0)/m/n:
+  "[texgyrepagella-regular.otf]/OT:script=latn;language=DFLT;mapping=tex-text;"
+TU/texgyre(0)/c/n:
+  "[texgyrebonum-regular.otf]/OT:script=latn;language=DFLT;mapping=tex-text;color=FF0000FF ;"
+TU/texgyre(0)/nc/n:
+  "[texgyreheros-regular.otf]/OT:script=latn;language=DFLT;mapping=tex-text;"

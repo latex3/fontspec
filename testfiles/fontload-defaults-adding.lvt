@@ -1,43 +1,50 @@
-\documentclass[twocolumn]{testsuite}
+
+\input{fontspec-testsetup.tex}
+
 \usepackage{fontspec}
+
 \begin{document}
 
-\texttt{All font defaults}
+\MSG{=================}
+\MSG{All font defaults}
+\MSG{=================}
 
 \defaultfontfeatures{Letters=SmallCaps,Color=00AA00}
 \setmainfont{texgyrepagella-regular.otf}
 \setsansfont{texgyreheros-regular.otf}
-\rmfamily Roman \sffamily Sans
+\rmfamily Roman \CURRNFSS \sffamily Sans \CURRNFSS
 
 \defaultfontfeatures{}
 \setmainfont{texgyrepagella-regular.otf}
 \setsansfont{texgyreheros-regular.otf}
-\rmfamily Roman \sffamily Sans
+\rmfamily Roman \CURRNFSS \sffamily Sans \CURRNFSS
 
 \defaultfontfeatures{Letters=SmallCaps}
 \setmainfont{texgyrepagella-regular.otf}
 \defaultfontfeatures+{Color=00AA00}
 \setsansfont{texgyreheros-regular.otf}
-\rmfamily Roman \sffamily Sans
+\rmfamily Roman \CURRNFSS \sffamily Sans \CURRNFSS
 
-\newpage
-\texttt{Family specific}
+
+\MSG{=================}
+\MSG{Family specific}
+\MSG{=================}
 
 \defaultfontfeatures{}
 \defaultfontfeatures[\rmfamily]{Letters=SmallCaps,Color=00AA00}
 \setmainfont{texgyrepagella-regular.otf}
 \setsansfont{texgyreheros-regular.otf}
-\rmfamily Roman \sffamily Sans
+\rmfamily Roman \CURRNFSS \sffamily Sans \CURRNFSS
 
 \defaultfontfeatures[\rmfamily]{}
 \setmainfont{texgyrepagella-regular.otf}
 \setsansfont{texgyreheros-regular.otf}
-\rmfamily Roman \sffamily Sans
+\rmfamily Roman \CURRNFSS \sffamily Sans \CURRNFSS
 
 \defaultfontfeatures[\rmfamily]{Letters=SmallCaps}
 \defaultfontfeatures+[\rmfamily]{Color=00AA00}
 \setmainfont{texgyrepagella-regular.otf}
 \setsansfont{texgyreheros-regular.otf}
-\rmfamily Roman \sffamily Sans
+\rmfamily Roman \CURRNFSS \sffamily Sans \CURRNFSS
 
 \end{document}

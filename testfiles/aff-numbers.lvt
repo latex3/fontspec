@@ -1,0 +1,15 @@
+
+\input{fontspec-testsetup.tex}
+
+\usepackage{fontspec}
+\begin{document}
+
+\fontspec{texgyreadventor-regular.otf}[Numbers={Proportional,OldStyle}]
+
+\CURRNFSS
+         
+\addfontfeatures{Numbers={Monospaced,Lining}}
+
+\CURRNFSS
+
+\end{document}

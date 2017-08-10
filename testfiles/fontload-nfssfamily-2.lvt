@@ -1,0 +1,41 @@
+
+\input{fontspec-testsetup.tex}
+
+\usepackage{fontspec}
+\begin{document}
+
+\makeatletter
+
+\MSG{MANUAL FONT SELECTION:}
+
+\DeclareFontFamily{TU}{newfoo}{}
+\DeclareFontShape{TU}{newfoo}{m}{n}{<->"[texgyrepagella-regular.otf]"}{}
+\fontfamily{newfoo}\selectfont 
+\MSG{After DeclareFontShape:}
+\CURRNFSS
+
+\DeclareFontShape{TU}{newfoo}{m}{n}{<->"[texgyreheros-regular.otf]"}{}
+\fontfamily{newfoo}\selectfont 
+\MSG{After DeclareFontShape again:}
+\CURRNFSS
+
+\begingroup
+  \normalsize
+  \global\expandafter\let\csname TU/newfoo/m/n/\f@size\endcsname\relax
+\endgroup
+\DeclareFontShape{TU}{newfoo}{m}{n}{<->"[texgyreheros-regular.otf]:color=FFAA00"}{}
+\fontfamily{newfoo}\selectfont
+\MSG{After resetting then DeclareFontShape:}
+\CURRNFSS
+
+\MSG{USING FONTSPEC:}
+
+\def\x{\fontfamily{foo}\selectfont regular \CURRNFSS \textsc{small caps \CURRNFSS} }
+
+\fontspec[NFSSFamily=foo,Color=FF0000]{texgyrepagella-regular.otf}
+\normalfont\x 
+
+\fontspec[NFSSFamily=foo,Color=FF00FF]{texgyreheros-regular.otf}
+\normalfont\x
+
+\end{document}

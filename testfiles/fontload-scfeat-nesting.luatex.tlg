@@ -1,0 +1,18 @@
+This is a generated file for the l3build validation system.
+Don't change this file in any respect.
+TU/texgyretermes(0)/m/n:
+  "[texgyretermes-regular.otf]:mode=node;script=latn;language=DFLT;color=220022FF ;"
+TU/texgyretermes(0)/m/sc:
+  "[texgyretermes-regular.otf]:mode=node;script=latn;language=DFLT;+smcp;color=115511FF ;"
+TU/texgyretermes(0)/m/it:
+  "[texgyretermes-italic.otf]:mode=node;script=latn;language=DFLT;color=2244FFFF ;"
+TU/texgyretermes(0)/m/itsc:
+  "[texgyretermes-italic.otf]:mode=node;script=latn;language=DFLT;+smcp;color=112299FF ;"
+TU/texgyretermes(0)/bx/n:
+  "[texgyretermes-bold.otf]:mode=node;script=latn;language=DFLT;color=FF4422FF ;"
+TU/texgyretermes(0)/bx/sc:
+  "[texgyretermes-bold.otf]:mode=node;script=latn;language=DFLT;+smcp;color=992211FF ;"
+TU/texgyretermes(0)/bx/it:
+  "[texgyretermes-bolditalic.otf]:mode=node;script=latn;language=DFLT;color=888844FF ;"
+TU/texgyretermes(0)/bx/itsc:
+  "[texgyretermes-bolditalic.otf]:mode=node;script=latn;language=DFLT;+smcp;color=444422FF ;"

@@ -1,7 +1,11 @@
-\documentclass{testsuite}
+
+\input{fontspec-testsetup.tex}
+
 \usepackage{fontspec}
 \usepackage{xcolor}
+
 \begin{document}
+
 \fontspec[
  Extension=.otf,
  UprightFont=*-regular,
@@ -17,8 +21,13 @@
  BoldItalicFeatures={Color = 888844,
          SmallCapsFeatures = {Color=444422}},
          ]{texgyretermes}
-Upright {\scshape Small Caps}\\
-\itshape Italic {\scshape Italic Small Caps}\\
-\upshape\bfseries Bold {\scshape Bold Small Caps}\\
-\itshape Bold Italic {\scshape Bold Italic Small Caps}
+
+Upright \CURRNFSS {\scshape Small Caps \CURRNFSS}\\
+
+\itshape Italic \CURRNFSS {\scshape Italic Small Caps \CURRNFSS}\\
+
+\upshape\bfseries Bold \CURRNFSS {\scshape Bold Small Caps \CURRNFSS}\\
+
+\itshape Bold Italic \CURRNFSS {\scshape Bold Italic Small Caps \CURRNFSS}
+
 \end{document}

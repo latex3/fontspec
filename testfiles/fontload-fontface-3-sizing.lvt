@@ -1,0 +1,46 @@
+
+\input{fontspec-testsetup.tex}
+
+\usepackage{fontspec}
+\begin{document}
+
+\setmainfont{SourceCodePro-Regular.otf}[
+  Color = 00AA00 ,
+  UprightFeatures = {
+    SizeFeatures = {
+      {Size = -10, Font = SourceCodePro-Medium.otf,},
+      {Size = 10-15, Font = SourceCodePro-Regular.otf,},
+      {Size = 15-, Font = SourceCodePro-Light.otf,},
+    }
+  },
+  ItalicFont = SourceCodePro-RegularIt.otf,
+  FontFace = {c}{n}{
+    Font = texgyrecursor-regular.otf,
+    SizeFeatures = {
+      {Size = -10,Color = FF0000,Font=SourceCodePro-MediumIt.otf},
+      {Size = 10-15,Color = FF00FF},
+      {Size = 15-,Color = 0000FF,Font=SourceCodePro-LightIt.otf},
+    },
+  },
+  FontFace = {nc}{n}{texgyreheros-regular.otf}
+]
+
+\def\x{{\tiny small \CURRNFSS
+\normalsize normal \CURRNFSS
+\Huge huge \CURRNFSS}}
+
+\MSG{NORMAL}
+\noindent\x --- `optical' sizes
+
+\MSG{ITALIC}
+\noindent\textit{\x} --- italic just uses one face
+
+\MSG{FONTSERIES C}
+\fontseries{c}\selectfont
+\noindent\x --- three serif faces with different colours
+
+\MSG{FONTSERIES NC}
+\fontseries{nc}\selectfont
+\noindent\x --- plain Helvetica
+
+\end{document}

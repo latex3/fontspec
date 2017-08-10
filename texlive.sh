@@ -32,6 +32,10 @@ tlmgr install cm etex knuth-lib latex-bin tex tex-ini-files unicode-data \
 tlmgr install   \
   sourcecodepro \
   Asana-Math    \
+  ebgaramond    \
+  tex-gyre      \
+  tex-gyre-math \
+  unicode-math  \
   geometry      \
   graphics      \
   graphics-def  \
@@ -39,9 +43,6 @@ tlmgr install   \
   ifxetex       \
   luaotfload    \
   oberdiek      \
-  tex-gyre      \
-  tex-gyre-math \
-  unicode-math  \
   ucharcat      \
   filehook      \
   xcolor

@@ -1,0 +1,30 @@
+
+\input{fontspec-testsetup.tex}
+
+\usepackage{fontspec}
+
+\begin{document}
+
+\ExplSyntaxOn
+
+\MSG{LM~is}
+\fontspec_if_fontspec_font:TF {\ERROR}{\MSG{not~a~fontspec~font.}}
+
+\setmainfont{texgyrepagella-regular.otf}
+
+\MSG{TeX~ Gyre~ Pagella}
+\fontspec_if_fontspec_font:TF {\MSG{is~a~fontspec~font}}{\ERROR}
+
+\fontspec_if_opentype:TF {\MSG{is~OpenType}}{\ERROR}
+
+\fontspec_if_feature:nTF {smcp}{\MSG{has~small~caps}}{\ERROR}
+
+\fontspec_if_current_script:nTF {latn}{\MSG{is~using~Latin~script}}{\ERROR}
+
+\fontspec_if_script:nTF {cyrl}{\MSG{also~has~Cyrillic}}{\ERROR}
+
+\fontspec_if_current_language:nTF {DFLT}{\MSG{is~using~`default'~language}}{\ERROR}
+
+\fontspec_if_language:nnTF {latn}{ROM}{\MSG{also~has~Romanian}}{\ERROR}
+
+\end{document}

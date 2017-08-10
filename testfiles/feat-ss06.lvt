@@ -1,0 +1,13 @@
+
+\input{fontspec-testsetup.tex}
+
+\usepackage{fontspec}
+\begin{document}
+
+\fontspec{Junicode.ttf}
+\CURRNFSS
+
+\addfontfeature{StylisticSet=6}
+\CURRNFSS
+
+\end{document}

@@ -1,0 +1,16 @@
+
+\input{fontspec-testsetup.tex}
+
+\usepackage{fontspec}
+\usepackage{xcolor}
+
+\begin{document}
+
+\fontspec{EBGaramond12-Italic.otf}%
+
+                           \& violet \CURRNFSS \\
+{\addfontfeature{CharacterVariant={4}}     \& violet \CURRNFSS }\\
+{\addfontfeature{CharacterVariant={5:2}}   \& violet \CURRNFSS }\\
+{\addfontfeature{CharacterVariant={4,5:2}} \& violet \CURRNFSS }
+
+\end{document}

@@ -1,4 +1,6 @@
-\documentclass{testsuite}
+
+\input{fontspec-testsetup.tex}
+
 \usepackage{fontspec}
 
 \begin{document}
@@ -41,19 +43,18 @@
  ]
  {texgyrepagella}
 
-\small hello \textsc{hello}
-\large hello \textsc{hello}
+\def\x{regular \FONTNAME \textsc{small caps \FONTNAME}\par}
+\def\xx{\small \x \large \x}
+
+\xx
 
 \itshape
-\small hello \textsc{hello}
-\large hello \textsc{hello}
+\xx
 
 \upshape\bfseries
-\small hello \textsc{hello}
-\large hello \textsc{hello}
+\xx
 
 \itshape
-\small hello \textsc{hello}
-\large hello \textsc{hello}
+\xx
 
 \end{document}

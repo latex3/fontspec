@@ -153,6 +153,50 @@ My preference is to always be explicit and include the extension; this also allo
 In previous versions of the package, the |Path| feature was also provided under the alias |ExternalLocation|, but this latter name is now deprecated and should not be used for new documents.
 
 
+\subsection{By custom file name}
+
+When \pkg{fontspec} is first asked to load a font, a font settings file is searched
+for with the name `\meta{fontname}\texttt{.fontspec}'.\footnote{Located in the current folder or within a standard \texttt{texmf} location.}
+If you want to \emph{disable} this feature on a per-font basis, use the \feat{IgnoreFontspecFile} font option.
+
+The contents of this file can be used to specify font shapes and font features without having to have this information present within each document.
+Therefore, it can be more flexible than the alternatives listed above.
+
+When searching for this \texttt{.fontspec} file, \meta{fontname} is stripped of spaces and file extensions are omitted.
+For example, given |\setmainfont{TeX Gyre Adventor}|, the \texttt{.fontspec} file would be
+called \texttt{TeXGyreAdventor.fontspec}.
+If you wanted to transparently load options for |\setmainfont{texgyreadventor-regular.otf}|, the configuration
+file would be \texttt{texgyreadventor-regular.fontspec}.
+
+N.B. that while spaces are stripped, the lettercase of the names should match.
+
+This mechanism can be used to define custom names or aliases for your font collections.
+The syntax within this file follows from the \cs{defaultfontfeatures}, defined in more detail later but mirroring the standard \pkg{fontspec} font loading syntax.
+As an example, suppose we're defining a font family to be loaded with \verb|\setmainfont{My Charis}|.
+The corresponding \texttt{MyCharis.fontspec} file would containing, say,
+\begin{Verbatim}
+  \defaultfontfeatures[My Charis]
+    {
+      Extension = .ttf ,
+      UprightFont    = CharisSILR,
+      BoldFont       = CharisSILB,
+      ItalicFont     = CharisSILI,
+      BoldItalicFont = CharisSILBI,
+      % <any other desired options>
+    }
+\end{Verbatim}
+The optional argument to \cs{defaultfontfeatures} must exactly match that requested by the font loading command (\verb|\setmainfont|, etc.) --- in particular note that spaces are significant here, so |\setmainfont{MyCharis}| will not `see' the default font feature setting within the \texttt{.fontspec} file.
+
+Finally, note that options for individual font faces can also be defined in this way.
+To continue the example above, here we colour the different faces:
+\begin{Verbatim}
+  \defaultfontfeatures[CharisSILR]{Color=blue}
+  \defaultfontfeatures[CharisSILB]{Color=red}
+\end{Verbatim}
+Such configuration lines could be stored either inline inside \texttt{My Charis.fontspec} or within their own \texttt{.fontspec} files; in this way, \pkg{fontspec} is designed to handle `nested' configuration options.
+
+
+
 \subsection{Querying whether a font `exists'}
 
 \cmdbox{

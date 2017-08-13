@@ -1,0 +1,54 @@
+
+\begin{filecontents*}{texgyrepagella-regular.fontspec}
+\defaultfontfeatures[texgyrepagella-regular.otf]{Colour=FF0000}
+\end{filecontents*}
+\begin{filecontents*}{TeXGyreTermes.fontspec}
+\defaultfontfeatures[TeX Gyre Termes]{
+  ExternalLocation,
+  UprightFont = texgyretermes-regular.otf,
+  Colour=0000FF
+}
+\end{filecontents*}
+
+\begin{filecontents*}{MyHeros.fontspec}
+\defaultfontfeatures[My Heros]
+    {
+     Colour         = 119944    ,
+     Extension      = .otf      ,
+     UprightFont    = texgyreheros-regular    ,
+     BoldFont       = texgyreheros-bold       ,
+     ItalicFont     = texgyreheros-italic     ,
+     BoldItalicFont = texgyreheros-bolditalic ,
+    }
+\end{filecontents*}
+
+\begin{filecontents*}{texgyreheros-bolditalic.fontspec}
+\defaultfontfeatures[texgyreheros-bolditalic]
+    {
+     Colour         = 223355    ,
+    }
+\end{filecontents*}
+
+\input{fontspec-testsetup.tex}
+
+\usepackage{fontspec}
+
+\begin{document}
+
+\MSG{Bare bones colour red loaded from file:}
+\setmainfont{texgyrepagella-regular.otf}
+pagella 
+\CURRNFSS
+
+\MSG{New font name, colour blue, loaded from file:}
+\setmainfont{TeX Gyre Termes}
+termes colour blue loaded from file
+\CURRNFSS
+
+\MSG{A more comprehensive family (note nested defn for BI shape):}
+\setmainfont{My Heros}
+heros from texmf:
+hello \CURRNFSS \textbf{hello \CURRNFSS }
+\emph{hello \CURRNFSS \textbf{hello \CURRNFSS }}
+
+\end{document}

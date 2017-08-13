@@ -1,8 +1,8 @@
 This is a generated file for the l3build validation system.
 Don't change this file in any respect.
 Bare bones colour red loaded from file:
-TU/texgyrepagella-regular.otf(0)/m/n:
-  "[texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;color=FF0000FF ;"
+TU/texgyreschola-regular.otf(0)/m/n:
+  "[texgyreschola-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;color=FF0000FF ;"
 New font name, colour blue, loaded from file:
 TU/TeXGyreTermes(0)/m/n:
   "[texgyretermes-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;color=0000FFFF ;"

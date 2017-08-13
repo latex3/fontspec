@@ -1,6 +1,6 @@
 
-\begin{filecontents*}{texgyrepagella-regular.fontspec}
-\defaultfontfeatures[texgyrepagella-regular.otf]{Colour=FF0000}
+\begin{filecontents*}{texgyreschola-regular.fontspec}
+\defaultfontfeatures[texgyreschola-regular.otf]{Colour=FF0000}
 \end{filecontents*}
 \begin{filecontents*}{TeXGyreTermes.fontspec}
 \defaultfontfeatures[TeX Gyre Termes]{
@@ -36,8 +36,8 @@
 \begin{document}
 
 \MSG{Bare bones colour red loaded from file:}
-\setmainfont{texgyrepagella-regular.otf}
-pagella 
+\setmainfont{texgyreschola-regular.otf}
+schola 
 \CURRNFSS
 
 \MSG{New font name, colour blue, loaded from file:}

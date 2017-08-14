@@ -45,6 +45,7 @@ tlmgr install   \
   oberdiek      \
   ucharcat      \
   filehook      \
+  polyglossia   \
   xcolor
 
 # Keep no backups (not required, simply makes cache bigger)

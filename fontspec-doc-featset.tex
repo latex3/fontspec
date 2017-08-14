@@ -462,7 +462,9 @@ use this feature in \cs{addfontfeatures}.
 \subsection{The hyphenation character}
 
 The letter used for hyphenation may be chosen with the \feat{HyphenChar}
-feature. It takes three types of input, which are chosen according to some
+feature. This is a \XeTeX-only feature since \LuaTeX\ cannot set the hyphenation character on a per-font basis; see its \cs{prehyphenchar} primitive for further details.
+
+It takes three types of input, which are chosen according to some
 simple rules. If the input is the string \opt{None}, then hyphenation is
 suppressed for this font.
 If the input is a single character, then this

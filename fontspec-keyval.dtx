@@ -580,29 +580,25 @@
 %    \begin{macrocode}
 \@@_keys_define_code:nnn {fontspec} {HyphenChar}
  {
+  \@@_warning:nx {only-xetex-feature} {HyphenChar}
   \str_if_eq:nnTF {#1} {None}
    {
     \tl_put_right:Nn \l_@@_postadjust_tl
       { \hyphenchar \font = -1 \relax }
    }
    {
+
     \tl_if_single:nTF {#1}
      { \tl_set:Nn \l_fontspec_hyphenchar_tl {`#1} }
      { \tl_set:Nn \l_fontspec_hyphenchar_tl { #1} }
+
     \@@_primitive_font_glyph_if_exist:NnTF \l_fontspec_font {\l_fontspec_hyphenchar_tl}
      {
       \tl_put_right:Nn \l_@@_postadjust_tl
-%<*xetexx>
         { \hyphenchar \font = \l_fontspec_hyphenchar_tl \scan_stop: }
-%</xetexx>
-%<*luatex>
-        {
-          \hyphenchar \font = \c_zero
-          \int_set:Nn \luatex_prehyphenchar:D { \l_fontspec_hyphenchar_tl }
-        }
-%</luatex>
      }
      { \@@_error:nx {no-glyph}{#1} }
+
    }
  }
 \@@_aff_error:n {HyphenChar}

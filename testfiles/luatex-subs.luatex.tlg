@@ -1,0 +1,20 @@
+This is a generated file for the l3build validation system.
+Don't change this file in any respect.
+> \box1=
+\hbox(5.06+0.09)x15.26, direction TLT
+.\TU/Vollkorn-Regular.otf(0)/m/n/10 0
+.\TU/Vollkorn-Regular.otf(0)/m/n/10 1
+.\TU/Vollkorn-Regular.otf(0)/m/n/10 2
+! OK.
+<to be read again> 
+\begingroup 
+l. ...\TIMO\showbox1\OMIT
+> \box1=
+\hbox(5.06+0.09)x15.7, direction TLT
+.\TU/Vollkorn-Regular.otf(1)/m/n/10 0
+.\TU/Vollkorn-Regular.otf(1)/m/n/10 󰀳
+.\TU/Vollkorn-Regular.otf(1)/m/n/10 2
+! OK.
+<to be read again> 
+\begingroup 
+l. ...\TIMO\showbox1\OMIT

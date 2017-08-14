@@ -4,7 +4,6 @@
 
 \LUATEXONLY
 
-\begin{fstest}
 \directlua{
     fonts.handlers.otf.addfeature {
         name = "oneb",
@@ -16,10 +15,11 @@
 }
 
 \setmainfont{Vollkorn-Regular.otf}
-012
+\setbox1=\hbox{012}
+\TIMO\showbox1\OMIT
 
 \setmainfont{Vollkorn-Regular.otf}[RawFeature=+oneb]
-012
-\end{fstest}
+\setbox1=\hbox{012}
+\TIMO\showbox1\OMIT
 
 \end{document}

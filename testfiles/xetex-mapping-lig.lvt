@@ -1,0 +1,44 @@
+
+\input{fontspec-testsetup.tex}
+
+\usepackage{fontspec}
+
+\begin{document}
+
+\XETEXONLY
+
+\def\x{\setbox1=\hbox{`123--456'}\TIMO\showbox1\OMIT}
+
+\MSG{AAT RENDERER}
+
+\fontspec{Code2000}[Renderer=AAT,Ligatures=Rare] \x
+
+\fontspec{Code2000}[Renderer=AAT,Mapping=tex-text] \x
+
+\fontspec{Code2000}[Renderer=AAT,Mapping=thaidigits] \x
+
+\fontspec{Code2000}[Renderer=AAT,Mapping=tex-text,Mapping=thaidigits] \x
+
+\fontspec{Code2000}[Renderer=AAT,Mapping=thaidigits,Mapping=tex-text] \x
+
+\fontspec{Code2000}[Renderer=AAT,Ligatures=TeX,Mapping=thaidigits] \x
+
+\fontspec{Code2000}[Renderer=AAT,Mapping=thaidigits,Ligatures={TeX,Rare}] \x
+
+\MSG{OPENTYPE RENDERER}
+
+\fontspec{Code2000}[Renderer=OpenType,Ligatures=Rare] \x
+
+\fontspec{Code2000}[Renderer=OpenType,Mapping=tex-text] \x
+
+\fontspec{Code2000}[Renderer=OpenType,Mapping=thaidigits] \x
+
+\fontspec{Code2000}[Renderer=OpenType,Mapping=tex-text,Mapping=thaidigits] \x
+
+\fontspec{Code2000}[Renderer=OpenType,Mapping=thaidigits,Mapping=tex-text] \x
+
+\fontspec{Code2000}[Renderer=OpenType,Ligatures=TeX,Mapping=thaidigits] \x
+
+\fontspec{Code2000}[Renderer=OpenType,Mapping=thaidigits,Ligatures={TeX,Rare}] \x
+
+\end{document}

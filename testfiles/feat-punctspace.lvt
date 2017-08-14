@@ -1,0 +1,32 @@
+
+\input{fontspec-testsetup.tex}
+
+\usepackage{fontspec}
+
+\begin{document}
+
+\def\x{Suspendisse vel felis. Ut lorem lorem, interdum eu, tincidunt sit amet, laoreet vitae, arcu. Aenean faucibus pede eu ante. Praesent enim elit, rutrum at, molestie non, nonummy vel, nisl.}
+
+\MSG{Default termes:}
+\setmainfont{texgyretermes-regular.otf}
+\x
+\MSG{fontdimen7 = \the\fontdimen7\font}
+
+\MSG{PunctuationSpace=2:}
+\setmainfont{texgyretermes-regular.otf}[PunctuationSpace=2]
+\x
+\MSG{fontdimen7 = \the\fontdimen7\font}
+
+\MSG{PunctuationSpace=WordSpace:}
+\setmainfont{texgyretermes-regular.otf}[PunctuationSpace=WordSpace]
+\x
+\MSG{fontdimen2 = \the\fontdimen2\font}
+\MSG{fontdimen7 = \the\fontdimen7\font}
+
+\MSG{PunctuationSpace=TwiceWordSpace:}
+\setmainfont{texgyretermes-regular.otf}[PunctuationSpace=TwiceWordSpace]
+\x
+\MSG{fontdimen2 = \the\fontdimen2\font}
+\MSG{fontdimen7 = \the\fontdimen7\font}
+
+\end{document}

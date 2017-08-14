@@ -11,34 +11,34 @@
 
 \MSG{AAT RENDERER}
 
-\fontspec{Code2000.TTF}[Renderer=AAT,Ligatures=Rare] \x
+\fontspec{CODE2000.TTF}[Renderer=AAT,Ligatures=Rare] \x
 
-\fontspec{Code2000.TTF}[Renderer=AAT,Mapping=tex-text] \x
+\fontspec{CODE2000.TTF}[Renderer=AAT,Mapping=tex-text] \x
 
-\fontspec{Code2000.TTF}[Renderer=AAT,Mapping=thaidigits] \x
+\fontspec{CODE2000.TTF}[Renderer=AAT,Mapping=thaidigits] \x
 
-\fontspec{Code2000.TTF}[Renderer=AAT,Mapping=tex-text,Mapping=thaidigits] \x
+\fontspec{CODE2000.TTF}[Renderer=AAT,Mapping=tex-text,Mapping=thaidigits] \x
 
-\fontspec{Code2000.TTF}[Renderer=AAT,Mapping=thaidigits,Mapping=tex-text] \x
+\fontspec{CODE2000.TTF}[Renderer=AAT,Mapping=thaidigits,Mapping=tex-text] \x
 
-\fontspec{Code2000.TTF}[Renderer=AAT,Ligatures=TeX,Mapping=thaidigits] \x
+\fontspec{CODE2000.TTF}[Renderer=AAT,Ligatures=TeX,Mapping=thaidigits] \x
 
-\fontspec{Code2000.TTF}[Renderer=AAT,Mapping=thaidigits,Ligatures={TeX,Rare}] \x
+\fontspec{CODE2000.TTF}[Renderer=AAT,Mapping=thaidigits,Ligatures={TeX,Rare}] \x
 
 \MSG{OPENTYPE RENDERER}
 
-\fontspec{Code2000.TTF}[Renderer=OpenType,Ligatures=Rare] \x
+\fontspec{CODE2000.TTF}[Renderer=OpenType,Ligatures=Rare] \x
 
-\fontspec{Code2000.TTF}[Renderer=OpenType,Mapping=tex-text] \x
+\fontspec{CODE2000.TTF}[Renderer=OpenType,Mapping=tex-text] \x
 
-\fontspec{Code2000.TTF}[Renderer=OpenType,Mapping=thaidigits] \x
+\fontspec{CODE2000.TTF}[Renderer=OpenType,Mapping=thaidigits] \x
 
-\fontspec{Code2000.TTF}[Renderer=OpenType,Mapping=tex-text,Mapping=thaidigits] \x
+\fontspec{CODE2000.TTF}[Renderer=OpenType,Mapping=tex-text,Mapping=thaidigits] \x
 
-\fontspec{Code2000.TTF}[Renderer=OpenType,Mapping=thaidigits,Mapping=tex-text] \x
+\fontspec{CODE2000.TTF}[Renderer=OpenType,Mapping=thaidigits,Mapping=tex-text] \x
 
-\fontspec{Code2000.TTF}[Renderer=OpenType,Ligatures=TeX,Mapping=thaidigits] \x
+\fontspec{CODE2000.TTF}[Renderer=OpenType,Ligatures=TeX,Mapping=thaidigits] \x
 
-\fontspec{Code2000.TTF}[Renderer=OpenType,Mapping=thaidigits,Ligatures={TeX,Rare}] \x
+\fontspec{CODE2000.TTF}[Renderer=OpenType,Mapping=thaidigits,Ligatures={TeX,Rare}] \x
 
 \end{document}

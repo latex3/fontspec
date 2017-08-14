@@ -1,0 +1,22 @@
+This is a generated file for the l3build validation system.
+Don't change this file in any respect.
+Termes default:
+fontdimen2 = 2.5pt
+fontdimen3 = 1.25pt
+fontdimen4 = 0.83333pt
+WordSpace = 2:
+fontdimen2 = 5.0pt
+fontdimen3 = 2.5pt
+fontdimen4 = 1.66666pt
+WordSpace = 2,3,4:
+fontdimen2 = 10.0pt
+fontdimen3 = 7.5pt
+fontdimen4 = 6.66663pt
+Back to `default' -- unchanged from previous!:
+fontdimen2 = 10.0pt
+fontdimen3 = 7.5pt
+fontdimen4 = 6.66663pt
+Have to scale by close to unity to get back to default:
+fontdimen2 = 2.50005pt
+fontdimen3 = 1.25002pt
+fontdimen4 = 0.83334pt

@@ -1,0 +1,22 @@
+
+\input{fontspec-testsetup.tex}
+
+\usepackage{fontspec}
+
+\begin{document}
+
+\XETEXONLY
+
+{\fontspec{texgyretermes-regular.otf}[HyphenChar=None]
+\MSG{hyphenchar = \the\hyphenchar\font}}
+
+{\fontspec{texgyretermes-regular.otf}[HyphenChar={+}]
+\MSG{hyphenchar = \the\hyphenchar\font}}
+
+{\fontspec{texgyretermes-regular.otf}[HyphenChar={"2A}]
+\MSG{hyphenchar = \the\hyphenchar\font}}
+
+{\fontspec{texgyretermes-regular.otf}[HyphenChar={41}]
+\MSG{hyphenchar = \the\hyphenchar\font}}
+
+\end{document}

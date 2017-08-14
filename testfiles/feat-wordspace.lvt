@@ -1,0 +1,38 @@
+
+\input{fontspec-testsetup.tex}
+
+\usepackage{fontspec}
+
+\begin{document}
+
+\MSG{Termes default:}
+\fontspec{texgyretermes-regular.otf}
+\MSG{fontdimen2 = \the\fontdimen2\font}
+\MSG{fontdimen3 = \the\fontdimen3\font}
+\MSG{fontdimen4 = \the\fontdimen4\font}
+
+\MSG{WordSpace = 2:}
+\fontspec{texgyretermes-regular.otf}[WordSpace=2]
+\MSG{fontdimen2 = \the\fontdimen2\font}
+\MSG{fontdimen3 = \the\fontdimen3\font}
+\MSG{fontdimen4 = \the\fontdimen4\font}
+
+\MSG{WordSpace = 2,3,4:}
+\fontspec{texgyretermes-regular.otf}[WordSpace={2,3,4}]
+\MSG{fontdimen2 = \the\fontdimen2\font}
+\MSG{fontdimen3 = \the\fontdimen3\font}
+\MSG{fontdimen4 = \the\fontdimen4\font}
+
+\MSG{Back to `default' -- unchanged from previous!:}
+\fontspec{texgyretermes-regular.otf}
+\MSG{fontdimen2 = \the\fontdimen2\font}
+\MSG{fontdimen3 = \the\fontdimen3\font}
+\MSG{fontdimen4 = \the\fontdimen4\font}
+
+\MSG{Have to scale by close to unity to get back to default:}
+\fontspec{texgyretermes-regular.otf}[Scale=1.00001]
+\MSG{fontdimen2 = \the\fontdimen2\font}
+\MSG{fontdimen3 = \the\fontdimen3\font}
+\MSG{fontdimen4 = \the\fontdimen4\font}
+
+\end{document}

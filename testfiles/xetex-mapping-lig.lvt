@@ -7,7 +7,11 @@
 
 \XETEXONLY
 
-\def\x{\setbox1=\hbox{`123--456'}\TIMO\showbox1\OMIT}
+\def\x{
+  \CURRNFSS
+  \setbox1=\hbox{`123--456'}
+  \TIMO\showbox1\OMIT
+}
 
 \MSG{AAT RENDERER}
 

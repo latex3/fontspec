@@ -5,10 +5,10 @@
 
 \begin{document}
 
-\XETEXONLY
-
 {\fontspec{texgyretermes-regular.otf}[HyphenChar=None]
 \MSG{hyphenchar = \the\hyphenchar\font}}
+
+\XETEXONLY
 
 {\fontspec{texgyretermes-regular.otf}[HyphenChar={+}]
 \MSG{hyphenchar = \the\hyphenchar\font}}

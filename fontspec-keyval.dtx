@@ -577,16 +577,19 @@
 % \meta{glyph}, or \meta{slot}. If the input isn't the first,
 % and it's one character, then it's the second; otherwise, it's
 % the third.
+%
+% LuaTeX decouples hyphenation from font settings, so only \verb|HyphenChar=None| works
+% for that engine.
 %    \begin{macrocode}
 \@@_keys_define_code:nnn {fontspec} {HyphenChar}
  {
-  \@@_warning:nx {only-xetex-feature} {HyphenChar}
   \str_if_eq:nnTF {#1} {None}
    {
     \tl_put_right:Nn \l_@@_postadjust_tl
       { \hyphenchar \font = -1 \relax }
    }
    {
+    \@@_warning:nx {only-xetex-feature} {HyphenChar}
 
     \tl_if_single:nTF {#1}
      { \tl_set:Nn \l_fontspec_hyphenchar_tl {`#1} }

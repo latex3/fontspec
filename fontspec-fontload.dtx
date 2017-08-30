@@ -71,6 +71,15 @@
 %    \end{macrocode}
 % \end{macro}
 %
+% \begin{macro}{\@@_primitive_font_set_hyphenchar:Nn}
+%    \begin{macrocode}
+\cs_new:Nn \@@_primitive_font_set_hyphenchar:Nn
+  {
+     \tex_hyphenchar:D #1 = #2 \scan_stop:
+  }
+%    \end{macrocode}
+% \end{macro}
+%
 % \iffalse
 %    \begin{macrocode}
 %</fontspec&(xetexx|luatex)>

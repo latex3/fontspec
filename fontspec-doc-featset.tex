@@ -462,13 +462,16 @@ use this feature in \cs{addfontfeatures}.
 \subsection{The hyphenation character}
 
 The letter used for hyphenation may be chosen with the \feat{HyphenChar}
-feature. This is a \XeTeX-only feature since \LuaTeX\ cannot set the hyphenation character on a per-font basis; see its \cs{prehyphenchar} primitive for further details.
+feature.
+With one exception (\feat{HyphenChar} \texttt{=} \opt{None}),
+this is a \XeTeX-only feature since \LuaTeX\ cannot set the hyphenation character on a per-font basis;
+see its \cs{prehyphenchar} primitive for further details.
 
-It takes three types of input, which are chosen according to some
+\feat{HyphenChar} takes three types of input, which are chosen according to some
 simple rules. If the input is the string \opt{None}, then hyphenation is
 suppressed for this font.
-If the input is a single character, then this
-character is used. Finally, if the input is longer than a single character
+If the input is a single character, then this character is used.
+Finally, if the input is longer than a single character
 it must be the UTF-8 slot number of the hyphen character you desire.
 
 This package redefines \LaTeX's \cmd\-\ macro such that it adjusts along with the above changes.
@@ -503,9 +506,9 @@ and Lua\TeX\
 able to compare the difference for equivalent font sizes.
 
 The
-\opt{OpticalSize} option may be used to specify a different optical
+\feat{OpticalSize} feature may be used to specify a different optical
 size.
-With \opt{OpticalSize} set
+With \feat{OpticalSize} set
 to zero, no optical size font substitution is performed, as shown in
 \exref{optsize0}.
 

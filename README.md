@@ -69,6 +69,13 @@ To add features to the font family currently in use:
 Change history
 --------------
 
+- v2.6d (2017/08/14)
+
+    * Update Scripts to Unicode 1.8.2 (thanks Werner)
+    * Remove `HyphenChar` feature when running LuaTeX — use `\prehyphenchar` LuaTeX primitive instead.
+    * Rewrite test suite so that automated testing actually functions correctly and automatically. Thanks to Joseph for introducing me to Travis CI.
+
+
 - v2.6c (2017/07/23)
 
     * Emergency bug-fix.

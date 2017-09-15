@@ -2,6 +2,12 @@
 Change history
 ==============
 
+- v2.6e ()
+
+    * Re-enable use of `HyphenChar=None` in LuaLaTeX. (Hyphenation and font choice are
+      decoupled in LuaTeX, except for this one setting.)
+
+
 - v2.6d (2017/08/14)
 
     * Update Scripts to Unicode 1.8.2 (thanks Werner)

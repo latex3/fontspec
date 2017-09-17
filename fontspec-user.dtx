@@ -20,14 +20,14 @@
 %    \begin{macrocode}
 \NewDocumentCommand \fontspec { O{} m O{} }
   {
-    \@@_main_fontspec:nnn {#1} {#2} {#3}
+    \@@_main_fontspec:nn {#1,#3} {#2}
   }
 %    \end{macrocode}
 %
 %    \begin{macrocode}
-\cs_set:Nn \@@_main_fontspec:nnn
+\cs_set:Nn \@@_main_fontspec:nn
  {
-  \fontspec_set_family:Nnn \f@family {#1,#3} {#2}
+  \fontspec_set_family:Nnn \f@family {#1} {#2}
   \fontencoding { \l_@@_nfss_enc_tl }
   \selectfont
   \ignorespaces
@@ -44,14 +44,14 @@
 %    \begin{macrocode}
 \DeclareDocumentCommand \setmainfont { O{} m O{} }
   {
-    \@@_main_setmainfont:nnn {#1} {#2} {#3}
+    \@@_main_setmainfont:nn {#1,#3} {#2}
   }
 %    \end{macrocode}
 %
 %    \begin{macrocode}
-\cs_set:Nn \@@_main_setmainfont:nnn
+\cs_set:Nn \@@_main_setmainfont:nn
  {
-  \fontspec_set_family:Nnn \g_@@_rmfamily_family {#1,#3} {#2}
+  \fontspec_set_family:Nnn \g_@@_rmfamily_family {#1} {#2}
   \tl_set_eq:NN \rmdefault \g_@@_rmfamily_family
   \use:x { \exp_not:n { \DeclareRobustCommand \rmfamily }
    {
@@ -72,12 +72,12 @@
 %    \begin{macrocode}
 \DeclareDocumentCommand \setsansfont { O{} m O{} }
   {
-    \@@_main_setsansfont:nnn {#1} {#2} {#3}
+    \@@_main_setsansfont:nn {#1,#3} {#2}
   }
 %    \end{macrocode}
 %
 %    \begin{macrocode}
-\cs_set:Nn \@@_main_setsansfont:nnn
+\cs_set:Nn \@@_main_setsansfont:nn
  {
   \fontspec_set_family:Nnn \g_@@_sffamily_family {#1,#3} {#2}
   \tl_set_eq:NN \sfdefault \g_@@_sffamily_family
@@ -100,14 +100,14 @@
 %    \begin{macrocode}
 \DeclareDocumentCommand \setmonofont { O{} m O{} }
   {
-    \@@_main_setmonofont:nnn {#1} {#2} {#3}
+    \@@_main_setmonofont:nn {#1,#3} {#2}
   }
 %    \end{macrocode}
 %
 %    \begin{macrocode}
-\cs_set:Nn \@@_main_setmonofont:nnn
+\cs_set:Nn \@@_main_setmonofont:nn
  {
-  \fontspec_set_family:Nnn \g_@@_ttfamily_family {#1,#3} {#2}
+  \fontspec_set_family:Nnn \g_@@_ttfamily_family {#1} {#2}
   \tl_set_eq:NN \ttdefault \g_@@_ttfamily_family
   \use:x { \exp_not:n { \DeclareRobustCommand \ttfamily }
    {
@@ -131,7 +131,7 @@
 %    \begin{macrocode}
 \DeclareDocumentCommand \setromanfont { O{} m O{} }
   {
-    \@@_main_setmainfont:nnn {#1} {#2} {#3}
+    \@@_main_setmainfont:nn {#1,#3} {#2}
   }
 %    \end{macrocode}
 % \end{macro}
@@ -149,12 +149,12 @@
 %    \begin{macrocode}
 \DeclareDocumentCommand \setmathrm { O{} m O{} }
   {
-    \@@_main_setmathrm:nnn {#1} {#2} {#3}
+    \@@_main_setmathrm:nn {#1,#3} {#2}
   }
 %    \end{macrocode}
 %
 %    \begin{macrocode}
-\cs_set:Nn \@@_main_setmathrm:nnn
+\cs_set:Nn \@@_main_setmathrm:nn
  {
   \fontspec_set_family:Nnn \g_@@_mathrm_tl {#1} {#2}
  }
@@ -163,12 +163,12 @@
 %    \begin{macrocode}
 \DeclareDocumentCommand \setboldmathrm { O{} m O{} }
   {
-    \@@_main_setboldmathrm:nnn {#1} {#2} {#3}
+    \@@_main_setboldmathrm:nn {#1,#3} {#2}
   }
 %    \end{macrocode}
 %
 %    \begin{macrocode}
-\cs_set:Nn \@@_main_setboldmathrm:nnn
+\cs_set:Nn \@@_main_setboldmathrm:nn
  {
   \fontspec_set_family:Nnn \g_@@_bfmathrm_tl {#1} {#2}
  }
@@ -177,12 +177,12 @@
 %    \begin{macrocode}
 \DeclareDocumentCommand \setmathsf { O{} m O{} }
   {
-    \@@_main_setmathsf:nnn {#1} {#2} {#3}
+    \@@_main_setmathsf:nn {#1,#3} {#2}
   }
 %    \end{macrocode}
 %
 %    \begin{macrocode}
-\cs_set:Nn \@@_main_setmathsf:nnn
+\cs_set:Nn \@@_main_setmathsf:nn
  {
   \fontspec_set_family:Nnn \g_@@_mathsf_tl {#1} {#2}
  }
@@ -191,12 +191,12 @@
 %    \begin{macrocode}
 \DeclareDocumentCommand \setmathtt { O{} m O{} }
   {
-    \@@_main_setmathtt:nnn {#1} {#2} {#3}
+    \@@_main_setmathtt:nn {#1,#3} {#2}
   }
 %    \end{macrocode}
 %
 %    \begin{macrocode}
-\cs_set:Nn \@@_main_setmathtt:nnn
+\cs_set:Nn \@@_main_setmathtt:nn
  {
   \fontspec_set_family:Nnn \g_@@_mathtt_tl {#1} {#2}
  }
@@ -232,14 +232,14 @@
 %    \begin{macrocode}
 \DeclareDocumentCommand \newfontfamily { m O{} m O{} }
   {
-    \@@_main_newfontfamily:nnnn {#1} {#2} {#3} {#4}
+    \@@_main_newfontfamily:nnn {#1} {#2,#4} {#3}
   }
 %    \end{macrocode}
 %
 %    \begin{macrocode}
-\cs_set:Nn \@@_main_newfontfamily:nnnn
+\cs_set:Nn \@@_main_newfontfamily:nnn
  {
-  \fontspec_set_family:cnn { g_@@_ \cs_to_str:N #1 _family } {#2,#4} {#3}
+  \fontspec_set_family:cnn { g_@@_ \cs_to_str:N #1 _family } {#2} {#3}
   \use:x
    {
     \exp_not:N \DeclareRobustCommand \exp_not:N #1
@@ -258,14 +258,14 @@
 %    \begin{macrocode}
 \DeclareDocumentCommand \newfontface { m O{} m O{} }
   {
-    \@@_main_newfontface:nnnn {#1} {#2} {#3} {#4}
+    \@@_main_newfontface:nnn {#1} {#2,#4} {#3}
   }
 %    \end{macrocode}
 %
 %    \begin{macrocode}
-\cs_set:Nn \@@_main_newfontface:nnnn
+\cs_set:Nn \@@_main_newfontface:nnn
  {
-  \newfontfamily #1 [ BoldFont={},ItalicFont={},SmallCapsFont={},#2,#4 ] {#3}
+  \newfontfamily #1 [ BoldFont={},ItalicFont={},SmallCapsFont={},#2 ] {#3}
  }
 %    \end{macrocode}
 % \end{macro}

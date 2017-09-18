@@ -11,6 +11,12 @@
 %    \end{macrocode}
 % \fi
 %
+% \subsection{Interfaces}
+%
+% TODO: move xparse definitions from the below to here.
+%
+% \subsection{Definitions}
+%
 % \subsubsection{Font selection}
 % \begin{macro}{\fontspec}
 %   This is the main command of the package that
@@ -62,6 +68,7 @@
   }
   \str_if_eq_x:nnT {\familydefault} {\rmdefault}
     { \tl_set_eq:NN \encodingdefault \l_@@_nfss_enc_tl }
+  \@@_setmainfont_hook:nn {#1} {#2}
   \normalfont
   \ignorespaces
  }
@@ -90,6 +97,7 @@
   }
   \str_if_eq_x:nnT {\familydefault} {\sfdefault}
     { \tl_set_eq:NN \encodingdefault \l_@@_nfss_enc_tl }
+  \@@_setsansfont_hook:nn {#1} {#2}
   \normalfont
   \ignorespaces
  }
@@ -118,6 +126,7 @@
   }
   \str_if_eq_x:nnT {\familydefault} {\ttdefault}
     { \tl_set_eq:NN \encodingdefault \l_@@_nfss_enc_tl }
+  \@@_setmonofont_hook:nn {#1} {#2}
   \normalfont
   \ignorespaces
  }
@@ -138,9 +147,6 @@
 %
 %
 % \begin{macro}{\setmathrm}
-% \begin{macro}{\setmathsf}
-% \begin{macro}{\setboldmathrm}
-% \begin{macro}{\setmathtt}
 % These commands are analogous to \cmd\setmainfont\ and others,
 % but for selecting the font used for \cmd\mathrm, \etc. They
 % can only be used in the preamble of the
@@ -155,11 +161,15 @@
 %
 %    \begin{macrocode}
 \cs_set:Nn \@@_main_setmathrm:nn
- {
-  \fontspec_set_family:Nnn \g_@@_mathrm_tl {#1} {#2}
- }
+  {
+%<XE>    \fontspec_set_family:Nnn \g_@@_mathrm_tl {#1} {#2}
+%<LU>    \fontspec_set_family:Nnn \g_@@_mathrm_tl {Renderer=Basic,#1} {#2}
+    \@@_setmathrm_hook:nn {#1} {#2}
+  }
 %    \end{macrocode}
+% \end{macro}
 %
+% \begin{macro}{\setboldmathrm}
 %    \begin{macrocode}
 \DeclareDocumentCommand \setboldmathrm { O{} m O{} }
   {
@@ -169,11 +179,15 @@
 %
 %    \begin{macrocode}
 \cs_set:Nn \@@_main_setboldmathrm:nn
- {
-  \fontspec_set_family:Nnn \g_@@_bfmathrm_tl {#1} {#2}
- }
+  {
+%<XE>    \fontspec_set_family:Nnn \g_@@_bfmathrm_tl {#1} {#2}
+%<LU>    \fontspec_set_family:Nnn \g_@@_bfmathrm_tl {Renderer=Basic,#1} {#2}
+    \@@_setboldmathrm_hook:nn {#1} {#2}
+  }
 %    \end{macrocode}
+% \end{macro}
 %
+% \begin{macro}{\setmathsf}
 %    \begin{macrocode}
 \DeclareDocumentCommand \setmathsf { O{} m O{} }
   {
@@ -183,11 +197,15 @@
 %
 %    \begin{macrocode}
 \cs_set:Nn \@@_main_setmathsf:nn
- {
-  \fontspec_set_family:Nnn \g_@@_mathsf_tl {#1} {#2}
- }
+  {
+%<XE>    \fontspec_set_family:Nnn \g_@@_mathsf_tl {#1} {#2}
+%<LU>    \fontspec_set_family:Nnn \g_@@_mathsf_tl {Renderer=Basic,#1} {#2}
+    \@@_setmathsf_hook:nn {#1} {#2}
+  }
 %    \end{macrocode}
+% \end{macro}
 %
+% \begin{macro}{\setmathtt}
 %    \begin{macrocode}
 \DeclareDocumentCommand \setmathtt { O{} m O{} }
   {
@@ -197,17 +215,33 @@
 %
 %    \begin{macrocode}
 \cs_set:Nn \@@_main_setmathtt:nn
- {
-  \fontspec_set_family:Nnn \g_@@_mathtt_tl {#1} {#2}
- }
+  {
+%<XE>    \fontspec_set_family:Nnn \g_@@_mathtt_tl {#1} {#2}
+%<LU>    \fontspec_set_family:Nnn \g_@@_mathtt_tl {Renderer=Basic,#1} {#2}
+    \@@_setmathtt_hook:nn {#1} {#2}
+  }
+%    \end{macrocode}
+% \end{macro}
+%
+% Hooks:
+%    \begin{macrocode}
+\cs_set_eq:NN \@@_setmainfont_hook:nn   \use_none:nn
+\cs_set_eq:NN \@@_setsansfont_hook:nn   \use_none:nn
+\cs_set_eq:NN \@@_setmonofont_hook:nn   \use_none:nn
+\cs_set_eq:NN \@@_setmathrm_hook:nn     \use_none:nn
+\cs_set_eq:NN \@@_setmathsf_hook:nn     \use_none:nn
+\cs_set_eq:NN \@@_setmathtt_hook:nn     \use_none:nn
+\cs_set_eq:NN \@@_setboldmathrm_hook:nn \use_none:nn
 %    \end{macrocode}
 %
+% Hmm, this isn't necessary with \pkg{unicode-math}; oh well:
 %    \begin{macrocode}
 \@onlypreamble\setmathrm
 \@onlypreamble\setboldmathrm
 \@onlypreamble\setmathsf
 \@onlypreamble\setmathtt
 %    \end{macrocode}
+%
 % If the commands above are not executed, then \cmd\rmdefault\ (\etc)
 % will be used.
 %    \begin{macrocode}
@@ -215,8 +249,6 @@
 \tl_set:Nn \g_@@_mathsf_tl {\sfdefault}
 \tl_set:Nn \g_@@_mathtt_tl {\ttdefault}
 %    \end{macrocode}
-% \end{macro} \end{macro} \end{macro}
-% \end{macro}
 %
 % \begin{macro}{\newfontfamily}
 %   This macro takes the arguments of \cs{fontspec} with a prepended

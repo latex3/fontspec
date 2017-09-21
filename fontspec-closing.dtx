@@ -7,28 +7,6 @@
 %    \end{macrocode}
 % \fi
 %
-% \subsection{Compatibility}
-%
-% \begin{macro}{\zf@enc}
-% \begin{macro}{\zf@family}
-% \begin{macro}{\zf@basefont}
-% \begin{macro}{\zf@fontspec}
-% Old interfaces.
-% These are needed by, at least, the \pkg{mathspec} package.
-%    \begin{macrocode}
-\tl_set:Nn \zf@enc { \g_fontspec_encoding_tl }
-\cs_set:Npn \zf@fontspec #1 #2
- {
-  \@@_select_font_family:nn {#1} {#2}
-  \tl_set:Nn \zf@family { \l_fontspec_family_tl }
-  \tl_set:Nn \zf@basefont { \l_fontspec_font }
- }
-%    \end{macrocode}
-% \end{macro}
-% \end{macro}
-% \end{macro}
-% \end{macro}
-%
 % \subsection{Finishing up}
 % Now we just want to set up loading the \texttt{.cfg} file, if it exists.
 %    \begin{macrocode}

@@ -2,10 +2,11 @@
 Change history
 ==============
 
-- v2.6e ()
+- v2.6e (2017/09/22)
 
     * Re-enable use of `HyphenChar=None` in LuaLaTeX. (Hyphenation and font choice are
       decoupled in LuaTeX, except for this one setting.)
+    * Some internal changes needed by `unicode-math` to fix some cross-over code.
 
 
 - v2.6d (2017/08/14)

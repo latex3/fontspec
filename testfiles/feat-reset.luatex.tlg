@@ -14,3 +14,5 @@ Don't change this file in any respect.
 [texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;-onum;
 [texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;+onum;
 [texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;-onum;
+***************
+Compilation 1 of test file completed with exit status 0

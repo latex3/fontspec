@@ -26,3 +26,5 @@ TU/texgyrepagella-regular.otf(1)/m/col2:
   "[texgyrepagella-regular.otf]/OT:script=latn;language=DFLT;mapping=tex-text;color=0000FFFF ;"
 TU/texgyrepagella-regular.otf(1)/m/sc:
   "[texgyrepagella-regular.otf]/OT:script=latn;language=DFLT;+smcp;mapping=tex-text;"
+***************
+Compilation 1 of test file completed with exit status 0

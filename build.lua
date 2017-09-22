@@ -15,6 +15,7 @@ checkengines = {"xetex","luatex"}
 
 typesetexe = "xelatex"
 
+recordstatus = true
 packtdszip = true
 
 kpse.set_program_name("kpsewhich")

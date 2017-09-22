@@ -15,3 +15,5 @@ TU/MyHeros(0)/m/it:
   "[texgyreheros-italic.otf]:mode=node;script=latn;language=DFLT;+tlig;color=119944FF ;"
 TU/MyHeros(0)/bx/it:
   "[texgyreheros-bolditalic.otf]:mode=node;script=latn;language=DFLT;+tlig;color=223355FF ;"
+***************
+Compilation 1 of test file completed with exit status 0

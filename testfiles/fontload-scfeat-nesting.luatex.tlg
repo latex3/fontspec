@@ -16,3 +16,5 @@ TU/texgyretermes(0)/bx/it:
   "[texgyretermes-bolditalic.otf]:mode=node;script=latn;language=DFLT;color=888844FF ;"
 TU/texgyretermes(0)/bx/itsc:
   "[texgyretermes-bolditalic.otf]:mode=node;script=latn;language=DFLT;+smcp;color=444422FF ;"
+***************
+Compilation 1 of test file completed with exit status 0

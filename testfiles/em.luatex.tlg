@@ -13,3 +13,5 @@ TU/texgyrepagella(0)/m/n:
   [texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;
 TU/texgyrepagella(0)/m/it:
   [texgyrepagella-italic.otf]:mode=node;script=latn;language=DFLT;+tlig;
+***************
+Compilation 1 of test file completed with exit status 0

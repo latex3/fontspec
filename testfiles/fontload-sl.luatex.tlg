@@ -37,3 +37,5 @@ TU/lmroman(0)/m/it:
 This is textsl:
 TU/lmroman(0)/m/sl:
   [lmromanslant10-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;
+***************
+Compilation 1 of test file completed with exit status 0

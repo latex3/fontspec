@@ -6,3 +6,5 @@ TU/texgyre(0)/c/n:
   "[texgyrebonum-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;color=FF0000FF ;"
 TU/texgyre(0)/nc/n:
   [texgyreheros-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;
+***************
+Compilation 1 of test file completed with exit status 0

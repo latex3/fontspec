@@ -19,3 +19,5 @@ TU/foo/m/n:
   "[texgyreheros-regular.otf]:mode=node;script=latn;language=DFLT;color=FF00FFFF ;"
 TU/foo/m/sc:
   "[texgyreheros-regular.otf]:mode=node;script=latn;language=DFLT;+smcp;color=FF00FFFF ;"
+***************
+Compilation 1 of test file completed with exit status 0

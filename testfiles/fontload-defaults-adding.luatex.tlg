@@ -30,3 +30,5 @@ TU/texgyrepagella-regular.otf(3)/m/n:
   "[texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;+smcp;color=00AA00FF ;"
 TU/texgyreheros-regular.otf(1)/m/n:
   [texgyreheros-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;
+***************
+Compilation 1 of test file completed with exit status 0

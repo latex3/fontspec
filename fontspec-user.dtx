@@ -86,7 +86,7 @@
 %    \begin{macrocode}
 \cs_set:Nn \@@_main_setsansfont:nn
  {
-  \fontspec_set_family:Nnn \g_@@_sffamily_family {#1,#3} {#2}
+  \fontspec_set_family:Nnn \g_@@_sffamily_family {#1} {#2}
   \tl_set_eq:NN \sfdefault \g_@@_sffamily_family
   \use:x { \exp_not:n { \DeclareRobustCommand \sffamily }
    {

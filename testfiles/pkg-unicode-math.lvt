@@ -1,0 +1,20 @@
+\input{fontspec-testsetup.tex}
+
+\usepackage{fontspec,unicode-math}
+\setmainfont{texgyrepagella}[
+  Extension = .otf,
+  UprightFont = *-regular ,
+  ItalicFont  = *-italic  ,
+  BoldFont    = *-bold    ,
+  BoldItalicFont = *-bolditalic ,
+]
+
+\setmathfont{texgyrepagella-math.otf}
+
+\begin{document}
+
+\[ a+b+c=1+2+3=\alpha+\beta+\gamma \]
+
+\MSG{Checking loading; no log file data expected.}
+
+\end{document}

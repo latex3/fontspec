@@ -1,0 +1,32 @@
+\input{fontspec-testsetup.tex}
+\ifdefined\directlua
+  \def\NEXT{\begin{document}\XETEXONLY}%
+\fi
+\csname NEXT\endcsname
+
+\usepackage{mathspec}
+\setmainfont{texgyrepagella}[
+  Extension = .otf,
+  UprightFont = *-regular ,
+  ItalicFont  = *-italic  ,
+  BoldFont    = *-bold    ,
+  BoldItalicFont = *-bolditalic ,
+]
+
+\setmathfont
+  (Digits,Latin)%
+  [ItalicFont=texgyrepagella-italic.otf]%
+  {texgyrepagella-regular.otf}
+
+\setmathfont
+  (Greek)%
+  [ItalicFont=GFSPorson.otf]%
+  {GFSPorson.otf}
+
+\begin{document}
+
+\[ a+b+c=1+2+3=\alpha+\beta+\gamma \]
+
+\MSG{Checking loading; no log file data expected.}
+
+\end{document}

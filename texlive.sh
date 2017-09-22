@@ -30,13 +30,13 @@ tlmgr install cm etex knuth-lib latex-bin tex tex-ini-files unicode-data \
 
 # Dependencies
 tlmgr install   \
-  sourcecodepro \
+  sourcecodepro \ # fonts
   Asana-Math    \
   ebgaramond    \
   tex-gyre      \
   tex-gyre-math \
-  unicode-math  \
-  geometry      \
+  gfsporson     \
+  geometry      \ # generic packages
   graphics      \
   graphics-def  \
   ifluatex      \
@@ -45,8 +45,10 @@ tlmgr install   \
   oberdiek      \
   ucharcat      \
   filehook      \
+  xcolor        \
+  unicode-math  \ # testing interaction with others
   polyglossia   \
-  xcolor
+  mathspec
 
 # Keep no backups (not required, simply makes cache bigger)
 tlmgr option -- autobackup 0

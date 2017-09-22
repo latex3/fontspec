@@ -1,9 +1,5 @@
-% \section{User commands}\label{sec:codeuser}
-%
-% This section contains the definitions of the commands detailed in
-% the user documentation.  Only the `top level' definitions of the
-% commands are contained herein; they all use or define macros which
-% are defined or used later on in \vref{sec:codeinternal}.
+% \section{User command internals}
+% \label{sec:codeinternal}
 %
 % \iffalse
 %    \begin{macrocode}
@@ -11,25 +7,13 @@
 %    \end{macrocode}
 % \fi
 %
-% \subsection{Interfaces}
 %
-% TODO: move xparse definitions from the below to here.
-%
-% \subsection{Definitions}
-%
-% \subsubsection{Font selection}
+% \subsection{Font selection}
 % \begin{macro}{\fontspec}
 %   This is the main command of the package that
 %   selects fonts with various features. It takes two arguments: the
 %   font name and the optional requested features of that
 %   font. Then this new font family is selected.
-%    \begin{macrocode}
-\NewDocumentCommand \fontspec { O{} m O{} }
-  {
-    \@@_main_fontspec:nn {#1,#3} {#2}
-  }
-%    \end{macrocode}
-%
 %    \begin{macrocode}
 \cs_set:Nn \@@_main_fontspec:nn
  {
@@ -47,13 +31,6 @@
 %     particular family: `roman', sans serif, or typewriter
 %     (monospaced). I end them with |\normalfont| so that if they're
 %     used in the document, the change registers immediately.
-%    \begin{macrocode}
-\DeclareDocumentCommand \setmainfont { O{} m O{} }
-  {
-    \@@_main_setmainfont:nn {#1,#3} {#2}
-  }
-%    \end{macrocode}
-%
 %    \begin{macrocode}
 \cs_set:Nn \@@_main_setmainfont:nn
  {
@@ -77,13 +54,6 @@
 %
 % \begin{macro}{\setsansfont}
 %    \begin{macrocode}
-\DeclareDocumentCommand \setsansfont { O{} m O{} }
-  {
-    \@@_main_setsansfont:nn {#1,#3} {#2}
-  }
-%    \end{macrocode}
-%
-%    \begin{macrocode}
 \cs_set:Nn \@@_main_setsansfont:nn
  {
   \fontspec_set_family:Nnn \g_@@_sffamily_family {#1} {#2}
@@ -106,13 +76,6 @@
 %
 % \begin{macro}{\setmonofont}
 %    \begin{macrocode}
-\DeclareDocumentCommand \setmonofont { O{} m O{} }
-  {
-    \@@_main_setmonofont:nn {#1,#3} {#2}
-  }
-%    \end{macrocode}
-%
-%    \begin{macrocode}
 \cs_set:Nn \@@_main_setmonofont:nn
  {
   \fontspec_set_family:Nnn \g_@@_ttfamily_family {#1} {#2}
@@ -134,16 +97,6 @@
 % \end{macro}
 %
 %
-% \begin{macro}{\setromanfont}
-% This is the old name for \cs{setmainfont}, retained \emph{ad infinitum}
-% for backwards compatibility. It was deprecated in 2010.
-%    \begin{macrocode}
-\DeclareDocumentCommand \setromanfont { O{} m O{} }
-  {
-    \@@_main_setmainfont:nn {#1,#3} {#2}
-  }
-%    \end{macrocode}
-% \end{macro}
 %
 %
 % \begin{macro}{\setmathrm}
@@ -152,13 +105,6 @@
 % can only be used in the preamble of the
 % document. \cmd\setboldmathrm\ is used for specifying which
 % fonts should be used in \cmd\boldmath.
-%    \begin{macrocode}
-\DeclareDocumentCommand \setmathrm { O{} m O{} }
-  {
-    \@@_main_setmathrm:nn {#1,#3} {#2}
-  }
-%    \end{macrocode}
-%
 %    \begin{macrocode}
 \cs_set:Nn \@@_main_setmathrm:nn
   {
@@ -171,13 +117,6 @@
 %
 % \begin{macro}{\setboldmathrm}
 %    \begin{macrocode}
-\DeclareDocumentCommand \setboldmathrm { O{} m O{} }
-  {
-    \@@_main_setboldmathrm:nn {#1,#3} {#2}
-  }
-%    \end{macrocode}
-%
-%    \begin{macrocode}
 \cs_set:Nn \@@_main_setboldmathrm:nn
   {
 %<XE>    \fontspec_set_family:Nnn \g_@@_bfmathrm_tl {#1} {#2}
@@ -189,13 +128,6 @@
 %
 % \begin{macro}{\setmathsf}
 %    \begin{macrocode}
-\DeclareDocumentCommand \setmathsf { O{} m O{} }
-  {
-    \@@_main_setmathsf:nn {#1,#3} {#2}
-  }
-%    \end{macrocode}
-%
-%    \begin{macrocode}
 \cs_set:Nn \@@_main_setmathsf:nn
   {
 %<XE>    \fontspec_set_family:Nnn \g_@@_mathsf_tl {#1} {#2}
@@ -206,13 +138,6 @@
 % \end{macro}
 %
 % \begin{macro}{\setmathtt}
-%    \begin{macrocode}
-\DeclareDocumentCommand \setmathtt { O{} m O{} }
-  {
-    \@@_main_setmathtt:nn {#1,#3} {#2}
-  }
-%    \end{macrocode}
-%
 %    \begin{macrocode}
 \cs_set:Nn \@@_main_setmathtt:nn
   {
@@ -262,13 +187,6 @@
 %   \cs{l_fontspec_family_tl}. This family is then used in a typical NFSS \cmd\fontfamily\
 %   declaration, saved in the macro name specified.
 %    \begin{macrocode}
-\DeclareDocumentCommand \newfontfamily { m O{} m O{} }
-  {
-    \@@_main_newfontfamily:nnn {#1} {#2,#4} {#3}
-  }
-%    \end{macrocode}
-%
-%    \begin{macrocode}
 \cs_set:Nn \@@_main_newfontfamily:nnn
  {
   \fontspec_set_family:cnn { g_@@_ \cs_to_str:N #1 _family } {#2} {#3}
@@ -288,13 +206,6 @@
 % \begin{macro}{\newfontface}
 % \cmd\newfontface\ uses the fact that if the argument to \feat{BoldFont}, etc., is empty (\ie, |BoldFont={}|), then no bold font is searched for.
 %    \begin{macrocode}
-\DeclareDocumentCommand \newfontface { m O{} m O{} }
-  {
-    \@@_main_newfontface:nnn {#1} {#2,#4} {#3}
-  }
-%    \end{macrocode}
-%
-%    \begin{macrocode}
 \cs_set:Nn \@@_main_newfontface:nnn
  {
   \newfontfamily #1 [ BoldFont={},ItalicFont={},SmallCapsFont={},#2 ] {#3}
@@ -302,7 +213,7 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \subsubsection{Font feature selection}
+% \subsection{Font feature selection}
 %
 % \begin{macro}{\defaultfontfeatures}
 %   This macro takes one argument that consists of all of feature
@@ -311,15 +222,17 @@
 %   \cs{g_fontspec_default_fontopts_tl} (initialised empty), which is
 %   concatenated with the individual macro choices in the
 %   [...] macro.
-%
 %    \begin{macrocode}
-\DeclareDocumentCommand \defaultfontfeatures { t+ o m }
+\cs_set:Nn \@@_main_defaultfontfeatures:nnn
   {
     \IfNoValueTF {#2}
      { \@@_set_default_features:nn {#1} {#3} }
      { \@@_set_font_default_features:nnn {#1} {#2} {#3} }
     \ignorespaces
   }
+%    \end{macrocode}
+%
+%    \begin{macrocode}
 \cs_new:Nn \@@_set_default_features:nn
   {
     \IfBooleanTF {#1} \clist_put_right:Nn \clist_set:Nn
@@ -377,13 +290,6 @@
 %   \cs{addfontfeature} is defined as an alias, as I found that I
 %   often typed this instead when adding only a single font feature.
 %    \begin{macrocode}
-\DeclareDocumentCommand \addfontfeatures {m}
-  {
-    \@@_main_addfontfeatures:n {#1}
-  }
-%    \end{macrocode}
-%
-%    \begin{macrocode}
 \cs_set:Nn \@@_main_addfontfeatures:n
  {
 %<debug>  \typeout{^^J::::::::::::::::::::::::::::::::::^^J: addfontfeatures}
@@ -408,23 +314,15 @@
    }
   \ignorespaces
  }
-\cs_set_eq:NN \addfontfeature \addfontfeatures
 %    \end{macrocode}
 % \end{macro}
 %
-% \subsubsection{Defining new font features}
+% \subsection{Defining new font features}
 %
 % \begin{macro}{\newfontfeature}
 %   \cs{newfontfeature} takes two arguments: the name of the feature
 %   tag by which to reference it, and the string that is used to
 %   select the font feature.
-%    \begin{macrocode}
-\DeclareDocumentCommand \newfontfeature {mm}
-  {
-    \@@_main_newfontfeature:nn {#1} {#2}
-  }
-%    \end{macrocode}
-%
 %    \begin{macrocode}
 \cs_set:Nn \@@_main_newfontfeature:nn
  {
@@ -445,13 +343,6 @@
 % Better than \cmd\newfontfeature\ because it checks if the feature exists in the
 % font it's being used for.
 %    \begin{macrocode}
-\DeclareDocumentCommand \newAATfeature {mmmm}
-  {
-    \@@_main_newAATfeature:nnnn {#1} {#2} {#3} {#4}
-  }
-%    \end{macrocode}
-%
-%    \begin{macrocode}
 \cs_set:Nn \@@_main_newAATfeature:nnnn
  {
   \keys_if_exist:nnF { fontspec } {#1}
@@ -469,13 +360,6 @@
 % This command assigns a new OpenType feature by its abbreviation (|#2|) to a new name (|#1|).
 % Better than \cmd\newfontfeature\ because it checks if the feature exists in the
 % font it's being used for.
-%    \begin{macrocode}
-\DeclareDocumentCommand \newopentypefeature {mmm}
-  {
-    \@@_main_newopentypefeature:nnn {#1} {#2} {#3}
-  }
-%    \end{macrocode}
-%
 %    \begin{macrocode}
 \cs_set:Nn \@@_main_newopentypefeature:nnn
  {
@@ -499,26 +383,10 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\newICUfeature}
-% Deprecated.
-%    \begin{macrocode}
-\DeclareDocumentCommand \newICUfeature {mmm}
-  {
-    \@@_main_newopentypefeature:nnn {#1} {#2} {#3}
-  }
-%    \end{macrocode}
-% \end{macro}
 %
 %
 % \begin{macro}{\aliasfontfeature}
 % User commands for renaming font features and font feature options.
-%    \begin{macrocode}
-\DeclareDocumentCommand \aliasfontfeature {mm}
-  {
-    \@@_main_aliasfontfeature:nn {#1} {#2}
-  }
-%    \end{macrocode}
-%
 %    \begin{macrocode}
 \cs_set:Nn \@@_main_aliasfontfeature:nn
  {
@@ -543,13 +411,6 @@
 % \end{macro}
 %
 % \begin{macro}{\aliasfontfeatureoption}
-%    \begin{macrocode}
-\DeclareDocumentCommand \aliasfontfeatureoption {mmm}
-  {
-    \@@_main_aliasfontfeatureoption:nnn {#1} {#2} {#3}
-  }
-%    \end{macrocode}
-%
 %    \begin{macrocode}
 \cs_set:Nn \@@_main_aliasfontfeatureoption:nnn
  {
@@ -586,57 +447,24 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\newfontscript}
-% Mostly used internally, but also possibly useful for users, to define new OpenType
-% `scripts', mapping logical names to OpenType script tags.
-%    \begin{macrocode}
-\DeclareDocumentCommand \newfontscript {mm}
- {
-  \fontspec_new_script:nn {#1} {#2}
- }
-%    \end{macrocode}
-% \end{macro}
-%
-% \begin{macro}{\newfontlanguage}
-% Mostly used internally, but also possibly useful for users, to define new OpenType
-% `languages', mapping logical names to OpenType language tags.
-%    \begin{macrocode}
-\DeclareDocumentCommand \newfontlanguage {mm}
- {
-  \fontspec_new_lang:nn {#1} {#2}
- }
-%    \end{macrocode}
-% \end{macro}
-%
 %
 % \begin{macro}{\DeclareFontsExtensions}
 % \texttt{dfont} would never be uppercase, right?
-%    \begin{macrocode}
-\DeclareDocumentCommand \DeclareFontsExtensions {m}
-  {
-    \@@_main_DeclareFontsExtensions:n {#1}
-  }
-%    \end{macrocode}
-%
 %    \begin{macrocode}
 \cs_set:Nn \@@_main_DeclareFontsExtensions:n
  {
   \clist_set:Nn \l_@@_extensions_clist { #1 }
   \tl_remove_all:Nn \l_@@_extensions_clist {~}
  }
+%    \end{macrocode}
+%
+%    \begin{macrocode}
 \DeclareFontsExtensions{.otf,.ttf,.OTF,.TTF,.ttc,.TTC,.dfont}
 %    \end{macrocode}
 % \end{macro}
-
-
-% \begin{macro}{\IfFontFeatureActiveTF}
-%    \begin{macrocode}
-\DeclareDocumentCommand \IfFontFeatureActiveTF {mmm}
-  {
-    \@@_main_IfFontFeatureActiveTF:nnn {#1} {#2} {#3}
-  }
-%    \end{macrocode}
 %
+%
+% \begin{macro}{\IfFontFeatureActiveTF}
 %    \begin{macrocode}
 \cs_set:Nn \@@_main_IfFontFeatureActiveTF:nnn
   {

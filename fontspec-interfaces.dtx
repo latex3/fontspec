@@ -1,0 +1,198 @@
+% \section{User commands}\label{sec:codeuser}
+%
+% This section contains the definitions of the commands detailed in
+% the user documentation.  Only the `top level' definitions of the
+% commands are contained herein; they all use or define macros which
+% are defined or used later on in \vref{sec:codeinternal}.
+%
+% \iffalse
+%    \begin{macrocode}
+%<*fontspec&(xetexx|luatex)>
+%    \end{macrocode}
+% \fi
+%
+%    \begin{macrocode}
+\NewDocumentCommand \fontspec { O{} m O{} }
+  {
+    \@@_main_fontspec:nn {#1,#3} {#2}
+  }
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+\NewDocumentCommand \setmainfont { O{} m O{} }
+  {
+    \@@_main_setmainfont:nn {#1,#3} {#2}
+  }
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+\NewDocumentCommand \setsansfont { O{} m O{} }
+  {
+    \@@_main_setsansfont:nn {#1,#3} {#2}
+  }
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+\NewDocumentCommand \setmonofont { O{} m O{} }
+  {
+    \@@_main_setmonofont:nn {#1,#3} {#2}
+  }
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+\NewDocumentCommand \setmathrm { O{} m O{} }
+  {
+    \@@_main_setmathrm:nn {#1,#3} {#2}
+  }
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+\NewDocumentCommand \setboldmathrm { O{} m O{} }
+  {
+    \@@_main_setboldmathrm:nn {#1,#3} {#2}
+  }
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+\NewDocumentCommand \setmathsf { O{} m O{} }
+  {
+    \@@_main_setmathsf:nn {#1,#3} {#2}
+  }
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+\NewDocumentCommand \setmathtt { O{} m O{} }
+  {
+    \@@_main_setmathtt:nn {#1,#3} {#2}
+  }
+%    \end{macrocode}
+%
+% \begin{macro}{\setromanfont}
+% This is the old name for \cs{setmainfont}, retained \emph{ad infinitum}
+% for backwards compatibility. It was deprecated in 2010.
+%    \begin{macrocode}
+\NewDocumentCommand \setromanfont { O{} m O{} }
+  {
+    \@@_main_setmainfont:nn {#1,#3} {#2}
+  }
+%    \end{macrocode}
+% \end{macro}
+%
+%    \begin{macrocode}
+\NewDocumentCommand \newfontfamily { m O{} m O{} }
+  {
+    \@@_main_newfontfamily:nnn {#1} {#2,#4} {#3}
+  }
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+\NewDocumentCommand \newfontface { m O{} m O{} }
+  {
+    \@@_main_newfontface:nnn {#1} {#2,#4} {#3}
+  }
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+\NewDocumentCommand \defaultfontfeatures { t+ o m }
+  {
+    \@@_main_defaultfontfeatures:nnn {#1} {#2} {#3}
+  }
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+\NewDocumentCommand \addfontfeatures {m}
+  {
+    \@@_main_addfontfeatures:n {#1}
+  }
+\NewDocumentCommand \addfontfeature  {m}
+  {
+    \@@_main_addfontfeatures:n {#1}
+  }
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+\NewDocumentCommand \newfontfeature {mm}
+  {
+    \@@_main_newfontfeature:nn {#1} {#2}
+  }
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+\NewDocumentCommand \newAATfeature {mmmm}
+  {
+    \@@_main_newAATfeature:nnnn {#1} {#2} {#3} {#4}
+  }
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+\NewDocumentCommand \newopentypefeature {mmm}
+  {
+    \@@_main_newopentypefeature:nnn {#1} {#2} {#3}
+  }
+%    \end{macrocode}
+%
+% \begin{macro}{\newICUfeature}
+% Deprecated.
+%    \begin{macrocode}
+\NewDocumentCommand \newICUfeature {mmm}
+  {
+    \@@_main_newopentypefeature:nnn {#1} {#2} {#3}
+  }
+%    \end{macrocode}
+% \end{macro}
+%
+%    \begin{macrocode}
+\NewDocumentCommand \aliasfontfeature {mm}
+  {
+    \@@_main_aliasfontfeature:nn {#1} {#2}
+  }
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+\NewDocumentCommand \aliasfontfeatureoption {mmm}
+  {
+    \@@_main_aliasfontfeatureoption:nnn {#1} {#2} {#3}
+  }
+%    \end{macrocode}
+%
+% \begin{macro}{\newfontscript}
+% Mostly used internally, but also possibly useful for users, to define new OpenType
+% `scripts', mapping logical names to OpenType script tags.
+%    \begin{macrocode}
+\NewDocumentCommand \newfontscript {mm}
+  {
+    \fontspec_new_script:nn {#1} {#2}
+  }
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\newfontlanguage}
+% Mostly used internally, but also possibly useful for users, to define new OpenType
+% `languages', mapping logical names to OpenType language tags.
+%    \begin{macrocode}
+\NewDocumentCommand \newfontlanguage {mm}
+  {
+    \fontspec_new_lang:nn {#1} {#2}
+  }
+%    \end{macrocode}
+% \end{macro}
+%
+%    \begin{macrocode}
+\NewDocumentCommand \DeclareFontsExtensions {m}
+  {
+    \@@_main_DeclareFontsExtensions:n {#1}
+  }
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+\NewDocumentCommand \IfFontFeatureActiveTF {mmm}
+  {
+    \@@_main_IfFontFeatureActiveTF:nnn {#1} {#2} {#3}
+  }
+%    \end{macrocode}
+%
+% \iffalse
+%    \begin{macrocode}
+%</fontspec&(xetexx|luatex)>
+%    \end{macrocode}
+% \fi

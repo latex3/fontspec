@@ -30,13 +30,13 @@ tlmgr install cm etex knuth-lib latex-bin tex tex-ini-files unicode-data \
 
 # Dependencies
 tlmgr install   \
-  sourcecodepro \ # fonts
+  sourcecodepro \
   Asana-Math    \
   ebgaramond    \
   tex-gyre      \
   tex-gyre-math \
   gfsporson     \
-  geometry      \ # generic packages
+  geometry      \
   graphics      \
   graphics-def  \
   ifluatex      \
@@ -46,7 +46,7 @@ tlmgr install   \
   ucharcat      \
   filehook      \
   xcolor        \
-  unicode-math  \ # testing interaction with others
+  unicode-math  \
   polyglossia   \
   mathspec
 

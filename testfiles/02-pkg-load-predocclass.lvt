@@ -1,0 +1,7 @@
+\RequirePackage{fontspec}
+\input{fontspec-testsetup}
+\setmainfont{texgyrepagella-regular.otf}
+\begin{document}
+hello
+\MSG{Checking loading; no log file data expected.}
+\end{document}

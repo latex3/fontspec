@@ -155,12 +155,10 @@
  {
   \fontspec_if_fontspec_font:TF
    {
-    \prop_get:cnN {g_@@_fontinfo_ \f@family _prop} {fontdef} \l_@@_fontdef_tl
-    \@@_primitive_font_set:Nnn \l_@@_tmpe_font {\l_@@_fontdef_tl} {\f@size pt}
-    \@@_set_font_type:N \l_@@_tmpe_font
+    \@@_set_font_type:N \font
     \bool_if:NTF \l_@@_ot_bool
      {
-      \@@_check_script:NnTF \l_@@_tmpe_font {#1} \prg_return_true: \prg_return_false:
+      \@@_check_script:NnTF \font {#1} \prg_return_true: \prg_return_false:
      }
      { \prg_return_false: }
    }
@@ -179,16 +177,14 @@
  {
   \fontspec_if_fontspec_font:TF
    {
-    \prop_get:cnN {g_@@_fontinfo_ \f@family _prop} {fontdef} \l_@@_fontdef_tl
-    \@@_primitive_font_set:Nnn \l_@@_tmpf_font {\l_@@_fontdef_tl} {\f@size pt}
-    \@@_set_font_type:N \l_@@_tmpf_font
+    \@@_set_font_type:N \font
     \bool_if:NTF \l_@@_ot_bool
      {
       \prop_get:cnN {g_@@_fontinfo_ \f@family _prop} {script-num} \l_@@_tmpf_tl
       \int_set:Nn \l_@@_script_int {\l_@@_tmpf_tl}
       \prop_get:cnN {g_@@_fontinfo_ \f@family _prop} {script-tag}  \l_fontspec_script_tl
 
-      \@@_check_lang:NnTF \l_@@_tmpf_font {#1} \prg_return_true: \prg_return_false:
+      \@@_check_lang:NnTF \font {#1} \prg_return_true: \prg_return_false:
      }
      { \prg_return_false: }
    }

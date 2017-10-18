@@ -42,8 +42,8 @@
   \fontspec_if_fontspec_font:TF
    {
     \prop_get:cnN {g_@@_fontinfo_ \f@family _prop} {fontdef} \l_@@_fontdef_tl
-    \@@_primitive_font_set:Nnn \l_fontspec_font {\l_@@_fontdef_tl} {\f@size pt}
-    \@@_set_font_type:N \l_fontspec_font
+    \@@_primitive_font_set:Nnn \l_@@_tmp_font {\l_@@_fontdef_tl} {\f@size pt}
+    \@@_set_font_type:N \l_@@_tmp_font
     \bool_if:NTF \l_@@_atsui_bool
      {
       \@@_make_AAT_feature_string:nnTF {#1}{#2}
@@ -70,8 +70,8 @@
   \fontspec_if_fontspec_font:TF
    {
     \prop_get:cnN {g_@@_fontinfo_ \f@family _prop} {fontdef} \l_@@_fontdef_tl
-    \@@_primitive_font_set:Nnn \l_fontspec_font {\l_@@_fontdef_tl} {\f@size pt}
-    \@@_set_font_type:N \l_fontspec_font
+    \@@_primitive_font_set:Nnn \l_@@_tmp_font {\l_@@_fontdef_tl} {\f@size pt}
+    \@@_set_font_type:N \l_@@_tmp_font
     \bool_if:NTF \l_@@_ot_bool \prg_return_true: \prg_return_false:
    }
    {
@@ -92,8 +92,8 @@
   \fontspec_if_fontspec_font:TF
    {
     \prop_get:cnN {g_@@_fontinfo_ \f@family _prop} {fontdef} \l_@@_fontdef_tl
-    \@@_primitive_font_set:Nnn \l_fontspec_font {\l_@@_fontdef_tl} {\f@size pt}
-    \@@_set_font_type:N \l_fontspec_font
+    \@@_primitive_font_set:Nnn \l_@@_tmp_font {\l_@@_fontdef_tl} {\f@size pt}
+    \@@_set_font_type:N \l_@@_tmp_font
     \bool_if:NTF \l_@@_ot_bool
      {
       \prop_get:cnN {g_@@_fontinfo_ \f@family _prop} {script-num} \l_@@_tmp_tl
@@ -130,8 +130,8 @@
   \fontspec_if_fontspec_font:TF
    {
     \prop_get:cnN {g_@@_fontinfo_ \f@family _prop} {fontdef} \l_@@_fontdef_tl
-    \@@_primitive_font_set:Nnn \l_fontspec_font {\l_@@_fontdef_tl} {\f@size pt}
-    \@@_set_font_type:N \l_fontspec_font
+    \@@_primitive_font_set:Nnn \l_@@_tmp_font {\l_@@_fontdef_tl} {\f@size pt}
+    \@@_set_font_type:N \l_@@_tmp_font
     \bool_if:NTF \l_@@_ot_bool
      {
       \@@_iv_str_to_num:Nn \l_@@_script_int {#1}
@@ -156,8 +156,8 @@
   \fontspec_if_fontspec_font:TF
    {
     \prop_get:cnN {g_@@_fontinfo_ \f@family _prop} {fontdef} \l_@@_fontdef_tl
-    \@@_primitive_font_set:Nnn \l_fontspec_font {\l_@@_fontdef_tl} {\f@size pt}
-    \@@_set_font_type:N \l_fontspec_font
+    \@@_primitive_font_set:Nnn \l_@@_tmp_font {\l_@@_fontdef_tl} {\f@size pt}
+    \@@_set_font_type:N \l_@@_tmp_font
     \bool_if:NTF \l_@@_ot_bool
      {
       \@@_check_script:nTF {#1} \prg_return_true: \prg_return_false:
@@ -180,8 +180,8 @@
   \fontspec_if_fontspec_font:TF
    {
     \prop_get:cnN {g_@@_fontinfo_ \f@family _prop} {fontdef} \l_@@_fontdef_tl
-    \@@_primitive_font_set:Nnn \l_fontspec_font {\l_@@_fontdef_tl} {\f@size pt}
-    \@@_set_font_type:N \l_fontspec_font
+    \@@_primitive_font_set:Nnn \l_@@_tmp_font {\l_@@_fontdef_tl} {\f@size pt}
+    \@@_set_font_type:N \l_@@_tmp_font
     \bool_if:NTF \l_@@_ot_bool
      {
       \prop_get:cnN {g_@@_fontinfo_ \f@family _prop} {script-num} \l_@@_tmp_tl
@@ -208,8 +208,8 @@
   \fontspec_if_fontspec_font:TF
    {
     \prop_get:cnN {g_@@_fontinfo_ \f@family _prop} {fontdef} \l_@@_fontdef_tl
-    \@@_primitive_font_set:Nnn \l_fontspec_font {\l_@@_fontdef_tl} {\f@size pt}
-    \@@_set_font_type:N \l_fontspec_font
+    \@@_primitive_font_set:Nnn \l_@@_tmp_font {\l_@@_fontdef_tl} {\f@size pt}
+    \@@_set_font_type:N \l_@@_tmp_font
     \bool_if:NTF \l_@@_ot_bool
      {
       \tl_set:Nn \l_fontspec_script_tl {#1}
@@ -233,8 +233,8 @@
   \fontspec_if_fontspec_font:TF
    {
     \prop_get:cnN {g_@@_fontinfo_ \f@family _prop} {fontdef} \l_@@_fontdef_tl
-    \@@_primitive_font_set:Nnn \l_fontspec_font {\l_@@_fontdef_tl} {\f@size pt}
-    \@@_set_font_type:N \l_fontspec_font
+    \@@_primitive_font_set:Nnn \l_@@_tmp_font {\l_@@_fontdef_tl} {\f@size pt}
+    \@@_set_font_type:N \l_@@_tmp_font
     \bool_if:NTF \l_@@_ot_bool
      {
       \prop_get:cnN {g_@@_fontinfo_ \f@family _prop} {script-tag}  \l_@@_tmp_tl
@@ -257,8 +257,8 @@
   \fontspec_if_fontspec_font:TF
    {
     \prop_get:cnN {g_@@_fontinfo_ \f@family _prop} {fontdef} \l_@@_fontdef_tl
-    \@@_primitive_font_set:Nnn \l_fontspec_font {\l_@@_fontdef_tl} {\f@size pt}
-    \@@_set_font_type:N \l_fontspec_font
+    \@@_primitive_font_set:Nnn \l_@@_tmp_font {\l_@@_fontdef_tl} {\f@size pt}
+    \@@_set_font_type:N \l_@@_tmp_font
     \bool_if:NTF \l_@@_ot_bool
      {
       \prop_get:cnN {g_@@_fontinfo_ \f@family _prop} {lang-tag}  \l_@@_tmp_tl

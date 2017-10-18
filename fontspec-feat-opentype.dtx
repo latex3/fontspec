@@ -414,7 +414,7 @@
     \bool_set_false:N \l_@@_script_exist_bool
     \clist_map_inline:nn {#2}
      {
-      \@@_check_script:nTF {####1}
+      \@@_check_script:NnTF \l_fontspec_font {####1}
        {
         \tl_set:Nn \l_fontspec_script_tl {####1}
         \int_set:Nn \l_@@_script_int {\l_@@_strnum_int}
@@ -431,7 +431,7 @@
         \@@_warning:nx {script-not-exist} {#1}
        }
        {
-        \@@_check_script:nTF {latn}
+        \@@_check_script:NnTF \l_fontspec_font {latn}
          {
           \@@_warning:nx {script-not-exist-latn} {#1}
           \tl_set:Nn \l_fontspec_script_tl {latn}
@@ -454,7 +454,7 @@
 \cs_new:Nn \fontspec_new_lang:nn
  {
   \keys_define:nn { fontspec-opentype } { Language / #1 .code:n =
-  \@@_check_lang:nTF {#2}
+  \@@_check_lang:NnTF \l_fontspec_font {#2}
      {
       \tl_set:Nn \l_fontspec_lang_tl {#2}
       \int_set:Nn \l_@@_language_int {\l_@@_strnum_int}
@@ -485,14 +485,14 @@
  {
   Language / Turkish .code:n =
    {
-    \@@_check_lang:nTF {TRK}
+    \@@_check_lang:NnTF \l_fontspec_font {TRK}
      {
       \int_set:Nn \l_@@_language_int {\l_@@_strnum_int}
       \tl_set:Nn \l_fontspec_lang_tl {TRK}
       \tl_gset:Nn \g_@@_single_feat_tl { language=TRK }
      }
      {
-      \@@_check_lang:nTF {TUR}
+      \@@_check_lang:NnTF \l_fontspec_font {TUR}
        {
         \int_set:Nn \l_@@_language_int {\l_@@_strnum_int}
         \tl_set:Nn \l_fontspec_lang_tl {TUR}

@@ -34,7 +34,7 @@
   \tl_if_empty:nTF {#1}
    { \@@_warning:n {aat-feature-not-exist} }
    {
-     \@@_make_AAT_feature_string:nnTF {#1}{#2}
+     \@@_make_AAT_feature_string:NnnTF \l_fontspec_font {#1}{#2}
       {
        \@@_update_featstr:n {\l_fontspec_feature_string_tl}
      }
@@ -44,7 +44,7 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\@@_make_AAT_feature_string:nnTF}
+% \begin{macro}{\@@_make_AAT_feature_string:NnnTF}
 %   This macro takes the numerical codes for a font feature and
 %   creates a specified macro containing the string required in the
 %   font definition to turn that feature on or off. Used primarily in
@@ -62,25 +62,25 @@
 %
 % Finally, save out the complete feature string in \cmd\l_fontspec_feature_string_tl.
 %    \begin{macrocode}
-\prg_new_conditional:Nnn \@@_make_AAT_feature_string:nn {TF,T,F}
+\prg_new_conditional:Nnn \@@_make_AAT_feature_string:Nnn {TF,T,F}
  {
-  \tl_set:Nx \l_tmpa_tl { \XeTeXfeaturename \l_fontspec_font #1 }
+  \tl_set:Nx \l_tmpa_tl { \XeTeXfeaturename #1 #2 }
   \tl_if_empty:NTF \l_tmpa_tl
    { \prg_return_false: }
    {
-    \int_compare:nTF { \XeTeXisexclusivefeature\l_fontspec_font #1 > 0 }
+    \int_compare:nTF { \XeTeXisexclusivefeature #1 #2 > 0 }
      {
-      \tl_set:Nx \l_tmpb_tl {\XeTeXselectorname\l_fontspec_font #1\space #2}
+      \tl_set:Nx \l_tmpb_tl {\XeTeXselectorname #1 #2\space #3}
      }
      {
-      \int_if_even:nTF {#2}
+      \int_if_even:nTF {#3}
        {
-        \tl_set:Nx \l_tmpb_tl {\XeTeXselectorname\l_fontspec_font #1\space #2}
+        \tl_set:Nx \l_tmpb_tl {\XeTeXselectorname #1 #2\space #3}
        }
        {
         \tl_set:Nx \l_tmpb_tl
          {
-          \XeTeXselectorname\l_fontspec_font #1\space \numexpr#2-1\relax
+          \XeTeXselectorname #1 #2\space \numexpr#3-1\relax
          }
         \tl_if_empty:NF \l_tmpb_tl { \tl_put_left:Nn \l_tmpb_tl {!} }
        }

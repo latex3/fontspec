@@ -114,7 +114,7 @@
     \tl_if_empty:nT {#1} { \bool_set_false:N \l_@@_check_feat_bool }
     \bool_if:NT \l_@@_check_feat_bool
       {
-        \@@_check_ot_feat:nF {#1}
+        \@@_check_ot_feat:NnF \l_fontspec_font {#1}
           {
             \@@_warning:nx {icu-feature-not-exist-in-font} {#1}
             \bool_set_false:N \l_@@_proceed_bool
@@ -140,24 +140,24 @@
 % \end{macro}
 %
 %
-% \begin{macro}{\@@_check_script:nTF}
+% \begin{macro}{\@@_check_script:NnTF}
 % This macro takes an OpenType script tag and checks if it exists in the current
 % font. The output boolean is \cmd\@tempswatrue. \cmd\l_@@_script_int\ is used to store
 % the number corresponding to the script tag string.
 %    \begin{macrocode}
-\prg_new_conditional:Nnn \@@_check_script:n {TF}
+\prg_new_conditional:Nnn \@@_check_script:Nn {TF}
   {
     \bool_if:NTF \l_@@_never_check_bool
       { \prg_return_true: }
 %<*xetexx>
  {
-  \@@_iv_str_to_num:Nn \l_@@_strnum_int {#1}
-  \int_set:Nn \l_tmpb_int { \XeTeXOTcountscripts \l_fontspec_font }
+  \@@_iv_str_to_num:Nn \l_@@_strnum_int {#2}
+  \int_set:Nn \l_tmpb_int { \XeTeXOTcountscripts #1 }
   \int_zero:N \l_tmpa_int
   \bool_set_false:N \l__fontspec_check_bool
   \bool_until_do:nn { \int_compare_p:nNn \l_tmpa_int = \l_tmpb_int }
    {
-    \ifnum \XeTeXOTscripttag\l_fontspec_font \l_tmpa_int = \l_@@_strnum_int
+    \ifnum \XeTeXOTscripttag #1 \l_tmpa_int = \l_@@_strnum_int
       \bool_set_true:N \l__fontspec_check_bool
       \int_set:Nn \l_tmpa_int {\l_tmpb_int}
     \else
@@ -169,7 +169,7 @@
 %</xetexx>
 %<*luatex>
  {
-  \directlua{fontspec.check_ot_script("l_fontspec_font", "#1")}
+  \directlua{fontspec.check_ot_script("\cs_to_str:N #1", "#2")}
   \bool_if:NTF \l__fontspec_check_bool \prg_return_true: \prg_return_false:
  }
 %</luatex>
@@ -177,27 +177,27 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\@@_check_lang:nTF}
+% \begin{macro}{\@@_check_lang:NnTF}
 % This macro takes an OpenType language tag and checks if it exists in the current
 % font/script. The output boolean is \cmd\@tempswatrue. \cmd\l_@@_language_int\ is used to store
 % the number corresponding to the language tag string.
 % The script used is whatever's held in \cmd\l_@@_script_int. By default, that's the
 % number corresponding to `|latn|'.
 %    \begin{macrocode}
-\prg_new_conditional:Nnn \@@_check_lang:n {TF}
+\prg_new_conditional:Nnn \@@_check_lang:Nn {TF}
   {
     \bool_if:NTF \l_@@_never_check_bool
       { \prg_return_true: }
 %<*xetexx>
  {
-  \@@_iv_str_to_num:Nn \l_@@_strnum_int {#1}
+  \@@_iv_str_to_num:Nn \l_@@_strnum_int {#2}
   \int_set:Nn \l_tmpb_int
-   { \XeTeXOTcountlanguages \l_fontspec_font \l_@@_script_int }
+   { \XeTeXOTcountlanguages #1 \l_@@_script_int }
   \int_zero:N \l_tmpa_int
   \bool_set_false:N \l__fontspec_check_bool
   \bool_until_do:nn { \int_compare_p:nNn \l_tmpa_int = \l_tmpb_int }
    {
-    \ifnum\XeTeXOTlanguagetag\l_fontspec_font\l_@@_script_int \l_tmpa_int =\l_@@_strnum_int
+    \ifnum\XeTeXOTlanguagetag #1 \l_@@_script_int \l_tmpa_int = \l_@@_strnum_int
       \bool_set_true:N \l__fontspec_check_bool
       \int_set:Nn \l_tmpa_int {\l_tmpb_int}
     \else
@@ -211,7 +211,7 @@
  {
   \directlua
    {
-    fontspec.check_ot_lang( "l_fontspec_font", "#1", "\l_fontspec_script_tl" )
+    fontspec.check_ot_lang( "\cs_to_str:N #1", "#2", "\l_fontspec_script_tl" )
    }
   \bool_if:NTF \l__fontspec_check_bool \prg_return_true: \prg_return_false:
  }
@@ -220,7 +220,7 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\@@_check_ot_feat:nTF}
+% \begin{macro}{\@@_check_ot_feat:NnTF}
 % This macro takes an OpenType feature tag and checks if it exists in the current
 % font/script/language.
 % \cmd\l_@@_strnum_int\ is used to store the number corresponding to the feature tag string.
@@ -228,7 +228,7 @@
 % number corresponding to `|latn|'. The language used is \cmd\l_@@_language_int,
 % by default |0|, the `default language'.
 %    \begin{macrocode}
-\prg_new_conditional:Nnn \@@_check_ot_feat:n {TF,F}
+\prg_new_conditional:Nnn \@@_check_ot_feat:Nn {TF,F}
   {
     \bool_if:NTF \l_@@_never_check_bool
       { \prg_return_true: }
@@ -237,16 +237,16 @@
 %<debug>\typeout{::~ fontspec_check_ot_feat:n~ {#1}}
   \int_set:Nn \l_tmpb_int
    {
-    \XeTeXOTcountfeatures \l_fontspec_font
+    \XeTeXOTcountfeatures #1
                           \l_@@_script_int
                           \l_@@_language_int
    }
-  \@@_iv_str_to_num:Nn \l_@@_strnum_int {#1}
+  \@@_iv_str_to_num:Nn \l_@@_strnum_int {#2}
   \int_zero:N \l_tmpa_int
   \bool_set_false:N \l_@@_check_bool
   \bool_until_do:nn { \int_compare_p:nNn \l_tmpa_int = \l_tmpb_int }
    {
-    \ifnum\XeTeXOTfeaturetag\l_fontspec_font\l_@@_script_int\l_@@_language_int
+    \ifnum\XeTeXOTfeaturetag #1 \l_@@_script_int \l_@@_language_int
          \l_tmpa_int =\l_@@_strnum_int
       \bool_set_true:N \l_@@_check_bool
       \int_set:Nn \l_tmpa_int {\l_tmpb_int}
@@ -263,7 +263,7 @@
   \directlua
    {
     fontspec.check_ot_feat(
-                           "l_fontspec_font", "#1",
+                           "\cs_to_str:N #1", "#2",
                            "\l_fontspec_lang_tl", "\l_fontspec_script_tl"
                           )
    }

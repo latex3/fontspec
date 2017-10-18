@@ -298,7 +298,7 @@
    {
     \tl_if_empty:NTF \l_@@_script_name_tl
      {
-      \@@_check_script:nTF {latn}
+      \@@_check_script:NnTF \l_fontspec_font {latn}
        {
         \tl_set:Nn \l_@@_script_name_tl {Latin}
         \tl_if_empty:NT \l_@@_lang_name_tl
@@ -916,7 +916,7 @@
 %<luatex>\cs_set:Nn \@@_make_smallcaps:TF
 %<xetexx>\cs_set:Nn \@@_make_ot_smallcaps:TF
  {
-  \@@_check_ot_feat:nTF {smcp} {#1} {#2}
+  \@@_check_ot_feat:NnTF \l_fontspec_font {smcp} {#1} {#2}
  }
 %<*xetexx>
 \cs_set:Nn \@@_make_smallcaps:TF
@@ -925,7 +925,7 @@
    { \@@_make_ot_smallcaps:TF {#1} {#2} }
    {
      \bool_if:NT \l_@@_atsui_bool
-      { \@@_make_AAT_feature_string:nnTF {3}{3} {#1} {#2} }
+      { \@@_make_AAT_feature_string:NnnTF \l_fontspec_font {3}{3} {#1} {#2} }
    }
  }
 %</xetexx>

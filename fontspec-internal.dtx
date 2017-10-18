@@ -230,7 +230,7 @@
   \@@_primitive_font_set:Nnn \l_fontspec_font
      { \@@_construct_font_call:nn { \l_@@_fontname_up_tl } {} } {\f@size pt}
   \@@_primitive_font_if_null:NT \l_fontspec_font { \@@_error:nx {font-not-found} {\l_@@_fontname_up_tl} }
-  \@@_set_font_type:
+  \@@_set_font_type:N \l_fontspec_font
 %<debug>\typeout{Set~ base~ font~ properly: \@@_construct_font_call:nn { \l_@@_fontname_up_tl } {} }
   \@@_primitive_font_gset:Nnn \l_fontspec_font
      { \@@_construct_font_call:nn { \l_@@_fontname_up_tl } {} } {\f@size pt}
@@ -549,7 +549,7 @@
 %
 % \subsubsection{Fonts}
 %
-% \begin{macro}{\@@_set_font_type:}
+% \begin{macro}{\@@_set_font_type:N}
 % Now check if the font is to be rendered with \ATSUI\ or Harfbuzz. This will either
 % be automatic (based on the font type), or specified by the user via a font feature.
 %
@@ -558,7 +558,7 @@
 % font or an OpenType font or a font with feature axes (either \AAT\ or
 % Multiple Master), respectively.
 %    \begin{macrocode}
-\cs_new:Nn \@@_set_font_type:
+\cs_new:Nn \@@_set_font_type:N
  {
 %<debug>  \typeout{:: @@_set_font_type:}
 %<*xetexx>
@@ -567,11 +567,11 @@
   \bool_set_false:N \l_@@_ot_bool
   \bool_set_false:N \l_@@_mm_bool
   \bool_set_false:N \l_@@_graphite_bool
-  \ifcase\XeTeXfonttype\l_fontspec_font
+  \ifcase\XeTeXfonttype #1
     \bool_set_true:N \l_@@_tfm_bool
   \or
     \bool_set_true:N \l_@@_atsui_bool
-    \ifnum\XeTeXcountvariations\l_fontspec_font > \c_zero
+    \ifnum\XeTeXcountvariations #1 > \c_zero
       \bool_set_true:N \l_@@_mm_bool
     \fi
   \or

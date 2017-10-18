@@ -27,7 +27,7 @@
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \fontspec_if_fontspec_font: {TF,T,F}
  {
-  \cs_if_exist:cTF {g_@@_ \f@family _prop} \prg_return_true: \prg_return_false:
+  \cs_if_exist:cTF {g_@@_fontinfo_ \f@family _prop} \prg_return_true: \prg_return_false:
  }
 %    \end{macrocode}
 % \end{macro}
@@ -41,7 +41,7 @@
  {
   \fontspec_if_fontspec_font:TF
    {
-    \prop_get:cnN {g_@@_ \f@family _prop} {fontdef} \l_@@_fontdef_tl
+    \prop_get:cnN {g_@@_fontinfo_ \f@family _prop} {fontdef} \l_@@_fontdef_tl
     \@@_primitive_font_set:Nnn \l_fontspec_font {\l_@@_fontdef_tl} {\f@size pt}
     \bool_if:NTF \l_@@_atsui_bool
      {
@@ -68,7 +68,7 @@
  {
   \fontspec_if_fontspec_font:TF
    {
-    \prop_get:cnN {g_@@_ \f@family _prop} {fontdef} \l_@@_fontdef_tl
+    \prop_get:cnN {g_@@_fontinfo_ \f@family _prop} {fontdef} \l_@@_fontdef_tl
     \@@_primitive_font_set:Nnn \l_fontspec_font {\l_@@_fontdef_tl} {\f@size pt}
     \@@_set_font_type:
     \bool_if:NTF \l_@@_ot_bool \prg_return_true: \prg_return_false:
@@ -90,19 +90,19 @@
  {
   \fontspec_if_fontspec_font:TF
    {
-    \prop_get:cnN {g_@@_ \f@family _prop} {fontdef} \l_@@_fontdef_tl
+    \prop_get:cnN {g_@@_fontinfo_ \f@family _prop} {fontdef} \l_@@_fontdef_tl
     \@@_primitive_font_set:Nnn \l_fontspec_font {\l_@@_fontdef_tl} {\f@size pt}
     \@@_set_font_type:
     \bool_if:NTF \l_@@_ot_bool
      {
-      \prop_get:cnN {g_@@_ \f@family _prop} {script-num} \l_@@_tmp_tl
+      \prop_get:cnN {g_@@_fontinfo_ \f@family _prop} {script-num} \l_@@_tmp_tl
       \int_set:Nn \l_@@_script_int {\l_@@_tmp_tl}
 
-      \prop_get:cnN {g_@@_ \f@family _prop} {lang-num} \l_@@_tmp_tl
+      \prop_get:cnN {g_@@_fontinfo_ \f@family _prop} {lang-num} \l_@@_tmp_tl
       \int_set:Nn \l_@@_language_int {\l_@@_tmp_tl}
 
-      \prop_get:cnN {g_@@_ \f@family _prop} {script-tag}  \l_fontspec_script_tl
-      \prop_get:cnN {g_@@_ \f@family _prop} {lang-tag}  \l_fontspec_lang_tl
+      \prop_get:cnN {g_@@_fontinfo_ \f@family _prop} {script-tag}  \l_fontspec_script_tl
+      \prop_get:cnN {g_@@_fontinfo_ \f@family _prop} {lang-tag}  \l_fontspec_lang_tl
 
       \@@_check_ot_feat:nTF {#1} {\prg_return_true:} {\prg_return_false:}
      }
@@ -128,7 +128,7 @@
  {
   \fontspec_if_fontspec_font:TF
    {
-    \prop_get:cnN {g_@@_ \f@family _prop} {fontdef} \l_@@_fontdef_tl
+    \prop_get:cnN {g_@@_fontinfo_ \f@family _prop} {fontdef} \l_@@_fontdef_tl
     \@@_primitive_font_set:Nnn \l_fontspec_font {\l_@@_fontdef_tl} {\f@size pt}
     \@@_set_font_type:
     \bool_if:NTF \l_@@_ot_bool
@@ -154,7 +154,7 @@
  {
   \fontspec_if_fontspec_font:TF
    {
-    \prop_get:cnN {g_@@_ \f@family _prop} {fontdef} \l_@@_fontdef_tl
+    \prop_get:cnN {g_@@_fontinfo_ \f@family _prop} {fontdef} \l_@@_fontdef_tl
     \@@_primitive_font_set:Nnn \l_fontspec_font {\l_@@_fontdef_tl} {\f@size pt}
     \@@_set_font_type:
     \bool_if:NTF \l_@@_ot_bool
@@ -178,14 +178,14 @@
  {
   \fontspec_if_fontspec_font:TF
    {
-    \prop_get:cnN {g_@@_ \f@family _prop} {fontdef} \l_@@_fontdef_tl
+    \prop_get:cnN {g_@@_fontinfo_ \f@family _prop} {fontdef} \l_@@_fontdef_tl
     \@@_primitive_font_set:Nnn \l_fontspec_font {\l_@@_fontdef_tl} {\f@size pt}
     \@@_set_font_type:
     \bool_if:NTF \l_@@_ot_bool
      {
-      \prop_get:cnN {g_@@_ \f@family _prop} {script-num} \l_@@_tmp_tl
+      \prop_get:cnN {g_@@_fontinfo_ \f@family _prop} {script-num} \l_@@_tmp_tl
       \int_set:Nn \l_@@_script_int {\l_@@_tmp_tl}
-      \prop_get:cnN {g_@@_ \f@family _prop} {script-tag}  \l_fontspec_script_tl
+      \prop_get:cnN {g_@@_fontinfo_ \f@family _prop} {script-tag}  \l_fontspec_script_tl
 
       \@@_check_lang:nTF {#1} \prg_return_true: \prg_return_false:
      }
@@ -206,7 +206,7 @@
  {
   \fontspec_if_fontspec_font:TF
    {
-    \prop_get:cnN {g_@@_ \f@family _prop} {fontdef} \l_@@_fontdef_tl
+    \prop_get:cnN {g_@@_fontinfo_ \f@family _prop} {fontdef} \l_@@_fontdef_tl
     \@@_primitive_font_set:Nnn \l_fontspec_font {\l_@@_fontdef_tl} {\f@size pt}
     \@@_set_font_type:
     \bool_if:NTF \l_@@_ot_bool
@@ -231,12 +231,12 @@
  {
   \fontspec_if_fontspec_font:TF
    {
-    \prop_get:cnN {g_@@_ \f@family _prop} {fontdef} \l_@@_fontdef_tl
+    \prop_get:cnN {g_@@_fontinfo_ \f@family _prop} {fontdef} \l_@@_fontdef_tl
     \@@_primitive_font_set:Nnn \l_fontspec_font {\l_@@_fontdef_tl} {\f@size pt}
     \@@_set_font_type:
     \bool_if:NTF \l_@@_ot_bool
      {
-      \prop_get:cnN {g_@@_ \f@family _prop} {script-tag}  \l_@@_tmp_tl
+      \prop_get:cnN {g_@@_fontinfo_ \f@family _prop} {script-tag}  \l_@@_tmp_tl
       \str_if_eq:nVTF {#1}  \l_@@_tmp_tl
         {\prg_return_true:} {\prg_return_false:}
      }
@@ -255,12 +255,12 @@
  {
   \fontspec_if_fontspec_font:TF
    {
-    \prop_get:cnN {g_@@_ \f@family _prop} {fontdef} \l_@@_fontdef_tl
+    \prop_get:cnN {g_@@_fontinfo_ \f@family _prop} {fontdef} \l_@@_fontdef_tl
     \@@_primitive_font_set:Nnn \l_fontspec_font {\l_@@_fontdef_tl} {\f@size pt}
     \@@_set_font_type:
     \bool_if:NTF \l_@@_ot_bool
      {
-      \prop_get:cnN {g_@@_ \f@family _prop} {lang-tag}  \l_@@_tmp_tl
+      \prop_get:cnN {g_@@_fontinfo_ \f@family _prop} {lang-tag}  \l_@@_tmp_tl
       \str_if_eq:nVTF {#1} \l_@@_tmp_tl
         {\prg_return_true:} {\prg_return_false:}
      }
@@ -305,7 +305,7 @@
  {
   \tl_set:Nn \l_@@_family_label_tl { #1 }
   \@@_select_font_family:nn {#3}{#4}
-  \tl_set_eq:NN #1 \l_fontspec_font
+  \font #1 = \fontname \l_fontspec_font \scan_stop:
   \tl_set_eq:NN #2 \l_fontspec_family_tl
  }
 %    \end{macrocode}

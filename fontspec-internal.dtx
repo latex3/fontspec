@@ -410,7 +410,7 @@
      }
    }
   \tl_gset:Nv \l_fontspec_family_tl {g_@@_UID_\l_@@_fontid_tl}
-  \cs_if_exist:cTF {g_@@_ \l_fontspec_family_tl _prop}
+  \cs_if_exist:cTF {g_@@_fontinfo_ \l_fontspec_family_tl _prop}
     \prg_return_false: \prg_return_true:
  }
 %    \end{macrocode}
@@ -435,18 +435,18 @@
 %    \begin{macrocode}
 \cs_new:Nn \@@_save_fontinfo:n
  {
-  \prop_new:c {g_@@_ \l_fontspec_family_tl _prop}
-  \prop_gput:cnx {g_@@_ \l_fontspec_family_tl _prop} {fontname} { #1 }
-  \prop_gput:cnx {g_@@_ \l_fontspec_family_tl _prop} {options}  { \l_@@_all_features_clist }
-  \prop_gput:cnx {g_@@_ \l_fontspec_family_tl _prop} {fontdef}
+  \prop_new:c    {g_@@_fontinfo_ \l_fontspec_family_tl _prop}
+  \prop_gput:cnx {g_@@_fontinfo_ \l_fontspec_family_tl _prop} {fontname} { #1 }
+  \prop_gput:cnx {g_@@_fontinfo_ \l_fontspec_family_tl _prop} {options}  { \l_@@_all_features_clist }
+  \prop_gput:cnx {g_@@_fontinfo_ \l_fontspec_family_tl _prop} {fontdef}
    {
     \@@_construct_font_call:nn {\l_fontspec_fontname_tl}
       { \l_@@_pre_feat_sclist \l_@@_rawfeatures_sclist }
    }
-  \prop_gput:cnV {g_@@_ \l_fontspec_family_tl _prop} {script-num} \l_@@_script_int
-  \prop_gput:cnV {g_@@_ \l_fontspec_family_tl _prop} {lang-num} \l_@@_language_int
-  \prop_gput:cnV {g_@@_ \l_fontspec_family_tl _prop} {script-tag} \l_fontspec_script_tl
-  \prop_gput:cnV {g_@@_ \l_fontspec_family_tl _prop} {lang-tag} \l_fontspec_lang_tl
+  \prop_gput:cnV {g_@@_fontinfo_ \l_fontspec_family_tl _prop} {script-num} \l_@@_script_int
+  \prop_gput:cnV {g_@@_fontinfo_ \l_fontspec_family_tl _prop} {lang-num} \l_@@_language_int
+  \prop_gput:cnV {g_@@_fontinfo_ \l_fontspec_family_tl _prop} {script-tag} \l_fontspec_script_tl
+  \prop_gput:cnV {g_@@_fontinfo_ \l_fontspec_family_tl _prop} {lang-tag} \l_fontspec_lang_tl
  }
 %    \end{macrocode}
 % \end{macro}

@@ -297,8 +297,8 @@
    {
     \group_begin:
       \keys_set_known:nnN {fontspec-addfeatures} {#1} \l_@@_tmp_tl
-      \prop_get:cnN {g_@@_ \f@family _prop} {options} \l_@@_options_tl
-      \prop_get:cnN {g_@@_ \f@family _prop} {fontname} \l_@@_fontname_tl
+      \prop_get:cnN {g_@@_fontinfo_ \f@family _prop} {options} \l_@@_options_tl
+      \prop_get:cnN {g_@@_fontinfo_ \f@family _prop} {fontname} \l_@@_fontname_tl
       \bool_set_true:N \l_@@_disable_defaults_bool
 %<debug>          \typeout{ \@@_select_font_family:nn { \l_@@_options_tl , #1 } {\l_@@_fontname_tl} }
       \use:x

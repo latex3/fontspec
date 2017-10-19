@@ -98,6 +98,66 @@
   }
 %    \end{macrocode}
 %
+%
+% \subsection{Generic functions}
+%
+% \begin{macro}{\FontspecSetCheckBoolTrue}
+% \begin{macro}{\FontspecSetCheckBoolFalse}
+% These strange set functions are to simplify returning code from LuaTeX:
+%    \begin{macrocode}
+\cs_new:Npn \FontspecSetCheckBoolTrue  { \bool_set_true:N  \l_@@_check_bool }
+\cs_new:Npn \FontspecSetCheckBoolFalse { \bool_set_false:N \l_@@_check_bool }
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+%
+% \begin{macro}{\@@_keys_set_known:nnN}
+%    \begin{macrocode}
+\cs_new:Nn \@@_keys_set_known:nnN
+  {
+%<debug>  \typeout{:::: Keys~set:~{#1}~{#2} }
+    \keys_set_known:nnN {#1} {#2} #3
+%<debug>  \typeout{:::: Leftover:~{#3} }
+  }
+\cs_generate_variant:Nn \@@_keys_set_known:nnN {nx}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@@_int_mult_truncate:Nn}
+% Missing in expl3, IMO.
+%    \begin{macrocode}
+\cs_new:Nn \@@_int_mult_truncate:Nn
+  {
+    \int_set:Nn #1 { \__dim_eval:w #2 #1 \__dim_eval_end: }
+  }
+%    \end{macrocode}
+% \end{macro}
+%
+%
+%
+% \subsection{\pkg{expl3} variants}
+%
+%    \begin{macrocode}
+\cs_generate_variant:Nn \int_set:Nn {Nv}
+\cs_generate_variant:Nn \keys_set:nn {nx}
+\cs_generate_variant:Nn \keys_set_known:nnN {nx}
+\cs_generate_variant:Nn \prop_put:Nnn {Nxx}
+\cs_generate_variant:Nn \prop_put:Nnn {NxV}
+\cs_generate_variant:Nn \prop_gput_if_new:Nnn  {NxV}
+\cs_generate_variant:Nn \prop_gput:Nnn  {Nxn}
+\cs_generate_variant:Nn \prop_get:NnNT  {NxN}
+\cs_generate_variant:Nn \prop_get:NnNTF {NxN}
+\cs_generate_variant:Nn \str_if_eq:nnTF {nv}
+\cs_generate_variant:Nn \tl_if_empty:nTF {x}
+\cs_generate_variant:Nn \tl_if_empty:nF {x}
+\cs_generate_variant:Nn \tl_if_empty:nF {f}
+\cs_generate_variant:Nn \tl_if_eq:nnT {ox}
+\cs_generate_variant:Nn \tl_replace_all:Nnn {Nnx}
+%    \end{macrocode}
+%
+%
+%
+%
 % \iffalse
 %    \begin{macrocode}
 %</fontspec&(xetexx|luatex)>

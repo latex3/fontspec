@@ -390,11 +390,17 @@
 %<debug>  \typeout{save~ family:~ #1}
 %<debug>  \typeout{== fontid_tl: "\l_@@_fontid_tl".}
 
-  \cs_if_exist:NT \l_@@_nfss_fam_tl
-   {
-    \cs_set_eq:cN {g_@@_UID_\l_@@_fontid_tl} \l_@@_nfss_fam_tl
-   }
-  \cs_if_exist:cF {g_@@_UID_\l_@@_fontid_tl}
+  \tl_if_exist:cF {g_@@_UID_\l_@@_fontid_tl}
+    {
+      \tl_new:c {g_@@_UID_\l_@@_fontid_tl}
+    }
+
+  \tl_if_exist:NT \l_@@_nfss_fam_tl
+    {
+      \tl_set_eq:cN {g_@@_UID_\l_@@_fontid_tl} \l_@@_nfss_fam_tl
+    }
+
+  \tl_if_empty:cT {g_@@_UID_\l_@@_fontid_tl}
    {
     % The font name is fully expanded, in case it's defined in terms of macros, before having its spaces zapped:
     \tl_set:Nx \l_@@_tmp_tl {#1}

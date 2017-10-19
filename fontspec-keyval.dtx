@@ -105,8 +105,10 @@
    {
     \int_compare:nTF {\l_keys_choice_int <= 4} {
 %<*xetexx>
-      \tl_set:Nv \l_fontspec_renderer_tl
-        { g_fontspec_renderer_tag_ \l_keys_choice_tl }
+      \tl_set:Nx \l_fontspec_renderer_tl
+        {
+          \int_case:nn \l_keys_choice_int { 1 {/AAT} 2 {/OT} 3 {/OT} 4 {/GR} }
+        }
       \tl_gset:Nx \g_@@_single_feat_tl { \l_fontspec_renderer_tl }
 %</xetexx>
 %<*luatex>
@@ -118,19 +120,15 @@
       \@@_warning:nx {only-luatex-feature} {Renderer=Full/Basic}
 %</xetexx>
 %<*luatex>
-      \tl_set:Nv \l_fontspec_mode_tl
-        { g_fontspec_mode_tag_ \l_keys_choice_tl }
+      \tl_set:Nx \l_fontspec_mode_tl
+        {
+          \int_case:nn \l_keys_choice_int { 5 {node} 6 {base} }
+        }
       \tl_gset:Nx \g_@@_single_feat_tl { mode=\l_fontspec_mode_tl }
 %</luatex>
      }
    }
  }
-\tl_set:cn {g_fontspec_renderer_tag_AAT} {/AAT}
-\tl_set:cn {g_fontspec_renderer_tag_ICU} {/OT}
-\tl_set:cn {g_fontspec_renderer_tag_OpenType} {/OT}
-\tl_set:cn {g_fontspec_renderer_tag_Graphite} {/GR}
-\tl_set:cn {g_fontspec_mode_tag_Full}  {node}
-\tl_set:cn {g_fontspec_mode_tag_Basic} {base}
 %    \end{macrocode}
 %
 % \paragraph{OpenType script/language}

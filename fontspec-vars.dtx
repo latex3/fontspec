@@ -1,5 +1,5 @@
 %
-% \section{Declaration of variables and functions}
+% \section{Declaration of variables}
 %
 %    \begin{macrocode}
 %<*fontspec>
@@ -18,12 +18,7 @@
 \bool_new:N \l_@@_nobf_bool
 \bool_new:N \l_@@_noit_bool
 \bool_new:N \l_@@_nosc_bool
-%    \end{macrocode}
-% These strange set functions are to simplify returning code from LuaTeX:
-%    \begin{macrocode}
 \bool_new:N \l_@@_check_bool
-\cs_new:Npn \FontspecSetCheckBoolTrue  { \bool_set_true:N  \l_@@_check_bool }
-\cs_new:Npn \FontspecSetCheckBoolFalse { \bool_set_false:N \l_@@_check_bool }
 %    \end{macrocode}
 %
 %    \begin{macrocode}
@@ -49,6 +44,7 @@
 %    \end{macrocode}
 %
 %    \begin{macrocode}
+\bool_new:N \l_@@_tmpa_bool
 \bool_new:N \l_@@_disable_defaults_bool
 \bool_new:N \l_@@_alias_bool
 \bool_new:N \l_@@_external_bool
@@ -88,7 +84,17 @@
 %    \begin{macrocode}
 \clist_new:N \g_@@_default_fontopts_clist
 \clist_new:N \g_@@_all_keyval_modules_clist
+\clist_new:N \l_@@_sizefeat_clist
 \clist_set:Nn \l_@@_sizefeat_clist {Size={-}}
+\clist_new:N \l_@@_extensions_clist
+\clist_new:N \l_@@_fontopts_clist
+\clist_new:N \l_@@_family_fontopts_clist
+\clist_new:N \l_@@_all_features_clist
+\clist_new:N \l_@@_leftover_clist
+\clist_new:N \l_@@_keys_leftover_clist
+\clist_new:N \l_@@_sizing_leftover_clist
+\clist_new:N \l_@@_fontfeat_clist
+\clist_new:N \l_@@_fontfeat_curr_clist
 %    \end{macrocode}
 %
 % \paragraph{Property lists}
@@ -99,9 +105,59 @@
 \prop_new:N \g_@@_OT_features_prop
 \prop_new:N \g_@@_all_opentype_feature_names_prop
 \prop_new:N \g_@@_em_prop
+\prop_new:N \g_@@_strong_prop
 %    \end{macrocode}
 %
 % \paragraph{Token lists}
+%
+%    \begin{macrocode}
+\tl_new:N \l_fontspec_family_tl
+\tl_new:N \g_fontspec_encoding_tl
+\tl_new:N \l_fontspec_renderer_tl
+\tl_new:N \l_fontspec_fontname_tl
+\tl_new:N \l_fontspec_defined_shapes_tl
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+\providecommand\UTFencname{}
+\providecommand\cyrillicencoding{}
+\providecommand\latinencoding{}
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+\tl_new:N \g_@@_single_feat_tl
+\tl_new:N \l_@@_tmp_tl
+\tl_new:N \l_@@_size_tl
+\tl_new:N \l_@@_sizedfont_tl
+\tl_new:N \l_@@_nfss_tl
+\tl_new:N \l_@@_nfss_sc_tl
+\tl_new:N \l_@@_this_font_tl
+\tl_new:N \l_@@_scale_tl
+\tl_new:N \l_@@_opacity_tl
+\tl_new:N \l_@@_hexcol_tl
+\tl_new:N \l_@@_fontid_tl
+\tl_new:N \l_@@_extension_tl
+\tl_new:N \l_@@_ext_filename_tl
+\tl_new:N \l_@@_font_path_tl
+\tl_new:N \l_@@_basename_tl
+\tl_new:N \l_@@_curr_fontname_tl
+\tl_new:N \l_@@_saved_fontname_tl
+\tl_new:N \l_@@_optical_size_tl
+\tl_new:N \l_@@_ttc_index_tl
+\tl_new:N \l_@@_nfss_enc_tl
+\tl_new:N \g_@@_curr_series_tl
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+\tl_new:N \l_@@_rawfeatures_sclist
+\tl_new:N \l_@@_pre_feat_sclist
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+\tl_new:N \g_@@_rmfamily_family
+\tl_new:N \g_@@_sffamily_family
+\tl_new:N \g_@@_ttfamily_family
+%    \end{macrocode}
 %
 %    \begin{macrocode}
 \tl_new:N \g_@@_mathrm_tl
@@ -149,12 +205,26 @@
 \tl_new:N  \g_@@_opacity_tl
 \tl_set:Nn \g_@@_hexcol_tl {000000}
 \tl_set:Nn \g_@@_opacity_tl {FF~}
+\tl_new:N  \l_@@_punctspace_adjust_tl
+\tl_new:N  \l_@@_wordspace_adjust_tl
+\tl_new:N  \l_@@_postadjust_tl
+\tl_new:N  \g_@@_postadjust_tl
 \tl_set:Nn \g_@@_postadjust_tl { \l_@@_wordspace_adjust_tl \l_@@_punctspace_adjust_tl }
 %    \end{macrocode}
 %
 %
 %
-% \subsection{Generic functions}
+% \section{Generic functions}
+%
+% \begin{macro}{\FontspecSetCheckBoolTrue}
+% \begin{macro}{\FontspecSetCheckBoolFalse}
+% These strange set functions are to simplify returning code from LuaTeX:
+%    \begin{macrocode}
+\cs_new:Npn \FontspecSetCheckBoolTrue  { \bool_set_true:N  \l_@@_check_bool }
+\cs_new:Npn \FontspecSetCheckBoolFalse { \bool_set_false:N \l_@@_check_bool }
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
 %
 % \begin{macro}{\@@_keys_set_known:nnN}
 %    \begin{macrocode}

@@ -2,6 +2,15 @@
 Change history
 ==============
 
+- v2.6f ()
+
+    * Fix loading of Graphite fonts and add a little documentation (a better interface is needed, though)
+    * Correct and simplify some internal code that fixes a bug in the way some fonts are displayed in `\tracingoutput` mode.
+    * This also fixes an obscure bug using the API in which a query for a selected font feature
+      would test against the upright font in the current family regardless of the face/shape actually in use.
+    * This package now complies when the `expl3` option `check-declarations` is called.
+
+
 - v2.6e (2017/09/22)
 
     * Re-enable use of `HyphenChar=None` in LuaLaTeX. (Hyphenation and font choice are

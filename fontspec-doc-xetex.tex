@@ -25,21 +25,19 @@ The use of the latter syntax is recommended for better compatibility with
 \LuaTeX\ documents.
 
 
-\subsection{Different font technologies: \AAT\ and OpenType}\label{sec:renderer}
+\subsection{Different font technologies: \AAT, OpenType, and Graphite}\label{sec:renderer}
 
 \XeTeX\ supports two rendering technologies for typesetting, selected with
 the \feat{Renderer} font feature. The first, \opt{AAT}, is
-that provided (only) by \MacOSX\ itself. The second, \opt{OpenType},
-is an open source OpenType interpreter.
-\note{v2.4: This was called `\texttt{ICU}' in previous versions of \XeTeX\ and \pkg{fontspec}.
-Backwards compatibility is preserved.}
-It provides greater support for
-OpenType features, notably contextual arrangement, over \opt{AAT}.
+that provided (only) by \MacOSX\ itself.
+The second, \opt{OpenType}, is an open source OpenType interpreter.
+It provides greater support for OpenType features, notably contextual arrangement, over \opt{AAT}.
+The third is \opt{Graphite}, which is an alternative to OpenType with particular features for less-common languages.
 
 In general, this feature will not need to be explicitly called: for OpenType
 fonts, the \opt{OpenType} renderer is used automatically, and for \AAT\ fonts,
 \opt{AAT} is chosen by default. Some fonts, however, will contain font tables
-for \emph{both} rendering technologies, such as the Hiragino Japanese fonts
+for multiple rendering technologies, such as the Hiragino Japanese fonts
 distributed with \MacOSX, and in these cases the choice may be required.
 
 Among some other font features only available through a specific renderer,
@@ -72,6 +70,21 @@ explicitly.
 \end{Verbatim}
 
 
+\section{The Graphite renderer}
+
+Since the Graphite renderer is designed for less common scripts and languages, usually with
+specific or unique requirements, Graphite features are not standard across fonts.
+
+Currently \pkg{fontspec} does not support a convenient interface to select Graphite font
+features and all selection must be done via `raw' font feature selection.
+
+Here's an example:
+\begin{Verbatim}
+  \fontspec{Charis SIL}[
+    Renderer=Graphite,
+    RawFeature={Uppercase Eng alternates=Large eng on baseline}]
+  Ŋ
+\end{Verbatim}
 
 
 \section{\MacOSX's \AAT\ fonts}

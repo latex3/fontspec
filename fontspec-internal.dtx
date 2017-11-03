@@ -351,8 +351,8 @@
     %  \EROROR
     }
     {
-%<debug>  \typeout{::: Setting~ keys~ for~ AAT~ font~ features:~"\l_@@_keys_leftover_clist"}
-      \bool_if:NT \l_@@_atsui_bool
+%<debug>  \typeout{::: Setting~ keys~ for~ AAT/Graphite~ font~ features:~"\l_@@_keys_leftover_clist"}
+      \bool_if:nT { \l_@@_atsui_bool || \l_@@_graphite_bool }
         { \keys_set:nV {fontspec-aat} \l_@@_keys_leftover_clist }
     }
 %</xetexx>
@@ -577,28 +577,26 @@
     \bool_set_true:N \l_@@_tfm_bool
   \or
     \bool_set_true:N \l_@@_atsui_bool
+    \tl_if_empty:NT \l_fontspec_renderer_tl { \tl_set:Nn \l_fontspec_renderer_tl {/AAT} }
     \ifnum\XeTeXcountvariations #1 > \c_zero
       \bool_set_true:N \l_@@_mm_bool
     \fi
   \or
     \bool_set_true:N \l_@@_ot_bool
+    \tl_if_empty:NT \l_fontspec_renderer_tl { \tl_set:Nn \l_fontspec_renderer_tl {/OT} }
+  \or
+    \bool_set_true:N \l_@@_graphite_bool
+    \tl_if_empty:NT \l_fontspec_renderer_tl { \tl_set:Nn \l_fontspec_renderer_tl {/GR} }
   \fi
+%</xetexx>
 %    \end{macrocode}
 % If automatic, the \cmd{\l_fontspec_renderer_tl} token list will still be
 % empty (other suffices that could be added will be later in the feature
 % processing), and if it is indeed still empty, assign it a value so that the
 % other weights of the font are specifically loaded with the same renderer.
+%
+% LuaTeX only supports one:
 %    \begin{macrocode}
-  \tl_if_empty:NT \l_fontspec_renderer_tl
-   {
-    \bool_if:NTF \l_@@_atsui_bool
-     { \tl_set:Nn \l_fontspec_renderer_tl {/AAT} }
-     {
-       \bool_if:NT \l_@@_ot_bool
-        { \tl_set:Nn \l_fontspec_renderer_tl {/OT} }
-     }
-   }
-%</xetexx>
 %<*luatex>
   \bool_set_true:N \l_@@_ot_bool
 %</luatex>

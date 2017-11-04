@@ -1,10 +1,6 @@
 %%^^A%%  fontspec.ltx  -  part of FONTSPEC <github.com/wspr/fontspec>
 
-\ifdefined \XeTeXOTcountscripts \else \makeatletter
-  \@latex@error{^^J*** The fontspec documentation can only be typeset with XeTeX at present! ***\@gobble}\@ehc
-\fi
-
-\documentclass[a4paper]{ltxdoc}
+\documentclass[a4paper]{l3doc}
 \usepackage{fontspec-doc-style}
 \begin{document}
 
@@ -20,14 +16,15 @@
 \tableofcontents
 \newpage
 
-\include{fontspec-doc-intro}
-\include{fontspec-doc-fontsel}
-\include{fontspec-doc-featset}
-\include{fontspec-doc-opentype}
-\include{fontspec-doc-enc}
-\include{fontspec-doc-luatex}
-\include{fontspec-doc-xetex}
-\include{fontspec-doc-api}
+\def\DTX#1{\DocInput{#1}}
+\FONTSPECDTX
+
+\clearpage
+\PrintChanges
+
+\clearpage
+\setcounter{IndexColumns}{2}
+\PrintIndex
 
 \end{document}
 

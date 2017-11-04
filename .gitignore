@@ -29,3 +29,5 @@ lucidaot.tex
 
 # for local (in-place) doc typesetting:
 zzz-*
+
+*.hd

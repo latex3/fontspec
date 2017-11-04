@@ -29,7 +29,7 @@ mv tmpfile $ii
 # 3.
 # Updates the first line of the file to match the filename
 
-sed -i'.tmp' "1s/.*/%%^^A%%  $ii  -  part of FONTSPEC \<github.com\/wspr\/fontspec\>/" $ii
+sed -i'.tmp' "1s/.*/%%^^A%%  $ii -- part of FONTSPEC \<wspr.io\/fontspec\>/" $ii
 
 rm $ii.tmp
 

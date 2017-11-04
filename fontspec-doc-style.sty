@@ -2,12 +2,13 @@
 
 \ProvidesPackage{fontspec-doc-style}
 
+\input{fontspec.dtx}
+
 \usepackage{fontspec,booktabs,calc,caption,color,enumitem,flafter,fancyvrb,hologo,graphicx,
   ifthen,url,varioref,varwidth,microtype,tocloft,framed,xparse,docmute}
 
 %% Various labelling commands:
 \newcommand*\name[1]{{#1}}
-\newcommand*\pkg[1]{\textsf{#1}}
 \newcommand*\opt[1]{\texttt{#1}}
 \newcommand*\feat[1]{\texttt{#1}}
 
@@ -25,9 +26,7 @@
 \def\ATSUI{\textsc{atsui}}
 
 \newcommand\NFSS{\textsc{nfss}}
-\newcommand\XeTeX{\hologo{XeTeX}}
 \newcommand\XeLaTeX{\hologo{XeLaTeX}}
-\newcommand\LuaTeX{\hologo{LuaTeX}}
 \newcommand\LuaLaTeX{\hologo{LuaLaTeX}}
 
 % ToC formatting:
@@ -76,20 +75,6 @@
 %% (La)TeX font-related declarations:
 \linespread{1.05}      % Pagella needs more space between lines
 \frenchspacing         % Remove ugly extra space after punctuation
-
-\usepackage[
-  bookmarks=true,
-  colorlinks=true,
-  linkcolor=niceblue,
-  urlcolor=niceblue,
-  citecolor=niceblue,
-  pdftitle={The fontspec package},
-  pdfsubject={Advanced font selection for XeLaTeX/LuaLaTeX},
-  pdfauthor={Will Robertson},
-  pdfkeywords={xetex, xelatex, luatex, lualatex, unicode, opentype, aat}
-  ]{hyperref}
-
-
 
 %% ToC
 \def\@dotsep{1000}

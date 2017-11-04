@@ -1,0 +1,47 @@
+%%^^A%%  fontspec-vars.dtx  -  part of FONTSPEC <github.com/wspr/fontspec>
+%
+% \section{Loading}
+%
+% The \textsf{expl3} module is \texttt{fontspec}.
+%    \begin{macrocode}
+%<@@=fontspec>
+%    \end{macrocode}
+%
+% Check engine and load specific modules.
+% For Lua\TeX, load \pkg{luaotfload}.
+%    \begin{macrocode}
+%<*load>
+\sys_if_engine_luatex:T
+  { \RequirePackage{luaotfload}
+    \directlua{require("fontspec")}
+    \RequirePackageWithOptions{fontspec-luatex} \endinput }
+\sys_if_engine_xetex:T
+  { \RequirePackageWithOptions{fontspec-xetex}  \endinput }
+%    \end{macrocode}
+% If not one of the above, error:
+%    \begin{macrocode}
+\msg_new:nnn {fontspec} {cannot-use-pdftex}
+ {
+  The~ fontspec~ package~ requires~ either~ XeTeX~ or~ LuaTeX.\\\\
+  You~ must~ change~ your~ typesetting~ engine~ to,~ e.g.,~ "xelatex"~ or~ "lualatex" instead~ of~ plain~ "latex"~ or~ "pdflatex".
+ }
+\msg_fatal:nn {fontspec} {cannot-use-pdftex}
+\endinput
+%</load>
+%    \end{macrocode}
+
+
+\endinput
+
+% /©
+% ------------------------------------------------
+% The FONTSPEC package
+% ------------------------------------------------
+% Copyright  2004-2017  Will Robertson, LPPL "maintainer"
+% Copyright  2009-2013  Khaled Hosny
+% ------------------------------------------------
+% This package is free software and may be redistributed and/or modified under
+% the conditions of the LaTeX Project Public License, version 1.3c or higher
+% (your choice): <http://www.latex-project.org/lppl/>.
+% ------------------------------------------------
+% ©/

@@ -1,44 +1,10 @@
 %%^^A%%  fontspec.dtx  -  part of FONTSPEC <github.com/wspr/fontspec>
 
 % \iffalse
-%<*internal>
-\begingroup
-\input l3docstrip.tex\relax
-\keepsilent
-\usedir{tex/latex/fontspec}
-\let\MetaPrefix\relax
-\preamble
-------------------------------------------------
-The FONTSPEC package for XeLaTeX/LuaLaTeX
-(C)  2004--2017  Will Robertson and Khaled Hosny
-License information appended.
-------------------------------------------------
-\endpreamble
-\postamble
-------------------------------------------------
-Copyright 2004--2017 Will Robertson <will.robertson@latex-project.org>
-Copyright 2009--2013   Khaled Hosny <khaledhosny@eglug.org>
-
-Distributable under the LaTeX Project Public License, version 1.3c or higher.
-The latest version of this license is at: http://www.latex-project.org/lppl.txt
-
-This work is "maintained" by Will Robertson.
-It consists of the files: fontspec*.dtx, fontspec.cfg, fontspec*.tex.
-And the derived files: fontspec*.sty,fontspec.lua, fontspec.pdf.
-------------------------------------------------
-\endpostamble
-\askforoverwritefalse
-\def\MetaPrefix{-- }
-\generate{\file{fontspec.lua}{\from{fontspec.dtx}{lua}\from{fontspec-lua.dtx}{lua}}}
-\let\MetaPrefix\DoubleperCent
-\ifx\FontspecDebug\undefined\def\FSDEBUG{}\else\def\FSDEBUG{,debug}\fi
-
-\generate{\file{fontspec.sty}{
-  \from{fontspec.dtx}{fontspec,load\FSDEBUG}
-}}
-
+%<*dtx>
 \gdef\FONTSPECDTX{
   \DTX{fontspec.dtx}
+  \DTX{fontspec-code-load.dtx}
   \DTX{fontspec-vars.dtx}
   \DTX{fontspec-msg.dtx}
   \DTX{fontspec-opening.dtx}
@@ -60,22 +26,11 @@ And the derived files: fontspec*.sty,fontspec.lua, fontspec.pdf.
   \DTX{fontspec-xfss.dtx}
   \DTX{fontspec-patches.dtx}
 }
-
-\def\DTX#1{\from{#1}{fontspec,XE,xetexx\FSDEBUG}}
-\generate{\file{fontspec-xetex.sty}{\FONTSPECDTX}}
-
-\def\DTX#1{\from{#1}{fontspec,LU,luatex\FSDEBUG}}
-\generate{\file{fontspec-luatex.sty}{\FONTSPECDTX}}
-
-\def\tmpa{plain}
-\ifx\tmpa\fmtname\endgroup\expandafter\bye\fi
-\endgroup
-%</internal>
-%<*fontspec>
-\RequirePackage{expl3}
-\RequirePackage{xparse}
-%</fontspec>
+%</dtx>
 %<*driver>
+\def\tmpa{plain}
+\ifx\tmpa\fmtname\expandafter\endinput\fi
+\RequirePackage{xparse}
 \ProvidesExplFile{fontspec.dtx}
 %</driver>
 %<fontspec&!xetexx&!luatex>\ProvidesExplPackage{fontspec}%
@@ -95,54 +50,7 @@ And the derived files: fontspec*.sty,fontspec.lua, fontspec.pdf.
 %<lua>    copyright     = "Khaled Hosny, Philipp Gesang, Will Robertson",
 %<lua>    license       = "LPPL"
 %<lua>}
-%
-%<*driver>
-\ExplSyntaxOff
-\providecommand\ENDDOCUMENT{}
-\input{fontspec-doc.tex}
-\StopEventually{}
-\part{Implementation}
-\def\DTX#1{\DocInput{#1}}
-\FONTSPECDTX
-\clearpage
-\PrintChanges
-\clearpage
-\setcounter{IndexColumns}{2}
-\PrintIndex
-\Finale
-\end{document}
-%</driver>
 % \fi
-%
-% \section{Loading}
-%
-% The \textsf{expl3} module is \texttt{fontspec}.
-%    \begin{macrocode}
-%<@@=fontspec>
-%    \end{macrocode}
-%
-% Check engine and load specific modules.
-% For Lua\TeX, load \pkg{luaotfload}.
-%    \begin{macrocode}
-%<*load>
-\sys_if_engine_luatex:T
-  { \RequirePackage{luaotfload}
-    \directlua{require("fontspec")}
-    \RequirePackageWithOptions{fontspec-luatex} \endinput }
-\sys_if_engine_xetex:T
-  { \RequirePackageWithOptions{fontspec-xetex}  \endinput }
-%    \end{macrocode}
-% If not one of the above, error:
-%    \begin{macrocode}
-\msg_new:nnn {fontspec} {cannot-use-pdftex}
- {
-  The~ fontspec~ package~ requires~ either~ XeTeX~ or~ LuaTeX.\\\\
-  You~ must~ change~ your~ typesetting~ engine~ to,~ e.g.,~ "xelatex"~ or~ "lualatex" instead~ of~ plain~ "latex"~ or~ "pdflatex".
- }
-\msg_fatal:nn {fontspec} {cannot-use-pdftex}
-\endinput
-%</load>
-%    \end{macrocode}
 
 \endinput
 

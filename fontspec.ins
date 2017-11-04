@@ -1,0 +1,53 @@
+%%^^A%%  unicode-math.ins  -  part of UNICODE-MATH <github.com/wspr/unicode-math>
+
+\input fontspec.dtx\relax
+\input l3docstrip.tex\relax
+
+\keepsilent
+\usedir{tex/latex/fontspec}
+\let\MetaPrefix\relax
+\preamble
+------------------------------------------------
+The FONTSPEC package for XeLaTeX/LuaLaTeX
+(C)  2004--2017  Will Robertson and Khaled Hosny
+License information appended.
+------------------------------------------------
+\endpreamble
+\postamble
+------------------------------------------------
+Copyright 2004--2017 Will Robertson <will.robertson@latex-project.org>
+Copyright 2009--2013   Khaled Hosny <khaledhosny@eglug.org>
+
+Distributable under the LaTeX Project Public License, version 1.3c or higher.
+The latest version of this license is at: http://www.latex-project.org/lppl.txt
+
+This work is "maintained" by Will Robertson.
+It consists of the files: fontspec*.dtx, fontspec.cfg, fontspec*.tex.
+And the derived files: fontspec*.sty,fontspec.lua, fontspec.pdf.
+------------------------------------------------
+\endpostamble
+\askforoverwritefalse
+\def\MetaPrefix{-- }
+\generate{\file{fontspec.lua}{\from{fontspec.dtx}{lua}\from{fontspec-lua.dtx}{lua}}}
+\let\MetaPrefix\DoubleperCent
+\ifx\FontspecDebug\undefined\def\FSDEBUG{}\else\def\FSDEBUG{,debug}\fi
+
+\generate{\file{fontspec.sty}{
+  \from{fontspec.dtx}{fontspec,load\FSDEBUG}
+  \from{fontspec-code-load.dtx}{fontspec,load\FSDEBUG}
+}}
+
+\def\DTX#1{\from{#1}{fontspec,XE,xetexx\FSDEBUG}}
+\generate{\file{fontspec-xetex.sty}{\FONTSPECDTX}}
+
+\def\DTX#1{\from{#1}{fontspec,LU,luatex\FSDEBUG}}
+\generate{\file{fontspec-luatex.sty}{\FONTSPECDTX}}
+
+\endbatchfile
+\endinput
+
+% /©
+%
+% (COPYRIGHT GOES HERE))
+%
+% ©/

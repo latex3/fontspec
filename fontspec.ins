@@ -8,24 +8,17 @@
 \let\MetaPrefix\relax
 \preamble
 ------------------------------------------------
-The FONTSPEC package for XeLaTeX/LuaLaTeX
-(C)  2004--2017  Will Robertson and Khaled Hosny
-License information appended.
+The FONTSPEC package  <wspr.io/fontspec>
+------------------------------------------------
+Copyright  2004-2017  Will Robertson, LPPL "maintainer"
+Copyright  2009-2013  Khaled Hosny
+------------------------------------------------
+This package is free software and may be redistributed and/or modified under
+the conditions of the LaTeX Project Public License, version 1.3c or higher
+(your choice): <http://www.latex-project.org/lppl/>.
 ------------------------------------------------
 \endpreamble
-\postamble
-------------------------------------------------
-Copyright 2004--2017 Will Robertson <will.robertson@latex-project.org>
-Copyright 2009--2013   Khaled Hosny <khaledhosny@eglug.org>
-
-Distributable under the LaTeX Project Public License, version 1.3c or higher.
-The latest version of this license is at: http://www.latex-project.org/lppl.txt
-
-This work is "maintained" by Will Robertson.
-It consists of the files: fontspec*.dtx, fontspec.cfg, fontspec*.tex.
-And the derived files: fontspec*.sty,fontspec.lua, fontspec.pdf.
-------------------------------------------------
-\endpostamble
+\nopostamble
 \askforoverwritefalse
 \def\MetaPrefix{-- }
 \generate{\file{fontspec.lua}{\from{fontspec.dtx}{lua}\from{fontspec-lua.dtx}{lua}}}

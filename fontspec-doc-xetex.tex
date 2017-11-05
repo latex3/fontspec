@@ -16,7 +16,7 @@ selected by \pkg{fontspec}.
 \subsection{Mapping}
 \label{sec:mapping}
 
-\feat{Mapping} enables a \XeTeX\ text-mapping scheme, shown in \exref{mapping}.
+The \feat{Mapping} feature enables a \XeTeX\ text-mapping scheme, with an example shown in \exref{mapping}.
 
 \begin{Xexample}{mapping}{\XeTeX's \feat{Mapping} feature.}
   \fontspec{Cochin}[Mapping=tex-text]
@@ -32,18 +32,20 @@ The use of the latter syntax is recommended for better compatibility with
 
 \subsection{Different font technologies: \AAT, OpenType, and Graphite}\label{sec:renderer}
 
-\XeTeX\ supports two rendering technologies for typesetting, selected with
+\XeTeX\ supports three rendering technologies for typesetting, selected with
 the \feat{Renderer} font feature. The first, \opt{AAT}, is
-that provided (only) by \MacOSX\ itself.
+that provided only by \MacOSX.
 The second, \opt{OpenType}, is an open source OpenType interpreter.
 It provides greater support for OpenType features, notably contextual arrangement, over \opt{AAT}.
-The third is \opt{Graphite}, which is an alternative to OpenType with particular features for less-common languages.
+The third is \opt{Graphite}, which is an alternative to OpenType with particular features for less-common languages and the capability for more powerful font options.
+Features for \opt{OpenType} have already been discussed in \vref{sec:opentype-features};
+\opt{Graphite} and \opt{AAT} features are discussed later in \vref{sec:graphite-features} and \vref{sec:aat-features}.
 
-In general, this feature will not need to be explicitly called: for OpenType
+Unless you have a particular need, the \feat{Renderer} feature is rarely explicitly required: for OpenType
 fonts, the \opt{OpenType} renderer is used automatically, and for \AAT\ fonts,
 \opt{AAT} is chosen by default. Some fonts, however, will contain font tables
 for multiple rendering technologies, such as the Hiragino Japanese fonts
-distributed with \MacOSX, and in these cases the choice may be required.
+distributed with \MacOSX, and in these cases one over the other may be preferred.
 
 Among some other font features only available through a specific renderer,
 \opt{OpenType} provides for the \feat{Script} and \feat{Language} features, which allow
@@ -76,6 +78,7 @@ explicitly.
 
 
 \section{The Graphite renderer}
+\label{sec:graphite-features}
 
 Since the Graphite renderer is designed for less common scripts and languages, usually with
 specific or unique requirements, Graphite features are not standard across fonts.

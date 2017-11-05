@@ -3,6 +3,7 @@
 \ProvidesPackage{fontspec-doc-style}
 
 \input{fontspec.dtx}
+\ExplSyntaxOff
 
 \usepackage{fontspec,booktabs,calc,caption,color,enumitem,flafter,fancyvrb,hologo,graphicx,
   ifthen,url,varioref,varwidth,microtype,tocloft,framed,xparse,docmute}
@@ -110,6 +111,9 @@
 
 %% EXAMPLES
 
+\newif\ifshowexamples
+\showexamplestrue
+
 \newsavebox\X
 \newsavebox\Y
 
@@ -134,9 +138,11 @@
     \def\prefix{#4}
     \refstepcounter{example}%
     \label{ex:\filename}%
-    \IfFileExists{zzz-\theexample-\prefix-\filename.tex}{}{%
-      \immediate\write18{rm -f zzz-\theexample-* ;}%
-    }%
+    \ifshowexamples
+      \IfFileExists{zzz-\theexample-\prefix-\filename.tex}{}{%
+        \immediate\write18{rm -f zzz-\theexample-* ;}%
+      }%
+    \fi
     \VerbatimEnvironment
     \begin{VerbatimOut}{zzz-\theexample-\prefix-\filename.tex}}
 % text in the environment
@@ -169,12 +175,14 @@
              \csname prog@\prefix\endcsname "\unexpanded\expandafter{\XXcmd}";
              printf '\@percentchar s' '\unexpanded\expandafter{\XXcmd}' > zzz-\theexample-\prefix-\filename-test.tex;
            }%
-           \immediate\write18{\unexpanded\expandafter{\1}}%
+           \ifshowexamples
+             \immediate\write18{\unexpanded\expandafter{\1}}%
+           \fi
          }%
       \savebox\Y{%
       \IfFileExists{zzz-\theexample-\prefix-\filename.pdf}
           {\includegraphics{zzz-\theexample-\prefix-\filename.pdf}}
-          {\color{red}\itshape ---Graphic not generated---}%
+          {\color{red}\itshape ---Example graphic not generated---}%
       }
       % TYPESETTING
       \rule[0.5\baselineskip]{\columnwidth}{1pt}%

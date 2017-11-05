@@ -30,12 +30,15 @@
 %<*driver>
 \def\tmpa{plain}
 \ifx\tmpa\fmtname\expandafter\endinput\fi
+%</driver>
+%<fontspec>\RequirePackage{xparse}
+%<fontspec&load>\ProvidesExplPackage{fontspec}%
+%<fontspec&xetexx>\ProvidesExplPackage{fontspec-xetex}%
+%<fontspec&luatex>\ProvidesExplPackage{fontspec-luatex}%
+%<*driver>
 \RequirePackage{xparse}
 \ProvidesExplFile{fontspec.dtx}
 %</driver>
-%<fontspec&!xetexx&!luatex>\ProvidesExplPackage{fontspec}%
-%<fontspec&xetexx>\ProvidesExplPackage{fontspec-xetex}%
-%<fontspec&luatex>\ProvidesExplPackage{fontspec-luatex}%
 %<*fontspec>
   {2017/09/22}{2.6e}{Font selection for XeLaTeX and LuaLaTeX}
 %</fontspec>

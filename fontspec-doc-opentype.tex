@@ -1,5 +1,11 @@
 %%^^A%%  fontspec-doc-opentype.tex -- part of FONTSPEC <wspr.io/fontspec>
 
+
+\documentclass[a4paper]{l3doc}
+\usepackage{fontspec-doc-style}
+\showexamplesfalse
+\begin{document}
+
 \part{OpenType}
 \label{sec:opentype-features}
 
@@ -52,11 +58,11 @@ Make a copy of this file and place it somewhere convenient.
 Then open it in your regular \TeX\ editor and change the font name to the font you'd like to query; after running through plain \XeTeX, the output \textsc{pdf} will look something like this:
 
 \begin{framed}
-\def\myfontname{[Asana-Math.otf]}
-%
-%%% OpenType-info.tex %%%
 
-\font\testfont="\myfontname/ICU" at 12pt
+%%% From OpenType-info.tex %%%
+\DeleteShortVerb\"
+\def\myfontname{[Asana-Math.otf]}
+\font\testfont="\myfontname/OT" at 10pt\relax
 
 \rightskip=0pt plus 1fil
 
@@ -129,8 +135,8 @@ Then open it in your regular \TeX\ editor and change the font name to the font y
 \repeat
 \end{framed}
 
-\noindent I intentionally picked a font that by design needs few font features; `regular' text fonts such as Latin Modern Roman contain many more, and I didn't want to clutter up the document too much.
-You'll then need to cross-check the OpenType feature tags with the `logical' names used by \pkg{fontspec}.
+\noindent I intentionally picked a font above that by design contains few font features; `regular' text fonts such as Latin Modern Roman contain many more, and I didn't want to clutter up the document too much.
+After finding the scripts, languages, and features contained within the font, you'll then need to cross-check the OpenType tags with the `logical' names used by \pkg{fontspec}.
 
 \paragraph{otfinfo}
 Alternatively, and more simply, you can use the command line tool |otfinfo|, which is distributed with \TeX{}Live.
@@ -1434,7 +1440,7 @@ Thanks to \name{Jonathan Kew}, \name{Yves Codet} and
  \end{minipage}
 \end{table}
 
-
+\end{document}
 
 % /©
 % ------------------------------------------------

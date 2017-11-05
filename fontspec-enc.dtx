@@ -109,6 +109,9 @@
 % \end{macro}
 %
 % \begin{macro}{\UndeclareSymbol}
+% \begin{macro}{\UndeclareAccent}
+% \begin{macro}{\UndeclareCommand}
+% Synonyms for each other but all included for completeness.
 %    \begin{macrocode}
 \DeclareDocumentCommand \UndeclareSymbol {m}
   {
@@ -116,8 +119,21 @@
       { \@@_error:nn {only-inside-encdef} \UndeclareSymbol }
     \UndeclareTextCommand {#1} {\UnicodeEncodingName}
   }
-
+\DeclareDocumentCommand \UndeclareAccent {m}
+  {
+    \bool_if:NF \l_@@_defining_encoding_bool
+      { \@@_error:nn {only-inside-encdef} \UndeclareAccent }
+    \UndeclareTextCommand {#1} {\UnicodeEncodingName}
+  }
+\DeclareDocumentCommand \UndeclareCommand {m}
+  {
+    \bool_if:NF \l_@@_defining_encoding_bool
+      { \@@_error:nn {only-inside-encdef} \UndeclareCommand }
+    \UndeclareTextCommand {#1} {\UnicodeEncodingName}
+  }
 %    \end{macrocode}
+% \end{macro}
+% \end{macro}
 % \end{macro}
 %
 % \begin{macro}{\UndeclareComposite}

@@ -183,7 +183,7 @@ The \LaTeXe\ kernel provides the following font encoding commands suitable for U
   \cs{UndeclareTextCommand}\marg{command}\marg{encoding}
 \end{quote}
 See |fntguide.pdf| for full documentation of these.
-As shown above, the following shorthands a provided by \pkg{fontspec} to simplify
+As shown above, the following shorthands are provided by \pkg{fontspec} to simplify
 the process of defining Unicode font range encodings:
 \begin{quote}\obeylines
   \cs{EncodingCommand}\marg{command}\oarg{num}\oarg{default}\marg{code}
@@ -192,10 +192,10 @@ the process of defining Unicode font range encodings:
   \cs{EncodingComposite}\marg{command}\marg{letter}\marg{slot}
   \cs{EncodingCompositeCommand}\marg{command}\marg{letter}\marg{code}
   \cs{UndeclareSymbol}\marg{command}
+  \cs{UndeclareAccent}\marg{command}
+  \cs{UndeclareCommand}\marg{command}
   \cs{UndeclareComposite}\marg{command}\marg{letter}
 \end{quote}
-Despite its name, |\UndeclareSymbol| can be used for commands defined by all three of |\EncodingCommand|,
-|\EncodingAccent|, and |\EncodingSymbol|.
 
 \end{document}
 

@@ -1,0 +1,8 @@
+\input{fontspec-testsetup}
+\usepackage[english]{babel}
+\usepackage{fontspec}
+\setmainfont{texgyrepagella-regular.otf}
+\begin{document}
+hello
+\MSG{Checking loading; no log file data expected.}
+\end{document}

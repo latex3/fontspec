@@ -2,6 +2,14 @@
 Change history
 ==============
 
+- v2.6g (2017-11-09)
+
+    * Bugfix for clash introduced with last version. When loading `babel`
+      before `fontspec` the following error arose:
+      
+          ! Control sequence \latinencoding already defined.
+
+
 - v2.6f (2017-11-05)
 
     * Fix loading of Graphite fonts and add a little documentation (a better interface is needed, though)

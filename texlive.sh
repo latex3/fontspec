@@ -46,6 +46,7 @@ tlmgr install   \
   ucharcat      \
   filehook      \
   xcolor        \
+  babel         \
   unicode-math  \
   polyglossia   \
   mathspec

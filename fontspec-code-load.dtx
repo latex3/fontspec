@@ -1,35 +1,58 @@
 %%^^A%%  fontspec-code-load.dtx -- part of FONTSPEC <wspr.io/fontspec>
 %
-% \section{Loading}
+% \section{The \texttt{fontspec.sty} loading file}
 %
-% The \textsf{expl3} module is \texttt{fontspec}.
+% Before we begin, for the rest of the package we use the \texttt{@@} \textsf{expl3}
+% module syntax with module name `\texttt{fontspec}'.
 %    \begin{macrocode}
 %<@@=fontspec>
 %    \end{macrocode}
+% The \texttt{fontspec.sty} file is simply set up to load the appropriate
+% \texttt{fontspec-xetex.sty} or \texttt{fontspec-luatex.sty} file.
+% This is performed by the following code.
 %
-% Check engine and load specific modules.
-% For Lua\TeX, load \pkg{luaotfload}.
 %    \begin{macrocode}
 %<*load>
-\sys_if_engine_luatex:T
-  { \RequirePackage{luaotfload}
-    \directlua{require("fontspec")}
-    \RequirePackageWithOptions{fontspec-luatex} \endinput }
-\sys_if_engine_xetex:T
-  { \RequirePackageWithOptions{fontspec-xetex}  \endinput }
 %    \end{macrocode}
-% If not one of the above, error:
+%
+% \paragraph{\LuaLaTeX}
+%    \begin{macrocode}
+\sys_if_engine_luatex:T
+  {
+    \RequirePackage{luaotfload}
+    \directlua{require("fontspec")}
+    \RequirePackageWithOptions{fontspec-luatex}
+    \endinput
+  }
+%    \end{macrocode}
+% 
+% \paragraph{\XeLaTeX}
+%    \begin{macrocode}
+\sys_if_engine_xetex:T
+  { 
+    \RequirePackageWithOptions{fontspec-xetex} 
+    \endinput
+  }
+%    \end{macrocode}
+%
+% \paragraph{Other}
+% If not one of the above, error and exit.
 %    \begin{macrocode}
 \msg_new:nnn {fontspec} {cannot-use-pdftex}
- {
-  The~ fontspec~ package~ requires~ either~ XeTeX~ or~ LuaTeX.\\\\
-  You~ must~ change~ your~ typesetting~ engine~ to,~ e.g.,~ "xelatex"~ or~ "lualatex" instead~ of~ plain~ "latex"~ or~ "pdflatex".
- }
+  {
+    The~ fontspec~ package~ requires~ either~ XeTeX~ or~ LuaTeX.\\\\
+    You~ must~ change~ your~ typesetting~ engine~ to,~ e.g.,~
+    "xelatex"~ or~ "lualatex" instead~ of~ "latex"~ or~ "pdflatex".
+  }
 \msg_fatal:nn {fontspec} {cannot-use-pdftex}
+%    \end{macrocode}
+% 
+% \paragraph{Closing}
+% That's the end of the \texttt{fontspec.sty} file.
+%    \begin{macrocode}
 \endinput
 %</load>
 %    \end{macrocode}
-
 
 \endinput
 

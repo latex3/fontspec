@@ -2,12 +2,20 @@
 %
 % \section{Declaration of variables}
 %
+% \iffalse
 %    \begin{macrocode}
 %<*fontspec>
 %    \end{macrocode}
+% \fi
+%
+% This file consists solely of declaration of variables used by \pkg{fontspec}.
+% In some cases these variables are also initialised with default values.
+% In time I would like to move these initialisations
 %
 % \paragraph{Booleans}
-% \subparagraph{firsttime} As \cs{keys_set:nn} is run multiple times, some of its
+% 
+% \begin{macro}{\l_@@_firsttime_bool}
+% As \cs{keys_set:nn} is run multiple times, some of its
 % information storing only occurs once while we decide if the font family
 % has been defined or not. When the later processing is occuring per-shape
 % this no longer needs to happen; this is indicated by the `firsttime'
@@ -15,6 +23,8 @@
 %    \begin{macrocode}
 \bool_new:N \l_@@_firsttime_bool
 %    \end{macrocode}
+% \end{macro}
+%
 %    \begin{macrocode}
 \bool_new:N \l_@@_nobf_bool
 \bool_new:N \l_@@_noit_bool
@@ -67,7 +77,7 @@
 \int_new:N \l_@@_strongdef_int
 %    \end{macrocode}
 %
-% \paragraph{Floating point}
+% \paragraph{Floats}
 %    \begin{macrocode}
 \fp_new:N \l_@@_tmpa_fp
 \fp_new:N \l_@@_tmpb_fp
@@ -78,10 +88,14 @@
 \dim_new:N \l_@@_tmpa_dim
 \dim_new:N \l_@@_tmpb_dim
 \dim_new:N \l_@@_tmpc_dim
+%    \end{macrocode}
+%
+% \paragraph{Sequences}
+%    \begin{macrocode}
 \seq_new:N \g_@@_bf_series_seq
 %    \end{macrocode}
 %
-% \paragraph{Comma lists}
+% \paragraph{Comma-lists}
 %    \begin{macrocode}
 \clist_new:N \g_@@_default_fontopts_clist
 \clist_new:N \g_@@_all_keyval_modules_clist
@@ -120,7 +134,6 @@
 %    \end{macrocode}
 %
 % \paragraph{Token lists}
-%
 %    \begin{macrocode}
 \tl_new:N \l_fontspec_family_tl
 \tl_new:N \g_fontspec_encoding_tl
@@ -159,17 +172,6 @@
 \tl_new:N \g_@@_curr_series_tl
 \tl_new:N \l_@@_options_tl
 \tl_new:N \l_@@_fontname_tl
-%    \end{macrocode}
-%
-%    \begin{macrocode}
-\tl_new:N \l_@@_rawfeatures_sclist
-\tl_new:N \l_@@_pre_feat_sclist
-%    \end{macrocode}
-%
-%    \begin{macrocode}
-\tl_new:N \g_@@_rmfamily_family
-\tl_new:N \g_@@_sffamily_family
-\tl_new:N \g_@@_ttfamily_family
 %    \end{macrocode}
 %
 %    \begin{macrocode}
@@ -215,12 +217,28 @@
 \tl_set:Nn \g_@@_postadjust_tl { \l_@@_wordspace_adjust_tl \l_@@_punctspace_adjust_tl }
 %    \end{macrocode}
 %
+% \paragraph{Semi-colon-lists}
+% Not a real data structure but sensible to name accordingly.
+%    \begin{macrocode}
+\tl_new:N \l_@@_rawfeatures_sclist
+\tl_new:N \l_@@_pre_feat_sclist
+%    \end{macrocode}
+%
+% \paragraph{Font families}
+% Again not a real data structure, and also probably poorly named.
+%    \begin{macrocode}
+\tl_new:N \g_@@_rmfamily_family
+\tl_new:N \g_@@_sffamily_family
+\tl_new:N \g_@@_ttfamily_family
+%    \end{macrocode}
 %
 %
 %
+% \iffalse
 %    \begin{macrocode}
 %</fontspec>
 %    \end{macrocode}
+% \fi
 
 
 \endinput

@@ -1,6 +1,6 @@
 %%^^A%%  fontspec-feat-aat.dtx -- part of FONTSPEC <wspr.io/fontspec>
 
-% \subsection{AAT feature definitions}
+% \section{AAT feature definitions}
 %
 % These are only defined for \XeTeX.
 %
@@ -10,7 +10,7 @@
 %    \end{macrocode}
 % \fi
 
-% \subsubsection{Ligatures}
+% \subsection{Ligatures}
 %    \begin{macrocode}
 \@@_define_aat_feature_group:n {Ligatures}
 \@@_define_aat_feature:nnnn      {Ligatures} {Required} {1} {0}
@@ -45,7 +45,7 @@
  }
 %    \end{macrocode}
 %
-% \subsubsection{Letters}
+% \subsection{Letters}
 %    \begin{macrocode}
 \@@_define_aat_feature_group:n {Letters}
 \@@_define_aat_feature:nnnn      {Letters} {Normal} {3} {0}
@@ -55,7 +55,7 @@
 \@@_define_aat_feature:nnnn      {Letters} {InitialCaps} {3} {4}
 %    \end{macrocode}
 %
-% \subsubsection{Numbers}
+% \subsection{Numbers}
 %
 % These were originally separated into \feat{NumberCase} and
 % \feat{NumberSpacing} following \AAT, but it makes more sense to
@@ -75,7 +75,7 @@
 \@@_define_aat_feature:nnnn      {Numbers} {NoSlashedZero} {14} {4}
 %    \end{macrocode}
 %
-% \subsubsection{Contextuals}
+% \subsection{Contextuals}
 %    \begin{macrocode}
 \@@_define_aat_feature_group:n   {Contextuals}
 \@@_define_aat_feature:nnnn      {Contextuals} {WordInitial} {8} {0}
@@ -90,7 +90,7 @@
 \@@_define_aat_feature:nnnn      {Contextuals} {NoInner} {8} {9}
 %    \end{macrocode}
 %
-% \subsubsection{Diacritics}
+% \subsection{Diacritics}
 %    \begin{macrocode}
 \@@_define_aat_feature_group:n {Diacritics}
 \@@_define_aat_feature:nnnn      {Diacritics} {Show} {9} {0}
@@ -99,7 +99,7 @@
 %    \end{macrocode}
 %
 %
-% \subsubsection{Vertical position}
+% \subsection{Vertical position}
 %    \begin{macrocode}
 \@@_define_aat_feature_group:n {VerticalPosition}
 \@@_define_aat_feature:nnnn      {VerticalPosition} {Normal} {10} {0}
@@ -108,7 +108,7 @@
 \@@_define_aat_feature:nnnn      {VerticalPosition} {Ordinal} {10} {3}
 %    \end{macrocode}
 %
-% \subsubsection{Fractions}
+% \subsection{Fractions}
 %    \begin{macrocode}
 \@@_define_aat_feature_group:n {Fractions}
 \@@_define_aat_feature:nnnn      {Fractions} {On} {11} {1}
@@ -116,7 +116,7 @@
 \@@_define_aat_feature:nnnn      {Fractions} {Diagonal} {11} {2}
 %    \end{macrocode}
 %
-% \subsubsection{Alternate}
+% \subsection{Alternate}
 %    \begin{macrocode}
 \@@_define_aat_feature_group:n  { Alternate }
 \keys_define:nn {fontspec-aat}
@@ -133,7 +133,7 @@
 %    \end{macrocode}
 %
 %
-% \subsubsection{Variant / StylisticSet}
+% \subsection{Variant / StylisticSet}
 %    \begin{macrocode}
 \@@_define_aat_feature_group:n  {Variant}
 \keys_define:nn {fontspec-aat}
@@ -164,7 +164,7 @@
 %    \end{macrocode}
 %
 %
-% \subsubsection{Style}
+% \subsection{Style}
 %    \begin{macrocode}
 \@@_define_aat_feature_group:n {Style}
 \@@_define_aat_feature:nnnn      {Style} {Italic} {32} {2}
@@ -175,7 +175,7 @@
 \@@_define_aat_feature:nnnn      {Style} {TallCaps} {19} {5}
 %    \end{macrocode}
 %
-% \subsubsection{CJK shape}
+% \subsection{CJK shape}
 %    \begin{macrocode}
 \@@_define_aat_feature_group:n {CJKShape}
 \@@_define_aat_feature:nnnn      {CJKShape} {Traditional} {20} {0}
@@ -187,7 +187,7 @@
 \@@_define_aat_feature:nnnn      {CJKShape} {NLC} {20} {13}
 %    \end{macrocode}
 %
-% \subsubsection{Character width}
+% \subsection{Character width}
 %    \begin{macrocode}
 \@@_define_aat_feature_group:n {CharacterWidth}
 \@@_define_aat_feature:nnnn      {CharacterWidth} {Proportional} {22} {0}
@@ -200,7 +200,7 @@
 \@@_define_aat_feature:nnnn      {CharacterWidth} {Default} {22} {7}
 %    \end{macrocode}
 %
-% \subsubsection{Annotation}
+% \subsection{Annotation}
 %    \begin{macrocode}
 \@@_define_aat_feature_group:n {Annotation}
 \@@_define_aat_feature:nnnn      {Annotation} {Off} {24} {0}

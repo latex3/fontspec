@@ -151,7 +151,7 @@
   {
     \bool_if:NTF \l_@@_never_check_bool
       { \prg_return_true: }
-%<*xetexx>
+%<*XE>
  {
   \@@_iv_str_to_num:Nn \l_@@_strnum_int {#2}
   \int_set:Nn \l_tmpb_int { \XeTeXOTcountscripts #1 }
@@ -168,8 +168,8 @@
    }
   \bool_if:NTF \l__fontspec_check_bool \prg_return_true: \prg_return_false:
  }
-%</xetexx>
-%<*luatex>
+%</XE>
+%<*LU>
   {
     \cs_if_eq:NNTF #1 \font
       { \tl_set:Nx \l_@@_tmp_tl {\curr@fontshape/\f@size} }
@@ -177,7 +177,7 @@
     \directlua{fontspec.check_ot_script("\l_@@_tmp_tl", "#2")}
     \bool_if:NTF \l__fontspec_check_bool \prg_return_true: \prg_return_false:
   }
-%</luatex>
+%</LU>
  }
 %    \end{macrocode}
 % \end{macro}
@@ -193,7 +193,7 @@
   {
     \bool_if:NTF \l_@@_never_check_bool
       { \prg_return_true: }
-%<*xetexx>
+%<*XE>
  {
   \@@_iv_str_to_num:Nn \l_@@_strnum_int {#2}
   \int_set:Nn \l_tmpb_int
@@ -211,8 +211,8 @@
    }
   \bool_if:NTF \l__fontspec_check_bool \prg_return_true: \prg_return_false:
  }
-%</xetexx>
-%<*luatex>
+%</XE>
+%<*LU>
   {
     \cs_if_eq:NNTF #1 \font
       { \tl_set:Nx \l_@@_tmp_tl {\curr@fontshape/\f@size} }
@@ -223,7 +223,7 @@
       }
     \bool_if:NTF \l__fontspec_check_bool \prg_return_true: \prg_return_false:
   }
-%</luatex>
+%</LU>
   }
 %    \end{macrocode}
 % \end{macro}
@@ -240,7 +240,7 @@
   {
     \bool_if:NTF \l_@@_never_check_bool
       { \prg_return_true: }
-%<*xetexx>
+%<*XE>
  {
 %<debug>\typeout{::~ fontspec_check_ot_feat:n~ {#1}}
   \int_set:Nn \l_tmpb_int
@@ -264,8 +264,8 @@
    }
   \bool_if:NTF \l_@@_check_bool \prg_return_true: \prg_return_false:
  }
-%</xetexx>
-%<*luatex>
+%</XE>
+%<*LU>
   {
 %<debug>\typeout{::~ fontspec_check_ot_feat:n~ {#1}}
     \cs_if_eq:NNTF #1 \font
@@ -280,7 +280,7 @@
       }
     \bool_if:NTF \l_@@_check_bool \prg_return_true: \prg_return_false:
   }
-%</luatex>
+%</LU>
   }
 %    \end{macrocode}
 % \end{macro}

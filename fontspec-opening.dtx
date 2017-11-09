@@ -58,8 +58,8 @@
   }
 \bool_if:NTF \g_@@_euenc_bool
   {
-%<xetexx>    \tl_set:Nn \g_fontspec_encoding_tl {EU1}
-%<luatex>    \tl_set:Nn \g_fontspec_encoding_tl {EU2}
+%<XE>    \tl_set:Nn \g_fontspec_encoding_tl {EU1}
+%<LU>    \tl_set:Nn \g_fontspec_encoding_tl {EU2}
   }
   { \tl_set:Nn \g_fontspec_encoding_tl { TU } }
 %    \end{macrocode}
@@ -92,10 +92,10 @@
 %    \begin{macrocode}
 \bool_if:NT \g_@@_euenc_bool
   {
-%<luatex>    \cs_set_eq:NN \fontspec_tmp: \XeTeXpicfile
-%<luatex>    \cs_set:Npn \XeTeXpicfile {}
+%<LU>    \cs_set_eq:NN \fontspec_tmp: \XeTeXpicfile
+%<LU>    \cs_set:Npn \XeTeXpicfile {}
     \RequirePackage{xunicode}
-%<luatex>    \cs_set_eq:NN \XeTeXpicfile \fontspec_tmp:
+%<LU>    \cs_set_eq:NN \XeTeXpicfile \fontspec_tmp:
   }
 %    \end{macrocode}
 %

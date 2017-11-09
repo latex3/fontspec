@@ -88,7 +88,7 @@
 \cs_new:Nn \@@_sanitise_fontname:Nn
  {
   \tl_set:Nx #1 {#2}
-%<luatex>  \tl_remove_all:Nn #1 {~}
+%<LU>  \tl_remove_all:Nn #1 {~}
   \clist_map_inline:Nn \l_@@_extensions_clist
    {
      \tl_if_in:NnT #1 {##1}
@@ -253,8 +253,8 @@
 %    \begin{macrocode}
 \cs_new:Nn \@@_construct_font_call:nnnnnn
  {
-%<xetexx>  " \@@_fontname_wrap:n { #1 #2 #3 }
-%<luatex>  " \@@_fontname_wrap:n { #1 #2 } #3
+%<XE>  " \@@_fontname_wrap:n { #1 #2 #3 }
+%<LU>  " \@@_fontname_wrap:n { #1 #2 } #3
     #4 #5
     \str_if_eq_x:nnF {#6}{} {:#6} "
  }
@@ -344,7 +344,7 @@
   \@@_keys_set_known:nxN {fontspec-renderer} {\l_@@_fontfeat_clist,#2}
     \l_@@_keys_leftover_clist
   \@@_keys_set_known:nxN {fontspec} {\l_@@_keys_leftover_clist} \l_@@_keys_leftover_clist
-%<*xetexx>
+%<*XE>
   \bool_if:NTF \l_@@_ot_bool
     {
 %<debug>  \typeout{::: Setting~ keys~ for~ OpenType~ font~ features:~"\l_@@_keys_leftover_clist"}
@@ -357,11 +357,11 @@
       \bool_if:nT { \l_@@_atsui_bool || \l_@@_graphite_bool }
         { \keys_set:nV {fontspec-aat} \l_@@_keys_leftover_clist }
     }
-%</xetexx>
-%<*luatex>
+%</XE>
+%<*LU>
 %<debug>  \typeout{::: Setting~ keys~ for~ OpenType~ font~ features:~"\l_@@_keys_leftover_clist"}
   \keys_set:nV {fontspec-opentype} \l_@@_keys_leftover_clist
-%</luatex>
+%</LU>
 
   \tl_if_empty:NF \l_@@_mapping_tl
     { \@@_update_featstr:n { mapping = \l_@@_mapping_tl } }
@@ -526,7 +526,7 @@
  {
   \tl_set:Nx #1 {#2}
   \tl_replace_all:Nnx #1 {*} {\l_@@_basename_tl}
-%<luatex>  \tl_remove_all:Nn #1 {~}
+%<LU>  \tl_remove_all:Nn #1 {~}
  }
 %    \end{macrocode}
 % \end{macro}
@@ -569,7 +569,7 @@
 \cs_new:Nn \@@_set_font_type:N
  {
 %<debug>  \typeout{:: @@_set_font_type:}
-%<*xetexx>
+%<*XE>
   \bool_set_false:N \l_@@_tfm_bool
   \bool_set_false:N \l_@@_atsui_bool
   \bool_set_false:N \l_@@_ot_bool
@@ -590,7 +590,7 @@
     \bool_set_true:N \l_@@_graphite_bool
     \tl_if_empty:NT \l_fontspec_renderer_tl { \tl_set:Nn \l_fontspec_renderer_tl {/GR} }
   \fi
-%</xetexx>
+%</XE>
 %    \end{macrocode}
 % If automatic, the \cmd{\l_fontspec_renderer_tl} token list will still be
 % empty (other suffices that could be added will be later in the feature
@@ -599,9 +599,9 @@
 %
 % LuaTeX only supports one:
 %    \begin{macrocode}
-%<*luatex>
+%<*LU>
   \bool_set_true:N \l_@@_ot_bool
-%</luatex>
+%</LU>
  }
 %    \end{macrocode}
 % \end{macro}
@@ -889,7 +889,7 @@
 % features.
 %    \begin{macrocode}
 \tl_set:Nn \l_@@_pre_feat_sclist
-%<*xetexx>
+%<*XE>
  {
   \bool_if:NT \l_@@_ot_bool
    {
@@ -900,8 +900,8 @@
      }
    }
  }
-%</xetexx>
-%<*luatex>
+%</XE>
+%<*LU>
  {
   mode     = \l_fontspec_mode_tl   ;
   \tl_if_empty:NF \l_fontspec_script_tl
@@ -910,7 +910,7 @@
     language = \l_fontspec_lang_tl   ;
    }
  }
-%</luatex>
+%</LU>
 %    \end{macrocode}
 % \end{macro}
 %
@@ -919,12 +919,12 @@
 % \label{mac:makesmallcaps}
 % This macro checks if the font contains small caps.
 %    \begin{macrocode}
-%<luatex>\cs_new:Nn \@@_make_smallcaps:TF
-%<xetexx>\cs_new:Nn \@@_make_ot_smallcaps:TF
+%<LU>\cs_new:Nn \@@_make_smallcaps:TF
+%<XE>\cs_new:Nn \@@_make_ot_smallcaps:TF
  {
   \@@_check_ot_feat:NnTF \l_fontspec_font {smcp} {#1} {#2}
  }
-%<*xetexx>
+%<*XE>
 \cs_new:Nn \@@_make_smallcaps:TF
  {
   \bool_if:NTF \l_@@_ot_bool
@@ -934,7 +934,7 @@
       { \@@_make_AAT_feature_string:NnnTF \l_fontspec_font {3}{3} {#1} {#2} }
    }
  }
-%</xetexx>
+%</XE>
 %    \end{macrocode}
 % \end{macro}
 %
@@ -992,13 +992,13 @@
   \tl_clear:N \g_@@_curr_series_tl
   \tl_gset_eq:NN \l_@@_nfss_enc_tl \g_fontspec_encoding_tl
 
-%<*luatex>
+%<*LU>
   \tl_set:Nn \l_fontspec_mode_tl {node}
   \int_set:Nn \luatex_prehyphenchar:D { `\- } % fixme
   \int_zero:N \luatex_posthyphenchar:D        % fixme
   \int_zero:N \luatex_preexhyphenchar:D       % fixme
   \int_zero:N \luatex_postexhyphenchar:D      % fixme
-%</luatex>
+%</LU>
  }
 %    \end{macrocode}
 % \end{macro}

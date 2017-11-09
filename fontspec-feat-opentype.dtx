@@ -25,8 +25,8 @@
 \@@_define_opentype_feature:nnnnn {Ligatures} {ResetAll} {} {}
   {
     +dlig,-dlig,+rlig,-rlig,+liga,-liga,+dlig,-dlig,+clig,-clig,+hlig,-hlig,
-%<xetexx>  mapping = tex-text
-%<luatex>  +tlig,-tlig
+%<XE>  mapping = tex-text
+%<LU>  +tlig,-tlig
   }
 %    \end{macrocode}
 %
@@ -40,14 +40,14 @@
 %    \end{macrocode}
 % Emulate CM extra ligatures.
 %    \begin{macrocode}
-%<*xetexx>
+%<*XE>
 \keys_define:nn {fontspec-opentype}
   {
     Ligatures / TeX .code:n = { \tl_set:Nn \l_@@_mapping_tl {tex-text} },
     Ligatures / TeXReset .code:n = { \tl_clear:N \l_@@_mapping_tl },
   }
-%</xetexx>
-%<luatex>\@@_define_opentype_onreset:nnnnn {Ligatures} {TeX} {} { +tlig } {}
+%</XE>
+%<LU>\@@_define_opentype_onreset:nnnnn {Ligatures} {TeX} {} { +tlig } {}
 %    \end{macrocode}
 %
 % \subsection{Letters}
@@ -102,7 +102,7 @@
 % (AKA Arabic) numbers with Arabic (AKA Indic-Arabic). The same feature
 % maps to Farsi (Persian) numbers if font language is Farsi.
 %    \begin{macrocode}
-%<luatex>  \@@_define_opentype_onoffreset:nnnnn {Numbers} {Arabic} {anum} {anum} {}
+%<LU>  \@@_define_opentype_onoffreset:nnnnn {Numbers} {Arabic} {anum} {anum} {}
 %    \end{macrocode}
 %
 % \subsection{Vertical position}
@@ -312,8 +312,8 @@
 \keys_define:nn {fontspec-opentype}
  {
   Alternate .default:n = {0} ,
-%<luatex>  Alternate / Random  .code:n =
-%<luatex>   { \@@_make_OT_feature:nnn {salt}{ +salt = random }{} } ,
+%<LU>  Alternate / Random  .code:n =
+%<LU>   { \@@_make_OT_feature:nnn {salt}{ +salt = random }{} } ,
   Alternate / unknown .code:n =
    {
     \clist_map_inline:nn {#1}

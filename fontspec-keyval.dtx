@@ -65,9 +65,9 @@
   \bool_set_true:N \l_@@_external_bool
   \tl_set:Nn \l_@@_font_path_tl {#1}
   \@@_font_is_file:
-%<*xetexx>
+%<*XE>
   \keys_set:nn {fontspec-renderer} {Renderer=OpenType}
-%</xetexx>
+%</XE>
  }
 \aliasfontfeature{Path}{ExternalLocation}
 \@@_keys_define_code:nnn {fontspec} {Path} {}
@@ -105,28 +105,28 @@
    {AAT,ICU,OpenType,Graphite,Full,Basic}
    {
     \int_compare:nTF {\l_keys_choice_int <= 4} {
-%<*xetexx>
+%<*XE>
       \tl_set:Nx \l_fontspec_renderer_tl
         {
           \int_case:nn \l_keys_choice_int { 1 {/AAT} 2 {/OT} 3 {/OT} 4 {/GR} }
         }
       \tl_gset:Nx \g_@@_single_feat_tl { \l_fontspec_renderer_tl }
-%</xetexx>
-%<*luatex>
+%</XE>
+%<*LU>
       \@@_warning:nx {only-xetex-feature} {Renderer=AAT/OpenType/Graphite}
-%</luatex>
+%</LU>
      }
      {
-%<*xetexx>
+%<*XE>
       \@@_warning:nx {only-luatex-feature} {Renderer=Full/Basic}
-%</xetexx>
-%<*luatex>
+%</XE>
+%<*LU>
       \tl_set:Nx \l_fontspec_mode_tl
         {
           \int_case:nn \l_keys_choice_int { 5 {node} 6 {base} }
         }
       \tl_gset:Nx \g_@@_single_feat_tl { mode=\l_fontspec_mode_tl }
-%</luatex>
+%</LU>
      }
    }
  }
@@ -137,7 +137,7 @@
 %    \begin{macrocode}
 \@@_keys_define_code:nnn {fontspec-preparse} {Script}
  {
-%<xetexx>    \keys_set:nn {fontspec-renderer} {Renderer=OpenType}
+%<XE>    \keys_set:nn {fontspec-renderer} {Renderer=OpenType}
   \tl_set:Nn \l_@@_script_name_tl {#1}
  }
 %    \end{macrocode}
@@ -145,7 +145,7 @@
 %    \begin{macrocode}
 \@@_keys_define_code:nnn {fontspec-preparse} {Language}
  {
-%<xetexx>    \keys_set:nn {fontspec-renderer} {Renderer=OpenType}
+%<XE>    \keys_set:nn {fontspec-renderer} {Renderer=OpenType}
   \tl_set:Nn \l_@@_lang_name_tl {#1}
  }
 %    \end{macrocode}
@@ -156,13 +156,13 @@
  {
   \str_if_eq_x:nnF { \str_lower_case:f {\l_@@_extension_tl} } {.ttc}
     { \@@_warning:n {font-index-needs-ttc} }
-%<xetexx>  \tl_set:Nn \l_@@_ttc_index_tl {:#1}
-%<luatex>  \tl_set:Nn \l_@@_ttc_index_tl {(#1)}
+%<XE>  \tl_set:Nn \l_@@_ttc_index_tl {:#1}
+%<LU>  \tl_set:Nn \l_@@_ttc_index_tl {(#1)}
  }
 \@@_keys_define_code:nnn {fontspec} {FontIndex}
  {
-%<xetexx>  \tl_set:Nn \l_@@_ttc_index_tl {:#1}
-%<luatex>  \tl_set:Nn \l_@@_ttc_index_tl {(#1)}
+%<XE>  \tl_set:Nn \l_@@_ttc_index_tl {:#1}
+%<LU>  \tl_set:Nn \l_@@_ttc_index_tl {(#1)}
  }
 %    \end{macrocode}
 %
@@ -664,7 +664,7 @@
 %
 % \paragraph{Mapping}
 %    \begin{macrocode}
-%<*xetexx>
+%<*XE>
 \@@_keys_define_code:nnn {fontspec-aat} {Mapping}
   {
     \tl_set:Nn \l_@@_mapping_tl { #1 }
@@ -673,8 +673,8 @@
   {
     \tl_set:Nn \l_@@_mapping_tl { #1 }
   }
-%</xetexx>
-%<*luatex>
+%</XE>
+%<*LU>
 \@@_keys_define_code:nnn {fontspec-opentype} {Mapping}
  {
   \str_if_eq:nnTF {#1} {tex-text}
@@ -685,7 +685,7 @@
    }
    { \@@_warning:n {no-mapping} }
  }
-%</luatex>
+%</LU>
 %    \end{macrocode}
 %
 %
@@ -701,7 +701,7 @@
   \@@_update_featstr:n{width=#1}
  }
 \@@_keys_define_code:nnn {fontspec} {OpticalSize}
-%<*xetexx>
+%<*XE>
  {
   \bool_if:NTF \l_@@_ot_bool
    {
@@ -719,12 +719,12 @@
      { \@@_warning:n {no-opticals} }
    }
  }
-%</xetexx>
-%<*luatex>
+%</XE>
+%<*LU>
  {
   \tl_set:Nn \l_@@_optical_size_tl {/ S = #1}
  }
-%</luatex>
+%</LU>
 %    \end{macrocode}
 %
 % \subsubsection{Font transformations}
@@ -746,7 +746,7 @@
    },
   FakeStretch .default:n = {1.2}
 }
-%<*xetexx>
+%<*XE>
 \keys_define:nn {fontspec}
  {
   FakeBold .code:n =
@@ -755,13 +755,13 @@
    },
   FakeBold .default:n = {1.5}
  }
-%</xetexx>
-%<*luatex>
+%</XE>
+%<*LU>
 \keys_define:nn {fontspec}
  {
   FakeBold .code:n = { \@@_warning:n {fakebold-only-xetex} }
  }
-%</luatex>
+%</LU>
 %    \end{macrocode}
 % These are to be given to a shape that has no real bold/italic
 % to signal that \pkg{fontspec} should automatically create `fake' shapes.

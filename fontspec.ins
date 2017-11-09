@@ -20,8 +20,13 @@ the conditions of the LaTeX Project Public License, version 1.3c or higher
 \endpreamble
 \nopostamble
 \askforoverwritefalse
+
 \def\MetaPrefix{-- }
-\generate{\file{fontspec.lua}{\from{fontspec.dtx}{lua}\from{fontspec-lua.dtx}{lua}}}
+\generate{\file{fontspec.lua}{
+  \from{fontspec.dtx}{lua}
+  \from{fontspec-lua.dtx}{lua}
+}}
+
 \let\MetaPrefix\DoubleperCent
 \ifx\FontspecDebug\undefined\def\FSDEBUG{}\else\def\FSDEBUG{,debug}\fi
 

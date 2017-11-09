@@ -1,22 +1,18 @@
 %%^^A%%  fontspec-code.ltx -- part of FONTSPEC <wspr.io/fontspec>
 
+\ifdefined \XeTeXOTcountscripts \else \makeatletter
+  \@latex@error{^^J*** The fontspec documentation can only be typeset with `xelatex` ***\@gobble}\@ehc
+\fi
+
 \documentclass[a4paper]{l3doc}
 \usepackage{fontspec-doc-style}
+\renewcommand\partname{File}
 \begin{document}
-
-\GetFileInfo{fontspec.dtx}
-\title{The \textsf{fontspec} package\\Font selection for \XeLaTeX\ and \LuaLaTeX}
-\author{
-   \textsc{Will Robertson} and \textsc{Khaled Hosny}\\
-   \url{http://wspr.io/fontspec/}
-}
-\date{\filedate \qquad \fileversion}
-
 \maketitle
 \tableofcontents
 \newpage
 
-\def\DTX#1{\DocInput{#1}}
+\def\DTX#1{\clearpage\part{#1}\DocInput{#1}}
 \FONTSPECDTX
 
 \clearpage

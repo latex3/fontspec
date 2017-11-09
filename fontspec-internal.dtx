@@ -251,7 +251,7 @@
 % \darg{Font features}
 % We check if \meta{Font features} are empty and if so don't add in the separator colon.
 %    \begin{macrocode}
-\cs_set:Nn \@@_construct_font_call:nnnnnn
+\cs_new:Nn \@@_construct_font_call:nnnnnn
  {
 %<xetexx>  " \@@_fontname_wrap:n { #1 #2 #3 }
 %<luatex>  " \@@_fontname_wrap:n { #1 #2 } #3
@@ -261,7 +261,7 @@
 %    \end{macrocode}
 % In practice, we don't use the six-argument version, since most arguments are constructed on-the-fly:
 %    \begin{macrocode}
-\cs_set:Nn \@@_construct_font_call:nn
+\cs_new:Nn \@@_construct_font_call:nn
  {
   \@@_construct_font_call:nnnnnn
     {#1}
@@ -337,7 +337,7 @@
 % Do not set the colour if not explicitly spec'd else \verb|\color| (using
 % specials) will not work.
 %    \begin{macrocode}
-\cs_set:Nn \@@_get_features:Nn
+\cs_new:Nn \@@_get_features:Nn
  {
 %<debug>  \typeout{:: @@_get_features:Nn \exp_not:N #1 { \exp_not:n {#2} } }
   \@@_init_fontface:
@@ -522,7 +522,7 @@
 % replaced by the font name. This lets us define supplementary fonts in full
 % (``\texttt{Baskerville Semibold}'') or in abbreviation (``\texttt{* Semibold}'').
 %    \begin{macrocode}
-\cs_set:Nn \fontspec_complete_fontname:Nn
+\cs_new:Nn \fontspec_complete_fontname:Nn
  {
   \tl_set:Nx #1 {#2}
   \tl_replace_all:Nnx #1 {*} {\l_@@_basename_tl}
@@ -919,13 +919,13 @@
 % \label{mac:makesmallcaps}
 % This macro checks if the font contains small caps.
 %    \begin{macrocode}
-%<luatex>\cs_set:Nn \@@_make_smallcaps:TF
-%<xetexx>\cs_set:Nn \@@_make_ot_smallcaps:TF
+%<luatex>\cs_new:Nn \@@_make_smallcaps:TF
+%<xetexx>\cs_new:Nn \@@_make_ot_smallcaps:TF
  {
   \@@_check_ot_feat:NnTF \l_fontspec_font {smcp} {#1} {#2}
  }
 %<*xetexx>
-\cs_set:Nn \@@_make_smallcaps:TF
+\cs_new:Nn \@@_make_smallcaps:TF
  {
   \bool_if:NTF \l_@@_ot_bool
    { \@@_make_ot_smallcaps:TF {#1} {#2} }
@@ -1036,7 +1036,7 @@
 %
 % For backwards compatibility this code also strips a leading |+| or |-|.
 %    \begin{macrocode}
-\cs_set:Nn \@@_iv_str_to_num:Nn
+\cs_new:Nn \@@_iv_str_to_num:Nn
   {
     \@@_strip_leading_sign:Nw #1#2 \q_nil
   }

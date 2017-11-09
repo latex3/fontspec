@@ -17,7 +17,7 @@
 %   font name and the optional requested features of that
 %   font. Then this new font family is selected.
 %    \begin{macrocode}
-\cs_set:Nn \@@_main_fontspec:nn
+\cs_new:Nn \@@_main_fontspec:nn
  {
   \fontspec_set_family:Nnn \f@family {#1} {#2}
   \fontencoding { \l_@@_nfss_enc_tl }
@@ -29,12 +29,13 @@
 %
 % \begin{macro}{\setmainfont}
 %     The following three macros perform equivalent operations setting
-%     the default font for a
-%     particular family: `roman', sans serif, or typewriter
-%     (monospaced). I end them with |\normalfont| so that if they're
+%     the default font for a particular family: `roman', sans serif, or typewriter
+%     (monospaced).
+%
+%     They end with |\normalfont| so that if they're
 %     used in the document, the change registers immediately.
 %    \begin{macrocode}
-\cs_set:Nn \@@_main_setmainfont:nn
+\cs_new:Nn \@@_main_setmainfont:nn
  {
   \fontspec_set_family:Nnn \g_@@_rmfamily_family {#1} {#2}
   \tl_set_eq:NN \rmdefault \g_@@_rmfamily_family
@@ -55,8 +56,9 @@
 % \end{macro}
 %
 % \begin{macro}{\setsansfont}
+% Same as above.
 %    \begin{macrocode}
-\cs_set:Nn \@@_main_setsansfont:nn
+\cs_new:Nn \@@_main_setsansfont:nn
  {
   \fontspec_set_family:Nnn \g_@@_sffamily_family {#1} {#2}
   \tl_set_eq:NN \sfdefault \g_@@_sffamily_family
@@ -77,8 +79,9 @@
 % \end{macro}
 %
 % \begin{macro}{\setmonofont}
+% Same as above.
 %    \begin{macrocode}
-\cs_set:Nn \@@_main_setmonofont:nn
+\cs_new:Nn \@@_main_setmonofont:nn
  {
   \fontspec_set_family:Nnn \g_@@_ttfamily_family {#1} {#2}
   \tl_set_eq:NN \ttdefault \g_@@_ttfamily_family
@@ -108,7 +111,7 @@
 % document. \cmd\setboldmathrm\ is used for specifying which
 % fonts should be used in \cmd\boldmath.
 %    \begin{macrocode}
-\cs_set:Nn \@@_main_setmathrm:nn
+\cs_new:Nn \@@_main_setmathrm:nn
   {
 %<XE>    \fontspec_set_family:Nnn \g_@@_mathrm_tl {#1} {#2}
 %<LU>    \fontspec_set_family:Nnn \g_@@_mathrm_tl {Renderer=Basic,#1} {#2}
@@ -119,7 +122,7 @@
 %
 % \begin{macro}{\setboldmathrm}
 %    \begin{macrocode}
-\cs_set:Nn \@@_main_setboldmathrm:nn
+\cs_new:Nn \@@_main_setboldmathrm:nn
   {
 %<XE>    \fontspec_set_family:Nnn \g_@@_bfmathrm_tl {#1} {#2}
 %<LU>    \fontspec_set_family:Nnn \g_@@_bfmathrm_tl {Renderer=Basic,#1} {#2}
@@ -130,7 +133,7 @@
 %
 % \begin{macro}{\setmathsf}
 %    \begin{macrocode}
-\cs_set:Nn \@@_main_setmathsf:nn
+\cs_new:Nn \@@_main_setmathsf:nn
   {
 %<XE>    \fontspec_set_family:Nnn \g_@@_mathsf_tl {#1} {#2}
 %<LU>    \fontspec_set_family:Nnn \g_@@_mathsf_tl {Renderer=Basic,#1} {#2}
@@ -141,7 +144,7 @@
 %
 % \begin{macro}{\setmathtt}
 %    \begin{macrocode}
-\cs_set:Nn \@@_main_setmathtt:nn
+\cs_new:Nn \@@_main_setmathtt:nn
   {
 %<XE>    \fontspec_set_family:Nnn \g_@@_mathtt_tl {#1} {#2}
 %<LU>    \fontspec_set_family:Nnn \g_@@_mathtt_tl {Renderer=Basic,#1} {#2}
@@ -189,7 +192,7 @@
 %   \cs{l_fontspec_family_tl}. This family is then used in a typical NFSS \cmd\fontfamily\
 %   declaration, saved in the macro name specified.
 %    \begin{macrocode}
-\cs_set:Nn \@@_main_newfontfamily:nnn
+\cs_new:Nn \@@_main_newfontfamily:nnn
  {
   \fontspec_set_family:cnn { g_@@_ \cs_to_str:N #1 _family } {#2} {#3}
   \use:x
@@ -208,7 +211,7 @@
 % \begin{macro}{\newfontface}
 % \cmd\newfontface\ uses the fact that if the argument to \feat{BoldFont}, etc., is empty (\ie, |BoldFont={}|), then no bold font is searched for.
 %    \begin{macrocode}
-\cs_set:Nn \@@_main_newfontface:nnn
+\cs_new:Nn \@@_main_newfontface:nnn
  {
   \newfontfamily #1 [ BoldFont={},ItalicFont={},SmallCapsFont={},#2 ] {#3}
  }
@@ -225,7 +228,7 @@
 %   concatenated with the individual macro choices in the
 %   [...] macro.
 %    \begin{macrocode}
-\cs_set:Nn \@@_main_defaultfontfeatures:nnn
+\cs_new:Nn \@@_main_defaultfontfeatures:nnn
   {
     \IfNoValueTF {#2}
      { \@@_set_default_features:nn {#1} {#3} }
@@ -292,7 +295,7 @@
 %   \cs{addfontfeature} is defined as an alias, as I found that I
 %   often typed this instead when adding only a single font feature.
 %    \begin{macrocode}
-\cs_set:Nn \@@_main_addfontfeatures:n
+\cs_new:Nn \@@_main_addfontfeatures:n
  {
 %<debug>  \typeout{^^J::::::::::::::::::::::::::::::::::^^J: addfontfeatures}
   \fontspec_if_fontspec_font:TF
@@ -326,7 +329,7 @@
 %   tag by which to reference it, and the string that is used to
 %   select the font feature.
 %    \begin{macrocode}
-\cs_set:Nn \@@_main_newfontfeature:nn
+\cs_new:Nn \@@_main_newfontfeature:nn
  {
   \keys_define:nn { fontspec }
    {
@@ -345,7 +348,7 @@
 % Better than \cmd\newfontfeature\ because it checks if the feature exists in the
 % font it's being used for.
 %    \begin{macrocode}
-\cs_set:Nn \@@_main_newAATfeature:nnnn
+\cs_new:Nn \@@_main_newAATfeature:nnnn
  {
   \keys_if_exist:nnF { fontspec } {#1}
     { \@@_define_aat_feature_group:n {#1} }
@@ -363,7 +366,7 @@
 % Better than \cmd\newfontfeature\ because it checks if the feature exists in the
 % font it's being used for.
 %    \begin{macrocode}
-\cs_set:Nn \@@_main_newopentypefeature:nnn
+\cs_new:Nn \@@_main_newopentypefeature:nnn
  {
   \keys_if_exist:nnF { fontspec / options } {#1}
     { \@@_define_opentype_feature_group:n {#1} }
@@ -390,7 +393,7 @@
 % \begin{macro}{\aliasfontfeature}
 % User commands for renaming font features and font feature options.
 %    \begin{macrocode}
-\cs_set:Nn \@@_main_aliasfontfeature:nn
+\cs_new:Nn \@@_main_aliasfontfeature:nn
  {
 %<debug> \typeout{::::::::::::::::::::^^J:: aliasfontfeature{#1}{#2}}
   \bool_set_false:N \l_@@_alias_bool
@@ -414,7 +417,7 @@
 %
 % \begin{macro}{\aliasfontfeatureoption}
 %    \begin{macrocode}
-\cs_set:Nn \@@_main_aliasfontfeatureoption:nnn
+\cs_new:Nn \@@_main_aliasfontfeatureoption:nnn
  {
   \bool_set_false:N \l_@@_alias_bool
 
@@ -453,7 +456,7 @@
 % \begin{macro}{\DeclareFontsExtensions}
 % \texttt{dfont} would never be uppercase, right?
 %    \begin{macrocode}
-\cs_set:Nn \@@_main_DeclareFontsExtensions:n
+\cs_new:Nn \@@_main_DeclareFontsExtensions:n
  {
   \clist_set:Nn \l_@@_extensions_clist { #1 }
   \tl_remove_all:Nn \l_@@_extensions_clist {~}
@@ -468,7 +471,7 @@
 %
 % \begin{macro}{\IfFontFeatureActiveTF}
 %    \begin{macrocode}
-\cs_set:Nn \@@_main_IfFontFeatureActiveTF:nnn
+\cs_new:Nn \@@_main_IfFontFeatureActiveTF:nnn
   {
 %<debug>    \typeout{^^J:::::::::::::::::::::::::::::::::::::::::::::::}
 %<debug>    \typeout{:IfFontFeatureActiveTF \exp_not:n{{#1}{#2}{#3}}}

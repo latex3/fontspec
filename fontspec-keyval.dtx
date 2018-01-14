@@ -13,7 +13,7 @@
 %
 %
 %    \begin{macrocode}
-\clist_set:Nn \g_@@_all_keyval_modules_clist
+\clist_gset:Nn \g_@@_all_keyval_modules_clist
   {
     fontspec, fontspec-opentype, fontspec-aat,
     fontspec-preparse, fontspec-preparse-cfg, fontspec-preparse-external, fontspec-preparse-nested,
@@ -634,7 +634,7 @@
 \cs_set:Npn \fontspec_parse_colour:viii #1#2#3#4#5#6#7#8
  {
   \tl_set:Nn \l_@@_hexcol_tl {#1#2#3#4#5#6}
-  \tl_if_eq:NNF \l_@@_opacity_tl \g_@@_opacity_tl
+  \tl_if_eq:NNF \l_@@_opacity_tl \c_@@_opacity_tl
    {
     \bool_if:NF \l_@@_firsttime_bool
      { \@@_warning:nx {opa-twice-col} {#7#8} }
@@ -648,7 +648,7 @@
  {
   \int_set:Nn \l_@@_tmp_int {255}
   \@@_int_mult_truncate:Nn \l_@@_tmp_int { #1 }
-  \tl_if_eq:NNF \l_@@_opacity_tl \g_@@_opacity_tl
+  \tl_if_eq:NNF \l_@@_opacity_tl \c_@@_opacity_tl
    {
     \bool_if:NF \l_@@_firsttime_bool
      { \@@_warning:nx {opa-twice} {#1} }

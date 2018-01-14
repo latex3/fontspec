@@ -367,7 +367,7 @@
     { \@@_update_featstr:n { mapping = \l_@@_mapping_tl } }
 
   \str_if_eq_x:nnF { \l_@@_hexcol_tl \l_@@_opacity_tl }
-                   { \g_@@_hexcol_tl \g_@@_opacity_tl }
+                   { \c_@@_hexcol_tl \c_@@_opacity_tl }
     { \@@_update_featstr:n { color = \l_@@_hexcol_tl\l_@@_opacity_tl } }
 
   \tl_set_eq:NN #1 \l_@@_rawfeatures_sclist
@@ -1010,9 +1010,9 @@
   {
     \tl_clear:N \l_@@_rawfeatures_sclist
     \tl_clear:N \l_@@_scale_tl
-    \tl_set_eq:NN \l_@@_opacity_tl \g_@@_opacity_tl
-    \tl_set_eq:NN \l_@@_hexcol_tl \g_@@_hexcol_tl
-    \tl_set_eq:NN \l_@@_postadjust_tl \g_@@_postadjust_tl
+    \tl_set_eq:NN \l_@@_opacity_tl \c_@@_opacity_tl
+    \tl_set_eq:NN \l_@@_hexcol_tl \c_@@_hexcol_tl
+    \tl_set_eq:NN \l_@@_postadjust_tl \c_@@_postadjust_tl
     \tl_clear:N \l_@@_wordspace_adjust_tl
     \tl_clear:N \l_@@_punctspace_adjust_tl
   }

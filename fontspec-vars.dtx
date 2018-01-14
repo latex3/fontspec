@@ -181,6 +181,13 @@
 \tl_new:N \g_@@_mathtt_tl
 %    \end{macrocode}
 %
+% Defaults:
+%    \begin{macrocode}
+\tl_gset:Nn \g_@@_mathrm_tl {\rmdefault}
+\tl_gset:Nn \g_@@_mathsf_tl {\sfdefault}
+\tl_gset:Nn \g_@@_mathtt_tl {\ttdefault}
+%    \end{macrocode}
+%
 %    \begin{macrocode}
 \tl_new:N \l_@@_family_label_tl
 \tl_new:N \l_@@_fake_slant_tl
@@ -206,15 +213,15 @@
 %
 %    \begin{macrocode}
 \tl_new:N  \l_@@_mapping_tl
-\tl_new:N  \g_@@_hexcol_tl
-\tl_new:N  \g_@@_opacity_tl
-\tl_set:Nn \g_@@_hexcol_tl {000000}
-\tl_set:Nn \g_@@_opacity_tl {FF~}
 \tl_new:N  \l_@@_punctspace_adjust_tl
 \tl_new:N  \l_@@_wordspace_adjust_tl
 \tl_new:N  \l_@@_postadjust_tl
-\tl_new:N  \g_@@_postadjust_tl
-\tl_set:Nn \g_@@_postadjust_tl { \l_@@_wordspace_adjust_tl \l_@@_punctspace_adjust_tl }
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+\tl_const:Nn \c_@@_hexcol_tl {000000}
+\tl_const:Nn \c_@@_opacity_tl {FF~}
+\tl_const:Nn \c_@@_postadjust_tl { \l_@@_wordspace_adjust_tl \l_@@_punctspace_adjust_tl }
 %    \end{macrocode}
 %
 % \paragraph{Semi-colon-lists}

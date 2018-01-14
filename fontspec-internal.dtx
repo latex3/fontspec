@@ -57,7 +57,7 @@
   \@@_preparse_features:
   \@@_load_font:
   \@@_set_scriptlang:
-  \@@_get_features:Nn \l_@@_rawfeatures_sclist {}
+  \@@_get_features:n {}
   \bool_set_false:N \l_@@_firsttime_bool
 
   \@@_save_family_needed:nTF {#2}
@@ -69,6 +69,8 @@
 %<debug>  \typeout{Font~ family~ already~ defined.}
    }
   \group_end:
+
+  \tl_set_eq:NN \l_fontspec_family_tl \g_@@_nfss_family_tl
  }
 %    \end{macrocode}
 % \end{macro}
@@ -337,11 +339,11 @@
 % Do not set the colour if not explicitly spec'd else \verb|\color| (using
 % specials) will not work.
 %    \begin{macrocode}
-\cs_new:Nn \@@_get_features:Nn
+\cs_new:Nn \@@_get_features:n
  {
-%<debug>  \typeout{:: @@_get_features:Nn \exp_not:N #1 { \exp_not:n {#2} } }
+%<debug>  \typeout{:: @@_get_features:Nn { \exp_not:n {#1} } }
   \@@_init_fontface:
-  \@@_keys_set_known:nxN {fontspec-renderer} {\l_@@_fontfeat_clist,#2}
+  \@@_keys_set_known:nxN {fontspec-renderer} {\l_@@_fontfeat_clist,#1}
     \l_@@_keys_leftover_clist
   \@@_keys_set_known:nxN {fontspec} {\l_@@_keys_leftover_clist} \l_@@_keys_leftover_clist
 %<*XE>
@@ -369,8 +371,6 @@
   \str_if_eq_x:nnF { \l_@@_hexcol_tl \l_@@_opacity_tl }
                    { \c_@@_hexcol_tl \c_@@_opacity_tl }
     { \@@_update_featstr:n { color = \l_@@_hexcol_tl\l_@@_opacity_tl } }
-
-  \tl_set_eq:NN #1 \l_@@_rawfeatures_sclist
  }
 %    \end{macrocode}
 % \end{macro}
@@ -417,8 +417,8 @@
       \l_@@_tmp_tl ( \int_use:c {g_@@_family_ \l_@@_tmp_tl _int} )
      }
    }
-  \tl_gset:Nv \l_fontspec_family_tl {g_@@_UID_\l_@@_fontid_tl}
-  \cs_if_exist:cTF {g_@@_fontinfo_ \l_fontspec_family_tl _prop}
+  \tl_gset:Nv \g_@@_nfss_family_tl {g_@@_UID_\l_@@_fontid_tl}
+  \cs_if_exist:cTF {g_@@_fontinfo_ \g_@@_nfss_family_tl _prop}
     \prg_return_false: \prg_return_true:
  }
 %    \end{macrocode}
@@ -431,7 +431,7 @@
   {
     \@@_save_fontinfo:n {#2}
     \@@_find_autofonts:
-    \DeclareFontFamily{\g_@@_nfss_enc_tl}{\l_fontspec_family_tl}{}
+    \DeclareFontFamily{\g_@@_nfss_enc_tl}{\g_@@_nfss_family_tl}{}
     \@@_set_faces:
     \@@_info:nxx {defining-font} {#1} {#2}
   }
@@ -443,18 +443,18 @@
 %    \begin{macrocode}
 \cs_new:Nn \@@_save_fontinfo:n
  {
-  \prop_new:c    {g_@@_fontinfo_ \l_fontspec_family_tl _prop}
-  \prop_gput:cnx {g_@@_fontinfo_ \l_fontspec_family_tl _prop} {fontname} { #1 }
-  \prop_gput:cnx {g_@@_fontinfo_ \l_fontspec_family_tl _prop} {options}  { \l_@@_all_features_clist }
-  \prop_gput:cnx {g_@@_fontinfo_ \l_fontspec_family_tl _prop} {fontdef}
+  \prop_new:c    {g_@@_fontinfo_ \g_@@_nfss_family_tl _prop}
+  \prop_gput:cnx {g_@@_fontinfo_ \g_@@_nfss_family_tl _prop} {fontname} { #1 }
+  \prop_gput:cnx {g_@@_fontinfo_ \g_@@_nfss_family_tl _prop} {options}  { \l_@@_all_features_clist }
+  \prop_gput:cnx {g_@@_fontinfo_ \g_@@_nfss_family_tl _prop} {fontdef}
    {
     \@@_construct_font_call:nn {\l_fontspec_fontname_tl}
-      { \l_@@_pre_feat_sclist \l_@@_rawfeatures_sclist }
+      { \l_@@_pre_feat_sclist \g_@@_rawfeatures_sclist }
    }
-  \prop_gput:cnV {g_@@_fontinfo_ \l_fontspec_family_tl _prop} {script-num} \l_@@_script_int
-  \prop_gput:cnV {g_@@_fontinfo_ \l_fontspec_family_tl _prop} {lang-num} \l_@@_language_int
-  \prop_gput:cnV {g_@@_fontinfo_ \l_fontspec_family_tl _prop} {script-tag} \l_fontspec_script_tl
-  \prop_gput:cnV {g_@@_fontinfo_ \l_fontspec_family_tl _prop} {lang-tag} \l_fontspec_lang_tl
+  \prop_gput:cnV {g_@@_fontinfo_ \g_@@_nfss_family_tl _prop} {script-num} \l_@@_script_int
+  \prop_gput:cnV {g_@@_fontinfo_ \g_@@_nfss_family_tl _prop} {lang-num} \l_@@_language_int
+  \prop_gput:cnV {g_@@_fontinfo_ \g_@@_nfss_family_tl _prop} {script-tag} \l_fontspec_script_tl
+  \prop_gput:cnV {g_@@_fontinfo_ \g_@@_nfss_family_tl _prop} {lang-tag} \l_fontspec_lang_tl
  }
 %    \end{macrocode}
 % \end{macro}
@@ -761,14 +761,14 @@
  {
 %<debug>\typeout{====~Setup~NFSS~shape:~<\l_@@_size_tl>~\l_fontspec_fontname_tl}
 
-  \@@_get_features:Nn \l_@@_rawfeatures_sclist { #2 , #3 , #4 }
-%<debug>\typeout{====~Gathered~features:~\l_@@_rawfeatures_sclist}
+  \@@_get_features:n { #2 , #3 , #4 }
+%<debug>\typeout{====~Gathered~features:~\g_@@_rawfeatures_sclist}
 
   \tl_put_right:Nx #1
    {
     <\l_@@_size_tl> \l_@@_scale_tl
       \@@_construct_font_call:nn { \l_fontspec_fontname_tl }
-        { \l_@@_pre_feat_sclist \l_@@_rawfeatures_sclist }
+        { \l_@@_pre_feat_sclist \g_@@_rawfeatures_sclist }
    }
  }
 %    \end{macrocode}
@@ -778,7 +778,7 @@
 %    \begin{macrocode}
 \cs_new:Nn \@@_declare_shapes_normal:nn
   {
-    \@@_DeclareFontShape:xxxxxx {\g_@@_nfss_enc_tl} {\l_fontspec_family_tl}
+    \@@_DeclareFontShape:xxxxxx {\g_@@_nfss_enc_tl} {\g_@@_nfss_family_tl}
       {#1} {#2} {\l_@@_nfss_tl}{\l_@@_postadjust_tl}
   }
 %    \end{macrocode}
@@ -790,7 +790,7 @@
   {
     \tl_if_empty:NF \l_@@_nfss_sc_tl
      {
-      \@@_DeclareFontShape:xxxxxx {\g_@@_nfss_enc_tl} {\l_fontspec_family_tl} {#1}
+      \@@_DeclareFontShape:xxxxxx {\g_@@_nfss_enc_tl} {\g_@@_nfss_family_tl} {#1}
         { \@@_combo_sc_shape:n {#2} } {\l_@@_nfss_sc_tl} {\l_@@_postadjust_tl}
      }
   }
@@ -833,8 +833,8 @@
     !(\str_if_eq_x_p:nn {\itdefault} {\sldefault})
    }
    {
-    \@@_DeclareFontShape:xxxxxx {\g_@@_nfss_enc_tl}{\l_fontspec_family_tl}{#1}{\sldefault}
-      {<->ssub*\l_fontspec_family_tl/#1/\itdefault}{\l_@@_postadjust_tl}
+    \@@_DeclareFontShape:xxxxxx {\g_@@_nfss_enc_tl}{\g_@@_nfss_family_tl}{#1}{\sldefault}
+      {<->ssub*\g_@@_nfss_family_tl/#1/\itdefault}{\l_@@_postadjust_tl}
    }
  }
 %    \end{macrocode}
@@ -939,7 +939,7 @@
 % \end{macro}
 %
 % \begin{macro}{\@@_update_featstr:n}
-% \cmd{\l_@@_rawfeatures_sclist} is the string used to define the list of specific
+% \cmd{\g_@@_rawfeatures_sclist} is the string used to define the list of specific
 % font features. Each time another font feature is requested, this
 % macro is used to add that feature to the list. Font features are
 % separated by semicolons.
@@ -951,7 +951,7 @@
       {
         \tl_gset:Nx \g_@@_single_feat_tl { #1 }
 %<debug>            \typeout{::::~ Adding~ feature.}
-        \tl_gput_right:Nx  \l_@@_rawfeatures_sclist {#1;}
+        \tl_gput_right:Nx  \g_@@_rawfeatures_sclist {#1;}
       }
   }
 %    \end{macrocode}
@@ -965,7 +965,7 @@
     \clist_map_inline:nn {#1}
       {
 %<debug>        \typeout{::::~ Removing~ feature~ "##1;"}
-        \tl_gremove_all:Nn \l_@@_rawfeatures_sclist {##1;}
+        \tl_gremove_all:Nn \g_@@_rawfeatures_sclist {##1;}
       }
   }
 %    \end{macrocode}
@@ -1008,7 +1008,7 @@
 %    \begin{macrocode}
 \cs_new:Nn \@@_init_fontface:
   {
-    \tl_clear:N \l_@@_rawfeatures_sclist
+    \tl_gclear:N \g_@@_rawfeatures_sclist
     \tl_clear:N \l_@@_scale_tl
     \tl_set_eq:NN \l_@@_opacity_tl \c_@@_opacity_tl
     \tl_set_eq:NN \l_@@_hexcol_tl \c_@@_hexcol_tl

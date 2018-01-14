@@ -312,7 +312,7 @@
           { \l_@@_options_tl , #1 } {\l_@@_fontname_tl}
        }
     \group_end:
-    \fontfamily\l_fontspec_family_tl\selectfont
+    \fontfamily \g_@@_nfss_family_tl \selectfont
    }
    {
     \@@_warning:nx {addfontfeatures-ignored} {#1}
@@ -490,10 +490,10 @@
       \bool_set_true:N \l_@@_never_check_bool
       \bool_set_false:N \l_@@_firsttime_bool
       \clist_clear:N \l_@@_fontfeat_clist
-      \@@_get_features:Nn \l_@@_rawfeatures_sclist {#1}
+      \@@_get_features:n {#1}
     \group_end:
 
-%<debug>    \typeout{:::> \exp_not:N\l_@@_rawfeatures_sclist->~{\l_@@_rawfeatures_sclist}}
+%<debug>    \typeout{:::> \exp_not:N\g_@@_rawfeatures_sclist->~{\g_@@_rawfeatures_sclist}}
 %<debug>    \typeout{:::> \exp_not:N\g_@@_single_feat_tl->~{\g_@@_single_feat_tl}}
 
     \tl_if_empty:NTF \g_@@_single_feat_tl { \prg_return_false: }

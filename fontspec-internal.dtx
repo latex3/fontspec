@@ -431,7 +431,7 @@
   {
     \@@_save_fontinfo:n {#2}
     \@@_find_autofonts:
-    \DeclareFontFamily{\l_@@_nfss_enc_tl}{\l_fontspec_family_tl}{}
+    \DeclareFontFamily{\g_@@_nfss_enc_tl}{\l_fontspec_family_tl}{}
     \@@_set_faces:
     \@@_info:nxx {defining-font} {#1} {#2}
   }
@@ -778,7 +778,7 @@
 %    \begin{macrocode}
 \cs_new:Nn \@@_declare_shapes_normal:nn
   {
-    \@@_DeclareFontShape:xxxxxx {\l_@@_nfss_enc_tl} {\l_fontspec_family_tl}
+    \@@_DeclareFontShape:xxxxxx {\g_@@_nfss_enc_tl} {\l_fontspec_family_tl}
       {#1} {#2} {\l_@@_nfss_tl}{\l_@@_postadjust_tl}
   }
 %    \end{macrocode}
@@ -790,7 +790,7 @@
   {
     \tl_if_empty:NF \l_@@_nfss_sc_tl
      {
-      \@@_DeclareFontShape:xxxxxx {\l_@@_nfss_enc_tl} {\l_fontspec_family_tl} {#1}
+      \@@_DeclareFontShape:xxxxxx {\g_@@_nfss_enc_tl} {\l_fontspec_family_tl} {#1}
         { \@@_combo_sc_shape:n {#2} } {\l_@@_nfss_sc_tl} {\l_@@_postadjust_tl}
      }
   }
@@ -833,7 +833,7 @@
     !(\str_if_eq_x_p:nn {\itdefault} {\sldefault})
    }
    {
-    \@@_DeclareFontShape:xxxxxx {\l_@@_nfss_enc_tl}{\l_fontspec_family_tl}{#1}{\sldefault}
+    \@@_DeclareFontShape:xxxxxx {\g_@@_nfss_enc_tl}{\l_fontspec_family_tl}{#1}{\sldefault}
       {<->ssub*\l_fontspec_family_tl/#1/\itdefault}{\l_@@_postadjust_tl}
    }
  }
@@ -990,7 +990,7 @@
   \tl_clear:N \l_fontspec_renderer_tl
   \tl_clear:N \l_fontspec_defined_shapes_tl
   \tl_gclear:N \g_@@_curr_series_tl
-  \tl_set_eq:NN \l_@@_nfss_enc_tl \g_fontspec_encoding_tl
+  \tl_gset_eq:NN \g_@@_nfss_enc_tl \g_fontspec_encoding_tl
 
 %<*LU>
   \tl_set:Nn \l_fontspec_mode_tl {node}

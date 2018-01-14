@@ -20,7 +20,7 @@
 \cs_new:Nn \@@_main_fontspec:nn
  {
   \fontspec_set_family:Nnn \f@family {#1} {#2}
-  \fontencoding { \l_@@_nfss_enc_tl }
+  \fontencoding { \g_@@_nfss_enc_tl }
   \selectfont
   \ignorespaces
  }
@@ -41,13 +41,13 @@
   \tl_set_eq:NN \rmdefault \g_@@_rmfamily_family
   \use:x { \exp_not:n { \DeclareRobustCommand \rmfamily }
    {
-    \exp_not:N \fontencoding { \l_@@_nfss_enc_tl }
+    \exp_not:N \fontencoding { \g_@@_nfss_enc_tl }
     \exp_not:N \fontfamily { \g_@@_rmfamily_family }
     \exp_not:N \selectfont
    }
   }
   \str_if_eq_x:nnT {\familydefault} {\rmdefault}
-    { \tl_set_eq:NN \encodingdefault \l_@@_nfss_enc_tl }
+    { \tl_set_eq:NN \encodingdefault \g_@@_nfss_enc_tl }
   \@@_setmainfont_hook:nn {#1} {#2}
   \normalfont
   \ignorespaces
@@ -64,13 +64,13 @@
   \tl_set_eq:NN \sfdefault \g_@@_sffamily_family
   \use:x { \exp_not:n { \DeclareRobustCommand \sffamily }
    {
-    \exp_not:N \fontencoding { \l_@@_nfss_enc_tl }
+    \exp_not:N \fontencoding { \g_@@_nfss_enc_tl }
     \exp_not:N \fontfamily { \g_@@_sffamily_family }
     \exp_not:N \selectfont
    }
   }
   \str_if_eq_x:nnT {\familydefault} {\sfdefault}
-    { \tl_set_eq:NN \encodingdefault \l_@@_nfss_enc_tl }
+    { \tl_set_eq:NN \encodingdefault \g_@@_nfss_enc_tl }
   \@@_setsansfont_hook:nn {#1} {#2}
   \normalfont
   \ignorespaces
@@ -87,13 +87,13 @@
   \tl_set_eq:NN \ttdefault \g_@@_ttfamily_family
   \use:x { \exp_not:n { \DeclareRobustCommand \ttfamily }
    {
-    \exp_not:N \fontencoding { \l_@@_nfss_enc_tl }
+    \exp_not:N \fontencoding { \g_@@_nfss_enc_tl }
     \exp_not:N \fontfamily { \g_@@_ttfamily_family }
     \exp_not:N \selectfont
    }
   }
   \str_if_eq_x:nnT {\familydefault} {\ttdefault}
-    { \tl_set_eq:NN \encodingdefault \l_@@_nfss_enc_tl }
+    { \tl_set_eq:NN \encodingdefault \g_@@_nfss_enc_tl }
   \@@_setmonofont_hook:nn {#1} {#2}
   \normalfont
   \ignorespaces
@@ -200,7 +200,7 @@
     \exp_not:N \DeclareRobustCommand \exp_not:N #1
      {
       \exp_not:N \fontfamily { \use:c {g_@@_ \cs_to_str:N #1 _family} }
-      \exp_not:N \fontencoding { \l_@@_nfss_enc_tl }
+      \exp_not:N \fontencoding { \g_@@_nfss_enc_tl }
       \exp_not:N \selectfont
      }
    }

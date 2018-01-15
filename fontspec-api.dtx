@@ -276,7 +276,7 @@
  {
   \tl_set:Nn \l_@@_family_label_tl { #1 }
   \@@_select_font_family:nn {#2}{#3}
-  \tl_set_eq:NN #1 \l_fontspec_family_tl
+  \tl_gset_eq:NN #1 \l_fontspec_family_tl
  }
 \cs_generate_variant:Nn \fontspec_set_family:Nnn {c}
 %    \end{macrocode}
@@ -289,8 +289,8 @@
  {
   \tl_set:Nn \l_@@_family_label_tl { #1 }
   \@@_select_font_family:nn {#3}{#4}
-  \font #1 = \fontname \l_fontspec_font \scan_stop:
-  \tl_set_eq:NN #2 \l_fontspec_family_tl
+  \global \font #1 = \fontname \l_fontspec_font \scan_stop:
+  \tl_gset_eq:NN #2 \l_fontspec_family_tl
  }
 %    \end{macrocode}
 % \end{macro}

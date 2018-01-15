@@ -2,11 +2,15 @@
 Change history
 ==============
 
+- v2.6h ()
+
+    * `\fontspec_set_family:Nnn` and `\fontspec_set_fontface:NNnn` are now *global* operations. (Previously the behaviour was undefined.) This creates consistency with how the underlying NSFSS assigns the font families, which was being done globally regardless.
+
 - v2.6g (2017-11-09)
 
     * Bugfix for clash introduced with last version. When loading `babel`
       before `fontspec` the following error arose:
-      
+
           ! Control sequence \latinencoding already defined.
 
 

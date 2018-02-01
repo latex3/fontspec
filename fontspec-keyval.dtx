@@ -368,9 +368,6 @@
 \@@_keys_define_code:nnn {fontspec-preparse} {NFSSFamily}
  {
   \tl_set:Nx \l_@@_nfss_fam_tl { #1 }
-  \cs_undefine:c {g_@@_UID_\l_@@_fontid_tl}
-  \tl_if_exist:NT \g_@@_nfss_family_tl
-   { \cs_undefine:c {g_@@_fontinfo_ \g_@@_nfss_family_tl _prop} }
  }
 %    \end{macrocode}
 %

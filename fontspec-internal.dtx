@@ -386,41 +386,45 @@
 % selecting.
 %
 %    \begin{macrocode}
-\prg_new_conditional:Nnn \@@_save_family_needed:n {TF}
- {
+\prg_new_conditional:Nnn \@@_save_family_needed:n { TF }
+  {
 
 %<debug>  \typeout{save~ family:~ #1}
 %<debug>  \typeout{== fontid_tl: "\l_@@_fontid_tl".}
 
-  \tl_if_exist:cF {g_@@_UID_\l_@@_fontid_tl}
+  \tl_if_empty:NTF \l_@@_nfss_fam_tl
     {
-      \tl_new:c {g_@@_UID_\l_@@_fontid_tl}
+      \prop_get:NVNTF \g_@@_fontid_family_prop \l_@@_fontid_tl \l_@@_tmp_tl
+        {
+          \tl_gset_eq:NN \g_@@_nfss_family_tl \l_@@_tmp_tl
+          \prg_return_false:
+        }
+        {
+          \tl_set:Nx \l_@@_tmp_tl {#1}
+          \tl_remove_all:Nn \l_@@_tmp_tl { ~ }
+          \@@_save_fontid_family:VV \l_@@_fontid_tl \l_@@_tmp_tl
+          \prg_return_true:
+        }
     }
-
-  \tl_if_exist:NT \l_@@_nfss_fam_tl
     {
-      \tl_set_eq:cN {g_@@_UID_\l_@@_fontid_tl} \l_@@_nfss_fam_tl
+      \tl_gset_eq:NN \g_@@_nfss_family_tl \l_@@_nfss_fam_tl
+      \cs_undefine:c { g_@@_fontinfo_ \g_@@_nfss_family_tl _prop }
+      \prg_return_true:
     }
-
-  \tl_if_empty:cT {g_@@_UID_\l_@@_fontid_tl}
-   {
-    % The font name is fully expanded, in case it's defined in terms of macros, before having its spaces zapped:
-    \tl_set:Nx \l_@@_tmp_tl {#1}
-    \tl_remove_all:Nn \l_@@_tmp_tl {~}
-
-    \cs_if_exist:cTF {g_@@_family_ \l_@@_tmp_tl _int}
-     { \int_gincr:c  {g_@@_family_ \l_@@_tmp_tl _int} }
-     { \int_new:c    {g_@@_family_ \l_@@_tmp_tl _int} }
-
-    \tl_gset:cx {g_@@_UID_\l_@@_fontid_tl}
-     {
-      \l_@@_tmp_tl ( \int_use:c {g_@@_family_ \l_@@_tmp_tl _int} )
-     }
-   }
-  \tl_gset:Nv \g_@@_nfss_family_tl {g_@@_UID_\l_@@_fontid_tl}
-  \cs_if_exist:cTF {g_@@_fontinfo_ \g_@@_nfss_family_tl _prop}
-    \prg_return_false: \prg_return_true:
- }
+  }
+\cs_new:Nn \@@_save_fontid_family:nn
+  {
+    \prop_get:NnNTF \g_@@_family_int_prop {#2} \l_@@_tmp_tl
+      {
+        \tl_set:Nx \l_@@_tmp_tl
+          { \int_eval:n { \l_@@_tmp_tl + 1 } }
+      }
+      { \tl_set:Nn \l_@@_tmp_tl { 0 } }
+    \prop_gput:NnV \g_@@_family_int_prop {#2} \l_@@_tmp_tl
+    \tl_gset:Nx \g_@@_nfss_family_tl { #2 ( \l_@@_tmp_tl ) }
+    \prop_gput:NnV \g_@@_fontid_family_prop {#1} \g_@@_nfss_family_tl
+  }
+\cs_generate_variant:Nn \@@_save_fontid_family:nn { VV }
 %    \end{macrocode}
 % \end{macro}
 %

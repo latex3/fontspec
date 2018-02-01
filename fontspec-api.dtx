@@ -284,6 +284,9 @@
 %
 %
 % \begin{macro}{\fontspec_set_fontface:NNnn}
+% TODO: the round-about approach of using \cs{fontname}
+% means that settings such as fontdimens will be lost.
+% (Discovered in unicode-math.) Investigate!
 %    \begin{macrocode}
 \cs_new:Nn \fontspec_set_fontface:NNnn
  {

@@ -7,26 +7,63 @@
 
 \part{General font selection}
 
+\section{Main commands}
+\label{sec:main-cmd}
+
 This section concerns the variety of commands that can be used to select
 fonts.
 
+\bigskip
 \cmdbox{%
-  \CMD{\string\fontspec}\marg{font name}\oarg{font features}\\
-  \CMD{\string\setmainfont}\marg{font name}\oarg{font features}\\
-  \CMD{\string\setsansfont}\marg{font name}\oarg{font features}\\
-  \CMD{\string\setmonofont}\marg{font name}\oarg{font features}\\
-  \CMD{\string\newfontfamily}\meta{cmd}\marg{font name}\oarg{font features}
+  \CMD{\string\setmainfont}\marg{font}\oarg{font features}\\
+  \CMD{\string\setsansfont}{\color[gray]{0.5}\marg{font}\oarg{font features}}\\
+  \CMD{\string\setmonofont}{\color[gray]{0.5}\marg{font}\oarg{font features}}
 }
 
-These are the main font-selecting commands of this package.
-The \cs{fontspec} command selects a font for one-time use only; all
-others should be used to define the standard fonts used in a document, as shown in \exref{fontload}.
+These are the main font-selecting commands of this package which select the standard fonts used in a document, as shown in \exref{fontload}.
 Here, the scales of the fonts have been chosen to equalise their
 lowercase letter heights. The \feat{Scale} font feature will be discussed
 further in \vref{sec:font-ind-features}, including methods for automatic
 scaling.
 Note that further options may need to be added to select appropriate bold/italic fonts,
 but this shows the main idea.
+
+Note that while these commands all look and behave largely identically, the default setup for font loading automatically adds the |Ligatures=TeX| feature for the \cs{setmainfont} and \cs{setsansfont} commands.
+These defaults (and further customisations possible) are discussed in \vref{sec:defaults}.
+
+\bigskip
+\cmdbox{%
+  \CMD{\string\newfontfamily}\meta{cmd}\marg{font}\oarg{font features}\\
+  \CMD{\string\setfontfamily}{\color[gray]{0.5}\meta{cmd}\marg{font}\oarg{font features}}\\
+  \CMD{\string\renewfontfamily}{\color[gray]{0.5}\meta{cmd}\marg{font}\oarg{font features}}
+}
+
+These commands define new font family commands (like \cs{rmfamily}).
+The |new| command checks if \meta{cmd} has been defined, and issues an error if so.
+The |renew| command checks if \meta{cmd} has been defined, and issues an error if not.
+The |set| command never checks; use at your own risk.
+
+\textbf{NEW:} In previous versions of \pkg{fontspec}, only \cs{newfontfamily} was provided, but it behaved
+like \cs{setfontfamily}. You'll have to update your code slightly if this now causes problems; apologies.
+
+
+\bigskip
+\cmdbox{%
+  \CMD{\string\fontspec}\marg{font}\oarg{font features}
+}
+
+The plain \cs{fontspec} command is not generally recommended for document use. It is an
+ad hoc commands best suited for testing and loading fonts on a one-off basis.
+
+All of the commands listed above accept comma-separated
+\meta{font feature}=\meta{option} lists; these are described later:
+\begin{itemize}[nosep]
+\item For general font features, see \vref{sec:font-ind-features}
+\item For OpenType fonts, see Part~\vref{sec:opentype-features}
+\item For \XeTeX-only general font features, see Part~\vref{sec:xetex-features}
+\item For \LuaTeX-only general font features, see Part~\vref{sec:luatex-features}
+\item For features for \AAT\ fonts in \XeTeX, see \vref{sec:aat-features}
+\end{itemize}
 
 \begin{Lexample}{fontload}{Loading the default, sans serif, and monospaced fonts.}
   \setmainfont{texgyrebonum-regular.otf}
@@ -38,23 +75,9 @@ but this shows the main idea.
   \ttfamily Pack my box with five dozen liquor jugs
 \end{Lexample}
 
-Note that while these commands all look and behave largely identically, the default setup for font loading automatically adds the |Ligatures=TeX| feature for the \cs{setmainfont} and \cs{setsansfont} commands.
-These defaults (and further customisations possible) are discussed in \vref{sec:defaults}.
-
-The font features argument accepts comma separated
-\meta{font feature}=\meta{option} lists; these are described later:
-\begin{itemize}
-\item For general font features, see \vref{sec:font-ind-features}
-\item For OpenType fonts, see Part~\vref{sec:opentype-features}
-\item For \XeTeX-only general font features, see Part~\vref{sec:xetex-features}
-\item For \LuaTeX-only general font features, see Part~\vref{sec:luatex-features}
-\item For features for \AAT\ fonts in \XeTeX, see \vref{sec:aat-features}
-\end{itemize}
-
 \section{Font selection}
 
-In both \LuaTeX\ and \XeTeX, fonts can be selected either by `font name' or
-by `file name', but there are some differences in how each engine finds and selects fonts --- don't be too surprised if a font invocation in one engine needs correction to work in the other.
+In both \LuaTeX\ and \XeTeX, fonts can be selected (using the \meta{font} argument in \ref{sec:main-cmd}) either by `font name' or by `file name', but there are some differences in how each engine finds and selects fonts --- don't be too surprised if a font invocation in one engine needs correction to work in the other.
 
 
 \subsection{By font name}

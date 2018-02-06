@@ -83,7 +83,15 @@
 %    \begin{macrocode}
 \NewDocumentCommand \newfontfamily { m O{} m O{} }
   {
-    \@@_main_newfontfamily:nnn {#1} {#2,#4} {#3}
+    \@@_main_newfontfamily:nnnN {#1} {#2,#4} {#3} \NewDocumentCommand
+  }
+\NewDocumentCommand \renewfontfamily { m O{} m O{} }
+  {
+    \@@_main_newfontfamily:nnnN {#1} {#2,#4} {#3} \RenewDocumentCommand
+  }
+\NewDocumentCommand \setfontfamily { m O{} m O{} }
+  {
+    \@@_main_newfontfamily:nnnN {#1} {#2,#4} {#3} \DeclareDocumentCommand
   }
 %    \end{macrocode}
 %

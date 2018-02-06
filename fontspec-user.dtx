@@ -180,31 +180,24 @@
 \tl_gset:Nn \g_@@_mathtt_tl {\ttdefault}
 %    \end{macrocode}
 %
-% \begin{macro}{\newfontfamily}
-%   This macro takes the arguments of \cs{fontspec} with a prepended
-%   \meta{instance cmd}. This command is used
-%   when a specific font instance needs to be referred to repetitively
-%   (\eg, in a section heading) since continuously calling
-%   \cs{fontspec_select:nn} is inefficient because it must parse the
-%   option arguments every time.
-%
-%   \cs{fontspec_select:nn} defines a font family and saves its name in
-%   \cs{l_fontspec_family_tl}. This family is then used in a typical NFSS \cmd\fontfamily\
-%   declaration, saved in the macro name specified.
+% \begin{macro}{\@@_main_newfontfamily:nnnN}
+%   The inner fontspec workings define a font family, which is then used in a typical
+%   NFSS \cmd\fontfamily\ declaration, saved in the macro name specified.
+%   The fourth argument determines which xparse function to set the macro with (new/renew/etc).
 %    \begin{macrocode}
-\cs_new:Nn \@@_main_newfontfamily:nnn
- {
-  \fontspec_set_family:cnn { g_@@_ \cs_to_str:N #1 _family } {#2} {#3}
-  \use:x
-   {
-    \exp_not:N \DeclareRobustCommand \exp_not:N #1
-     {
-      \exp_not:N \fontfamily { \use:c {g_@@_ \cs_to_str:N #1 _family} }
-      \exp_not:N \fontencoding { \g_@@_nfss_enc_tl }
-      \exp_not:N \selectfont
-     }
-   }
- }
+\cs_new:Nn \@@_main_newfontfamily:nnnN
+  {
+    \fontspec_set_family:cnn { g_@@_ \cs_to_str:N #1 _family } {#2} {#3}
+    \use:x
+      {
+        \exp_not:N #4 \exp_not:N #1 {}
+          {
+            \exp_not:N \fontfamily { \use:c {g_@@_ \cs_to_str:N #1 _family} }
+            \exp_not:N \fontencoding { \g_@@_nfss_enc_tl }
+            \exp_not:N \selectfont
+          }
+      }
+  }
 %    \end{macrocode}
 % \end{macro}
 %

@@ -27,9 +27,9 @@
 % Test whether the currently selected font has been loaded by fontspec.
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \fontspec_if_fontspec_font: {TF,T,F}
- {
-  \cs_if_exist:cTF {g_@@_fontinfo_ \f@family _prop} \prg_return_true: \prg_return_false:
- }
+  {
+    \cs_if_exist:cTF {g_@@_fontinfo_ \f@family _prop} \prg_return_true: \prg_return_false:
+  }
 %    \end{macrocode}
 % \end{macro}
 %
@@ -39,23 +39,23 @@
 % feature (|#1|,|#2|).
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \fontspec_if_aat_feature:nn {TF,T,F}
- {
-  \fontspec_if_fontspec_font:TF
-   {
-    \@@_set_font_type:N \font
-    \bool_if:NTF \l_@@_atsui_bool
-     {
-      \@@_make_AAT_feature_string:NnnTF \font {#1} {#2}
-        \prg_return_true: \prg_return_false:
-     }
-     {
-      \prg_return_false:
-     }
-   }
-   {
-    \prg_return_false:
-   }
- }
+  {
+    \fontspec_if_fontspec_font:TF
+      {
+        \@@_set_font_type:N \font
+        \bool_if:NTF \l_@@_atsui_bool
+          {
+            \@@_make_AAT_feature_string:NnnTF \font {#1} {#2}
+              \prg_return_true: \prg_return_false:
+          }
+          {
+            \prg_return_false:
+          }
+      }
+      {
+        \prg_return_false:
+      }
+  }
 %    \end{macrocode}
 % \end{macro}
 %
@@ -65,16 +65,16 @@
 % Always true for LuaTeX fonts.
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \fontspec_if_opentype: {TF,T,F}
- {
-  \fontspec_if_fontspec_font:TF
-   {
-    \@@_set_font_type:N \font
-    \bool_if:NTF \l_@@_ot_bool \prg_return_true: \prg_return_false:
-   }
-   {
-    \prg_return_false:
-   }
- }
+  {
+    \fontspec_if_fontspec_font:TF
+      {
+        \@@_set_font_type:N \font
+        \bool_if:NTF \l_@@_ot_bool \prg_return_true: \prg_return_false:
+      }
+      {
+        \prg_return_false:
+      }
+  }
 %    \end{macrocode}
 % \end{macro}
 %
@@ -85,31 +85,31 @@
 % font.
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \fontspec_if_feature:n {TF,T,F}
- {
-  \fontspec_if_fontspec_font:TF
-   {
-    \@@_set_font_type:N \font
-    \bool_if:NTF \l_@@_ot_bool
-     {
-      \prop_get:cnN {g_@@_fontinfo_ \f@family _prop} {script-num} \l_@@_tmp_tl
-      \int_set:Nn \l_@@_script_int {\l_@@_tmp_tl}
+  {
+    \fontspec_if_fontspec_font:TF
+      {
+        \@@_set_font_type:N \font
+        \bool_if:NTF \l_@@_ot_bool
+          {
+            \prop_get:cnN {g_@@_fontinfo_ \f@family _prop} {script-num} \l_@@_tmp_tl
+            \int_set:Nn \l_@@_script_int {\l_@@_tmp_tl}
 
-      \prop_get:cnN {g_@@_fontinfo_ \f@family _prop} {lang-num} \l_@@_tmp_tl
-      \int_set:Nn \l_@@_language_int {\l_@@_tmp_tl}
+            \prop_get:cnN {g_@@_fontinfo_ \f@family _prop} {lang-num} \l_@@_tmp_tl
+            \int_set:Nn \l_@@_language_int {\l_@@_tmp_tl}
 
-      \prop_get:cnN {g_@@_fontinfo_ \f@family _prop} {script-tag}  \l_fontspec_script_tl
-      \prop_get:cnN {g_@@_fontinfo_ \f@family _prop} {lang-tag}    \l_fontspec_lang_tl
+            \prop_get:cnN {g_@@_fontinfo_ \f@family _prop} {script-tag}  \l_fontspec_script_tl
+            \prop_get:cnN {g_@@_fontinfo_ \f@family _prop} {lang-tag}    \l_fontspec_lang_tl
 
-      \@@_check_ot_feat:NnTF \font {#1} {\prg_return_true:} {\prg_return_false:}
-     }
-     {
-      \prg_return_false:
-     }
-   }
-   {
-    \prg_return_false:
-   }
- }
+            \@@_check_ot_feat:NnTF \font {#1} {\prg_return_true:} {\prg_return_false:}
+          }
+          {
+            \prg_return_false:
+          }
+      }
+      {
+        \prg_return_false:
+      }
+  }
 %    \end{macrocode}
 % \end{macro}
 %
@@ -268,16 +268,16 @@
 % We want to store the actual name of the font family within the \meta{family}
 % variable because the actual \LaTeX\ family name is automatically generated
 % by fontspec and it's easier to keep it that way.
-%
-% Please use |\fontspec_set_family:Nnn| instead of |\@@_select_font_family:nn|,
-% which may change in the future.
 %    \begin{macrocode}
 \cs_new:Nn \fontspec_set_family:Nnn
- {
-  \tl_set:Nn \l_@@_family_label_tl { #1 }
-  \@@_select_font_family:nn {#2}{#3}
-  \tl_gset_eq:NN #1 \l_fontspec_family_tl
- }
+  {
+    \tl_set:Nn \l_@@_family_label_tl {#1}
+    \@@_select_font_family:nn {#2} {#3}
+    \tl_set_eq:NN #1 \l_fontspec_family_tl
+  }
+%    \end{macrocode}
+%
+%    \begin{macrocode}
 \cs_generate_variant:Nn \fontspec_set_family:Nnn {c}
 %    \end{macrocode}
 % \end{macro}
@@ -288,13 +288,13 @@
 % means that settings such as fontdimens will be lost.
 % (Discovered in unicode-math.) Investigate!
 %    \begin{macrocode}
-\cs_new:Nn \fontspec_set_fontface:NNnn
- {
-  \tl_set:Nn \l_@@_family_label_tl { #1 }
-  \@@_select_font_family:nn {#3}{#4}
-  \global \font #1 = \fontname \l_fontspec_font \scan_stop:
-  \tl_gset_eq:NN #2 \l_fontspec_family_tl
- }
+ \cs_new:Nn \fontspec_set_fontface:NNnn
+  {
+    \tl_set:Nn \l_@@_family_label_tl { #1 }
+    \@@_select_font_family:nn {#3}{#4}
+    \global \font #1 = \fontname \l_fontspec_font \scan_stop:
+    \tl_set_eq:NN #2 \l_fontspec_family_tl
+  }
 %    \end{macrocode}
 % \end{macro}
 %
@@ -311,6 +311,9 @@
         { \group_end: \prg_return_true: }
         { \group_end: \prg_return_false:  }
   }
+%    \end{macrocode}
+%
+%    \begin{macrocode}
 \cs_set_eq:NN \IfFontExistsTF \fontspec_font_if_exist:nTF
 %    \end{macrocode}
 % \end{macro}

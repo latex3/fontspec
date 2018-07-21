@@ -375,28 +375,24 @@
 % This option looks similar in name but has a very different function.
 %    \begin{macrocode}
 \@@_keys_define_code:nnn {fontspec} {FontFace}
- {
-  \tl_set:No \l_@@_arg_tl { \use_iii:nnn #1 }
-  \tl_set_eq:NN \l_@@_this_feat_tl \l_@@_arg_tl
-  \tl_clear:N \l_@@_this_font_tl
-  \int_compare:nT { \clist_count:N \l_@@_arg_tl = 1 }
-   {
-%<*debug>
-    \typeout{FontFace~ parsing:~ one~ clist~ item}
-%</debug>
-    \tl_if_in:NnF \l_@@_arg_tl {=}
-     {
-%<*debug>
-      \typeout{FontFace~ parsing:~ no~ equals~ =>~ font~ name~ only}
-%</debug>
-      \tl_set_eq:NN \l_@@_this_font_tl \l_@@_arg_tl
-      \tl_clear:N \l_@@_this_feat_tl
-     }
-   }
+  {
+    \tl_set:No \l_@@_arg_tl { \use_iii:nnn #1 }
+    \tl_set_eq:NN \l_@@_this_feat_tl \l_@@_arg_tl
+    \tl_clear:N \l_@@_this_font_tl
+    \int_compare:nT { \clist_count:N \l_@@_arg_tl = 1 }
+      {
+%<debug>\typeout{FontFace~ parsing:~ one~ clist~ item}
+        \tl_if_in:NnF \l_@@_arg_tl {=}
+          {
+%<debug>\typeout{FontFace~ parsing:~ no~ equals~ =>~ font~ name~ only}
+            \tl_set_eq:NN \l_@@_this_font_tl \l_@@_arg_tl
+            \tl_clear:N \l_@@_this_feat_tl
+          }
+      }
 
-  \@@_add_nfssfont:nnnn
-   {\use_i:nnn #1}{\use_ii:nnn #1}{\l_@@_this_font_tl}{\l_@@_this_feat_tl}
- }
+    \@@_add_nfssfont:nnnn
+      {\use_i:nnn #1} {\use_ii:nnn #1} {\l_@@_this_font_tl} {\l_@@_this_feat_tl}
+  }
 %    \end{macrocode}
 %
 %

@@ -17,6 +17,7 @@
 \NewDocumentCommand \fontspec { O{} m O{} }
   {
     \@@_main_fontspec:nn {#1,#3} {#2}
+    \ignorespaces
   }
 %    \end{macrocode}
 %
@@ -24,6 +25,7 @@
 \NewDocumentCommand \setmainfont { O{} m O{} }
   {
     \@@_main_setmainfont:nn {#1,#3} {#2}
+    \ignorespaces
   }
 %    \end{macrocode}
 %
@@ -31,6 +33,7 @@
 \NewDocumentCommand \setsansfont { O{} m O{} }
   {
     \@@_main_setsansfont:nn {#1,#3} {#2}
+    \ignorespaces
   }
 %    \end{macrocode}
 %
@@ -38,6 +41,7 @@
 \NewDocumentCommand \setmonofont { O{} m O{} }
   {
     \@@_main_setmonofont:nn {#1,#3} {#2}
+    \ignorespaces
   }
 %    \end{macrocode}
 %
@@ -85,10 +89,16 @@
   {
     \@@_main_newfontfamily:nnnN {#1} {#2,#4} {#3} \NewDocumentCommand
   }
+%    \end{macrocode}
+%
+%    \begin{macrocode}
 \NewDocumentCommand \renewfontfamily { m O{} m O{} }
   {
     \@@_main_newfontfamily:nnnN {#1} {#2,#4} {#3} \RenewDocumentCommand
   }
+%    \end{macrocode}
+%
+%    \begin{macrocode}
 \NewDocumentCommand \setfontfamily { m O{} m O{} }
   {
     \@@_main_newfontfamily:nnnN {#1} {#2,#4} {#3} \DeclareDocumentCommand
@@ -102,18 +112,28 @@
   }
 %    \end{macrocode}
 %
+% \begin{macro}
+%   This macro takes one argument that consists of all of feature
+%   options that will be applied by default to all subsequent \cs{fontspec} commands.
 %    \begin{macrocode}
 \NewDocumentCommand \defaultfontfeatures { t+ o m }
   {
-    \@@_main_defaultfontfeatures:nnn {#1} {#2} {#3}
+    \IfNoValueTF {#2}
+      { \@@_set_default_features:nn {#1} {#3} }
+      { \@@_set_font_default_features:nnn {#1} {#2} {#3} }
+    \ignorespaces
   }
 %    \end{macrocode}
+% \end{macro}
 %
 %    \begin{macrocode}
 \NewDocumentCommand \addfontfeatures {m}
   {
     \@@_main_addfontfeatures:n {#1}
   }
+%    \end{macrocode}
+%
+%    \begin{macrocode}
 \NewDocumentCommand \addfontfeature  {m}
   {
     \@@_main_addfontfeatures:n {#1}
@@ -188,9 +208,9 @@
 % \end{macro}
 %
 %    \begin{macrocode}
-\NewDocumentCommand \DeclareFontsExtensions {m}
+\NewDocumentCommand \DeclareFontExtensions {m}
   {
-    \@@_main_DeclareFontsExtensions:n {#1}
+    \@@_main_DeclareFontExtensions:n {#1}
   }
 %    \end{macrocode}
 %

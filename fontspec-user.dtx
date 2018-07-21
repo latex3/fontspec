@@ -11,19 +11,19 @@
 %
 %
 % \subsection{Font selection}
-% \begin{macro}{\fontspec}
+%
+% \begin{macro}{\@@_main_fontspec:nn}
 %   This is the main command of the package that
 %   selects fonts with various features. It takes two arguments: the
 %   font name and the optional requested features of that
-%   font. Then this new font family is selected.
+%   font.
 %    \begin{macrocode}
 \cs_new:Nn \@@_main_fontspec:nn
- {
-  \fontspec_set_family:Nnn \f@family {#1} {#2}
-  \fontencoding { \g_@@_nfss_enc_tl }
-  \selectfont
-  \ignorespaces
- }
+  {
+    \fontspec_set_family:Nnn \f@family {#1} {#2}
+    \fontencoding { \g_@@_nfss_enc_tl }
+    \selectfont
+  }
 %    \end{macrocode}
 % \end{macro}
 %
@@ -36,22 +36,23 @@
 %     used in the document, the change registers immediately.
 %    \begin{macrocode}
 \cs_new:Nn \@@_main_setmainfont:nn
- {
-  \fontspec_set_family:Nnn \g_@@_rmfamily_family {#1} {#2}
-  \tl_set_eq:NN \rmdefault \g_@@_rmfamily_family
-  \use:x { \exp_not:n { \DeclareRobustCommand \rmfamily }
-   {
-    \exp_not:N \fontencoding { \g_@@_nfss_enc_tl }
-    \exp_not:N \fontfamily { \g_@@_rmfamily_family }
-    \exp_not:N \selectfont
-   }
+  {
+    \fontspec_set_family:Nnn \g_@@_rmfamily_family {#1} {#2}
+    \tl_set_eq:NN \rmdefault \g_@@_rmfamily_family
+    \use:x
+      {
+        \exp_not:n { \DeclareRobustCommand \rmfamily }
+          {
+            \exp_not:N \fontencoding { \g_@@_nfss_enc_tl }
+            \exp_not:N \fontfamily { \g_@@_rmfamily_family }
+            \exp_not:N \selectfont
+          }
+      }
+    \str_if_eq_x:nnT {\familydefault} {\rmdefault}
+      { \tl_set_eq:NN \encodingdefault \g_@@_nfss_enc_tl }
+    \@@_setmainfont_hook:nn {#1} {#2}
+    \normalfont
   }
-  \str_if_eq_x:nnT {\familydefault} {\rmdefault}
-    { \tl_set_eq:NN \encodingdefault \g_@@_nfss_enc_tl }
-  \@@_setmainfont_hook:nn {#1} {#2}
-  \normalfont
-  \ignorespaces
- }
 %    \end{macrocode}
 % \end{macro}
 %
@@ -59,22 +60,23 @@
 % Same as above.
 %    \begin{macrocode}
 \cs_new:Nn \@@_main_setsansfont:nn
- {
-  \fontspec_set_family:Nnn \g_@@_sffamily_family {#1} {#2}
-  \tl_set_eq:NN \sfdefault \g_@@_sffamily_family
-  \use:x { \exp_not:n { \DeclareRobustCommand \sffamily }
-   {
-    \exp_not:N \fontencoding { \g_@@_nfss_enc_tl }
-    \exp_not:N \fontfamily { \g_@@_sffamily_family }
-    \exp_not:N \selectfont
-   }
+  {
+    \fontspec_set_family:Nnn \g_@@_sffamily_family {#1} {#2}
+    \tl_set_eq:NN \sfdefault \g_@@_sffamily_family
+    \use:x
+      {
+        \exp_not:n { \DeclareRobustCommand \sffamily }
+          {
+            \exp_not:N \fontencoding { \g_@@_nfss_enc_tl }
+            \exp_not:N \fontfamily { \g_@@_sffamily_family }
+            \exp_not:N \selectfont
+          }
+      }
+    \str_if_eq_x:nnT {\familydefault} {\sfdefault}
+      { \tl_set_eq:NN \encodingdefault \g_@@_nfss_enc_tl }
+    \@@_setsansfont_hook:nn {#1} {#2}
+    \normalfont
   }
-  \str_if_eq_x:nnT {\familydefault} {\sfdefault}
-    { \tl_set_eq:NN \encodingdefault \g_@@_nfss_enc_tl }
-  \@@_setsansfont_hook:nn {#1} {#2}
-  \normalfont
-  \ignorespaces
- }
 %    \end{macrocode}
 % \end{macro}
 %
@@ -82,22 +84,23 @@
 % Same as above.
 %    \begin{macrocode}
 \cs_new:Nn \@@_main_setmonofont:nn
- {
-  \fontspec_set_family:Nnn \g_@@_ttfamily_family {#1} {#2}
-  \tl_set_eq:NN \ttdefault \g_@@_ttfamily_family
-  \use:x { \exp_not:n { \DeclareRobustCommand \ttfamily }
-   {
-    \exp_not:N \fontencoding { \g_@@_nfss_enc_tl }
-    \exp_not:N \fontfamily { \g_@@_ttfamily_family }
-    \exp_not:N \selectfont
-   }
+  {
+    \fontspec_set_family:Nnn \g_@@_ttfamily_family {#1} {#2}
+    \tl_set_eq:NN \ttdefault \g_@@_ttfamily_family
+    \use:x
+      {
+        \exp_not:n { \DeclareRobustCommand \ttfamily }
+          {
+            \exp_not:N \fontencoding { \g_@@_nfss_enc_tl }
+            \exp_not:N \fontfamily { \g_@@_ttfamily_family }
+            \exp_not:N \selectfont
+          }
+      }
+    \str_if_eq_x:nnT {\familydefault} {\ttdefault}
+      { \tl_set_eq:NN \encodingdefault \g_@@_nfss_enc_tl }
+    \@@_setmonofont_hook:nn {#1} {#2}
+    \normalfont
   }
-  \str_if_eq_x:nnT {\familydefault} {\ttdefault}
-    { \tl_set_eq:NN \encodingdefault \g_@@_nfss_enc_tl }
-  \@@_setmonofont_hook:nn {#1} {#2}
-  \normalfont
-  \ignorespaces
- }
 %    \end{macrocode}
 % \end{macro}
 %
@@ -113,8 +116,8 @@
 %    \begin{macrocode}
 \cs_new:Nn \@@_main_setmathrm:nn
   {
-%<XE>    \fontspec_set_family:Nnn \g_@@_mathrm_tl {#1} {#2}
-%<LU>    \fontspec_set_family:Nnn \g_@@_mathrm_tl {Renderer=Basic,#1} {#2}
+%<XE> \fontspec_set_family:Nnn \g_@@_mathrm_tl {#1} {#2}
+%<LU> \fontspec_set_family:Nnn \g_@@_mathrm_tl {Renderer=Basic,#1} {#2}
     \@@_setmathrm_hook:nn {#1} {#2}
   }
 %    \end{macrocode}
@@ -124,8 +127,8 @@
 %    \begin{macrocode}
 \cs_new:Nn \@@_main_setboldmathrm:nn
   {
-%<XE>    \fontspec_set_family:Nnn \g_@@_bfmathrm_tl {#1} {#2}
-%<LU>    \fontspec_set_family:Nnn \g_@@_bfmathrm_tl {Renderer=Basic,#1} {#2}
+%<XE> \fontspec_set_family:Nnn \g_@@_bfmathrm_tl {#1} {#2}
+%<LU> \fontspec_set_family:Nnn \g_@@_bfmathrm_tl {Renderer=Basic,#1} {#2}
     \@@_setboldmathrm_hook:nn {#1} {#2}
   }
 %    \end{macrocode}
@@ -135,8 +138,8 @@
 %    \begin{macrocode}
 \cs_new:Nn \@@_main_setmathsf:nn
   {
-%<XE>    \fontspec_set_family:Nnn \g_@@_mathsf_tl {#1} {#2}
-%<LU>    \fontspec_set_family:Nnn \g_@@_mathsf_tl {Renderer=Basic,#1} {#2}
+%<XE> \fontspec_set_family:Nnn \g_@@_mathsf_tl {#1} {#2}
+%<LU> \fontspec_set_family:Nnn \g_@@_mathsf_tl {Renderer=Basic,#1} {#2}
     \@@_setmathsf_hook:nn {#1} {#2}
   }
 %    \end{macrocode}
@@ -146,8 +149,8 @@
 %    \begin{macrocode}
 \cs_new:Nn \@@_main_setmathtt:nn
   {
-%<XE>    \fontspec_set_family:Nnn \g_@@_mathtt_tl {#1} {#2}
-%<LU>    \fontspec_set_family:Nnn \g_@@_mathtt_tl {Renderer=Basic,#1} {#2}
+%<XE> \fontspec_set_family:Nnn \g_@@_mathtt_tl {#1} {#2}
+%<LU> \fontspec_set_family:Nnn \g_@@_mathtt_tl {Renderer=Basic,#1} {#2}
     \@@_setmathtt_hook:nn {#1} {#2}
   }
 %    \end{macrocode}
@@ -201,35 +204,19 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\newfontface}
+% \begin{macro}{\@@_main_newfontface:nnn}
 % \cmd\newfontface\ uses the fact that if the argument to \feat{BoldFont}, etc., is empty (\ie, |BoldFont={}|), then no bold font is searched for.
 %    \begin{macrocode}
 \cs_new:Nn \@@_main_newfontface:nnn
- {
-  \newfontfamily #1 [ BoldFont={},ItalicFont={},SmallCapsFont={},#2 ] {#3}
- }
+  {
+    \newfontfamily #1 [ BoldFont={},ItalicFont={},SmallCapsFont={},#2 ] {#3}
+  }
 %    \end{macrocode}
 % \end{macro}
 %
 % \subsection{Font feature selection}
 %
-% \begin{macro}{\defaultfontfeatures}
-%   This macro takes one argument that consists of all of feature
-%   options that will be applied by default to all subsequent
-%   \cs{fontspec}, et al., commands. It stores its value in
-%   \cs{g_fontspec_default_fontopts_tl} (initialised empty), which is
-%   concatenated with the individual macro choices in the
-%   [...] macro.
-%    \begin{macrocode}
-\cs_new:Nn \@@_main_defaultfontfeatures:nnn
-  {
-    \IfNoValueTF {#2}
-     { \@@_set_default_features:nn {#1} {#3} }
-     { \@@_set_font_default_features:nnn {#1} {#2} {#3} }
-    \ignorespaces
-  }
-%    \end{macrocode}
-%
+% \begin{macro}{\@@_set_default_features:nn}
 %    \begin{macrocode}
 \cs_new:Nn \@@_set_default_features:nn
   {
@@ -237,32 +224,35 @@
       \g_@@_default_fontopts_clist {#2}
   }
 %    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@@_set_font_default_features:nnn}
 % The optional argument |#2| specifies font identifier(s).
 % Branch for either (a)~single token input such as \verb|\rmdefault|, or (b)~otherwise assume its a fontname.
 % In that case, strip spaces and file extensions and lower-case to ensure consistency.
 %    \begin{macrocode}
 \cs_new:Nn \@@_set_font_default_features:nnn
- {
-  \clist_map_inline:nn {#2}
-   {
-    \tl_if_single:nTF {##1}
-     { \tl_set:No \l_@@_tmp_tl { \cs:w g_@@_ \cs_to_str:N ##1 _family\cs_end: } }
-     { \@@_sanitise_fontname:Nn \l_@@_tmp_tl {##1} }
+  {
+    \clist_map_inline:nn {#2}
+      {
+        \tl_if_single:nTF {##1}
+          { \tl_set:No \l_@@_tmp_tl { \cs:w g_@@_ \cs_to_str:N ##1 _family\cs_end: } }
+          { \@@_sanitise_fontname:Nn \l_@@_tmp_tl {##1} }
 
-    \IfBooleanTF {#1}
-     {
-      \prop_get:NVNF \g_@@_fontopts_prop \l_@@_tmp_tl \l_@@_tmpb_tl
-       { \tl_clear:N \l_@@_tmpb_tl }
-      \tl_put_right:Nn \l_@@_tmpb_tl {#3,}
-      \prop_gput:NVV   \g_@@_fontopts_prop \l_@@_tmp_tl \l_@@_tmpb_tl
-     }
-     {
-      \tl_if_empty:nTF {#3}
-       { \prop_gremove:NV \g_@@_fontopts_prop \l_@@_tmp_tl }
-       { \prop_gput:NVn   \g_@@_fontopts_prop \l_@@_tmp_tl {#3,} }
-     }
-   }
- }
+        \IfBooleanTF {#1}
+          {
+            \prop_get:NVNF \g_@@_fontopts_prop \l_@@_tmp_tl \l_@@_tmpb_tl
+              { \tl_clear:N \l_@@_tmpb_tl }
+            \tl_put_right:Nn \l_@@_tmpb_tl {#3,}
+            \prop_gput:NVV   \g_@@_fontopts_prop \l_@@_tmp_tl \l_@@_tmpb_tl
+          }
+          {
+            \tl_if_empty:nTF {#3}
+              { \prop_gremove:NV \g_@@_fontopts_prop \l_@@_tmp_tl }
+              { \prop_gput:NVn    \g_@@_fontopts_prop \l_@@_tmp_tl {#3,} }
+          }
+      }
+  }
 %    \end{macrocode}
 % \end{macro}
 %
@@ -289,29 +279,29 @@
 %   often typed this instead when adding only a single font feature.
 %    \begin{macrocode}
 \cs_new:Nn \@@_main_addfontfeatures:n
- {
-%<debug>  \typeout{^^J::::::::::::::::::::::::::::::::::^^J: addfontfeatures}
-  \fontspec_if_fontspec_font:TF
-   {
-    \group_begin:
-      \keys_set_known:nnN {fontspec-addfeatures} {#1} \l_@@_tmp_tl
-      \prop_get:cnN {g_@@_fontinfo_ \f@family _prop} {options}  \l_@@_options_tl
-      \prop_get:cnN {g_@@_fontinfo_ \f@family _prop} {fontname} \l_@@_fontname_tl
-      \bool_set_true:N \l_@@_disable_defaults_bool
-%<debug>          \typeout{ \@@_select_font_family:nn { \l_@@_options_tl , #1 } {\l_@@_fontname_tl} }
-      \use:x
-       {
-        \@@_select_font_family:nn
-          { \l_@@_options_tl , #1 } {\l_@@_fontname_tl}
-       }
-    \group_end:
-    \fontfamily \g_@@_nfss_family_tl \selectfont
-   }
-   {
-    \@@_warning:nx {addfontfeatures-ignored} {#1}
-   }
-  \ignorespaces
- }
+  {
+%<debug> \typeout{^^J::::::::::::::::::::::::::::::::::^^J: addfontfeatures}
+    \fontspec_if_fontspec_font:TF
+      {
+        \group_begin:
+          \keys_set_known:nnN {fontspec-addfeatures} {#1} \l_@@_tmp_tl
+          \prop_get:cnN {g_@@_fontinfo_ \f@family _prop} {options}  \l_@@_options_tl
+          \prop_get:cnN {g_@@_fontinfo_ \f@family _prop} {fontname} \l_@@_fontname_tl
+          \bool_set_true:N \l_@@_disable_defaults_bool
+%<debug> \typeout{ \@@_select_font_family:nn { \l_@@_options_tl , #1 } {\l_@@_fontname_tl} }
+          \use:x
+            {
+              \@@_select_font_family:nn
+                { \l_@@_options_tl , #1 } {\l_@@_fontname_tl}
+            }
+        \group_end:
+        \fontfamily \g_@@_nfss_family_tl \selectfont
+      }
+      {
+        \@@_warning:nx {addfontfeatures-ignored} {#1}
+      }
+    \ignorespaces
+  }
 %    \end{macrocode}
 % \end{macro}
 %
@@ -323,15 +313,12 @@
 %   select the font feature.
 %    \begin{macrocode}
 \cs_new:Nn \@@_main_newfontfeature:nn
- {
-  \keys_define:nn { fontspec }
-   {
-    #1 .code:n =
-     {
-      \@@_update_featstr:n {#2}
-     }
-   }
- }
+  {
+    \keys_define:nn { fontspec }
+      {
+        #1 .code:n = { \@@_update_featstr:n {#2} }
+      }
+  }
 %    \end{macrocode}
 % \end{macro}
 %
@@ -342,15 +329,15 @@
 % font it's being used for.
 %    \begin{macrocode}
 \cs_new:Nn \@@_main_newAATfeature:nnnn
- {
-  \keys_if_exist:nnF { fontspec } {#1}
-    { \@@_define_aat_feature_group:n {#1} }
+  {
+    \keys_if_exist:nnF { fontspec } {#1}
+      { \@@_define_aat_feature_group:n {#1} }
 
-  \keys_if_choice_exist:nnnT {fontspec} {#1} {#2}
-    { \@@_warning:nxx {feature-option-overwrite} {#1} {#2} }
+    \keys_if_choice_exist:nnnT {fontspec} {#1} {#2}
+      { \@@_warning:nxx {feature-option-overwrite} {#1} {#2} }
 
-  \@@_define_aat_feature:nnnn {#1}{#2}{#3}{#4}
- }
+    \@@_define_aat_feature:nnnn {#1}{#2}{#3}{#4}
+  }
 %    \end{macrocode}
 % \end{macro}
 %
@@ -360,16 +347,16 @@
 % font it's being used for.
 %    \begin{macrocode}
 \cs_new:Nn \@@_main_newopentypefeature:nnn
- {
-  \keys_if_exist:nnF { fontspec / options } {#1}
-    { \@@_define_opentype_feature_group:n {#1} }
+  {
+    \keys_if_exist:nnF { fontspec / options } {#1}
+      { \@@_define_opentype_feature_group:n {#1} }
 
-  \keys_if_choice_exist:nnnT {fontspec} {#1} {#2}
-    { \@@_warning:nxx {feature-option-overwrite} {#1} {#2} }
+    \keys_if_choice_exist:nnnT {fontspec} {#1} {#2}
+      { \@@_warning:nxx {feature-option-overwrite} {#1} {#2} }
 
-  \exp_args:Nnnx \@@_define_opentype_feature:nnnnn
-    {#1} {#2} { \@@_strip_plus_minus:n {#3} } {#3} {}
- }
+    \exp_args:Nnnx \@@_define_opentype_feature:nnnnn
+      {#1} {#2} { \@@_strip_plus_minus:n {#3} } {#3} {}
+  }
 %    \end{macrocode}
 %
 %    \begin{macrocode}
@@ -387,77 +374,75 @@
 % User commands for renaming font features and font feature options.
 %    \begin{macrocode}
 \cs_new:Nn \@@_main_aliasfontfeature:nn
- {
+  {
 %<debug> \typeout{::::::::::::::::::::^^J:: aliasfontfeature{#1}{#2}}
-  \bool_set_false:N \l_@@_alias_bool
+    \bool_set_false:N \l_@@_alias_bool
 
-  \clist_map_inline:Nn \g_@@_all_keyval_modules_clist
-   {
-     \keys_if_exist:nnT {##1} {#1}
+    \clist_map_inline:Nn \g_@@_all_keyval_modules_clist
       {
+        \keys_if_exist:nnT {##1} {#1}
+          {
 %<debug> \typeout{:::: Key~exists~##1~/~#1}
-        \bool_set_true:N \l_@@_alias_bool
-        \keys_define:nn {##1}
-          { #2 .code:n = { \keys_set:nn {##1} { #1 = {####1} } } }
+            \bool_set_true:N \l_@@_alias_bool
+            \keys_define:nn {##1}
+              { #2 .code:n = { \keys_set:nn {##1} { #1 = {####1} } } }
+          }
       }
-   }
 
-  \bool_if:NF \l_@@_alias_bool
-    { \@@_warning:nx {rename-feature-not-exist} {#1} }
- }
+    \bool_if:NF \l_@@_alias_bool
+      { \@@_warning:nx {rename-feature-not-exist} {#1} }
+  }
 %    \end{macrocode}
 % \end{macro}
 %
 % \begin{macro}{\aliasfontfeatureoption}
 %    \begin{macrocode}
 \cs_new:Nn \@@_main_aliasfontfeatureoption:nnn
- {
-  \bool_set_false:N \l_@@_alias_bool
+  {
+    \bool_set_false:N \l_@@_alias_bool
 
-  \clist_map_inline:Nn \g_@@_all_keyval_modules_clist
-   {
-     \keys_if_exist:nnT { ##1 / #1 } {#2}
+    \clist_map_inline:Nn \g_@@_all_keyval_modules_clist
       {
+        \keys_if_exist:nnT { ##1 / #1 } {#2}
+          {
 %<debug> \typeout{:::: Keyval~exists~##1~/~#1~=~#2}
-        \bool_set_true:N \l_@@_alias_bool
-        \keys_define:nn { ##1 / #1 }
-          { #3 .code:n = { \keys_set:nn {##1} { #1 = {#2} } } }
-      }
+            \bool_set_true:N \l_@@_alias_bool
+            \keys_define:nn { ##1 / #1 }
+              { #3 .code:n = { \keys_set:nn {##1} { #1 = {#2} } } }
+          }
 
-     \keys_if_exist:nnT { ##1 / #1 } {#2Reset}
-      {
+       \keys_if_exist:nnT { ##1 / #1 } {#2Reset}
+         {
 %<debug> \typeout{:::: Keyval~exists~##1~/~#1~=~#2Reset}
-        \keys_define:nn { ##1 / #1 }
-          { #3Reset .code:n = { \keys_set:nn {##1} { #1 = {#2Reset} } } }
-      }
+            \keys_define:nn { ##1 / #1 }
+              { #3Reset .code:n = { \keys_set:nn {##1} { #1 = {#2Reset} } } }
+         }
 
-     \keys_if_exist:nnT { ##1 / #1 } {#2Off}
-      {
+       \keys_if_exist:nnT { ##1 / #1 } {#2Off}
+         {
 %<debug> \typeout{:::: Keyval~exists~##1~/~#1~=~#2Off}
-        \keys_define:nn { ##1 / #1 }
-          { #3Off .code:n = { \keys_set:nn {##1} { #1 = {#2Off} } } }
-      }
-   }
+            \keys_define:nn { ##1 / #1 }
+              { #3Off .code:n = { \keys_set:nn {##1} { #1 = {#2Off} } } }
+         }
+     }
 
-  \bool_if:NF \l_@@_alias_bool
-    { \@@_warning:nx {rename-feature-not-exist} {#1/#2} }
- }
+    \bool_if:NF \l_@@_alias_bool
+      { \@@_warning:nx {rename-feature-not-exist} {#1/#2} }
+  }
 %    \end{macrocode}
 % \end{macro}
 %
 %
-% \begin{macro}{\DeclareFontsExtensions}
-% \texttt{dfont} would never be uppercase, right?
+% \begin{macro}{\@@_main_DeclareFontExtensions:n}
 %    \begin{macrocode}
-\cs_new:Nn \@@_main_DeclareFontsExtensions:n
- {
-  \clist_set:Nn \l_@@_extensions_clist { #1 }
-  \tl_remove_all:Nn \l_@@_extensions_clist {~}
- }
+\cs_new:Nn \@@_main_DeclareFontExtensions:n
+  {
+    \clist_set:Nn \l_@@_extensions_clist { #1 }
+  }
 %    \end{macrocode}
-%
+% Defaults:
 %    \begin{macrocode}
-\DeclareFontsExtensions{.otf,.ttf,.OTF,.TTF,.ttc,.TTC,.dfont}
+\@@_main_DeclareFontExtensions:n {.otf,.ttf,.OTF,.TTF,.ttc,.TTC,.dfont}
 %    \end{macrocode}
 % \end{macro}
 %
@@ -466,8 +451,8 @@
 %    \begin{macrocode}
 \cs_new:Nn \@@_main_IfFontFeatureActiveTF:nnn
   {
-%<debug>    \typeout{^^J:::::::::::::::::::::::::::::::::::::::::::::::}
-%<debug>    \typeout{:IfFontFeatureActiveTF \exp_not:n{{#1}{#2}{#3}}}
+%<debug> \typeout{^^J:::::::::::::::::::::::::::::::::::::::::::::::}
+%<debug> \typeout{:IfFontFeatureActiveTF \exp_not:n{{#1}{#2}{#3}}}
     \@@_if_font_feature:nTF {#1} {#2} {#3}
   }
 %    \end{macrocode}
@@ -486,8 +471,8 @@
       \@@_get_features:n {#1}
     \group_end:
 
-%<debug>    \typeout{:::> \exp_not:N\g_@@_rawfeatures_sclist->~{\g_@@_rawfeatures_sclist}}
-%<debug>    \typeout{:::> \exp_not:N\g_@@_single_feat_tl->~{\g_@@_single_feat_tl}}
+%<debug> \typeout{:::> \exp_not:N\g_@@_rawfeatures_sclist->~{\g_@@_rawfeatures_sclist}}
+%<debug> \typeout{:::> \exp_not:N\g_@@_single_feat_tl->~{\g_@@_single_feat_tl}}
 
     \tl_if_empty:NTF \g_@@_single_feat_tl { \prg_return_false: }
       {

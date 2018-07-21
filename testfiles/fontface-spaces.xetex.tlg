@@ -1,0 +1,12 @@
+This is a generated file for the l3build validation system.
+Don't change this file in any respect.
+TU/texgyretermes-regular.otf(0)/m/n:
+  "[texgyretermes-regular.otf]/OT:script=latn;language=DFLT;mapping=tex-text;" at 10.0pt
+TU/texgyretermes-regular.otf(0)/m/it:
+  "[texgyreheros-italic.otf]/OT:script=latn;language=DFLT;mapping=tex-text;" at 10.0pt
+TU/texgyretermes-regular.otf(0)/blub/it:
+  "[texgyrecursor-italic.otf]/OT:script=latn;language=DFLT;mapping=tex-text;" at 10.0pt
+TU/texgyretermes-regular.otf(0)/c/n:
+  "[texgyrebonum-italic.otf]/OT:script=latn;language=DFLT;mapping=tex-text;color=FF0000FF ;" at 10.0pt
+***************
+Compilation 1 of test file completed with exit status 0

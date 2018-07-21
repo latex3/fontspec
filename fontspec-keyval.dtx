@@ -376,22 +376,22 @@
 %    \begin{macrocode}
 \@@_keys_define_code:nnn {fontspec} {FontFace}
   {
-    \tl_set:No \l_@@_arg_tl { \use_iii:nnn #1 }
-    \tl_set_eq:NN \l_@@_this_feat_tl \l_@@_arg_tl
     \tl_clear:N \l_@@_this_font_tl
-    \int_compare:nT { \clist_count:N \l_@@_arg_tl = 1 }
+    \clist_set:No \l_@@_arg_clist { \use_iii:nnn #1 }
+    \clist_set_eq:NN \l_@@_this_feat_clist \l_@@_arg_clist
+    \int_compare:nT { \clist_count:N \l_@@_arg_clist = 1 }
       {
 %<debug>\typeout{FontFace~ parsing:~ one~ clist~ item}
-        \tl_if_in:NnF \l_@@_arg_tl {=}
+        \tl_if_in:NnF \l_@@_arg_clist {=}
           {
 %<debug>\typeout{FontFace~ parsing:~ no~ equals~ =>~ font~ name~ only}
-            \tl_set_eq:NN \l_@@_this_font_tl \l_@@_arg_tl
-            \tl_clear:N \l_@@_this_feat_tl
+            \tl_set_eq:NN \l_@@_this_font_tl \l_@@_arg_clist
+            \tl_clear:N \l_@@_this_feat_clist
           }
       }
 
     \@@_add_nfssfont:nnnn
-      {\use_i:nnn #1} {\use_ii:nnn #1} {\l_@@_this_font_tl} {\l_@@_this_feat_tl}
+      {\use_i:nnn #1} {\use_ii:nnn #1} {\l_@@_this_font_tl} {\l_@@_this_feat_clist}
   }
 %    \end{macrocode}
 %

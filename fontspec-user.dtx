@@ -175,9 +175,9 @@
 % If the commands above are not executed, then \cmd\rmdefault\ (\etc)
 % will be used.
 %    \begin{macrocode}
-\tl_set:Nn \g_@@_mathrm_tl {\rmdefault}
-\tl_set:Nn \g_@@_mathsf_tl {\sfdefault}
-\tl_set:Nn \g_@@_mathtt_tl {\ttdefault}
+\tl_gset:Nn \g_@@_mathrm_tl {\rmdefault}
+\tl_gset:Nn \g_@@_mathsf_tl {\sfdefault}
+\tl_gset:Nn \g_@@_mathtt_tl {\ttdefault}
 %    \end{macrocode}
 %
 % \begin{macro}{\newfontfamily}
@@ -240,7 +240,7 @@
 %    \begin{macrocode}
 \cs_new:Nn \@@_set_default_features:nn
   {
-    \IfBooleanTF {#1} \clist_put_right:Nn \clist_set:Nn
+    \IfBooleanTF {#1} \clist_gput_right:Nn \clist_gset:Nn
       \g_@@_default_fontopts_clist {#2}
   }
 %    \end{macrocode}
@@ -266,7 +266,7 @@
      {
       \tl_if_empty:nTF {#3}
        { \prop_gremove:NV \g_@@_fontopts_prop \l_@@_tmp_tl }
-       { \prop_put:NVn    \g_@@_fontopts_prop \l_@@_tmp_tl {#3,} }
+       { \prop_gput:NVn   \g_@@_fontopts_prop \l_@@_tmp_tl {#3,} }
      }
    }
  }

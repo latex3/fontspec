@@ -12,23 +12,34 @@
 %
 %    \begin{macrocode}
 \DeclareOption{cm-default}
- { \@@_warning:n {cm-default-obsolete} }
-\DeclareOption{math}{\bool_set_true:N \g_@@_math_bool}
-\DeclareOption{no-math}{\bool_set_false:N \g_@@_math_bool}
-\DeclareOption{config}{\bool_set_true:N \g_@@_cfg_bool}
-\DeclareOption{no-config}{\bool_set_false:N \g_@@_cfg_bool}
-\DeclareOption{euenc}{\bool_set_true:N  \g_@@_euenc_bool}
-\DeclareOption{tuenc}{\bool_set_false:N \g_@@_euenc_bool}
-\DeclareOption{quiet}
- {
-  \msg_redirect_module:nnn { fontspec } { warning } { info }
-  \msg_redirect_module:nnn { fontspec } { info } { none }
- }
+  {
+    \@@_warning:n {cm-default-obsolete}
+  }
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+\DeclareOption {math}     { \bool_gset_true:N  \g_@@_math_bool  }
+\DeclareOption {no-math}  { \bool_gset_false:N \g_@@_math_bool  }
+\DeclareOption {config}   { \bool_gset_true:N  \g_@@_cfg_bool   }
+\DeclareOption {no-config}{ \bool_gset_false:N \g_@@_cfg_bool   }
+\DeclareOption {euenc}    { \bool_gset_true:N  \g_@@_euenc_bool }
+\DeclareOption {tuenc}    { \bool_gset_false:N \g_@@_euenc_bool }
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+\DeclareOption {quiet}
+  {
+    \msg_redirect_module:nnn { fontspec } { warning } { info }
+    \msg_redirect_module:nnn { fontspec } { info } { none }
+  }
 \DeclareOption{silent}
- {
-  \msg_redirect_module:nnn { fontspec } { warning } { none }
-  \msg_redirect_module:nnn { fontspec } { info } { none }
- }
+  {
+    \msg_redirect_module:nnn { fontspec } { warning } { none }
+    \msg_redirect_module:nnn { fontspec } { info } { none }
+  }
+%    \end{macrocode}
+%
+%    \begin{macrocode}
 \ExecuteOptions{config,math,tuenc}
 \ProcessOptions*
 %    \end{macrocode}
@@ -53,15 +64,15 @@
       }
       {
         \@@_warning:n {tu-missing}
-        \bool_set_true:N \g_@@_euenc_bool
+        \bool_gset_true:N \g_@@_euenc_bool
       }
   }
 \bool_if:NTF \g_@@_euenc_bool
   {
-%<XE>    \tl_set:Nn \g_fontspec_encoding_tl {EU1}
-%<LU>    \tl_set:Nn \g_fontspec_encoding_tl {EU2}
+%<XE>    \tl_gset:Nn \g_fontspec_encoding_tl {EU1}
+%<LU>    \tl_gset:Nn \g_fontspec_encoding_tl {EU2}
   }
-  { \tl_set:Nn \g_fontspec_encoding_tl { TU } }
+  { \tl_gset:Nn \g_fontspec_encoding_tl { TU } }
 %    \end{macrocode}
 %
 %    \begin{macrocode}

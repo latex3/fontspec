@@ -106,15 +106,15 @@
 %    \begin{macrocode}
 \cs_new_protected:Npn \emfontdeclare #1
   {
-    \prop_clear:N    \g_@@_em_prop
-    \int_zero:N      \l_@@_emdef_int
-    \bool_set_true:N \g_@@_em_normalise_slant_bool
+    \prop_gclear:N    \g_@@_em_prop
+    \int_zero:N       \l_@@_emdef_int
+    \bool_gset_true:N \g_@@_em_normalise_slant_bool
 
     \tl_if_in:nnT {#1} {\slshape}
       {
         \tl_if_in:nnT {#1} {\itshape}
           {
-            \bool_set_false:N \g_@@_em_normalise_slant_bool
+            \bool_gset_false:N \g_@@_em_normalise_slant_bool
           }
       }
 
@@ -187,7 +187,7 @@
 %    \begin{macrocode}
 \cs_new_protected:Npn \strongfontdeclare #1
   {
-    \prop_clear:N    \g_@@_strong_prop
+    \prop_gclear:N   \g_@@_strong_prop
     \int_zero:N      \l_@@_strongdef_int
 
     \group_begin:

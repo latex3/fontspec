@@ -56,6 +56,8 @@
 %
 %    \begin{macrocode}
 \bool_new:N \l_@@_tmpa_bool
+\bool_new:N \l_@@_proceed_bool
+\bool_new:N \l_@@_check_feat_bool
 \bool_new:N \l_@@_disable_defaults_bool
 \bool_new:N \l_@@_alias_bool
 \bool_new:N \l_@@_external_bool
@@ -208,13 +210,13 @@
 \tl_new:N  \l_@@_mapping_tl
 \tl_new:N  \g_@@_hexcol_tl
 \tl_new:N  \g_@@_opacity_tl
-\tl_set:Nn \g_@@_hexcol_tl {000000}
-\tl_set:Nn \g_@@_opacity_tl {FF~}
+\tl_gset:Nn \g_@@_hexcol_tl {000000}
+\tl_gset:Nn \g_@@_opacity_tl {FF~}
 \tl_new:N  \l_@@_punctspace_adjust_tl
 \tl_new:N  \l_@@_wordspace_adjust_tl
 \tl_new:N  \l_@@_postadjust_tl
 \tl_new:N  \g_@@_postadjust_tl
-\tl_set:Nn \g_@@_postadjust_tl { \l_@@_wordspace_adjust_tl \l_@@_punctspace_adjust_tl }
+\tl_gset:Nn \g_@@_postadjust_tl { \l_@@_wordspace_adjust_tl \l_@@_punctspace_adjust_tl }
 %    \end{macrocode}
 %
 % \paragraph{Semi-colon-lists}

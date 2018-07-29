@@ -24,24 +24,23 @@
 %
 %    \begin{macrocode}
 \@ifpackageloaded{euler}
- {
-  \bool_set_true:N \g_@@_pkg_euler_loaded_bool
- }
- {
-  \bool_set_false:N \g_@@_pkg_euler_loaded_bool
- }
+  { \bool_gset_true:N  \g_@@_pkg_euler_loaded_bool }
+  { \bool_gset_false:N \g_@@_pkg_euler_loaded_bool }
+%    \end{macrocode}
+%
+%    \begin{macrocode}
 \cs_new:Nn \fontspec_setup_maths:
  {
   \@ifpackageloaded{euler}
    {
     \bool_if:NTF \g_@@_pkg_euler_loaded_bool
-     { \bool_set_true:N \g_@@_math_euler_bool }
+     { \bool_gset_true:N \g_@@_math_euler_bool }
      { \@@_error:n {euler-too-late} }
    }
    {}
-  \@ifpackageloaded{lucbmath}{\bool_set_true:N \g_@@_math_lucida_bool}{}
-  \@ifpackageloaded{lucidabr}{\bool_set_true:N \g_@@_math_lucida_bool}{}
-  \@ifpackageloaded{lucimatx}{\bool_set_true:N \g_@@_math_lucida_bool}{}
+  \@ifpackageloaded{lucbmath}{\bool_gset_true:N \g_@@_math_lucida_bool}{}
+  \@ifpackageloaded{lucidabr}{\bool_gset_true:N \g_@@_math_lucida_bool}{}
+  \@ifpackageloaded{lucimatx}{\bool_gset_true:N \g_@@_math_lucida_bool}{}
 %    \end{macrocode}
 % Knuth's CM fonts fonts are all squashed together, combining letters,
 % accents, text symbols and maths symbols all in the one font,

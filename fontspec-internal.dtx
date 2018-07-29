@@ -845,7 +845,7 @@
 %    \begin{macrocode}
 \cs_new:Nn \@@_declare_shape_loginfo:nn
  {
-  \tl_gput_right:Nx \l_fontspec_defined_shapes_tl
+  \tl_put_right:Nx \l_fontspec_defined_shapes_tl
    {
     \exp_not:n { \\ }
     -~ \exp_not:N \str_case:nn {#1/#2}
@@ -989,8 +989,8 @@
   \tl_clear:N \l_@@_ttc_index_tl
   \tl_clear:N \l_fontspec_renderer_tl
   \tl_clear:N \l_fontspec_defined_shapes_tl
-  \tl_clear:N \g_@@_curr_series_tl
-  \tl_gset_eq:NN \l_@@_nfss_enc_tl \g_fontspec_encoding_tl
+  \tl_gclear:N \g_@@_curr_series_tl
+  \tl_set_eq:NN \l_@@_nfss_enc_tl \g_fontspec_encoding_tl
 
 %<*LU>
   \tl_set:Nn \l_fontspec_mode_tl {node}

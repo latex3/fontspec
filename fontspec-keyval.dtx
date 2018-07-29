@@ -13,7 +13,7 @@
 %
 %
 %    \begin{macrocode}
-\clist_set:Nn \g_@@_all_keyval_modules_clist
+\clist_gset:Nn \g_@@_all_keyval_modules_clist
   {
     fontspec, fontspec-opentype, fontspec-aat,
     fontspec-preparse, fontspec-preparse-cfg, fontspec-preparse-external, fontspec-preparse-nested,
@@ -24,7 +24,7 @@
 %    \begin{macrocode}
 \cs_new:Nn \@@_keys_define_code:nnn
   {
-   \keys_define:nn {#1} { #2 .code:n = {#3} }
+    \keys_define:nn {#1} { #2 .code:n = {#3} }
   }
 %    \end{macrocode}
 %
@@ -210,7 +210,7 @@
     \seq_if_empty:NT \g_@@_bf_series_seq
      {
       \tl_gset:Nx \g_@@_curr_series_tl {\bfdefault}
-      \seq_put_right:Nx \g_@@_bf_series_seq {\bfdefault}
+      \seq_gput_right:Nx \g_@@_bf_series_seq {\bfdefault}
      }
     \tl_if_eq:oxT \g_@@_curr_series_tl {\bfdefault}
      { \tl_set_eq:NN \l_@@_fontname_bf_tl \l_@@_curr_bfname_tl }
@@ -357,7 +357,7 @@
 %    \begin{macrocode}
 \@@_keys_define_code:nnn {fontspec-preparse} {NFSSEncoding}
  {
-  \tl_gset:Nx \l_@@_nfss_enc_tl { #1 }
+  \tl_set:Nx \l_@@_nfss_enc_tl { #1 }
  }
 %    \end{macrocode}
 %

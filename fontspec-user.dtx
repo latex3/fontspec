@@ -37,14 +37,14 @@
 %    \begin{macrocode}
 \cs_new:Nn \@@_main_setmainfont:nn
   {
-    \fontspec_set_family:Nnn \g_@@_rmfamily_family {#1} {#2}
-    \tl_set_eq:NN \rmdefault \g_@@_rmfamily_family
+    \fontspec_set_family:Nnn \l_@@_rmfamily_family_tl {#1} {#2}
+    \tl_set_eq:NN \rmdefault \l_@@_rmfamily_family_tl
     \use:x
       {
         \exp_not:n { \DeclareRobustCommand \rmfamily }
           {
             \exp_not:N \fontencoding { \g_@@_nfss_enc_tl }
-            \exp_not:N \fontfamily { \g_@@_rmfamily_family }
+            \exp_not:N \fontfamily { \l_@@_rmfamily_family_tl }
             \exp_not:N \selectfont
           }
       }
@@ -61,14 +61,14 @@
 %    \begin{macrocode}
 \cs_new:Nn \@@_main_setsansfont:nn
   {
-    \fontspec_set_family:Nnn \g_@@_sffamily_family {#1} {#2}
-    \tl_set_eq:NN \sfdefault \g_@@_sffamily_family
+    \fontspec_set_family:Nnn \l_@@_sffamily_family_tl {#1} {#2}
+    \tl_set_eq:NN \sfdefault \l_@@_sffamily_family_tl
     \use:x
       {
         \exp_not:n { \DeclareRobustCommand \sffamily }
           {
             \exp_not:N \fontencoding { \g_@@_nfss_enc_tl }
-            \exp_not:N \fontfamily { \g_@@_sffamily_family }
+            \exp_not:N \fontfamily { \l_@@_sffamily_family_tl }
             \exp_not:N \selectfont
           }
       }
@@ -85,14 +85,14 @@
 %    \begin{macrocode}
 \cs_new:Nn \@@_main_setmonofont:nn
   {
-    \fontspec_set_family:Nnn \g_@@_ttfamily_family {#1} {#2}
-    \tl_set_eq:NN \ttdefault \g_@@_ttfamily_family
+    \fontspec_set_family:Nnn \l_@@_ttfamily_family_tl {#1} {#2}
+    \tl_set_eq:NN \ttdefault \l_@@_ttfamily_family_tl
     \use:x
       {
         \exp_not:n { \DeclareRobustCommand \ttfamily }
           {
             \exp_not:N \fontencoding { \g_@@_nfss_enc_tl }
-            \exp_not:N \fontfamily { \g_@@_ttfamily_family }
+            \exp_not:N \fontfamily { \l_@@_ttfamily_family_tl }
             \exp_not:N \selectfont
           }
       }

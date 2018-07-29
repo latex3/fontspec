@@ -56,8 +56,6 @@
 %
 %    \begin{macrocode}
 \bool_new:N \l_@@_tmpa_bool
-\bool_new:N \l_@@_proceed_bool
-\bool_new:N \l_@@_check_feat_bool
 \bool_new:N \l_@@_disable_defaults_bool
 \bool_new:N \l_@@_alias_bool
 \bool_new:N \l_@@_external_bool
@@ -164,6 +162,7 @@
 \tl_new:N \g_@@_single_feat_tl
 \tl_new:N \l_@@_basename_tl
 \tl_new:N \l_@@_curr_fontname_tl
+\tl_new:N \l_@@_curr_bfname_tl
 \tl_new:N \l_@@_ext_filename_tl
 \tl_new:N \l_@@_extension_tl
 \tl_new:N \l_@@_font_path_tl
@@ -172,6 +171,7 @@
 \tl_new:N \l_@@_hexcol_tl
 \tl_new:N \l_@@_nfss_sc_tl
 \tl_new:N \l_@@_nfss_tl
+\tl_new:N \l_@@_nfss_fam_tl
 \tl_new:N \l_@@_opacity_tl
 \tl_new:N \l_@@_optical_size_tl
 \tl_new:N \l_@@_options_tl
@@ -182,7 +182,6 @@
 \tl_new:N \l_@@_this_font_tl
 \tl_new:N \l_@@_tmp_tl
 \tl_new:N \l_@@_ttc_index_tl
-\tl_new:N \l_@@_nfss_fam_tl
 %    \end{macrocode}
 %
 %    \begin{macrocode}
@@ -245,9 +244,9 @@
 % \paragraph{Font families}
 % Again not a real data structure, and also probably poorly named.
 %    \begin{macrocode}
-\tl_new:N \g_@@_rmfamily_family
-\tl_new:N \g_@@_sffamily_family
-\tl_new:N \g_@@_ttfamily_family
+\tl_new:N \l_@@_rmfamily_family_tl
+\tl_new:N \l_@@_sffamily_family_tl
+\tl_new:N \l_@@_ttfamily_family_tl
 %    \end{macrocode}
 %
 %

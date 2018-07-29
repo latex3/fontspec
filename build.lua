@@ -7,6 +7,7 @@ installfiles = {"fontspec.sty","fontspec-xetex.sty","fontspec-luatex.sty","fonts
 typesetfiles = {"fontspec.ltx","fontspec-code.ltx"}
 demofiles    = {"fontspec-example.tex"}
 textfiles    = {"README.md","CHANGES.md","LICENSE"}
+tagfiles     = {"fontspec.dtx","CHANGES.md"}
 
 typesetopts = " -shell-escape -interaction=errorstopmode "
 unpackopts  = " -interaction=batchmode "

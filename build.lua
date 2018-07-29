@@ -50,6 +50,8 @@ function update_tag(file, content, tagname, tagdate)
     print("Found fileversion line in file: "..file)
     content = content:gsub("\\def\\fileversion{[^}]+}", "\\def\\fileversion{"..pkgversion.."}")
   end
+  content = content:gsub("version       = \"[^\"]+\",", "version       = \""..pkgversion.."\",")
+  content = content:gsub("date          = \"[^\"]+\",", "date          = \""..date.."\",")
 
   if string.match(content, "## (%S+) %([^)]+%)") then
     print("Found changes line in file: "..file)

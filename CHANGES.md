@@ -1,7 +1,7 @@
 Change history
 ==============
 
-## v2.6h (2018/07/29)
+## v2.6h (2018/07/30)
 
     * `expl3` internals updated so loading `expl3` with the `check-declarations` option will run without error.
     * Fix bug with `FontFace` in which spaces weren't being ignored.

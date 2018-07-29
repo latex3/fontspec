@@ -505,37 +505,34 @@ detail), which improves legibility. Conversely, at large optical
 sizes the serifs and other small details may be more delicately
 rendered.
 
-OpenType fonts with optical scaling will exist in
-several discrete sizes, and these will be selected by \XeTeX\
-and Lua\TeX\
-\emph{automatically} determined by the current font size as in
-\exref{optsize}, in which we've scaled down some large text in order to be
-able to compare the difference for equivalent font sizes.
+OpenType fonts with optical scaling can exist in
+several discrete sizes (in separate font files).
+When loading fonts by name, \XeTeX\ and Lua\TeX\ engines will attempt to
+\emph{automatically} load the appropriate font as determined by the current font size.
+An example of this behaviour is shown in \exref{optsize}, in which some larger text is
+mechanically scaled down to compare the difference for equivalent font sizes.
 
-The
-\feat{OpticalSize} feature may be used to specify a different optical
-size.
-With \feat{OpticalSize} set
-to zero, no optical size font substitution is performed, as shown in
-\exref{optsize0}.
+The \feat{OpticalSize} feature may be used to specify a different optical size.
+With \feat{OpticalSize} set (\exref{optsize0})
+to zero, no optical size font substitution is performed.
 
-\begin{Xexample}{optsize}{A demonstration of automatic optical size selection.}
+\begin{Lexample}{optsize}{A demonstration of automatic optical size selection.}
   \fontspec{Latin Modern Roman}
    Automatic optical size                  \\
   \scalebox{0.4}{\Huge
    Automatic optical size}
-\end{Xexample}
+\end{Lexample}
 
-\begin{Xexample}{optsize0}{Optical size substitution is suppressed when set to zero.}
-  \fontspec{Latin Modern Roman 5 Regular}[OpticalSize=0]
+\begin{Lexample}{optsize0}{Explicit optical size substitution for the Latin Modern Roman family.}
+  \fontspec{Latin Modern Roman}[OpticalSize=5]
    Latin Modern optical sizes                \\
-  \fontspec{Latin Modern Roman 8 Regular}[OpticalSize=0]
+  \fontspec{Latin Modern Roman}[OpticalSize=8]
    Latin Modern optical sizes                \\
-  \fontspec{Latin Modern Roman 12 Regular}[OpticalSize=0]
+  \fontspec{Latin Modern Roman}[OpticalSize=12]
    Latin Modern optical sizes                \\
-  \fontspec{Latin Modern Roman 17 Regular}[OpticalSize=0]
+  \fontspec{Latin Modern Roman}[OpticalSize=17]
    Latin Modern optical sizes
-\end{Xexample}
+\end{Lexample}
 
 The \feat{SizeFeatures} feature (\vref*{sec:sizefeature}) can be
 used to specify exactly which optical sizes will be used for ranges

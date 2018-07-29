@@ -191,34 +191,34 @@
  {
   \@ifpackageloaded{anttor}
    {
-    \ifx\define@antt@mathversions a\bool_set_false:N \g_@@_math_bool\fi
+    \ifx\define@antt@mathversions a\bool_gset_false:N \g_@@_math_bool\fi
    }{}
-  \@ifpackageloaded{arevmath}{\bool_set_false:N \g_@@_math_bool}{}
-  \@ifpackageloaded{eulervm}{\bool_set_false:N \g_@@_math_bool}{}
-  \@ifpackageloaded{mathdesign}{\bool_set_false:N \g_@@_math_bool}{}
-  \@ifpackageloaded{concmath}{\bool_set_false:N \g_@@_math_bool}{}
-  \@ifpackageloaded{cmbright}{\bool_set_false:N \g_@@_math_bool}{}
-  \@ifpackageloaded{mathesf}{\bool_set_false:N \g_@@_math_bool}{}
-  \@ifpackageloaded{gfsartemisia}{\bool_set_false:N \g_@@_math_bool}{}
-  \@ifpackageloaded{gfsneohellenic}{\bool_set_false:N \g_@@_math_bool}{}
+  \@ifpackageloaded{arevmath}       {\bool_gset_false:N \g_@@_math_bool}{}
+  \@ifpackageloaded{eulervm}        {\bool_gset_false:N \g_@@_math_bool}{}
+  \@ifpackageloaded{mathdesign}     {\bool_gset_false:N \g_@@_math_bool}{}
+  \@ifpackageloaded{concmath}       {\bool_gset_false:N \g_@@_math_bool}{}
+  \@ifpackageloaded{cmbright}       {\bool_gset_false:N \g_@@_math_bool}{}
+  \@ifpackageloaded{mathesf}        {\bool_gset_false:N \g_@@_math_bool}{}
+  \@ifpackageloaded{gfsartemisia}   {\bool_gset_false:N \g_@@_math_bool}{}
+  \@ifpackageloaded{gfsneohellenic} {\bool_gset_false:N \g_@@_math_bool}{}
   \@ifpackageloaded{iwona}
    {
     \ifx\define@iwona@mathversions a\bool_set_false:N \g_@@_math_bool\fi
    }{}
-  \@ifpackageloaded{kpfonts}{\bool_set_false:N \g_@@_math_bool}{}
-  \@ifpackageloaded{kmath}{\bool_set_false:N \g_@@_math_bool}{}
+  \@ifpackageloaded{kpfonts}{\bool_gset_false:N \g_@@_math_bool}{}
+  \@ifpackageloaded{kmath}  {\bool_gset_false:N \g_@@_math_bool}{}
   \@ifpackageloaded{kurier}
    {
     \ifx\define@kurier@mathversions a\bool_set_false:N \g_@@_math_bool\fi
    }{}
-  \@ifpackageloaded{fouriernc}{\bool_set_false:N \g_@@_math_bool}{}
-  \@ifpackageloaded{fourier}{\bool_set_false:N \g_@@_math_bool}{}
-  \@ifpackageloaded{lmodern}{\bool_set_false:N \g_@@_math_bool}{}
-  \@ifpackageloaded{mathpazo}{\bool_set_false:N \g_@@_math_bool}{}
-  \@ifpackageloaded{mathptmx}{\bool_set_false:N \g_@@_math_bool}{}
-  \@ifpackageloaded{MinionPro}{\bool_set_false:N \g_@@_math_bool}{}
-  \@ifpackageloaded{unicode-math}{\bool_set_false:N \g_@@_math_bool}{}
-  \@ifpackageloaded{breqn}{\bool_set_false:N \g_@@_math_bool}{}
+  \@ifpackageloaded{fouriernc}    {\bool_gset_false:N \g_@@_math_bool}{}
+  \@ifpackageloaded{fourier}      {\bool_gset_false:N \g_@@_math_bool}{}
+  \@ifpackageloaded{lmodern}      {\bool_gset_false:N \g_@@_math_bool}{}
+  \@ifpackageloaded{mathpazo}     {\bool_gset_false:N \g_@@_math_bool}{}
+  \@ifpackageloaded{mathptmx}     {\bool_gset_false:N \g_@@_math_bool}{}
+  \@ifpackageloaded{MinionPro}    {\bool_gset_false:N \g_@@_math_bool}{}
+  \@ifpackageloaded{unicode-math} {\bool_gset_false:N \g_@@_math_bool}{}
+  \@ifpackageloaded{breqn}        {\bool_gset_false:N \g_@@_math_bool}{}
   \bool_if:NT \g_@@_math_bool
    {
     \@@_info:n {setup-math}

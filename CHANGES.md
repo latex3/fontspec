@@ -4,7 +4,6 @@ Change history
 
 - v2.6h ()
 
-    * `\fontspec_set_family:Nnn` and `\fontspec_set_fontface:NNnn` are now *global* operations. (Previously the behaviour was undefined.) This creates consistency with how the underlying NSFSS assigns the font families, which was being done globally regardless.
     * `expl3` internals updated so loading `expl3` with the `check-declarations` option will run without error.
     * Fix bug with `FontFace` in which spaces weren't being ignored.
 

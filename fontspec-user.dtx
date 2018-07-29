@@ -190,12 +190,12 @@
 %    \begin{macrocode}
 \cs_new:Nn \@@_main_newfontfamily:nnnN
   {
-    \fontspec_set_family:cnn { g_@@_ \cs_to_str:N #1 _family } {#2} {#3}
+    \fontspec_set_family:cnn { g_@@_ \cs_to_str:N #1 _family_tl } {#2} {#3}
     \use:x
       {
         \exp_not:N #4 \exp_not:N #1 {}
           {
-            \exp_not:N \fontfamily { \use:c {g_@@_ \cs_to_str:N #1 _family} }
+            \exp_not:N \fontfamily { \use:c {g_@@_ \cs_to_str:N #1 _family_tl} }
             \exp_not:N \fontencoding { \g_@@_nfss_enc_tl }
             \exp_not:N \selectfont
           }
@@ -233,10 +233,11 @@
 %    \begin{macrocode}
 \cs_new:Nn \@@_set_font_default_features:nnn
   {
+%<debug> \typeout{\unexpanded{_set_font_default_features:nnn:{#1}{#2}{#3}}}
     \clist_map_inline:nn {#2}
       {
         \tl_if_single:nTF {##1}
-          { \tl_set:No \l_@@_tmp_tl { \cs:w g_@@_ \cs_to_str:N ##1 _family\cs_end: } }
+          { \tl_set:No \l_@@_tmp_tl { \cs:w g_@@_ \cs_to_str:N ##1 _family_tl\cs_end: } }
           { \@@_sanitise_fontname:Nn \l_@@_tmp_tl {##1} }
 
         \IfBooleanTF {#1}

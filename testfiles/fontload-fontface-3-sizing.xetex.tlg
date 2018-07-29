@@ -4,28 +4,28 @@ NORMAL
 TU/SourceCodePro-Regular.otf(0)/m/n:
   "[SourceCodePro-Medium.otf]/OT:script=latn;language=DFLT;mapping=tex-text;color=00AA00FF ;" at 5.0pt
 TU/SourceCodePro-Regular.otf(0)/m/n:
-  "[SourceCodePro-Regular.otf]/OT:script=latn;language=DFLT;mapping=tex-text;color=00AA00FF ;"
+  "[SourceCodePro-Regular.otf]/OT:script=latn;language=DFLT;mapping=tex-text;color=00AA00FF ;" at 10.0pt
 TU/SourceCodePro-Regular.otf(0)/m/n:
   "[SourceCodePro-Light.otf]/OT:script=latn;language=DFLT;mapping=tex-text;color=00AA00FF ;" at 24.88pt
 ITALIC
 TU/SourceCodePro-Regular.otf(0)/m/it:
   "[SourceCodePro-RegularIt.otf]/OT:script=latn;language=DFLT;mapping=tex-text;color=00AA00FF ;" at 5.0pt
 TU/SourceCodePro-Regular.otf(0)/m/it:
-  "[SourceCodePro-RegularIt.otf]/OT:script=latn;language=DFLT;mapping=tex-text;color=00AA00FF ;"
+  "[SourceCodePro-RegularIt.otf]/OT:script=latn;language=DFLT;mapping=tex-text;color=00AA00FF ;" at 10.0pt
 TU/SourceCodePro-Regular.otf(0)/m/it:
   "[SourceCodePro-RegularIt.otf]/OT:script=latn;language=DFLT;mapping=tex-text;color=00AA00FF ;" at 24.88pt
 FONTSERIES C
 TU/SourceCodePro-Regular.otf(0)/c/n:
   "[SourceCodePro-MediumIt.otf]/OT:script=latn;language=DFLT;mapping=tex-text;color=FF0000FF ;" at 5.0pt
 TU/SourceCodePro-Regular.otf(0)/c/n:
-  "[texgyrecursor-regular.otf]/OT:script=latn;language=DFLT;mapping=tex-text;color=FF00FFFF ;"
+  "[texgyrecursor-regular.otf]/OT:script=latn;language=DFLT;mapping=tex-text;color=FF00FFFF ;" at 10.0pt
 TU/SourceCodePro-Regular.otf(0)/c/n:
   "[SourceCodePro-LightIt.otf]/OT:script=latn;language=DFLT;mapping=tex-text;color=0000FFFF ;" at 24.88pt
 FONTSERIES NC
 TU/SourceCodePro-Regular.otf(0)/nc/n:
   "[texgyreheros-regular.otf]/OT:script=latn;language=DFLT;mapping=tex-text;color=00AA00FF ;" at 5.0pt
 TU/SourceCodePro-Regular.otf(0)/nc/n:
-  "[texgyreheros-regular.otf]/OT:script=latn;language=DFLT;mapping=tex-text;color=00AA00FF ;"
+  "[texgyreheros-regular.otf]/OT:script=latn;language=DFLT;mapping=tex-text;color=00AA00FF ;" at 10.0pt
 TU/SourceCodePro-Regular.otf(0)/nc/n:
   "[texgyreheros-regular.otf]/OT:script=latn;language=DFLT;mapping=tex-text;color=00AA00FF ;" at 24.88pt
 ***************

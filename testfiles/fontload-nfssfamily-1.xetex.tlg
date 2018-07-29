@@ -2,15 +2,15 @@ This is a generated file for the l3build validation system.
 Don't change this file in any respect.
 Default font:
 TU/lmr/m/n:
-  "[lmroman10-regular]:mapping=tex-text;"
+  "[lmroman10-regular]:mapping=tex-text;" at 10.0pt
 Code with particular NFSS family font:
 TU/ABC/m/n:
-  "[texgyreheros-regular.otf]/OT:script=latn;language=DFLT;color=FF0000FF ;"
+  "[texgyreheros-regular.otf]/OT:script=latn;language=DFLT;color=FF0000FF ;" at 10.0pt
 Back to normal font:
 TU/lmr/m/n:
-  "[lmroman10-regular]:mapping=tex-text;"
+  "[lmroman10-regular]:mapping=tex-text;" at 10.0pt
 Loading NFSS family explicit:
 TU/ABC/m/n:
-  "[texgyreheros-regular.otf]/OT:script=latn;language=DFLT;color=FF0000FF ;"
+  "[texgyreheros-regular.otf]/OT:script=latn;language=DFLT;color=FF0000FF ;" at 10.0pt
 ***************
 Compilation 1 of test file completed with exit status 0

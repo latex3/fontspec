@@ -4,92 +4,92 @@ Don't change this file in any respect.
 Declare three emph levels:
 ============================================================
 TU/texgyrepagella(0)/m/n:
-  "[texgyrepagella-regular.otf]/OT:script=latn;language=DFLT;mapping=tex-text;"
+  "[texgyrepagella-regular.otf]/OT:script=latn;language=DFLT;mapping=tex-text;" at 10.0pt
 TU/texgyrepagella(0)/m/it:
-  "[texgyrepagella-italic.otf]/OT:script=latn;language=DFLT;mapping=tex-text;"
+  "[texgyrepagella-italic.otf]/OT:script=latn;language=DFLT;mapping=tex-text;" at 10.0pt
 TU/texgyrepagella(0)/m/sc:
-  "[texgyrepagella-regular.otf]/OT:script=latn;language=DFLT;+smcp;mapping=tex-text;"
+  "[texgyrepagella-regular.otf]/OT:script=latn;language=DFLT;+smcp;mapping=tex-text;" at 10.0pt
 TU/texgyrepagella(0)/m/itsc:
-  "[texgyrepagella-italic.otf]/OT:script=latn;language=DFLT;+smcp;mapping=tex-text;"
+  "[texgyrepagella-italic.otf]/OT:script=latn;language=DFLT;+smcp;mapping=tex-text;" at 10.0pt
 TU/texgyrepagella(0)/m/sc:
-  "[texgyrepagella-regular.otf]/OT:script=latn;language=DFLT;+smcp;mapping=tex-text;"
+  "[texgyrepagella-regular.otf]/OT:script=latn;language=DFLT;+smcp;mapping=tex-text;" at 10.0pt
 TU/texgyrepagella(0)/m/itsc:
-  "[texgyrepagella-italic.otf]/OT:script=latn;language=DFLT;+smcp;mapping=tex-text;"
+  "[texgyrepagella-italic.otf]/OT:script=latn;language=DFLT;+smcp;mapping=tex-text;" at 10.0pt
 ============================================================
 Check manually entering a level of emph: (should be same as above)
 ============================================================
 TU/texgyrepagella(0)/m/n:
-  "[texgyrepagella-regular.otf]/OT:script=latn;language=DFLT;mapping=tex-text;"
+  "[texgyrepagella-regular.otf]/OT:script=latn;language=DFLT;mapping=tex-text;" at 10.0pt
 TU/texgyrepagella(0)/m/it:
-  "[texgyrepagella-italic.otf]/OT:script=latn;language=DFLT;mapping=tex-text;"
+  "[texgyrepagella-italic.otf]/OT:script=latn;language=DFLT;mapping=tex-text;" at 10.0pt
 TU/texgyrepagella(0)/m/sc:
-  "[texgyrepagella-regular.otf]/OT:script=latn;language=DFLT;+smcp;mapping=tex-text;"
+  "[texgyrepagella-regular.otf]/OT:script=latn;language=DFLT;+smcp;mapping=tex-text;" at 10.0pt
 TU/texgyrepagella(0)/m/itsc:
-  "[texgyrepagella-italic.otf]/OT:script=latn;language=DFLT;+smcp;mapping=tex-text;"
+  "[texgyrepagella-italic.otf]/OT:script=latn;language=DFLT;+smcp;mapping=tex-text;" at 10.0pt
 TU/texgyrepagella(0)/m/sc:
-  "[texgyrepagella-regular.otf]/OT:script=latn;language=DFLT;+smcp;mapping=tex-text;"
+  "[texgyrepagella-regular.otf]/OT:script=latn;language=DFLT;+smcp;mapping=tex-text;" at 10.0pt
 TU/texgyrepagella(0)/m/itsc:
-  "[texgyrepagella-italic.otf]/OT:script=latn;language=DFLT;+smcp;mapping=tex-text;"
+  "[texgyrepagella-italic.otf]/OT:script=latn;language=DFLT;+smcp;mapping=tex-text;" at 10.0pt
 ============================================================
 Check just one emphasis (itshape):
 ============================================================
 TU/texgyrepagella(0)/m/n:
-  "[texgyrepagella-regular.otf]/OT:script=latn;language=DFLT;mapping=tex-text;"
+  "[texgyrepagella-regular.otf]/OT:script=latn;language=DFLT;mapping=tex-text;" at 10.0pt
 TU/texgyrepagella(0)/m/it:
-  "[texgyrepagella-italic.otf]/OT:script=latn;language=DFLT;mapping=tex-text;"
+  "[texgyrepagella-italic.otf]/OT:script=latn;language=DFLT;mapping=tex-text;" at 10.0pt
 TU/texgyrepagella(0)/m/n:
-  "[texgyrepagella-regular.otf]/OT:script=latn;language=DFLT;mapping=tex-text;"
+  "[texgyrepagella-regular.otf]/OT:script=latn;language=DFLT;mapping=tex-text;" at 10.0pt
 TU/texgyrepagella(0)/m/it:
-  "[texgyrepagella-italic.otf]/OT:script=latn;language=DFLT;mapping=tex-text;"
+  "[texgyrepagella-italic.otf]/OT:script=latn;language=DFLT;mapping=tex-text;" at 10.0pt
 TU/texgyrepagella(0)/m/n:
-  "[texgyrepagella-regular.otf]/OT:script=latn;language=DFLT;mapping=tex-text;"
+  "[texgyrepagella-regular.otf]/OT:script=latn;language=DFLT;mapping=tex-text;" at 10.0pt
 TU/texgyrepagella(0)/m/it:
-  "[texgyrepagella-italic.otf]/OT:script=latn;language=DFLT;mapping=tex-text;"
+  "[texgyrepagella-italic.otf]/OT:script=latn;language=DFLT;mapping=tex-text;" at 10.0pt
 ============================================================
 As above with bold; three emph:
 ============================================================
 TU/texgyrepagella(0)/bx/n:
-  "[texgyrepagella-bold.otf]/OT:script=latn;language=DFLT;mapping=tex-text;"
+  "[texgyrepagella-bold.otf]/OT:script=latn;language=DFLT;mapping=tex-text;" at 10.0pt
 TU/texgyrepagella(0)/bx/it:
-  "[texgyrepagella-bolditalic.otf]/OT:script=latn;language=DFLT;mapping=tex-text;"
+  "[texgyrepagella-bolditalic.otf]/OT:script=latn;language=DFLT;mapping=tex-text;" at 10.0pt
 TU/texgyrepagella(0)/bx/sc:
-  "[texgyrepagella-bold.otf]/OT:script=latn;language=DFLT;+smcp;mapping=tex-text;"
+  "[texgyrepagella-bold.otf]/OT:script=latn;language=DFLT;+smcp;mapping=tex-text;" at 10.0pt
 TU/texgyrepagella(0)/bx/itsc:
-  "[texgyrepagella-bolditalic.otf]/OT:script=latn;language=DFLT;+smcp;mapping=tex-text;"
+  "[texgyrepagella-bolditalic.otf]/OT:script=latn;language=DFLT;+smcp;mapping=tex-text;" at 10.0pt
 TU/texgyrepagella(0)/bx/sc:
-  "[texgyrepagella-bold.otf]/OT:script=latn;language=DFLT;+smcp;mapping=tex-text;"
+  "[texgyrepagella-bold.otf]/OT:script=latn;language=DFLT;+smcp;mapping=tex-text;" at 10.0pt
 TU/texgyrepagella(0)/bx/itsc:
-  "[texgyrepagella-bolditalic.otf]/OT:script=latn;language=DFLT;+smcp;mapping=tex-text;"
+  "[texgyrepagella-bolditalic.otf]/OT:script=latn;language=DFLT;+smcp;mapping=tex-text;" at 10.0pt
 ============================================================
 As above with bold; manual emph:
 ============================================================
 TU/texgyrepagella(0)/bx/n:
-  "[texgyrepagella-bold.otf]/OT:script=latn;language=DFLT;mapping=tex-text;"
+  "[texgyrepagella-bold.otf]/OT:script=latn;language=DFLT;mapping=tex-text;" at 10.0pt
 TU/texgyrepagella(0)/bx/it:
-  "[texgyrepagella-bolditalic.otf]/OT:script=latn;language=DFLT;mapping=tex-text;"
+  "[texgyrepagella-bolditalic.otf]/OT:script=latn;language=DFLT;mapping=tex-text;" at 10.0pt
 TU/texgyrepagella(0)/bx/sc:
-  "[texgyrepagella-bold.otf]/OT:script=latn;language=DFLT;+smcp;mapping=tex-text;"
+  "[texgyrepagella-bold.otf]/OT:script=latn;language=DFLT;+smcp;mapping=tex-text;" at 10.0pt
 TU/texgyrepagella(0)/bx/itsc:
-  "[texgyrepagella-bolditalic.otf]/OT:script=latn;language=DFLT;+smcp;mapping=tex-text;"
+  "[texgyrepagella-bolditalic.otf]/OT:script=latn;language=DFLT;+smcp;mapping=tex-text;" at 10.0pt
 TU/texgyrepagella(0)/bx/sc:
-  "[texgyrepagella-bold.otf]/OT:script=latn;language=DFLT;+smcp;mapping=tex-text;"
+  "[texgyrepagella-bold.otf]/OT:script=latn;language=DFLT;+smcp;mapping=tex-text;" at 10.0pt
 TU/texgyrepagella(0)/bx/itsc:
-  "[texgyrepagella-bolditalic.otf]/OT:script=latn;language=DFLT;+smcp;mapping=tex-text;"
+  "[texgyrepagella-bolditalic.otf]/OT:script=latn;language=DFLT;+smcp;mapping=tex-text;" at 10.0pt
 ============================================================
 As above with bold; one emph:
 ============================================================
 TU/texgyrepagella(0)/bx/n:
-  "[texgyrepagella-bold.otf]/OT:script=latn;language=DFLT;mapping=tex-text;"
+  "[texgyrepagella-bold.otf]/OT:script=latn;language=DFLT;mapping=tex-text;" at 10.0pt
 TU/texgyrepagella(0)/bx/it:
-  "[texgyrepagella-bolditalic.otf]/OT:script=latn;language=DFLT;mapping=tex-text;"
+  "[texgyrepagella-bolditalic.otf]/OT:script=latn;language=DFLT;mapping=tex-text;" at 10.0pt
 TU/texgyrepagella(0)/bx/n:
-  "[texgyrepagella-bold.otf]/OT:script=latn;language=DFLT;mapping=tex-text;"
+  "[texgyrepagella-bold.otf]/OT:script=latn;language=DFLT;mapping=tex-text;" at 10.0pt
 TU/texgyrepagella(0)/bx/it:
-  "[texgyrepagella-bolditalic.otf]/OT:script=latn;language=DFLT;mapping=tex-text;"
+  "[texgyrepagella-bolditalic.otf]/OT:script=latn;language=DFLT;mapping=tex-text;" at 10.0pt
 TU/texgyrepagella(0)/bx/n:
-  "[texgyrepagella-bold.otf]/OT:script=latn;language=DFLT;mapping=tex-text;"
+  "[texgyrepagella-bold.otf]/OT:script=latn;language=DFLT;mapping=tex-text;" at 10.0pt
 TU/texgyrepagella(0)/bx/it:
-  "[texgyrepagella-bolditalic.otf]/OT:script=latn;language=DFLT;mapping=tex-text;"
+  "[texgyrepagella-bolditalic.otf]/OT:script=latn;language=DFLT;mapping=tex-text;" at 10.0pt
 ============================================================
 ***************
 Compilation 1 of test file completed with exit status 0

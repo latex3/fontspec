@@ -2,14 +2,14 @@ This is a generated file for the l3build validation system.
 Don't change this file in any respect.
 This test also checks that "aliased" options are working correctly.
 TU/texgyrepagella-regular.otf(0)/m/n:
-  "[texgyrepagella-regular.otf]/OT:script=latn;language=DFLT;"
+  "[texgyrepagella-regular.otf]/OT:script=latn;language=DFLT;" at 10.0pt
 TU/texgyrepagella-regular.otf(1)/m/n:
-  "[texgyrepagella-regular.otf]/OT:script=latn;language=DFLT;+onum;+tnum;"
+  "[texgyrepagella-regular.otf]/OT:script=latn;language=DFLT;+onum;+tnum;" at 10.0pt
 TU/texgyrepagella-regular.otf(2)/m/n:
-  "[texgyrepagella-regular.otf]/OT:script=latn;language=DFLT;+onum;+tnum;"
+  "[texgyrepagella-regular.otf]/OT:script=latn;language=DFLT;+onum;+tnum;" at 10.0pt
 TU/texgyrepagella-regular.otf(3)/m/n:
-  "[texgyrepagella-regular.otf]/OT:script=latn;language=DFLT;+onum;+tnum;"
+  "[texgyrepagella-regular.otf]/OT:script=latn;language=DFLT;+onum;+tnum;" at 10.0pt
 TU/texgyrepagella-regular.otf(4)/m/n:
-  "[texgyrepagella-regular.otf]/OT:script=latn;language=DFLT;+onum;+tnum;"
+  "[texgyrepagella-regular.otf]/OT:script=latn;language=DFLT;+onum;+tnum;" at 10.0pt
 ***************
 Compilation 1 of test file completed with exit status 0

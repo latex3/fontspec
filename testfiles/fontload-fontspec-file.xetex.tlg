@@ -2,18 +2,18 @@ This is a generated file for the l3build validation system.
 Don't change this file in any respect.
 Bare bones colour red loaded from file:
 TU/texgyreschola-regular.otf(0)/m/n:
-  "[texgyreschola-regular.otf]/OT:script=latn;language=DFLT;mapping=tex-text;color=FF0000FF ;"
+  "[texgyreschola-regular.otf]/OT:script=latn;language=DFLT;mapping=tex-text;color=FF0000FF ;" at 10.0pt
 New font name, colour blue, loaded from file:
 TU/TeXGyreTermes(0)/m/n:
-  "[texgyretermes-regular.otf]/OT:script=latn;language=DFLT;mapping=tex-text;color=0000FFFF ;"
+  "[texgyretermes-regular.otf]/OT:script=latn;language=DFLT;mapping=tex-text;color=0000FFFF ;" at 10.0pt
 A more comprehensive family (note nested defn for BI shape):
 TU/MyHeros(0)/m/n:
-  "[texgyreheros-regular.otf]/OT:script=latn;language=DFLT;mapping=tex-text;color=119944FF ;"
+  "[texgyreheros-regular.otf]/OT:script=latn;language=DFLT;mapping=tex-text;color=119944FF ;" at 10.0pt
 TU/MyHeros(0)/bx/n:
-  "[texgyreheros-bold.otf]/OT:script=latn;language=DFLT;mapping=tex-text;color=119944FF ;"
+  "[texgyreheros-bold.otf]/OT:script=latn;language=DFLT;mapping=tex-text;color=119944FF ;" at 10.0pt
 TU/MyHeros(0)/m/it:
-  "[texgyreheros-italic.otf]/OT:script=latn;language=DFLT;mapping=tex-text;color=119944FF ;"
+  "[texgyreheros-italic.otf]/OT:script=latn;language=DFLT;mapping=tex-text;color=119944FF ;" at 10.0pt
 TU/MyHeros(0)/bx/it:
-  "[texgyreheros-bolditalic.otf]/OT:script=latn;language=DFLT;mapping=tex-text;color=223355FF ;"
+  "[texgyreheros-bolditalic.otf]/OT:script=latn;language=DFLT;mapping=tex-text;color=223355FF ;" at 10.0pt
 ***************
 Compilation 1 of test file completed with exit status 0

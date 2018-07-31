@@ -1,6 +1,11 @@
 Change history
 ==============
 
+## v2.6i (2018/07/30)
+
+    * Emergency bug-fix -- a one-char typo broke loading of bold fonts!
+
+
 ## v2.6h (2018/07/30)
 
     * `expl3` internals updated so loading `expl3` with the `check-declarations` option will run without error.

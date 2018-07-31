@@ -2,16 +2,14 @@
 
 % \section{Font loading (\pkg{keyval}) definitions}
 %
-% This is the tedious section where we correlate all possible
-% (eventually) font feature requests with their \XeTeX\ representations.
-%
 % \iffalse
 %    \begin{macrocode}
 %<*fontspec>
 %    \end{macrocode}
 % \fi
 %
-%
+% This package uses a large number of keyval modules which operate sequentially on keyval
+% input to ensure priority.
 %    \begin{macrocode}
 \clist_gset:Nn \g_@@_all_keyval_modules_clist
   {
@@ -21,6 +19,7 @@
   }
 %    \end{macrocode}
 %
+% Wrapper function to save some characters in the source:
 %    \begin{macrocode}
 \cs_new:Nn \@@_keys_define_code:nnn
   {
@@ -37,7 +36,7 @@
   }
 %    \end{macrocode}
 %
-% \subsubsection{Pre-parsing naming information}
+% \subsection{Pre-pre-parsing stages}
 %
 % These features are extracted from the font feature list before all others.
 %
@@ -90,11 +89,6 @@
 \@@_keys_define_code:nnn {fontspec} {Extension} {}
 %    \end{macrocode}
 %
-% \subsubsection{Pre-parsed features}
-%
-% After the font name(s) have been sorted out, now need to extract any
-% renderer/font configuration features that need to be processed before
-% all other font features.
 %
 % \paragraph{\feat{Renderer}}
 % This feature must be processed before all others (the other font shape and features options are also pre-parsed for convenience) because the renderer determines the format of the features and even whether certain features are available.
@@ -132,6 +126,8 @@
  }
 %    \end{macrocode}
 %
+% \subsection{Pre-parsed features}
+%
 % \paragraph{OpenType script/language}
 % See later for the resolutions from \pkg{fontspec} features to OpenType definitions.
 %    \begin{macrocode}
@@ -150,6 +146,7 @@
  }
 %    \end{macrocode}
 %
+%
 % \paragraph{TTC font index}
 %    \begin{macrocode}
 \@@_keys_define_code:nnn {fontspec-preparse} {FontIndex}
@@ -166,109 +163,119 @@
  }
 %    \end{macrocode}
 %
-% \subsubsection{Bold/italic choosing options}
+% \subsection{Font faces}
 %
-% The \feat{Bold}, \feat{Italic}, and \feat{BoldItalic}
-% features are for defining explicitly the bold and italic fonts used
-% in a font family.
+% \paragraph{Upright}
+%    \begin{macrocode}
+\@@_keys_define_code:nnn {fontspec-preparse-external} {UprightFont}
+  {
+    \fontspec_complete_fontname:Nn \l_@@_fontname_up_tl {#1}
+  }
+\@@_keys_define_code:nnn {fontspec-preparse-external} {FontName}
+  {
+    \fontspec_complete_fontname:Nn \l_@@_fontname_up_tl {#1}
+  }
+%    \end{macrocode}
+%
+% \paragraph{Italic and slanted}
+%    \begin{macrocode}
+\@@_keys_define_code:nnn {fontspec-preparse-external} {ItalicFont}
+  {
+    \tl_if_empty:nTF {#1}
+      {
+        \bool_set_true:N \l_@@_noit_bool
+      }
+      {
+        \bool_set_false:N \l_@@_noit_bool
+        \fontspec_complete_fontname:Nn \l_@@_fontname_it_tl {#1}
+      }
+  }
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+\@@_keys_define_code:nnn {fontspec-preparse-external} {SlantedFont}
+  {
+    \fontspec_complete_fontname:Nn \l_@@_fontname_sl_tl {#1}
+  }
+%    \end{macrocode}
+%
 %
 % \paragraph{Bold (NFSS) Series}
 % By default, \pkg{fontspec} uses the default bold series, \cs{bfdefault}.
-% We want to be able to make this extensible.
+% We want to be able to make this extensible. This code is not yet functional!
 %    \begin{macrocode}
-\@@_keys_define_code:nnn {fontspec-preparse-external} {BoldSeries}
- {
-  \tl_gset:Nx \g_@@_curr_series_tl { #1 }
-  \seq_gput_right:Nx \g_@@_bf_series_seq { #1 }
- }
+%\@@_keys_define_code:nnn {fontspec-preparse-external} {BoldSeries}
+%  {
+%    \tl_gset:Nx \g_@@_curr_series_tl { #1 }
+%    \seq_put_right:Nx \l_@@_bf_series_seq { #1 }
+%  }
 %    \end{macrocode}
 %
-% \paragraph{Fonts}
-% Upright:
-%    \begin{macrocode}
-\@@_keys_define_code:nnn {fontspec-preparse-external} {UprightFont}
- {
-  \fontspec_complete_fontname:Nn \l_@@_fontname_up_tl {#1}
- }
-\@@_keys_define_code:nnn {fontspec-preparse-external} {FontName}
- {
-  \fontspec_complete_fontname:Nn \l_@@_fontname_up_tl {#1}
- }
-%    \end{macrocode}
-% Bold:
+% \paragraph{Bold}
+% This contains some stubb code to allow more than one bold font to be loaded.
 %    \begin{macrocode}
 \@@_keys_define_code:nnn {fontspec-preparse-external} {BoldFont}
- {
-  \tl_if_empty:nTF {#1}
-   {
-    \bool_set_true:N \l_@@_nobf_bool
-   }
-   {
-    \bool_set_false:N \l_@@_nobf_bool
-    \fontspec_complete_fontname:Nn \l_@@_curr_bfname_tl {#1}
+  {
+    \tl_if_empty:nTF {#1}
+      {
+        \bool_set_true:N \l_@@_nobf_bool
+      }
+      {
+        \bool_set_false:N \l_@@_nobf_bool
+        \fontspec_complete_fontname:Nn \l_@@_curr_bfname_tl {#1}
 
-    \seq_if_empty:NT \g_@@_bf_series_seq
-     {
-      \tl_gset:Nx \g_@@_curr_series_tl {\bfdefault}
-      \seq_gput_right:Nx \g_@@_bf_series_seq {\bfdefault}
-     }
-    \tl_if_eq:oxT \g_@@_curr_series_tl {\bfdefault}
-     { \tl_set_eq:NN \l_@@_fontname_bf_tl \l_@@_curr_bfname_tl }
+        \seq_if_empty:NT \l_@@_bf_series_seq
+          {
+            \tl_gset:Nx \g_@@_curr_series_tl {\bfdefault}
+            \seq_put_right:Nx \l_@@_bf_series_seq {\bfdefault}
+          }
+
+        \tl_if_eq:oxT \g_@@_curr_series_tl {\bfdefault}
+          {
+            \tl_set_eq:NN \l_@@_fontname_bf_tl \l_@@_curr_bfname_tl
+          }
+
+        \prop_put:NxV \l_@@_nfss_prop {BoldFont-\g_@@_curr_series_tl} \l_@@_curr_bfname_tl
 
 %<debug>\typeout{Setting~bold~font~"\l_@@_curr_bfname_tl"~with~series~"\g_@@_curr_series_tl"}
 
-    \prop_put:NxV \l_@@_nfss_prop
-     {BoldFont-\g_@@_curr_series_tl} \l_@@_curr_bfname_tl
-
-   }
- }
+      }
+  }
 %    \end{macrocode}
-% Same for italic:
-%    \begin{macrocode}
-\@@_keys_define_code:nnn {fontspec-preparse-external} {ItalicFont}
- {
-  \tl_if_empty:nTF {#1}
-   {
-    \bool_set_true:N \l_@@_noit_bool
-   }
-   {
-    \bool_set_false:N \l_@@_noit_bool
-    \fontspec_complete_fontname:Nn \l_@@_fontname_it_tl {#1}
-   }
- }
-%    \end{macrocode}
-% Simpler for bold+italic \& slanted:
+%
+% \paragraph{Bold italic/slanted}
 %    \begin{macrocode}
 \@@_keys_define_code:nnn {fontspec-preparse-external} {BoldItalicFont}
- {
-  \fontspec_complete_fontname:Nn \l_@@_fontname_bfit_tl {#1}
- }
-\@@_keys_define_code:nnn {fontspec-preparse-external} {SlantedFont}
- {
-  \fontspec_complete_fontname:Nn \l_@@_fontname_sl_tl {#1}
- }
-\@@_keys_define_code:nnn {fontspec-preparse-external} {BoldSlantedFont}
- {
-  \fontspec_complete_fontname:Nn \l_@@_fontname_bfsl_tl {#1}
- }
+  {
+    \fontspec_complete_fontname:Nn \l_@@_fontname_bfit_tl {#1}
+  }
 %    \end{macrocode}
+%
+%    \begin{macrocode}
+\@@_keys_define_code:nnn {fontspec-preparse-external} {BoldSlantedFont}
+  {
+    \fontspec_complete_fontname:Nn \l_@@_fontname_bfsl_tl {#1}
+  }
+%    \end{macrocode}
+%
+% \paragraph{Small caps}
 % Small caps isn't pre-parsed because it can vary with others above:
 %    \begin{macrocode}
 \@@_keys_define_code:nnn {fontspec} {SmallCapsFont}
- {
-  \tl_if_empty:nTF {#1}
-   {
-    \bool_set_true:N \l_@@_nosc_bool
-   }
-   {
-    \bool_set_false:N \l_@@_nosc_bool
-    \fontspec_complete_fontname:Nn \l_@@_fontname_sc_tl {#1}
-   }
- }
+  {
+    \tl_if_empty:nTF {#1}
+      {
+        \bool_set_true:N \l_@@_nosc_bool
+      }
+      {
+        \bool_set_false:N \l_@@_nosc_bool
+        \fontspec_complete_fontname:Nn \l_@@_fontname_sc_tl {#1}
+      }
+  }
 %    \end{macrocode}
 %
 %
-% \paragraph{Features}
+% \subsubsection{Preparsed font features}
 %
 %    \begin{macrocode}
 \@@_keys_define_code:nnn {fontspec-preparse} {UprightFeatures}
@@ -310,7 +317,7 @@
  }
 %    \end{macrocode}
 %
-% paragraph{Features varying by size}
+% \paragraph{Features varying by size}
 %    \begin{macrocode}
 \@@_keys_define_code:nnn {fontspec-preparse} {SizeFeatures}
  {
@@ -348,7 +355,9 @@
  }
 %    \end{macrocode}
 %
-% \subsubsection{Font-independent features}
+%
+%
+% \subsection{General font-independent features}
 %
 % These features can be applied to any font.
 %

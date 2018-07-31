@@ -25,7 +25,7 @@
 \begin{filecontents*}{tgheros-bolditalic.fontspec}
 \defaultfontfeatures[tgheros-bolditalic]
     {
-     Font     = texgyreheros-bolditalic.otf ,
+     Font     = texgyreheros-bolditalic ,
      Colour   = 223355 ,
     }
 \end{filecontents*}

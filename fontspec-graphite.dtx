@@ -66,31 +66,31 @@
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \@@_make_AAT_feature_string:Nnn {TF,T,F}
  {
-  \tl_set:Nx \l_tmpa_tl { \XeTeXfeaturename #1 #2 }
-  \tl_if_empty:NTF \l_tmpa_tl
+  \tl_set:Nx \l_@@_tmpa_tl { \XeTeXfeaturename #1 #2 }
+  \tl_if_empty:NTF \l_@@_tmpa_tl
    { \prg_return_false: }
    {
     \int_compare:nTF { \XeTeXisexclusivefeature #1 #2 > 0 }
      {
-      \tl_set:Nx \l_tmpb_tl {\XeTeXselectorname #1 #2\space #3}
+      \tl_set:Nx \l_@@_tmpb_tl {\XeTeXselectorname #1 #2\space #3}
      }
      {
       \int_if_even:nTF {#3}
        {
-        \tl_set:Nx \l_tmpb_tl {\XeTeXselectorname #1 #2\space #3}
+        \tl_set:Nx \l_@@_tmpb_tl {\XeTeXselectorname #1 #2\space #3}
        }
        {
-        \tl_set:Nx \l_tmpb_tl
+        \tl_set:Nx \l_@@_tmpb_tl
          {
           \XeTeXselectorname #1 #2\space \numexpr#3-1\relax
          }
-        \tl_if_empty:NF \l_tmpb_tl { \tl_put_left:Nn \l_tmpb_tl {!} }
+        \tl_if_empty:NF \l_@@_tmpb_tl { \tl_put_left:Nn \l_@@_tmpb_tl {!} }
        }
     }
-    \tl_if_empty:NTF \l_tmpb_tl
+    \tl_if_empty:NTF \l_@@_tmpb_tl
      { \prg_return_false: }
      {
-      \tl_set:Nx \l_fontspec_feature_string_tl { \l_tmpa_tl = \l_tmpb_tl }
+      \tl_set:Nx \l_fontspec_feature_string_tl { \l_@@_tmpa_tl = \l_@@_tmpb_tl }
       \prg_return_true:
      }
    }

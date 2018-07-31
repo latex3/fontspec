@@ -173,8 +173,8 @@
     \@@_set_font_type:N \font
     \bool_if:NTF \l_@@_ot_bool
      {
-      \prop_get:cnN {g_@@_fontinfo_ \f@family _prop} {script-num} \l_@@_tmpf_tl
-      \int_set:Nn \l_@@_script_int {\l_@@_tmpf_tl}
+      \prop_get:cnN {g_@@_fontinfo_ \f@family _prop} {script-num} \l_@@_tmp_tl
+      \int_set:Nn \l_@@_script_int {\l_@@_tmp_tl}
       \prop_get:cnN {g_@@_fontinfo_ \f@family _prop} {script-tag}  \l_fontspec_script_tl
 
       \@@_check_lang:NnTF \font {#1} \prg_return_true: \prg_return_false:

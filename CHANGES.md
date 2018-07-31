@@ -1,7 +1,7 @@
 Change history
 ==============
 
-## v2.6i (2018/07/30)
+## v2.6i (2018/07/31)
 
     * Emergency bug-fix -- a one-char typo broke loading of bold fonts!
     * Some minor updates to the docs regarding “family names” of fonts.

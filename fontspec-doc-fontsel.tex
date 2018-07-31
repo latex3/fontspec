@@ -207,7 +207,7 @@ N.B. that while spaces are stripped, the lettercase of the names should match.
 This mechanism can be used to define custom names or aliases for your font collections.
 The syntax within this file follows from the \cs{defaultfontfeatures}, defined in more detail later but mirroring the standard \pkg{fontspec} font loading syntax.
 As an example, suppose we're defining a font family to be loaded with \verb|\setmainfont{My Charis}|.
-The corresponding \texttt{MyCharis.fontspec} file would containing, say,
+The corresponding \texttt{MyCharis.fontspec} file would contain, say,
 \begin{Verbatim}
   \defaultfontfeatures[My Charis]
     {
@@ -227,8 +227,28 @@ To continue the example above, here we colour the different faces:
   \defaultfontfeatures[CharisSILR]{Color=blue}
   \defaultfontfeatures[CharisSILB]{Color=red}
 \end{Verbatim}
-Such configuration lines could be stored either inline inside \texttt{My Charis.fontspec} or within their own \texttt{.fontspec} files; in this way, \pkg{fontspec} is designed to handle `nested' configuration options.
+Such configuration lines could be stored either inline inside \texttt{My Charis.fontspec}
+or within their own \texttt{.fontspec} files; in this way, \pkg{fontspec} is designed to
+handle `nested' configuration options.
 
+Where \cs{defaultfontfeatures} is being used to specify font faces by a custom name,
+the \feat{Font} feature is used to set the filename of the font face. For example:
+\begin{Verbatim}
+  \defaultfontfeatures[charis]
+    {
+      UprightFont = charis-regular,
+      % <other desired options for all font faces in the family>
+    }
+
+  \defaultfontfeatures[charis-regular]
+    {
+      Font = CharisSILR
+      % <other desired options just for the `upright' font>
+    }
+\end{Verbatim}
+The \pkg{fontspec} interface here is designed to be flexible to accomodate a variety
+of use cases; there is more than one way to achieve the same outcome when font faces are
+collected together into a larger font family.
 
 
 \subsection{Querying whether a font `exists'}

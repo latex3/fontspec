@@ -676,9 +676,18 @@
     \@@_load_external_fontoptions:Nn \l_fontspec_fontname_tl {#1}
     \prop_get:NVNF \g_@@_fontopts_prop \l_fontspec_fontname_tl \l_@@_fontopts_clist
      { \clist_clear:N \l_@@_fontopts_clist }
+    \keys_set_groups:nnV {fontspec} {getfontname} \l_@@_fontopts_clist
     \@@_primitive_font_set:Nnn \l_fontspec_font { \@@_construct_font_call:nn {\l_fontspec_fontname_tl} {} } {\f@size pt}
     \@@_primitive_font_if_null:NT \l_fontspec_font { \@@_error:nx {font-not-found} {#1} }
  }
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+\keys_define:nn {fontspec}
+  {
+    Font .tl_set:N = \l_fontspec_fontname_tl ,
+    Font .groups:n = {getfontname} ,
+  }
 %    \end{macrocode}
 % \end{macro}
 %

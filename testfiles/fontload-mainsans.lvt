@@ -1,0 +1,32 @@
+
+\input{fontspec-testsetup.tex}
+
+\usepackage{fontspec}
+
+\setmainfont{texgyretermes}[
+  Extension      = .otf,
+  UprightFont    = *-regular,
+  BoldFont       = *-bold,
+  ItalicFont     = *-italic,
+  BoldItalicFont = *-bolditalic
+]
+\setsansfont{texgyreheros}[
+  Extension      = .otf,
+  UprightFont    = *-regular,
+  BoldFont       = *-bold,
+  ItalicFont     = *-italic,
+  BoldItalicFont = *-bolditalic
+]
+
+\begin{document}
+
+{Test\CURRNFSS}                    \par
+{\bfseries Test\CURRNFSS}          \par
+{\itshape Test\CURRNFSS}           \par
+{\bfseries\itshape Test\CURRNFSS}  \par
+{\sffamily Test\CURRNFSS}          \par
+{\bfseries\sffamily Test\CURRNFSS} \par
+{\itshape\sffamily Test\CURRNFSS}  \par
+{\bfseries\itshape\sffamily Test\CURRNFSS}
+
+\end{document}

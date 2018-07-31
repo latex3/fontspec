@@ -18,14 +18,15 @@
      UprightFont    = texgyreheros-regular    ,
      BoldFont       = texgyreheros-bold       ,
      ItalicFont     = texgyreheros-italic     ,
-     BoldItalicFont = texgyreheros-bolditalic ,
+     BoldItalicFont = tgheros-bolditalic ,
     }
 \end{filecontents*}
 
-\begin{filecontents*}{texgyreheros-bolditalic.fontspec}
-\defaultfontfeatures[texgyreheros-bolditalic]
+\begin{filecontents*}{tgheros-bolditalic.fontspec}
+\defaultfontfeatures[tgheros-bolditalic]
     {
-     Colour         = 223355    ,
+     Font     = texgyreheros-bolditalic.otf ,
+     Colour   = 223355 ,
     }
 \end{filecontents*}
 
@@ -37,7 +38,7 @@
 
 \MSG{Bare bones colour red loaded from file:}
 \setmainfont{texgyreschola-regular.otf}
-schola 
+schola
 \CURRNFSS
 
 \MSG{New font name, colour blue, loaded from file:}

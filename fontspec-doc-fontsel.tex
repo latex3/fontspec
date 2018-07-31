@@ -88,6 +88,8 @@ you'd speak them out loud, such as \emph{Times New Roman} or
 `Known to' in this case generally means `exists in a standard fonts location'
 such as |~/Library/Fonts| on \MacOSX, or |C:\Windows\Fonts| on Windows.
 In \LuaTeX, fonts found in the \textsc{texmf} tree can also be loaded by name.
+In \XeTeX, fonts found in the \textsc{texmf} tree can be loaded in Windows and Linux,
+but not on \MacOSX.
 
 The simplest example might be something like
 \begin{Verbatim}
@@ -100,9 +102,13 @@ in which the bold and italic fonts will be found automatically
 The `font name' can be found in various ways, such as by looking in the name listed in a application like \emph{Font Book} on Mac~OS~X.
 Alternatively, \TeX{}Live contains the \texttt{otfinfo} command line program, which can query this information; for example:
 \begin{Verbatim}
-    otfinfo -a `kpsewhich lmroman10-regular.otf`
+    otfinfo -i `kpsewhich lmroman10-regular.otf`
 \end{Verbatim}
-results in `\texttt{LM Roman 10}'.
+results in a line that reads:
+\begin{Verbatim}
+  Preferred family:    Latin Modern Roman
+\end{Verbatim}
+(The `preferred family' name is usually better than the `family' name.)
 
 \paragraph{\LuaTeX\ users only}
 In order to load fonts by their name rather than by their filename (\eg,

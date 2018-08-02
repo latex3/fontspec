@@ -1,0 +1,19 @@
+
+\input{fontspec-testsetup.tex}
+
+\usepackage{fontspec}
+\setmainfont{texgyrepagella-regular.otf}
+
+\begin{document}
+\START
+\TIMO
+
+\ExplSyntaxOn
+
+\fontspec_if_feature:nTF {smcpp}{}{}
+
+\fontspec_if_script:nTF {cyrll}{}{}
+
+\fontspec_if_language:nnTF {latn}{ROMMM}{}{}
+
+\end{document}

@@ -1048,10 +1048,17 @@
 %
 % For backwards compatibility this code also strips a leading |+| or |-|.
 %    \begin{macrocode}
+<*XE>
+%    \end{macrocode}
+%
+%    \begin{macrocode}
 \cs_new:Nn \@@_iv_str_to_num:Nn
   {
     \@@_strip_leading_sign:Nw #1#2 \q_nil
   }
+%    \end{macrocode}
+%
+%    \begin{macrocode}
 \cs_set:Npn \@@_strip_leading_sign:Nw #1#2#3 \q_nil
   {
     \bool_if:nTF { \str_if_eq_p:nn {#2} {+} || \str_if_eq_p:nn {#2} {-} }
@@ -1075,7 +1082,14 @@
         + \ifx \c_empty_tl #5 32 \else `#5 \fi
       }
   }
+%    \end{macrocode}
+%
+%    \begin{macrocode}
 \cs_generate_variant:Nn \@@_iv_str_to_num:Nn {No}
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+</XE>
 %    \end{macrocode}
 % \end{macro}
 %

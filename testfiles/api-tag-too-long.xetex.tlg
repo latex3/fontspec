@@ -1,0 +1,61 @@
+This is a generated file for the l3build validation system.
+Don't change this file in any respect.
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!
+! fontspec error: "ot-tag-too-long"
+! 
+! OpenType tag 'smcpp' is too long; script, language, and feature tags must be
+! four characters or fewer.
+! 
+! See the fontspec documentation for further information.
+! 
+! Type <return> to continue.
+!...............................................  
+l. ...\fontspec_if_feature:nTF {smcpp}
+                                     {}{}
+|'''''''''''''''''''''''''''''''''''''''''''''''
+| LaTeX does not know anything more about this error, sorry.
+| 
+| Try typing <return> to proceed.
+| If that doesn't work, type X <return> to quit.
+|...............................................
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!
+! fontspec error: "ot-tag-too-long"
+! 
+! OpenType tag 'cyrll' is too long; script, language, and feature tags must be
+! four characters or fewer.
+! 
+! See the fontspec documentation for further information.
+! 
+! Type <return> to continue.
+!...............................................  
+l. ...\fontspec_if_script:nTF {cyrll}
+                                    {}{}
+|'''''''''''''''''''''''''''''''''''''''''''''''
+| LaTeX does not know anything more about this error, sorry.
+| 
+| Try typing <return> to proceed.
+| If that doesn't work, type X <return> to quit.
+|...............................................
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!
+! fontspec error: "ot-tag-too-long"
+! 
+! OpenType tag 'ROMMM' is too long; script, language, and feature tags must be
+! four characters or fewer.
+! 
+! See the fontspec documentation for further information.
+! 
+! Type <return> to continue.
+!...............................................  
+l. ...\fontspec_if_language:nnTF {latn}{ROMMM}
+                                             {}{}
+|'''''''''''''''''''''''''''''''''''''''''''''''
+| LaTeX does not know anything more about this error, sorry.
+| 
+| Try typing <return> to proceed.
+| If that doesn't work, type X <return> to quit.
+|...............................................
+***************
+Compilation 1 of test file completed with exit status 256

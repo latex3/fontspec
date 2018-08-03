@@ -127,9 +127,7 @@
     \@@_set_font_type:N \font
     \bool_if:NTF \l_@@_ot_bool
      {
-      \@@_iv_str_to_num:Nn \l_@@_script_int {#1}
-      \@@_iv_str_to_num:Nn \l_@@_language_int {#2}
-      \@@_check_ot_feat:NnTF \font {#3} \prg_return_true: \prg_return_false:
+      \@@_check_ot_feat:NnnnTF \font {#3} {#2} {#1} \prg_return_true: \prg_return_false:
      }
      { \prg_return_false: }
    }
@@ -199,9 +197,7 @@
     \@@_set_font_type:N \font
     \bool_if:NTF \l_@@_ot_bool
      {
-      \tl_set:Nn \l_fontspec_script_tl {#1}
-      \@@_iv_str_to_num:Nn \l_@@_script_int {#1}
-      \@@_check_lang:NnTF \font {#2} \prg_return_true: \prg_return_false:
+      \@@_check_lang:NnnTF \font {#2} {#1} \prg_return_true: \prg_return_false:
      }
      { \prg_return_false: }
    }

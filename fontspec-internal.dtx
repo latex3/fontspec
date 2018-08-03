@@ -456,9 +456,9 @@
       { \l_@@_pre_feat_sclist \g_@@_rawfeatures_sclist }
    }
   \prop_gput:cnV {g_@@_fontinfo_ \g_@@_nfss_family_tl _prop} {script-num} \l_@@_script_int
-  \prop_gput:cnV {g_@@_fontinfo_ \g_@@_nfss_family_tl _prop} {lang-num} \l_@@_language_int
+  \prop_gput:cnV {g_@@_fontinfo_ \g_@@_nfss_family_tl _prop} {lang-num}   \l_@@_language_int
   \prop_gput:cnV {g_@@_fontinfo_ \g_@@_nfss_family_tl _prop} {script-tag} \l_fontspec_script_tl
-  \prop_gput:cnV {g_@@_fontinfo_ \g_@@_nfss_family_tl _prop} {lang-tag} \l_fontspec_lang_tl
+  \prop_gput:cnV {g_@@_fontinfo_ \g_@@_nfss_family_tl _prop} {lang-tag}   \l_fontspec_lang_tl
  }
 %    \end{macrocode}
 % \end{macro}
@@ -1039,16 +1039,10 @@
 % numerical representation required for \XeTeX\ OpenType script/language/feature
 % purposes. The output is stored in |#1|.
 %
-% The reason it's ugly is because the input can be of the form of any of these:
-% `|abcd|', `|abc|', `|abc |', `|ab|', `|ab  |', \etc.
-% (It is assumed the first two chars are \emph{always} not spaces.) So this macro
-% reads in the string, delimited by a space; this input is padded with \cmd\@empty s
-% and anything beyond four chars is snipped. The \cmd\@empty s then are used to reconstruct
-% the spaces in the string to number calculation.
-%
-% For backwards compatibility this code also strips a leading |+| or |-|.
+% This code is not used in Lua\TeX, as the checking for that engine is done via Lua code
+% provided by \pkg{luaotfload}.
 %    \begin{macrocode}
-<*XE>
+%<*XE>
 %    \end{macrocode}
 %
 %    \begin{macrocode}
@@ -1057,6 +1051,15 @@
     \@@_strip_leading_sign:Nw #1#2 \q_nil
   }
 %    \end{macrocode}
+%
+% The input can be of the form of any of these:
+% `|abcd|', `|abc|', `|abc |', `|ab|', `|ab  |', \etc.
+% (It is assumed the first two chars are \emph{always} not spaces.) So this macro
+% reads in the string padded with \cmd\@empty s,
+% and anything beyond four chars is snipped. The \cmd\@empty s then are used to reconstruct
+% the spaces in the string to number calculation.
+%
+% For backwards compatibility this code also strips a leading |+| or |-|.
 %
 %    \begin{macrocode}
 \cs_set:Npn \@@_strip_leading_sign:Nw #1#2#3 \q_nil
@@ -1089,7 +1092,7 @@
 %    \end{macrocode}
 %
 %    \begin{macrocode}
-</XE>
+%</XE>
 %    \end{macrocode}
 % \end{macro}
 %

@@ -144,7 +144,7 @@
 %
 % \begin{macro}{\@@_check_script:NnTF}
 % This macro takes an OpenType script tag and checks if it exists in the current
-% font. The output boolean is \cmd\@tempswatrue. \cmd\l_@@_script_int\ is used to store
+% font. \cmd\l_@@_script_int\ is used to store
 % the number corresponding to the script tag string.
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \@@_check_script:Nn {TF}
@@ -182,19 +182,28 @@
 %    \end{macrocode}
 % \end{macro}
 %
+% \begin{macro}{\@@_check_lang:NnnTF}
 % \begin{macro}{\@@_check_lang:NnTF}
 % This macro takes an OpenType language tag and checks if it exists in the current
-% font/script. The output boolean is \cmd\@tempswatrue. \cmd\l_@@_language_int\ is used to store
+% font/script. \cmd\l_@@_language_int\ is used to store
 % the number corresponding to the language tag string.
 % The script used is whatever's held in \cmd\l_@@_script_int. By default, that's the
 % number corresponding to `|latn|'.
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \@@_check_lang:Nn {TF}
   {
+    \@@_check_lang:Nnn #1 {#2} {\l_fontspec_script_tl} {\prg_return_true:} {\prg_return_false:}
+  }
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+\prg_new_conditional:Nnn \@@_check_lang:Nnn {TF}
+  {
     \bool_if:NTF \l_@@_never_check_bool
       { \prg_return_true: }
 %<*XE>
  {
+  \@@_iv_str_to_num:Nn \l_@@_script_int {#3}
   \@@_iv_str_to_num:Nn \l_@@_strnum_int {#2}
   \int_set:Nn \l_tmpb_int
    { \XeTeXOTcountlanguages #1 \l_@@_script_int }
@@ -219,7 +228,7 @@
       { \tl_set:Nx \l_@@_tmp_tl {\cs_to_str:N #1} }
     \directlua
       {
-        fontspec.check_ot_lang( "\l_@@_tmp_tl", "#2", "\l_fontspec_script_tl" )
+        fontspec.check_ot_lang( "\l_@@_tmp_tl", "#2", "#3" )
       }
     \bool_if:NTF \l__fontspec_check_bool \prg_return_true: \prg_return_false:
   }
@@ -227,8 +236,10 @@
   }
 %    \end{macrocode}
 % \end{macro}
+% \end{macro}
 %
 % \begin{macro}{\@@_check_ot_feat:NnTF}
+% \begin{macro}{\@@_check_ot_feat:NnnnTF}
 % This macro takes an OpenType feature tag and checks if it exists in the current
 % font/script/language.
 % \cmd\l_@@_strnum_int\ is used to store the number corresponding to the feature tag string.
@@ -238,18 +249,28 @@
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \@@_check_ot_feat:Nn {TF,F}
   {
+    \@@_check_ot_feat:NnnnTF #1 {#2} {\l_fontspec_lang_tl} {\l_fontspec_script_tl}
+      {\prg_return_true:} {\prg_return_false:}
+  }
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+\prg_new_conditional:Nnn \@@_check_ot_feat:Nnnn {TF,F}
+  {
     \bool_if:NTF \l_@@_never_check_bool
       { \prg_return_true: }
 %<*XE>
  {
-%<debug>\typeout{::~ fontspec_check_ot_feat:n~ {#1}}
+%<debug>\typeout{::~ fontspec_check_ot_feat:nnn~ {#2}{#3}{#4}}
+  \@@_iv_str_to_num:Nn \l_@@_strnum_int   {#2}
+  \@@_iv_str_to_num:Nn \l_@@_language_int {#3}
+  \@@_iv_str_to_num:Nn \l_@@_script_int   {#4}
   \int_set:Nn \l_tmpb_int
    {
     \XeTeXOTcountfeatures #1
                           \l_@@_script_int
                           \l_@@_language_int
    }
-  \@@_iv_str_to_num:Nn \l_@@_strnum_int {#2}
   \int_zero:N \l_tmpa_int
   \bool_set_false:N \l_@@_check_bool
   \bool_until_do:nn { \int_compare_p:nNn \l_tmpa_int = \l_tmpb_int }
@@ -273,16 +294,14 @@
       { \tl_set:Nx \l_@@_tmp_tl {\cs_to_str:N #1} }
     \directlua
       {
-        fontspec.check_ot_feat(
-                           "\l_@@_tmp_tl", "#2",
-                           "\l_fontspec_lang_tl", "\l_fontspec_script_tl"
-                          )
+        fontspec.check_ot_feat("\l_@@_tmp_tl", "#2", "#3", "#4")
       }
     \bool_if:NTF \l_@@_check_bool \prg_return_true: \prg_return_false:
   }
 %</LU>
   }
 %    \end{macrocode}
+% \end{macro}
 % \end{macro}
 %
 % \subsection{OpenType feature information}

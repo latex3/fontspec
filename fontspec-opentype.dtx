@@ -171,6 +171,7 @@
 %</XE>
 %<*LU>
   {
+    \@@_ot_validate_tag:x {#2}
     \cs_if_eq:NNTF #1 \font
       { \tl_set:Nx \l_@@_tmp_tl {\curr@fontshape/\f@size} }
       { \tl_set:Nx \l_@@_tmp_tl {\cs_to_str:N #1} }
@@ -203,8 +204,8 @@
       { \prg_return_true: }
 %<*XE>
  {
-  \@@_iv_str_to_num:Nx \l_@@_script_int {#3}
   \@@_iv_str_to_num:Nx \l_@@_strnum_int {#2}
+  \@@_iv_str_to_num:Nx \l_@@_script_int {#3}
   \int_set:Nn \l_tmpb_int
    { \XeTeXOTcountlanguages #1 \l_@@_script_int }
   \int_zero:N \l_tmpa_int
@@ -223,6 +224,8 @@
 %</XE>
 %<*LU>
   {
+    \@@_ot_validate_tag:x {#2}
+    \@@_ot_validate_tag:x {#3}
     \cs_if_eq:NNTF #1 \font
       { \tl_set:Nx \l_@@_tmp_tl {\curr@fontshape/\f@size} }
       { \tl_set:Nx \l_@@_tmp_tl {\cs_to_str:N #1} }
@@ -289,6 +292,9 @@
 %<*LU>
   {
 %<debug>\typeout{::~ fontspec_check_ot_feat:n~ {#1}}
+    \@@_ot_validate_tag:x {#2}
+    \@@_ot_validate_tag:x {#3}
+    \@@_ot_validate_tag:x {#4}
     \cs_if_eq:NNTF #1 \font
       { \tl_set:Nx \l_@@_tmp_tl {\curr@fontshape/\f@size} }
       { \tl_set:Nx \l_@@_tmp_tl {\cs_to_str:N #1} }

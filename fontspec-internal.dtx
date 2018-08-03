@@ -1034,6 +1034,40 @@
 %
 % \subsection{Miscellaneous}
 %
+% \begin{macro}{\@@_ot_validate_tag:n}
+% This macro takes an OpenType tag and validates it.
+%    \begin{macrocode}
+%<*LU>
+%    \end{macrocode}
+%    \begin{macrocode}
+\cs_new_protected:Nn \@@_ot_validate_tag:n
+  {
+    \@@_ot_validate_tag:w #1 \q_nil
+  }
+\cs_generate_variant:Nn \@@_ot_validate_tag:n {x}
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+\cs_set:Npn \@@_ot_validate_tag:w #1 #2 \q_nil
+  {
+    \bool_if:nTF { \str_if_eq_p:nn {#1} {+} || \str_if_eq_p:nn {#1} {-} }
+      { \@@_ot_validate_tag_aux:w #2   \c_empty_tl \c_empty_tl \q_nil }
+      { \@@_ot_validate_tag_aux:w #1#2 \c_empty_tl \c_empty_tl \q_nil }
+  }
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+\cs_set:Npn \@@_ot_validate_tag_aux:w #1#2#3#4#5 \q_nil
+  {
+    \int_compare:nT { \tl_count:n {#5} > 2 }
+      { \@@_error:nx {ot-tag-too-long} {#1#2#3#4#5} }
+  }
+%    \end{macrocode}
+%    \begin{macrocode}
+%</LU>
+%    \end{macrocode}
+% \end{macro}
+%
 % \begin{macro}{\@@_iv_str_to_num:Nn}
 % This macro takes a four character string and converts it to the
 % numerical representation required for \XeTeX\ OpenType script/language/feature
@@ -1075,13 +1109,14 @@
 %    \begin{macrocode}
 \cs_set:Npn \@@_iv_str_to_num:w #1 \q_nil #2#3#4#5#6 \q_nil
   {
+    \int_compare:nT { \tl_count:n {#6} > 2 }
+      { \@@_error:nx {ot-tag-too-long} {#2#3#4#5#6} }
+
     \str_if_eq_x:nnTF {#2#3#4#5#6} {DFLT}
       {
         \int_set:Nn #1 {0}
       }
       {
-        \int_compare:nT { \tl_count:n {#6} > 2 }
-          { \@@_error:nx {ot-tag-too-long} {#2#3#4#5#6} }
 
         \int_set:Nn #1
           {

@@ -153,7 +153,7 @@
       { \prg_return_true: }
 %<*XE>
  {
-  \@@_iv_str_to_num:Nn \l_@@_strnum_int {#2}
+  \@@_iv_str_to_num:Nx \l_@@_strnum_int {#2}
   \int_set:Nn \l_tmpb_int { \XeTeXOTcountscripts #1 }
   \int_zero:N \l_tmpa_int
   \bool_set_false:N \l__fontspec_check_bool
@@ -203,8 +203,8 @@
       { \prg_return_true: }
 %<*XE>
  {
-  \@@_iv_str_to_num:Nn \l_@@_script_int {#3}
-  \@@_iv_str_to_num:Nn \l_@@_strnum_int {#2}
+  \@@_iv_str_to_num:Nx \l_@@_script_int {#3}
+  \@@_iv_str_to_num:Nx \l_@@_strnum_int {#2}
   \int_set:Nn \l_tmpb_int
    { \XeTeXOTcountlanguages #1 \l_@@_script_int }
   \int_zero:N \l_tmpa_int
@@ -262,9 +262,9 @@
 %<*XE>
  {
 %<debug>\typeout{::~ fontspec_check_ot_feat:nnn~ {#2}{#3}{#4}}
-  \@@_iv_str_to_num:Nn \l_@@_strnum_int   {#2}
-  \@@_iv_str_to_num:Nn \l_@@_language_int {#3}
-  \@@_iv_str_to_num:Nn \l_@@_script_int   {#4}
+  \@@_iv_str_to_num:Nx \l_@@_strnum_int   {#2}
+  \@@_iv_str_to_num:Nx \l_@@_language_int {#3}
+  \@@_iv_str_to_num:Nx \l_@@_script_int   {#4}
   \int_set:Nn \l_tmpb_int
    {
     \XeTeXOTcountfeatures #1

@@ -301,6 +301,7 @@
 %    \begin{macrocode}
 \cs_new:Nn \@@_set_scriptlang:
   {
+%<debug>  \typeout{:: _set_scriptlang:}
     \bool_if:NT \l_@@_firsttime_bool
       {
         \tl_if_empty:NTF \l_@@_script_name_tl
@@ -314,9 +315,12 @@
                   }
                 \keys_set:nx {fontspec-opentype} {Script=\l_@@_script_name_tl}
                 \keys_set:nx {fontspec-opentype} {Language=\l_@@_lang_name_tl}
+%<debug>  \typeout{:::: Script=\l_@@_script_name_tl, Language=\l_@@_lang_name_tl}
               }
               {
+%<debug>  \typeout{:::: NADA}
                 \@@_info:n {no-scripts}
+                \bool_set_true:N \l_@@_never_check_bool
               }
           }
           {
@@ -326,6 +330,7 @@
               }
             \keys_set:nx {fontspec-opentype} {Script=\l_@@_script_name_tl}
             \keys_set:nx {fontspec-opentype} {Language=\l_@@_lang_name_tl}
+%<debug>  \typeout{:::: Script=\l_@@_script_name_tl, Language=\l_@@_lang_name_tl}
           }
       }
   }
@@ -584,17 +589,22 @@
 		\bool_set_false:N \l_@@_mm_bool
 		\bool_set_false:N \l_@@_graphite_bool
 		\ifcase\XeTeXfonttype #1
+%<debug>  \typeout{:::: TFM}
 			\bool_set_true:N \l_@@_tfm_bool
 		\or
+%<debug>  \typeout{:::: AAT}
 			\bool_set_true:N \l_@@_atsui_bool
 			\tl_if_empty:NT \l_fontspec_renderer_tl { \tl_set:Nn \l_fontspec_renderer_tl {/AAT} }
 			\ifnum\XeTeXcountvariations #1 > \c_zero
+%<debug>  \typeout{:::: MM}
 				\bool_set_true:N \l_@@_mm_bool
 			\fi
 		\or
+%<debug>  \typeout{:::: OpenType}
 			\bool_set_true:N \l_@@_ot_bool
 			\tl_if_empty:NT \l_fontspec_renderer_tl { \tl_set:Nn \l_fontspec_renderer_tl {/OT} }
 		\or
+%<debug>  \typeout{:::: Graphite}
 			\bool_set_true:N \l_@@_graphite_bool
 			\tl_if_empty:NT \l_fontspec_renderer_tl { \tl_set:Nn \l_fontspec_renderer_tl {/GR} }
 		\fi

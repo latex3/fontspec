@@ -165,22 +165,22 @@
 % font.
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \fontspec_if_language:n {TF,T,F}
- {
-  \fontspec_if_fontspec_font:TF
-   {
-    \@@_set_font_type:N \font
-    \bool_if:NTF \l_@@_ot_bool
-     {
-      \prop_get:cnN {g_@@_fontinfo_ \f@family _prop} {script-num} \l_@@_tmp_tl
-      \int_set:Nn \l_@@_script_int {\l_@@_tmp_tl}
-      \prop_get:cnN {g_@@_fontinfo_ \f@family _prop} {script-tag}  \l_fontspec_script_tl
+  {
+    \fontspec_if_fontspec_font:TF
+      {
+        \@@_set_font_type:N \font
+        \bool_if:NTF \l_@@_ot_bool
+          {
+            \prop_get:cnN {g_@@_fontinfo_ \f@family _prop} {script-num} \l_@@_tmp_tl
+            \int_set:Nn \l_@@_script_int {\l_@@_tmp_tl}
+            \prop_get:cnN {g_@@_fontinfo_ \f@family _prop} {script-tag}  \l_fontspec_script_tl
 
-      \@@_check_lang:NnTF \font {#1} \prg_return_true: \prg_return_false:
-     }
-     { \prg_return_false: }
-   }
-   { \prg_return_false: }
- }
+            \@@_check_lang:NnTF \font {#1} \prg_return_true: \prg_return_false:
+          }
+          { \prg_return_false: }
+      }
+      { \prg_return_false: }
+  }
 %    \end{macrocode}
 % \end{macro}
 %
@@ -191,18 +191,18 @@
 % font.
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \fontspec_if_language:nn {TF,T,F}
- {
-  \fontspec_if_fontspec_font:TF
-   {
-    \@@_set_font_type:N \font
-    \bool_if:NTF \l_@@_ot_bool
-     {
-      \@@_check_lang:NnnTF \font {#2} {#1} \prg_return_true: \prg_return_false:
-     }
-     { \prg_return_false: }
-   }
-   { \prg_return_false: }
- }
+  {
+    \fontspec_if_fontspec_font:TF
+      {
+        \@@_set_font_type:N \font
+        \bool_if:NTF \l_@@_ot_bool
+          {
+            \@@_check_lang:NnnTF \font {#2} {#1} \prg_return_true: \prg_return_false:
+          }
+          { \prg_return_false: }
+      }
+      { \prg_return_false: }
+  }
 %    \end{macrocode}
 % \end{macro}
 %
@@ -212,20 +212,20 @@
 % OpenType script tag |#1|.
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \fontspec_if_current_script:n {TF,T,F}
- {
-  \fontspec_if_fontspec_font:TF
-   {
-    \@@_set_font_type:N \font
-    \bool_if:NTF \l_@@_ot_bool
-     {
-      \prop_get:cnN {g_@@_fontinfo_ \f@family _prop} {script-tag}  \l_@@_tmp_tl
-      \str_if_eq:nVTF {#1}  \l_@@_tmp_tl
-        {\prg_return_true:} {\prg_return_false:}
-     }
-     { \prg_return_false: }
-   }
-   { \prg_return_false: }
- }
+  {
+    \fontspec_if_fontspec_font:TF
+      {
+        \@@_set_font_type:N \font
+        \bool_if:NTF \l_@@_ot_bool
+          {
+            \prop_get:cnN {g_@@_fontinfo_ \f@family _prop} {script-tag}  \l_@@_tmp_tl
+            \str_if_eq:nVTF {#1}  \l_@@_tmp_tl
+              {\prg_return_true:} {\prg_return_false:}
+          }
+          { \prg_return_false: }
+      }
+      { \prg_return_false: }
+  }
 %    \end{macrocode}
 % \end{macro}
 %
@@ -234,20 +234,20 @@
 % OpenType language tag |#1|.
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \fontspec_if_current_language:n {TF,T,F}
- {
-  \fontspec_if_fontspec_font:TF
-   {
-    \@@_set_font_type:N \font
-    \bool_if:NTF \l_@@_ot_bool
-     {
-      \prop_get:cnN {g_@@_fontinfo_ \f@family _prop} {lang-tag}  \l_@@_tmp_tl
-      \str_if_eq:nVTF {#1} \l_@@_tmp_tl
-        {\prg_return_true:} {\prg_return_false:}
-     }
-     { \prg_return_false: }
-   }
-   { \prg_return_false: }
- }
+  {
+    \fontspec_if_fontspec_font:TF
+      {
+        \@@_set_font_type:N \font
+        \bool_if:NTF \l_@@_ot_bool
+          {
+            \prop_get:cnN {g_@@_fontinfo_ \f@family _prop} {lang-tag}  \l_@@_tmp_tl
+            \str_if_eq:nVTF {#1} \l_@@_tmp_tl
+              {\prg_return_true:} {\prg_return_false:}
+          }
+          { \prg_return_false: }
+      }
+      { \prg_return_false: }
+  }
 %    \end{macrocode}
 % \end{macro}
 %

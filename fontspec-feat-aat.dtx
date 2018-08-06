@@ -120,16 +120,16 @@
 %    \begin{macrocode}
 \@@_define_aat_feature_group:n  { Alternate }
 \keys_define:nn {fontspec-aat}
- {
-  Alternate .default:n = {0} ,
-  Alternate / unknown .code:n =
-   {
-    \clist_map_inline:nn {#1}
+  {
+    Alternate .default:n = {0} ,
+    Alternate / unknown .code:n =
       {
-        \@@_make_AAT_feature:nn {17}{##1}
+        \clist_map_inline:nn {#1}
+          {
+            \@@_make_AAT_feature:nn {17}{##1}
+          }
       }
-   }
- }
+  }
 %    \end{macrocode}
 %
 %
@@ -137,14 +137,14 @@
 %    \begin{macrocode}
 \@@_define_aat_feature_group:n  {Variant}
 \keys_define:nn {fontspec-aat}
- {
-  Variant .default:n = {0} ,
-  Variant / unknown .code:n =
-   {
-    \clist_map_inline:nn {#1}
-      { \@@_make_AAT_feature:nn {18}{##1} }
-   }
- }
+  {
+    Variant .default:n = {0} ,
+    Variant / unknown .code:n =
+      {
+        \clist_map_inline:nn {#1}
+          { \@@_make_AAT_feature:nn {18}{##1} }
+      }
+  }
 \aliasfontfeature{Variant}{StylisticSet}
 %    \end{macrocode}
 %
@@ -153,14 +153,13 @@
 %    \begin{macrocode}
 \@@_define_aat_feature_group:n  {Vertical}
 \keys_define:nn {fontspec-aat}
- {
-  Vertical .choice: ,
-  Vertical / RotatedGlyphs .code:n =
-    {
-      \__fontspec_update_featstr:n {vertical}
-    }
- }
-
+  {
+    Vertical .choice: ,
+    Vertical / RotatedGlyphs .code:n =
+      {
+        \__fontspec_update_featstr:n {vertical}
+      }
+  }
 %    \end{macrocode}
 %
 %

@@ -19,10 +19,10 @@
 \providecommand*\itscdefault{\itdefault\scdefault}
 \providecommand*\slscdefault{\sldefault\scdefault}
 \DeclareRobustCommand{\sishape}
- {
-  \not@math@alphabet\sishape\relax
-  \fontshape{\itscdefault}\selectfont
- }
+  {
+    \not@math@alphabet\sishape\relax
+    \fontshape{\itscdefault}\selectfont
+  }
 \DeclareTextFontCommand{\textsi}{\sishape}
 %    \end{macrocode}
 % \end{macro} \end{macro}
@@ -76,25 +76,25 @@
 % The original |\..shape| commands are redefined to use the merge shape macro.
 %    \begin{macrocode}
 \DeclareRobustCommand \itshape
- {
-  \not@math@alphabet\itshape\mathit
-  \fontspec_merge_shape:n\itdefault
- }
+  {
+    \not@math@alphabet\itshape\mathit
+    \fontspec_merge_shape:n\itdefault
+  }
 \DeclareRobustCommand \slshape
- {
-  \not@math@alphabet\slshape\relax
-  \fontspec_merge_shape:n\sldefault
- }
+  {
+    \not@math@alphabet\slshape\relax
+    \fontspec_merge_shape:n\sldefault
+  }
 \DeclareRobustCommand \scshape
- {
-  \not@math@alphabet\scshape\relax
-  \fontspec_merge_shape:n\scdefault
- }
+  {
+    \not@math@alphabet\scshape\relax
+    \fontspec_merge_shape:n\scdefault
+  }
 \DeclareRobustCommand \upshape
- {
-  \not@math@alphabet\upshape\relax
-  \fontspec_merge_shape:n\updefault
- }
+  {
+    \not@math@alphabet\upshape\relax
+    \fontspec_merge_shape:n\updefault
+  }
 %    \end{macrocode}
 % \end{macro} \end{macro} \end{macro} \end{macro}
 %

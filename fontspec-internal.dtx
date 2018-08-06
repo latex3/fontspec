@@ -510,22 +510,22 @@
 %    \begin{macrocode}
 \cs_new:Nn \@@_set_faces:
   {
-		\@@_add_nfssfont:nnnn \mddefault \updefault \l_fontspec_fontname_tl      \l_@@_fontfeat_up_clist
-		\@@_add_nfssfont:nnnn \bfdefault \updefault \l_@@_fontname_bf_tl   \l_@@_fontfeat_bf_clist
-		\@@_add_nfssfont:nnnn \mddefault \itdefault \l_@@_fontname_it_tl   \l_@@_fontfeat_it_clist
-		\@@_add_nfssfont:nnnn \mddefault \sldefault \l_@@_fontname_sl_tl   \l_@@_fontfeat_sl_clist
-		\@@_add_nfssfont:nnnn \bfdefault \itdefault \l_@@_fontname_bfit_tl \l_@@_fontfeat_bfit_clist
-		\@@_add_nfssfont:nnnn \bfdefault \sldefault \l_@@_fontname_bfsl_tl \l_@@_fontfeat_bfsl_clist
+    \@@_add_nfssfont:nnnn \mddefault \updefault \l_fontspec_fontname_tl      \l_@@_fontfeat_up_clist
+    \@@_add_nfssfont:nnnn \bfdefault \updefault \l_@@_fontname_bf_tl   \l_@@_fontfeat_bf_clist
+    \@@_add_nfssfont:nnnn \mddefault \itdefault \l_@@_fontname_it_tl   \l_@@_fontfeat_it_clist
+    \@@_add_nfssfont:nnnn \mddefault \sldefault \l_@@_fontname_sl_tl   \l_@@_fontfeat_sl_clist
+    \@@_add_nfssfont:nnnn \bfdefault \itdefault \l_@@_fontname_bfit_tl \l_@@_fontfeat_bfit_clist
+    \@@_add_nfssfont:nnnn \bfdefault \sldefault \l_@@_fontname_bfsl_tl \l_@@_fontfeat_bfsl_clist
 
-		\prop_map_inline:Nn \l_@@_nfssfont_prop { \@@_set_faces_aux:nnnnn ##2 }
+    \prop_map_inline:Nn \l_@@_nfssfont_prop { \@@_set_faces_aux:nnnnn ##2 }
   }
 %    \end{macrocode}
 %
 %    \begin{macrocode}
 \cs_new:Nn \@@_set_faces_aux:nnnnn
   {
-		\fontspec_complete_fontname:Nn \l_@@_curr_fontname_tl {#3}
-		\@@_make_font_shapes:Nnnnn \l_@@_curr_fontname_tl {#1} {#2} {#4} {#5}
+    \fontspec_complete_fontname:Nn \l_@@_curr_fontname_tl {#3}
+    \@@_make_font_shapes:Nnnnn \l_@@_curr_fontname_tl {#1} {#2} {#4} {#5}
   }
 %    \end{macrocode}
 % \end{macro}
@@ -552,17 +552,17 @@
 %    \begin{macrocode}
 \cs_new:Nn \@@_add_nfssfont:nnnn
   {
-		\tl_set:Nx \l_@@_this_font_tl {#3}
+    \tl_set:Nx \l_@@_this_font_tl {#3}
 
-		\tl_if_empty:xTF {#4}
-		  { \clist_set:Nn \l_@@_sizefeat_clist {Size={-}} }
-		  { \@@_keys_set_known:nxN {fontspec-preparse-nested} {#4} \l_@@_tmp_tl }
+    \tl_if_empty:xTF {#4}
+      { \clist_set:Nn \l_@@_sizefeat_clist {Size={-}} }
+      { \@@_keys_set_known:nxN {fontspec-preparse-nested} {#4} \l_@@_tmp_tl }
 
-		\tl_if_empty:NF \l_@@_this_font_tl
-		  {
-			  \prop_put:Nxx \l_@@_nfssfont_prop {#1/#2}
-			    { {#1}{#2}{\l_@@_this_font_tl}{#4}{\l_@@_sizefeat_clist} }
-		  }
+    \tl_if_empty:NF \l_@@_this_font_tl
+      {
+        \prop_put:Nxx \l_@@_nfssfont_prop {#1/#2}
+          { {#1}{#2}{\l_@@_this_font_tl}{#4}{\l_@@_sizefeat_clist} }
+      }
   }
 %    \end{macrocode}
 % \end{macro}
@@ -641,27 +641,27 @@
 %    \begin{macrocode}
 \cs_new:Nn \@@_set_autofont:Nnn
   {
-		\bool_if:NF \l_@@_external_bool
-		  {
-				\tl_if_empty:xF {#2}
-				  {
-						\tl_if_empty:NT #1
-						  {
-							  \@@_if_autofont:nnTF {#2} {#3}
-							    { \tl_set:Nx #1 {#2#3} }
-							    { \@@_info:nx {no-font-shape} {#2#3} }
-						  }
-				  }
-		  }
+    \bool_if:NF \l_@@_external_bool
+      {
+        \tl_if_empty:xF {#2}
+          {
+            \tl_if_empty:NT #1
+              {
+                \@@_if_autofont:nnTF {#2} {#3}
+                  { \tl_set:Nx #1 {#2#3} }
+                  { \@@_info:nx {no-font-shape} {#2#3} }
+              }
+          }
+      }
   }
 
 \prg_new_conditional:Nnn \@@_if_autofont:nn {T,TF}
   {
-		\@@_primitive_font_set:Nnn \l_tmpa_font { \@@_construct_font_call:nn {#1}   {} } {\f@size pt}
-		\@@_primitive_font_set:Nnn \l_tmpb_font { \@@_construct_font_call:nn {#1#2} {} } {\f@size pt}
-		\str_if_eq_x:nnTF { \fontname \l_tmpa_font } { \fontname \l_tmpb_font }
-		  { \prg_return_false: }
-		  { \prg_return_true: }
+    \@@_primitive_font_set:Nnn \l_tmpa_font { \@@_construct_font_call:nn {#1}   {} } {\f@size pt}
+    \@@_primitive_font_set:Nnn \l_tmpb_font { \@@_construct_font_call:nn {#1#2} {} } {\f@size pt}
+    \str_if_eq_x:nnTF { \fontname \l_tmpa_font } { \fontname \l_tmpb_font }
+      { \prg_return_false: }
+      { \prg_return_true: }
   }
 %    \end{macrocode}
 % \end{macro}
@@ -677,11 +677,11 @@
 %    \begin{macrocode}
 \cs_new:Nn \@@_make_font_shapes:Nnnnn
   {
-		\group_begin:
-			\@@_keys_set_known:nxN {fontspec-preparse-external} { #4 } \l_@@_leftover_clist
-			\@@_load_fontname:n {#1}
-			\@@_declare_shape:nnxx {#2} {#3} { \l_@@_fontopts_clist, \l_@@_leftover_clist } {#5}
-		\group_end:
+    \group_begin:
+      \@@_keys_set_known:nxN {fontspec-preparse-external} { #4 } \l_@@_leftover_clist
+      \@@_load_fontname:n {#1}
+      \@@_declare_shape:nnxx {#2} {#3} { \l_@@_fontopts_clist, \l_@@_leftover_clist } {#5}
+    \group_end:
   }
 
 \cs_new:Nn \@@_load_fontname:n
@@ -721,16 +721,16 @@
 \cs_new:Nn \@@_declare_shape:nnnn
   {
 %<debug>\typeout{=~ declare_shape:~{\l_fontspec_fontname_tl}~{#1}~{#2}}
-		\tl_clear:N \l_@@_nfss_tl
-		\tl_clear:N \l_@@_nfss_sc_tl
-		\tl_set_eq:NN \l_@@_saved_fontname_tl \l_fontspec_fontname_tl
+    \tl_clear:N \l_@@_nfss_tl
+    \tl_clear:N \l_@@_nfss_sc_tl
+    \tl_set_eq:NN \l_@@_saved_fontname_tl \l_fontspec_fontname_tl
 
-		\exp_args:Nx \clist_map_inline:nn {#4} { \@@_setup_single_size:nn {#3} {##1} }
+    \exp_args:Nx \clist_map_inline:nn {#4} { \@@_setup_single_size:nn {#3} {##1} }
 
-		\@@_declare_shapes_normal:nn {#1} {#2}
-		\@@_declare_shapes_smcaps:nn {#1} {#2}
-		\@@_declare_shape_slanted:nn {#1} {#2}
-		\@@_declare_shape_loginfo:nn {#1} {#2}
+    \@@_declare_shapes_normal:nn {#1} {#2}
+    \@@_declare_shapes_smcaps:nn {#1} {#2}
+    \@@_declare_shape_slanted:nn {#1} {#2}
+    \@@_declare_shape_loginfo:nn {#1} {#2}
   }
 \cs_generate_variant:Nn \@@_declare_shape:nnnn {nnxx}
 %    \end{macrocode}
@@ -854,15 +854,15 @@
 %    \begin{macrocode}
 \cs_new:Nn \@@_declare_shape_slanted:nn
   {
-		\bool_if:nT
-		  {
-			     \str_if_eq_x_p:nn {#2} {\itdefault}  &&
-			   !(\str_if_eq_x_p:nn {\itdefault} {\sldefault})
-		  }
-		  {
-			  \@@_DeclareFontShape:xxxxxx {\g_@@_nfss_enc_tl}{\g_@@_nfss_family_tl}{#1}{\sldefault}
-				  {<->ssub*\g_@@_nfss_family_tl/#1/\itdefault}{\l_@@_postadjust_tl}
-		  }
+    \bool_if:nT
+      {
+          \str_if_eq_x_p:nn {#2} {\itdefault}  &&
+        !(\str_if_eq_x_p:nn {\itdefault} {\sldefault})
+      }
+      {
+        \@@_DeclareFontShape:xxxxxx {\g_@@_nfss_enc_tl}{\g_@@_nfss_family_tl}{#1}{\sldefault}
+          {<->ssub*\g_@@_nfss_family_tl/#1/\itdefault}{\l_@@_postadjust_tl}
+      }
   }
 %    \end{macrocode}
 % \end{macro}

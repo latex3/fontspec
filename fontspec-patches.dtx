@@ -12,16 +12,16 @@
 % This macro is courtesy of Frank Mittelbach and the \LaTeXe\ source code.
 %    \begin{macrocode}
 \DeclareRobustCommand{\-}
- {
-  \discretionary
-   {
-    \char\ifnum\hyphenchar\font<\z@
-           \xlx@defaulthyphenchar
-         \else
-           \hyphenchar\font
-         \fi
-   }{}{}
- }
+  {
+    \discretionary
+      {
+        \char\ifnum\hyphenchar\font<\z@
+              \xlx@defaulthyphenchar
+            \else
+              \hyphenchar\font
+            \fi
+      }{}{}
+  }
 \def\xlx@defaulthyphenchar{`\-}
 %    \end{macrocode}
 % \end{macro}
@@ -35,11 +35,11 @@
 % Print \unichar{2423}{Open box}, which is used to visibly display a space character.
 %    \begin{macrocode}
 \cs_new:Nn \fontspec_visible_space:
- {
-  \@@_primitive_font_glyph_if_exist:NnTF \font {"2423}
-   { \char"2423\scan_stop: }
-   { \fontspec_visible_space_fallback: }
- }
+  {
+    \@@_primitive_font_glyph_if_exist:NnTF \font {"2423}
+      { \char"2423\scan_stop: }
+      { \fontspec_visible_space_fallback: }
+  }
 %    \end{macrocode}
 % \end{macro}
 %
@@ -47,12 +47,12 @@
 % If the current font doesn't have \unichar{2423}{Open box}, use Latin Modern Mono instead.
 %    \begin{macrocode}
 \cs_new:Nn \fontspec_visible_space_fallback:
- {
   {
-   \usefont{\g_fontspec_encoding_tl}{lmtt}{\f@series}{\f@shape}
-   \textvisiblespace
+    {
+      \usefont{\g_fontspec_encoding_tl}{lmtt}{\f@series}{\f@shape}
+      \textvisiblespace
+    }
   }
- }
 %    \end{macrocode}
 % \end{macro}
 %
@@ -74,13 +74,13 @@
 % Redefine \cmd\verb\ to use \cmd\fontspec_print_visible_spaces:.
 %    \begin{macrocode}
 \def\verb
- {
-  \relax\ifmmode\hbox\else\leavevmode\null\fi
-  \bgroup
-    \verb@eol@error \let\do\@makeother \dospecials
-    \verbatim@font\@noligs
-    \@ifstar\@@sverb\@verb
- }
+  {
+    \relax\ifmmode\hbox\else\leavevmode\null\fi
+    \bgroup
+      \verb@eol@error \let\do\@makeother \dospecials
+      \verbatim@font\@noligs
+      \@ifstar\@@sverb\@verb
+  }
 \def\@@sverb{\fontspec_print_visible_spaces:\@sverb}
 %    \end{macrocode}
 % \end{macro}
@@ -89,35 +89,35 @@
 % It's better to put small things into \cmd\AtBeginDocument, so here we go:
 %    \begin{macrocode}
 \AtBeginDocument
- {
-  \fontspec_patch_verbatim:
-  \fontspec_patch_moreverb:
-  \fontspec_patch_fancyvrb:
-  \fontspec_patch_listings:
- }
+  {
+    \fontspec_patch_verbatim:
+    \fontspec_patch_moreverb:
+    \fontspec_patch_fancyvrb:
+    \fontspec_patch_listings:
+  }
 %    \end{macrocode}
 %
 % \begin{environment}{verbatim*}
 % With the \pkg{verbatim} package.
 %    \begin{macrocode}
 \cs_set:Npn \fontspec_patch_verbatim:
- {
-  \@ifpackageloaded{verbatim}
-   {
-    \cs_set:cpn {verbatim*}
-     {
-      \group_begin: \@verbatim \fontspec_print_visible_spaces: \verbatim@start
-     }
-   }
+  {
+    \@ifpackageloaded{verbatim}
+      {
+        \cs_set:cpn {verbatim*}
+          {
+            \group_begin: \@verbatim \fontspec_print_visible_spaces: \verbatim@start
+          }
+      }
 %    \end{macrocode}
 % This is for vanilla \LaTeX.
 %    \begin{macrocode}
-   {
-    \cs_set:cpn {verbatim*}
-     {
-      \@verbatim \fontspec_print_visible_spaces: \@sxverbatim
-     }
-   }
+      {
+        \cs_set:cpn {verbatim*}
+          {
+            \@verbatim \fontspec_print_visible_spaces: \@sxverbatim
+          }
+      }
  }
 %    \end{macrocode}
 % \end{environment}
@@ -127,41 +127,42 @@
 % The main |listing*| environment inherits this definition.
 %    \begin{macrocode}
 \cs_set:Npn \fontspec_patch_moreverb:
- {
-  \@ifpackageloaded{moreverb}{
-    \cs_set:cpn {listingcont*}
-     {
-      \cs_set:Npn \verbatim@processline
-       {
-        \thelisting@line \global\advance\listing@line\c_one
-        \the\verbatim@line\par
-       }
-      \@verbatim \fontspec_print_visible_spaces: \verbatim@start
-     }
-  }{}
- }
+  {
+    \@ifpackageloaded{moreverb}
+      {
+        \cs_set:cpn {listingcont*}
+          {
+            \cs_set:Npn \verbatim@processline
+              {
+                \thelisting@line \global\advance\listing@line\c_one
+                \the\verbatim@line\par
+              }
+            \@verbatim \fontspec_print_visible_spaces: \verbatim@start
+          }
+      }{}
+  }
 %    \end{macrocode}
 % \end{environment}
 %
 % \pkg{listings} and \pkg{fancvrb} make things nice and easy:
 %    \begin{macrocode}
 \cs_set:Npn \fontspec_patch_fancyvrb:
- {
-  \@ifpackageloaded{fancyvrb}
-   {
-    \cs_set_eq:NN \FancyVerbSpace \fontspec_visible_space:
-   }{}
- }
+  {
+    \@ifpackageloaded{fancyvrb}
+      {
+        \cs_set_eq:NN \FancyVerbSpace \fontspec_visible_space:
+      }{}
+  }
 %    \end{macrocode}
 %
 %    \begin{macrocode}
 \cs_set:Npn \fontspec_patch_listings:
- {
-  \@ifpackageloaded{listings}
-   {
-    \cs_set_eq:NN \lst@visiblespace \fontspec_visible_space:
-   }{}
- }
+  {
+    \@ifpackageloaded{listings}
+      {
+        \cs_set_eq:NN \lst@visiblespace \fontspec_visible_space:
+      }{}
+  }
 %    \end{macrocode}
 %
 % \subsection{\cs{oldstylenums}}
@@ -173,13 +174,13 @@
 % And we may as well provide the reverse command.
 %    \begin{macrocode}
 \RenewDocumentCommand \oldstylenums {m}
- {
-  { \addfontfeature{Numbers=OldStyle} #1 }
- }
+  {
+    { \addfontfeature{Numbers=OldStyle} #1 }
+  }
 \NewDocumentCommand \liningnums {m}
- {
-  { \addfontfeature{Numbers=Lining} #1 }
- }
+  {
+    { \addfontfeature{Numbers=Lining} #1 }
+  }
 %    \end{macrocode}
 % \end{macro}
 % \end{macro}

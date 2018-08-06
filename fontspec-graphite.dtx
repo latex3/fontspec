@@ -20,29 +20,31 @@
 % \begin{macro}{\@@_define_aat_feature:nnnn}
 %    \begin{macrocode}
 \cs_new:Nn \@@_define_aat_feature:nnnn
- {
-  \keys_define:nn {fontspec-aat}
-   {
-    #1/#2 .code:n = { \@@_make_AAT_feature:nn {#3}{#4} }
-   }
- }
+  {
+    \keys_define:nn {fontspec-aat}
+      {
+        #1/#2 .code:n = { \@@_make_AAT_feature:nn {#3}{#4} }
+      }
+  }
 %    \end{macrocode}
 % \end{macro}
 
 % \begin{macro}{\@@_make_AAT_feature:nn}
 %    \begin{macrocode}
 \cs_new:Nn \@@_make_AAT_feature:nn
- {
-  \tl_if_empty:nTF {#1}
-   { \@@_warning:n {aat-feature-not-exist} }
-   {
-     \@@_make_AAT_feature_string:NnnTF \l_fontspec_font {#1}{#2}
+  {
+    \tl_if_empty:nTF {#1}
+      { \@@_warning:n {aat-feature-not-exist} }
       {
-       \@@_update_featstr:n {\l_fontspec_feature_string_tl}
-     }
-     { \@@_warning:nx {aat-feature-not-exist-in-font} {#1,#2} }
-   }
- }
+        \@@_make_AAT_feature_string:NnnTF \l_fontspec_font {#1}{#2}
+          {
+            \@@_update_featstr:n {\l_fontspec_feature_string_tl}
+          }
+          {
+            \@@_warning:nx {aat-feature-not-exist-in-font} {#1,#2}
+          }
+      }
+  }
 %    \end{macrocode}
 % \end{macro}
 %

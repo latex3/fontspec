@@ -2,26 +2,30 @@
 
 module = "fontspec"
 
+--[[
+      PARAMETERS
+--]]
+
 sourcefiles  = {"*.ins","*.dtx","*.ltx","*.cfg","*.tex","fontspec-doc-style.sty"}
 installfiles = {"fontspec.sty","fontspec-xetex.sty","fontspec-luatex.sty","fontspec.lua","fontspec.cfg"}
-typesetfiles = {"fontspec.ltx","fontspec-code.ltx"}
 demofiles    = {"fontspec-example.tex"}
 textfiles    = {"README.md","CHANGES.md","LICENSE"}
 tagfiles     = {"fontspec.dtx","CHANGES.md"}
 
-typesetopts = " -shell-escape -interaction=errorstopmode "
+typesetfiles = {"fontspec.ltx","fontspec-code.ltx"}
+typesetexe   = "xelatex"
+typesetopts  = " -shell-escape -interaction=errorstopmode "
+
 unpackopts  = " -interaction=batchmode "
 
 checkengines = {"xetex","luatex"}
-
-typesetexe = "xelatex"
-
 recordstatus = true
+
 packtdszip = true
 
 
 --[[
-     TAGGING
+      VERSION
 --]]
 
 changeslisting = nil
@@ -33,6 +37,11 @@ end
 pkgversion = string.match(changeslisting,"## v(%S+) %(.-%)")
 print('Current version (from first entry in CHANGES.md): '..pkgversion)
 
+
+
+--[[
+     TAGGING
+--]]
 
 function update_tag(file, content, tagname, tagdate)
   local date = string.gsub(tagdate, "%-", "/")
@@ -62,3 +71,34 @@ function update_tag(file, content, tagname, tagdate)
 end
 
 
+
+--[[
+     CTAN UPLOAD
+--]]
+
+-- ctan upload settings
+ctan_pkg     = module
+ctan_version = pkgversion
+ctan_author  = "Will Robertson"
+
+local handle = io.popen('git config user.email')
+ctan_email = string.gsub(handle:read("*a"),'%s*$','')
+handle:close()
+
+ctan_uploader = ctan_author
+ctan_ctanPath = [[]]
+ctan_license  = "lppl"
+
+-- ctan_sumary  is mandatory: not setting it will trigger interaction
+
+ctan_announcement='ask'  -- this is optional: setting it to "ask" forces interaction
+
+ctan_update=true
+
+ctan_note=[[
+This has been uploaded automatically using l3build.
+Please let me know if there seems to be anything amiss -- and apologies if so!
+]]
+
+ctan_file = module..".zip"
+ctanupload="ask"

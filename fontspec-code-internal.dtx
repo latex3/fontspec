@@ -418,6 +418,8 @@
       \prg_return_true:
     }
   }
+%    \end{macrocode}
+%    \begin{macrocode}
 \cs_new:Nn \@@_save_fontid_family:nn
   {
     \prop_get:NnNTF \g_@@_family_int_prop {#2} \l_@@_tmp_tl
@@ -654,7 +656,9 @@
           }
       }
   }
-
+%    \end{macrocode}
+%
+%    \begin{macrocode}
 \prg_new_conditional:Nnn \@@_if_autofont:nn {T,TF}
   {
     \@@_primitive_font_set:Nnn \l_tmpa_font { \@@_construct_font_call:nn {#1}   {} } {\f@size pt}
@@ -683,7 +687,9 @@
       \@@_declare_shape:nnxx {#2} {#3} { \l_@@_fontopts_clist, \l_@@_leftover_clist } {#5}
     \group_end:
   }
-
+%    \end{macrocode}
+%
+%    \begin{macrocode}
 \cs_new:Nn \@@_load_fontname:n
   {
 %<debug>    \typeout{:: @@_load_fontname:n {#1} }
@@ -732,6 +738,9 @@
     \@@_declare_shape_slanted:nn {#1} {#2}
     \@@_declare_shape_loginfo:nn {#1} {#2}
   }
+%    \end{macrocode}
+%
+%    \begin{macrocode}
 \cs_generate_variant:Nn \@@_declare_shape:nnnn {nnxx}
 %    \end{macrocode}
 % \end{macro}
@@ -821,7 +830,9 @@
         { \@@_combo_sc_shape:n {#2} } {\l_@@_nfss_sc_tl} {\l_@@_postadjust_tl}
      }
   }
-
+%    \end{macrocode}
+%
+%    \begin{macrocode}
 \cs_new:Nn \@@_combo_sc_shape:n
   {
     \tl_if_exist:cTF { \@@_shape_merge:nn {#1} {\scdefault} }
@@ -872,38 +883,38 @@
 %    \begin{macrocode}
 \cs_new:Nn \@@_declare_shape_loginfo:nn
   {
-		\tl_gput_right:Nx \g_@@_defined_shapes_tl
-		  {
-				\exp_not:n { \\ }
-				-~ \exp_not:N \str_case:nn {#1/#2}
-				 {
-					 {\mddefault/\updefault} {'normal'~}
-					 {\bfdefault/\updefault} {'bold'~}
-					 {\mddefault/\itdefault} {'italic'~}
-					 {\mddefault/\sldefault} {'slanted'~}
-					 {\bfdefault/\itdefault} {'bold~ italic'~}
-					 {\bfdefault/\sldefault} {'bold~ slanted'~}
-				 } (#1/#2)~
-				with~ NFSS~ spec.:~
-				\l_@@_nfss_tl
-				\exp_not:n { \\ }
-				-~ \exp_not:N \str_case:nn { #1 / \@@_combo_sc_shape:n {#2} }
-				 {
-					 {\mddefault/\scdefault} {'small~ caps'~}
-					 {\bfdefault/\scdefault} {'bold~ small~ caps'~}
-					 {\mddefault/\itscdefault} {'italic~ small~ caps'~}
-					 {\bfdefault/\itscdefault} {'bold~ italic~ small~ caps'~}
-					 {\mddefault/\slscdefault} {'slanted~ small~ caps'~}
-					 {\bfdefault/\slscdefault} {'bold~ slanted~ small~ caps'~}
-				 }~( #1 / \@@_combo_sc_shape:n {#2} )~
-				with~ NFSS~ spec.:~
-				\l_@@_nfss_sc_tl
-				\tl_if_empty:fF {\l_@@_postadjust_tl}
-			 	  {
-					  \exp_not:N \\ and~ font~ adjustment~ code:
-					  \exp_not:N \\ \l_@@_postadjust_tl
-				  }
-		  }
+    \tl_gput_right:Nx \g_@@_defined_shapes_tl
+      {
+        \exp_not:n { \\ }
+        -~ \exp_not:N \str_case:nn {#1/#2}
+        {
+          {\mddefault/\updefault} {'normal'~}
+          {\bfdefault/\updefault} {'bold'~}
+          {\mddefault/\itdefault} {'italic'~}
+          {\mddefault/\sldefault} {'slanted'~}
+          {\bfdefault/\itdefault} {'bold~ italic'~}
+          {\bfdefault/\sldefault} {'bold~ slanted'~}
+        } (#1/#2)~
+        with~ NFSS~ spec.:~
+        \l_@@_nfss_tl
+        \exp_not:n { \\ }
+        -~ \exp_not:N \str_case:nn { #1 / \@@_combo_sc_shape:n {#2} }
+        {
+          {\mddefault/\scdefault} {'small~ caps'~}
+          {\bfdefault/\scdefault} {'bold~ small~ caps'~}
+          {\mddefault/\itscdefault} {'italic~ small~ caps'~}
+          {\bfdefault/\itscdefault} {'bold~ italic~ small~ caps'~}
+          {\mddefault/\slscdefault} {'slanted~ small~ caps'~}
+          {\bfdefault/\slscdefault} {'bold~ slanted~ small~ caps'~}
+        }~( #1 / \@@_combo_sc_shape:n {#2} )~
+        with~ NFSS~ spec.:~
+        \l_@@_nfss_sc_tl
+        \tl_if_empty:fF {\l_@@_postadjust_tl}
+          {
+          \exp_not:N \\ and~ font~ adjustment~ code:
+          \exp_not:N \\ \l_@@_postadjust_tl
+          }
+      }
   }
 %    \end{macrocode}
 % Maybe |\str_if_eq_x:nnF| would be better?
@@ -919,24 +930,24 @@
 \tl_set:Nn \l_@@_pre_feat_sclist
 %<*XE>
   {
-		\bool_if:NT \l_@@_ot_bool
- 		  {
-				\tl_if_empty:NF \l_fontspec_script_tl
-				  {
-					  script   = \l_fontspec_script_tl ;
-					  language = \l_fontspec_lang_tl   ;
-				  }
- 		  }
+    \bool_if:NT \l_@@_ot_bool
+      {
+        \tl_if_empty:NF \l_fontspec_script_tl
+          {
+            script   = \l_fontspec_script_tl ;
+            language = \l_fontspec_lang_tl   ;
+          }
+      }
   }
 %</XE>
 %<*LU>
   {
-		mode     = \l_fontspec_mode_tl   ;
-		\tl_if_empty:NF \l_fontspec_script_tl
-		  {
-			  script   = \l_fontspec_script_tl ;
-			  language = \l_fontspec_lang_tl   ;
-		  }
+    mode     = \l_fontspec_mode_tl   ;
+    \tl_if_empty:NF \l_fontspec_script_tl
+      {
+        script   = \l_fontspec_script_tl ;
+        language = \l_fontspec_lang_tl   ;
+      }
   }
 %</LU>
 %    \end{macrocode}
@@ -955,12 +966,12 @@
 %<*XE>
 \cs_new:Nn \@@_make_smallcaps:TF
   {
-		\bool_if:NTF \l_@@_ot_bool
-		  { \@@_make_ot_smallcaps:TF {#1} {#2} }
-		  {
-			  \bool_if:NT \l_@@_atsui_bool
-				  { \@@_make_AAT_feature_string:NnnTF \l_fontspec_font {3}{3} {#1} {#2} }
-		  }
+    \bool_if:NTF \l_@@_ot_bool
+      { \@@_make_ot_smallcaps:TF {#1} {#2} }
+      {
+        \bool_if:NT \l_@@_atsui_bool
+          { \@@_make_AAT_feature_string:NnnTF \l_fontspec_font {3}{3} {#1} {#2} }
+      }
   }
 %</XE>
 %    \end{macrocode}
@@ -1009,22 +1020,22 @@
 \cs_set:Npn \@@_init:
   {
 %<debug>  \typeout{:: @@_init:}
-		\bool_set_false:N \l_@@_ot_bool
-		\bool_set_true:N \l_@@_firsttime_bool
-		\@@_font_is_name:
-		\tl_clear:N \l_@@_font_path_tl
-		\tl_clear:N \l_@@_optical_size_tl
-		\tl_clear:N \l_@@_ttc_index_tl
-		\tl_clear:N \l_fontspec_renderer_tl
-		\tl_gclear:N \g_@@_defined_shapes_tl
-		\tl_gclear:N \g_@@_curr_series_tl
-		\tl_gset_eq:NN \g_@@_nfss_enc_tl \g_fontspec_encoding_tl
+    \bool_set_false:N \l_@@_ot_bool
+    \bool_set_true:N \l_@@_firsttime_bool
+    \@@_font_is_name:
+    \tl_clear:N \l_@@_font_path_tl
+    \tl_clear:N \l_@@_optical_size_tl
+    \tl_clear:N \l_@@_ttc_index_tl
+    \tl_clear:N \l_fontspec_renderer_tl
+    \tl_gclear:N \g_@@_defined_shapes_tl
+    \tl_gclear:N \g_@@_curr_series_tl
+    \tl_gset_eq:NN \g_@@_nfss_enc_tl \g_fontspec_encoding_tl
 %<*LU>
-		\tl_set:Nn \l_fontspec_mode_tl {node}
-		\int_set:Nn \luatex_prehyphenchar:D { `\- } % fixme
-		\int_zero:N \luatex_posthyphenchar:D        % fixme
-		\int_zero:N \luatex_preexhyphenchar:D       % fixme
-		\int_zero:N \luatex_postexhyphenchar:D      % fixme
+    \tl_set:Nn \l_fontspec_mode_tl {node}
+    \int_set:Nn \luatex_prehyphenchar:D { `\- } % fixme
+    \int_zero:N \luatex_posthyphenchar:D        % fixme
+    \int_zero:N \luatex_preexhyphenchar:D       % fixme
+    \int_zero:N \luatex_postexhyphenchar:D      % fixme
 %</LU>
   }
 %    \end{macrocode}

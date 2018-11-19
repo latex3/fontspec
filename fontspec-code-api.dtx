@@ -121,18 +121,18 @@
 % font.
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \fontspec_if_feature:nnn {TF,T,F}
- {
-  \fontspec_if_fontspec_font:TF
-   {
-    \@@_set_font_type:N \font
-    \bool_if:NTF \l_@@_ot_bool
-     {
-      \@@_check_ot_feat:NnnnTF \font {#3} {#2} {#1} \prg_return_true: \prg_return_false:
-     }
-     { \prg_return_false: }
-   }
-   { \prg_return_false: }
- }
+  {
+    \fontspec_if_fontspec_font:TF
+      {
+        \@@_set_font_type:N \font
+        \bool_if:NTF \l_@@_ot_bool
+          {
+            \@@_check_ot_feat:NnnnTF \font {#3} {#2} {#1} \prg_return_true: \prg_return_false:
+          }
+          { \prg_return_false: }
+      }
+      { \prg_return_false: }
+  }
 %    \end{macrocode}
 % \end{macro}
 %
@@ -143,18 +143,18 @@
 % font.
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \fontspec_if_script:n {TF,T,F}
- {
-  \fontspec_if_fontspec_font:TF
-   {
-    \@@_set_font_type:N \font
-    \bool_if:NTF \l_@@_ot_bool
-     {
-      \@@_check_script:NnTF \font {#1} \prg_return_true: \prg_return_false:
-     }
-     { \prg_return_false: }
-   }
-   { \prg_return_false: }
- }
+  {
+    \fontspec_if_fontspec_font:TF
+      {
+        \@@_set_font_type:N \font
+        \bool_if:NTF \l_@@_ot_bool
+          {
+            \@@_check_script:NnTF \font {#1} \prg_return_true: \prg_return_false:
+          }
+          { \prg_return_false: }
+      }
+      { \prg_return_false: }
+  }
 %    \end{macrocode}
 % \end{macro}
 %

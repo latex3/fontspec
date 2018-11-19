@@ -13,7 +13,9 @@
 % \begin{macro}{\@@_define_aat_feature_group:n}
 %    \begin{macrocode}
 \cs_new:Nn \@@_define_aat_feature_group:n
-  { \keys_define:nn {fontspec-aat} { #1 .multichoice: } }
+  {
+    \keys_define:nn {fontspec-aat} { #1 .multichoice: }
+  }
 %    \end{macrocode}
 % \end{macro}
 %
@@ -67,36 +69,37 @@
 % Finally, save out the complete feature string in \cmd\l_fontspec_feature_string_tl.
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \@@_make_AAT_feature_string:Nnn {TF,T,F}
- {
-  \tl_set:Nx \l_@@_tmpa_tl { \XeTeXfeaturename #1 #2 }
-  \tl_if_empty:NTF \l_@@_tmpa_tl
-   { \prg_return_false: }
-   {
-    \int_compare:nTF { \XeTeXisexclusivefeature #1 #2 > 0 }
-     {
-      \tl_set:Nx \l_@@_tmpb_tl {\XeTeXselectorname #1 #2\space #3}
+  {
+    \tl_set:Nx \l_@@_tmpa_tl { \XeTeXfeaturename #1 #2 }
+    \tl_if_empty:NTF \l_@@_tmpa_tl
+      { \prg_return_false: }
+      {
+        \int_compare:nTF { \XeTeXisexclusivefeature #1 #2 > 0 }
+          {
+            \tl_set:Nx \l_@@_tmpb_tl {\XeTeXselectorname #1 #2\space #3}
+          }
+          {
+            \int_if_even:nTF {#3}
+              {
+                \tl_set:Nx \l_@@_tmpb_tl {\XeTeXselectorname #1 #2\space #3}
+              }
+              {
+                \tl_set:Nx \l_@@_tmpb_tl
+                  {
+                    \XeTeXselectorname #1 #2\space \numexpr#3-1\relax
+                  }
+                \tl_if_empty:NF \l_@@_tmpb_tl { \tl_put_left:Nn \l_@@_tmpb_tl {!} }
+              }
+          }
+
+        \tl_if_empty:NTF \l_@@_tmpb_tl
+          { \prg_return_false: }
+          {
+            \tl_set:Nx \l_fontspec_feature_string_tl { \l_@@_tmpa_tl = \l_@@_tmpb_tl }
+            \prg_return_true:
+          }
      }
-     {
-      \int_if_even:nTF {#3}
-       {
-        \tl_set:Nx \l_@@_tmpb_tl {\XeTeXselectorname #1 #2\space #3}
-       }
-       {
-        \tl_set:Nx \l_@@_tmpb_tl
-         {
-          \XeTeXselectorname #1 #2\space \numexpr#3-1\relax
-         }
-        \tl_if_empty:NF \l_@@_tmpb_tl { \tl_put_left:Nn \l_@@_tmpb_tl {!} }
-       }
-    }
-    \tl_if_empty:NTF \l_@@_tmpb_tl
-     { \prg_return_false: }
-     {
-      \tl_set:Nx \l_fontspec_feature_string_tl { \l_@@_tmpa_tl = \l_@@_tmpb_tl }
-      \prg_return_true:
-     }
-   }
- }
+  }
 %    \end{macrocode}
 % \end{macro}
 %

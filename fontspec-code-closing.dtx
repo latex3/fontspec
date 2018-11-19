@@ -12,11 +12,11 @@
 % Now we just want to set up loading the \texttt{.cfg} file, if it exists.
 %    \begin{macrocode}
 \bool_if:NT \g_@@_cfg_bool
- {
-  \InputIfFileExists{fontspec.cfg}
-    {}
-    {\typeout{No~ fontspec.cfg~ file~ found;~ no~ configuration~ loaded.}}
- }
+  {
+    \InputIfFileExists{fontspec.cfg}
+      {}
+      { \typeout{No~ fontspec.cfg~ file~ found;~ no~ configuration~ loaded.} }
+  }
 %    \end{macrocode}
 %
 % \iffalse

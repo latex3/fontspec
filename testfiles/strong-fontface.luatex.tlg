@@ -3,15 +3,15 @@ Don't change this file in any respect.
 Define three levels of strong.
 "Light":
 TU/SourceCodePro(0)/m/n:
-  [SourceCodePro-Light.otf]:mode=node;script=latn;language=DFLT;+tlig; at 10.0pt
+  [SourceCodePro-Light.otf]:mode=node;script=latn;language=DFLT;+tlig;
 "Regular":
 TU/SourceCodePro(0)/bx/n:
-  [SourceCodePro-Regular.otf]:mode=node;script=latn;language=DFLT;+tlig; at 10.0pt
+  [SourceCodePro-Regular.otf]:mode=node;script=latn;language=DFLT;+tlig;
 "Black":
 TU/SourceCodePro(0)/k/n:
-  [SourceCodePro-Black.otf]:mode=node;script=latn;language=DFLT;+tlig; at 10.0pt
+  [SourceCodePro-Black.otf]:mode=node;script=latn;language=DFLT;+tlig;
 "Now what? (same again)":
 TU/SourceCodePro(0)/k/n:
-  [SourceCodePro-Black.otf]:mode=node;script=latn;language=DFLT;+tlig; at 10.0pt
+  [SourceCodePro-Black.otf]:mode=node;script=latn;language=DFLT;+tlig;
 ***************
 Compilation 1 of test file completed with exit status 0

@@ -493,9 +493,10 @@ Japanese typography for annotations.
 For fonts with multiple |salt| OpenType features,
 use the fontspec \feat{Alternate} feature instead.
 
-\Exref{style-alt} and \exref{style-hist} both contain glyph
-substitutions with similar characteristics.
-Note the occasional inconsistency with which font features are labelled; a long-tailed `Q' could turn up anywhere!
+\Exref{style-alt} shows an example of a font feature that involves glyph substitution
+for particular letters within an alphabet.
+Other options in these categories operate in similar ways, with the choice of how
+particular substitutions are organised with which feature largely up to the font designer.
 
  \begin{Xexample}[firstline=2]{style-alt}{Example of the \opt{Alternate} option of the \feat{Style} feature.}
   \Large
@@ -505,24 +506,10 @@ Note the occasional inconsistency with which font features are labelled; a long-
    M Q W
 \end{Xexample}
 
-\begin{Xexample}[firstline=2]{style-hist}{Example of the \opt{Historic} option of the \feat{Style} feature.}
-  \Large
-  \fontspec{Adobe Jenson Pro}
-   M Q Z                      \\
-  \addfontfeature{Style=Historic}
-   M Q Z
-\end{Xexample}
-
 In other features, larger breadths of changes can be seen, covering
-the style of an entire alphabet. See \exref{style-titl} and \exref{style-itrub}; in the latter, the \opt{Italic} option affects the Latin text and the \opt{Ruby} option the Japanese.
-
-\begin{Xexample}[firstline=2]{style-titl}{Example of the \opt{TitlingCaps} option of the \feat{Style} feature.}
-  \Large
-  \fontspec{Adobe Garamond Pro}
-   TITLING CAPS                       \\
-  \addfontfeature{Style=TitlingCaps}
-   TITLING CAPS
-\end{Xexample}
+the style of an entire alphabet.
+See \exref{style-itrub}; here, the \opt{Italic} option affects the Latin text
+and the \opt{Ruby} option the Japanese.
 
 \begin{Xexample}[firstline=2]{style-itrub}{Example of the \opt{Italic} and \opt{Ruby} options of the \feat{Style} feature.}
   \Large \def\kana{ようこそ ワカヨタレソ}
@@ -546,6 +533,7 @@ in \exref{style-hvkana}: the horizontal style is slightly wider.
 \end{Xexample}
 
 \subsection{Diacritics}
+
 Specifies how combining diacritics should be placed.
 These will usually be controlled automatically
 according to the Script setting.

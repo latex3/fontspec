@@ -134,7 +134,7 @@
           {
             \cs_set:Npn \verbatim@processline
               {
-                \thelisting@line \global\advance\listing@line\c_one
+                \thelisting@line \global\advance\listing@line1\relax
                 \the\verbatim@line\par
               }
             \@verbatim \fontspec_print_visible_spaces: \verbatim@start

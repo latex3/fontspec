@@ -63,7 +63,7 @@
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \@@_primitive_font_glyph_if_exist:Nn {p,TF,T,F}
   {
-    \etex_iffontchar:D #1 #2 \scan_stop:
+    \tex_iffontchar:D #1 #2 \scan_stop:
       \prg_return_true:
     \else:
       \prg_return_false:

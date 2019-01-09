@@ -37,6 +37,9 @@ end
 pkgversion = string.match(changeslisting,"## v(%S+) %(.-%)")
 print('Current version (from first entry in CHANGES.md): '..pkgversion)
 
+pkgchanges = string.match(changeslisting,"## v%S+ .-(.-)## v")
+print('Changes: '..pkgchanges)
+
 
 
 --[============[
@@ -80,14 +83,12 @@ uploadconfig = {
   version     = pkgversion,
   author      = "Will Robertson",
   license     = "lppl1.3c",
-  summary     = "Unify and control maths subscript heights",
-  ctanPath    = "/macros/latex/contrib/subdepth",
-  repository  = "https://github.com/wspr/will2e/",
-  bugtracker  = "https://github.com/wspr/will2e/issues",
+  summary     = "Advanced font selection in XeLaTeX and LuaLaTeX",
+  ctanPath    = "/macros/latex/contrib/fontspec",
+  repository  = "https://github.com/wspr/fontspec/",
+  bugtracker  = "https://github.com/wspr/fontspec/issues",
 }
 
-local f=io.open("l3build-wspr.lua","r")
-if f ~= nil then
-  io.close(f)
-  require("l3build-wspr.lua")
-end
+require("l3build-wspr.lua")
+
+

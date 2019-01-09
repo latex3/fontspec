@@ -86,6 +86,12 @@ uploadconfig = {
   bugtracker  = "https://github.com/wspr/fontspec/issues",
 }
 
-pcall(require("l3build-wspr.lua"))
+local function prequire(m) -- from: https://stackoverflow.com/a/17878208
+  local ok, err = pcall(require, m)
+  if not ok then return nil, err end
+  return err
+end
+
+prequire("l3build-wspr.lua")
 
 

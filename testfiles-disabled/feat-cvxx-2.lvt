@@ -6,7 +6,7 @@
 
 \begin{document}
 
-\fontspec{EBGaramond12-Italic.otf}%
+\fontspec{EBGaramond-Italic.otf}%
 
                            \& violet \CURRNFSS \\
 {\addfontfeature{CharacterVariant={4}}     \& violet \CURRNFSS }\\

@@ -152,7 +152,7 @@
 %    \begin{macrocode}
 \@@_keys_define_code:nnn {fontspec-preparse} {FontIndex}
   {
-    \str_if_eq_x:nnF { \str_lower_case:f {\l_@@_extension_tl} } {.ttc}
+    \str_if_eq:eeF { \str_lower_case:f {\l_@@_extension_tl} } {.ttc}
       { \@@_warning:n {font-index-needs-ttc} }
 %<XE>  \tl_set:Nn \l_@@_ttc_index_tl {:#1}
 %<LU>  \tl_set:Nn \l_@@_ttc_index_tl {(#1)}
@@ -447,14 +447,16 @@
       \@@_set_font_dimen:NnN \l_@@_tmpa_dim {#1} \font
       \@@_set_font_dimen:NnN \l_@@_tmpb_dim {#1} \l_fontspec_font
 
-      \tl_gset:Nx \l_@@_scale_tl
+      \tl_set:Nx \l_@@_scale_tl
         {
           \fp_eval:n { \dim_to_fp:n {\l_@@_tmpa_dim} /
                       \dim_to_fp:n {\l_@@_tmpb_dim} }
         }
 
       \@@_info:n {set-scale}
+      \exp_args:NNNx
     \group_end:
+    \tl_set:Nx \l_@@_scale_tl { \l_@@_scale_tl }
   }
 %    \end{macrocode}
 % \end{macro}
@@ -532,7 +534,7 @@
 %    \begin{macrocode}
 \@@_keys_define_code:nnn {fontspec} {PunctuationSpace}
   {
-    \str_case_x:nnF {#1}
+    \str_case_e:nnF {#1}
       {
         {WordSpace}
           {
@@ -590,13 +592,13 @@
         \@@_warning:nx {only-xetex-feature} {HyphenChar}
 
         \tl_if_single:nTF {#1}
-          { \tl_set:Nn \l_fontspec_hyphenchar_tl {`#1} }
-          { \tl_set:Nn \l_fontspec_hyphenchar_tl { #1} }
+          { \tl_set:Nn \l_@@_hyphenchar_tl {`#1} }
+          { \tl_set:Nn \l_@@_hyphenchar_tl { #1} }
 
-        \@@_primitive_font_glyph_if_exist:NnTF \l_fontspec_font {\l_fontspec_hyphenchar_tl}
+        \@@_primitive_font_glyph_if_exist:NnTF \l_fontspec_font {\l_@@_hyphenchar_tl}
           {
             \tl_put_right:Nn \l_@@_postadjust_tl
-              { \@@_primitive_font_set_hyphenchar:Nn \font { \l_fontspec_hyphenchar_tl } }
+              { \@@_primitive_font_set_hyphenchar:Nn \font { \l_@@_hyphenchar_tl } }
           }
           { \@@_error:nx {no-glyph}{#1} }
 

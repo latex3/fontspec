@@ -128,7 +128,7 @@
 %    \begin{macrocode}
 \cs_new:Nn \@@_init_ttc:n
   {
-    \str_if_eq_x:nnT { \str_lower_case:f {\l_@@_extension_tl} } {.ttc}
+    \str_if_eq:eeT { \str_lower_case:f {\l_@@_extension_tl} } {.ttc}
       {
         \@@_sanitise_fontname:Nn \l_@@_fontname_it_tl   {#1}
         \@@_sanitise_fontname:Nn \l_@@_fontname_bf_tl   {#1}
@@ -258,7 +258,7 @@
 %<XE>  " \@@_fontname_wrap:n { #1 #2 #3 }
 %<LU>  " \@@_fontname_wrap:n { #1 #2 } #3
     #4 #5
-    \str_if_eq_x:nnF {#6}{} {:#6} "
+    \str_if_eq:eeF {#6}{} {:#6} "
   }
 %    \end{macrocode}
 % In practice, we don't use the six-argument version, since most arguments are constructed on-the-fly:
@@ -374,7 +374,7 @@
     \tl_if_empty:NF \l_@@_mapping_tl
       { \@@_update_featstr:n { mapping = \l_@@_mapping_tl } }
 
-    \str_if_eq_x:nnF { \l_@@_hexcol_tl \l_@@_opacity_tl }
+    \str_if_eq:eeF { \l_@@_hexcol_tl \l_@@_opacity_tl }
                      { \c_@@_hexcol_tl \c_@@_opacity_tl }
       { \@@_update_featstr:n { color = \l_@@_hexcol_tl\l_@@_opacity_tl } }
   }
@@ -597,7 +597,7 @@
 %<debug>  \typeout{:::: AAT}
 			\bool_set_true:N \l_@@_atsui_bool
 			\tl_if_empty:NT \l_fontspec_renderer_tl { \tl_set:Nn \l_fontspec_renderer_tl {/AAT} }
-			\ifnum\XeTeXcountvariations #1 > \c_zero
+			\ifnum\XeTeXcountvariations #1 > 0\relax
 %<debug>  \typeout{:::: MM}
 				\bool_set_true:N \l_@@_mm_bool
 			\fi
@@ -663,7 +663,7 @@
   {
     \@@_primitive_font_set:Nnn \l_tmpa_font { \@@_construct_font_call:nn {#1}   {} } {\f@size pt}
     \@@_primitive_font_set:Nnn \l_tmpb_font { \@@_construct_font_call:nn {#1#2} {} } {\f@size pt}
-    \str_if_eq_x:nnTF { \fontname \l_tmpa_font } { \fontname \l_tmpb_font }
+    \str_if_eq:eeTF { \fontname \l_tmpa_font } { \fontname \l_tmpb_font }
       { \prg_return_false: }
       { \prg_return_true: }
   }
@@ -867,8 +867,8 @@
   {
     \bool_if:nT
       {
-          \str_if_eq_x_p:nn {#2} {\itdefault}  &&
-        !(\str_if_eq_x_p:nn {\itdefault} {\sldefault})
+          \str_if_eq_p:ee {#2} {\itdefault}  &&
+        !(\str_if_eq_p:ee {\itdefault} {\sldefault})
       }
       {
         \@@_DeclareFontShape:xxxxxx {\g_@@_nfss_enc_tl}{\g_@@_nfss_family_tl}{#1}{\sldefault}
@@ -917,7 +917,7 @@
       }
   }
 %    \end{macrocode}
-% Maybe |\str_if_eq_x:nnF| would be better?
+% Maybe |\str_if_eq:eeF| would be better?
 % \end{macro}
 %
 %
@@ -1032,10 +1032,10 @@
     \tl_gset_eq:NN \g_@@_nfss_enc_tl \g_fontspec_encoding_tl
 %<*LU>
     \tl_set:Nn \l_fontspec_mode_tl {node}
-    \int_set:Nn \luatex_prehyphenchar:D { `\- } % fixme
-    \int_zero:N \luatex_posthyphenchar:D        % fixme
-    \int_zero:N \luatex_preexhyphenchar:D       % fixme
-    \int_zero:N \luatex_postexhyphenchar:D      % fixme
+    \int_set:Nn \prehyphenchar { `\- } % fixme
+    \int_zero:N \posthyphenchar        % fixme
+    \int_zero:N \preexhyphenchar       % fixme
+    \int_zero:N \postexhyphenchar      % fixme
 %</LU>
   }
 %    \end{macrocode}
@@ -1138,7 +1138,7 @@
     \int_compare:nT { \tl_count:n {#6} > 2 }
       { \@@_error:nx {ot-tag-too-long} {#2#3#4#5#6} }
 
-    \str_if_eq_x:nnTF {#2#3#4#5#6} {DFLT}
+    \str_if_eq:eeTF {#2#3#4#5#6} {DFLT}
       {
         \int_set:Nn #1 {0}
       }

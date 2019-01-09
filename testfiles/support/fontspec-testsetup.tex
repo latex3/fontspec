@@ -1,7 +1,12 @@
 
+\PassOptionsToPackage{check-declarations}{expl3}
+\PassOptionsToPackage{enable-debug}{expl3}
+
 \input{regression-test.tex}
 \documentclass{article}
-\PassOptionsToPackage{check-declarations}{expl3}
+\ExplSyntaxOn
+\AtBeginDocument{ \debug_on:n {all} }
+\ExplSyntaxOff
 \usepackage{geometry}
 \geometry{
   papersize={9cm,6cm},margin=0.5cm

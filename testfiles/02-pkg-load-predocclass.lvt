@@ -1,3 +1,4 @@
+\PassOptionsToPackage{enable-debug}{expl3}
 \RequirePackage{fontspec}
 \input{fontspec-testsetup}
 \setmainfont{texgyrepagella-regular.otf}

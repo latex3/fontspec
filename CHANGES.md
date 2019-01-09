@@ -1,6 +1,12 @@
 Change history
 ==============
 
+## v2.6j (2019/01/09)
+
+    * Re-sync with `expl3` for deprecated commands.
+    * Added support for `\hbar` if anyone is relying on `fontspec` to emulate legacy maths.
+
+
 ## v2.6i (2018/08/02)
 
     * Emergency bug-fix -- a one-char typo broke loading of bold fonts!

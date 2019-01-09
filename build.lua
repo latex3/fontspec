@@ -2,9 +2,9 @@
 
 module = "fontspec"
 
---[[
+--[================[
       PARAMETERS
---]]
+--]================]
 
 sourcefiles  = {"*.ins","*.dtx","*.ltx","*.cfg","*.tex","fontspec-doc-style.sty"}
 installfiles = {"fontspec.sty","fontspec-xetex.sty","fontspec-luatex.sty","fontspec.lua","fontspec.cfg"}
@@ -24,9 +24,9 @@ recordstatus = true
 packtdszip = true
 
 
---[[
+--[=============[
       VERSION
---]]
+--]=============]
 
 changeslisting = nil
 do
@@ -39,9 +39,9 @@ print('Current version (from first entry in CHANGES.md): '..pkgversion)
 
 
 
---[[
+--[============[
      TAGGING
---]]
+--]============]
 
 function update_tag(file, content, tagname, tagdate)
   local date = string.gsub(tagdate, "%-", "/")
@@ -72,33 +72,22 @@ end
 
 
 
---[[
-     CTAN UPLOAD
---]]
+--[=================[
+      CTAN UPLOAD
+--]=================]
 
--- ctan upload settings
-ctan_pkg     = module
-ctan_version = pkgversion
-ctan_author  = "Will Robertson"
+uploadconfig = {
+  version     = pkgversion,
+  author      = "Will Robertson",
+  license     = "lppl1.3c",
+  summary     = "Unify and control maths subscript heights",
+  ctanPath    = "/macros/latex/contrib/subdepth",
+  repository  = "https://github.com/wspr/will2e/",
+  bugtracker  = "https://github.com/wspr/will2e/issues",
+}
 
-local handle = io.popen('git config user.email')
-ctan_email = string.gsub(handle:read("*a"),'%s*$','')
-handle:close()
-
-ctan_uploader = ctan_author
-ctan_ctanPath = [[]]
-ctan_license  = "lppl"
-
--- ctan_sumary  is mandatory: not setting it will trigger interaction
-
-ctan_announcement='ask'  -- this is optional: setting it to "ask" forces interaction
-
-ctan_update=true
-
-ctan_note=[[
-This has been uploaded automatically using l3build.
-Please let me know if there seems to be anything amiss -- and apologies if so!
-]]
-
-ctan_file = module..".zip"
-ctanupload="ask"
+local f=io.open("l3build-wspr.lua","r")
+if f ~= nil then
+  io.close(f)
+  require("l3build-wspr.lua")
+end

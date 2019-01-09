@@ -732,33 +732,17 @@ particular font. These correspond to the OpenType features |cv01| to |cv99|.
 
 For each character that can be varied, it is possible to select among
 possible options for that particular glyph.
-For example, in \exref{cv} a variety of glyphs for the character `v' are
-selected, in which |5| corresponds to the character `v' for this font feature,
+For example, in the example below, variants are chosen for glyphs `4' and `5',
 and the trailing |:|\meta{n} corresponds to which variety to choose.
-Georg Duffner's open source Garamond revival font\footnote{\url{http://www.georgduffner.at/ebgaramond/}} is used in this example.
+\begin{Verbatim}
+  \fontspec{EB Garamond 12 Italic}[CharacterVariant={4,5:2}] \& violet
+\end{Verbatim}
+The numbering is entirely font-soecific. Glyph `5' might be the character `v', for example.
 Character variants are specifically designed not to conflict with each
-other, so you can enable them individually per character as shown in
-\exref{cv2}. (Unlike stylistic alternates, say.)
-
+other, so you can enable them individually per character.
+(Unlike stylistic alternates, say.)
 Note that the indexing starts from zero.
 
-\begin{Lexample}[firstline=2]{cv}{The \feat{CharacterVariant} feature showing off Georg Duffner's open source Garamond revival font.}
-  \huge
-  \fontspec{EB Garamond 12 Italic}                       very \\
-  \fontspec{EB Garamond 12 Italic}[CharacterVariant=5]   very \\
-  \fontspec{EB Garamond 12 Italic}[CharacterVariant=5:0] very \\
-  \fontspec{EB Garamond 12 Italic}[CharacterVariant=5:1] very \\
-  \fontspec{EB Garamond 12 Italic}[CharacterVariant=5:2] very \\
-  \fontspec{EB Garamond 12 Italic}[CharacterVariant=5:3] very
-\end{Lexample}
-
-\begin{Lexample}[firstline=2]{cv2}{The \feat{CharacterVariant} feature selecting multiple variants simultaneously.}
-  \huge
-  \fontspec{EB Garamond 12 Italic}                           \& violet \\
-  \fontspec{EB Garamond 12 Italic}[CharacterVariant={4}]     \& violet \\
-  \fontspec{EB Garamond 12 Italic}[CharacterVariant={5:2}]   \& violet \\
-  \fontspec{EB Garamond 12 Italic}[CharacterVariant={4,5:2}] \& violet
-\end{Lexample}
 
 \subsubsection{Alternates --- \texttt{salt}}
 

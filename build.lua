@@ -37,9 +37,6 @@ end
 pkgversion = string.match(changeslisting,"## v(%S+) %(.-%)")
 print('Current version (from first entry in CHANGES.md): '..pkgversion)
 
-pkgchanges = string.match(changeslisting,"## v%S+ .-(.-)## v")
-print('Changes: '..pkgchanges)
-
 
 
 --[============[
@@ -89,6 +86,6 @@ uploadconfig = {
   bugtracker  = "https://github.com/wspr/fontspec/issues",
 }
 
-require("l3build-wspr.lua")
+pcall(require("l3build-wspr.lua"))
 
 

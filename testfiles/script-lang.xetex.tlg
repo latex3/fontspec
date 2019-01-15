@@ -8,6 +8,9 @@ TU/texgyrepagella-regular.otf(1)/m/n:
   "[texgyrepagella-regular.otf]/OT:script=latn;language=ROM;mapping=tex-text;" at 10.0pt
 LANG DFLT
 TU/texgyrepagella-regular.otf(2)/m/n:
-  "[texgyrepagella-regular.otf]/OT:script=DFLT;language=DFLT;mapping=tex-text;" at 10.0pt
+  "[texgyrepagella-regular.otf]/OT:script=latn;language=ROM;mapping=tex-text;" at 10.0pt
+LANG DFLT
+TU/texgyrepagella-regular.otf(3)/m/n:
+  "[texgyrepagella-regular.otf]/OT:script=cyrl;language=DFLT;mapping=tex-text;" at 10.0pt
 ***************
 Compilation 1 of test file completed with exit status 0

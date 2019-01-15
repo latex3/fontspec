@@ -14,7 +14,11 @@
 \CURRNFSS
 
 \MSG{LANG DFLT}
-\setmainfont{texgyrepagella-regular.otf}[Script=Default,Language=Romanian]
+\setmainfont{texgyrepagella-regular.otf}[Script=Latin,Language=Romanian]
+\CURRNFSS
+
+\MSG{LANG DFLT}
+\setmainfont{texgyrepagella-regular.otf}[Script=Cyrillic,Language=Romanian]
 \CURRNFSS
 
 \end{document}

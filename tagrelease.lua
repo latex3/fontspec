@@ -55,5 +55,5 @@ gitcmd = 'git tag -a \''..pkgversion..'\' -F CHANGES-NEW.md'
 print('Tag command: "'..gitcmd..'"')
 os.execute(gitcmd)
 
-
+print('\n\nNow upload to CTAN with:\n\n    l3build upload --file CHANGES-NEW.md')
 

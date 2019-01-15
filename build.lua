@@ -35,6 +35,8 @@ do
   f:close()
 end
 pkgversion = string.match(changeslisting,"## v(%S+) %(.-%)")
+gittag = 'v'..pkgversion
+
 print('Current version (from first entry in CHANGES.md): '..pkgversion)
 
 

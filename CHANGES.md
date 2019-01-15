@@ -1,7 +1,7 @@
 Change history
 ==============
 
-## v2.6k (2019/01/15)
+## v2.6k (2019/01/16)
 
     * Fix crash when loading fonts that are missing a requested script.
 

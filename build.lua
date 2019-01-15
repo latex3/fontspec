@@ -44,6 +44,8 @@ print('Current version (from first entry in CHANGES.md): '..pkgversion)
 --]============]
 
 function update_tag(file, content, tagname, tagdate)
+  check_status()
+
   local date = string.gsub(tagdate, "%-", "/")
 
   if string.match(content, "{%d%d%d%d/%d%d/%d%d}%s*{[^}]+}%s*{[^}]+}") then
@@ -68,6 +70,36 @@ function update_tag(file, content, tagname, tagdate)
   end
 
   return content
+end
+
+
+status_bool = false
+
+function check_status()
+  if status_bool then
+    return true
+  end
+
+  local handle = io.popen('git status --porcelain --untracked-files=no')
+  local gitstatus = string.gsub(handle:read("*a"),'%s*$','')
+  handle:close()
+  if gitstatus=="" then
+    print("Checking git status: clean")
+    status_bool = true
+    return status_bool
+  else
+    print("ABORTING, git status is not clean:")
+    print(gitstatus)
+    status_bool = false
+    return status_bool
+  end
+end
+
+function tag_hook(tagname)
+  if check_status() then
+    os.execute('git commit -a -m "Update package version"')
+    os.execute('git tag -a -m "" ' .. gittag)
+  end
 end
 
 

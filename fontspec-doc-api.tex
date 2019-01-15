@@ -87,6 +87,15 @@ tag. The advantage to using these commands rather than \cmd\newfontfeature\
 (see \vref{sec:newfeatures}) is the error-checking that is performed when
 the script or language is requested.
 
+Both commands accept a comma-separated list of OpenType tags in order of preference.
+This permits, for example, supporting both new and old versions of a language tag with
+a common user interface:
+\begin{Verbatim}
+  \newfontlanguage{Turkish}{TRK,TUR}
+\end{Verbatim}
+Here, a font that is requested with \verb|Script=Turkish| will first be checked for the
+OpenType language tag \verb|TRK|, which will be selected if available. If not available,
+the \verb|TUR| tag will be queried and used if possible as a fallback.
 
 
 \section{Going behind \pkg{fontspec}'s back}

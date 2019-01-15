@@ -10,11 +10,11 @@
 \CURRNFSS
 
 \MSG{LANG DFLT}
-\setmainfont{texgyrepagella-regular.otf}[Script=Latin,Language=Romanian]
+\setmainfont{texgyrepagella-regular.otf}[Language=Romanian]
 \CURRNFSS
 
 \MSG{LANG DFLT}
-\setmainfont{texgyrepagella-regular.otf}[Language=Romanian]
+\setmainfont{texgyrepagella-regular.otf}[Script=Default,Language=Romanian]
 \CURRNFSS
 
 \end{document}

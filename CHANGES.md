@@ -4,10 +4,6 @@ Change history
 ## v2.6k (2019/01/15)
 
     * Fix crash when loading fonts that are missing a requested script.
-    * Change the default script to the literal `default' OpenType script (DFLT).
-      This may cause minor backwards compatibility problems; if so, specify
-      the script explicitly (`Script=Latin` was the old default) either specifically
-      for each font or via `\defaultfontfeatures`.
 
 
 ## v2.6j (2019/01/10)

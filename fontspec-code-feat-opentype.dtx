@@ -438,8 +438,22 @@
           }
         \bool_if:NF \l_@@_scriptlang_exist_bool
           {
-            \@@_warning:nx {script-not-exist} {#1}
-            \keys_set:nn {fontspec-opentype} { Script = Default }
+            \str_if_eq:eeTF {#1} {Latin}
+              {
+                \@@_warning:nx {script-not-exist} {#1}
+              }
+              {
+                \@@_check_script:NnTF \l_fontspec_font {latn}
+                  {
+                    \@@_warning:nx {script-not-exist-latn} {#1}
+                    \tl_set:Nn \l_fontspec_script_tl {latn}
+                    \int_set:Nn \l_@@_script_int {\l_@@_strnum_int}
+                  }
+                  {
+                    \@@_warning:nx {script-not-exist} {#1}
+                    \keys_set:nn {fontspec-opentype} { Script = Default }
+                  }
+              }
           }
       }
     }

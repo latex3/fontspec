@@ -55,6 +55,5 @@ gitcmd = 'git tag -a \''..pkgversion..'\' -F CHANGES-NEW.md'
 print('Tag command: "'..gitcmd..'"')
 os.execute(gitcmd)
 
-os.execute('rm CHANGES-NEW.md')
 
 

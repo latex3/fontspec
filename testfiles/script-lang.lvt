@@ -1,0 +1,20 @@
+
+\input{fontspec-testsetup.tex}
+
+\usepackage{fontspec}
+
+\begin{document}
+
+\MSG{DEFAULT}
+\setmainfont{texgyrepagella-regular.otf}
+\CURRNFSS
+
+\MSG{LANG DFLT}
+\setmainfont{texgyrepagella-regular.otf}[Script=Latin,Language=Romanian]
+\CURRNFSS
+
+\MSG{LANG DFLT}
+\setmainfont{texgyrepagella-regular.otf}[Language=Romanian]
+\CURRNFSS
+
+\end{document}

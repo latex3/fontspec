@@ -1,0 +1,32 @@
+
+\input{fontspec-testsetup.tex}
+
+\usepackage{fontspec}
+
+\begin{document}
+
+\MSG{DEFAULT}
+\setmainfont{texgyrepagella-regular.otf}
+\CURRNFSS
+
+\MSG{SCRIPT DFLT}
+\setmainfont{texgyrepagella-regular.otf}[Script=Default]
+\CURRNFSS
+
+\MSG{LANG DFLT}
+\setmainfont{texgyrepagella-regular.otf}[Language=Default]
+\CURRNFSS
+
+\MSG{SCRIPT LANG DFLT}
+\setmainfont{texgyrepagella-regular.otf}[Script=Default,Language=Default]
+\CURRNFSS
+
+\MSG{SCRIPT}
+\setmainfont{texgyrepagella-regular.otf}[Script=Latin]
+\CURRNFSS
+
+\MSG{SCRIPT CJK}
+\setmainfont{texgyrepagella-regular.otf}[Script=CJK]
+\CURRNFSS
+
+\end{document}

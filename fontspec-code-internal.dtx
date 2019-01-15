@@ -306,9 +306,9 @@
       {
         \tl_if_empty:NTF \l_@@_script_name_tl
           {
-            \@@_check_script:NnTF \l_fontspec_font {latn}
+            \@@_check_script:NnTF \l_fontspec_font {DFLT}
               {
-                \tl_set:Nn \l_@@_script_name_tl {Latin}
+                \tl_set:Nn \l_@@_script_name_tl {Default}
                 \tl_if_empty:NT \l_@@_lang_name_tl
                   {
                     \tl_set:Nn \l_@@_lang_name_tl {Default}
@@ -328,9 +328,9 @@
               {
                 \tl_set:Nn \l_@@_lang_name_tl {Default}
               }
+%<debug>  \typeout{:::: Script=\l_@@_script_name_tl, Language=\l_@@_lang_name_tl}
             \keys_set:nx {fontspec-opentype} {Script=\l_@@_script_name_tl}
             \keys_set:nx {fontspec-opentype} {Language=\l_@@_lang_name_tl}
-%<debug>  \typeout{:::: Script=\l_@@_script_name_tl, Language=\l_@@_lang_name_tl}
           }
       }
   }
@@ -1138,19 +1138,12 @@
     \int_compare:nT { \tl_count:n {#6} > 2 }
       { \@@_error:nx {ot-tag-too-long} {#2#3#4#5#6} }
 
-    \str_if_eq:eeTF {#2#3#4#5#6} {DFLT}
+    \int_set:Nn #1
       {
-        \int_set:Nn #1 {0}
-      }
-      {
-
-        \int_set:Nn #1
-          {
-              `#2 * "1000000
-            + `#3 * "10000
-            + \ifx \c_empty_tl #4 32 \else `#4 \fi * "100
-            + \ifx \c_empty_tl #5 32 \else `#5 \fi
-          }
+          `#2 * "1000000
+        + `#3 * "10000
+        + \ifx \c_empty_tl #4 32 \else `#4 \fi * "100
+        + \ifx \c_empty_tl #5 32 \else `#5 \fi
       }
   }
 %    \end{macrocode}

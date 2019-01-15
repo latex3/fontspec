@@ -423,37 +423,25 @@
 \cs_new:Nn \fontspec_new_script:nn
   {
     \keys_define:nn { fontspec-opentype } { Script / #1 .code:n =
-      \bool_set_false:N \l_@@_script_exist_bool
-      \clist_map_inline:nn {#2}
-        {
-          \@@_check_script:NnTF \l_fontspec_font {####1}
-            {
-              \tl_set:Nn \l_fontspec_script_tl {####1}
-              \int_set:Nn \l_@@_script_int {\l_@@_strnum_int}
-              \bool_set_true:N \l_@@_script_exist_bool
-              \tl_gset:Nx \g_@@_single_feat_tl { script=####1 }
-              \clist_map_break:
-            }
-            { }
-        }
-      \bool_if:NF \l_@@_script_exist_bool
-        {
-          \str_if_eq:nnTF {#1} {Latin}
-            {
-              \@@_warning:nx {script-not-exist} {#1}
-            }
-            {
-              \@@_check_script:NnTF \l_fontspec_font {latn}
-                {
-                  \@@_warning:nx {script-not-exist-latn} {#1}
-                  \tl_set:Nn \l_fontspec_script_tl {latn}
-                  \int_set:Nn \l_@@_script_int {\l_@@_strnum_int}
-                }
-                {
-                  \@@_warning:nx {script-not-exist} {#1}
-                }
-            }
-        }
+      {
+        \bool_set_false:N \l_@@_scriptlang_exist_bool
+        \clist_map_inline:nn {#2}
+          {
+            \@@_check_script:NnT \l_fontspec_font {####1}
+              {
+                \tl_set:Nn \l_fontspec_script_tl {####1}
+                \int_set:Nn \l_@@_script_int {\l_@@_strnum_int}
+                \bool_set_true:N \l_@@_scriptlang_exist_bool
+                \tl_gset:Nx \g_@@_single_feat_tl { script=####1 }
+                \clist_map_break:
+              }
+          }
+        \bool_if:NF \l_@@_scriptlang_exist_bool
+          {
+            \@@_warning:nx {script-not-exist} {#1}
+            \keys_set:nn {fontspec-opentype} { Script = Default }
+          }
+      }
     }
   }
 %    \end{macrocode}
@@ -462,63 +450,44 @@
 % \subsection{Language}
 %
 %    \begin{macrocode}
-\keys_define:nn { fontspec-opentype } { Language .choice: }
+\keys_define:nn {fontspec-opentype} { Language .choice: }
 \cs_new:Nn \fontspec_new_lang:nn
   {
     \keys_define:nn { fontspec-opentype } { Language / #1 .code:n =
-    \@@_check_lang:NnTF \l_fontspec_font {#2}
       {
-        \tl_set:Nn \l_fontspec_lang_tl {#2}
-        \int_set:Nn \l_@@_language_int {\l_@@_strnum_int}
-        \tl_gset:Nx \g_@@_single_feat_tl { language=#2 }
-      }
-      {
-        \@@_warning:nx {language-not-exist} {#1}
-        \keys_set:nn { fontspec-opentype } { Language = Default }
+        \bool_set_false:N \l_@@_scriptlang_exist_bool
+        \clist_map_inline:nn {#2}
+          {
+            \@@_check_lang:NnTF \l_fontspec_font {#2}
+              {
+                \tl_set:Nn \l_fontspec_lang_tl {#2}
+                \int_set:Nn \l_@@_language_int {\l_@@_strnum_int}
+                \tl_gset:Nx \g_@@_single_feat_tl { language=#2 }
+                \bool_set_true:N \l_@@_scriptlang_exist_bool
+                \clist_map_break:
+              }
+          }
+        \bool_if:NF \l_@@_scriptlang_exist_bool
+          {
+            \@@_warning:nx {language-not-exist} {#1}
+            \keys_set:nn {fontspec-opentype} { Language = Default }
+          }
       }
     }
   }
 %    \end{macrocode}
 %
 % \paragraph{Default}
-%
+% I can't remember why this has to be special-cased. From memory, the OpenType default
+% language is hardcoded to have a zero value, although this might be some \XeTeX-specific thing.
 %    \begin{macrocode}
-\@@_keys_define_code:nnn {fontspec-opentype}{ Language / Default }
+\@@_keys_define_code:nnn {fontspec-opentype} { Language / Default }
   {
     \tl_set:Nn \l_fontspec_lang_tl {DFLT}
     \int_zero:N \l_@@_language_int
     \tl_gset:Nn \g_@@_single_feat_tl { language=DFLT }
   }
 %    \end{macrocode}
-%
-% \paragraph{Turkish} Turns out that many fonts use `TUR' as their Turkish language tag rather than the specified `TRK'. So we check for both:
-%    \begin{macrocode}
-\keys_define:nn {fontspec-opentype}
-  {
-    Language / Turkish .code:n =
-      {
-        \@@_check_lang:NnTF \l_fontspec_font {TRK}
-          {
-            \int_set:Nn \l_@@_language_int {\l_@@_strnum_int}
-            \tl_set:Nn \l_fontspec_lang_tl {TRK}
-            \tl_gset:Nn \g_@@_single_feat_tl { language=TRK }
-          }
-          {
-            \@@_check_lang:NnTF \l_fontspec_font {TUR}
-              {
-                \int_set:Nn \l_@@_language_int {\l_@@_strnum_int}
-                \tl_set:Nn \l_fontspec_lang_tl {TUR}
-                \tl_gset:Nn \g_@@_single_feat_tl { language=TUR }
-              }
-              {
-                \@@_warning:nx {language-not-exist} {Turkish}
-                \keys_set:nn {fontspec-opentype} {Language=Default}
-              }
-          }
-      }
-  }
-%    \end{macrocode}
-% TODO: generalise the above
 %
 %
 % \section{Backwards compatibility}

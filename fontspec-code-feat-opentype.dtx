@@ -424,7 +424,7 @@
   {
     \keys_define:nn { fontspec-opentype } { Script / #1 .code:n =
       {
-        \bool_if:NT \l_@@_has_scripts_bool
+        \bool_if:NF \l_@@_scripts_missing_bool
           {
             \bool_set_false:N \l_@@_scriptlang_exist_bool
             \clist_map_inline:nn {#2}

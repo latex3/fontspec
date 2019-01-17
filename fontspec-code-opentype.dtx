@@ -276,7 +276,7 @@
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \@@_check_ot_feat:Nnnn {TF,F}
   {
-    \bool_if:nTF {\l_@@_never_check_bool || !\l_@@_has_scripts_bool}
+    \bool_if:nTF {\l_@@_never_check_bool || \l_@@_scripts_missing_bool}
       { \prg_return_true: }
 %<*XE>
       {

@@ -242,11 +242,11 @@
     \@@_check_script:NnTF \l_fontspec_font {DFLT}
       {
 %<debug>\typeout{Has~Opentype~scripts}
-        \bool_set_true:N  \l_@@_has_scripts_bool
+        \bool_set_false:N  \l_@@_scripts_missing_bool
       }
       {
 %<debug>\typeout{No~Opentype~scripts}
-        \bool_set_false:N \l_@@_has_scripts_bool
+        \bool_set_true:N \l_@@_scripts_missing_bool
       }
   }
 %    \end{macrocode}
@@ -313,7 +313,11 @@
 %<debug>  \typeout{:: _set_scriptlang:}
     \bool_if:NT \l_@@_firsttime_bool
       {
-        \bool_if:NTF \l_@@_has_scripts_bool
+        \bool_if:NTF \l_@@_scripts_missing_bool
+          {
+%<debug>  \typeout{:::: NADA}
+            \@@_info:n {no-scripts}
+          }
           {
             \tl_if_empty:NTF \l_@@_script_name_tl
               {
@@ -345,10 +349,6 @@
                 \keys_set:nx {fontspec-opentype} {Script=\l_@@_script_name_tl}
                 \keys_set:nx {fontspec-opentype} {Language=\l_@@_lang_name_tl}
               }
-          }
-          {
-%<debug>  \typeout{:::: NADA}
-            \@@_info:n {no-scripts}
           }
       }
   }

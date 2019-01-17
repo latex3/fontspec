@@ -10,5 +10,9 @@ is using Latin script
 also has Cyrillic
 is using `default' language
 also has Romanian
+***
+Now load latn/ROM:
+Is Language=Romanian ?
+YES
 ***************
 Compilation 1 of test file completed with exit status 0

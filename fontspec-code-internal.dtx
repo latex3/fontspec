@@ -948,9 +948,7 @@
         \tl_if_empty:NF \l_fontspec_script_tl
           {
             script   = \l_fontspec_script_tl ;
-            \str_if_eq:eeTF { \l_fontspec_lang_tl } {0000}
-              { language = DFLT ; }
-              { language = \l_fontspec_lang_tl ; }
+            language = \l_fontspec_lang_tl   ;
           }
       }
   }
@@ -961,9 +959,7 @@
     \tl_if_empty:NF \l_fontspec_script_tl
       {
         script   = \l_fontspec_script_tl ;
-        \str_if_eq:eeTF { \l_fontspec_lang_tl } {0000}
-          { language = DFLT ; }
-          { language = \l_fontspec_lang_tl ; }
+        language = \l_fontspec_lang_tl   ;
       }
   }
 %</LU>
@@ -1155,16 +1151,12 @@
     \int_compare:nT { \tl_count:n {#6} > 2 }
       { \@@_error:nx {ot-tag-too-long} {#2#3#4#5#6} }
 
-    \str_if_eq:eeTF {#2#3#4#5#6} {0000}
-      { \int_zero:N #1 }
+    \int_set:Nn #1
       {
-        \int_set:Nn #1
-          {
-              `#2 * "1000000
-            + `#3 * "10000
-            + \ifx \c_empty_tl #4 32 \else `#4 \fi * "100
-            + \ifx \c_empty_tl #5 32 \else `#5 \fi
-          }
+          `#2 * "1000000
+        + `#3 * "10000
+        + \ifx \c_empty_tl #4 32 \else `#4 \fi * "100
+        + \ifx \c_empty_tl #5 32 \else `#5 \fi
       }
   }
 %    \end{macrocode}
@@ -1173,6 +1165,18 @@
 %</XE>
 %    \end{macrocode}
 % \end{macro}
+%
+% \begin{macro}{\@@_lang_dflt_correct:N}
+%    \begin{macrocode}
+%<*XE>
+\cs_new_protected:Nn \@@_lang_dflt_correct:N
+  {
+    \int_compare:nNnT {#1} = {1145457748} % "DFLT"
+      {
+        \int_zero:N #1
+      }
+  }
+%</XE>
 %
 %
 % \iffalse

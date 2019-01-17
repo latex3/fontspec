@@ -27,4 +27,13 @@
 
 \fontspec_if_language:nnTF {latn}{ROM}{\MSG{also~has~Romanian}}{\ERROR}
 
+\MSG{***}
+\MSG{Now~ load~ latn/ROM:}
+\setmainfont{texgyrepagella-regular.otf}[Language=Romanian]
+
+\MSG{Is~ Language=Romanian~ ?}
+
+\fontspec_if_current_language:nTF {ROM}{\MSG{YES}}{\MSG{NO}}
+
+
 \end{document}

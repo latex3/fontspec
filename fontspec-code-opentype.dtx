@@ -208,18 +208,23 @@
       {
         \@@_iv_str_to_num:Nx \l_@@_strnum_int {#2}
         \@@_iv_str_to_num:Nx \l_@@_script_int {#3}
-        \int_set:Nn \l_tmpb_int
+        \int_set:Nn \l_@@_tmpb_int
           { \XeTeXOTcountlanguages #1 \l_@@_script_int }
-        \int_zero:N \l_tmpa_int
+        \int_zero:N \l_@@_tmpa_int
         \bool_set_false:N \l__fontspec_check_bool
-        \bool_until_do:nn { \int_compare_p:nNn \l_tmpa_int = \l_tmpb_int }
+        \bool_until_do:nn { \int_compare_p:nNn \l_@@_tmpa_int = \l_@@_tmpb_int }
           {
-            \ifnum\XeTeXOTlanguagetag #1 \l_@@_script_int \l_tmpa_int = \l_@@_strnum_int
-              \bool_set_true:N \l__fontspec_check_bool
-              \int_set:Nn \l_tmpa_int {\l_tmpb_int}
-            \else
-              \int_incr:N \l_tmpa_int
-            \fi
+            \int_set:Nn \l_@@_tmpc_int
+              { \XeTeXOTlanguagetag #1 \l_@@_script_int \l_@@_tmpa_int }
+
+            \int_compare:nNnTF \l_@@_tmpc_int = \l_@@_strnum_int
+              {
+                \bool_set_true:N \l__fontspec_check_bool
+                \int_set:Nn \l_@@_tmpa_int {\l_@@_tmpb_int}
+              }
+              {
+                \int_incr:N \l_@@_tmpa_int
+              }
           }
         \bool_if:NTF \l__fontspec_check_bool \prg_return_true: \prg_return_false:
       }
@@ -269,6 +274,7 @@
 %<debug>\typeout{::~ fontspec_check_ot_feat:nnn~ {#2}{#3}{#4}}
         \@@_iv_str_to_num:Nx \l_@@_strnum_int   {#2}
         \@@_iv_str_to_num:Nx \l_@@_language_int {#3}
+        \@@_lang_dflt_correct:N \l_@@_language_int
         \@@_iv_str_to_num:Nx \l_@@_script_int   {#4}
         \int_set:Nn \l_tmpb_int
         {

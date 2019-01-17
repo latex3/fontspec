@@ -240,8 +240,14 @@
       { \@@_construct_font_call:nn { \l_@@_fontname_up_tl } {} } {\f@size pt}
     \l_fontspec_font % this is necessary for LuaLaTeX to check the scripts properly
     \@@_check_script:NnTF \l_fontspec_font {DFLT}
-      { \bool_set_true:N  \l_@@_has_scripts_bool }
-      { \bool_set_false:N \l_@@_has_scripts_bool }
+      {
+%<debug>\typeout{Has~Opentype~scripts}
+        \bool_set_true:N  \l_@@_has_scripts_bool
+      }
+      {
+%<debug>\typeout{No~Opentype~scripts}
+        \bool_set_false:N \l_@@_has_scripts_bool
+      }
   }
 %    \end{macrocode}
 % \end{macro}
@@ -343,7 +349,6 @@
           {
 %<debug>  \typeout{:::: NADA}
             \@@_info:n {no-scripts}
-            \bool_set_true:N \l_@@_never_check_bool
           }
       }
   }

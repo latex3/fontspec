@@ -177,8 +177,17 @@
         \cs_if_eq:NNTF #1 \font
           { \tl_set:Nx \l_@@_tmp_tl {\curr@fontshape/\f@size} }
           { \tl_set:Nx \l_@@_tmp_tl {\cs_to_str:N #1} }
+%<debug>\typeout{::::~ checking:~"\l_@@_tmp_tl",~ "#2"}
         \directlua{fontspec.check_ot_script("\l_@@_tmp_tl", "#2")}
-        \bool_if:NTF \l__fontspec_check_bool \prg_return_true: \prg_return_false:
+        \bool_if:NTF \l__fontspec_check_bool
+          {
+%<debug>\typeout{::::::~ TRUE}
+            \prg_return_true:
+          }
+          {
+%<debug>\typeout{::::::~ FALSE}
+            \prg_return_false:
+          }
       }
 %</LU>
   }
@@ -267,7 +276,7 @@
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \@@_check_ot_feat:Nnnn {TF,F}
   {
-    \bool_if:NTF \l_@@_never_check_bool
+    \bool_if:nTF {\l_@@_never_check_bool || !\l_@@_has_scripts_bool}
       { \prg_return_true: }
 %<*XE>
       {

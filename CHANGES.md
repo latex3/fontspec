@@ -1,6 +1,12 @@
 Change history
 ==============
 
+## v2.6l (2019/01/18)
+
+    * REALLY fix crash when loading fonts that are missing a requested script.
+    * Lots of internal logic changes for what should have been an easy fix :(
+
+
 ## v2.6k (2019/01/16)
 
     * Fix crash when loading fonts that are missing a requested script.

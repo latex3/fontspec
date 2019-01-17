@@ -30,12 +30,6 @@ tlmgr install cm etex knuth-lib latex-bin tex tex-ini-files unicode-data \
 
 # Dependencies
 tlmgr install   \
-  sourcecodepro \
-  Asana-Math    \
-  ebgaramond    \
-  tex-gyre      \
-  tex-gyre-math \
-  gfsporson     \
   geometry      \
   graphics      \
   graphics-def  \
@@ -51,6 +45,16 @@ tlmgr install   \
   unicode-math  \
   polyglossia   \
   mathspec
+
+# Fonts
+tlmgr install   \
+  sourcecodepro \
+  Asana-Math    \
+  ebgaramond    \
+  tex-gyre      \
+  tex-gyre-math \
+  gfsporson     \
+  fandol
 
 # Keep no backups (not required, simply makes cache bigger)
 tlmgr option -- autobackup 0

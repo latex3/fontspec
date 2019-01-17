@@ -149,10 +149,12 @@
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \@@_check_script:Nn {TF,T}
   {
+%<debug>\typeout{:: _check_script:Nn}
     \bool_if:NTF \l_@@_never_check_bool
       { \prg_return_true: }
 %<*XE>
       {
+%<debug>\typeout{::::~ checking~ script~ #2}
         \@@_iv_str_to_num:Nx \l_@@_strnum_int {#2}
         \int_set:Nn \l_tmpb_int { \XeTeXOTcountscripts #1 }
         \int_zero:N \l_tmpa_int

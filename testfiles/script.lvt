@@ -5,7 +5,7 @@
 
 \begin{document}
 
-\MSG{DEFAULT}
+\MSG{Literal defaults}
 \setmainfont{texgyrepagella-regular.otf}
 \CURRNFSS
 
@@ -21,7 +21,7 @@
 \setmainfont{texgyrepagella-regular.otf}[Script=Default,Language=Default]
 \CURRNFSS
 
-\MSG{SCRIPT}
+\MSG{SCRIPT latn}
 \setmainfont{texgyrepagella-regular.otf}[Script=Latin]
 \CURRNFSS
 

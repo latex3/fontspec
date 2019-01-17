@@ -239,6 +239,9 @@
     \@@_primitive_font_gset:Nnn \l_fontspec_font
       { \@@_construct_font_call:nn { \l_@@_fontname_up_tl } {} } {\f@size pt}
     \l_fontspec_font % this is necessary for LuaLaTeX to check the scripts properly
+    \@@_check_script:NnTF \l_fontspec_font {DFLT}
+      { \bool_set_true:N  \l_@@_has_scripts_bool }
+      { \bool_set_false:N \l_@@_has_scripts_bool }
   }
 %    \end{macrocode}
 % \end{macro}
@@ -304,33 +307,43 @@
 %<debug>  \typeout{:: _set_scriptlang:}
     \bool_if:NT \l_@@_firsttime_bool
       {
-        \tl_if_empty:NTF \l_@@_script_name_tl
+        \bool_if:NTF \l_@@_has_scripts_bool
           {
-            \@@_check_script:NnTF \l_fontspec_font {latn}
+            \tl_if_empty:NTF \l_@@_script_name_tl
               {
-                \tl_set:Nn \l_@@_script_name_tl {Latin}
+                \@@_check_script:NnTF \l_fontspec_font {latn}
+                  {
+%<debug>  \typeout{:::: Defaulting to latn script}
+                    \tl_set:Nn \l_@@_script_name_tl {Latin}
+                    \tl_if_empty:NT \l_@@_lang_name_tl
+                      {
+                        \tl_set:Nn \l_@@_lang_name_tl {Default}
+                      }
+                    \keys_set:nx {fontspec-opentype} {Script=\l_@@_script_name_tl}
+                    \keys_set:nx {fontspec-opentype} {Language=\l_@@_lang_name_tl}
+%<debug>  \typeout{:::: Script=\l_@@_script_name_tl, Language=\l_@@_lang_name_tl}
+                  }
+                  {
+%<debug>  \typeout{:::: Default script only}
+                    \@@_info:n {dflt-script}
+                    \keys_set:nx {fontspec-opentype} {Script=Default}
+                    \keys_set:nx {fontspec-opentype} {Language=Default}
+                  }
+              }
+              {
                 \tl_if_empty:NT \l_@@_lang_name_tl
                   {
                     \tl_set:Nn \l_@@_lang_name_tl {Default}
                   }
+%<debug>  \typeout{:::: Script=\l_@@_script_name_tl, Language=\l_@@_lang_name_tl}
                 \keys_set:nx {fontspec-opentype} {Script=\l_@@_script_name_tl}
                 \keys_set:nx {fontspec-opentype} {Language=\l_@@_lang_name_tl}
-%<debug>  \typeout{:::: Script=\l_@@_script_name_tl, Language=\l_@@_lang_name_tl}
-              }
-              {
-%<debug>  \typeout{:::: NADA}
-                \@@_info:n {no-scripts}
-                \bool_set_true:N \l_@@_never_check_bool
               }
           }
           {
-            \tl_if_empty:NT \l_@@_lang_name_tl
-              {
-                \tl_set:Nn \l_@@_lang_name_tl {Default}
-              }
-%<debug>  \typeout{:::: Script=\l_@@_script_name_tl, Language=\l_@@_lang_name_tl}
-            \keys_set:nx {fontspec-opentype} {Script=\l_@@_script_name_tl}
-            \keys_set:nx {fontspec-opentype} {Language=\l_@@_lang_name_tl}
+%<debug>  \typeout{:::: NADA}
+            \@@_info:n {no-scripts}
+            \bool_set_true:N \l_@@_never_check_bool
           }
       }
   }
@@ -935,7 +948,9 @@
         \tl_if_empty:NF \l_fontspec_script_tl
           {
             script   = \l_fontspec_script_tl ;
-            language = \l_fontspec_lang_tl   ;
+            \str_if_eq:eeTF { \l_fontspec_lang_tl } {0000}
+              { language = DFLT ; }
+              { language = \l_fontspec_lang_tl ; }
           }
       }
   }
@@ -946,7 +961,9 @@
     \tl_if_empty:NF \l_fontspec_script_tl
       {
         script   = \l_fontspec_script_tl ;
-        language = \l_fontspec_lang_tl   ;
+        \str_if_eq:eeTF { \l_fontspec_lang_tl } {0000}
+          { language = DFLT ; }
+          { language = \l_fontspec_lang_tl ; }
       }
   }
 %</LU>
@@ -1138,7 +1155,7 @@
     \int_compare:nT { \tl_count:n {#6} > 2 }
       { \@@_error:nx {ot-tag-too-long} {#2#3#4#5#6} }
 
-    \str_if_eq:eeTF {#2#3#4#5#6} {DFLT}
+    \str_if_eq:eeTF {#2#3#4#5#6} {0000}
       { \int_zero:N #1 }
       {
         \int_set:Nn #1
@@ -1150,10 +1167,6 @@
           }
       }
   }
-%    \end{macrocode}
-%
-%    \begin{macrocode}
-\cs_generate_variant:Nn \@@_iv_str_to_num:Nn {No}
 %    \end{macrocode}
 %
 %    \begin{macrocode}

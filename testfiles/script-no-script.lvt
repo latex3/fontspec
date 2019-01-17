@@ -1,0 +1,32 @@
+
+\input{fontspec-testsetup.tex}
+
+\usepackage{fontspec}
+
+\begin{document}
+
+\MSG{DEFAULT}
+\setmainfont{FandolSong-Regular.otf}
+\CURRNFSS
+
+\MSG{SCRIPT DFLT}
+\setmainfont{FandolSong-Regular.otf}[Script=Default]
+\CURRNFSS
+
+\MSG{LANG DFLT}
+\setmainfont{FandolSong-Regular.otf}[Language=Default]
+\CURRNFSS
+
+\MSG{SCRIPT LANG DFLT}
+\setmainfont{FandolSong-Regular.otf}[Script=Default,Language=Default]
+\CURRNFSS
+
+\MSG{SCRIPT}
+\setmainfont{FandolSong-Regular.otf}[Script=Latin]
+\CURRNFSS
+
+\MSG{SCRIPT CJK}
+\setmainfont{FandolSong-Regular.otf}[Script=CJK]
+\CURRNFSS
+
+\end{document}

@@ -248,7 +248,7 @@
       {
         \@@_construct_font_call:nn { \l_@@_fontname_up_tl } {}
       }
-      { \f@size pt }
+      { \dim_eval:n { \f@size pt + 1sp } }
 
     \l_@@_fontface_cs_tl % this is necessary for LuaLaTeX to check the scripts properly
 

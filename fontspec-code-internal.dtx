@@ -232,20 +232,24 @@
 %<debug>\typeout{:: @@_load_font}
 
 %<debug>\typeout{Set~ base~ font~ for~ preliminary~ analysis: \@@_construct_font_call:nn { \l_@@_fontname_up_tl } {} }
-    \@@_primitive_font_set:Nnn \l_fontspec_test_font
+    \@@_primitive_font_set:Nnn \l_@@_test_font
       {
         \@@_construct_font_call:nn { \l_@@_fontname_up_tl } {}
       }
-      { \f@size pt }
-    \@@_primitive_font_if_null:NT \l_fontspec_test_font
+      { 2sp }
+    \@@_primitive_font_if_null:NT \l_@@_test_font
       {
         \@@_error:nx {font-not-found} {\l_@@_fontname_up_tl}
       }
 
 %<debug>\typeout{Set~ base~ font~ properly: \@@_construct_font_call:nn { \l_@@_fontname_up_tl } {} }
-    \@@_set_font_type:N \l_fontspec_test_font
+    \@@_set_font_type:N \l_@@_test_font
     \exp_args:No \@@_primitive_font_gset:Nnn \l_@@_fontface_cs_tl
-      { \@@_construct_font_call:nn { \l_@@_fontname_up_tl } {} } { \fp_eval:n { \f@size*1.0001 } pt}
+      {
+        \@@_construct_font_call:nn { \l_@@_fontname_up_tl } {}
+      }
+      { \f@size pt }
+
     \l_@@_fontface_cs_tl % this is necessary for LuaLaTeX to check the scripts properly
 
     \exp_args:No \@@_check_script:NnTF \l_@@_fontface_cs_tl {DFLT}
@@ -688,8 +692,8 @@
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \@@_if_autofont:nn {T,TF}
   {
-    \@@_primitive_font_set:Nnn \l_tmpa_font { \@@_construct_font_call:nn {#1}   {} } {\f@size pt}
-    \@@_primitive_font_set:Nnn \l_tmpb_font { \@@_construct_font_call:nn {#1#2} {} } {\f@size pt}
+    \@@_primitive_font_set:Nnn \l_tmpa_font { \@@_construct_font_call:nn {#1}   {} } {3sp pt}
+    \@@_primitive_font_set:Nnn \l_tmpb_font { \@@_construct_font_call:nn {#1#2} {} } {4sp pt}
     \str_if_eq:eeTF { \fontname \l_tmpa_font } { \fontname \l_tmpb_font }
       { \prg_return_false: }
       { \prg_return_true: }
@@ -724,7 +728,9 @@
     \prop_get:NVNF \g_@@_fontopts_prop \l_fontspec_fontname_tl \l_@@_fontopts_clist
       { \clist_clear:N \l_@@_fontopts_clist }
     \keys_set_groups:nnV {fontspec/fontname} {getfontname} \l_@@_fontopts_clist
-    \exp_args:No \@@_primitive_font_set:Nnn \l_@@_fontface_cs_tl { \@@_construct_font_call:nn {\l_fontspec_fontname_tl} {} } {\f@size pt}
+    \exp_args:No \@@_primitive_font_set:Nnn \l_@@_fontface_cs_tl
+      { \@@_construct_font_call:nn {\l_fontspec_fontname_tl} {} }
+      { 5sp }
     \exp_args:No \@@_primitive_font_if_null:NT \l_@@_fontface_cs_tl { \@@_error:nx {font-not-found} {#1} }
   }
 %    \end{macrocode}

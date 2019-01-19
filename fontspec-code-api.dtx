@@ -269,7 +269,7 @@
   {
     \tl_set:Nn \l_@@_family_label_tl {#1}
     \@@_select_font_family:nn {#2} {#3}
-    \tl_clear_new:N #1
+    \tl_if_exist:NF #1 { \tl_new:N }
     \tl_set_eq:NN #1 \l_fontspec_family_tl
   }
 %    \end{macrocode}

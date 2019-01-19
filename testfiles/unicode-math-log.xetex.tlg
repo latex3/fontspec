@@ -1,0 +1,19 @@
+This is a generated file for the l3build validation system.
+Don't change this file in any respect.
+PACKAGE fontspec LOADED
+PACKAGE unicode-math LOADED
+> \box...=
+\hbox(4.52+2.15)x24.62999
+.\mathon
+.\l_fontspec_font glyph#1320
+.\kern0.28
+.\l_fontspec_font glyph#4461
+.\kern0.53
+.\l_fontspec_font glyph#1488
+.\kern0.06
+.\l_fontspec_font glyph#4630
+.\mathoff
+! OK.
+l. ...\showbox0
+***************
+Compilation 1 of test file completed with exit status 256

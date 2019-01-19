@@ -1,0 +1,21 @@
+
+\input{fontspec-testsetup.tex}
+
+\START
+\OMIT
+
+\usepackage{fontspec}
+\MSG{^^J^^J^^JPACKAGE fontspec LOADED^^J^^J^^J}
+
+\usepackage{unicode-math}
+\MSG{^^J^^J^^JPACKAGE unicode-math LOADED^^J^^J^^J}
+
+\begin{document}
+$a$
+
+\TIMO
+\setbox0=\hbox{$y \gamma \symbf{x} \symbf{\alpha}$}
+\showbox0
+\OMIT
+
+\end{document}

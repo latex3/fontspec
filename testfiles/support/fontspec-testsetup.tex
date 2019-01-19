@@ -38,6 +38,23 @@
   \OMIT
 }
 
+\newcommand\SETBOX[2]{%
+  \setbox#1=\hbox to 0pt{#2}%
+  \ht#1=0pt \dp#1=0pt \wd#1=0pt
+}
+
+\newcommand\SHOWBOX[1]{%
+  \TIMO
+  \scrollmode
+  \showbox#1\relax
+  \OMIT
+}
+
+\newcommand\TESTBOX[2][12]{%
+  \SETBOX{#1}{#2}%
+  \SHOWBOX{#1}%
+}
+
 \makeatletter
 \newcommand\CURRNFSS{%
   \TIMO

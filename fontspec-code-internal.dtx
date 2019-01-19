@@ -230,16 +230,25 @@
 \cs_new:Nn \@@_load_font:
   {
 %<debug>\typeout{:: @@_load_font}
+
 %<debug>\typeout{Set~ base~ font~ for~ preliminary~ analysis: \@@_construct_font_call:nn { \l_@@_fontname_up_tl } {} }
-    \@@_primitive_font_set:Nnn \l_fontspec_font
-      { \@@_construct_font_call:nn { \l_@@_fontname_up_tl } {} } {\f@size pt}
-    \@@_primitive_font_if_null:NT \l_fontspec_font { \@@_error:nx {font-not-found} {\l_@@_fontname_up_tl} }
-    \@@_set_font_type:N \l_fontspec_font
+    \@@_primitive_font_set:Nnn \l_fontspec_test_font
+      {
+        \@@_construct_font_call:nn { \l_@@_fontname_up_tl } {}
+      }
+      { \f@size pt }
+    \@@_primitive_font_if_null:NT \l_fontspec_test_font
+      {
+        \@@_error:nx {font-not-found} {\l_@@_fontname_up_tl}
+      }
+
 %<debug>\typeout{Set~ base~ font~ properly: \@@_construct_font_call:nn { \l_@@_fontname_up_tl } {} }
-    \@@_primitive_font_gset:Nnn \l_fontspec_font
-      { \@@_construct_font_call:nn { \l_@@_fontname_up_tl } {} } {\f@size pt}
-    \l_fontspec_font % this is necessary for LuaLaTeX to check the scripts properly
-    \@@_check_script:NnTF \l_fontspec_font {DFLT}
+    \@@_set_font_type:N \l_fontspec_test_font
+    \exp_args:No \@@_primitive_font_gset:Nnn \l_@@_fontface_cs_tl
+      { \@@_construct_font_call:nn { \l_@@_fontname_up_tl } {} } { \fp_eval:n { \f@size*1.0001 } pt}
+    \l_@@_fontface_cs_tl % this is necessary for LuaLaTeX to check the scripts properly
+
+    \exp_args:No \@@_check_script:NnTF \l_@@_fontface_cs_tl {DFLT}
       {
 %<debug>\typeout{Has~Opentype~scripts}
         \bool_set_false:N  \l_@@_scripts_missing_bool
@@ -321,7 +330,7 @@
           {
             \tl_if_empty:NTF \l_@@_script_name_tl
               {
-                \@@_check_script:NnTF \l_fontspec_font {latn}
+                \exp_args:No \@@_check_script:NnTF \l_@@_fontface_cs_tl {latn}
                   {
 %<debug>  \typeout{:::: Defaulting to latn script}
                     \tl_set:Nn \l_@@_script_name_tl {Latin}
@@ -595,7 +604,7 @@
 % be automatic (based on the font type), or specified by the user via a font feature.
 %
 % This macro sets booleans
-% accordingly depending if the font in \cmd\l_fontspec_font\ is an \AAT\
+% accordingly depending if the font in \cmd\l_fontspec_test_font\ is an \AAT\
 % font or an OpenType font or a font with feature axes (either \AAT\ or
 % Multiple Master), respectively.
 %    \begin{macrocode}
@@ -715,8 +724,8 @@
     \prop_get:NVNF \g_@@_fontopts_prop \l_fontspec_fontname_tl \l_@@_fontopts_clist
       { \clist_clear:N \l_@@_fontopts_clist }
     \keys_set_groups:nnV {fontspec/fontname} {getfontname} \l_@@_fontopts_clist
-    \@@_primitive_font_set:Nnn \l_fontspec_font { \@@_construct_font_call:nn {\l_fontspec_fontname_tl} {} } {\f@size pt}
-    \@@_primitive_font_if_null:NT \l_fontspec_font { \@@_error:nx {font-not-found} {#1} }
+    \exp_args:No \@@_primitive_font_set:Nnn \l_@@_fontface_cs_tl { \@@_construct_font_call:nn {\l_fontspec_fontname_tl} {} } {\f@size pt}
+    \exp_args:No \@@_primitive_font_if_null:NT \l_@@_fontface_cs_tl { \@@_error:nx {font-not-found} {#1} }
   }
 %    \end{macrocode}
 %
@@ -979,7 +988,7 @@
 %<LU>\cs_new:Nn \@@_make_smallcaps:TF
 %<XE>\cs_new:Nn \@@_make_ot_smallcaps:TF
   {
-    \@@_check_ot_feat:NnTF \l_fontspec_font {smcp} {#1} {#2}
+    \exp_args:No \@@_check_ot_feat:NnTF \l_@@_fontface_cs_tl {smcp} {#1} {#2}
   }
 %<*XE>
 \cs_new:Nn \@@_make_smallcaps:TF
@@ -988,7 +997,10 @@
       { \@@_make_ot_smallcaps:TF {#1} {#2} }
       {
         \bool_if:NT \l_@@_atsui_bool
-          { \@@_make_AAT_feature_string:NnnTF \l_fontspec_font {3}{3} {#1} {#2} }
+          {
+            \exp_args:No \@@_make_AAT_feature_string:NnnTF
+              \l_@@_fontface_cs_tl {3} {3} {#1} {#2}
+          }
       }
   }
 %</XE>

@@ -285,12 +285,15 @@
 % means that settings such as fontdimens will be lost.
 % (Discovered in unicode-math.) Investigate!
 %    \begin{macrocode}
- \cs_new:Nn \fontspec_set_fontface:NNnn
+\tl_new:N \l_@@_fontface_cs_tl
+\tl_set:Nn \l_@@_fontface_cs_tl {\l_fontspec_font}
+\cs_new:Nn \fontspec_set_fontface:NNnn
   {
-    \tl_set:Nn \l_@@_family_label_tl {#1}
-    \@@_select_font_family:nn {#3}{#4}
-    \global \font #1 = \fontname \l_fontspec_font \scan_stop:
+    \tl_set:Nn \l_@@_fontface_cs_tl {#1}
+    \tl_set:Nn \l_@@_family_label_tl {#2}
+    \@@_select_font_family:nn {#3} {#4}
     \tl_set_eq:NN #2 \l_fontspec_family_tl
+    \tl_set:Nn \l_@@_fontface_cs_tl {\l_fontspec_font} % reset
   }
 %    \end{macrocode}
 % \end{macro}

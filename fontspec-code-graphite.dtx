@@ -38,7 +38,7 @@
     \tl_if_empty:nTF {#1}
       { \@@_warning:n {aat-feature-not-exist} }
       {
-        \@@_make_AAT_feature_string:NnnTF \l_fontspec_font {#1}{#2}
+        \exp_args:No \@@_make_AAT_feature_string:NnnTF \l_@@_fontface_cs_tl {#1} {#2}
           {
             \@@_update_featstr:n {\l_fontspec_feature_string_tl}
           }

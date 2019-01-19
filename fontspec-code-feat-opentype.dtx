@@ -429,7 +429,7 @@
             \bool_set_false:N \l_@@_scriptlang_exist_bool
             \clist_map_inline:nn {#2}
               {
-                \@@_check_script:NnT \l_fontspec_font {####1}
+                \exp_args:No \@@_check_script:NnT \l_@@_fontface_cs_tl {####1}
                   {
                     \tl_set:Nn \l_fontspec_script_tl {####1}
                     \int_set:Nn \l_@@_script_int {\l_@@_strnum_int}
@@ -445,7 +445,7 @@
                     \@@_warning:nx {script-not-exist} {#1}
                   }
                   {
-                    \@@_check_script:NnTF \l_fontspec_font {latn}
+                    \exp_args:No \@@_check_script:NnTF \l_@@_fontface_cs_tl {latn}
                       {
                         \@@_warning:nx {script-not-exist-latn} {#1}
                         \tl_set:Nn \l_fontspec_script_tl {latn}
@@ -475,7 +475,7 @@
         \bool_set_false:N \l_@@_scriptlang_exist_bool
         \clist_map_inline:nn {#2}
           {
-            \@@_check_lang:NnTF \l_fontspec_font {#2}
+            \exp_args:No \@@_check_lang:NnTF \l_@@_fontface_cs_tl {#2}
               {
                 \tl_set:Nn \l_fontspec_lang_tl {#2}
                 \int_set:Nn \l_@@_language_int {\l_@@_strnum_int}

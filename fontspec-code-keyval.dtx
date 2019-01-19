@@ -447,7 +447,7 @@
       \selectfont
 
       \@@_set_font_dimen:NnN \l_@@_tmpa_dim {#1} \font
-      \@@_set_font_dimen:NnN \l_@@_tmpb_dim {#1} \l_fontspec_font
+      \@@_set_font_dimen:NnN \l_@@_tmpb_dim {#1} \l_@@_fontface_cs_tl
 
       \tl_set:Nx \l_@@_scale_tl
         {
@@ -597,7 +597,7 @@
           { \tl_set:Nn \l_@@_hyphenchar_tl {`#1} }
           { \tl_set:Nn \l_@@_hyphenchar_tl { #1} }
 
-        \@@_primitive_font_glyph_if_exist:NnTF \l_fontspec_font {\l_@@_hyphenchar_tl}
+        \exp_args:No \@@_primitive_font_glyph_if_exist:NnTF \l_@@_fontface_cs_tl {\l_@@_hyphenchar_tl}
           {
             \tl_put_right:Nn \l_@@_postadjust_tl
               { \@@_primitive_font_set_hyphenchar:Nn \font { \l_@@_hyphenchar_tl } }

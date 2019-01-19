@@ -116,7 +116,7 @@
     \tl_if_empty:nT {#1} { \bool_set_false:N \l_@@_check_feat_bool }
     \bool_if:NT \l_@@_check_feat_bool
       {
-        \@@_check_ot_feat:NnF \l_fontspec_font {#1}
+        \exp_args:No \@@_check_ot_feat:NnF \l_@@_fontface_cs_tl {#1}
           {
             \@@_warning:nx {icu-feature-not-exist-in-font} {#1}
             \bool_set_false:N \l_@@_proceed_bool

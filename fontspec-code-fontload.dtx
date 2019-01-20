@@ -12,13 +12,13 @@
 %    \begin{macrocode}
 \cs_set:Npn \@@_primitive_font_set:Nnn #1#2#3
   {
-    \font #1 = #2 ~at~ #3 \scan_stop:
+    \font #1 = #2 ~at~ \dim_eval:n {#3} \scan_stop:
   }
 %    \end{macrocode}
 %    \begin{macrocode}
 \cs_set:Npn \@@_primitive_font_gset:Nnn #1#2#3
   {
-    \global \font #1 = #2 ~at~ #3 \scan_stop:
+    \global \font #1 = #2 ~at~ \dim_eval:n {#3} \scan_stop:
   }
 %    \end{macrocode}
 % \end{macro}
@@ -51,7 +51,7 @@
   {
     \group_begin:
       \@@_font_suppress_not_found_error:
-      \@@_primitive_font_set:Nnn \l_@@_primitive_font {#1} {1sp}
+      \@@_primitive_font_set:Nnn \l_@@_primitive_font {#1} { \f@size pt - 1sp }
       \@@_primitive_font_if_null:NTF \l_@@_primitive_font
         { \group_end: \prg_return_false: }
         { \group_end: \prg_return_true:  }

@@ -7,4 +7,4 @@ cache:
     - /tmp/fontspec-test-fonts
 
 script:
- - l3build check -H
+ - l3build check -H --shuffle --first 0-pkg-load || ( cat build/*/`ls -t  build/*/*.log | head -n1 | xargs basename | cut -f 1 -d . `.log && false )

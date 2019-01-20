@@ -43,6 +43,7 @@ tlmgr install   \
   babel         \
   babel-english \
   unicode-math  \
+  lualatex-math \
   polyglossia   \
   mathspec
 

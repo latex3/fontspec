@@ -55,6 +55,7 @@ tlmgr install   \
   tex-gyre      \
   tex-gyre-math \
   gfsporson     \
+  libertine     \
   fandol
 
 # Keep no backups (not required, simply makes cache bigger)

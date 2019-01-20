@@ -252,15 +252,6 @@
 
     \l_@@_fontface_cs_tl % this is necessary for LuaLaTeX to check the scripts properly
 
-    \exp_args:No \@@_check_script:NnTF \l_@@_fontface_cs_tl {DFLT}
-      {
-%<debug>\typeout{Has~Opentype~scripts}
-        \bool_set_false:N  \l_@@_scripts_missing_bool
-      }
-      {
-%<debug>\typeout{No~Opentype~scripts}
-        \bool_set_true:N \l_@@_scripts_missing_bool
-      }
   }
 %    \end{macrocode}
 % \end{macro}
@@ -326,42 +317,34 @@
 %<debug>  \typeout{:: _set_scriptlang:}
     \bool_if:NT \l_@@_firsttime_bool
       {
-        \bool_if:NTF \l_@@_scripts_missing_bool
+        \tl_if_empty:NTF \l_@@_script_name_tl
           {
-%<debug>  \typeout{:::: NADA}
-            \@@_info:n {no-scripts}
-          }
-          {
-            \tl_if_empty:NTF \l_@@_script_name_tl
+            \exp_args:No \@@_check_script:NnTF \l_@@_fontface_cs_tl {latn}
               {
-                \exp_args:No \@@_check_script:NnTF \l_@@_fontface_cs_tl {latn}
-                  {
 %<debug>  \typeout{:::: Defaulting to latn script}
-                    \tl_set:Nn \l_@@_script_name_tl {Latin}
-                    \tl_if_empty:NT \l_@@_lang_name_tl
-                      {
-                        \tl_set:Nn \l_@@_lang_name_tl {Default}
-                      }
-                    \keys_set:nx {fontspec-opentype} {Script=\l_@@_script_name_tl}
-                    \keys_set:nx {fontspec-opentype} {Language=\l_@@_lang_name_tl}
-%<debug>  \typeout{:::: Script=\l_@@_script_name_tl, Language=\l_@@_lang_name_tl}
-                  }
-                  {
-%<debug>  \typeout{:::: Default script only}
-                    \@@_info:n {dflt-script}
-                    \keys_set:nx {fontspec-opentype} {Script=Default}
-                    \keys_set:nx {fontspec-opentype} {Language=Default}
-                  }
-              }
-              {
+                \tl_set:Nn \l_@@_script_name_tl {Latin}
                 \tl_if_empty:NT \l_@@_lang_name_tl
                   {
                     \tl_set:Nn \l_@@_lang_name_tl {Default}
                   }
-%<debug>  \typeout{:::: Script=\l_@@_script_name_tl, Language=\l_@@_lang_name_tl}
                 \keys_set:nx {fontspec-opentype} {Script=\l_@@_script_name_tl}
                 \keys_set:nx {fontspec-opentype} {Language=\l_@@_lang_name_tl}
+%<debug>  \typeout{:::: Script=\l_@@_script_name_tl, Language=\l_@@_lang_name_tl}
               }
+              {
+%<debug>  \typeout{:::: Default script only}
+                \keys_set:nx {fontspec-opentype} {Script=Default}
+                \keys_set:nx {fontspec-opentype} {Language=Default}
+              }
+          }
+          {
+            \tl_if_empty:NT \l_@@_lang_name_tl
+              {
+                \tl_set:Nn \l_@@_lang_name_tl {Default}
+              }
+%<debug>  \typeout{:::: Script=\l_@@_script_name_tl, Language=\l_@@_lang_name_tl}
+            \keys_set:nx {fontspec-opentype} {Script=\l_@@_script_name_tl}
+            \keys_set:nx {fontspec-opentype} {Language=\l_@@_lang_name_tl}
           }
       }
   }
@@ -1145,6 +1128,7 @@
 %    \begin{macrocode}
 \cs_new:Nn \@@_iv_str_to_num:Nn
   {
+%<debug>\typeout{_iv_str_to_num:~#1~/~#2}
     \@@_strip_leading_sign:Nw #1#2 \q_nil
   }
 \cs_generate_variant:Nn \@@_iv_str_to_num:Nn {Nx}

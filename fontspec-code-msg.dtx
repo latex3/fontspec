@@ -135,15 +135,6 @@
  {
   OpenType tag '#1' is too long; script, language, and feature tags must be four characters or fewer.
  }
-\@@_msg_new:nnn {fontspec} {script-not-exist}
- {
-  Font '\l_fontspec_fontname_tl' does not contain script '#1'.
- }
-\@@_msg_new:nnn {fontspec} {script-not-exist-latn}
- {
-  Font '\l_fontspec_fontname_tl' does not contain script '#1'.
-  `Script=Latin` used instead.
- }
 \@@_msg_new:nnn {fontspec} {aat-feature-not-exist}
  {
   '\l_keys_key_tl=\l_keys_value_tl' feature not supported
@@ -235,13 +226,9 @@
  {
   Adjusting the maths setup (use [no-math] to avoid this).
  }
-\@@_msg_new:nnn {fontspec} {no-scripts}
+\@@_msg_new:nnn {fontspec} {no-script}
  {
-  Font "\l_fontspec_fontname_tl" does not contain any OpenType `Script' information.
- }
-\@@_msg_new:nnn {fontspec} {dflt-script}
- {
-  Font "\l_fontspec_fontname_tl" falling back to default (DFLT) script.
+  Font "\l_fontspec_fontname_tl" does not contain requested Script "#1".
  }
 \@@_msg_new:nnn {fontspec} {opa-twice}
  {

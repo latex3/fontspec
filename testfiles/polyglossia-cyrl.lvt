@@ -1,0 +1,22 @@
+
+\input{fontspec-testsetup.tex}
+
+\START
+\OMIT
+
+\usepackage{polyglossia}
+\MSG{^^J^^J^^JPACKAGE polyglossia LOADED^^J^^J^^J}
+
+\setmainlanguage{russian}
+\setmainfont{texgyreheros-regular.otf}
+\newfontfamily\cyrillicfont{LinLibertine_R.otf}[Script=Cyrillic]
+
+\begin{document}
+\TIMO
+
+\TESTBOX{Привет мир!}
+
+\OMIT
+\end{document}
+
+

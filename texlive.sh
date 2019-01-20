@@ -50,6 +50,7 @@ tlmgr install   \
 tlmgr install   \
   sourcecodepro \
   Asana-Math    \
+  lm-math       \
   ebgaramond    \
   tex-gyre      \
   tex-gyre-math \

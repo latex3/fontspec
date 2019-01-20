@@ -1,0 +1,6 @@
+\input{fontspec-testsetup}
+\usepackage{fontspec}
+\begin{document}
+hello
+\MSG{Checking loading; no log file data expected.}
+\end{document}

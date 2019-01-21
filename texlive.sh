@@ -45,6 +45,7 @@ tlmgr install   \
   unicode-math  \
   lualatex-math \
   polyglossia   \
+  luatexbase    \
   mathspec
 
 # Fonts

@@ -431,6 +431,7 @@
             \exp_args:No \@@_check_script:NnT \l_@@_fontface_cs_tl {####1}
               {
 %<debug>\typeout{Script~tag~found:~####1}
+                \tl_set:Nn \l_@@_script_name_tl {#1}
                 \tl_set:Nn \l_fontspec_script_tl {####1}
                 \int_set:Nn \l_@@_script_int {\l_@@_strnum_int}
                 \bool_set_true:N \l_@@_scriptlang_exist_bool
@@ -441,7 +442,10 @@
         \bool_if:NF \l_@@_scriptlang_exist_bool
           {
             \bool_if:nF { \str_if_eq_p:ee {#1} {CustomDefault} }
-              { \@@_warning:nx {no-script} {#1} }
+              {
+                \tl_clear:N \l_@@_script_name_tl
+                \@@_warning:nx {no-script} {#1}
+              }
 
             \bool_if:nF
               {

@@ -317,31 +317,8 @@
 %<debug>  \typeout{:: _set_scriptlang:}
     \bool_if:NT \l_@@_firsttime_bool
       {
-        \tl_if_empty:NTF \l_@@_script_name_tl
+        \tl_if_empty:NF \l_@@_script_name_tl
           {
-            \exp_args:No \@@_check_script:NnTF \l_@@_fontface_cs_tl {latn}
-              {
-%<debug>  \typeout{:::: Defaulting to latn script}
-                \tl_set:Nn \l_@@_script_name_tl {Latin}
-                \tl_if_empty:NT \l_@@_lang_name_tl
-                  {
-                    \tl_set:Nn \l_@@_lang_name_tl {Default}
-                  }
-                \keys_set:nx {fontspec-opentype} {Script=\l_@@_script_name_tl}
-                \keys_set:nx {fontspec-opentype} {Language=\l_@@_lang_name_tl}
-%<debug>  \typeout{:::: Script=\l_@@_script_name_tl, Language=\l_@@_lang_name_tl}
-              }
-              {
-%<debug>  \typeout{:::: Default script only}
-                \keys_set:nx {fontspec-opentype} {Script=Default}
-                \keys_set:nx {fontspec-opentype} {Language=Default}
-              }
-          }
-          {
-            \tl_if_empty:NT \l_@@_lang_name_tl
-              {
-                \tl_set:Nn \l_@@_lang_name_tl {Default}
-              }
 %<debug>  \typeout{:::: Script=\l_@@_script_name_tl, Language=\l_@@_lang_name_tl}
             \keys_set:nx {fontspec-opentype} {Script=\l_@@_script_name_tl}
             \keys_set:nx {fontspec-opentype} {Language=\l_@@_lang_name_tl}

@@ -134,7 +134,9 @@ When selecting fonts by file name, any font that can be found in the default
 search paths may be used directly (including in the current directory)
 without having to explicitly define the location of the font file on disk.
 
-Fonts selected by filename must include bold and italic variants explicitly.
+Fonts selected by filename must include bold and italic variants explicitly,
+unless a \texttt{.fontspec} file is supplied for the font family (see section~\ref{sec:fontspecfile}).
+We'll give some first examples specifying everything explicitly:
 \begin{Verbatim}
   \setmainfont{texgyrepagella-regular.otf}[
        BoldFont       = texgyrepagella-bold.otf ,
@@ -187,7 +189,8 @@ My preference is to always be explicit and include the extension; this also allo
 In previous versions of the package, the |Path| feature was also provided under the alias |ExternalLocation|, but this latter name is now deprecated and should not be used for new documents.
 
 
-\subsection{By custom file name}
+\subsection{By custom file name using a \texttt{.fontspec} file}
+\label{sec:fontspecfile}
 
 When \pkg{fontspec} is first asked to load a font, a font settings file is searched
 for with the name `\meta{fontname}\texttt{.fontspec}'.\footnote{Located in the current folder or within a standard \texttt{texmf} location.}

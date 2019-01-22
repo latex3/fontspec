@@ -165,25 +165,6 @@
   }
 %    \end{macrocode}
 %
-% \subsection{\cs{oldstylenums}}
-%
-%
-% \begin{macro}{\oldstylenums}
-% \begin{macro}{\liningnums}
-% This command obviously needs a redefinition.
-% And we may as well provide the reverse command.
-%    \begin{macrocode}
-\RenewDocumentCommand \oldstylenums {m}
-  {
-    { \addfontfeature{Numbers=OldStyle} #1 }
-  }
-\NewDocumentCommand \liningnums {m}
-  {
-    { \addfontfeature{Numbers=Lining} #1 }
-  }
-%    \end{macrocode}
-% \end{macro}
-% \end{macro}
 %
 %
 %    \begin{macrocode}

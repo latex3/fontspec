@@ -221,6 +221,28 @@
   }
 %    \end{macrocode}
 %
+% \begin{macro}{\oldstylenums}
+% This is performed only after the preamble to overwrite any redefinition by \pkg{textcomp}:
+%    \begin{macrocode}
+\AtBeginDocument
+  {
+    \RenewDocumentCommand \oldstylenums {m}
+      {
+        \@@_main_oldstylenums:n {#1}
+      }
+  }
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\liningnums}
+%    \begin{macrocode}
+\NewDocumentCommand \liningnums {m}
+  {
+    \@@_main_liningnums:n {#1}
+  }
+%    \end{macrocode}
+% \end{macro}
+%
 % \iffalse
 %    \begin{macrocode}
 %</fontspec>

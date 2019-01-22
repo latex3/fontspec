@@ -1,0 +1,29 @@
+\input{fontspec-testsetup.tex}
+\usepackage{fontspec}
+\usepackage{textcomp}
+\begin{document}
+
+\TIMO\SEPARATOR
+\MSG{PAGELLA LINING}
+\setmainfont{texgyrepagella-regular.otf}[Numbers=Lining]
+
+Roman letters
+\CURRNFSS
+
+\oldstylenums{123\CURRNFSS}
+
+\liningnums{123\CURRNFSS}
+
+
+\TIMO\SEPARATOR
+\MSG{PAGELLA OSF}
+\setmainfont{texgyrepagella-regular.otf}[Numbers=OldStyle]
+
+Roman letters
+\CURRNFSS
+
+\oldstylenums{123\CURRNFSS}
+
+\liningnums{123\CURRNFSS}
+
+\end{document}

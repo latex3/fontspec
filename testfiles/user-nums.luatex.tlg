@@ -1,0 +1,20 @@
+This is a generated file for the l3build validation system.
+Don't change this file in any respect.
+============================================================
+PAGELLA LINING
+TU/texgyrepagella-regular.otf(0)/m/n:
+  [texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;+lnum;
+TU/texgyrepagella-regular.otf(1)/m/n:
+  [texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;+onum;
+TU/texgyrepagella-regular.otf(2)/m/n:
+  [texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;+lnum;
+============================================================
+PAGELLA OSF
+TU/texgyrepagella-regular.otf(3)/m/n:
+  [texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;+onum;
+TU/texgyrepagella-regular.otf(4)/m/n:
+  [texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;+onum;
+TU/texgyrepagella-regular.otf(5)/m/n:
+  [texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;+lnum;
+***************
+Compilation 1 of test file completed with exit status 0

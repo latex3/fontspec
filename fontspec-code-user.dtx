@@ -448,6 +448,9 @@
 % \end{macro}
 %
 %
+% \subsection{High level conditionals}
+%
+%
 % \begin{macro}{\IfFontFeatureActiveTF}
 %    \begin{macrocode}
 \cs_new:Nn \@@_main_IfFontFeatureActiveTF:nnn
@@ -483,6 +486,34 @@
   }
 %    \end{macrocode}
 % \end{macro}
+%
+%
+% \subsection{\cs{oldstylenums} and \cs{liningnums}}
+%
+% \begin{macro}{\oldstylenums}
+% \begin{macro}{\liningnums}
+% This command needs a redefinition.
+% And we may as well provide the reverse command.
+%    \begin{macrocode}
+\cs_new_protected:Nn \@@_main_oldstylenums:n
+  {
+    \group_begin:
+      \addfontfeature{Numbers=OldStyle}
+      #1
+    \group_end:
+  }
+\cs_new_protected:Nn \@@_main_liningnums:n
+  {
+    \group_begin:
+      \addfontfeature{Numbers=Lining}
+      #1
+    \group_end:
+  }
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+%
+%
 %
 % \iffalse
 %    \begin{macrocode}

@@ -425,6 +425,7 @@
 %    \begin{macrocode}
 \@@_keys_define_code:nnn {fontspec} {ScaleAgain}
   {
+    \tl_if_empty:NT \l_@@_scale_tl { \tl_set:Nn \l_@@_scale_tl {1} }
     \tl_set:Nx \l_@@_scale_tl { \fp_eval:n { #1 * \l_@@_scale_tl } }
     \@@_info:n {set-scale}
   }

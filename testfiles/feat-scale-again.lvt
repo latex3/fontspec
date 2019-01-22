@@ -24,4 +24,8 @@
 \MSG{WITH SCALE AGAIN THEN RESET}
 \fontspec[Scale=1.1,ScaleAgain=1.2,Scale=0.8]{texgyreheros-regular.otf}       \X
 
+\TIMO\SEPARATOR
+\MSG{AGAIN ONLY}
+\fontspec[ScaleAgain=1.2]{texgyreheros-regular.otf}       \X
+
 \end{document}

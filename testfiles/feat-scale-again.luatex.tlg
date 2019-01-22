@@ -24,5 +24,11 @@ TU/texgyreheros-regular.otf(3)/m/n:
   [texgyreheros-regular.otf]:mode=node;script=latn;language=DFLT; at 8.00003pt
 font dimen 5: 4.19202pt
 font dimen 8: 5.83202pt
+============================================================
+AGAIN ONLY
+TU/texgyreheros-regular.otf(4)/m/n:
+  [texgyreheros-regular.otf]:mode=node;script=latn;language=DFLT; at 11.99997pt
+font dimen 5: 6.28798pt
+font dimen 8: 8.74797pt
 ***************
 Compilation 1 of test file completed with exit status 0

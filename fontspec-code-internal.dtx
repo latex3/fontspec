@@ -248,7 +248,7 @@
       {
         \@@_construct_font_call:nn { \l_@@_fontname_up_tl } {}
       }
-      { \f@size pt + 1sp }
+      { \f@size pt }
 
     \l_@@_fontface_cs_tl % this is necessary for LuaLaTeX to check the scripts properly
 
@@ -691,7 +691,7 @@
     \keys_set_groups:nnV {fontspec/fontname} {getfontname} \l_@@_fontopts_clist
     \exp_args:No \@@_primitive_font_set:Nnn \l_@@_fontface_cs_tl
       { \@@_construct_font_call:nn {\l_fontspec_fontname_tl} {} }
-      { \f@size pt - 3sp }
+      { \f@size pt }
     \exp_args:No \@@_primitive_font_if_null:NT \l_@@_fontface_cs_tl { \@@_error:nx {font-not-found} {#1} }
   }
 %    \end{macrocode}

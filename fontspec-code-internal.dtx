@@ -794,6 +794,11 @@
     \@@_get_features:n { #2 , #3 , #4 }
 %<debug>\typeout{====~Gathered~features:~\g_@@_rawfeatures_sclist}
 
+    \tl_if_empty:NF \l_@@_scale_tl
+      {
+        \tl_set:Nx \l_@@_scale_tl { s*[\l_@@_scale_tl] }
+      }
+
     \tl_put_right:Nx #1
       {
         <\l_@@_size_tl> \l_@@_scale_tl

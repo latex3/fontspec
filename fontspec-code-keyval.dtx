@@ -418,7 +418,15 @@
         {MatchUppercase} { \@@_calc_scale:n {8} }
       }
       { \tl_set:Nx \l_@@_scale_tl {#1} }
-    \tl_set:Nx \l_@@_scale_tl { s*[\l_@@_scale_tl] }
+  }
+%    \end{macrocode}
+%
+% \paragraph{ScaleAgain}
+%    \begin{macrocode}
+\@@_keys_define_code:nnn {fontspec} {ScaleAgain}
+  {
+    \tl_set:Nx \l_@@_scale_tl { \fp_eval:n { #1 * \l_@@_scale_tl } }
+    \@@_info:n {set-scale}
   }
 %    \end{macrocode}
 %
@@ -452,7 +460,7 @@
       \tl_set:Nx \l_@@_scale_tl
         {
           \fp_eval:n { \dim_to_fp:n {\l_@@_tmpa_dim} /
-                      \dim_to_fp:n {\l_@@_tmpb_dim} }
+                       \dim_to_fp:n {\l_@@_tmpb_dim}   }
         }
 
       \@@_info:n {set-scale}

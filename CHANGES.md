@@ -1,6 +1,12 @@
 Change history
 ==============
 
+## v2.7 (2019/01/22)
+
+    * Add new `ScaleAgain` feature for compounding scale factors.
+      (This is largely to support `unicode-math` but may be useful by others.)
+    * More fixes for recent regressions.
+
 ## v2.6l (2019/01/18)
 
     * REALLY fix crash when loading fonts that are missing a requested script.

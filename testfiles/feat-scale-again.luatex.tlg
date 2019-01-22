@@ -1,0 +1,28 @@
+This is a generated file for the l3build validation system.
+Don't change this file in any respect.
+============================================================
+WITHOUT SCALING
+TU/texgyreheros-regular.otf(0)/m/n:
+  [texgyreheros-regular.otf]:mode=node;script=latn;language=DFLT;
+font dimen 5: 5.24pt
+font dimen 8: 7.29pt
+============================================================
+WITH SCALING TWICE
+TU/texgyreheros-regular.otf(1)/m/n:
+  [texgyreheros-regular.otf]:mode=node;script=latn;language=DFLT; at 11.99997pt
+font dimen 5: 6.28798pt
+font dimen 8: 8.74797pt
+============================================================
+WITH SCALE AGAIN
+TU/texgyreheros-regular.otf(2)/m/n:
+  [texgyreheros-regular.otf]:mode=node;script=latn;language=DFLT; at 13.20007pt
+font dimen 5: 6.91684pt
+font dimen 8: 9.62285pt
+============================================================
+WITH SCALE AGAIN THEN RESET
+TU/texgyreheros-regular.otf(3)/m/n:
+  [texgyreheros-regular.otf]:mode=node;script=latn;language=DFLT; at 8.00003pt
+font dimen 5: 4.19202pt
+font dimen 8: 5.83202pt
+***************
+Compilation 1 of test file completed with exit status 0

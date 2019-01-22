@@ -1,0 +1,27 @@
+\input{fontspec-testsetup.tex}
+\usepackage{fontspec}
+\begin{document}
+
+\def\X{%
+  \CURRNFSS
+  \MSG{font dimen 5: \the\fontdimen5\font}%
+  \MSG{font dimen 8: \the\fontdimen8\font}%
+}
+
+\TIMO\SEPARATOR
+\MSG{WITHOUT SCALING}
+\fontspec{texgyreheros-regular.otf}     \X
+
+\TIMO\SEPARATOR
+\MSG{WITH SCALING TWICE}
+\fontspec[Scale=1.1,Scale=1.2]{texgyreheros-regular.otf}  \X
+
+\TIMO\SEPARATOR
+\MSG{WITH SCALE AGAIN}
+\fontspec[Scale=1.1,ScaleAgain=1.2]{texgyreheros-regular.otf}       \X
+
+\TIMO\SEPARATOR
+\MSG{WITH SCALE AGAIN THEN RESET}
+\fontspec[Scale=1.1,ScaleAgain=1.2,Scale=0.8]{texgyreheros-regular.otf}       \X
+
+\end{document}

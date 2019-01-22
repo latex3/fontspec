@@ -367,15 +367,13 @@ while defining opacity in this way, if you like.
 In its explicit form, \feat{Scale} takes a single
 numeric argument for linearly scaling the font, as demonstrated
 in \exref{fontload}.
-It is now possible to
-measure the correct dimensions of the fonts loaded and
-calculate values to scale them automatically.
 
 As well as a numerical argument, the \feat{Scale} feature
 also accepts options \opt{MatchLowercase}
 and \opt{MatchUppercase}, which will scale the font being selected to match
 the current default roman font to either the height of the lowercase or
 uppercase letters, respectively; these features are shown in \exref{scale}.
+The amount of scaling used in each instance is reported in the \texttt{.log} file.
 
 \begin{Xexample}{scale}{Automatically calculated scale values.}
   \setmainfont{Georgia}
@@ -385,18 +383,28 @@ uppercase letters, respectively; these features are shown in \exref{scale}.
    L O G O \uc F O N T
 \end{Xexample}
 
-The amount of scaling used in each instance is reported in the \texttt{.log} file.
-Since there is some subjectivity about the exact scaling to be used, these values
-should be used to fine-tune the results.
+Additional calls to the \feat{Scale} feature overwrite the settings of the former.
+If you want to accumulate scale factors (useful perhaps to fine-tune the settings of
+\opt{MatchLowercase}), the \feat{ScaleAgain} feature can be used as many times as
+necessary. For example:
+\begin{Verbatim}
+  [ Scale = 1.1 , Scale = 1.2 ]      % -> scale of 1.2
+  [ Scale = 1.1 , ScaleAgain = 1.2 ] % -> scale of 1.32
+\end{Verbatim}
 
-Note that when |Scale=MatchLowercase| is used with |\setmainfont|, the new `main' font of the document will be scaled to match the old default.
-This may be undesirable in some cases, so to achieve `natural' scaling for the main font but automatically scale all other fonts selected, you may write
+Note that when |Scale=MatchLowercase| is used with |\setmainfont|, the new `main'
+font of the document will be scaled to match the old default.
+If you wish to automatically scale all fonts except have the main font use `natural'
+scaling, you may write
 \begin{Verbatim}
   \defaultfontfeatures{ Scale = MatchLowercase }
   \defaultfontfeatures[\rmfamily]{ Scale = 1}
 \end{Verbatim}
-One or both of these lines may be placed into a local |fontspec.cfg| file (see \vref{sec:config}) for this behaviour to be effected in your own documents automatically.
+One or both of these lines may be placed into a local |fontspec.cfg| file
+(see \vref{sec:config}) for this behaviour to be effected in your own documents
+automatically.
 (Also see \vref{sec:defaults} for more information on setting font defaults.)
+
 
 
 

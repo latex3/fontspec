@@ -327,7 +327,7 @@
 \prg_new_conditional:Nnn \fontspec_if_current_feature:n {TF,T,F}
   {
     \exp_args:Nxx \tl_if_in:nnTF
-      { \fontname\font } { \tl_to_str:n {#1} }
+      { \@@_primitive_font_current_name: } { \tl_to_str:n {#1} }
       { \prg_return_true: } { \prg_return_false: }
   }
 %    \end{macrocode}

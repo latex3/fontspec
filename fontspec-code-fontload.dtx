@@ -81,6 +81,18 @@
 %    \end{macrocode}
 % \end{macro}
 %
+% \begin{macro}{\@@_primitive_font_get_name:N}
+% \begin{macro}{\@@_primitive_font_current_name:}
+%    \begin{macrocode}
+\cs_new_eq:NN \@@_primitive_font_get_name:N \fontname
+\cs_new:Npn \@@_primitive_font_current_name:
+  {
+    \@@_primitive_font_get_name:N \tex_font:D
+  }
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+%
 % \iffalse
 %    \begin{macrocode}
 %</fontspec>

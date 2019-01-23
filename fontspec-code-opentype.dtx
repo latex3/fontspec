@@ -14,7 +14,7 @@
 %    \begin{macrocode}
 \cs_new:Nn \@@_define_opentype_feature_group:n
   {
-    \keys_define:nn {fontspec-opentype} { #1 .multichoice: }
+    \keys_define:nn {fontspec-opentype} { #1 .multichoice: , .groups:n = {opentype} }
   }
 %    \end{macrocode}
 % \end{macro}
@@ -44,7 +44,8 @@
           \keys_define:nn {fontspec-opentype}
             {
               #1/#2 .code:n =
-                { \@@_remove_clashing_featstr:n {#5} }
+                { \@@_remove_clashing_featstr:n {#5} } ,
+              #1/#2 .groups:n = {opentype}
             }
         }
         {
@@ -54,7 +55,8 @@
                 {
 %<debug>          \typeout{::::::::fontspec-opentype~#1/#2~=~#3/#4/#5}
                   \@@_make_OT_feature:nnn {#3} {#4} {#5}
-                }
+                } ,
+              #1/#2 .groups:n = {opentype}
             }
         }
   }

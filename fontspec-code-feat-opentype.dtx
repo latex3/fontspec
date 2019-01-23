@@ -44,7 +44,9 @@
 \keys_define:nn {fontspec-opentype}
   {
     Ligatures / TeX .code:n = { \tl_set:Nn \l_@@_mapping_tl {tex-text} },
+    Ligatures / TeX .groups:n = {opentype},
     Ligatures / TeXReset .code:n = { \tl_clear:N \l_@@_mapping_tl },
+    Ligatures / TeXReset .groups:n = {opentype},
   }
 %</XE>
 %<LU>\@@_define_opentype_onreset:nnnnn {Ligatures} {TeX} {} { +tlig } {}
@@ -313,6 +315,7 @@
 \keys_define:nn {fontspec-opentype}
   {
     Alternate .default:n = {0} ,
+    Alternate .groups:n = {opentype},
     Alternate / unknown .code:n =
       {
         \clist_map_inline:nn {#1}
@@ -343,6 +346,7 @@
 \keys_define:nn {fontspec-opentype}
   {
     Variant .default:n = {0} ,
+    Variant .groups:n = {opentype} ,
     Variant / unknown .code:n =
       {
         \clist_map_inline:nn {#1}
@@ -391,6 +395,7 @@
 \keys_define:nn {fontspec-opentype}
   {
     Annotation .default:n = {0} ,
+    Annotation .groups:n = {opentype},
     Annotation / unknown .code:n =
       {
         \@@_make_OT_feature:nnn {nalt} {+nalt=#1} {}
@@ -405,6 +410,7 @@
 \keys_define:nn {fontspec-opentype}
   {
     Ornament .default:n = {0} ,
+    Ornament .groups:n = {opentype},
     Ornament / unknown .code:n =
       {
         \@@_make_OT_feature:nnn {ornm} { +ornm=#1 } {}
@@ -419,10 +425,14 @@
 % \subsection{Script}
 %
 %    \begin{macrocode}
-\keys_define:nn { fontspec-opentype } { Script .choice: }
+\keys_define:nn {fontspec-opentype}
+  {
+    Script .choice: ,
+    Script .groups:n = {opentype} ,
+  }
 \cs_new:Nn \fontspec_new_script:nn
   {
-    \keys_define:nn { fontspec-opentype } { Script / #1 .code:n =
+    \keys_define:nn {fontspec-opentype} { Script / #1 .code:n =
       {
 %<debug>\typeout{Trying~[Script=#1]}
         \bool_set_false:N \l_@@_scriptlang_exist_bool
@@ -466,10 +476,14 @@
 % \subsection{Language}
 %
 %    \begin{macrocode}
-\keys_define:nn {fontspec-opentype} { Language .choice: }
+\keys_define:nn {fontspec-opentype}
+  {
+    Language .choice: ,
+    Language .groups:n = {opentype} ,
+  }
 \cs_new:Nn \fontspec_new_lang:nn
   {
-    \keys_define:nn { fontspec-opentype } { Language / #1 .code:n =
+    \keys_define:nn {fontspec-opentype} { Language / #1 .code:n =
       {
         \bool_set_false:N \l_@@_scriptlang_exist_bool
         \clist_map_inline:nn {#2}

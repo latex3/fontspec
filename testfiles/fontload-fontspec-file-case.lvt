@@ -1,0 +1,24 @@
+
+\begin{filecontents*}{FiraSans-Regular.fontspec}
+\defaultfontfeatures[FiraSans-Regular]{
+  Extension = .otf ,
+  UprightFont    = FiraSans-Regular    ,
+  BoldFont       = FiraSans-Bold       ,
+  ItalicFont     = FiraSans-Italic     ,
+  BoldItalicFont = FiraSans-BoldItalic ,
+  Colour = AABBCC ,
+}
+\end{filecontents*}
+
+\input{fontspec-testsetup.tex}
+
+\usepackage{fontspec}
+
+\begin{document}
+
+\MSG{Fira Sans:}
+\setmainfont{FiraSans-Regular.otf}
+\CURRFAMILY
+
+
+\end{document}

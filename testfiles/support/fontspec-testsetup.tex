@@ -64,6 +64,12 @@
   \typeout{\curr@fontshape:^^J\space\space\fontname\font}%
   \OMIT
 }
+\newcommand\CURRFAMILY{%
+  \normalfont\CURRNFSS
+  {\itshape \CURRNFSS}%
+  {\bfseries \CURRNFSS}%
+  {\bfseries\itshape \CURRNFSS}%
+}
 \makeatother
 
 \AtBeginDocument{\def\=========================={%

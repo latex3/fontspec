@@ -45,6 +45,25 @@
 %    \end{macrocode}
 % \end{macro}
 %
+% \begin{macro}[pTF]{\@@_primitive_font_set:NnnTF,\@@_primitive_font_gset:NnnTF}
+%    \begin{macrocode}
+\prg_set_conditional:Nnn \@@_primitive_font_set:Nnn {TF,T,F}
+  {
+    \@@_primitive_font_set:Nnn #1 {#2} {#3}
+    \@@_primitive_font_if_null:NTF #1 {\prg_return_false:} {\prg_return_true:}
+  }
+\prg_set_conditional:Nnn \@@_primitive_font_gset:Nnn {TF,T,F}
+  {
+    \@@_primitive_font_gset:Nnn #1 {#2} {#3}
+    \@@_primitive_font_if_null:NTF #1 {\prg_return_false:} {\prg_return_true:}
+  }
+\cs_generate_variant:Nn \@@_primitive_font_set:Nnn {V}
+\cs_generate_variant:Nn \@@_primitive_font_set:NnnF {V}
+\cs_generate_variant:Nn \@@_primitive_font_gset:Nnn {V}
+\cs_generate_variant:Nn \@@_primitive_font_gset:NnnF {V}
+%    \end{macrocode}
+% \end{macro}
+%
 % \begin{macro}[TF]{\@@_primitive_font_if_exist:n}
 %    \begin{macrocode}
 \prg_set_conditional:Nnn \@@_primitive_font_if_exist:n {TF,T,F}

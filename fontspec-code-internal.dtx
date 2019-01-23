@@ -232,22 +232,15 @@
 %<debug>\typeout{:: @@_load_font}
 
 %<debug>\typeout{Set~ base~ font~ for~ preliminary~ analysis: \@@_construct_font_call:nn { \l_@@_fontname_up_tl } {} }
-    \@@_primitive_font_set:Nnn \l_@@_test_font
-      {
-        \@@_construct_font_call:nn { \l_@@_fontname_up_tl } {}
-      }
+    \@@_primitive_font_set:NnnF \l_@@_test_font
+      { \@@_construct_font_call:nn { \l_@@_fontname_up_tl } {} }
       { \f@size pt - 2sp }
-    \@@_primitive_font_if_null:NT \l_@@_test_font
-      {
-        \@@_error:nx {font-not-found} {\l_@@_fontname_up_tl}
-      }
+      { \@@_error:nx {font-not-found} {\l_@@_fontname_up_tl} }
 
 %<debug>\typeout{Set~ base~ font~ properly: \@@_construct_font_call:nn { \l_@@_fontname_up_tl } {} }
     \@@_set_font_type:N \l_@@_test_font
-    \exp_args:No \@@_primitive_font_gset:Nnn \l_@@_fontface_cs_tl
-      {
-        \@@_construct_font_call:nn { \l_@@_fontname_up_tl } {}
-      }
+    \@@_primitive_font_gset:Vnn \l_@@_fontface_cs_tl
+      {  \@@_construct_font_call:nn { \l_@@_fontname_up_tl } {} }
       { \f@size pt }
 
     \l_@@_fontface_cs_tl % this is necessary for LuaLaTeX to check the scripts properly
@@ -675,24 +668,23 @@
   {
     \group_begin:
       \@@_keys_set_known:nxN {fontspec-preparse-external} { #4 } \l_@@_leftover_clist
-      \@@_load_fontname:n {#1}
+      \@@_load_fontname:Nn \l_fontspec_fontname_tl {#1}
       \@@_declare_shape:nnxx {#2} {#3} { \l_@@_fontopts_clist, \l_@@_leftover_clist } {#5}
     \group_end:
   }
 %    \end{macrocode}
 %
 %    \begin{macrocode}
-\cs_new:Nn \@@_load_fontname:n
+\cs_new:Nn \@@_load_fontname:Nn
   {
-%<debug>    \typeout{:: @@_load_fontname:n {#1} }
-    \@@_load_external_fontoptions:Nn \l_fontspec_fontname_tl {#1}
-    \prop_get:NVNF \g_@@_fontopts_prop \l_fontspec_fontname_tl \l_@@_fontopts_clist
+%<debug>    \typeout{:: @@_load_fontname:Nn \exp_not:N #1 (#1) {#2} }
+    \@@_load_external_fontoptions:Nn #1 {#2}
+    \prop_get:NVNF \g_@@_fontopts_prop #1 \l_@@_fontopts_clist
       { \clist_clear:N \l_@@_fontopts_clist }
     \keys_set_groups:nnV {fontspec/fontname} {getfontname} \l_@@_fontopts_clist
-    \exp_args:No \@@_primitive_font_set:Nnn \l_@@_fontface_cs_tl
-      { \@@_construct_font_call:nn {\l_fontspec_fontname_tl} {} }
-      { \f@size pt }
-    \exp_args:No \@@_primitive_font_if_null:NT \l_@@_fontface_cs_tl { \@@_error:nx {font-not-found} {#1} }
+    \@@_primitive_font_set:VnnF \l_@@_fontface_cs_tl
+      { \@@_construct_font_call:nn {#1} {} } { \f@size pt }
+      { \@@_error:nx {font-not-found} {#2} }
   }
 %    \end{macrocode}
 %
@@ -752,7 +744,7 @@
 %<debug>\typeout{==~ size:~\l_@@_size_tl}
 
     % "normal"
-    \@@_load_fontname:n {\l_@@_sizedfont_tl}
+    \@@_load_fontname:Nn \l_fontspec_fontname_tl {\l_@@_sizedfont_tl}
     \@@_setup_nfss:Nnnn \l_@@_nfss_tl {#1} {\l_@@_sizing_leftover_clist} {}
 %<debug>    \typeout{===~ sized~ font:~ \l_@@_sizedfont_tl}
 
@@ -773,7 +765,7 @@
                 \bool_set_true:N \l_@@_nosc_bool
               }
           }
-          { \@@_load_fontname:n {\l_@@_fontname_sc_tl} }% local for each size
+          { \@@_load_fontname:Nn \l_fontspec_fontname_tl {\l_@@_fontname_sc_tl} }% local for each size
       }
 
     \bool_if:NF \l_@@_nosc_bool

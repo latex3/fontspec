@@ -2,12 +2,32 @@ This is a generated file for the l3build validation system.
 Don't change this file in any respect.
 Fira Sans:
 TU/FiraSans-Regular.otf(0)/m/n:
-  "[FiraSans-Regular.otf]:mode=node;script=latn;language=DFLT;+tlig;color=AABBCCFF ;"
+  [FiraSans-Regular.otf]:mode=node;script=latn;language=DFLT;+tlig;
 TU/FiraSans-Regular.otf(0)/m/it:
-  "[FiraSans-Italic.otf]:mode=node;script=latn;language=DFLT;+tlig;color=AABBCCFF ;"
+  [FiraSans-Regular.otf]:mode=node;script=latn;language=DFLT;+tlig;
 TU/FiraSans-Regular.otf(0)/bx/n:
-  "[FiraSans-Bold.otf]:mode=node;script=latn;language=DFLT;+tlig;color=AABBCCFF ;"
+  [FiraSans-Regular.otf]:mode=node;script=latn;language=DFLT;+tlig;
 TU/FiraSans-Regular.otf(0)/bx/it:
-  "[FiraSans-BoldItalic.otf]:mode=node;script=latn;language=DFLT;+tlig;color=AABBCCFF ;"
+  [FiraSans-Regular.otf]:mode=node;script=latn;language=DFLT;+tlig;
+============================================================
+um typewriter:
+TU/umtypewriter-regular.otf(0)/m/n:
+  [umtypewriter-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;
+TU/umtypewriter-regular.otf(0)/m/it:
+  [umtypewriter-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;
+TU/umtypewriter-regular.otf(0)/bx/n:
+  [umtypewriter-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;
+TU/umtypewriter-regular.otf(0)/bx/it:
+  [umtypewriter-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;
+============================================================
+UM TYPEWRITER:
+TU/umtypewriter-regular.otf(0)/m/n:
+  [umtypewriter-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;
+TU/umtypewriter-regular.otf(0)/m/it:
+  [umtypewriter-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;
+TU/umtypewriter-regular.otf(0)/bx/n:
+  [umtypewriter-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;
+TU/umtypewriter-regular.otf(0)/bx/it:
+  [umtypewriter-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;
 ***************
-Compilation 1 of test file completed with exit status 256
+Compilation 1 of test file completed with exit status 0

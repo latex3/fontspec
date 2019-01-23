@@ -2,12 +2,32 @@ This is a generated file for the l3build validation system.
 Don't change this file in any respect.
 Fira Sans:
 TU/FiraSans-Regular.otf(0)/m/n:
-  "[FiraSans-Regular.otf]/OT:script=latn;language=DFLT;mapping=tex-text;color=AABBCCFF ;"
+  nullfont
 TU/FiraSans-Regular.otf(0)/m/it:
-  "[FiraSans-Italic.otf]/OT:script=latn;language=DFLT;mapping=tex-text;color=AABBCCFF ;"
+  nullfont
 TU/FiraSans-Regular.otf(0)/bx/n:
-  "[FiraSans-Bold.otf]/OT:script=latn;language=DFLT;mapping=tex-text;color=AABBCCFF ;"
+  nullfont
 TU/FiraSans-Regular.otf(0)/bx/it:
-  "[FiraSans-BoldItalic.otf]/OT:script=latn;language=DFLT;mapping=tex-text;color=AABBCCFF ;"
+  nullfont
+============================================================
+um typewriter:
+TU/umtypewriter-regular.otf(0)/m/n:
+  nullfont
+TU/umtypewriter-regular.otf(0)/m/it:
+  nullfont
+TU/umtypewriter-regular.otf(0)/bx/n:
+  nullfont
+TU/umtypewriter-regular.otf(0)/bx/it:
+  nullfont
+============================================================
+UM TYPEWRITER:
+TU/umtypewriter-regular.otf(0)/m/n:
+  nullfont
+TU/umtypewriter-regular.otf(0)/m/it:
+  nullfont
+TU/umtypewriter-regular.otf(0)/bx/n:
+  nullfont
+TU/umtypewriter-regular.otf(0)/bx/it:
+  nullfont
 ***************
 Compilation 1 of test file completed with exit status 256

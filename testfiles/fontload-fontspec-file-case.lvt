@@ -10,6 +10,17 @@
 }
 \end{filecontents*}
 
+\begin{filecontents*}{umtypewriter-regular.fontspec}
+\defaultfontfeatures[umtypewriter-regular]{
+  Extension = .otf ,
+  UprightFont    = UMTypewriter-Regular    ,
+  BoldFont       = UMTypewriter-Bold       ,
+  ItalicFont     = UMTypewriter-Italic     ,
+  BoldItalicFont = UMTypewriter-BoldItalic ,
+  Colour = AABBCC ,
+}
+\end{filecontents*}
+
 \input{fontspec-testsetup.tex}
 
 \usepackage{fontspec}
@@ -18,6 +29,18 @@
 
 \MSG{Fira Sans:}
 \setmainfont{FiraSans-Regular.otf}
+\CURRFAMILY
+
+\TIMO\SEPARATOR
+
+\MSG{um typewriter:}
+\setmainfont{umtypewriter-regular.otf}
+\CURRFAMILY
+
+\TIMO\SEPARATOR
+
+\MSG{UM TYPEWRITER:}
+\setmainfont{UMTypewriter-Regular.otf}
 \CURRFAMILY
 
 

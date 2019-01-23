@@ -24,9 +24,10 @@
 % Some often-used variables to know about:
 % \begin{itemize}
 % \item \cmd{\l_fontspec_fontname_tl} is used as the generic name of the font being defined.
-% \item \cmd{\l_@@_fontid_tl} is the unique identifier of the font with all its features.
+% \item \cmd{\l_@@_pointer_str} is the normalised string for internally IDing the font family (space stripped, case folded).
 % \item \cmd{\l_@@_fontname_up_tl} is the font specifically to be used as the upright font.
 % \item \cmd{\l_@@_basename_tl} is the (immutable) original argument used for |*|-replacing.
+% \item \cmd{\l_@@__tl} is the (immutable) original argument used for |*|-replacing.
 % \item \cmd{\l_fontspec_font} is the plain \TeX{} font of the upright font requested.
 % \end{itemize}
 %    \begin{macrocode}
@@ -36,6 +37,9 @@
     \group_begin:
     \@@_font_suppress_not_found_error:
     \@@_init:
+
+    \str_set:Nx \l_@@_pointer_str { \str_fold_case:n {#2} }
+    \tl_remove_all:Nn \l_@@_pointer_str {~}
 
     \@@_sanitise_fontname:Nn \l_fontspec_fontname_tl    {#2}
     \@@_sanitise_fontname:Nn \l_@@_fontname_up_tl {#2}
@@ -47,10 +51,11 @@
     \keys_set_known:nn {fontspec-preparse-cfg} {#1}
 
     \@@_init_ttc:n {#2}
+    \@@_sanitise_fontname:Nn \l_fontspec_fontname_tl    {#2} % redundant??
     \@@_load_external_fontoptions:Nn \l_fontspec_fontname_tl {#2}
 
     \@@_extract_all_features:n {#1}
-    \tl_set:Nx \l_@@_fontid_tl { \tl_to_str:N \l_fontspec_fontname_tl-:-\tl_to_str:N \l_@@_all_features_clist }
+    \tl_set:Nx \l_@@_fontid_tl { \str_use:N \l_@@_pointer_str-:-\tl_to_str:N \l_@@_all_features_clist }
 
 %<debug>\typeout{fontid: \l_@@_fontid_tl}
 
@@ -146,15 +151,18 @@
   {
     \bool_if:NT \l_@@_fontcfg_bool
       {
-%<debug>  \typeout{:: @@_load_external_fontoptions:Nn \exp_not:N #1 {#2} }
-        \@@_sanitise_fontname:Nn #1 {#2}
-        \tl_set:Nx \l_@@_ext_filename_tl {#1.fontspec}
-        \tl_remove_all:Nn \l_@@_ext_filename_tl {~}
-        \prop_if_in:NVF \g_@@_fontopts_prop #1
-         {
-          \exp_args:No \file_if_exist:nT { \l_@@_ext_filename_tl }
-           { \file_input:n { \l_@@_ext_filename_tl } }
-         }
+%<debug>  \typeout{:: @@_load_external_fontoptions:Nn \exp_not:N #1~ (#1)~ {#2} }
+
+        \tl_set:Nx \l_@@_ext_filename_tl { \l_@@_pointer_str .fontspec }
+
+        \prop_if_in:NVF \g_@@_fontopts_prop \l_@@_pointer_str
+          {
+            \file_if_exist_input:VF \l_@@_ext_filename_tl
+              {
+                \tl_set:Nx \l_@@_ext_filename_tl { \tl_lower_case:n \l_@@_ext_filename_tl }
+                \file_if_exist_input:V \l_@@_ext_filename_tl
+              }
+          }
       }
   }
 %    \end{macrocode}
@@ -170,7 +178,7 @@
         \clist_set:Nx \l_@@_all_features_clist {#1}
       }
       {
-        \prop_get:NVNF \g_@@_fontopts_prop \l_fontspec_fontname_tl \l_@@_fontopts_clist
+        \prop_get:NVNF \g_@@_fontopts_prop \g_@@_fontopts_prop \l_@@_fontopts_clist
           { \clist_clear:N \l_@@_fontopts_clist }
 
         \prop_get:NVNF \g_@@_fontopts_prop \l_@@_family_label_tl \l_@@_family_fontopts_clist
@@ -686,7 +694,7 @@
   {
 %<debug>    \typeout{:: @@_load_fontname:n {#1} }
     \@@_load_external_fontoptions:Nn \l_fontspec_fontname_tl {#1}
-    \prop_get:NVNF \g_@@_fontopts_prop \l_fontspec_fontname_tl \l_@@_fontopts_clist
+    \prop_get:NVNF \g_@@_fontopts_prop \l_@@_pointer_str \l_@@_fontopts_clist
       { \clist_clear:N \l_@@_fontopts_clist }
     \keys_set_groups:nnV {fontspec/fontname} {getfontname} \l_@@_fontopts_clist
     \exp_args:No \@@_primitive_font_set:Nnn \l_@@_fontface_cs_tl

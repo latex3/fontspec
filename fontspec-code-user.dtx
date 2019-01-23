@@ -228,8 +228,8 @@
 %
 % \begin{macro}{\@@_set_font_default_features:nnn}
 % The optional argument |#2| specifies font identifier(s).
-% Branch for either (a)~single token input such as \verb|\rmdefault|, or (b)~otherwise assume its a fontname.
-% In that case, strip spaces and file extensions and lower-case to ensure consistency.
+% Branch for either (a)~single token input such as \verb|\rmdefault|, or (b)~otherwise assume it is a fontname.
+% In that case, strip spaces and file extensions and fold case to ensure consistency.
 %    \begin{macrocode}
 \cs_new:Nn \@@_set_font_default_features:nnn
   {

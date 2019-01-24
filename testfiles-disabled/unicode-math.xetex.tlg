@@ -1,5 +1,6 @@
 This is a generated file for the l3build validation system.
 Don't change this file in any respect.
-*** XeTeX-only test ***
+PACKAGE fontspec LOADED
+PACKAGE unicode-math LOADED
 ***************
-Compilation 1 of test file completed with exit status 256
+Compilation 1 of test file completed with exit status 0

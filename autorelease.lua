@@ -39,7 +39,9 @@ exe("l3build tag foo")
 
 exe([===[
   if [[ `git status --porcelain` ]]; then
-    git commit -a -m 'update package info for release';
+    git commit -a -m 'update package info for release
+
+    [ci-skip]';
   fi
 ]===])
 
@@ -56,3 +58,7 @@ exe("git push")
 exe("git checkout working")
 
 exe("git rebase master")
+
+exe("git push")
+
+print("Great success! Now time to fix some more bugs.")

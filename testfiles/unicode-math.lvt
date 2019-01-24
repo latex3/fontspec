@@ -2,6 +2,7 @@
 \input{fontspec-testsetup.tex}
 
 \START
+\XETEXONLY
 \OMIT
 
 \usepackage{fontspec}

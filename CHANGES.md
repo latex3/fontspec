@@ -8,6 +8,7 @@ Change history
     * `\oldstylenums` no longer overwritten if `textcomp` loaded after `fontspec`.
     * More fixes for recent regressions.
 
+
 ## v2.6l (2019/01/18)
 
     * REALLY fix crash when loading fonts that are missing a requested script.

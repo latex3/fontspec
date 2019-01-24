@@ -454,7 +454,7 @@
             \bool_if:nF { \str_if_eq_p:ee {#1} {CustomDefault} }
               {
                 \tl_clear:N \l_@@_script_name_tl
-                \@@_warning:nx {no-script} {#1}
+                \@@_warning:nx {no-script} {\l_fontspec_fontname_tl} {#1}
               }
 
             \bool_if:nF

@@ -611,7 +611,7 @@
             \tl_put_right:Nn \l_@@_postadjust_tl
               { \@@_primitive_font_set_hyphenchar:Nn \font { \l_@@_hyphenchar_tl } }
           }
-          { \@@_error:nx {no-glyph}{#1} }
+          { \@@_error:nx {no-glyph}{\l_fontspec_fontname_tl}{#1} }
 
       }
   }
@@ -728,7 +728,7 @@
     \bool_if:nT { !\l_@@_ot_bool && !\l_@@_mm_bool }
       {
         \bool_if:NT \l_@@_firsttime_bool
-        { \@@_warning:n {no-opticals} }
+        { \@@_warning:n {no-opticals} {\l_fontspec_fontname_tl} }
       }
   }
 %</XE>

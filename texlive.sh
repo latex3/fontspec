@@ -43,9 +43,8 @@ tlmgr install   \
   babel         \
   babel-english \
   unicode-math  \
-  lualatex-math \
   polyglossia   \
-  luatexbase    \
+  collection-luatex \
   mathspec
 
 # Fonts

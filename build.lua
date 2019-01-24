@@ -97,12 +97,6 @@ function check_status()
   end
 end
 
-function tag_hook(tagname)
-  if check_status() then
-    os.execute('git commit -a -m "Update package version"')
-    os.execute('git tag -a -m "" ' .. gittag)
-  end
-end
 
 
 

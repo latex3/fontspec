@@ -37,7 +37,11 @@ exe("git rebase working")
 
 exe("l3build tag foo")
 
-exe("git commit -a -m 'update package info for release'")
+exe([===[
+  if [[ `git status --porcelain` ]]; then
+    git commit -a -m 'update package info for release';
+  fi
+]===])
 
 exe("l3build ctan")
 

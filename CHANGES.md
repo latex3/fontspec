@@ -1,7 +1,7 @@
 Change history
 ==============
 
-## v2.7 (2019/01/22)
+## v2.7 (2019/01/24)
 
     * Add new `ScaleAgain` feature for compounding scale factors.
       (This is largely to support `unicode-math` but may be useful by others.)

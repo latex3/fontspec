@@ -24,15 +24,18 @@ if gitbranch ~= "working" then
   error("You must be on the 'working' branch")
 end
 
-os.execute("git pull")
-os.execute("git push")
-
 travis = os.capture("travis status | grep passed")
 print("Travis status: "..travis)
 
 exe("git checkout master")
 
+exe("git pull")
+
 exe("git rebase working")
+
+exe("l3build tag foo")
+
+exe("git commit -a -m 'update package info for release'")
 
 exe("l3build ctan")
 
@@ -40,6 +43,10 @@ exe("texlua tagrelease.lua")
 
 exe("l3build upload --file CHANGES-NEW.md")
 
+exe("rm CHANGES-NEW.md")
+
 exe("git push")
 
 exe("git checkout working")
+
+exe("git rebase master")

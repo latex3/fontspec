@@ -3,7 +3,8 @@
 
 \usepackage{fontspec}
 
-\begin{document}
+\START
+\TIMO
 
 \MSG{DEFAULT}
 \setmainfont{FandolSong-Regular.otf}
@@ -28,5 +29,10 @@
 \MSG{SCRIPT CJK}
 \setmainfont{FandolSong-Regular.otf}[Script=CJK]
 \CURRNFSS
+
+\OMIT
+
+\begin{document}
+
 
 \end{document}

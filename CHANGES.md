@@ -6,7 +6,7 @@ Change history
     * Add new `ScaleAgain` feature for compounding scale factors.
       (This is largely to support `unicode-math` but may be useful by others.)
     * `\oldstylenums` no longer overwritten if `textcomp` loaded after `fontspec`.
-    * More fixes for recent regressions.
+    * More fixes for recent regressions (sorry!).
 
 
 ## v2.6l (2019/01/18)

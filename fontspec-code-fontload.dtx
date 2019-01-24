@@ -57,10 +57,10 @@
     \@@_primitive_font_gset:Nnn #1 {#2} {#3}
     \@@_primitive_font_if_null:NTF #1 {\prg_return_false:} {\prg_return_true:}
   }
-\cs_generate_variant:Nn \@@_primitive_font_set:Nnn {V}
-\cs_generate_variant:Nn \@@_primitive_font_set:NnnF {V}
-\cs_generate_variant:Nn \@@_primitive_font_gset:Nnn {V}
-\cs_generate_variant:Nn \@@_primitive_font_gset:NnnF {V}
+\cs_set:Npn \@@_primitive_font_set:Onn   { \exp_last_unbraced:No \@@_primitive_font_set:Nnn }
+\cs_set:Npn \@@_primitive_font_set:OnnF  { \exp_last_unbraced:No \@@_primitive_font_set:NnnF }
+\cs_set:Npn \@@_primitive_font_gset:Onn  { \exp_last_unbraced:No \@@_primitive_font_gset:Nnn }
+\cs_set:Npn \@@_primitive_font_gset:OnnF { \exp_last_unbraced:No \@@_primitive_font_gset:NnnF }
 %    \end{macrocode}
 % \end{macro}
 %

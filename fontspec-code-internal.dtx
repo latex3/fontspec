@@ -239,7 +239,7 @@
 
 %<debug>\typeout{Set~ base~ font~ properly: \@@_construct_font_call:nn { \l_@@_fontname_up_tl } {} }
     \@@_set_font_type:N \l_@@_test_font
-    \@@_primitive_font_gset:Vnn \l_@@_fontface_cs_tl
+    \@@_primitive_font_gset:Onn \l_@@_fontface_cs_tl
       {  \@@_construct_font_call:nn { \l_@@_fontname_up_tl } {} }
       { \f@size pt }
 
@@ -682,7 +682,7 @@
     \prop_get:NVNF \g_@@_fontopts_prop #1 \l_@@_fontopts_clist
       { \clist_clear:N \l_@@_fontopts_clist }
     \keys_set_groups:nnV {fontspec/fontname} {getfontname} \l_@@_fontopts_clist
-    \@@_primitive_font_set:VnnF \l_@@_fontface_cs_tl
+    \@@_primitive_font_set:OnnF \l_@@_fontface_cs_tl
       { \@@_construct_font_call:nn {#1} {} } { \f@size pt }
       { \@@_error:nx {font-not-found} {#2} }
   }

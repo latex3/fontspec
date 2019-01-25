@@ -21,7 +21,7 @@ function exe(s)
 end
 
 function usercheck()
-  print("Happy? [y/n]")
+  print("\nHappy? [y/n]")
   ans = io.read()
   if not(string.lower(ans,1,1)=="y") then
     error("USER ABORTED")
@@ -38,12 +38,14 @@ end
 
 gitstatus = os.capture('git status --porcelain')
 if gitstatus ~= "" then
-  error("Non-zero git status; changes still to commit?")
+  error("Files have been edited; please commit all changes.")
 end
 
 --[=========[
      START
 --]=========]
+
+exe("git fetch")
 
 aheadmaybe = os.capture('git branch -vv | grep `git symbolic-ref --short HEAD` | grep ahead')
 if aheadmaybe ~= "" then
@@ -54,10 +56,9 @@ exe("git checkout master")
 exe("git pull")
 exe("git rebase working")
 
-print("\n\n\n")
-print("**************************")
-print("** REVIEW THE FOLLOWING **")
-print("**************************")
+print("***************************")
+print("  REVIEW THE FOLLOWING     ")
+print("***************************")
 
 travis = os.capture("travis status")
 print("Travis status: "..travis)
@@ -70,9 +71,11 @@ do
 end
 currentchanges = string.match(changeslisting,"(## %S+ %(.-%).-)%s*## %S+ %(.-%)")
 
-print("******************")
+print("***************************")
+print("  CURRENT CHANGES          ")
+print("***************************")
 print(currentchanges)
-print("******************")
+print("***************************")
 
 pkgversion = string.match(currentchanges,"## (%S+) %(.-%)")
 print('New version: '..pkgversion)
@@ -85,7 +88,7 @@ usercheck()
 gitclean = os.capture('git clean -nx')
 if gitclean ~= "" then
   print("Before we start, the following files are about to be deleted. Please check.")
-  print(gitclean)
+  exe('git clean -nx')
   usercheck()
 end
 
@@ -97,32 +100,40 @@ exe("git clean -fx")
 
 exe("l3build tag foo")
 
-exe([===[
-  if [[ `git status --porcelain` ]]; then
-    git commit -a -m 'update package info for release
+gitstatus = os.capture('git status --porcelain')
+if gitstatus ~= "" then
+  exe([===[
+git commit -a -m 'update package info for release
 
-    [ci-skip]';
-  fi
-]===])
+[ci-skip]';
+      ]===])
+end
 
 exe("l3build ctan")
 
-exe("texlua tagrelease.lua")
+--[===========[
+     TAGGING
+--]===========]
+
+do
+  local f = assert(io.open("CHANGES-NEW.md", "w"))
+  f:write(currentchanges)
+  f:close()
+end
+
+exe("git tag -a '"..pkgversion.."' -F CHANGES-NEW.md")
+
+--[=======================[
+     UPLOAD and CLEAN UP
+--]=======================]
 
 exe("l3build upload --file CHANGES-NEW.md")
-
---[============[
-       END
---]============]
 
 exe("rm CHANGES-NEW.md")
 
 exe("git push")
-
 exe("git checkout working")
-
 exe("git rebase master")
-
 exe("git push")
 
 print("Great success! Now time to fix some more bugs.")

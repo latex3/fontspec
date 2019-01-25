@@ -6,26 +6,6 @@
 %<*fontspec>
 %    \end{macrocode}
 %
-% \subsection{\cmd\-}
-%
-% \begin{macro}{\-}
-% This macro is courtesy of Frank Mittelbach and the \LaTeXe\ source code.
-%    \begin{macrocode}
-\DeclareRobustCommand{\-}
-  {
-    \discretionary
-      {
-        \char\ifnum\hyphenchar\font<\z@
-              \xlx@defaulthyphenchar
-            \else
-              \hyphenchar\font
-            \fi
-      }{}{}
-  }
-\def\xlx@defaulthyphenchar{`\-}
-%    \end{macrocode}
-% \end{macro}
-%
 %
 % \subsection{Verbatims}
 %

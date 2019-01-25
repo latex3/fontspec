@@ -5,6 +5,10 @@ Change history
 
     * One last (?!) fix for recent regression (!!). I am not getting enough sleep at the moment and it is too hot.
     * Add `LocalForms=On/Off/Reset` to control the `locl` OpenType tag.
+    * Reorganise some documentation.
+    * Remove redundant redefinition of `\-` which is nowadays defined correctly by the LaTeX2e kernel.
+    * Add code to remove the patching of verbatim commands and environments when the new
+      `\verbvisiblespace` command is defined in a future version of LaTeX2e.
 
 
 ## v2.7 (2019/01/24)

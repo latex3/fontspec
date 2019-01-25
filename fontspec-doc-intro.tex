@@ -143,15 +143,10 @@ This problem is fixed by using the correct Unicode glyph, and the following pack
 
 In the case that the typewriter font does not contain `\verb*| |', the Latin Modern Mono font is used as a fallback.
 
-
-\subsection{Discretionary hyphenation: \cmd\-}
-\label{sec:hyphen}
-
-\DescribeMacro{\-}
-\LaTeX\ defines the macro \cmd\-\ to insert discretionary hyphenation points.
-However, it is hard-coded in \LaTeX\ to use the hyphen |-| character.
-Since \pkg{fontspec} provides features to change the hyphenation character on
-a per font basis, the definition of \cmd\-\ is changed to adapt accordingly.
+In 2019, \LaTeX\ will use a new command \cs{verbvisiblespace} for internal commands and for
+third party packages. If this new command is defined, \pkg{fontspec}'s patching code here
+will be entirely disabled and the packages listed above should no longer rely on \pkg{fontspec}
+to redefine their internals.
 
 
 \subsection{Commands for old-style and lining numbers}

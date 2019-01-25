@@ -1,0 +1,16 @@
+This is a generated file for the l3build validation system.
+Don't change this file in any respect.
+============================================================
+DEFAULT
+TU/Tempora-Regular.otf(0)/m/n:
+  "[Tempora-Regular.otf]/OT:script=latn;language=DFLT;"
+============================================================
+SCRIPT
+TU/Tempora-Regular.otf(1)/m/n:
+  "[Tempora-Regular.otf]/OT:script=cyrl;language=SRB;"
+============================================================
+SCRIPT
+TU/Tempora-Regular.otf(2)/m/n:
+  "[Tempora-Regular.otf]/OT:script=cyrl;language=SRB;-locl;"
+***************
+Compilation 1 of test file completed with exit status 0

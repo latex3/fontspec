@@ -4,6 +4,7 @@ Change history
 ## v2.7a (2019/01/24)
 
     * One last (?!) fix for recent regression (!!). I am not getting enough sleep at the moment and it is too hot.
+    * Add `LocalForms=On/Off/Reset` to control the `locl` OpenType tag.
 
 
 ## v2.7 (2019/01/24)

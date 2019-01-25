@@ -203,6 +203,13 @@
 \@@_define_opentype_onoffreset:nnnnn {Fractions} {Alternate} {afrc} {afrc} {-frac}
 %    \end{macrocode}
 %
+%    \begin{macrocode}
+\@@_define_opentype_feature_group:n  {LocalForms}
+\@@_define_opentype_feature:nnnnn    {LocalForms} {On}    {locl} {+locl} {}
+\@@_define_opentype_feature:nnnnn    {LocalForms} {Off}   {locl} {-locl} {}
+\@@_define_opentype_feature:nnnnn    {LocalForms} {Reset} {} {}  {+locl,-locl}
+%    \end{macrocode}
+%
 
 % \subsection{Style}
 %    \begin{macrocode}

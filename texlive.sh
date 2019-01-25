@@ -44,7 +44,6 @@ tlmgr install   \
   babel-english \
   unicode-math  \
   polyglossia   \
-  collection-luatex \
   mathspec
 
 # Fonts
@@ -57,8 +56,7 @@ tlmgr install   \
   tex-gyre-math \
   gfsporson     \
   libertine     \
-  fira          \
-  umtypewriter  \
+  tempora       \ # for locl
   fandol
 
 # Keep no backups (not required, simply makes cache bigger)

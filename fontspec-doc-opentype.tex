@@ -160,634 +160,8 @@ tnum	Tabular Figures
 zero	Slashed Zero
 \end{Verbatim}
 
-\section{OpenType font features}
-\label{sec:ot-feat}
 
-There are a finite set of OpenType font features, and \pkg{fontspec} provides an
-interface to around half of them.
-Full documentation will be presented in the following sections, including how to
-enable and disable individual features, and how they interact.
-
-A brief reference is provided (\vref*{tab:all-ot}) but note that this is an incomplete
-listing --- only the `enable' keys are shown, and where alternative interfaces are
-provided for convenience only the first is shown.
-(E.g., |Numbers=OldStyle| is the same as |Numbers=Lowercase|.)
-
-For completeness, the complete list of OpenType features \emph{not} provided with
-a \pkg{fontspec} interface is shown in \vref{tab:none-ot}.
-Features omitted are partially by design and partially by oversight;
-for example, the |aalt| feature is largely useless in \TeX\ since it is designed
-for providing a textsc{gui} interface for selecting `all alternates' of a glyph.
-Others, such as optical bounds for example, simply haven't yet been considered
-due to a lack of fonts available for testing.
-Suggestions welcome for how/where to add these missing features to the package.
-
-\ExplSyntaxOn
-\def\allOTfeat{
-  \prop_map_inline:Nn \g__fontspec_all_opentype_feature_names_prop
-    { \opentypefeature{##1}{##2} }
-}
-\newcommand\opentypefeature[2]{
-  \prop_get:NnNT \g__fontspec_OT_features_prop {#1} \tmpa
-      {
-        \raggedright
-        \hangindent=5.2cm
-        \makebox[1cm][l]{\textsc{#1}}
-        \makebox[4.2cm][l]{
-          \int_compare:nT { \tl_count:N \tmpa > 25 } {\ttcondensed} {\ttfamily}
-          \tmpa
-        }
-        \textit{#2}
-        \par
-        \vspace{2pt}
-     }
-}
-\ExplSyntaxOff
-
-\begin{table}
-\caption{Summary of OpenType features in \textsf{fontspec}, alphabetic by feature tag.}
-\label{tab:all-ot}
-\centerline{%
-\begin{minipage}{18cm}
-\small
-\hrule\smallskip
-\begin{multicols}{2}
-\parindent =0pt
-\allOTfeat
-\end{multicols}
-\vspace*{-\smallskipamount}
-\hrule
-\end{minipage}}
-\end{table}
-
-\ExplSyntaxOn
-\renewcommand\opentypefeature[2]{
-  \prop_get:NnNF \g__fontspec_OT_features_prop {#1} \tmpa
-      {
-        \raggedright
-        \hangindent=0.9cm
-        \makebox[0.9cm][l]{\textsc{#1}}%
-        \textit{#2}
-        \par
-     }
-}
-\ExplSyntaxOff
-
-\begin{table}
-\caption{List of \emph{unsupported} OpenType features.}
-\label{tab:none-ot}
-\bigskip
-\centerline{%
-\begin{minipage}{15cm}
-\hrule\smallskip
-\begin{multicols}{3}
-\parindent =0pt
-\allOTfeat
-\end{multicols}
-\vspace*{-\smallskipamount}
-\hrule
-\end{minipage}}
-\end{table}
-
-\subsection{Tag-based features}
-
-\subsubsection{Ligatures}
-\label{sec:ot-feat-liga}
-
-\feat{Ligatures} refer to the replacement of two separate characters
-with a specially drawn glyph for functional or \ae sthetic reasons.
-The list of options, of which multiple may be selected at one time,
-is shown in \ref{feat:Ligatures}.
-A demonstration with the Linux Libertine fonts\note{\url{http://www.linuxlibertine.org/}} is shown in \exref{lig}.
-
-Note the additional features accessed with \verb|Ligatures=TeX|. These are
-not actually real OpenType features, but additions provided by \pkg{luaotfload} (i.e., \LuaTeX\ only) to emulate \TeX's behaviour for \textsc{ascii} input of curly quotes and punctuation. In \XeTeX\ this is achieved with the \feat{Mapping} feature (see \vref{sec:mapping}) but for consistency \verb|Ligatures=TeX| will perform the same function as \verb|Mapping=tex-text|.
-
-\subsection{Letters} \label{sec:letters}
-The \opt{Letters} feature specifies how the letters in the current font
-will look. OpenType fonts may contain the following options:
-\opt{Uppercase}, \opt{SmallCaps}, \opt{PetiteCaps},
-\opt{UppercaseSmallCaps}, \opt{UppercasePetiteCaps}, and
-\opt{Unicase}.
-
-
-\begin{features}{Ligatures}
-\otf*{Required}{rlig}
-\otf*{Common}{liga}
-\otf*{Contextual}{clig}
-\otf*{Rare/Discretionary}{dlig}
-\otf*{Historic}{hlig}
-\otf*{TeX}{tlig}
-\cmidrule{2-4}
-\otf{ResetAll}{}
-\end{features}
-
-\begin{Lexample}[firstline=2]{lig}{An example of the \feat{Ligatures} feature.}
-   \Huge\centering
-   \def\test#1#2{%
-     #2 $\to$ {\addfontfeature{#1} #2}\\}
-   \fontspec{LinLibertine_R.otf}
-   \test{Ligatures=Historic}{strict}
-   \test{Ligatures=Rare}{wurtzite}
-   \test{Ligatures=NoCommon}{firefly}
-\end{Lexample}
-
-\begin{features}{Letters}
-\otf*{Uppercase}{case}
-\otf*{SmallCaps}{smcp}
-\otf*{PetiteCaps}{pcap}
-\otf*{UppercaseSmallCaps}{c2sc}
-\otf*{UppercasePetiteCaps}{c2pc}
-\otf*{Unicase}{unic}
-\cmidrule{2-4}
-\otf{ResetAll}{}
-\end{features}
-
-Petite caps are smaller than small caps.
-\opt{SmallCaps} and \opt{PetiteCaps}
-turn lowercase letters into the smaller caps letters,
-whereas the \opt{Uppercase...} options turn the \emph{capital} letters into
-the smaller
-caps (good, \eg, for applying to already uppercase acronyms like
-`NASA').
-This difference is shown in \exref{caps}.
-`Unicase' is a weird hybrid of upper and lower case letters.
-
-\begin{Lexample}{caps}{Small caps from lowercase or uppercase letters.}
-  \fontspec{texgyreadventor-regular.otf}[Letters=SmallCaps]
-   THIS SENTENCE no verb                \\
-  \fontspec{texgyreadventor-regular.otf}[Letters=UppercaseSmallCaps]
-   THIS SENTENCE no verb
-\end{Lexample}
-
-Note that the \opt{Uppercase} option will (probably)
-not actually map letters to uppercase.
- \note{If you want automatic uppercase letters, look to \LaTeX's
-      \cmd\MakeUppercase\ command.}
-It is designed to select various
-uppercase forms for glyphs such as accents and dashes, such as shown
-in \exref{letters-uppercase}; note the raised position of the hyphen
-to better match the surrounding letters.
-
-\begin{Lexample}{letters-uppercase}{An example of the \opt{Uppercase} option of the \feat{Letters} feature.}
-  \fontspec{LinLibertine_R.otf}
-   UPPER-CASE example \\
-  \addfontfeature{Letters=Uppercase}
-   UPPER-CASE example
-\end{Lexample}
-
-The \feat{Kerning} feature also contains an \opt{Uppercase} option,
-which adds a small amount of spacing in between letters (see \vref{sec:kerning}).
-
-\subsubsection{Numbers}
-
-The \feat{Numbers} feature defines how numbers will look in the
-selected font, accepting options shown in \ref{feat:Numbers}.
-
-\begin{features}{Numbers}
-\otf*{Uppercase}{lnum}
-\otf*{Lowercase}{onum}
-\otf*{Lining}{lnum}
-\otf*{OldStyle}{onum}
-\otf*{Proportional}{pnum}
-\otf*{Monospaced}{tnum}
-\otf*{SlashedZero}{zero}
-\otf*{Arabic}{anum}
-\cmidrule{2-4}
-\otf{ResetAll}{}
-\end{features}
-
-The synonyms
-\opt{Uppercase} and \opt{Lowercase} are equivalent to \opt{Lining} and
-\opt{OldStyle}, respectively.
-The differences have been shown previously
-in \vref{sec:addfontfeatures}.
-The \opt{Monospaced} option is useful for tabular material when digits need
-to be vertically aligned.
-
-The \opt{SlashedZero} option
-replaces the default zero with a slashed version to prevent
-confusion with an uppercase `O', shown in \exref{slashzero}.
-
-\begin{Lexample}{slashzero}{The effect of the \opt{SlashedZero} option.}
-  \fontspec[Numbers=Lining]{texgyrebonum-regular.otf}
-   0123456789
-  \fontspec[Numbers=SlashedZero]{texgyrebonum-regular.otf}
-   0123456789
-\end{Lexample}
-
-The \opt{Arabic} option (with tag \verb|anum|) maps regular numerals to their Arabic script or Persian equivalents
-based on the current \opt{Language} setting (see \vref{sec:ot}).
-This option is based on a \LuaTeX\ feature of the \pkg{luaotfload} package,
-not an OpenType feature. (Thus, this feature is unavailable in \XeTeX.)
-
-\subsubsection{Contextuals}
-This feature refers to substitutions of glyphs that vary `contextually' by their relative position in a word or string of characters;
-features such as contextual swashes are accessed via the options shown in \ref{feat:Contextuals}.
-
-\begin{features}{Contextuals}
-\otf*{Swash}{cswh}
-\otf*{Alternate}{calt}
-\otf*{WordInitial}{init}
-\otf*{WordFinal}{fina}
-\otf*{LineFinal}{falt}
-\otf*{Inner}{medi}
-\cmidrule{2-4}
-\otf{ResetAll}{}
-\end{features}
-
-Historic forms are accessed in OpenType
-fonts via the feature \feat{Style=Historic}; this is generally \emph{not}
-contextual in OpenType, which is why it is not included in this feature.
-
-\subsubsection{Vertical Position}
-
-\begin{features}{VerticalPosition}
-\otf*{Superior}{sups}
-\otf*{Inferior}{subs}
-\otf*{Numerator}{numr}
-\otf*{Denominator}{dnom}
-\otf*{ScientificInferior}{sinf}
-\otf*{Ordinal}{ordn}
-\cmidrule{2-4}
-\otf{ResetAll}{}
-\end{features}
-
-The \feat{VerticalPosition} feature is used to access things like
-subscript (\opt{Inferior}) and superscript (\opt{Superior}) numbers and
-letters (and a small amount of punctuation, sometimes).
-The \opt{Ordinal} option will only raise characters that are used
-in some languages directly after a number.
-The \opt{ScientificInferior} feature will move glyphs
-further below the baseline than the \opt{Inferior} feature.
-These are shown in \exref{vertpos}
-
-\opt{Numerator} and \opt{Denominator} should only be used for creating
-arbitrary fractions (see next section).
-
-\begin{Lexample}{vertpos}{The \feat{VerticalPosition} feature.}
-  \fontspec{LibreCaslonText-Regular.otf}[VerticalPosition=Superior]
-   Superior: 1234567890                                   \\
-  \fontspec{LibreCaslonText-Regular.otf}[VerticalPosition=Numerator]
-   Numerator: 12345                                       \\
-  \fontspec{LibreCaslonText-Regular.otf}[VerticalPosition=Denominator]
-   Denominator: 12345                                     \\
-  \fontspec{LibreCaslonText-Regular.otf}[VerticalPosition=ScientificInferior]
-   Scientific Inferior: 12345
-\end{Lexample}
-
-The \pkg{realscripts} package
-(which is also loaded by \pkg{xltxtra} for \XeTeX)
-redefines the \cmd\textsubscript\ and
-\cmd\textsuperscript\ commands to use the above font features automatically,
-including for use in footnote labels.
-If this is the only feature of \pkg{xltxtra} you wish to use, consider
-loading \pkg{realscripts} on its own instead.
-
-
-\subsubsection{Fractions}
-
-\begin{features}{Fractions}
-\otf{On}{+frac}
-\otf{Off}{-frac}
-\otf{Reset}{}
-\cmidrule{2-4}
-\otf*{Alternate}{afrc}
-\cmidrule{2-4}
-\otf{ResetAll}{}
-\end{features}
-
-For OpenType fonts use a regular text slash to create fractions, but
-the \feat{Fraction} feature must be explicitly activated.
-Some (Asian fonts predominantly) also provide for the
-\opt{Alternate} feature. These are both shown in \exref{ot-frac}.
-
-\begin{Xexample}{ot-frac}{The \feat{Fractions} feature.}
-  \fontspec{Hiragino Maru Gothic Pro W4}
-   1/2 \quad 1/4 \quad 5/6 \quad 13579/24680 \\
-  \addfontfeature{Fractions=On}
-   1/2 \quad 1/4 \quad 5/6 \quad 13579/24680 \\
-  \addfontfeature{Fractions=Alternate}
-   1/2 \quad 1/4 \quad 5/6 \quad 13579/24680 \\
-\end{Xexample}
-
-\subsection{Style}
-\label{sec:ot-feat-style}
-
-\begin{features}{Style}
-\otf*{Alternate}{salt}
-\otf*{Italic}{ital}
-\otf*{Ruby}{ruby}
-\otf*{Swash}{swsh}
-\otf*{Cursive}{curs}
-\otf*{Historic}{hist}
-\otf*{TitlingCaps}{titl}
-\otf*{HorizontalKana}{hkna}
-\otf*{VerticalKana}{vkna}
-\cmidrule{2-4}
-\otf{ResetAll}{}
-\end{features}
-
-`Ruby' refers to a small optical size, used in
-Japanese typography for annotations.
-For fonts with multiple |salt| OpenType features,
-use the fontspec \feat{Alternate} feature instead.
-
-\Exref{style-alt} shows an example of a font feature that involves glyph substitution
-for particular letters within an alphabet.
-Other options in these categories operate in similar ways, with the choice of how
-particular substitutions are organised with which feature largely up to the font designer.
-
- \begin{Xexample}[firstline=2]{style-alt}{Example of the \opt{Alternate} option of the \feat{Style} feature.}
-  \Large
-  \fontspec{Quattrocento.otf}
-   M Q W                      \\
-  \addfontfeature{Style=Alternate}
-   M Q W
-\end{Xexample}
-
-In other features, larger breadths of changes can be seen, covering
-the style of an entire alphabet.
-See \exref{style-itrub}; here, the \opt{Italic} option affects the Latin text
-and the \opt{Ruby} option the Japanese.
-
-\begin{Xexample}[firstline=2]{style-itrub}{Example of the \opt{Italic} and \opt{Ruby} options of the \feat{Style} feature.}
-  \Large \def\kana{ようこそ ワカヨタレソ}
-  \fontspec{Hiragino Mincho Pro}
-   Latin \kana        \\
-  \addfontfeature{Style={Italic, Ruby}}
-   Latin \kana
-\end{Xexample}
-
-Note the difference here between the default and the horizontal style kana
-in \exref{style-hvkana}: the horizontal style is slightly wider.
-
-\begin{Xexample}[firstline=2]{style-hvkana}{Example of the \opt{HorizontalKana} and \opt{VerticalKana} options of the \feat{Style} feature.}
-  \Large \def\kana{ようこそ ワカヨタレソ}
-   \fontspec{Hiragino Mincho Pro}
-    \kana   \\
-  {\addfontfeature{Style=HorizontalKana}
-    \kana } \\
-  {\addfontfeature{Style=VerticalKana}
-    \kana }
-\end{Xexample}
-
-\subsection{Diacritics}
-
-Specifies how combining diacritics should be placed.
-These will usually be controlled automatically
-according to the Script setting.
-
-\begin{features}{Diacritics}
-\otf*{MarkToBase}{mark}
-\otf*{MarkToMark}{mkmk}
-\otf*{AboveBase}{abvm}
-\otf*{BelowBase}{blwm}
-\cmidrule{2-4}
-\otf{ResetAll}{}
-\end{features}
-
-\subsection{Kerning}\label{sec:kerning}
-Specifies how inter-glyph spacing should behave.
-Well-made fonts include information for how differing
-amounts of space should be inserted between separate character pairs.
-This kerning space is inserted automatically but in rare
-circumstances you may wish to turn it off.
-
-\begin{features}{Kerning}
-\otf{On}{+kern}
-\otf{Off}{-kern}
-\otf{Reset}{}
-\cmidrule{2-4}
-\otf*{Uppercase}{cpsp}
-\cmidrule{2-4}
-\otf{ResetAll}{}
-\end{features}
-
-As briefly mentioned previously at the end of \vref{sec:letters},
-the \opt{Uppercase} option will add a small amount of tracking between
-uppercase letters, seen in \exref{kernup}, which uses the Romande
-fonts\note{\url{http://arkandis.tuxfamily.org/adffonts.html}}
-(thanks to Clea F. Rees for the suggestion).
-The \opt{Uppercase} option acts separately to the regular kerning
-controlled by the \opt{On}/\opt{Off} options.
-
-\begin{Xexample}[firstline=2]{kernup}{Adding extra kerning for uppercase letters. (The difference is usually very small.)}
-  \large
-  \fontspec{RomandeADFStd-DemiBold.otf}
-   UPPERCASE EXAMPLE \\
-  \addfontfeature{Kerning=Uppercase}
-   UPPERCASE EXAMPLE
-\end{Xexample}
-
-
-\subsection{Character width}\label{sec:CharacterWidth}
-Many Asian fonts are equipped with variously spaced characters for
-shoe-horning into their generally monospaced text.
-These are
-accessed through the \feat{CharacterWidth} feature.
-
-\begin{features}{CharacterWidth}
-\otf*{Proportional}{pwid}
-\otf*{Full}        {fwid}
-\otf*{Half}        {hwid}
-\otf*{Third}       {twid}
-\otf*{Quarter}     {qwid}
-\otf*{AlternateProportional}{palt}
-\otf*{AlternateHalf}{halt}
-\cmidrule{2-4}
-\otf{ResetAll}{}
-\end{features}
-
-Japanese alphabetic glyphs (in Hiragana or Katakana) may be typeset
-proportionally, to better fit horizontal measures, or monospaced, to
-fit into the rigid grid imposed by ideographic typesetting. In this
-latter case, there are also half-width forms for squeezing more kana
-glyphs (which are less complex than the kanji they are amongst) into
-a given block of space. The same features are given to roman letters
-in Japanese fonts, for typesetting foreign words in the same style
-as the surrounding text.
-
-\begin{Xexample}[firstline=2]{charwdprop}{Proportional or fixed width forms.}
-  \def\texta{ようこそ}\def\textb{ワカヨタレソ}
-  \def\test{\makebox[2cm][l]{\texta}%
-            \makebox[2.5cm][l]{\textb}%
-            \makebox[2.5cm][l]{abcdef}}
-  \fontspec{Hiragino Mincho Pro}
-  {\addfontfeature{CharacterWidth=Proportional}\test}\\
-  {\addfontfeature{CharacterWidth=Full}\test}\\
-  {\addfontfeature{CharacterWidth=Half}\test}
-\end{Xexample}
-
-The same situation occurs with numbers, which are provided in
-increasingly illegible compressed forms seen in \exref{charwd}.
-
-\begin{Xexample}[firstline=2]{charwd}{Numbers can be compressed significantly.}
-  \centering
-  \fontspec[Renderer=AAT]{Hiragino Mincho Pro}
-  {\addfontfeature{CharacterWidth=Full}
-   ---12321---}\\
-  {\addfontfeature{CharacterWidth=Half}
-   ---1234554321---}\\
-  {\addfontfeature{CharacterWidth=Third}
-   ---123456787654321---}\\
-  {\addfontfeature{CharacterWidth=Quarter}
-   ---12345678900987654321---}
-\end{Xexample}
-
-
-\subsubsection{CJK shape}
-
-\begin{features}{CJKShape}
-\otf{Traditional}{trad}
-\otf{Simplified} {smpl}
-\otf{JIS1978}    {jp78}
-\otf{JIS1983}    {jp83}
-\otf{JIS1990}    {jp90}
-\otf{Expert}     {expt}
-\otf{NLC}        {nlck}
-\end{features}
-
-There have been many standards for how CJK ideographic
-glyphs are `supposed' to look. Some fonts will contain many alternate
-glyphs available in order to be able to display these gylphs
-correctly in whichever form is appropriate. Both \AAT\ and OpenType
-fonts support the following \feat{CJKShape} options:
-\opt{Traditional}, \opt{Simplified}, \opt{JIS1978}, \opt{JIS1983},
-\opt{JIS1990}, and \opt{Expert}. OpenType also supports the \opt{NLC} option.
-
-\begin{Xexample}[firstline=2]{ot-cjk-shape}{Different standards for CJK ideograph presentation.}
-  \LARGE\def\text{ 唖噛躯 妍并訝}
-  \fontspec{Hiragino Mincho Pro}
-  {\addfontfeature{CJKShape=Traditional}
-  \text }                          \\
-  {\addfontfeature{CJKShape=NLC}
-  \text }                          \\
-  {\addfontfeature{CJKShape=Expert}
-  \text }
-\end{Xexample}
-
-
-\subsection{Vertical typesetting}
-
-\begin{features}{Vertical}
-\otf*{RotatedGlyphs}         {vrt2}
-\otf*{AlternatesForRotation} {vrtr}
-\otf*{Alternates}            {vert}
-\otf*{KanaAlternates}        {vkna}
-\otf*{Kerning}               {vkrn}
-\otf*{AlternateMetrics}      {valt}
-\otf*{HalfMetrics}           {vhal}
-\otf*{ProportionalMetrics}   {vpal}
-\cmidrule{2-4}
-\otf{ResetAll}{}
-\end{features}
-
-OpenType provides a plethora of features for accommodating the varieties of possibilities
-needed for vertical typesetting (CJK and others).
-No capabilities for achieving such vertical typesetting are provided by \pkg{fontspec},
-however; please get in touch if there are improvements that could be made.
-
-
-\subsection{Numeric features}
-
-\subsubsection{Stylistic Set variations --- \texttt{ssNN}}
-
-This feature selects a `Stylistic Set' variation,
-which usually corresponds to an alternate glyph style for a range of
-characters (usually an alphabet or subset thereof).
-This feature is specified numerically. These correspond to OpenType
-features |ss01|, |ss02|, etc.
-
-Two demonstrations from the Junicode
-font\note{\url{http://junicode.sf.net}}
-are shown in \exref{ss} and \exref{ss2}; thanks to Adam
-Buchbinder for the suggestion.
-
-\begin{Lexample}{ss}{Insular letterforms, as used in medieval Northern Europe, for the Junicode font accessed with the \feat{StylisticSet} feature.}
-  \fontspec{Junicode}
-   Insular forms. \\
-  \addfontfeature{StylisticSet=2}
-   Insular forms. \\
-\end{Lexample}
-
-\begin{Lexample}{ss2}{Enlarged minuscules (capital letters remain unchanged) for the Junicode font, accessed with the \feat{StylisticSet} feature.}
-  \fontspec{Junicode}
-   ENLARGED Minuscules. \\
-  \addfontfeature{StylisticSet=6}
-   ENLARGED Minuscules. \\
-\end{Lexample}
-
-Multiple stylistic sets may be selected simultaneously by writing, e.g.,
-|StylisticSet={1,2,3}|.
-
-The |StylisticSet| feature is a synonym of the \feat{Variant} feature for \AAT\ fonts.
-See \vref{sec:newfeatures} for a way to assign names to stylistic sets, which should be done on a per-font basis.
-
-\subsubsection{Character Variants --- \texttt{cvNN}}
-
-Similar to the `Stylistic Sets' above, `Character Variations' are selected
-numerically to adjust the output of (usually) a single character for the
-particular font. These correspond to the OpenType features |cv01| to |cv99|.
-
-For each character that can be varied, it is possible to select among
-possible options for that particular glyph.
-For example, in the example below, variants are chosen for glyphs `4' and `5',
-and the trailing |:|\meta{n} corresponds to which variety to choose.
-\begin{Verbatim}
-  \fontspec{EB Garamond 12 Italic}[CharacterVariant={4,5:2}] \& violet
-\end{Verbatim}
-The numbering is entirely font-soecific. Glyph `5' might be the character `v', for example.
-Character variants are specifically designed not to conflict with each
-other, so you can enable them individually per character.
-(Unlike stylistic alternates, say.)
-Note that the indexing starts from zero.
-
-
-\subsubsection{Alternates --- \texttt{salt}}
-
-The \feat{Alternate} feature, alias \feat{StylisticAlternates}, is used to access alternate font glyphs when variations exist in the font, such as in \exref{salt}.
-It uses a numerical selection, starting from zero, that will be different for each font.
-Note that the \texttt{Style=Alternate} option is equivalent
-to \texttt{Alternate=0} to access the default case.
-
-\begin{Xexample}[firstline=2]{salt}{The \feat{Alternate} feature.}
-  \huge
-  \fontspec{LinLibertine_R.otf}
-  \textsc{a} \& h \\
-  \addfontfeature{Alternate=0}
-  \textsc{a} \& h
-\end{Xexample}
-
-Note that the indexing starts from zero.
-With the \LuaTeX\ engine, |Alternate=Random| selects a random alternate.
-
-See \vref{sec:newfeatures} for a way to assign names to alternates if desired.
-
-
-\subsubsection{Annotation --- \texttt{nalt} }
-Some fonts are equipped with an extensive range of
-numbers and numerals in different forms. These are accessed with the
-\feat{Annotation} feature (OpenType feature |nalt|), selected numerically as shown in
-\exref{ot-annot}. Note that the indexing starts from zero.
-
-\begin{Xexample}{ot-annot}{Annotation forms for OpenType fonts.}
-  \fontspec{Hiragino Maru Gothic Pro}
-   1 2 3 4 5 6 7 8 9
-  \def\x#1{\\{\addfontfeature{Annotation=#1}
-            1 2 3 4 5 6 7 8 9 }}
-  \x0\x1\x2\x3\x4\x5\x6\x7\x7\x8\x9
-\end{Xexample}
-
-
-\subsubsection{Ornament --- \texttt{ornm}}
-Ornaments are selected with the \feat{Ornament} feature (OpenType feature |ornm|), selected numerically such as for the \feat{Annotation} feature.
-If you know of an Open Source font that supports this feature, let me know and I'll add an example.
-
-
-
-
-\subsection{OpenType scripts and languages}\label{sec:ot}
+\section{OpenType scripts and languages}\label{sec:ot}
 
 Fonts that include glyphs for various scripts and languages may contain different font features for the different character sets and languages they support, and different font features may behave differently depending on the script or language chosen.
 When multilingual fonts are used, it is important to select which language
@@ -802,17 +176,28 @@ The
 tabulated in \vref{tab:ot-scpt} and \vref{tab:ot-lang},
 respectively. When a script or language is requested that is not
 supported by the current font, a warning is printed in the console output.
-
-Because these font features can
-change which features are able to be selected for the font, they are automatically selected
-by \pkg{fontspec} before all others and, if \XeTeX\ is being used, will
-specifically select the \opt{OpenType}
-renderer for this font, as described in \vref{sec:renderer}.
-
 See \vref{sec:newscriptlang} for methods to create new \feat{Script} or \feat{Language}
 options if required.
 
-\subsubsection{\feat{Script} and \feat{Language} examples}
+Because these font features can
+change which features are able to be selected for the font, the \feat{Script} and \feat{Language}
+settings are automatically selected
+by \pkg{fontspec} before all others, and, if \XeTeX\ is being used, will
+specifically select the \opt{OpenType}
+renderer for this font, as described in \vref{sec:renderer}.
+
+OpenType fonts can make available different font features depending on the Script and
+Language chosen.
+In addition, these settings can also set up their own font behaviour
+and glyph selection (one example is differences in style between some of the letters in the
+alphabet used for Bulgarian, Serbian, and Russian).
+The \pkg{fontspec} feature \feat{LocalForms} \texttt{=} \opt{Off} will disable some of
+these substitutions if desired for some reason.
+It is important to note that \feat{LocalForms} \texttt{=} \opt{On} is a default not of \pkg{fontspec}
+but of the underlying font shaping engines in both \XeTeX\ and \LuaTeX/\pkg{otfload}.
+
+
+\subsection{\feat{Script} and \feat{Language} examples}
 
 In the examples shown in \exref{script-lang},
 the Code2000 font\note{\url{http://www.code2000.net/}}
@@ -1411,6 +796,650 @@ Thanks to \name{Jonathan Kew}, \name{Yves Codet} and
   \hrule
  \end{minipage}
 \end{table}
+
+
+\section{OpenType font features}
+\label{sec:ot-feat}
+
+There are a finite set of OpenType font features, and \pkg{fontspec} provides an
+interface to around half of them.
+Full documentation will be presented in the following sections, including how to
+enable and disable individual features, and how they interact.
+
+A brief reference is provided (\vref*{tab:all-ot}) but note that this is an incomplete
+listing --- only the `enable' keys are shown, and where alternative interfaces are
+provided for convenience only the first is shown.
+(E.g., |Numbers=OldStyle| is the same as |Numbers=Lowercase|.)
+
+For completeness, the complete list of OpenType features \emph{not} provided with
+a \pkg{fontspec} interface is shown in \vref{tab:none-ot}.
+Features omitted are partially by design and partially by oversight;
+for example, the |aalt| feature is largely useless in \TeX\ since it is designed
+for providing a textsc{gui} interface for selecting `all alternates' of a glyph.
+Others, such as optical bounds for example, simply haven't yet been considered
+due to a lack of fonts available for testing.
+Suggestions welcome for how/where to add these missing features to the package.
+
+\ExplSyntaxOn
+\def\allOTfeat{
+  \prop_map_inline:Nn \g__fontspec_all_opentype_feature_names_prop
+    { \opentypefeature{##1}{##2} }
+}
+\newcommand\opentypefeature[2]{
+  \prop_get:NnNT \g__fontspec_OT_features_prop {#1} \tmpa
+      {
+        \raggedright
+        \hangindent=5.2cm
+        \makebox[1cm][l]{\textsc{#1}}
+        \makebox[4.2cm][l]{
+          \int_compare:nT { \tl_count:N \tmpa > 25 } {\ttcondensed} {\ttfamily}
+          \tmpa
+        }
+        \textit{#2}
+        \par
+        \vspace{2pt}
+     }
+}
+\ExplSyntaxOff
+
+\begin{table}
+\caption{Summary of OpenType features in \textsf{fontspec}, alphabetic by feature tag.}
+\label{tab:all-ot}
+\centerline{%
+\begin{minipage}{18cm}
+\small
+\hrule\smallskip
+\begin{multicols}{2}
+\parindent =0pt
+\allOTfeat
+\end{multicols}
+\vspace*{-\smallskipamount}
+\hrule
+\end{minipage}}
+\end{table}
+
+\ExplSyntaxOn
+\renewcommand\opentypefeature[2]{
+  \prop_get:NnNF \g__fontspec_OT_features_prop {#1} \tmpa
+      {
+        \raggedright
+        \hangindent=0.9cm
+        \makebox[0.9cm][l]{\textsc{#1}}%
+        \textit{#2}
+        \par
+     }
+}
+\ExplSyntaxOff
+
+\begin{table}
+\caption{List of \emph{unsupported} OpenType features.}
+\label{tab:none-ot}
+\bigskip
+\centerline{%
+\begin{minipage}{15cm}
+\hrule\smallskip
+\begin{multicols}{3}
+\parindent =0pt
+\allOTfeat
+\end{multicols}
+\vspace*{-\smallskipamount}
+\hrule
+\end{minipage}}
+\end{table}
+
+\subsection{Tag-based features}
+
+\subsubsection{Ligatures}
+\label{sec:ot-feat-liga}
+
+\feat{Ligatures} refer to the replacement of two separate characters
+with a specially drawn glyph for functional or \ae sthetic reasons.
+The list of options, of which multiple may be selected at one time,
+is shown in \ref{feat:Ligatures}.
+A demonstration with the Linux Libertine fonts\note{\url{http://www.linuxlibertine.org/}} is shown in \exref{lig}.
+
+Note the additional features accessed with \verb|Ligatures=TeX|. These are
+not actually real OpenType features, but additions provided by \pkg{luaotfload} (i.e., \LuaTeX\ only) to emulate \TeX's behaviour for \textsc{ascii} input of curly quotes and punctuation. In \XeTeX\ this is achieved with the \feat{Mapping} feature (see \vref{sec:mapping}) but for consistency \verb|Ligatures=TeX| will perform the same function as \verb|Mapping=tex-text|.
+
+\subsection{Letters} \label{sec:letters}
+The \opt{Letters} feature specifies how the letters in the current font
+will look. OpenType fonts may contain the following options:
+\opt{Uppercase}, \opt{SmallCaps}, \opt{PetiteCaps},
+\opt{UppercaseSmallCaps}, \opt{UppercasePetiteCaps}, and
+\opt{Unicase}.
+
+
+\begin{features}{Ligatures}
+\otf*{Required}{rlig}
+\otf*{Common}{liga}
+\otf*{Contextual}{clig}
+\otf*{Rare/Discretionary}{dlig}
+\otf*{Historic}{hlig}
+\otf*{TeX}{tlig}
+\cmidrule{2-4}
+\otf{ResetAll}{}
+\end{features}
+
+\begin{Lexample}[firstline=2]{lig}{An example of the \feat{Ligatures} feature.}
+   \Huge\centering
+   \def\test#1#2{%
+     #2 $\to$ {\addfontfeature{#1} #2}\\}
+   \fontspec{LinLibertine_R.otf}
+   \test{Ligatures=Historic}{strict}
+   \test{Ligatures=Rare}{wurtzite}
+   \test{Ligatures=NoCommon}{firefly}
+\end{Lexample}
+
+\begin{features}{Letters}
+\otf*{Uppercase}{case}
+\otf*{SmallCaps}{smcp}
+\otf*{PetiteCaps}{pcap}
+\otf*{UppercaseSmallCaps}{c2sc}
+\otf*{UppercasePetiteCaps}{c2pc}
+\otf*{Unicase}{unic}
+\cmidrule{2-4}
+\otf{ResetAll}{}
+\end{features}
+
+Petite caps are smaller than small caps.
+\opt{SmallCaps} and \opt{PetiteCaps}
+turn lowercase letters into the smaller caps letters,
+whereas the \opt{Uppercase...} options turn the \emph{capital} letters into
+the smaller
+caps (good, \eg, for applying to already uppercase acronyms like
+`NASA').
+This difference is shown in \exref{caps}.
+`Unicase' is a weird hybrid of upper and lower case letters.
+
+\begin{Lexample}{caps}{Small caps from lowercase or uppercase letters.}
+  \fontspec{texgyreadventor-regular.otf}[Letters=SmallCaps]
+   THIS SENTENCE no verb                \\
+  \fontspec{texgyreadventor-regular.otf}[Letters=UppercaseSmallCaps]
+   THIS SENTENCE no verb
+\end{Lexample}
+
+Note that the \opt{Uppercase} option will (probably)
+not actually map letters to uppercase.
+ \note{If you want automatic uppercase letters, look to \LaTeX's
+      \cmd\MakeUppercase\ command.}
+It is designed to select various
+uppercase forms for glyphs such as accents and dashes, such as shown
+in \exref{letters-uppercase}; note the raised position of the hyphen
+to better match the surrounding letters.
+
+\begin{Lexample}{letters-uppercase}{An example of the \opt{Uppercase} option of the \feat{Letters} feature.}
+  \fontspec{LinLibertine_R.otf}
+   UPPER-CASE example \\
+  \addfontfeature{Letters=Uppercase}
+   UPPER-CASE example
+\end{Lexample}
+
+The \feat{Kerning} feature also contains an \opt{Uppercase} option,
+which adds a small amount of spacing in between letters (see \vref{sec:kerning}).
+
+\subsubsection{Numbers}
+
+The \feat{Numbers} feature defines how numbers will look in the
+selected font, accepting options shown in \ref{feat:Numbers}.
+
+\begin{features}{Numbers}
+\otf*{Uppercase}{lnum}
+\otf*{Lowercase}{onum}
+\otf*{Lining}{lnum}
+\otf*{OldStyle}{onum}
+\otf*{Proportional}{pnum}
+\otf*{Monospaced}{tnum}
+\otf*{SlashedZero}{zero}
+\otf*{Arabic}{anum}
+\cmidrule{2-4}
+\otf{ResetAll}{}
+\end{features}
+
+The synonyms
+\opt{Uppercase} and \opt{Lowercase} are equivalent to \opt{Lining} and
+\opt{OldStyle}, respectively.
+The differences have been shown previously
+in \vref{sec:addfontfeatures}.
+The \opt{Monospaced} option is useful for tabular material when digits need
+to be vertically aligned.
+
+The \opt{SlashedZero} option
+replaces the default zero with a slashed version to prevent
+confusion with an uppercase `O', shown in \exref{slashzero}.
+
+\begin{Lexample}{slashzero}{The effect of the \opt{SlashedZero} option.}
+  \fontspec[Numbers=Lining]{texgyrebonum-regular.otf}
+   0123456789
+  \fontspec[Numbers=SlashedZero]{texgyrebonum-regular.otf}
+   0123456789
+\end{Lexample}
+
+The \opt{Arabic} option (with tag \verb|anum|) maps regular numerals to their Arabic script or Persian equivalents
+based on the current \opt{Language} setting (see \vref{sec:ot}).
+This option is based on a \LuaTeX\ feature of the \pkg{luaotfload} package,
+not an OpenType feature. (Thus, this feature is unavailable in \XeTeX.)
+
+\subsubsection{Contextuals}
+This feature refers to substitutions of glyphs that vary `contextually' by their relative position in a word or string of characters;
+features such as contextual swashes are accessed via the options shown in \ref{feat:Contextuals}.
+
+\begin{features}{Contextuals}
+\otf*{Swash}{cswh}
+\otf*{Alternate}{calt}
+\otf*{WordInitial}{init}
+\otf*{WordFinal}{fina}
+\otf*{LineFinal}{falt}
+\otf*{Inner}{medi}
+\cmidrule{2-4}
+\otf{ResetAll}{}
+\end{features}
+
+Historic forms are accessed in OpenType
+fonts via the feature \feat{Style=Historic}; this is generally \emph{not}
+contextual in OpenType, which is why it is not included in this feature.
+
+\subsubsection{Vertical Position}
+
+\begin{features}{VerticalPosition}
+\otf*{Superior}{sups}
+\otf*{Inferior}{subs}
+\otf*{Numerator}{numr}
+\otf*{Denominator}{dnom}
+\otf*{ScientificInferior}{sinf}
+\otf*{Ordinal}{ordn}
+\cmidrule{2-4}
+\otf{ResetAll}{}
+\end{features}
+
+The \feat{VerticalPosition} feature is used to access things like
+subscript (\opt{Inferior}) and superscript (\opt{Superior}) numbers and
+letters (and a small amount of punctuation, sometimes).
+The \opt{Ordinal} option will only raise characters that are used
+in some languages directly after a number.
+The \opt{ScientificInferior} feature will move glyphs
+further below the baseline than the \opt{Inferior} feature.
+These are shown in \exref{vertpos}
+
+\opt{Numerator} and \opt{Denominator} should only be used for creating
+arbitrary fractions (see next section).
+
+\begin{Lexample}{vertpos}{The \feat{VerticalPosition} feature.}
+  \fontspec{LibreCaslonText-Regular.otf}[VerticalPosition=Superior]
+   Superior: 1234567890                                   \\
+  \fontspec{LibreCaslonText-Regular.otf}[VerticalPosition=Numerator]
+   Numerator: 12345                                       \\
+  \fontspec{LibreCaslonText-Regular.otf}[VerticalPosition=Denominator]
+   Denominator: 12345                                     \\
+  \fontspec{LibreCaslonText-Regular.otf}[VerticalPosition=ScientificInferior]
+   Scientific Inferior: 12345
+\end{Lexample}
+
+The \pkg{realscripts} package
+(which is also loaded by \pkg{xltxtra} for \XeTeX)
+redefines the \cmd\textsubscript\ and
+\cmd\textsuperscript\ commands to use the above font features automatically,
+including for use in footnote labels.
+If this is the only feature of \pkg{xltxtra} you wish to use, consider
+loading \pkg{realscripts} on its own instead.
+
+
+\subsubsection{Localised Forms (\texttt{locl})}
+
+\begin{features}{LocalForms}
+\otf{On}{+locl}
+\otf{Off}{-locl}
+\otf{Reset}{}
+\end{features}
+
+This feature enables and disables glyph substitutions, etc., that are specific to the
+\feat{Language} selected in the font.
+This feature is automatically activated by default when present,
+so it should not be generally necessary to use \feat{LocalForms} \texttt{=} \opt{On}.
+In certain scenarios it may be important to turn it \opt{Off} (although nothing specifically springs to mind).
+
+
+\subsubsection{Fractions (\texttt{frac})}
+
+\begin{features}{Fractions}
+\otf{On}{+frac}
+\otf{Off}{-frac}
+\otf{Reset}{}
+\cmidrule{2-4}
+\otf*{Alternate}{afrc}
+\cmidrule{2-4}
+\otf{ResetAll}{}
+\end{features}
+
+For OpenType fonts use a regular text slash to create fractions, but
+the \feat{Fraction} feature must be explicitly activated.
+Some (Asian fonts predominantly) also provide for the
+\opt{Alternate} feature. These are both shown in \exref{ot-frac}.
+
+\begin{Xexample}{ot-frac}{The \feat{Fractions} feature.}
+  \fontspec{Hiragino Maru Gothic Pro W4}
+   1/2 \quad 1/4 \quad 5/6 \quad 13579/24680 \\
+  \addfontfeature{Fractions=On}
+   1/2 \quad 1/4 \quad 5/6 \quad 13579/24680 \\
+  \addfontfeature{Fractions=Alternate}
+   1/2 \quad 1/4 \quad 5/6 \quad 13579/24680 \\
+\end{Xexample}
+
+\subsection{Style}
+\label{sec:ot-feat-style}
+
+\begin{features}{Style}
+\otf*{Alternate}{salt}
+\otf*{Italic}{ital}
+\otf*{Ruby}{ruby}
+\otf*{Swash}{swsh}
+\otf*{Cursive}{curs}
+\otf*{Historic}{hist}
+\otf*{TitlingCaps}{titl}
+\otf*{HorizontalKana}{hkna}
+\otf*{VerticalKana}{vkna}
+\cmidrule{2-4}
+\otf{ResetAll}{}
+\end{features}
+
+`Ruby' refers to a small optical size, used in
+Japanese typography for annotations.
+For fonts with multiple |salt| OpenType features,
+use the fontspec \feat{Alternate} feature instead.
+
+\Exref{style-alt} shows an example of a font feature that involves glyph substitution
+for particular letters within an alphabet.
+Other options in these categories operate in similar ways, with the choice of how
+particular substitutions are organised with which feature largely up to the font designer.
+
+ \begin{Xexample}[firstline=2]{style-alt}{Example of the \opt{Alternate} option of the \feat{Style} feature.}
+  \Large
+  \fontspec{Quattrocento.otf}
+   M Q W                      \\
+  \addfontfeature{Style=Alternate}
+   M Q W
+\end{Xexample}
+
+In other features, larger breadths of changes can be seen, covering
+the style of an entire alphabet.
+See \exref{style-itrub}; here, the \opt{Italic} option affects the Latin text
+and the \opt{Ruby} option the Japanese.
+
+\begin{Xexample}[firstline=2]{style-itrub}{Example of the \opt{Italic} and \opt{Ruby} options of the \feat{Style} feature.}
+  \Large \def\kana{ようこそ ワカヨタレソ}
+  \fontspec{Hiragino Mincho Pro}
+   Latin \kana        \\
+  \addfontfeature{Style={Italic, Ruby}}
+   Latin \kana
+\end{Xexample}
+
+Note the difference here between the default and the horizontal style kana
+in \exref{style-hvkana}: the horizontal style is slightly wider.
+
+\begin{Xexample}[firstline=2]{style-hvkana}{Example of the \opt{HorizontalKana} and \opt{VerticalKana} options of the \feat{Style} feature.}
+  \Large \def\kana{ようこそ ワカヨタレソ}
+   \fontspec{Hiragino Mincho Pro}
+    \kana   \\
+  {\addfontfeature{Style=HorizontalKana}
+    \kana } \\
+  {\addfontfeature{Style=VerticalKana}
+    \kana }
+\end{Xexample}
+
+\subsection{Diacritics}
+
+Specifies how combining diacritics should be placed.
+These will usually be controlled automatically
+according to the Script setting.
+
+\begin{features}{Diacritics}
+\otf*{MarkToBase}{mark}
+\otf*{MarkToMark}{mkmk}
+\otf*{AboveBase}{abvm}
+\otf*{BelowBase}{blwm}
+\cmidrule{2-4}
+\otf{ResetAll}{}
+\end{features}
+
+\subsection{Kerning}\label{sec:kerning}
+Specifies how inter-glyph spacing should behave.
+Well-made fonts include information for how differing
+amounts of space should be inserted between separate character pairs.
+This kerning space is inserted automatically but in rare
+circumstances you may wish to turn it off.
+
+\begin{features}{Kerning}
+\otf{On}{+kern}
+\otf{Off}{-kern}
+\otf{Reset}{}
+\cmidrule{2-4}
+\otf*{Uppercase}{cpsp}
+\cmidrule{2-4}
+\otf{ResetAll}{}
+\end{features}
+
+As briefly mentioned previously at the end of \vref{sec:letters},
+the \opt{Uppercase} option will add a small amount of tracking between
+uppercase letters, seen in \exref{kernup}, which uses the Romande
+fonts\note{\url{http://arkandis.tuxfamily.org/adffonts.html}}
+(thanks to Clea F. Rees for the suggestion).
+The \opt{Uppercase} option acts separately to the regular kerning
+controlled by the \opt{On}/\opt{Off} options.
+
+\begin{Xexample}[firstline=2]{kernup}{Adding extra kerning for uppercase letters. (The difference is usually very small.)}
+  \large
+  \fontspec{RomandeADFStd-DemiBold.otf}
+   UPPERCASE EXAMPLE \\
+  \addfontfeature{Kerning=Uppercase}
+   UPPERCASE EXAMPLE
+\end{Xexample}
+
+
+\subsection{Character width}\label{sec:CharacterWidth}
+Many Asian fonts are equipped with variously spaced characters for
+shoe-horning into their generally monospaced text.
+These are
+accessed through the \feat{CharacterWidth} feature.
+
+\begin{features}{CharacterWidth}
+\otf*{Proportional}{pwid}
+\otf*{Full}        {fwid}
+\otf*{Half}        {hwid}
+\otf*{Third}       {twid}
+\otf*{Quarter}     {qwid}
+\otf*{AlternateProportional}{palt}
+\otf*{AlternateHalf}{halt}
+\cmidrule{2-4}
+\otf{ResetAll}{}
+\end{features}
+
+Japanese alphabetic glyphs (in Hiragana or Katakana) may be typeset
+proportionally, to better fit horizontal measures, or monospaced, to
+fit into the rigid grid imposed by ideographic typesetting. In this
+latter case, there are also half-width forms for squeezing more kana
+glyphs (which are less complex than the kanji they are amongst) into
+a given block of space. The same features are given to roman letters
+in Japanese fonts, for typesetting foreign words in the same style
+as the surrounding text.
+
+\begin{Xexample}[firstline=2]{charwdprop}{Proportional or fixed width forms.}
+  \def\texta{ようこそ}\def\textb{ワカヨタレソ}
+  \def\test{\makebox[2cm][l]{\texta}%
+            \makebox[2.5cm][l]{\textb}%
+            \makebox[2.5cm][l]{abcdef}}
+  \fontspec{Hiragino Mincho Pro}
+  {\addfontfeature{CharacterWidth=Proportional}\test}\\
+  {\addfontfeature{CharacterWidth=Full}\test}\\
+  {\addfontfeature{CharacterWidth=Half}\test}
+\end{Xexample}
+
+The same situation occurs with numbers, which are provided in
+increasingly illegible compressed forms seen in \exref{charwd}.
+
+\begin{Xexample}[firstline=2]{charwd}{Numbers can be compressed significantly.}
+  \centering
+  \fontspec[Renderer=AAT]{Hiragino Mincho Pro}
+  {\addfontfeature{CharacterWidth=Full}
+   ---12321---}\\
+  {\addfontfeature{CharacterWidth=Half}
+   ---1234554321---}\\
+  {\addfontfeature{CharacterWidth=Third}
+   ---123456787654321---}\\
+  {\addfontfeature{CharacterWidth=Quarter}
+   ---12345678900987654321---}
+\end{Xexample}
+
+
+\subsubsection{CJK shape}
+
+\begin{features}{CJKShape}
+\otf{Traditional}{trad}
+\otf{Simplified} {smpl}
+\otf{JIS1978}    {jp78}
+\otf{JIS1983}    {jp83}
+\otf{JIS1990}    {jp90}
+\otf{Expert}     {expt}
+\otf{NLC}        {nlck}
+\end{features}
+
+There have been many standards for how CJK ideographic
+glyphs are `supposed' to look. Some fonts will contain many alternate
+glyphs available in order to be able to display these gylphs
+correctly in whichever form is appropriate. Both \AAT\ and OpenType
+fonts support the following \feat{CJKShape} options:
+\opt{Traditional}, \opt{Simplified}, \opt{JIS1978}, \opt{JIS1983},
+\opt{JIS1990}, and \opt{Expert}. OpenType also supports the \opt{NLC} option.
+
+\begin{Xexample}[firstline=2]{ot-cjk-shape}{Different standards for CJK ideograph presentation.}
+  \LARGE\def\text{ 唖噛躯 妍并訝}
+  \fontspec{Hiragino Mincho Pro}
+  {\addfontfeature{CJKShape=Traditional}
+  \text }                          \\
+  {\addfontfeature{CJKShape=NLC}
+  \text }                          \\
+  {\addfontfeature{CJKShape=Expert}
+  \text }
+\end{Xexample}
+
+
+\subsection{Vertical typesetting}
+
+\begin{features}{Vertical}
+\otf*{RotatedGlyphs}         {vrt2}
+\otf*{AlternatesForRotation} {vrtr}
+\otf*{Alternates}            {vert}
+\otf*{KanaAlternates}        {vkna}
+\otf*{Kerning}               {vkrn}
+\otf*{AlternateMetrics}      {valt}
+\otf*{HalfMetrics}           {vhal}
+\otf*{ProportionalMetrics}   {vpal}
+\cmidrule{2-4}
+\otf{ResetAll}{}
+\end{features}
+
+OpenType provides a plethora of features for accommodating the varieties of possibilities
+needed for vertical typesetting (CJK and others).
+No capabilities for achieving such vertical typesetting are provided by \pkg{fontspec},
+however; please get in touch if there are improvements that could be made.
+
+
+\subsection{Numeric features}
+
+\subsubsection{Stylistic Set variations --- \texttt{ssNN}}
+
+This feature selects a `Stylistic Set' variation,
+which usually corresponds to an alternate glyph style for a range of
+characters (usually an alphabet or subset thereof).
+This feature is specified numerically. These correspond to OpenType
+features |ss01|, |ss02|, etc.
+
+Two demonstrations from the Junicode
+font\note{\url{http://junicode.sf.net}}
+are shown in \exref{ss} and \exref{ss2}; thanks to Adam
+Buchbinder for the suggestion.
+
+\begin{Lexample}{ss}{Insular letterforms, as used in medieval Northern Europe, for the Junicode font accessed with the \feat{StylisticSet} feature.}
+  \fontspec{Junicode}
+   Insular forms. \\
+  \addfontfeature{StylisticSet=2}
+   Insular forms. \\
+\end{Lexample}
+
+\begin{Lexample}{ss2}{Enlarged minuscules (capital letters remain unchanged) for the Junicode font, accessed with the \feat{StylisticSet} feature.}
+  \fontspec{Junicode}
+   ENLARGED Minuscules. \\
+  \addfontfeature{StylisticSet=6}
+   ENLARGED Minuscules. \\
+\end{Lexample}
+
+Multiple stylistic sets may be selected simultaneously by writing, e.g.,
+|StylisticSet={1,2,3}|.
+
+The |StylisticSet| feature is a synonym of the \feat{Variant} feature for \AAT\ fonts.
+See \vref{sec:newfeatures} for a way to assign names to stylistic sets, which should be done on a per-font basis.
+
+\subsubsection{Character Variants --- \texttt{cvNN}}
+
+Similar to the `Stylistic Sets' above, `Character Variations' are selected
+numerically to adjust the output of (usually) a single character for the
+particular font. These correspond to the OpenType features |cv01| to |cv99|.
+
+For each character that can be varied, it is possible to select among
+possible options for that particular glyph.
+For example, in the example below, variants are chosen for glyphs `4' and `5',
+and the trailing |:|\meta{n} corresponds to which variety to choose.
+\begin{Verbatim}
+  \fontspec{EB Garamond 12 Italic}[CharacterVariant={4,5:2}] \& violet
+\end{Verbatim}
+The numbering is entirely font-soecific. Glyph `5' might be the character `v', for example.
+Character variants are specifically designed not to conflict with each
+other, so you can enable them individually per character.
+(Unlike stylistic alternates, say.)
+Note that the indexing starts from zero.
+
+
+\subsubsection{Alternates --- \texttt{salt}}
+
+The \feat{Alternate} feature, alias \feat{StylisticAlternates}, is used to access alternate font glyphs when variations exist in the font, such as in \exref{salt}.
+It uses a numerical selection, starting from zero, that will be different for each font.
+Note that the \texttt{Style=Alternate} option is equivalent
+to \texttt{Alternate=0} to access the default case.
+
+\begin{Xexample}[firstline=2]{salt}{The \feat{Alternate} feature.}
+  \huge
+  \fontspec{LinLibertine_R.otf}
+  \textsc{a} \& h \\
+  \addfontfeature{Alternate=0}
+  \textsc{a} \& h
+\end{Xexample}
+
+Note that the indexing starts from zero.
+With the \LuaTeX\ engine, |Alternate=Random| selects a random alternate.
+
+See \vref{sec:newfeatures} for a way to assign names to alternates if desired.
+
+
+\subsubsection{Annotation --- \texttt{nalt} }
+Some fonts are equipped with an extensive range of
+numbers and numerals in different forms. These are accessed with the
+\feat{Annotation} feature (OpenType feature |nalt|), selected numerically as shown in
+\exref{ot-annot}. Note that the indexing starts from zero.
+
+\begin{Xexample}{ot-annot}{Annotation forms for OpenType fonts.}
+  \fontspec{Hiragino Maru Gothic Pro}
+   1 2 3 4 5 6 7 8 9
+  \def\x#1{\\{\addfontfeature{Annotation=#1}
+            1 2 3 4 5 6 7 8 9 }}
+  \x0\x1\x2\x3\x4\x5\x6\x7\x7\x8\x9
+\end{Xexample}
+
+
+\subsubsection{Ornament --- \texttt{ornm}}
+Ornaments are selected with the \feat{Ornament} feature (OpenType feature |ornm|), selected numerically such as for the \feat{Annotation} feature.
+If you know of an Open Source font that supports this feature, let me know and I'll add an example.
+
+
+
+
 
 \end{document}
 

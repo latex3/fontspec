@@ -29,9 +29,16 @@ function usercheck()
 end
 
 gitbranch = os.capture('git symbolic-ref --short HEAD')
-print("Current git branch: "..gitbranch)
 if gitbranch ~= "working" then
+  print("Current git branch: "..gitbranch)
   error("You must be on the 'working' branch")
+else
+  print("Current git branch: "..gitbranch.." ... correct!")
+end
+
+gitstatus = os.capture('git status --porcelain')
+if gitstatus ~= "" then
+  error("Non-zero git status; changes still to commit?")
 end
 
 --[=========[

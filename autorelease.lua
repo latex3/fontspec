@@ -21,7 +21,7 @@ function exe(s)
 end
 
 function usercheck()
-  print(("Happy? [y/n]")
+  print("Happy? [y/n]")
   ans = io.read()
   if not(lower(ans,1,1)=="y") then
     error("USER ABORTED")
@@ -37,6 +37,11 @@ end
 --[=========[
      START
 --]=========]
+
+aheadmaybe = os.capture('git branch -vv | grep `git symbolic-ref --short HEAD` | grep ahead')
+if aheadmaybe ~= "" then
+  exe("git push")
+end
 
 exe("git checkout master")
 exe("git pull")

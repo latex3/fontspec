@@ -82,9 +82,18 @@ os.execute('git tag --contains | head -n1')
 
 usercheck()
 
+gitclean = os.capture('git clean -nx')
+if gitclean ~= "" then
+  print("Before we start, the following files are about to be deleted. Please check.")
+  print(gitclean)
+  usercheck()
+end
+
 --[============[
      CONTINUE
 --]============]
+
+exe("git clean -fx")
 
 exe("l3build tag foo")
 

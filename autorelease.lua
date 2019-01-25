@@ -23,7 +23,7 @@ end
 function usercheck()
   print("Happy? [y/n]")
   ans = io.read()
-  if not(lower(ans,1,1)=="y") then
+  if not(string.lower(ans,1,1)=="y") then
     error("USER ABORTED")
   end
 end
@@ -46,6 +46,11 @@ end
 exe("git checkout master")
 exe("git pull")
 exe("git rebase working")
+
+print("\n\n\n")
+print("**************************")
+print("** REVIEW THE FOLLOWING **")
+print("**************************")
 
 travis = os.capture("travis status")
 print("Travis status: "..travis)

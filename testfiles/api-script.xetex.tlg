@@ -1,0 +1,24 @@
+This is a generated file for the l3build validation system.
+Don't change this file in any respect.
+============================================================
+Loading [texgyrepagella-regular.otf]
+Check "DFLT":
+:: YES
+Check "cyrl":
+:: YES
+Check "latn":
+:: YES
+Check "hani":
+:: NO
+============================================================
+Loading [FandolSong-Regular.otf]
+Check "DFLT":
+:: NO
+Check "cyrl":
+:: NO
+Check "latn":
+:: NO
+Check "hani":
+:: NO
+***************
+Compilation 1 of test file completed with exit status 0

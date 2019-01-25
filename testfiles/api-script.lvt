@@ -1,0 +1,38 @@
+
+\input{fontspec-testsetup.tex}
+
+\usepackage{fontspec}
+
+\ExplSyntaxOn
+
+\START
+\SEPARATOR
+
+\cs_set:Npn \CHK #1
+  {
+    \MSG{Check~ "#1":}
+    \fontspec_if_script:nTF {#1}{\MSG{::~YES}}{\MSG{::~NO}}
+  }
+
+\MSG{Loading~[texgyrepagella-regular.otf]}
+\setmainfont{texgyrepagella-regular.otf}
+
+\CHK{DFLT}
+\CHK{cyrl}
+\CHK{latn}
+\CHK{hani}
+
+\TIMO\SEPARATOR
+\MSG{Loading~[FandolSong-Regular.otf]}
+\setmainfont{FandolSong-Regular.otf}
+
+\CHK{DFLT}
+\CHK{cyrl}
+\CHK{latn}
+\CHK{hani}
+
+\ExplSyntaxOff
+
+\begin{document}
+
+\end{document}

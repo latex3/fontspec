@@ -20,17 +20,17 @@
 \sys_if_engine_luatex:T
   {
     \RequirePackage{luaotfload}
-    \directlua{require("fontspec")}
+    \lua_now:e{require("fontspec")}
     \RequirePackageWithOptions{fontspec-luatex}
     \endinput
   }
 %    \end{macrocode}
-% 
+%
 % \paragraph{\XeLaTeX}
 %    \begin{macrocode}
 \sys_if_engine_xetex:T
-  { 
-    \RequirePackageWithOptions{fontspec-xetex} 
+  {
+    \RequirePackageWithOptions{fontspec-xetex}
     \endinput
   }
 %    \end{macrocode}
@@ -46,7 +46,7 @@
   }
 \msg_fatal:nn {fontspec} {cannot-use-pdftex}
 %    \end{macrocode}
-% 
+%
 % \paragraph{Closing}
 % That's the end of the \texttt{fontspec.sty} file.
 %    \begin{macrocode}

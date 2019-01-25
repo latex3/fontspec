@@ -145,6 +145,23 @@
 %    \end{macrocode}
 % \end{macro}
 %
+% \begin{macro}{\@@_lua_function:ne}
+% \begin{macro}{\@@_lua_function:nee}
+% \begin{macro}{\@@_lua_function:neee}
+% \begin{macro}{\@@_lua_function:neeee}
+%    \begin{macrocode}
+%<*LU>
+\cs_set:Npn \@@_lua_function:ne    #1#2       { \lua_now:e { fontspec.#1 ("#2")                } }
+\cs_set:Npn \@@_lua_function:nee   #1#2#3     { \lua_now:e { fontspec.#1 ("#2","#3")           } }
+\cs_set:Npn \@@_lua_function:neee  #1#2#3#4   { \lua_now:e { fontspec.#1 ("#2","#3","#4")      } }
+\cs_set:Npn \@@_lua_function:neeee #1#2#3#4#5 { \lua_now:e { fontspec.#1 ("#2","#3","#4","#5") } }
+%</LU>
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+%
 %
 %
 % \subsection{\pkg{expl3} variants}

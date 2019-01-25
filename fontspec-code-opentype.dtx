@@ -181,7 +181,7 @@
           { \tl_set:Nx \l_@@_tmp_tl {\curr@fontshape/\f@size} }
           { \tl_set:Nx \l_@@_tmp_tl {\cs_to_str:N #1} }
 %<debug>\typeout{::::~ checking:~"\l_@@_tmp_tl",~ "#2"}
-        \directlua{fontspec.check_ot_script("\l_@@_tmp_tl", "#2")}
+        \lua_now:e { fontspec.check_ot_script("\l_@@_tmp_tl", "#2") }
         \bool_if:NTF \l__fontspec_check_bool
           {
 %<debug>\typeout{::::::~ TRUE}
@@ -251,10 +251,7 @@
         \cs_if_eq:NNTF #1 \font
           { \tl_set:Nx \l_@@_tmp_tl {\curr@fontshape/\f@size} }
           { \tl_set:Nx \l_@@_tmp_tl {\cs_to_str:N #1} }
-        \directlua
-          {
-            fontspec.check_ot_lang( "\l_@@_tmp_tl", "#2", "#3" )
-          }
+        \@@_lua_function:neee {check_ot_lang} {\l_@@_tmp_tl} {#2} {#3}
         \bool_if:NTF \l__fontspec_check_bool \prg_return_true: \prg_return_false:
 %</LU>
       }
@@ -323,10 +320,7 @@
         \cs_if_eq:NNTF #1 \font
           { \tl_set:Nx \l_@@_tmp_tl {\curr@fontshape/\f@size} }
           { \tl_set:Nx \l_@@_tmp_tl {\cs_to_str:N #1} }
-        \directlua
-          {
-            fontspec.check_ot_feat("\l_@@_tmp_tl", "#2", "#3", "#4")
-          }
+        \@@_lua_function:neeee {check_ot_feat} {\l_@@_tmp_tl} {#2} {#3} {#4}
         \bool_if:NTF \l_@@_check_bool \prg_return_true: \prg_return_false:
 %</LU>
       }

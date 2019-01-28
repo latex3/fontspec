@@ -11,7 +11,11 @@
 \section{Custom font features}
 
 \LuaTeX, via the \pkg{luaotfload} package, allows the definition and re-definition of custom OpenType features for a selected font. This facility is particularly useful to implement custom substitutions or to disable unwanted but not all ligatures.
+
 Figure~\ref{fig:featurefile} shows an minimal example of this type of functionality.
+This example creates a new OpenType feature, \texttt{oneb}, which substitutes the glyph
+when typesetting `\texttt{1}' for the named glyph \texttt{one.ss01}. The glyph names
+are font specific and can be interrogated with third-party software such as \emph{FontForge}.
 
 A third-party collection of additional examples are maintained in the repository `\texttt{fonts-in-luatex}'\footnote{\url{https://github.com/mewtant/fonts-in-luatex}}.
 These examples are intended to correct or adjust font features in a range of commercial fonts and provide a good introduction to some of the possibilities that \LuaTeX\ affords.

@@ -56,6 +56,7 @@ tlmgr install   \
   tex-gyre-math \
   gfsporson     \
   libertine     \
+  stix2-otf     \ # for TRK
   tempora       \ # for locl
   fandol
 

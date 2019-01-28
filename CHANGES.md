@@ -1,6 +1,17 @@
 Change history
 ==============
 
+## v2.7b (2019/01/29)
+
+    * Fix regression in loading `Language=Turkish`. This now allows users to define more
+      than one OpenType tag when defining a language name, where the first tag found is
+      the one selected for the font. E.g.,
+
+          \newfontlanguage{Turkish}{TRK,TUR}
+
+      when selected, this first checks for the existance of the TRK language tag, and if
+      not found then checks for the TUR language tag.
+
 ## v2.7a (2019/01/25)
 
     * One last (?!) fix for recent regression (!!). I am not getting enough sleep at the moment and it is too hot.

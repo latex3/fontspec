@@ -1,0 +1,20 @@
+
+\input{fontspec-testsetup.tex}
+
+\usepackage{fontspec}
+
+\begin{document}
+
+\MSG{DEFAULT}
+\setmainfont{STIX2Text-Regular.otf}
+\CURRNFSS
+
+\MSG{SCRIPT DFLT}
+\setmainfont{STIX2Text-Regular.otf}[Script=Latin]
+\CURRNFSS
+
+\MSG{LANG TRK}
+\setmainfont{STIX2Text-Regular.otf}[Script=Latin,Language=Turkish]
+\CURRNFSS
+
+\end{document}

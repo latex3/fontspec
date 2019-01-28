@@ -497,11 +497,11 @@
         \bool_set_false:N \l_@@_scriptlang_exist_bool
         \clist_map_inline:nn {#2}
           {
-            \exp_args:No \@@_check_lang:NnTF \l_@@_fontface_cs_tl {#2}
+            \exp_args:No \@@_check_lang:NnTF \l_@@_fontface_cs_tl {####1}
               {
-                \tl_set:Nn \l_fontspec_lang_tl {#2}
+                \tl_set:Nn \l_fontspec_lang_tl {####1}
                 \int_set:Nn \l_@@_language_int {\l_@@_strnum_int}
-                \tl_gset:Nx \g_@@_single_feat_tl { language=#2 }
+                \tl_gset:Nx \g_@@_single_feat_tl { language=####1 }
                 \bool_set_true:N \l_@@_scriptlang_exist_bool
                 \clist_map_break:
               }

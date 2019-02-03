@@ -2,8 +2,8 @@ This is a generated file for the l3build validation system.
 Don't change this file in any respect.
 PACKAGE fontspec LOADED
 PACKAGE unicode-math LOADED
-> \box...=
-\hbox(4.52+2.15)x24.62999, direction TLT
+Completed box being shipped out [1]
+\hbox(0.0+0.0)x0.0, direction TLT
 .\mathon
 .\TU/latinmodern-math.otf(1)/m/n/10 𝑦
 .\kern0.28 (italic)
@@ -13,7 +13,5 @@ PACKAGE unicode-math LOADED
 .\kern0.06 (italic)
 .\TU/latinmodern-math.otf(1)/m/n/10 𝜶
 .\mathoff
-! OK.
-l. ...\showbox0
 ***************
-Compilation 1 of test file completed with exit status 256
+Compilation 1 of test file completed with exit status 0

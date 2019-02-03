@@ -13,9 +13,9 @@
 \begin{document}
 $a$
 
+\SETBOX{0}{$y \gamma \symbf{x} \symbf{\alpha}$}
 \TIMO
-\setbox0=\hbox{$y \gamma \symbf{x} \symbf{\alpha}$}
-\showbox0
+\shipout\box0
 \OMIT
 
 \end{document}

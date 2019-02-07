@@ -220,6 +220,11 @@
   \@ifpackageloaded{MinionPro}    {\bool_gset_false:N \g_@@_math_bool}{}
   \@ifpackageloaded{unicode-math} {\bool_gset_false:N \g_@@_math_bool}{}
   \@ifpackageloaded{breqn}        {\bool_gset_false:N \g_@@_math_bool}{}
+  \@ifpackageloaded{pxfonts}      {\bool_gset_false:N \g_@@_math_bool}{}
+  \@ifpackageloaded{txfonts}      {\bool_gset_false:N \g_@@_math_bool}{}
+  \@ifpackageloaded{newpxmath}    {\bool_gset_false:N \g_@@_math_bool}{}
+  \@ifpackageloaded{newtxmath}    {\bool_gset_false:N \g_@@_math_bool}{}
+  \@ifpackageloaded{mtpro2}       {\bool_gset_false:N \g_@@_math_bool}{}
   \bool_if:NT \g_@@_math_bool
    {
     \@@_info:n {setup-math}

@@ -1,0 +1,20 @@
+This is a generated file for the l3build validation system.
+Don't change this file in any respect.
+============================================================
+DEFAULT
+TU/Junicode.ttf(0)/m/n:
+  [Junicode.ttf]:mode=node;script=latn;language=DFLT;+tlig;
+TU/Junicode.ttf(1)/m/n:
+  [Junicode.ttf]:mode=node;script=latn;language=DFLT;+tlig;+onum;
+TU/Junicode.ttf(2)/m/n:
+  [Junicode.ttf]:mode=node;script=latn;language=DFLT;+tlig;
+============================================================
+ONUM
+TU/Junicode.ttf(1)/m/n:
+  [Junicode.ttf]:mode=node;script=latn;language=DFLT;+tlig;+onum;
+TU/Junicode.ttf(3)/m/n:
+  [Junicode.ttf]:mode=node;script=latn;language=DFLT;+tlig;+onum;
+TU/Junicode.ttf(4)/m/n:
+  [Junicode.ttf]:mode=node;script=latn;language=DFLT;+tlig;
+***************
+Compilation 1 of test file completed with exit status 0

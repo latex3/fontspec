@@ -3,8 +3,9 @@
 \begin{document}
 
 \TIMO\SEPARATOR
-\MSG{PAGELLA LINING}
-\setmainfont{texgyrepagella-regular.otf}[Numbers=Lining]
+\MSG{DEFAULT}
+
+\setmainfont{Junicode.ttf}
 
 Roman letters
 \CURRNFSS
@@ -12,11 +13,13 @@ Roman letters
 \oldstylenums{123\CURRNFSS}
 
 \liningnums{123\CURRNFSS}
+
 
 
 \TIMO\SEPARATOR
-\MSG{PAGELLA OSF}
-\setmainfont{texgyrepagella-regular.otf}[Numbers=OldStyle]
+\MSG{ONUM}
+
+\setmainfont{Junicode.ttf}[Numbers=OldStyle]
 
 Roman letters
 \CURRNFSS
@@ -24,6 +27,8 @@ Roman letters
 \oldstylenums{123\CURRNFSS}
 
 \liningnums{123\CURRNFSS}
+
+
 
 
 \end{document}

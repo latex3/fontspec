@@ -10,11 +10,20 @@ Change history
           \newfontlanguage{Turkish}{TRK,TUR}
 
       when selected, this first checks for the existance of the TRK language tag, and if
-      not found then checks for the TUR language tag.
+      not found then checks for the TUR language tag to use if available.
 
     * Add new `Renderer` options for LuaTeX that enable the Harfbuzz engine. These only
       work running under `luahbtex` and are currently experimental. The new options are
       `Harfbuzz`, `OpenType`, `AAT`, and `Graphite`.
+
+    * Always try to remove ‘clashing’ font features inside `\addfontfeatures` even in
+      cases when the requested font feature doesn't exist. E.g., now if a font is loaded
+      with `Numbers=OldStyle` and *doesn't have* `Numbers=Lining`, requesting the latter
+      will still reset the former.
+
+    * Add `pxfonts`, `txfonts`, `newpxmath`, `newtxmath`, `mtpro2` to the list
+      of packages that automatically invoke `no-math`.
+
 
 ## v2.7a (2019/01/25)
 

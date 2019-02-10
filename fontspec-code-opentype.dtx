@@ -208,7 +208,7 @@
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \@@_check_lang:Nn {TF}
   {
-    \@@_check_lang:NnnTF #1 {#2} {\l_fontspec_script_tl} {\prg_return_true:} {\prg_return_false:}
+    \@@_check_lang:NnnTF #1 {#2} {\l_@@_script_tl} {\prg_return_true:} {\prg_return_false:}
   }
 %    \end{macrocode}
 %
@@ -272,7 +272,7 @@
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \@@_check_ot_feat:Nn {TF,F}
   {
-    \@@_check_ot_feat:NnnnTF #1 {#2} {\l_fontspec_lang_tl} {\l_fontspec_script_tl}
+    \@@_check_ot_feat:NnnnTF #1 {#2} {\l_@@_lang_tl} {\l_@@_script_tl}
       {\prg_return_true:} {\prg_return_false:}
   }
 %    \end{macrocode}

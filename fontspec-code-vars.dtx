@@ -154,28 +154,35 @@
 %
 % \paragraph{Token lists}
 %
+% \paragraph{Visible (perhaps?)}
+%
+%    \begin{macrocode}
+\tl_new:N \l_fontspec_family_tl
+\tl_new:N \g_fontspec_encoding_tl
+\tl_new:N \l_fontspec_fontname_tl
+%    \end{macrocode}
+%
+% \paragraph{2e interactions}
+%
 %    \begin{macrocode}
 \tl_clear_new:N \UTFencname
 \tl_clear_new:N \cyrillicencoding
 \tl_clear_new:N \latinencoding
 %    \end{macrocode}
 %
+% \paragraph{Renderer/shaper}
+%
 %    \begin{macrocode}
-\tl_new:N \l_fontspec_family_tl
-\tl_new:N \g_fontspec_encoding_tl
-\tl_new:N \l_fontspec_fontname_tl
-\tl_new:N \l_fontspec_renderer_tl
-\tl_new:N \l_fontspec_mode_tl
-\tl_new:N \l_fontspec_shaper_tl
+\tl_new:N \l_@@_renderer_tl
+\tl_new:N \l_@@_mode_tl
+\tl_new:N \l_@@_shaper_tl
 %    \end{macrocode}
 %
 %    \begin{macrocode}
-\tl_new:N \g_@@_curr_series_tl
 \tl_new:N \g_@@_defined_shapes_tl
-\tl_new:N \g_@@_nfss_enc_tl
-\tl_new:N \g_@@_nfss_family_tl
 \tl_new:N \g_@@_single_feat_tl
 \tl_new:N \l_@@_basename_tl
+\tl_new:N \g_@@_curr_series_tl
 \tl_new:N \l_@@_curr_fontname_tl
 \tl_new:N \l_@@_curr_bfname_tl
 \tl_new:N \l_@@_ext_filename_tl
@@ -183,31 +190,43 @@
 \tl_new:N \l_@@_font_path_tl
 \tl_new:N \l_@@_fontid_tl
 \tl_new:N \l_@@_fontname_tl
-\tl_new:N \l_@@_hexcol_tl
+\tl_new:N \l_@@_options_tl
+\tl_new:N \l_@@_saved_fontname_tl
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+\tl_new:N \g_@@_nfss_enc_tl
+\tl_new:N \g_@@_nfss_family_tl
 \tl_new:N \l_@@_nfss_sc_tl
 \tl_new:N \l_@@_nfss_tl
 \tl_new:N \l_@@_nfss_fam_tl
-\tl_new:N \l_@@_opacity_tl
-\tl_new:N \l_@@_optical_size_tl
-\tl_new:N \l_@@_options_tl
-\tl_new:N \l_@@_saved_fontname_tl
-\tl_new:N \l_@@_scale_tl
+%    \end{macrocode}
+%
+%    \begin{macrocode}
 \tl_new:N \l_@@_size_tl
 \tl_new:N \l_@@_sizedfont_tl
 \tl_new:N \l_@@_this_font_tl
-\tl_new:N \l_@@_tmp_tl
-\tl_new:N \l_@@_tmpa_tl
-\tl_new:N \l_@@_tmpb_tl
 \tl_new:N \l_@@_ttc_index_tl
-\tl_new:N \l_@@_emshape_query_tl
-\tl_new:N \l_@@_em_switch_tl
-\tl_new:N \l_@@_em_tmp_tl
-\tl_new:N \l_@@_strong_tmp_tl
-\tl_new:N \l_@@_strong_switch_tl
-\tl_new:N \l_@@_hyphenchar_tl
 \tl_new:N \l_@@_smcp_shape_tl
 %    \end{macrocode}
 %
+% \paragraph{EM and STRONG}
+%    \begin{macrocode}
+\tl_new:N \l_@@_emshape_query_tl
+\tl_new:N \l_@@_em_switch_tl
+\tl_new:N \l_@@_strong_switch_tl
+%    \end{macrocode}
+%
+% \paragraph{Scratch variables}
+%    \begin{macrocode}
+\tl_new:N \l_@@_tmp_tl
+\tl_new:N \l_@@_tmpa_tl
+\tl_new:N \l_@@_tmpb_tl
+\tl_new:N \l_@@_em_tmp_tl
+\tl_new:N \l_@@_strong_tmp_tl
+%    \end{macrocode}
+%
+% \paragraph{Maths fonts}
 %    \begin{macrocode}
 \tl_new:N \g_@@_mathrm_tl
 \tl_new:N \g_@@_bfmathrm_tl
@@ -215,7 +234,7 @@
 \tl_new:N \g_@@_mathtt_tl
 %    \end{macrocode}
 %
-% Defaults:
+% Defaults: (these are set elsewhere; TODO: check if redundant)
 %    \begin{macrocode}
 \tl_gset:Nn \g_@@_mathrm_tl {\rmdefault}
 \tl_gset:Nn \g_@@_mathsf_tl {\sfdefault}
@@ -228,6 +247,7 @@
 \tl_new:N \l_@@_fake_embolden_tl
 %    \end{macrocode}
 %
+% \paragraph{Internal font names}
 %    \begin{macrocode}
 \tl_new:N \l_@@_fontname_up_tl
 \tl_new:N \l_@@_fontname_bf_tl
@@ -238,20 +258,32 @@
 \tl_new:N \l_@@_fontname_sc_tl
 %    \end{macrocode}
 %
+% \paragraph{Script and Language}
+%
 %    \begin{macrocode}
-\tl_new:N \l_@@_script_name_tl
+\tl_new:N  \l_@@_script_tl
+\tl_new:N  \l_@@_script_name_tl
 \tl_set:Nn \l_@@_script_name_tl {CustomDefault}
-\tl_new:N \l_fontspec_script_tl
-\tl_new:N \l_@@_lang_name_tl
-\tl_set:Nn \l_@@_lang_name_tl {Default}
-\tl_new:N \l_fontspec_lang_tl
 %    \end{macrocode}
 %
 %    \begin{macrocode}
-\tl_new:N  \l_@@_mapping_tl
-\tl_new:N  \l_@@_punctspace_adjust_tl
-\tl_new:N  \l_@@_wordspace_adjust_tl
-\tl_new:N  \l_@@_postadjust_tl
+\tl_new:N  \l_@@_lang_tl
+\tl_new:N  \l_@@_lang_name_tl
+\tl_set:Nn \l_@@_lang_name_tl {Default}
+%    \end{macrocode}
+%
+% \paragraph{Generic font features}
+%
+%    \begin{macrocode}
+\tl_new:N \l_@@_scale_tl
+\tl_new:N \l_@@_hyphenchar_tl
+\tl_new:N \l_@@_hexcol_tl
+\tl_new:N \l_@@_opacity_tl
+\tl_new:N \l_@@_optical_size_tl
+\tl_new:N \l_@@_mapping_tl
+\tl_new:N \l_@@_punctspace_adjust_tl
+\tl_new:N \l_@@_wordspace_adjust_tl
+\tl_new:N \l_@@_postadjust_tl
 %    \end{macrocode}
 %
 %    \begin{macrocode}
@@ -268,7 +300,6 @@
 %    \end{macrocode}
 %
 % \paragraph{Font families}
-% Again not a real data structure, and also probably poorly named.
 %    \begin{macrocode}
 \tl_new:N \l_@@_rmfamily_family_tl
 \tl_new:N \l_@@_sffamily_family_tl

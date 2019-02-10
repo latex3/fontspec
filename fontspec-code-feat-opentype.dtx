@@ -449,7 +449,7 @@
               {
 %<debug>\typeout{Script~tag~found:~####1}
                 \tl_set:Nn \l_@@_script_name_tl {#1}
-                \tl_set:Nn \l_fontspec_script_tl {####1}
+                \tl_set:Nn \l_@@_script_tl {####1}
                 \int_set:Nn \l_@@_script_int {\l_@@_strnum_int}
                 \bool_set_true:N \l_@@_scriptlang_exist_bool
                 \tl_gset:Nx \g_@@_single_feat_tl { script=####1 }
@@ -499,7 +499,7 @@
           {
             \exp_args:No \@@_check_lang:NnTF \l_@@_fontface_cs_tl {####1}
               {
-                \tl_set:Nn \l_fontspec_lang_tl {####1}
+                \tl_set:Nn \l_@@_lang_tl {####1}
                 \int_set:Nn \l_@@_language_int {\l_@@_strnum_int}
                 \tl_gset:Nx \g_@@_single_feat_tl { language=####1 }
                 \bool_set_true:N \l_@@_scriptlang_exist_bool
@@ -524,7 +524,7 @@
 %    \begin{macrocode}
 \@@_keys_define_code:nnn {fontspec-opentype} { Language / Default }
   {
-    \tl_set:Nn \l_fontspec_lang_tl {DFLT}
+    \tl_set:Nn \l_@@_lang_tl {DFLT}
     \int_zero:N \l_@@_language_int
     \tl_gset:Nn \g_@@_single_feat_tl { language=DFLT }
   }

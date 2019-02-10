@@ -16,7 +16,7 @@ function exe(s)
   print('> '..s..'\n')
   local e = os.execute(s)
   if e > 0 then
-    error("ABORT")
+    error("EXECUTION FAILED: ABORT")
   end
 end
 

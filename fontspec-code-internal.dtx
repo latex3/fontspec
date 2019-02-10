@@ -275,7 +275,7 @@
       {#1}
       \l_@@_extension_tl
       \l_@@_ttc_index_tl
-      \l_fontspec_renderer_tl
+      \l_@@_renderer_tl
       \l_@@_optical_size_tl
       {#2}
   }
@@ -449,8 +449,8 @@
       }
     \prop_gput:cnV {g_@@_fontinfo_ \g_@@_nfss_family_tl _prop} {script-num} \l_@@_script_int
     \prop_gput:cnV {g_@@_fontinfo_ \g_@@_nfss_family_tl _prop} {lang-num}   \l_@@_language_int
-    \prop_gput:cnV {g_@@_fontinfo_ \g_@@_nfss_family_tl _prop} {script-tag} \l_fontspec_script_tl
-    \prop_gput:cnV {g_@@_fontinfo_ \g_@@_nfss_family_tl _prop} {lang-tag}   \l_fontspec_lang_tl
+    \prop_gput:cnV {g_@@_fontinfo_ \g_@@_nfss_family_tl _prop} {script-tag} \l_@@_script_tl
+    \prop_gput:cnV {g_@@_fontinfo_ \g_@@_nfss_family_tl _prop} {lang-tag}   \l_@@_lang_tl
   }
 %    \end{macrocode}
 % \end{macro}
@@ -580,7 +580,7 @@
 		\or
 %<debug>  \typeout{:::: AAT}
 			\bool_set_true:N \l_@@_atsui_bool
-			\tl_if_empty:NT \l_fontspec_renderer_tl { \tl_set:Nn \l_fontspec_renderer_tl {/AAT} }
+			\tl_if_empty:NT \l_@@_renderer_tl { \tl_set:Nn \l_@@_renderer_tl {/AAT} }
 			\ifnum\XeTeXcountvariations #1 > 0\relax
 %<debug>  \typeout{:::: MM}
 				\bool_set_true:N \l_@@_mm_bool
@@ -588,15 +588,15 @@
 		\or
 %<debug>  \typeout{:::: OpenType}
 			\bool_set_true:N \l_@@_ot_bool
-			\tl_if_empty:NT \l_fontspec_renderer_tl { \tl_set:Nn \l_fontspec_renderer_tl {/OT} }
+			\tl_if_empty:NT \l_@@_renderer_tl { \tl_set:Nn \l_@@_renderer_tl {/OT} }
 		\or
 %<debug>  \typeout{:::: Graphite}
 			\bool_set_true:N \l_@@_graphite_bool
-			\tl_if_empty:NT \l_fontspec_renderer_tl { \tl_set:Nn \l_fontspec_renderer_tl {/GR} }
+			\tl_if_empty:NT \l_@@_renderer_tl { \tl_set:Nn \l_@@_renderer_tl {/GR} }
 		\fi
 %</XE>
 %    \end{macrocode}
-% If automatic, the \cmd{\l_fontspec_renderer_tl} token list will still be
+% If automatic, the \cmd{\l_@@_renderer_tl} token list will still be
 % empty (other suffices that could be added will be later in the feature
 % processing), and if it is indeed still empty, assign it a value so that the
 % other weights of the font are specifically loaded with the same renderer.
@@ -923,25 +923,25 @@
   {
     \bool_if:NT \l_@@_ot_bool
       {
-        \tl_if_empty:NF \l_fontspec_script_tl
+        \tl_if_empty:NF \l_@@_script_tl
           {
-            script   = \l_fontspec_script_tl ;
-            language = \l_fontspec_lang_tl   ;
+            script   = \l_@@_script_tl ;
+            language = \l_@@_lang_tl   ;
           }
       }
   }
 %</XE>
 %<*LU>
   {
-    mode     = \l_fontspec_mode_tl   ;
-    \tl_if_empty:NF \l_fontspec_shaper_tl
+    mode     = \l_@@_mode_tl   ;
+    \tl_if_empty:NF \l_@@_shaper_tl
       {
-        shaper = \l_fontspec_shaper_tl   ;
+        shaper = \l_@@_shaper_tl   ;
       }
-    \tl_if_empty:NF \l_fontspec_script_tl
+    \tl_if_empty:NF \l_@@_script_tl
       {
-        script   = \l_fontspec_script_tl ;
-        language = \l_fontspec_lang_tl   ;
+        script   = \l_@@_script_tl ;
+        language = \l_@@_lang_tl   ;
       }
   }
 %</LU>
@@ -1024,12 +1024,12 @@
     \tl_clear:N \l_@@_font_path_tl
     \tl_clear:N \l_@@_optical_size_tl
     \tl_clear:N \l_@@_ttc_index_tl
-    \tl_clear:N \l_fontspec_renderer_tl
+    \tl_clear:N \l_@@_renderer_tl
     \tl_gclear:N \g_@@_defined_shapes_tl
     \tl_gclear:N \g_@@_curr_series_tl
     \tl_gset_eq:NN \g_@@_nfss_enc_tl \g_fontspec_encoding_tl
 %<*LU>
-    \tl_set:Nn \l_fontspec_mode_tl {node}
+    \tl_set:Nn \l_@@_mode_tl {node}
     \int_set:Nn \prehyphenchar { `\- } % fixme
     \int_zero:N \posthyphenchar        % fixme
     \int_zero:N \preexhyphenchar       % fixme

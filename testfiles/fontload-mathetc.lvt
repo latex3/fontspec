@@ -1,0 +1,16 @@
+
+\input{fontspec-testsetup.tex}
+
+\usepackage{xcolor,fontspec}
+
+\setmainfont{texgyrepagella-regular.otf}
+\setboldmathrm{texgyrepagella-bold.otf}
+\setmathrm{texgyrepagella-regular.otf}
+\setmathsf{texgyreheros-regular.otf}
+\setmathtt{texgyrecursor-regular.otf}
+
+\begin{document}
+
+\MSG{No validation checks (yet).}
+
+\end{document}

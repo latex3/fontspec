@@ -183,6 +183,7 @@ Since this has changed from \texttt{EU1}/\texttt{EU2} to \texttt{TU}, it is best
 
 \subsection{Functions for loading new fonts and families}
 
+\begin{macro}{\fontspec_gset_family:Nnn}
 \begin{macro}{\fontspec_set_family:Nnn}
 \darg{\LaTeX\ family}
 \darg{fontspec features}
@@ -193,11 +194,10 @@ This font family can then be selected with standard \LaTeX\ commands
 \cs{fontfamily}\marg{family}\cs{selectfont}.
 See the standard \pkg{fontspec} user commands for applications of this
 function.
-
-Previously this function set the \meta{family} variable locally, but this was inconsistent
-with how the NFSS assigns families. It is now a \textbf{global} operation.
+\end{macro}
 \end{macro}
 
+\begin{macro}{\fontspec_gset_fontface:NNnn}
 \begin{macro}{\fontspec_set_fontface:NNnn}
 \darg{primitive font}
 \darg{\LaTeX\ family}
@@ -209,9 +209,7 @@ If a family is loaded (with bold and italic shapes) the primitive font
 command will only select the regular face.
 This feature is designed for \LaTeX\ programmers who need to
 perform subsequent font-related tests on the \meta{primitive font}.
-
-Previously this function set the \meta{family} variable locally, but this was inconsistent
-with how the NFSS assigns families. It is now a \textbf{global} operation.
+\end{macro}
 \end{macro}
 
 

@@ -87,28 +87,56 @@
 %    \begin{macrocode}
 \NewDocumentCommand \newfontfamily { m O{} m O{} }
   {
-    \@@_main_newfontfamily:nnnN {#1} {#2,#4} {#3} \NewDocumentCommand
+    \@@_main_newfontfamily:NnnN #1 {#2,#4} {#3} \NewDocumentCommand
   }
 %    \end{macrocode}
 %
 %    \begin{macrocode}
 \NewDocumentCommand \renewfontfamily { m O{} m O{} }
   {
-    \@@_main_newfontfamily:nnnN {#1} {#2,#4} {#3} \RenewDocumentCommand
+    \@@_main_newfontfamily:NnnN #1 {#2,#4} {#3} \RenewDocumentCommand
   }
 %    \end{macrocode}
 %
 %    \begin{macrocode}
 \NewDocumentCommand \setfontfamily { m O{} m O{} }
   {
-    \@@_main_newfontfamily:nnnN {#1} {#2,#4} {#3} \DeclareDocumentCommand
+    \@@_main_newfontfamily:NnnN #1 {#2,#4} {#3} \DeclareDocumentCommand
+  }
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+\NewDocumentCommand \providefontfamily { m O{} m O{} }
+  {
+    \@@_main_newfontfamily:NnnN #1 {#2,#4} {#3} \ProvideDocumentCommand
   }
 %    \end{macrocode}
 %
 %    \begin{macrocode}
 \NewDocumentCommand \newfontface { m O{} m O{} }
   {
-    \@@_main_newfontface:nnn {#1} {#2,#4} {#3}
+    \@@_main_newfontface:NnnN #1 {#2,#4} {#3} \NewDocumentCommand
+  }
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+\NewDocumentCommand \renewfontface { m O{} m O{} }
+  {
+    \@@_main_newfontface:NnnN #1 {#2,#4} {#3} \RenewDocumentCommand
+  }
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+\NewDocumentCommand \setfontface { m O{} m O{} }
+  {
+    \@@_main_newfontface:NnnN #1 {#2,#4} {#3} \DeclareDocumentCommand
+  }
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+\NewDocumentCommand \providefontface { m O{} m O{} }
+  {
+    \@@_main_newfontface:NnnN #1 {#2,#4} {#3} \ProvideDocumentCommand
   }
 %    \end{macrocode}
 %

@@ -116,8 +116,8 @@
 %    \begin{macrocode}
 \cs_new:Nn \@@_main_setmathrm:nn
   {
-%<XE> \fontspec_set_family:Nnn \g_@@_mathrm_tl {#1} {#2}
-%<LU> \fontspec_set_family:Nnn \g_@@_mathrm_tl {Renderer=Basic,#1} {#2}
+%<XE> \fontspec_gset_family:Nnn \g_@@_mathrm_tl {#1} {#2}
+%<LU> \fontspec_gset_family:Nnn \g_@@_mathrm_tl {Renderer=Basic,#1} {#2}
     \@@_setmathrm_hook:nn {#1} {#2}
   }
 %    \end{macrocode}
@@ -127,8 +127,8 @@
 %    \begin{macrocode}
 \cs_new:Nn \@@_main_setboldmathrm:nn
   {
-%<XE> \fontspec_set_family:Nnn \g_@@_bfmathrm_tl {#1} {#2}
-%<LU> \fontspec_set_family:Nnn \g_@@_bfmathrm_tl {Renderer=Basic,#1} {#2}
+%<XE> \fontspec_gset_family:Nnn \g_@@_bfmathrm_tl {#1} {#2}
+%<LU> \fontspec_gset_family:Nnn \g_@@_bfmathrm_tl {Renderer=Basic,#1} {#2}
     \@@_setboldmathrm_hook:nn {#1} {#2}
   }
 %    \end{macrocode}
@@ -138,8 +138,8 @@
 %    \begin{macrocode}
 \cs_new:Nn \@@_main_setmathsf:nn
   {
-%<XE> \fontspec_set_family:Nnn \g_@@_mathsf_tl {#1} {#2}
-%<LU> \fontspec_set_family:Nnn \g_@@_mathsf_tl {Renderer=Basic,#1} {#2}
+%<XE> \fontspec_gset_family:Nnn \g_@@_mathsf_tl {#1} {#2}
+%<LU> \fontspec_gset_family:Nnn \g_@@_mathsf_tl {Renderer=Basic,#1} {#2}
     \@@_setmathsf_hook:nn {#1} {#2}
   }
 %    \end{macrocode}
@@ -149,8 +149,8 @@
 %    \begin{macrocode}
 \cs_new:Nn \@@_main_setmathtt:nn
   {
-%<XE> \fontspec_set_family:Nnn \g_@@_mathtt_tl {#1} {#2}
-%<LU> \fontspec_set_family:Nnn \g_@@_mathtt_tl {Renderer=Basic,#1} {#2}
+%<XE> \fontspec_gset_family:Nnn \g_@@_mathtt_tl {#1} {#2}
+%<LU> \fontspec_gset_family:Nnn \g_@@_mathtt_tl {Renderer=Basic,#1} {#2}
     \@@_setmathtt_hook:nn {#1} {#2}
   }
 %    \end{macrocode}
@@ -183,12 +183,12 @@
 \tl_gset:Nn \g_@@_mathtt_tl {\ttdefault}
 %    \end{macrocode}
 %
-% \begin{macro}{\@@_main_newfontfamily:nnnN}
+% \begin{macro}{\@@_main_newfontfamily:NnnN}
 %   The inner fontspec workings define a font family, which is then used in a typical
 %   NFSS \cmd\fontfamily\ declaration, saved in the macro name specified.
 %   The fourth argument determines which xparse function to set the macro with (new/renew/etc).
 %    \begin{macrocode}
-\cs_new:Nn \@@_main_newfontfamily:nnnN
+\cs_new:Nn \@@_main_newfontfamily:NnnN
   {
     \fontspec_set_family:cnn { l_@@_ \cs_to_str:N #1 _family_tl } {#2} {#3}
     \use:x
@@ -204,12 +204,12 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\@@_main_newfontface:nnn}
+% \begin{macro}{\@@_main_newfontface:NnnN}
 % \cmd\newfontface\ uses the fact that if the argument to \feat{BoldFont}, etc., is empty (\ie, |BoldFont={}|), then no bold font is searched for.
 %    \begin{macrocode}
-\cs_new:Nn \@@_main_newfontface:nnn
+\cs_new:Nn \@@_main_newfontface:NnnN
   {
-    \newfontfamily #1 [ BoldFont={},ItalicFont={},SmallCapsFont={},#2 ] {#3}
+    \@@_main_newfontfamily:NnnN #1 { BoldFont={},ItalicFont={},SmallCapsFont={},#2 } {#3} #4
   }
 %    \end{macrocode}
 % \end{macro}

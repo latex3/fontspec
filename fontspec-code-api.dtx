@@ -265,15 +265,18 @@
 % variable because the actual \LaTeX\ family name is automatically generated
 % by fontspec and it's easier to keep it that way.
 %    \begin{macrocode}
-\cs_new:Nn \fontspec_set_family:Nnn
+\cs_new:Nn \@@_tl_new_if_free:N { \tl_if_exist:NF #1 { \tl_new:N #1 } }
+\cs_new:Nn \@@_set_family:NnnN
   {
     \tl_set:Nn \l_@@_fontface_cs_tl {\l_fontspec_font} % reset
     \tl_set:Nn \l_@@_family_label_tl {#1}
     \@@_select_font_family:nn {#2} {#3}
-    \tl_if_exist:NF #1 { \tl_new:N #1 }
-    \tl_set_eq:NN #1 \l_fontspec_family_tl
+    \@@_tl_new_if_free:N #1
+    #4 #1 \l_fontspec_family_tl
     \tl_set:Nn \l_@@_fontface_cs_tl {\l_fontspec_font} % reset
   }
+\cs_new:Nn \fontspec_gset_family:Nnn { \@@_set_family:NnnN #1 {#2} {#3} \tl_gset_eq:NN }
+\cs_new:Nn \fontspec_set_family:Nnn  { \@@_set_family:NnnN #1 {#2} {#3} \tl_set_eq:NN  }
 %    \end{macrocode}
 %
 %    \begin{macrocode}
@@ -289,14 +292,16 @@
 %    \begin{macrocode}
 \tl_new:N \l_@@_fontface_cs_tl
 \tl_set:Nn \l_@@_fontface_cs_tl {\l_fontspec_font}
-\cs_new:Nn \fontspec_set_fontface:NNnn
+\cs_new:Nn \@@_set_fontface:NNnnN
   {
     \tl_set:Nn \l_@@_fontface_cs_tl {#1}
     \tl_set:Nn \l_@@_family_label_tl {#2}
     \@@_select_font_family:nn {#3} {#4}
-    \tl_set_eq:NN #2 \l_fontspec_family_tl
+    #5 #2 \l_fontspec_family_tl
     \tl_set:Nn \l_@@_fontface_cs_tl {\l_fontspec_font} % reset
   }
+\cs_new:Nn \fontspec_gset_fontface:NNnn { \@@_set_fontface:NNnnN #1 #2 {#3} {#4} \tl_gset_eq:NN }
+\cs_new:Nn \fontspec_set_fontface:NNnn  { \@@_set_fontface:NNnnN #1 #2 {#3} {#4} \tl_set_eq:NN  }
 %    \end{macrocode}
 % \end{macro}
 %

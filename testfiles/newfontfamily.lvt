@@ -1,0 +1,57 @@
+\input{fontspec-testsetup.tex}
+\usepackage{fontspec}
+\begin{document}
+
+\TIMO\SEPARATOR
+\MSG{Not trying to extensively check logic here, just evaluation of the main functions.}
+
+\TIMO\SEPARATOR
+\MSG{New font family}
+\newfontfamily\1{texgyreheros-regular.otf}
+\1
+\CURRNFSS
+
+\TIMO\SEPARATOR
+\MSG{Set font family}
+\setfontfamily\1{texgyrepagella-regular.otf}
+\1
+\CURRNFSS
+
+\TIMO\SEPARATOR
+\MSG{Renew font family}
+\renewfontfamily\1{texgyretermes-regular.otf}
+\1
+\CURRNFSS
+
+\TIMO\SEPARATOR
+\MSG{Provide font family}
+\providefontfamily\1{texgyrecursor-regular.otf}
+\1
+\CURRNFSS
+
+
+\TIMO\SEPARATOR
+\MSG{New font face}
+\newfontface\2{texgyreheros-italic.otf}
+\2
+\CURRNFSS
+
+\TIMO\SEPARATOR
+\MSG{Set font face}
+\setfontface\2{texgyrepagella-italic.otf}
+\2
+\CURRNFSS
+
+\TIMO\SEPARATOR
+\MSG{Renew font face}
+\renewfontface\2{texgyretermes-italic.otf}
+\2
+\CURRNFSS
+
+\TIMO\SEPARATOR
+\MSG{Provide font face}
+\providefontface\2{texgyrecursor-italic.otf}
+\2
+\CURRNFSS
+
+\end{document}

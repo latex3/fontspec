@@ -24,6 +24,10 @@ Change history
     * Add `pxfonts`, `txfonts`, `newpxmath`, `newtxmath`, `mtpro2` to the list
       of packages that automatically invoke `no-math`.
 
+    * Add `\providefontfamily`, `\setfontface`, `\renewfontface`, and `\providefontface`.
+
+    * Add local/global distinction with `\fontspec_(g)set_family:Nnn` and `\fontspec_(g)set_fontface:NNnn`.
+
 
 ## v2.7a (2019/01/25)
 

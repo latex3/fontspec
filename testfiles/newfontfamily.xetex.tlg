@@ -1,0 +1,38 @@
+This is a generated file for the l3build validation system.
+Don't change this file in any respect.
+============================================================
+Not trying to extensively check logic here, just evaluation of the main functions.
+============================================================
+New font family
+TU/texgyreheros-regular.otf(0)/m/n:
+  "[texgyreheros-regular.otf]/OT:script=latn;language=DFLT;" at 10.0pt
+============================================================
+Set font family
+TU/texgyrepagella-regular.otf(0)/m/n:
+  "[texgyrepagella-regular.otf]/OT:script=latn;language=DFLT;" at 10.0pt
+============================================================
+Renew font family
+TU/texgyretermes-regular.otf(0)/m/n:
+  "[texgyretermes-regular.otf]/OT:script=latn;language=DFLT;" at 10.0pt
+============================================================
+Provide font family
+TU/texgyretermes-regular.otf(0)/m/n:
+  "[texgyretermes-regular.otf]/OT:script=latn;language=DFLT;" at 10.0pt
+============================================================
+New font face
+TU/texgyreheros-italic.otf(0)/m/n:
+  "[texgyreheros-italic.otf]/OT:script=latn;language=DFLT;" at 10.0pt
+============================================================
+Set font face
+TU/texgyrepagella-italic.otf(0)/m/n:
+  "[texgyrepagella-italic.otf]/OT:script=latn;language=DFLT;" at 10.0pt
+============================================================
+Renew font face
+TU/texgyretermes-italic.otf(0)/m/n:
+  "[texgyretermes-italic.otf]/OT:script=latn;language=DFLT;" at 10.0pt
+============================================================
+Provide font face
+TU/texgyretermes-italic.otf(0)/m/n:
+  "[texgyretermes-italic.otf]/OT:script=latn;language=DFLT;" at 10.0pt
+***************
+Compilation 1 of test file completed with exit status 0

@@ -135,7 +135,12 @@
           }
 
 %<debug>\typeout{Mode:~"\l_fontspec_mode_tl"~/~Shaper:~"\l_fontspec_shaper_tl"}
-        \tl_gset:Nx \g_@@_single_feat_tl { mode="\l_fontspec_mode_tl";~shaper="\l_fontspec_mode_tl" }
+
+        \tl_gset:Nx \g_@@_single_feat_tl
+          {
+            mode=\l_fontspec_mode_tl ;
+            \tl_if_empty:NF \l_fontspec_shaper_tl { shaper=\l_fontspec_shaper_tl}
+          }
       } ,
 
     Renderer unknown .code:n =

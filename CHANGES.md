@@ -12,6 +12,10 @@ Change history
       when selected, this first checks for the existance of the TRK language tag, and if
       not found then checks for the TUR language tag.
 
+    * Add new `Renderer` options for LuaTeX that enable the Harfbuzz engine. These only
+      work running under `luahbtex` and are currently experimental. The new options are
+      `Harfbuzz`, `OpenType`, `AAT`, and `Graphite`.
+
 ## v2.7a (2019/01/25)
 
     * One last (?!) fix for recent regression (!!). I am not getting enough sleep at the moment and it is too hot.

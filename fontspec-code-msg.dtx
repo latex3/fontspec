@@ -168,19 +168,24 @@
  }
 \@@_msg_new:nnn {fontspec} {only-xetex-feature}
  {
-  Ignored XeTeX only feature: '#1'.
+  Ignored XeTeX-only feature: '#1'.
  }
 \@@_msg_new:nnn {fontspec} {only-luatex-feature}
  {
-  Ignored LuaTeX only feature: '#1'.
+  Ignored LuaTeX-only feature: '#1'.
+ }
+\@@_msg_new:nnn {fontspec} {unknown-renderer}
+ {
+  Renderer '#1' unknown. Assuming Harfbuzz with 'shaper=#1'.
+  Please raise a fontspec issue to add this shaper to the interface.
  }
 \@@_msg_new:nnn {fontspec} {no-mapping}
  {
-  Input mapping not (yet?) supported in LuaTeX.
+  Input mapping not supported in LuaTeX.
  }
 \@@_msg_new:nnn {fontspec} {no-mapping-ligtex}
  {
-  Input mapping not (yet?) supported in LuaTeX.\\
+  Input mapping not supported in LuaTeX.\\
   Use "Ligatures=TeX" instead of "Mapping=tex-text".
  }
 \@@_msg_new:nnn {fontspec} {cm-default-obsolete}

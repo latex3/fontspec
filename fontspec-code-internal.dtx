@@ -934,6 +934,10 @@
 %<*LU>
   {
     mode     = \l_fontspec_mode_tl   ;
+    \tl_if_empty:NF \l_fontspec_shaper_tl
+      {
+        shaper = \l_fontspec_shaper_tl   ;
+      }
     \tl_if_empty:NF \l_fontspec_script_tl
       {
         script   = \l_fontspec_script_tl ;

@@ -91,42 +91,62 @@
 %
 %
 % \paragraph{\feat{Renderer}}
-% This feature must be processed before all others (the other font shape and features options are also pre-parsed for convenience) because the renderer determines the format of the features and even whether certain features are available.
+% This feature must be processed before all others (the other font shape and features
+% options are also pre-parsed for convenience) because the renderer determines the format
+% of the features and whether certain features are available.
 %    \begin{macrocode}
+%<*XE>
 \keys_define:nn {fontspec-renderer}
   {
     Renderer .choices:nn =
-      {AAT,ICU,OpenType,Graphite,Full,Basic}
+      {AAT,ICU,OpenType,Graphite,Full,Basic,Node,Base,Harfbuzz}
       {
         \int_compare:nTF {\l_keys_choice_int <= 4}
           {
-%<*XE>
             \tl_set:Nx \l_fontspec_renderer_tl
               {
                 \int_case:nn \l_keys_choice_int { 1 {/AAT} 2 {/OT} 3 {/OT} 4 {/GR} }
               }
-%<debug>\typeout{Renderer: \l_fontspec_renderer_tl}
+%<debug>\typeout{Renderer:~ \l_fontspec_renderer_tl}
             \tl_gset:Nx \g_@@_single_feat_tl { \l_fontspec_renderer_tl }
-%</XE>
-%<*LU>
-            \@@_warning:nx {only-xetex-feature} {Renderer=AAT/OpenType/Graphite}
-%</LU>
           }
           {
-%<*XE>
-            \@@_warning:nx {only-luatex-feature} {Renderer=Full/Basic}
-%</XE>
-%<*LU>
-              \tl_set:Nx \l_fontspec_mode_tl
-                {
-                  \int_case:nn \l_keys_choice_int { 5 {node} 6 {base} }
-                }
-%<debug>\typeout{Mode: \l_fontspec_mode_tl}
-              \tl_gset:Nx \g_@@_single_feat_tl { mode=\l_fontspec_mode_tl }
-%</LU>
+            \@@_warning:nx {only-luatex-feature} {Renderer=Full/Basic/Node/Base/Harfbuzz}
           }
       }
   }
+%</XE>
+%<*LU>
+\keys_define:nn {fontspec-renderer}
+  {
+    Renderer .choices:nn =
+      {Full,Node,Basic,Base,Harfbuzz,OpenType,AAT,Graphite}
+      {
+        \int_compare:nTF {\l_keys_choice_int >= 5} { \bool_set_true:N \l_@@_harfbuzz_bool }
+
+        \tl_set:Nx \l_fontspec_mode_tl
+          {
+            \int_case:nn \l_keys_choice_int { 1 {node} 2 {node} 3 {base} 4 {base} 5 {harf} 6 {harf} 7 {harf} 8 {harf} }
+          }
+
+        \tl_set:Nx \l_fontspec_shaper_tl
+          {
+            \int_case:nn \l_keys_choice_int { 1 {} 2 {} 3 {} 4 {} 5 {} 6 {ot} 7 {coretext_aat} 8 {graphite2} }
+          }
+
+%<debug>\typeout{Mode:~"\l_fontspec_mode_tl"~/~Shaper:~"\l_fontspec_shaper_tl"}
+        \tl_gset:Nx \g_@@_single_feat_tl { mode="\l_fontspec_mode_tl";~shaper="\l_fontspec_mode_tl" }
+      } ,
+
+    Renderer unknown .code:n =
+      {
+        \bool_set_true:N \l_@@_harfbuzz_bool
+        \@@_warning:nx {unknown-renderer} {#1}
+        \tl_set:Nn \l_fontspec_mode_tl {harf}
+        \tl_set:Nn \l_fontspec_shaper_tl {#1}
+      } ,
+  }
+%</LU>
 %    \end{macrocode}
 %
 % \subsection{Pre-parsed features}

@@ -37,6 +37,7 @@
 \bool_new:N \l_@@_atsui_bool
 \bool_new:N \l_@@_ot_bool
 \bool_new:N \l_@@_mm_bool
+\bool_new:N \l_@@_harfbuzz_bool
 \bool_new:N \l_@@_graphite_bool
 \bool_new:N \l_@@_fontcfg_bool
 \bool_set_true:N \l_@@_fontcfg_bool
@@ -152,12 +153,6 @@
 %    \end{macrocode}
 %
 % \paragraph{Token lists}
-%    \begin{macrocode}
-\tl_new:N \l_fontspec_family_tl
-\tl_new:N \g_fontspec_encoding_tl
-\tl_new:N \l_fontspec_renderer_tl
-\tl_new:N \l_fontspec_fontname_tl
-%    \end{macrocode}
 %
 %    \begin{macrocode}
 \tl_clear_new:N \UTFencname
@@ -166,7 +161,15 @@
 %    \end{macrocode}
 %
 %    \begin{macrocode}
+\tl_new:N \l_fontspec_family_tl
+\tl_new:N \g_fontspec_encoding_tl
+\tl_new:N \l_fontspec_fontname_tl
+\tl_new:N \l_fontspec_renderer_tl
 \tl_new:N \l_fontspec_mode_tl
+\tl_new:N \l_fontspec_shaper_tl
+%    \end{macrocode}
+%
+%    \begin{macrocode}
 \tl_new:N \g_@@_curr_series_tl
 \tl_new:N \g_@@_defined_shapes_tl
 \tl_new:N \g_@@_nfss_enc_tl

@@ -8,6 +8,35 @@
 \part{\LuaTeX-only font features}
 \label{sec:luatex-features}
 
+\section{Different font technologies and shapers}
+\label{sec:renderer-luatex}
+
+\LuaTeX\ does not directly support any font rendering technologies out of the box, it
+requires additional functionality to be added to properly support and control technologies such as OpenType.
+
+Using the \feat{Renderer} feature, there are a number of options that \pkg{fontspec} can pass to the engine to control which font technology is being used.
+Pre-2019, there were two options provided by \pkg{luaotfload} that generally did not require user intervention.
+
+\begin{itemize}
+\item \feat{Renderer} = \opt{Node} : the default `mode' for typesetting OpenType fonts.
+\item \feat{Renderer} = \opt{Base} : a simplified mode useful only in a limited number of situations such as mathematics typesetting.
+\end{itemize}
+
+From 2019 the possibility of using the Harfbuzz text shaping engine within \LuaTeX\ has
+been developed by Khaled Hosny. When running a suitable \LuaTeX\ engine with Harfbuzz support, \pkg{fontspec} provides the following options:
+
+\begin{itemize}
+\item \feat{Renderer} = \opt{Harfbuzz} : use the Harfbuzz engine without an explicit `shaper'.
+\item \feat{Renderer} = \opt{OpenType} : use the Harfbuzz engine with the OpenType shaper.
+\item \feat{Renderer} = \opt{AAT} : use the Harfbuzz engine with the AAT shaper.
+\item \feat{Renderer} = \opt{Graphite} : use the Harfbuzz engine with the Graphite shaper.
+\item \feat{Renderer} = \meta{foo} : use the Harfbuzz engine with the \meta{foo} shaper.
+\end{itemize}
+
+Support for the Harfbuzz renderer is preliminary and may be improved over time.
+Please treat the interface for Harfbuzz fonts as subject to change.
+
+
 \section{Custom font features}
 
 \LuaTeX, via the \pkg{luaotfload} package, allows the definition and re-definition of custom OpenType features for a selected font. This facility is particularly useful to implement custom substitutions or to disable unwanted but not all ligatures.

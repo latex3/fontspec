@@ -33,6 +33,7 @@ tlmgr install   \
   geometry      \
   graphics      \
   graphics-def  \
+  luatexbase    \
   ifluatex      \
   ifxetex       \
   luaotfload    \

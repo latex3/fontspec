@@ -46,6 +46,7 @@ tlmgr install   \
   babel-english \
   unicode-math  \
   polyglossia   \
+  hyph-utf8     \
   mathspec
 
 # Fonts

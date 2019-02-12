@@ -1,7 +1,7 @@
 Change history
 ==============
 
-## v2.7b (2019/01/29)
+## v2.7b (2019/02/12)
 
     * Fix regression in loading `Language=Turkish`. This now allows users to define more
       than one OpenType tag when defining a language name, where the first tag found is

@@ -34,6 +34,7 @@ tlmgr install   \
   graphics      \
   graphics-def  \
   luatexbase    \
+  ctablestack   \
   ifluatex      \
   ifxetex       \
   luaotfload    \

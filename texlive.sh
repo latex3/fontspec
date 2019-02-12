@@ -56,8 +56,9 @@ tlmgr install   \
   tex-gyre-math \
   gfsporson     \
   libertine     \
-  stix2-otf     \ # for TRK
-  tempora       \ # for locl
+  stix2-otf     \
+  fira          \
+  tempora       \
   fandol
 
 # Keep no backups (not required, simply makes cache bigger)

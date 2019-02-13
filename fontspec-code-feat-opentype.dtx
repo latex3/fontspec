@@ -44,12 +44,11 @@
 \keys_define:nn {fontspec-opentype}
   {
     Ligatures / TeX .code:n = { \tl_set:Nn \l_@@_mapping_tl {tex-text} },
-    Ligatures / TeX .groups:n = {opentype},
+    Ligatures / TeXOff .code:n = { \tl_clear:N \l_@@_mapping_tl },
     Ligatures / TeXReset .code:n = { \tl_clear:N \l_@@_mapping_tl },
-    Ligatures / TeXReset .groups:n = {opentype},
   }
 %</XE>
-%<LU>\@@_define_opentype_onreset:nnnnn {Ligatures} {TeX} {} { +tlig } {}
+%<LU>\@@_define_opentype_onoffreset:nnnnn {Ligatures} {TeX} {} { +tlig } {}
 %    \end{macrocode}
 %
 % \subsection{Letters}

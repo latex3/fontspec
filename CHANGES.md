@@ -1,6 +1,12 @@
 Change history
 ==============
 
+## v2.7d (2019/02/13)
+
+    * Add `Ligatures=TeXOff` even though it's not a real OpenType feature. (Functionally
+      equivalent to `Ligatures=TeXReset`.)
+
+
 ## v2.7c (2019/03/15)
 
     * Two optimisations reduce time for font definitions with a large number of

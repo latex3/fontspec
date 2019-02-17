@@ -66,11 +66,11 @@ tlmgr install   \
 
 # for docs
 tlmgr install \
+  tools       \
+  oberdiek    \
   booktabs    \
   caption     \
-  flafter     \
   fancyvrb    \
-  hologo      \
   url         \
   varioref    \
   varwidth    \

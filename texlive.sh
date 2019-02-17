@@ -81,6 +81,7 @@ tlmgr install \
   symbol      \
   tocloft     \
   tools       \
+  underscore  \
   url         \
   varwidth    \
   zapfding

@@ -69,6 +69,7 @@ tlmgr install \
   amsmath     \
   booktabs    \
   caption     \
+  colortbl    \
   docmute     \
   fancyvrb    \
   framed      \

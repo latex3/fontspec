@@ -77,6 +77,7 @@ tlmgr install \
   microtype   \
   oberdiek    \
   psnfss      \
+  times       \
   tocloft     \
   tools       \
   url         \

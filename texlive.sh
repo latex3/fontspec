@@ -76,6 +76,7 @@ tlmgr install \
   framed      \
   microtype   \
   oberdiek    \
+  psnfss      \
   tocloft     \
   tools       \
   url         \

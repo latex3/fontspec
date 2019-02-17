@@ -18,6 +18,6 @@ jobs:
     - script: l3build check -H --engine luatex --shuffle --first 0-pkg-load || ( cat build/*/`ls -t  build/*/*.log | head -n1 | xargs basename | cut -f 1 -d . `.log && false )
       name:   "LuaTeX tests"
     - stage:  doc
-      name:   "Documentation compilation"
+      name:   "Typesetting documentation"
       script: l3build doc
 

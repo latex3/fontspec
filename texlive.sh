@@ -66,18 +66,19 @@ tlmgr install   \
 
 # for docs
 tlmgr install \
-  tools       \
-  oberdiek    \
+  amsmath     \
   booktabs    \
   caption     \
+  docmute     \
   fancyvrb    \
+  framed      \
+  microtype   \
+  oberdiek    \
+  tocloft     \
+  tools       \
   url         \
   varioref    \
-  varwidth    \
-  microtype   \
-  tocloft     \
-  framed      \
-  docmute
+  varwidth
 
 # Keep no backups (not required, simply makes cache bigger)
 tlmgr option -- autobackup 0

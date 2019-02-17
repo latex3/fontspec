@@ -77,6 +77,7 @@ tlmgr install \
   framed      \
   hyperref    \
   inconsolata \
+  kurier      \
   microtype   \
   oberdiek    \
   psnfss      \

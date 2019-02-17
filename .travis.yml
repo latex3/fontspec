@@ -7,8 +7,8 @@ cache:
     - /tmp/fontspec-test-fonts
 
 stages:
- - test
  - doc
+ - test
 
 jobs:
   include:

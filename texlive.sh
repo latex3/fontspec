@@ -70,6 +70,7 @@ tlmgr install \
   booktabs    \
   caption     \
   colortbl    \
+  csquotes    \
   docmute     \
   enumitem    \
   fancyvrb    \

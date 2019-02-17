@@ -64,6 +64,21 @@ tlmgr install   \
   tempora       \
   fandol
 
+# for docs
+tlmgr install \
+  booktabs    \
+  caption     \
+  flafter     \
+  fancyvrb    \
+  hologo      \
+  url         \
+  varioref    \
+  varwidth    \
+  microtype   \
+  tocloft     \
+  framed      \
+  docmute
+
 # Keep no backups (not required, simply makes cache bigger)
 tlmgr option -- autobackup 0
 

@@ -81,7 +81,8 @@ tlmgr install \
   tools       \
   url         \
   varioref    \
-  varwidth
+  varwidth    \
+  zapfding
 
 # Keep no backups (not required, simply makes cache bigger)
 tlmgr option -- autobackup 0

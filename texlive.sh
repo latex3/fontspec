@@ -79,6 +79,7 @@ tlmgr install \
   microtype   \
   oberdiek    \
   psnfss      \
+  standalone  \
   symbol      \
   tocloft     \
   tools       \

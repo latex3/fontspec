@@ -7,7 +7,6 @@ cache:
     - /tmp/fontspec-test-fonts
 
 stages:
- - doc
  - test
 
 jobs:
@@ -17,7 +16,4 @@ jobs:
       script: l3build check -H --engine xetex  --shuffle --first 0-pkg-load || ( cat build/*/`ls -t  build/*/*.log | head -n1 | xargs basename | cut -f 1 -d . `.log && false )
     - script: l3build check -H --engine luatex --shuffle --first 0-pkg-load || ( cat build/*/`ls -t  build/*/*.log | head -n1 | xargs basename | cut -f 1 -d . `.log && false )
       name:   "LuaTeX tests"
-    - stage:  doc
-      name:   "Typesetting documentation"
-      script: l3build doc
 

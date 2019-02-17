@@ -6,5 +6,18 @@ cache:
     - /tmp/texlive
     - /tmp/fontspec-test-fonts
 
-script:
- - l3build check -H --shuffle --first 0-pkg-load || ( cat build/*/`ls -t  build/*/*.log | head -n1 | xargs basename | cut -f 1 -d . `.log && false )
+stages:
+ - test
+ - doc
+
+jobs:
+  include:
+    - stage:  test
+      name:   "XeTeX tests"
+      script: l3build check -H --engine xetex  --shuffle --first 0-pkg-load || ( cat build/*/`ls -t  build/*/*.log | head -n1 | xargs basename | cut -f 1 -d . `.log && false )
+    - script: l3build check -H --engine luatex --shuffle --first 0-pkg-load || ( cat build/*/`ls -t  build/*/*.log | head -n1 | xargs basename | cut -f 1 -d . `.log && false )
+      name:   "LuaTeX tests"
+    - stage:  doc
+      name:   "Documentation compilation"
+      script: l3build doc
+

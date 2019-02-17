@@ -71,6 +71,7 @@ tlmgr install \
   caption     \
   colortbl    \
   docmute     \
+  enumitem    \
   fancyvrb    \
   framed      \
   microtype   \

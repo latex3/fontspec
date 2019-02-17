@@ -77,11 +77,10 @@ tlmgr install \
   microtype   \
   oberdiek    \
   psnfss      \
-  times       \
+  symbol      \
   tocloft     \
   tools       \
   url         \
-  varioref    \
   varwidth    \
   zapfding
 

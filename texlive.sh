@@ -76,6 +76,7 @@ tlmgr install \
   fancyvrb    \
   framed      \
   hyperref    \
+  inconsolata \
   microtype   \
   oberdiek    \
   psnfss      \

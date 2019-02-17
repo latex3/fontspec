@@ -75,6 +75,7 @@ tlmgr install \
   enumitem    \
   fancyvrb    \
   framed      \
+  hyperref    \
   microtype   \
   oberdiek    \
   psnfss      \

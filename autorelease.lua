@@ -1,5 +1,23 @@
 #!/usr/bin/env texlua
 
+--[==========================================[--
+
+     AUTOMATON for performing CTAN releases
+     ======================================
+
+     * Make sure changes are up to date with new version tag.
+     * Be in the `working` branch, fully committed.
+     * This file will query a couple of times to make sure all is well.
+     * If so, it sends the package off to CTAN and the `master` branch is rebased and tagged.
+     * TODO: add Github release zip file as well.
+
+--]==========================================]--
+
+
+--[=============[--
+     FUNCTIONS
+--]=============]--
+
 function os.capture(cmd, raw)
   local f = assert(io.popen(cmd, 'r'))
   local s = assert(f:read('*a'))
@@ -28,6 +46,10 @@ function usercheck()
   end
 end
 
+--[==================[--
+     INITIAL CHECKS
+--]==================]--
+
 gitbranch = os.capture('git symbolic-ref --short HEAD')
 if gitbranch ~= "working" then
   print("Current git branch: "..gitbranch)
@@ -41,9 +63,9 @@ if gitstatus ~= "" then
   error("Files have been edited; please commit all changes.")
 end
 
---[=========[
-     START
---]=========]
+--[=========================[--
+     MOVE TO MASTER BRANCH
+--]=========================]--
 
 exe("git fetch")
 
@@ -55,6 +77,10 @@ end
 exe("git checkout master")
 exe("git pull")
 exe("git rebase working")
+
+--[=====================[--
+     START THE RELEASE
+--]=====================]--
 
 print("***************************")
 print("  REVIEW THE FOLLOWING     ")
@@ -84,8 +110,8 @@ print("***************************")
 pkgversion = string.match(currentchanges,"## (%S+) %(.-%)")
 print('New version: '..pkgversion)
 
-print('Current tag:')
-os.execute('git tag --contains | head -n1')
+oldversion = os.capture('git describe $(git rev-list --tags --max-count=1)')
+print('Most recent tag: '..oldversion)
 
 usercheck()
 
@@ -96,13 +122,13 @@ if gitclean ~= "" then
   usercheck()
 end
 
---[============[
+--[============[--
      CONTINUE
---]============]
+--]============]--
 
 exe("git clean -fx")
 
-exe("l3build tag foo")
+exe("l3build tag")
 
 gitstatus = os.capture('git status --porcelain')
 if gitstatus ~= "" then
@@ -115,9 +141,9 @@ end
 
 exe("l3build ctan")
 
---[===========[
+--[===========[--
      TAGGING
---]===========]
+--]===========]--
 
 do
   local f = assert(io.open("CHANGES-NEW.md", "w"))
@@ -127,9 +153,9 @@ end
 
 exe("git tag -a '"..pkgversion.."' -F CHANGES-NEW.md")
 
---[=======================[
+--[=======================[--
      UPLOAD and CLEAN UP
---]=======================]
+--]=======================]--
 
 exe("l3build upload --file CHANGES-NEW.md")
 

@@ -31,22 +31,26 @@
 % These are the combinations to support:
 %    \begin{macrocode}
 \cs_new:Nn \@@_shape_merge:nn { c_@@_shape_#1_#2_tl }
-\tl_const:cn { \@@_shape_merge:nn \itdefault   \scdefault } {\itscdefault}
-\tl_const:cn { \@@_shape_merge:nn \sldefault   \scdefault } {\slscdefault}
-\tl_const:cn { \@@_shape_merge:nn \scdefault   \itdefault } {\itscdefault}
-\tl_const:cn { \@@_shape_merge:nn \scdefault   \sldefault } {\slscdefault}
-\tl_const:cn { \@@_shape_merge:nn \slscdefault \itdefault } {\itscdefault}
-\tl_const:cn { \@@_shape_merge:nn \itscdefault \sldefault } {\slscdefault}
-\tl_const:cn { \@@_shape_merge:nn \itscdefault \updefault } {\scdefault}
-\tl_const:cn { \@@_shape_merge:nn \slscdefault \updefault } {\scdefault}
+\cs_new:Nn \@@_merge_default_shapes:
+  {
+    \tl_const:cn { \@@_shape_merge:nn \itdefault   \scdefault } {\itscdefault}
+    \tl_const:cn { \@@_shape_merge:nn \sldefault   \scdefault } {\slscdefault}
+    \tl_const:cn { \@@_shape_merge:nn \scdefault   \itdefault } {\itscdefault}
+    \tl_const:cn { \@@_shape_merge:nn \scdefault   \sldefault } {\slscdefault}
+    \tl_const:cn { \@@_shape_merge:nn \slscdefault \itdefault } {\itscdefault}
+    \tl_const:cn { \@@_shape_merge:nn \itscdefault \sldefault } {\slscdefault}
+    \tl_const:cn { \@@_shape_merge:nn \itscdefault \updefault } {\scdefault}
+    \tl_const:cn { \@@_shape_merge:nn \slscdefault \updefault } {\scdefault}
+  }
+\@@_merge_default_shapes:
 %    \end{macrocode}
 %
-% \begin{macro}{\fontspec_merge_shape:n}
+% \begin{macro}{\@@_merge_shape:n}
 % These macros enable the overload on the |\..shape| commands.
 % First, a shape `new+current' (prefix) or `current+new' (suffix) is tried.
 % If not found, fall back on the `new' shape.
 %    \begin{macrocode}
-\cs_new:Nn \fontspec_merge_shape:n
+\cs_new:Nn \@@_merge_shape:n
   {
     \@@_if_merge_shape:nTF {#1}
       { \fontshape { \tl_use:c { \@@_shape_merge:nn {\f@shape} {#1} } } \selectfont }
@@ -78,22 +82,22 @@
 \DeclareRobustCommand \itshape
   {
     \not@math@alphabet\itshape\mathit
-    \fontspec_merge_shape:n\itdefault
+    \@@_merge_shape:n\itdefault
   }
 \DeclareRobustCommand \slshape
   {
     \not@math@alphabet\slshape\relax
-    \fontspec_merge_shape:n\sldefault
+    \@@_merge_shape:n\sldefault
   }
 \DeclareRobustCommand \scshape
   {
     \not@math@alphabet\scshape\relax
-    \fontspec_merge_shape:n\scdefault
+    \@@_merge_shape:n\scdefault
   }
 \DeclareRobustCommand \upshape
   {
     \not@math@alphabet\upshape\relax
-    \fontspec_merge_shape:n\updefault
+    \@@_merge_shape:n\updefault
   }
 %    \end{macrocode}
 % \end{macro} \end{macro} \end{macro} \end{macro}

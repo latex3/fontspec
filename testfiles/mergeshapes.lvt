@@ -1,0 +1,42 @@
+\input{fontspec-testsetup.tex}
+\usepackage{fontspec}
+\begin{document}
+
+\setmainfont{texgyrepagella-regular.otf}[
+  ItalicFont = texgyrepagella-italic.otf ,
+]
+
+\TIMO\SEPARATOR
+
+\makeatletter
+\MSG{shape: \f@shape}
+\CURRNFSS
+
+\begingroup
+\itshape
+\MSG{shape: \f@shape}
+\CURRNFSS
+\endgroup
+
+\begingroup
+\scshape
+\MSG{shape: \f@shape}
+\CURRNFSS
+\endgroup
+
+\begingroup
+\itshape
+\scshape
+\MSG{shape: \f@shape}
+\CURRNFSS
+\endgroup
+
+\begingroup
+\scshape
+\itshape
+\MSG{shape: \f@shape}
+\CURRNFSS
+\endgroup
+
+
+\end{document}

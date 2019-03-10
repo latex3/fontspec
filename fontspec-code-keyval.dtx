@@ -122,7 +122,7 @@
     Renderer .choices:nn =
       {Full,Node,Basic,Base,Harfbuzz,OpenType,AAT,Graphite}
       {
-        \int_compare:nTF {\l_keys_choice_int >= 5} { \bool_set_true:N \l_@@_harfbuzz_bool }
+        \int_compare:nT {\l_keys_choice_int >= 5} { \bool_set_true:N \l_@@_harfbuzz_bool }
 
         \tl_set:Nx \l_@@_mode_tl
           {

@@ -1,7 +1,7 @@
 Change history
 ==============
 
-## v2.7c (2019/03/14)
+## v2.7c (2019/03/15)
 
     * Two optimisations reduce time for font definitions with a large number of
       `FontFace` options. Thanks to Bob Tennent for the test file and bringing

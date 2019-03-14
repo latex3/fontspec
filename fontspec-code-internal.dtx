@@ -713,11 +713,14 @@
 \cs_new:Nn \@@_declare_shape:nnnn
   {
 %<debug>\typeout{=~ declare_shape:~{\l_fontspec_fontname_tl}~{#1}~{#2}}
-    \tl_clear:N \l_@@_nfss_tl
-    \tl_clear:N \l_@@_nfss_sc_tl
+    \tl_build_begin:N \l_@@_nfss_tl
+    \tl_build_begin:N \l_@@_nfss_sc_tl
     \tl_set_eq:NN \l_@@_saved_fontname_tl \l_fontspec_fontname_tl
 
     \exp_args:Nx \clist_map_inline:nn {#4} { \@@_setup_single_size:nn {#3} {##1} }
+
+    \tl_build_end:N \l_@@_nfss_tl
+    \tl_build_end:N \l_@@_nfss_sc_tl
 
     \@@_declare_shapes_normal:nn {#1} {#2}
     \@@_declare_shapes_smcaps:nn {#1} {#2}
@@ -791,7 +794,7 @@
         \tl_set:Nx \l_@@_scale_tl { s*[\l_@@_scale_tl] }
       }
 
-    \tl_put_right:Nx #1
+    \tl_build_put_right:Nx #1
       {
         <\l_@@_size_tl> \l_@@_scale_tl
         \@@_construct_font_call:nn { \l_fontspec_fontname_tl }

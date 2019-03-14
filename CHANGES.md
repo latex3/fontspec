@@ -1,6 +1,13 @@
 Change history
 ==============
 
+## v2.7c (2019/03/14)
+
+    * Two optimisations reduce time for font definitions with a large number of
+      `FontFace` options. Thanks to Bob Tennent for the test file and bringing
+      the problem to my attention.
+
+
 ## v2.7b (2019/02/12)
 
     * Fix regression in loading `Language=Turkish`. This now allows users to define more

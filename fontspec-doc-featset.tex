@@ -485,11 +485,13 @@ see its \cs{prehyphenchar} primitive for further details.
 \feat{HyphenChar} takes three types of input, which are chosen according to some
 simple rules. If the input is the string \opt{None}, then hyphenation is
 suppressed for this font.
+
+As part of \texttt{fontspec.cfg}, the default monospaced family (e.g., \verb|\ttfamily|)
+is set up to automatically set \feat{HyphenChar} \texttt{=} \opt{None}.
+
 If the input is a single character, then this character is used.
 Finally, if the input is longer than a single character
 it must be the UTF-8 slot number of the hyphen character you desire.
-
-This package redefines \LaTeX's \cmd\-\ macro such that it adjusts along with the above changes.
 
 \begin{Xexample}{hyphchar}{Explicitly choosing the hyphenation character.}
  \def\text{\fbox{\parbox{1.55cm}{%

@@ -783,7 +783,6 @@
       },
     FakeStretch .default:n = {1.2}
   }
-%<*XE>
 \keys_define:nn {fontspec}
   {
     FakeBold .code:n =
@@ -792,13 +791,6 @@
       },
     FakeBold .default:n = {1.5}
   }
-%</XE>
-%<*LU>
-\keys_define:nn {fontspec}
-  {
-    FakeBold .code:n = { \@@_warning:n {fakebold-only-xetex} }
-  }
-%</LU>
 %    \end{macrocode}
 % These are to be given to a shape that has no real bold/italic
 % to signal that \pkg{fontspec} should automatically create `fake' shapes.

@@ -35,7 +35,7 @@ These defaults (and further customisations possible) are discussed in \vref{sec:
 \cmdbox{%
   \CMD{\string\newfontfamily}\meta{cmd}\marg{font}\oarg{font features}\\
   \CMD{\string\setfontfamily}{\color[gray]{0.5}\meta{cmd}\marg{font}\oarg{font features}}\\
-  \CMD{\string\renewfontfamily}{\color[gray]{0.5}\meta{cmd}\marg{font}\oarg{font features}}
+  \CMD{\string\renewfontfamily}{\color[gray]{0.5}\meta{cmd}\marg{font}\oarg{font features}}\\
   \CMD{\string\providefontfamily}{\color[gray]{0.5}\meta{cmd}\marg{font}\oarg{font features}}
 }
 
@@ -135,7 +135,7 @@ search paths may be used directly (including in the current directory)
 without having to explicitly define the location of the font file on disk.
 
 Fonts selected by filename must include bold and italic variants explicitly,
-unless a \texttt{.fontspec} file is supplied for the font family (see section~\ref{sec:fontspecfile}).
+unless a \texttt{.fontspec} file is supplied for the font family (see \ref{sec:fontspecfile}).
 We'll give some first examples specifying everything explicitly:
 \begin{Verbatim}
   \setmainfont{texgyrepagella-regular.otf}[
@@ -300,8 +300,8 @@ commands:
   \newcommand\textnote[1]{{\notefont #1}}
   \textnote{This is a note.}
 \end{Verbatim}
-Note that the double braces are intentional; the inner pair are used to
-to delimit the scope of the font change.
+Note that the double braces are intentional; the inner pair is used to
+delimit the scope of the font change.
 
 \begin{Lexample}{nff}{Defining new font families.}
   \newfontfamily\notefont{Kurier}
@@ -431,7 +431,7 @@ In \LaTeX's \NFSS, font families are defined with names such as `\texttt{ppl}' (
   \fontfamily{ppl}\selectfont
 \end{Verbatim}
 In \pkg{fontspec}, the family names are auto-generated based on the fontname of the font; for example, writing |\fontspec{Times New Roman}| for the first time would generate an internal font family name of `\texttt{TimesNewRoman(1)}'.
-Please note that should not rely on the name that is generated.
+Please note that you should not rely on the name that is generated.
 
 In certain cases it is desirable to be able to choose this internal font family name so it can be re-used elsewhere for interacting with other packages that use the \LaTeX's font selection interface; an example might be
 \begin{Verbatim}

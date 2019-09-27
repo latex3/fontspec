@@ -8,20 +8,6 @@
 %    \end{macrocode}
 % \fi
 %
-% To be removed after the 2017 release of LaTeX2e:
-%    \begin{macrocode}
-\providecommand\UnicodeFontFile[2]{"[#1]:#2"}
-\providecommand\UnicodeFontName[2]{"#1:#2"}
-%<XE>\providecommand\UnicodeFontTeXLigatures{mapping=tex-text;}
-%<LU>\providecommand\UnicodeFontTeXLigatures{+tlig;}
-%    \end{macrocode}
-%
-%    \begin{macrocode}
-\providecommand\add@unicode@accent[2]{#2\char#1\relax}
-\providecommand\DeclareUnicodeAccent[3]{%
-  \DeclareTextCommand{#1}{#2}{\add@unicode@accent{#3}}%
-}
-%    \end{macrocode}
 %
 % \begin{macro}{\EncodingCommand}
 %    \begin{macrocode}

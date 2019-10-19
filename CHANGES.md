@@ -9,10 +9,12 @@ Change history
 
     * Additional optional argument for `\EncodingCommand`. (#383)
 
-    * Documentation changes for `Numbers=Arabic`, `HypenChar=None` for `\ttfamily`,
+    * Suppress spurious warnings for `HyphenChar` feature in XeLaTeX. (#382)
 
     * Add `Ligatures=TeXOff` even though it's not a real OpenType feature. (Functionally
       equivalent to `Ligatures=TeXReset`.)
+
+    * Documentation changes for `Numbers=Arabic`, `HypenChar=None` for `\ttfamily`.
 
     * Bug fix for doubled + symbol when setting `tlig` feature in LuaTeX.
 

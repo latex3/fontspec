@@ -6,25 +6,17 @@ Change history
     * Allow the user to manually change `\rmdefault`, `\sfdefault`, `\ttdefault`
       if desired. Note this could cause problems if the `fontspec` encoding does not
       match the encoding of the specified families.
-
     * Additional optional argument for `\EncodingCommand`.
-
     * Suppress spurious warnings for `HyphenChar` feature in XeLaTeX.
-
-    * Add `Ligatures=TeXOff` even though it's not a real OpenType feature. (Functionally
-      equivalent to `Ligatures=TeXReset`.)
-
+    * Add `Ligatures=TeXOff` even though it's not a real OpenType feature.
+      (Functionally equivalent to `Ligatures=TeXReset`.)
     * New scripts definitions to match OpenType 1.8.3 (thanks Werner!).
-
     * Documentation changes for `Numbers=Arabic`, `HypenChar=None` for `\ttfamily`.
-
     * Documentation fixes (thanks `muzimuzhi`!).
-
     * Prepare for `FakeBold` being available in `luaotfload` (thanks Khaled!).
-
     * Bug fix for doubled + symbol when setting `tlig` feature in LuaTeX.
-
     * Bug fix for Harfbuzz use. (Support still very minimal I'm afraid.)
+
 
 ## v2.7c (2019/03/15)
 

@@ -11,11 +11,11 @@
 %
 % \begin{macro}{\EncodingCommand}
 %    \begin{macrocode}
-\DeclareDocumentCommand \EncodingCommand {mO{}m}
+\DeclareDocumentCommand \EncodingCommand { m O{} O{} m }
   {
     \bool_if:NF \l_@@_defining_encoding_bool
       { \@@_error:nn {only-inside-encdef} \EncodingCommand }
-    \DeclareTextCommand{#1}{\UnicodeEncodingName}[#2]{#3}
+    \DeclareTextCommand{#1}{\UnicodeEncodingName}[#2][#3]{#4}
   }
 %    \end{macrocode}
 % \end{macro}

@@ -5,7 +5,9 @@ Change history
 
     * Allow the user to manually change `\rmdefault`, `\sfdefault`, `\ttdefault`
       if desired. Note this could cause problems if the `fontspec` encoding does not
-      match the encoding of the specified families.
+      match the encoding of the specified families. (#386)
+
+    * Additional optional argument for `\EncodingCommand`. (#383)
 
     * Documentation changes for `Numbers=Arabic`, `HypenChar=None` for `\ttfamily`,
 

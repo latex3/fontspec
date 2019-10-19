@@ -1,6 +1,13 @@
 Change history
 ==============
 
+## v2.7e (2019/10/19)
+
+    * Allow the user to manually change `\rmdefault`, `\sfdefault`, `\ttdefault`
+      if desired. Note this could cause problems if the `fontspec` encoding does not
+      match the encoding of the specified families.
+
+
 ## v2.7d (2019/02/13)
 
     * Add `Ligatures=TeXOff` even though it's not a real OpenType feature. (Functionally

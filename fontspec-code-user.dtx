@@ -44,7 +44,7 @@
         \exp_not:n { \DeclareRobustCommand \rmfamily }
           {
             \exp_not:N \fontencoding { \g_@@_nfss_enc_tl }
-            \exp_not:N \fontfamily { \l_@@_rmfamily_family_tl }
+            \exp_not:N \fontfamily { \exp_not:N \rmdefault }
             \exp_not:N \selectfont
           }
       }
@@ -68,7 +68,7 @@
         \exp_not:n { \DeclareRobustCommand \sffamily }
           {
             \exp_not:N \fontencoding { \g_@@_nfss_enc_tl }
-            \exp_not:N \fontfamily { \l_@@_sffamily_family_tl }
+            \exp_not:N \fontfamily { \exp_not:N \sfdefault }
             \exp_not:N \selectfont
           }
       }
@@ -92,7 +92,7 @@
         \exp_not:n { \DeclareRobustCommand \ttfamily }
           {
             \exp_not:N \fontencoding { \g_@@_nfss_enc_tl }
-            \exp_not:N \fontfamily { \l_@@_ttfamily_family_tl }
+            \exp_not:N \fontfamily { \exp_not:N \ttdefault }
             \exp_not:N \selectfont
           }
       }

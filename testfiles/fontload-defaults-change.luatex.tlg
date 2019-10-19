@@ -1,0 +1,26 @@
+This is a generated file for the l3build validation system.
+Don't change this file in any respect.
+============================================================
+SET FONT FAMILIES
+TU/texgyretermes-regular.otf(0)/m/n:
+  [texgyretermes-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;
+TU/texgyreheros-regular.otf(0)/m/n:
+  [texgyreheros-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;
+TU/texgyrecursor-regular.otf(0)/m/n:
+  [texgyrecursor-regular.otf]:mode=node;script=latn;language=DFLT;
+REDEFINE FONT FAMILIES
+TU/lmr/m/n:
+  [lmroman10-regular]:+tlig;
+TU/lmss/m/n:
+  [lmsans10-regular]:+tlig;
+TU/lmtt/m/n:
+  [lmmono10-regular]:
+SET FONT FAMILIES AGAIN
+TU/texgyretermes-regular.otf(0)/m/n:
+  [texgyretermes-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;
+TU/texgyreheros-regular.otf(0)/m/n:
+  [texgyreheros-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;
+TU/texgyrecursor-regular.otf(0)/m/n:
+  [texgyrecursor-regular.otf]:mode=node;script=latn;language=DFLT;
+***************
+Compilation 1 of test file completed with exit status 0

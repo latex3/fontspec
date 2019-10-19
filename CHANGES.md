@@ -1,7 +1,7 @@
 Change history
 ==============
 
-## v2.7d (2019/02/13)
+## v2.7d (2019/10/19)
 
     * Allow the user to manually change `\rmdefault`, `\sfdefault`, `\ttdefault`
       if desired. Note this could cause problems if the `fontspec` encoding does not

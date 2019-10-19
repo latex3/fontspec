@@ -1,18 +1,20 @@
 Change history
 ==============
 
-## v2.7e (2019/10/19)
+## v2.7d (2019/02/13)
 
     * Allow the user to manually change `\rmdefault`, `\sfdefault`, `\ttdefault`
       if desired. Note this could cause problems if the `fontspec` encoding does not
       match the encoding of the specified families.
 
-
-## v2.7d (2019/02/13)
+    * Documentation changes for `Numbers=Arabic`, `HypenChar=None` for `\ttfamily`,
 
     * Add `Ligatures=TeXOff` even though it's not a real OpenType feature. (Functionally
       equivalent to `Ligatures=TeXReset`.)
 
+    * Bug fix for doubled + symbol when setting `tlig` feature in LuaTeX.
+
+    * Bug fix for Harfbuzz use. (Support still very minimal I'm afraid.)
 
 ## v2.7c (2019/03/15)
 

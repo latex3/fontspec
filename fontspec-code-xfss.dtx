@@ -16,12 +16,12 @@
 % |\textit{\textsc{...}}| instead.
 %
 %    \begin{macrocode}
-\providecommand*\itscdefault{\itdefault\scdefault}
-\providecommand*\slscdefault{\sldefault\scdefault}
+\providecommand*\scitdefault{\scdefault\itdefault}
+\providecommand*\scsldefault{\scdefault\sldefault}
 \DeclareRobustCommand{\sishape}
   {
     \not@math@alphabet\sishape\relax
-    \fontshape{\itscdefault}\selectfont
+    \fontshape{\scitdefault}\selectfont
   }
 \DeclareTextFontCommand{\textsi}{\sishape}
 %    \end{macrocode}
@@ -33,14 +33,14 @@
 \cs_new:Nn \@@_shape_merge:nn { c_@@_shape_#1_#2_tl }
 \cs_new:Nn \@@_merge_default_shapes:
   {
-    \tl_const:cn { \@@_shape_merge:nn \itdefault   \scdefault } {\itscdefault}
-    \tl_const:cn { \@@_shape_merge:nn \sldefault   \scdefault } {\slscdefault}
-    \tl_const:cn { \@@_shape_merge:nn \scdefault   \itdefault } {\itscdefault}
-    \tl_const:cn { \@@_shape_merge:nn \scdefault   \sldefault } {\slscdefault}
-    \tl_const:cn { \@@_shape_merge:nn \slscdefault \itdefault } {\itscdefault}
-    \tl_const:cn { \@@_shape_merge:nn \itscdefault \sldefault } {\slscdefault}
-    \tl_const:cn { \@@_shape_merge:nn \itscdefault \updefault } {\scdefault}
-    \tl_const:cn { \@@_shape_merge:nn \slscdefault \updefault } {\scdefault}
+    \tl_const:cn { \@@_shape_merge:nn \itdefault   \scdefault } {\scitdefault}
+    \tl_const:cn { \@@_shape_merge:nn \sldefault   \scdefault } {\scsldefault}
+    \tl_const:cn { \@@_shape_merge:nn \scdefault   \itdefault } {\scitdefault}
+    \tl_const:cn { \@@_shape_merge:nn \scdefault   \sldefault } {\scsldefault}
+    \tl_const:cn { \@@_shape_merge:nn \scsldefault \itdefault } {\scitdefault}
+    \tl_const:cn { \@@_shape_merge:nn \scitdefault \sldefault } {\scsldefault}
+    \tl_const:cn { \@@_shape_merge:nn \scitdefault \updefault } {\scdefault}
+    \tl_const:cn { \@@_shape_merge:nn \scsldefault \updefault } {\scdefault}
   }
 \@@_merge_default_shapes:
 %    \end{macrocode}
@@ -108,7 +108,7 @@
 %
 % \begin{macro}{\emfontdeclare}
 %    \begin{macrocode}
-\cs_new_protected:Npn \emfontdeclare #1
+\cs_set_protected:Npn \emfontdeclare #1
   {
     \prop_gclear:N    \g_@@_em_prop
     \int_zero:N       \l_@@_emdef_int
@@ -189,7 +189,7 @@
 %
 % \begin{macro}{\strongfontdeclare}
 %    \begin{macrocode}
-\cs_new_protected:Npn \strongfontdeclare #1
+\cs_set_protected:Npn \strongfontdeclare #1
   {
     \prop_gclear:N   \g_@@_strong_prop
     \int_zero:N      \l_@@_strongdef_int

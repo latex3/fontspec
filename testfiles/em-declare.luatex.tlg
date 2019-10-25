@@ -9,11 +9,11 @@ TU/texgyrepagella(0)/m/it:
   [texgyrepagella-italic.otf]:mode=node;script=latn;language=DFLT;+tlig;
 TU/texgyrepagella(0)/m/sc:
   [texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;+smcp;
-TU/texgyrepagella(0)/m/itsc:
+TU/texgyrepagella(0)/m/scit:
   [texgyrepagella-italic.otf]:mode=node;script=latn;language=DFLT;+tlig;+smcp;
 TU/texgyrepagella(0)/m/sc:
   [texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;+smcp;
-TU/texgyrepagella(0)/m/itsc:
+TU/texgyrepagella(0)/m/scit:
   [texgyrepagella-italic.otf]:mode=node;script=latn;language=DFLT;+tlig;+smcp;
 ============================================================
 Check manually entering a level of emph: (should be same as above)
@@ -24,11 +24,11 @@ TU/texgyrepagella(0)/m/it:
   [texgyrepagella-italic.otf]:mode=node;script=latn;language=DFLT;+tlig;
 TU/texgyrepagella(0)/m/sc:
   [texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;+smcp;
-TU/texgyrepagella(0)/m/itsc:
+TU/texgyrepagella(0)/m/scit:
   [texgyrepagella-italic.otf]:mode=node;script=latn;language=DFLT;+tlig;+smcp;
 TU/texgyrepagella(0)/m/sc:
   [texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;+smcp;
-TU/texgyrepagella(0)/m/itsc:
+TU/texgyrepagella(0)/m/scit:
   [texgyrepagella-italic.otf]:mode=node;script=latn;language=DFLT;+tlig;+smcp;
 ============================================================
 Check just one emphasis (itshape):
@@ -54,11 +54,11 @@ TU/texgyrepagella(0)/bx/it:
   [texgyrepagella-bolditalic.otf]:mode=node;script=latn;language=DFLT;+tlig;
 TU/texgyrepagella(0)/bx/sc:
   [texgyrepagella-bold.otf]:mode=node;script=latn;language=DFLT;+tlig;+smcp;
-TU/texgyrepagella(0)/bx/itsc:
+TU/texgyrepagella(0)/bx/scit:
   [texgyrepagella-bolditalic.otf]:mode=node;script=latn;language=DFLT;+tlig;+smcp;
 TU/texgyrepagella(0)/bx/sc:
   [texgyrepagella-bold.otf]:mode=node;script=latn;language=DFLT;+tlig;+smcp;
-TU/texgyrepagella(0)/bx/itsc:
+TU/texgyrepagella(0)/bx/scit:
   [texgyrepagella-bolditalic.otf]:mode=node;script=latn;language=DFLT;+tlig;+smcp;
 ============================================================
 As above with bold; manual emph:
@@ -69,11 +69,11 @@ TU/texgyrepagella(0)/bx/it:
   [texgyrepagella-bolditalic.otf]:mode=node;script=latn;language=DFLT;+tlig;
 TU/texgyrepagella(0)/bx/sc:
   [texgyrepagella-bold.otf]:mode=node;script=latn;language=DFLT;+tlig;+smcp;
-TU/texgyrepagella(0)/bx/itsc:
+TU/texgyrepagella(0)/bx/scit:
   [texgyrepagella-bolditalic.otf]:mode=node;script=latn;language=DFLT;+tlig;+smcp;
 TU/texgyrepagella(0)/bx/sc:
   [texgyrepagella-bold.otf]:mode=node;script=latn;language=DFLT;+tlig;+smcp;
-TU/texgyrepagella(0)/bx/itsc:
+TU/texgyrepagella(0)/bx/scit:
   [texgyrepagella-bolditalic.otf]:mode=node;script=latn;language=DFLT;+tlig;+smcp;
 ============================================================
 As above with bold; one emph:

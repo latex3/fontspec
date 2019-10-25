@@ -9,11 +9,11 @@ TU/texgyrepagella(0)/m/it:
   "[texgyrepagella-italic.otf]/OT:script=latn;language=DFLT;mapping=tex-text;" at 10.0pt
 TU/texgyrepagella(0)/m/sc:
   "[texgyrepagella-regular.otf]/OT:script=latn;language=DFLT;+smcp;mapping=tex-text;" at 10.0pt
-TU/texgyrepagella(0)/m/itsc:
+TU/texgyrepagella(0)/m/scit:
   "[texgyrepagella-italic.otf]/OT:script=latn;language=DFLT;+smcp;mapping=tex-text;" at 10.0pt
 TU/texgyrepagella(0)/m/sc:
   "[texgyrepagella-regular.otf]/OT:script=latn;language=DFLT;+smcp;mapping=tex-text;" at 10.0pt
-TU/texgyrepagella(0)/m/itsc:
+TU/texgyrepagella(0)/m/scit:
   "[texgyrepagella-italic.otf]/OT:script=latn;language=DFLT;+smcp;mapping=tex-text;" at 10.0pt
 ============================================================
 Check manually entering a level of emph: (should be same as above)
@@ -24,11 +24,11 @@ TU/texgyrepagella(0)/m/it:
   "[texgyrepagella-italic.otf]/OT:script=latn;language=DFLT;mapping=tex-text;" at 10.0pt
 TU/texgyrepagella(0)/m/sc:
   "[texgyrepagella-regular.otf]/OT:script=latn;language=DFLT;+smcp;mapping=tex-text;" at 10.0pt
-TU/texgyrepagella(0)/m/itsc:
+TU/texgyrepagella(0)/m/scit:
   "[texgyrepagella-italic.otf]/OT:script=latn;language=DFLT;+smcp;mapping=tex-text;" at 10.0pt
 TU/texgyrepagella(0)/m/sc:
   "[texgyrepagella-regular.otf]/OT:script=latn;language=DFLT;+smcp;mapping=tex-text;" at 10.0pt
-TU/texgyrepagella(0)/m/itsc:
+TU/texgyrepagella(0)/m/scit:
   "[texgyrepagella-italic.otf]/OT:script=latn;language=DFLT;+smcp;mapping=tex-text;" at 10.0pt
 ============================================================
 Check just one emphasis (itshape):
@@ -54,11 +54,11 @@ TU/texgyrepagella(0)/bx/it:
   "[texgyrepagella-bolditalic.otf]/OT:script=latn;language=DFLT;mapping=tex-text;" at 10.0pt
 TU/texgyrepagella(0)/bx/sc:
   "[texgyrepagella-bold.otf]/OT:script=latn;language=DFLT;+smcp;mapping=tex-text;" at 10.0pt
-TU/texgyrepagella(0)/bx/itsc:
+TU/texgyrepagella(0)/bx/scit:
   "[texgyrepagella-bolditalic.otf]/OT:script=latn;language=DFLT;+smcp;mapping=tex-text;" at 10.0pt
 TU/texgyrepagella(0)/bx/sc:
   "[texgyrepagella-bold.otf]/OT:script=latn;language=DFLT;+smcp;mapping=tex-text;" at 10.0pt
-TU/texgyrepagella(0)/bx/itsc:
+TU/texgyrepagella(0)/bx/scit:
   "[texgyrepagella-bolditalic.otf]/OT:script=latn;language=DFLT;+smcp;mapping=tex-text;" at 10.0pt
 ============================================================
 As above with bold; manual emph:
@@ -69,11 +69,11 @@ TU/texgyrepagella(0)/bx/it:
   "[texgyrepagella-bolditalic.otf]/OT:script=latn;language=DFLT;mapping=tex-text;" at 10.0pt
 TU/texgyrepagella(0)/bx/sc:
   "[texgyrepagella-bold.otf]/OT:script=latn;language=DFLT;+smcp;mapping=tex-text;" at 10.0pt
-TU/texgyrepagella(0)/bx/itsc:
+TU/texgyrepagella(0)/bx/scit:
   "[texgyrepagella-bolditalic.otf]/OT:script=latn;language=DFLT;+smcp;mapping=tex-text;" at 10.0pt
 TU/texgyrepagella(0)/bx/sc:
   "[texgyrepagella-bold.otf]/OT:script=latn;language=DFLT;+smcp;mapping=tex-text;" at 10.0pt
-TU/texgyrepagella(0)/bx/itsc:
+TU/texgyrepagella(0)/bx/scit:
   "[texgyrepagella-bolditalic.otf]/OT:script=latn;language=DFLT;+smcp;mapping=tex-text;" at 10.0pt
 ============================================================
 As above with bold; one emph:

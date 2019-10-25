@@ -10,11 +10,11 @@ TU/texgyrepagella-regular.otf(0)/m/it:
 shape: sc
 TU/texgyrepagella-regular.otf(0)/m/sc:
   "[texgyrepagella-regular.otf]/OT:script=latn;language=DFLT;+smcp;mapping=tex-text;" at 10.0pt
-shape: itsc
-TU/texgyrepagella-regular.otf(0)/m/itsc:
+shape: scit
+TU/texgyrepagella-regular.otf(0)/m/scit:
   "[texgyrepagella-italic.otf]/OT:script=latn;language=DFLT;+smcp;mapping=tex-text;" at 10.0pt
-shape: itsc
-TU/texgyrepagella-regular.otf(0)/m/itsc:
+shape: scit
+TU/texgyrepagella-regular.otf(0)/m/scit:
   "[texgyrepagella-italic.otf]/OT:script=latn;language=DFLT;+smcp;mapping=tex-text;" at 10.0pt
 ***************
 Compilation 1 of test file completed with exit status 0

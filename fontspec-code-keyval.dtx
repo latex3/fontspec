@@ -99,7 +99,7 @@
 \keys_define:nn {fontspec-renderer}
   {
     Renderer .choices:nn =
-      {AAT,ICU,OpenType,Graphite,Full,Basic,Node,Base,Harfbuzz}
+      {AAT,ICU,OpenType,Graphite,Full,Basic,Node,Base,HarfBuzz}
       {
         \int_compare:nTF {\l_keys_choice_int <= 4}
           {
@@ -111,7 +111,7 @@
             \tl_gset:Nx \g_@@_single_feat_tl { \l_@@_renderer_tl }
           }
           {
-            \@@_warning:nx {only-luatex-feature} {Renderer=Full/Basic/Node/Base/Harfbuzz}
+            \@@_warning:nx {only-luatex-feature} {Renderer=Full/Basic/Node/Base/HarfBuzz}
           }
       }
   }
@@ -120,7 +120,7 @@
 \keys_define:nn {fontspec-renderer}
   {
     Renderer .choices:nn =
-      {Full,Node,Basic,Base,Harfbuzz,OpenType,AAT,Graphite}
+      {Full,Node,Basic,Base,HarfBuzz,OpenType,AAT,Graphite}
       {
         \int_compare:nT {\l_keys_choice_int >= 5} { \bool_set_true:N \l_@@_harfbuzz_bool }
 

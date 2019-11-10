@@ -1,6 +1,12 @@
 Change history
 ==============
 
+
+## v2.7e (2019/10/19)
+
+    * `Renderer=Harfbuzz` changed to `Renderer=HarfBuzz`.
+
+
 ## v2.7d (2019/10/19)
 
     * Allow the user to manually change `\rmdefault`, `\sfdefault`, `\ttdefault`
@@ -36,7 +42,7 @@ Change history
       when selected, this first checks for the existance of the TRK language tag, and if
       not found then checks for the TUR language tag to use if available.
 
-    * Add new `Renderer` options for LuaTeX that enable the Harfbuzz engine. These only
+    * Add new `Renderer` options for LuaTeX that enable the HarfBuzz engine. These only
       work running under `luahbtex` and are currently experimental. The new options are
       `Harfbuzz`, `OpenType`, `AAT`, and `Graphite`.
 

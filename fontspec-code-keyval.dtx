@@ -99,7 +99,7 @@
 \keys_define:nn {fontspec-renderer}
   {
     Renderer .choices:nn =
-      {AAT,ICU,OpenType,Graphite,Full,Basic,Node,Base,HarfBuzz}
+      {AAT,ICU,OpenType,Graphite,Full,Basic,Node,Base,HarfBuzz,Harfbuzz}
       {
         \int_compare:nTF {\l_keys_choice_int <= 4}
           {
@@ -120,18 +120,18 @@
 \keys_define:nn {fontspec-renderer}
   {
     Renderer .choices:nn =
-      {Full,Node,Basic,Base,HarfBuzz,OpenType,AAT,Graphite}
+      {Full,Node,Basic,Base,HarfBuzz,Harfbuzz,OpenType,AAT,Graphite}
       {
         \int_compare:nT {\l_keys_choice_int >= 5} { \bool_set_true:N \l_@@_harfbuzz_bool }
 
         \tl_set:Nx \l_@@_mode_tl
           {
-            \int_case:nn \l_keys_choice_int { 1 {node} 2 {node} 3 {base} 4 {base} 5 {harf} 6 {harf} 7 {harf} 8 {harf} }
+            \int_case:nn \l_keys_choice_int { 1 {node} 2 {node} 3 {base} 4 {base} 5 {harf} 6 {harf} 7 {harf} 8 {harf} 9 {harf}}
           }
 
         \tl_set:Nx \l_@@_shaper_tl
           {
-            \int_case:nn \l_keys_choice_int { 1 {} 2 {} 3 {} 4 {} 5 {} 6 {ot} 7 {coretext_aat} 8 {graphite2} }
+            \int_case:nn \l_keys_choice_int { 1 {} 2 {} 3 {} 4 {} 5 {} 6 {} 7 {ot} 8 {coretext_aat} 9 {graphite2} }
           }
 
 %<debug>\typeout{Mode:~"\l_@@_mode_tl"~/~Shaper:~"\l_@@_shaper_tl"}

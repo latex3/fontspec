@@ -233,14 +233,14 @@
 
 %<debug>\typeout{Set~ base~ font~ for~ preliminary~ analysis: \@@_construct_font_call:nn { \l_@@_fontname_up_tl } {} }
     \@@_primitive_font_set:NnnF \l_@@_test_font
-      { \@@_construct_font_call:nn { \l_@@_fontname_up_tl } {} }
+      { \@@_construct_font_call:nn { \l_@@_fontname_up_tl } { \l_@@_pre_feat_sclist } }
       { \f@size pt - 2sp }
       { \@@_error:nx {font-not-found} {\l_@@_fontname_up_tl} }
 
 %<debug>\typeout{Set~ base~ font~ properly: \@@_construct_font_call:nn { \l_@@_fontname_up_tl } {} }
     \@@_set_font_type:N \l_@@_test_font
     \@@_primitive_font_gset:Onn \l_@@_fontface_cs_tl
-      {  \@@_construct_font_call:nn { \l_@@_fontname_up_tl } {} }
+      {  \@@_construct_font_call:nn { \l_@@_fontname_up_tl } { \l_@@_pre_feat_sclist } }
       { \f@size pt }
 
     \l_@@_fontface_cs_tl % this is necessary for LuaLaTeX to check the scripts properly
@@ -645,8 +645,8 @@
 \prg_new_conditional:Nnn \@@_if_autofont:nn {T,TF}
   {
     \group_begin:
-    \@@_primitive_font_set:Nnn \l_@@_tmpa_font { \@@_construct_font_call:nn {#1}   {} } { \f@size pt + 1sp }
-    \@@_primitive_font_set:Nnn \l_@@_tmpb_font { \@@_construct_font_call:nn {#1#2} {} } { \f@size pt + 1sp }
+    \@@_primitive_font_set:Nnn \l_@@_tmpa_font { \@@_construct_font_call:nn {#1}   { \l_@@_pre_feat_sclist } } { \f@size pt + 1sp }
+    \@@_primitive_font_set:Nnn \l_@@_tmpb_font { \@@_construct_font_call:nn {#1#2} { \l_@@_pre_feat_sclist } } { \f@size pt + 1sp }
     \str_if_eq:eeTF { \@@_primitive_font_get_name:N \l_@@_tmpa_font } { \@@_primitive_font_get_name:N \l_@@_tmpb_font }
       { \group_end: \prg_return_false: }
       { \group_end: \prg_return_true: }
@@ -682,7 +682,7 @@
       { \clist_clear:N \l_@@_fontopts_clist }
     \keys_set_groups:nnV {fontspec/fontname} {getfontname} \l_@@_fontopts_clist
     \@@_primitive_font_set:OnnF \l_@@_fontface_cs_tl
-      { \@@_construct_font_call:nn {#1} {} } { \f@size pt }
+      { \@@_construct_font_call:nn {#1} { \l_@@_pre_feat_sclist } } { \f@size pt }
       { \@@_error:nx {font-not-found} {#2} }
   }
 %    \end{macrocode}

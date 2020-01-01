@@ -47,6 +47,7 @@ tlmgr install   \
   unicode-math  \
   polyglossia   \
   hyph-utf8     \
+  epstopdf-pkg  \
   mathspec
 
 # Fonts

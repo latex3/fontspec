@@ -23,6 +23,15 @@ recordstatus = true
 
 packtdszip = true
 
+checkdev = false
+
+specialformats = specialformats or {}
+if checkdev then
+  specialformats.latex = {
+    xetex  = {binary = "xetex",    format = "xelatex-dev"},
+    luatex = {binary = "luahbtex", format = "lualatex-dev"},
+  }
+end
 
 --[=============[
       VERSION

@@ -9,23 +9,6 @@
 %
 % \subsection{Italic small caps and so on} \label{sec:sishape}
 %
-% \begin{macro}{\sishape}
-% \begin{macro}{\textsi}
-% These commands for actually selecting italic small caps have been defined for many years; I'm inclined to drop them.
-% They're probably used very infrequently; I personally prefer just writing
-% |\textit{\textsc{...}}| instead.
-%
-%    \begin{macrocode}
-\providecommand*\scitdefault{\scdefault\itdefault}
-\providecommand*\scsldefault{\scdefault\sldefault}
-\DeclareRobustCommand{\sishape}
-  {
-    \not@math@alphabet\sishape\relax
-    \fontshape{\scitdefault}\selectfont
-  }
-\DeclareTextFontCommand{\textsi}{\sishape}
-%    \end{macrocode}
-% \end{macro} \end{macro}
 %
 % \LaTeX's `shape' font axis needs to be overloaded to support italic small caps and slanted small caps.
 % These are the combinations to support:
@@ -44,6 +27,29 @@
   }
 \@@_merge_default_shapes:
 %    \end{macrocode}
+%
+%    \begin{macrocode}
+\cs_if_exist:NF \DeclareFontSeriesChangeRule {
+%    \end{macrocode}
+%
+% \begin{macro}{\sishape}
+% \begin{macro}{\textsi}
+% These commands for actually selecting italic small caps have been defined for many years; I'm inclined to drop them.
+% They're probably used very infrequently; I personally prefer just writing
+% |\textit{\textsc{...}}| instead.
+%
+%    \begin{macrocode}
+\providecommand*\scitdefault{\scdefault\itdefault}
+\providecommand*\scsldefault{\scdefault\sldefault}
+\DeclareRobustCommand{\sishape}
+  {
+    \not@math@alphabet\sishape\relax
+    \fontshape{\scitdefault}\selectfont
+  }
+\DeclareTextFontCommand{\textsi}{\sishape}
+%    \end{macrocode}
+% \end{macro} \end{macro}
+%
 %
 % \begin{macro}{\@@_merge_shape:n}
 % These macros enable the overload on the |\..shape| commands.
@@ -183,6 +189,14 @@
 % \end{macro}
 % \end{macro}
 %
+%    \begin{macrocode}
+\emfontdeclare{ \emshape, \eminnershape }
+\cs_new:Nn \fontspec_set_em_level:n     { \int_set:Nn \l_@@_em_int     {#1} }
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+}
+%    \end{macrocode}
 %
 %
 % \subsection{Strong emphasis}
@@ -257,14 +271,12 @@
 %
 % Programmer's interface for setting nesting levels:
 %    \begin{macrocode}
-\cs_new:Nn \fontspec_set_em_level:n     { \int_set:Nn \l_@@_em_int     {#1} }
 \cs_new:Nn \fontspec_set_strong_level:n { \int_set:Nn \l_@@_strong_int {#1} }
 %    \end{macrocode}
 %
 % Defaults:
 %    \begin{macrocode}
 \strongfontdeclare{ \bfseries }
-\emfontdeclare{ \emshape, \eminnershape }
 %    \end{macrocode}
 %
 %    \begin{macrocode}

@@ -10,23 +10,6 @@
 % \subsection{Italic small caps and so on} \label{sec:sishape}
 %
 %
-% \LaTeX's `shape' font axis needs to be overloaded to support italic small caps and slanted small caps.
-% These are the combinations to support:
-%    \begin{macrocode}
-\cs_new:Nn \@@_shape_merge:nn { c_@@_shape_#1_#2_tl }
-\cs_new:Nn \@@_merge_default_shapes:
-  {
-    \tl_const:cn { \@@_shape_merge:nn \itdefault   \scdefault } {\scitdefault}
-    \tl_const:cn { \@@_shape_merge:nn \sldefault   \scdefault } {\scsldefault}
-    \tl_const:cn { \@@_shape_merge:nn \scdefault   \itdefault } {\scitdefault}
-    \tl_const:cn { \@@_shape_merge:nn \scdefault   \sldefault } {\scsldefault}
-    \tl_const:cn { \@@_shape_merge:nn \scsldefault \itdefault } {\scitdefault}
-    \tl_const:cn { \@@_shape_merge:nn \scitdefault \sldefault } {\scsldefault}
-    \tl_const:cn { \@@_shape_merge:nn \scitdefault \updefault } {\scdefault}
-    \tl_const:cn { \@@_shape_merge:nn \scsldefault \updefault } {\scdefault}
-  }
-\@@_merge_default_shapes:
-%    \end{macrocode}
 %
 %    \begin{macrocode}
 \cs_if_exist:NF \DeclareFontSeriesChangeRule {
@@ -50,6 +33,23 @@
 %    \end{macrocode}
 % \end{macro} \end{macro}
 %
+% \LaTeX's `shape' font axis needs to be overloaded to support italic small caps and slanted small caps.
+% These are the combinations to support:
+%    \begin{macrocode}
+\cs_new:Nn \@@_shape_merge:nn { c_@@_shape_#1_#2_tl }
+\cs_new:Nn \@@_merge_default_shapes:
+  {
+    \tl_const:cn { \@@_shape_merge:nn \itdefault   \scdefault } {\scitdefault}
+    \tl_const:cn { \@@_shape_merge:nn \sldefault   \scdefault } {\scsldefault}
+    \tl_const:cn { \@@_shape_merge:nn \scdefault   \itdefault } {\scitdefault}
+    \tl_const:cn { \@@_shape_merge:nn \scdefault   \sldefault } {\scsldefault}
+    \tl_const:cn { \@@_shape_merge:nn \scsldefault \itdefault } {\scitdefault}
+    \tl_const:cn { \@@_shape_merge:nn \scitdefault \sldefault } {\scsldefault}
+    \tl_const:cn { \@@_shape_merge:nn \scitdefault \updefault } {\scdefault}
+    \tl_const:cn { \@@_shape_merge:nn \scsldefault \updefault } {\scdefault}
+  }
+\@@_merge_default_shapes:
+%    \end{macrocode}
 %
 % \begin{macro}{\@@_merge_shape:n}
 % These macros enable the overload on the |\..shape| commands.

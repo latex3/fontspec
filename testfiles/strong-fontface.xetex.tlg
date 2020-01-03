@@ -5,7 +5,7 @@ Define three levels of strong.
 TU/SourceCodePro(0)/m/n:
   "[SourceCodePro-Light.otf]/OT:script=latn;language=dflt;mapping=tex-text;" at 10.0pt
 "Regular":
-TU/SourceCodePro(0)/bx/n:
+TU/SourceCodePro(0)/b/n:
   "[SourceCodePro-Regular.otf]/OT:script=latn;language=dflt;mapping=tex-text;" at 10.0pt
 "Black":
 TU/SourceCodePro(0)/k/n:

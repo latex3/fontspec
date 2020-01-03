@@ -8,13 +8,13 @@ TU/texgyretermes(0)/m/it:
   "[texgyretermes-italic.otf]/OT:script=latn;language=dflt;color=2244FFFF ;" at 10.0pt
 TU/texgyretermes(0)/m/scit:
   "[texgyretermes-italic.otf]/OT:script=latn;language=dflt;+smcp;color=112299FF ;" at 10.0pt
-TU/texgyretermes(0)/bx/n:
+TU/texgyretermes(0)/b/n:
   "[texgyretermes-bold.otf]/OT:script=latn;language=dflt;color=FF4422FF ;" at 10.0pt
-TU/texgyretermes(0)/bx/sc:
+TU/texgyretermes(0)/b/sc:
   "[texgyretermes-bold.otf]/OT:script=latn;language=dflt;+smcp;color=992211FF ;" at 10.0pt
-TU/texgyretermes(0)/bx/it:
+TU/texgyretermes(0)/b/it:
   "[texgyretermes-bolditalic.otf]/OT:script=latn;language=dflt;color=888844FF ;" at 10.0pt
-TU/texgyretermes(0)/bx/scit:
+TU/texgyretermes(0)/b/scit:
   "[texgyretermes-bolditalic.otf]/OT:script=latn;language=dflt;+smcp;color=444422FF ;" at 10.0pt
 ***************
 Compilation 1 of test file completed with exit status 0

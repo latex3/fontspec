@@ -1,6 +1,7 @@
 \input{fontspec-testsetup.tex}
 \usepackage{fontspec}
-\renewcommand\eminnershape{\upshape\scshape}
+\providecommand\normalshape{\upshape}
+\renewcommand\eminnershape{\normalshape\scshape}
 \begin{document}
 \setmainfont[
     ItalicFont=texgyrepagella-italic.otf

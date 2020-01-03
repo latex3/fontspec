@@ -5,9 +5,9 @@ TU/FiraSans-Regular.otf(0)/m/n:
   "[FiraSans-Regular.otf]/OT:script=latn;language=dflt;mapping=tex-text;color=AABBCCFF ;"
 TU/FiraSans-Regular.otf(0)/m/it:
   "[FiraSans-Italic.otf]/OT:script=latn;language=dflt;mapping=tex-text;color=AABBCCFF ;"
-TU/FiraSans-Regular.otf(0)/bx/n:
+TU/FiraSans-Regular.otf(0)/b/n:
   "[FiraSans-Bold.otf]/OT:script=latn;language=dflt;mapping=tex-text;color=AABBCCFF ;"
-TU/FiraSans-Regular.otf(0)/bx/it:
+TU/FiraSans-Regular.otf(0)/b/it:
   "[FiraSans-BoldItalic.otf]/OT:script=latn;language=dflt;mapping=tex-text;color=AABBCCFF ;"
 ***************
 Compilation 1 of test file completed with exit status 0

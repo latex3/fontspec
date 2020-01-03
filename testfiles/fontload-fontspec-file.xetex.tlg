@@ -9,11 +9,11 @@ TU/TeXGyreTermes(0)/m/n:
 A more comprehensive family (note nested defn for BI shape):
 TU/MyHeros(0)/m/n:
   "[texgyreheros-regular.otf]/OT:script=latn;language=dflt;mapping=tex-text;color=119944FF ;" at 10.0pt
-TU/MyHeros(0)/bx/n:
+TU/MyHeros(0)/b/n:
   "[texgyreheros-bold.otf]/OT:script=latn;language=dflt;mapping=tex-text;color=119944FF ;" at 10.0pt
 TU/MyHeros(0)/m/it:
   "[texgyreheros-italic.otf]/OT:script=latn;language=dflt;mapping=tex-text;color=119944FF ;" at 10.0pt
-TU/MyHeros(0)/bx/it:
+TU/MyHeros(0)/b/it:
   "[texgyreheros-bolditalic.otf]/OT:script=latn;language=dflt;mapping=tex-text;color=223355FF ;" at 10.0pt
 ***************
 Compilation 1 of test file completed with exit status 0

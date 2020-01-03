@@ -5,17 +5,17 @@ TU/TimesLTStd(0)/m/n:
   [TimesLTStd-Roman.otf]:mode=node;script=latn;language=dflt;+tlig; at 10.0pt
 TU/TimesLTStd(0)/m/sc:
   [TimesLTStd-Roman.otf]:mode=node;script=latn;language=dflt;+tlig;+smcp; at 10.0pt
-TU/TimesLTStd(0)/bx/n:
+TU/TimesLTStd(0)/b/n:
   [TimesLTStd-Bold.otf]:mode=node;script=latn;language=dflt;+tlig; at 10.0pt
-TU/TimesLTStd(0)/bx/sc:
+TU/TimesLTStd(0)/b/sc:
   [TimesLTStd-Bold.otf]:mode=node;script=latn;language=dflt;+tlig;+smcp; at 10.0pt
 TU/TimesLTStd(0)/m/n:
   [TimesTenLTStd-Roman.otf]:mode=node;script=latn;language=dflt;+tlig; at 9.0pt
 TU/TimesLTStd(0)/m/sc:
   [TimesTenLTStd-Roman.otf]:mode=node;script=latn;language=dflt;+tlig;+smcp; at 9.0pt
-TU/TimesLTStd(0)/bx/n:
+TU/TimesLTStd(0)/b/n:
   [TimesTenLTStd-Bold.otf]:mode=node;script=latn;language=dflt;+tlig; at 9.0pt
-TU/TimesLTStd(0)/bx/sc:
+TU/TimesLTStd(0)/b/sc:
   cmr10
 ***************
 Compilation 1 of test file completed with exit status 256

@@ -2,19 +2,19 @@ This is a generated file for the l3build validation system.
 Don't change this file in any respect.
 TU/texgyretermes(0)/m/n:
   "[texgyretermes-regular.otf]/OT:script=latn;language=dflt;mapping=tex-text;" at 10.0pt
-TU/texgyretermes(0)/bx/n:
+TU/texgyretermes(0)/b/n:
   "[texgyretermes-bold.otf]/OT:script=latn;language=dflt;mapping=tex-text;" at 10.0pt
 TU/texgyretermes(0)/m/it:
   "[texgyretermes-italic.otf]/OT:script=latn;language=dflt;mapping=tex-text;" at 10.0pt
-TU/texgyretermes(0)/bx/it:
+TU/texgyretermes(0)/b/it:
   "[texgyretermes-bolditalic.otf]/OT:script=latn;language=dflt;mapping=tex-text;" at 10.0pt
 TU/texgyreheros(0)/m/n:
   "[texgyreheros-regular.otf]/OT:script=latn;language=dflt;mapping=tex-text;" at 10.0pt
-TU/texgyreheros(0)/bx/n:
+TU/texgyreheros(0)/b/n:
   "[texgyreheros-bold.otf]/OT:script=latn;language=dflt;mapping=tex-text;" at 10.0pt
 TU/texgyreheros(0)/m/it:
   "[texgyreheros-italic.otf]/OT:script=latn;language=dflt;mapping=tex-text;" at 10.0pt
-TU/texgyreheros(0)/bx/it:
+TU/texgyreheros(0)/b/it:
   "[texgyreheros-bolditalic.otf]/OT:script=latn;language=dflt;mapping=tex-text;" at 10.0pt
 ***************
 Compilation 1 of test file completed with exit status 0

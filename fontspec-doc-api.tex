@@ -7,7 +7,7 @@
 
 \part{Customisation and programming interface}
 
-This is the beginning of some work to provide some hooks that use
+This chapter describes the current interfaces and hooks that use
 \pkg{fontspec} for various macro programming purposes.
 
 
@@ -179,7 +179,7 @@ The raw \TeX\ font that is defined from the `base' font in the family is stored 
 
 \DescribeMacro{\g_fontspec_encoding_tl}
 Package authors who need to load fonts with legacy \LaTeX\ \NFSS\ commands may also need to know what the default font encoding is.
-Since this has changed from \texttt{EU1}/\texttt{EU2} to \texttt{TU}, it is best to use the variables \cs{g_fontspec_encoding_tl} or \cs{UTFencname} instead.
+Since this has changed from \texttt{EU1}/\texttt{EU2} to \texttt{TU}, it is best to use the variable \cs{g_fontspec_encoding_tl} instead.
 
 \subsection{Functions for loading new fonts and families}
 

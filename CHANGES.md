@@ -1,6 +1,10 @@
 Change history
 ==============
 
+## v2.7f (2020/01/02)
+
+    * Track changes in upcoming LaTeX2e release.
+    *
 
 ## v2.7e (2019/10/19)
 

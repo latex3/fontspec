@@ -496,13 +496,12 @@
 %    \begin{macrocode}
 \cs_new:Nn \@@_set_faces:
   {
-    \@@_add_nfssfont:nnnn \mddefault \updefault \l_fontspec_fontname_tl      \l_@@_fontfeat_up_clist
-    \@@_add_nfssfont:nnnn \bfdefault \updefault \l_@@_fontname_bf_tl   \l_@@_fontfeat_bf_clist
-    \@@_add_nfssfont:nnnn \mddefault \itdefault \l_@@_fontname_it_tl   \l_@@_fontfeat_it_clist
-    \@@_add_nfssfont:nnnn \mddefault \sldefault \l_@@_fontname_sl_tl   \l_@@_fontfeat_sl_clist
-    \@@_add_nfssfont:nnnn \bfdefault \itdefault \l_@@_fontname_bfit_tl \l_@@_fontfeat_bfit_clist
-    \@@_add_nfssfont:nnnn \bfdefault \sldefault \l_@@_fontname_bfsl_tl \l_@@_fontfeat_bfsl_clist
-
+    \@@_add_nfssfont:nnnn \mddefault \shapedefault \l_fontspec_fontname_tl \l_@@_fontfeat_up_clist
+    \@@_add_nfssfont:nnnn \bfdefault \shapedefault \l_@@_fontname_bf_tl    \l_@@_fontfeat_bf_clist
+    \@@_add_nfssfont:nnnn \mddefault \itdefault    \l_@@_fontname_it_tl    \l_@@_fontfeat_it_clist
+    \@@_add_nfssfont:nnnn \mddefault \sldefault    \l_@@_fontname_sl_tl    \l_@@_fontfeat_sl_clist
+    \@@_add_nfssfont:nnnn \bfdefault \itdefault    \l_@@_fontname_bfit_tl  \l_@@_fontfeat_bfit_clist
+    \@@_add_nfssfont:nnnn \bfdefault \sldefault    \l_@@_fontname_bfsl_tl  \l_@@_fontfeat_bfsl_clist
     \prop_map_inline:Nn \l_@@_nfssfont_prop { \@@_set_faces_aux:nnnnn ##2 }
   }
 %    \end{macrocode}
@@ -882,8 +881,8 @@
         \exp_not:n { \\ }
         -~ \exp_not:N \str_case:nn {#1/#2}
         {
-          {\mddefault/\updefault} {'normal'~}
-          {\bfdefault/\updefault} {'bold'~}
+          {\mddefault/\shapedefault} {'normal'~}
+          {\bfdefault/\shapedefault} {'bold'~}
           {\mddefault/\itdefault} {'italic'~}
           {\mddefault/\sldefault} {'slanted'~}
           {\bfdefault/\itdefault} {'bold~ italic'~}

@@ -475,12 +475,12 @@ Multiple \feat{FontFace} commands may be used in a single declaration to specify
 As an example:
 \begin{Verbatim}
   \setmainfont{font1.otf}[
-     FontFace = {c}{\updefault}{ font2.otf } ,
+     FontFace = {c}{\shapedefault}{ font2.otf } ,
      FontFace = {c}{m}{ Font = font3.otf , Color = red }
     ]
 \end{Verbatim}
 Writing |\fontseries{c}\selectfont| will result in |font2| being selected, which then followed by |\fontshape{m}\selectfont| will result in |font3| being selected (in red).
-A font face that is defined in terms of a different series but an upright shape (|\updefault|, as shown above) will attempt to find a matching small caps feature and define that face as well.
+A font face that is defined in terms of a different series but an upright shape (|\shapedefault|, as shown above) will attempt to find a matching small caps feature and define that face as well.
 Conversely, a font face defined in terms of a non-standard font shape will not.
 
 There are some standards for choosing shape and series codes; the \LaTeXe\ font selection guide\footnote{\texttt{texdoc fntguide}} lists series |m| for medium, |b| for bold, |bx| for bold extended, |sb| for semi-bold, and |c| for condensed.

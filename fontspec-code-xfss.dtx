@@ -19,21 +19,43 @@
 \cs_new:Nn \@@_shape_merge:nn { c_@@_shape_#1_#2_tl }
 \cs_new:Nn \@@_merge_default_shapes:
   {
-    \tl_const:cn { \@@_shape_merge:nn \itdefault   \scdefault } {\scitdefault}
-    \tl_const:cn { \@@_shape_merge:nn \sldefault   \scdefault } {\scsldefault}
-    \tl_const:cn { \@@_shape_merge:nn \scdefault   \itdefault } {\scitdefault}
-    \tl_const:cn { \@@_shape_merge:nn \scdefault   \sldefault } {\scsldefault}
-    \tl_const:cn { \@@_shape_merge:nn \scsldefault \itdefault } {\scitdefault}
-    \tl_const:cn { \@@_shape_merge:nn \scitdefault \sldefault } {\scsldefault}
-    \tl_const:cn { \@@_shape_merge:nn \scitdefault \updefault } {\scdefault}
-    \tl_const:cn { \@@_shape_merge:nn \scsldefault \updefault } {\scdefault}
+    \tl_const:cn { \@@_shape_merge:nn \itdefault   \scdefault    } {\scitdefault}
+    \tl_const:cn { \@@_shape_merge:nn \sldefault   \scdefault    } {\scsldefault}
+    \tl_const:cn { \@@_shape_merge:nn \scdefault   \itdefault    } {\scitdefault}
+    \tl_const:cn { \@@_shape_merge:nn \scdefault   \sldefault    } {\scsldefault}
+    \tl_const:cn { \@@_shape_merge:nn \scsldefault \itdefault    } {\scitdefault}
+    \tl_const:cn { \@@_shape_merge:nn \scitdefault \sldefault    } {\scsldefault}
+    \tl_const:cn { \@@_shape_merge:nn \scitdefault \shapedefault } {\scdefault}
+    \tl_const:cn { \@@_shape_merge:nn \scsldefault \shapedefault } {\scdefault}
   }
 \@@_merge_default_shapes:
 %    \end{macrocode}
 %
+% The following is rather specific; it only returns true if the merged shape exists,
+% but more importantly also if the merged shape is defined for the current font.
+%    \begin{macrocode}
+\prg_new_conditional:Nnn \@@_if_merge_shape:n {TF}
+  {
+    \bool_lazy_and:nnTF
+      { \tl_if_exist_p:c { \@@_shape_merge:nn {\f@shape} {#1} } }
+      {
+        \cs_if_exist_p:c
+          {
+            \f@encoding/\f@family/\f@series/
+            \tl_use:c { \@@_shape_merge:nn {\f@shape} {#1} }
+          }
+      }
+    \prg_return_true: \prg_return_false:
+  }
+%    \end{macrocode}
+%
 %
 %    \begin{macrocode}
-\cs_if_exist:NF \DeclareFontSeriesChangeRule {
+\cs_if_exist:NTF \DeclareFontSeriesChangeRule
+{
+  \cs_set_eq:NN \emfontdeclare \DeclareEmphSequence
+}
+{
 %    \end{macrocode}
 %
 % \begin{macro}{\sishape}
@@ -63,23 +85,6 @@
     \@@_if_merge_shape:nTF {#1}
       { \fontshape { \tl_use:c { \@@_shape_merge:nn {\f@shape} {#1} } } \selectfont }
       { \fontshape {#1} \selectfont }
-  }
-%    \end{macrocode}
-% The following is rather specific; it only returns true if the merged shape exists,
-% but more importantly also if the merged shape is defined for the current font.
-%    \begin{macrocode}
-\prg_new_conditional:Nnn \@@_if_merge_shape:n {TF}
-  {
-    \bool_lazy_and:nnTF
-      { \tl_if_exist_p:c { \@@_shape_merge:nn {\f@shape} {#1} } }
-      {
-        \cs_if_exist_p:c
-          {
-            \f@encoding/\f@family/\f@series/
-            \tl_use:c { \@@_shape_merge:nn {\f@shape} {#1} }
-          }
-      }
-    \prg_return_true: \prg_return_false:
   }
 %    \end{macrocode}
 % \end{macro}

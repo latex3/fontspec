@@ -50,7 +50,7 @@
       }
     \str_if_eq:eeT {\familydefault} {\rmdefault}
       { \tl_set_eq:NN \encodingdefault \g_@@_nfss_enc_tl }
-    \@@_setmainfont_hook:nn {#1} {#2}
+    \@@_setmainfont_hook:nn {#1} {#2} % for unicode-math only
     \normalfont
   }
 %    \end{macrocode}
@@ -74,7 +74,7 @@
       }
     \str_if_eq:eeT {\familydefault} {\sfdefault}
       { \tl_set_eq:NN \encodingdefault \g_@@_nfss_enc_tl }
-    \@@_setsansfont_hook:nn {#1} {#2}
+    \@@_setsansfont_hook:nn {#1} {#2} % for unicode-math only
     \normalfont
   }
 %    \end{macrocode}
@@ -98,7 +98,7 @@
       }
     \str_if_eq:eeT {\familydefault} {\ttdefault}
       { \tl_set_eq:NN \encodingdefault \g_@@_nfss_enc_tl }
-    \@@_setmonofont_hook:nn {#1} {#2}
+    \@@_setmonofont_hook:nn {#1} {#2} % for unicode-math only
     \normalfont
   }
 %    \end{macrocode}
@@ -118,7 +118,7 @@
   {
 %<XE> \fontspec_gset_family:Nnn \g_@@_mathrm_tl {#1} {#2}
 %<LU> \fontspec_gset_family:Nnn \g_@@_mathrm_tl {Renderer=Basic,#1} {#2}
-    \@@_setmathrm_hook:nn {#1} {#2}
+    \@@_setmathrm_hook:nn {#1} {#2} % for unicode-math only
   }
 %    \end{macrocode}
 % \end{macro}
@@ -129,7 +129,7 @@
   {
 %<XE> \fontspec_gset_family:Nnn \g_@@_bfmathrm_tl {#1} {#2}
 %<LU> \fontspec_gset_family:Nnn \g_@@_bfmathrm_tl {Renderer=Basic,#1} {#2}
-    \@@_setboldmathrm_hook:nn {#1} {#2}
+    \@@_setboldmathrm_hook:nn {#1} {#2} % for unicode-math only
   }
 %    \end{macrocode}
 % \end{macro}
@@ -140,7 +140,7 @@
   {
 %<XE> \fontspec_gset_family:Nnn \g_@@_mathsf_tl {#1} {#2}
 %<LU> \fontspec_gset_family:Nnn \g_@@_mathsf_tl {Renderer=Basic,#1} {#2}
-    \@@_setmathsf_hook:nn {#1} {#2}
+    \@@_setmathsf_hook:nn {#1} {#2} % for unicode-math only
   }
 %    \end{macrocode}
 % \end{macro}
@@ -151,7 +151,7 @@
   {
 %<XE> \fontspec_gset_family:Nnn \g_@@_mathtt_tl {#1} {#2}
 %<LU> \fontspec_gset_family:Nnn \g_@@_mathtt_tl {Renderer=Basic,#1} {#2}
-    \@@_setmathtt_hook:nn {#1} {#2}
+    \@@_setmathtt_hook:nn {#1} {#2} % for unicode-math only
   }
 %    \end{macrocode}
 % \end{macro}

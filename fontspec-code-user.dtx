@@ -27,6 +27,25 @@
 %    \end{macrocode}
 % \end{macro}
 %
+% \begin{macro}{\rmfamily}
+% \begin{macro}{\sffamily}
+% \begin{macro}{\ttfamily}
+% Add an encoding switch to the three family commands.
+%    \begin{macrocode}
+\tl_replace_all:cnn { rmfamily~ } { \fontfamily }
+  { \fontencoding \l_@@_rmfamily_encoding_tl \fontfamily }
+\tl_replace_all:cnn { sffamily~ } { \fontfamily }
+  { \fontencoding \l_@@_sffamily_encoding_tl \fontfamily }
+\tl_replace_all:cnn { ttfamily~ } { \fontfamily }
+  { \fontencoding \l_@@_ttfamily_encoding_tl \fontfamily }
+\tl_set_eq:NN \l_@@_rmfamily_encoding_tl \g_fontspec_encoding_tl
+\tl_set_eq:NN \l_@@_sffamily_encoding_tl \g_fontspec_encoding_tl
+\tl_set_eq:NN \l_@@_ttfamily_encoding_tl \g_fontspec_encoding_tl
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+%
 % \begin{macro}{\setmainfont}
 %     The following three macros perform equivalent operations setting
 %     the default font for a particular family: `roman', sans serif, or typewriter
@@ -39,15 +58,7 @@
   {
     \fontspec_set_family:Nnn \l_@@_rmfamily_family_tl {#1} {#2}
     \tl_set_eq:NN \rmdefault \l_@@_rmfamily_family_tl
-    \use:x
-      {
-        \exp_not:n { \DeclareRobustCommand \rmfamily }
-          {
-            \exp_not:N \fontencoding { \g_@@_nfss_enc_tl }
-            \exp_not:N \fontfamily { \exp_not:N \rmdefault }
-            \exp_not:N \selectfont
-          }
-      }
+    \tl_set_eq:NN \l_@@_rmfamily_encoding_tl \g_@@_nfss_enc_tl
     \str_if_eq:eeT {\familydefault} {\rmdefault}
       { \tl_set_eq:NN \encodingdefault \g_@@_nfss_enc_tl }
     \@@_setmainfont_hook:nn {#1} {#2} % for unicode-math only
@@ -63,15 +74,7 @@
   {
     \fontspec_set_family:Nnn \l_@@_sffamily_family_tl {#1} {#2}
     \tl_set_eq:NN \sfdefault \l_@@_sffamily_family_tl
-    \use:x
-      {
-        \exp_not:n { \DeclareRobustCommand \sffamily }
-          {
-            \exp_not:N \fontencoding { \g_@@_nfss_enc_tl }
-            \exp_not:N \fontfamily { \exp_not:N \sfdefault }
-            \exp_not:N \selectfont
-          }
-      }
+    \tl_set_eq:NN \l_@@_sffamily_encoding_tl \g_@@_nfss_enc_tl
     \str_if_eq:eeT {\familydefault} {\sfdefault}
       { \tl_set_eq:NN \encodingdefault \g_@@_nfss_enc_tl }
     \@@_setsansfont_hook:nn {#1} {#2} % for unicode-math only
@@ -87,15 +90,7 @@
   {
     \fontspec_set_family:Nnn \l_@@_ttfamily_family_tl {#1} {#2}
     \tl_set_eq:NN \ttdefault \l_@@_ttfamily_family_tl
-    \use:x
-      {
-        \exp_not:n { \DeclareRobustCommand \ttfamily }
-          {
-            \exp_not:N \fontencoding { \g_@@_nfss_enc_tl }
-            \exp_not:N \fontfamily { \exp_not:N \ttdefault }
-            \exp_not:N \selectfont
-          }
-      }
+    \tl_set_eq:NN \l_@@_ttfamily_encoding_tl \g_@@_nfss_enc_tl
     \str_if_eq:eeT {\familydefault} {\ttdefault}
       { \tl_set_eq:NN \encodingdefault \g_@@_nfss_enc_tl }
     \@@_setmonofont_hook:nn {#1} {#2} % for unicode-math only

@@ -379,6 +379,15 @@
   }
 %    \end{macrocode}
 %
+% A hack to fix a test, needs to be investigated why necessary!
+%    \begin{macrocode}
+\@@_keys_define_code:nnn {fontspec-opentype} {UprightFont} {}
+\@@_keys_define_code:nnn {fontspec-opentype} {ItalicFont} {}
+\@@_keys_define_code:nnn {fontspec-opentype} {BoldFont} {}
+\@@_keys_define_code:nnn {fontspec-opentype} {BoldItalicFont} {}
+%    \end{macrocode}
+
+%
 %
 %
 % \subsection{General font-independent features}

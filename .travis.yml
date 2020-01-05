@@ -7,6 +7,10 @@ cache:
     - /tmp/texlive
     - /tmp/fontspec-test-fonts
 
+branches:
+  except:
+  - develop
+
 stages:
  - test
 

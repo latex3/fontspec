@@ -604,17 +604,6 @@ I hope this doesn't cause any problems.
  \end{Verbatim}
  if you really felt like it and both sets of features would be applied.
 
- \item
- Following standard \pkg{xparse} behaviour, there must be no space before the opening bracket; writing
- \begin{Verbatim*}
-\fontspec{myfont.otf} [Color=red]
- \end{Verbatim*}
- will result in |[Color=red]| not being recognised an argument and therefore it will be typeset as text. When breaking over lines, write either of:
- \begin{Verbatim}
-   \fontspec{myfont.otf}%        \fontspec{myfont.otf}[
-     [Color=red]                    Color=Red]
- \end{Verbatim}
-
 \end{enumerate}
 
 \paragraph{Spaces}

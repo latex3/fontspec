@@ -1,7 +1,7 @@
 Change history
 ==============
 
-## v2.7e (2020/01/02)
+## v2.7e (2020/01/09)
 
   * Rename for `Renderer=HarfBuzz` (the old `Harfbuzz` name is kept for compatibility)
   * Track upcoming changes in LaTeX2e release for 2020.

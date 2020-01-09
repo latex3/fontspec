@@ -1,0 +1,20 @@
+
+\input{fontspec-testsetup.tex}
+
+\usepackage{fontspec}
+
+\setmainfont{texgyrepagella}[
+  Extension = .otf,
+  UprightFont = *-regular ,
+  ItalicFont  = *-italic  ,
+  ItalicFeatures = {Numbers=OldStyle},
+  ItalicFeatures = {Color=AA0000},
+]
+
+\begin{document}
+
+\def\X{\CURRNFSS\textsc{\CURRNFSS}}
+
+\X\textit{\X}
+
+\end{document}

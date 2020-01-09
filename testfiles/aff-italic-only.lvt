@@ -1,0 +1,34 @@
+
+\input{fontspec-testsetup.tex}
+
+\usepackage{fontspec}
+
+\setmainfont{texgyrepagella}[
+  Extension = .otf,
+  UprightFont = *-regular ,
+  ItalicFont  = *-italic  ,
+  ItalicFeatures = {Color=AA0000},
+  BoldFont    = *-bold    ,
+  BoldItalicFont = *-bolditalic ,
+]
+
+\begin{document}
+
+\def\X{\CURRNFSS\textsc{\CURRNFSS}}
+
+\MSG{NO FEATURE}
+\X\textit{\X}\textbf{\X}\textbf{\textit{\X}}
+
+\MSG{AFF TO ALL}
+\begingroup
+  \addfontfeature{Numbers=Lowercase}
+  \X\textit{\X}\textbf{\X}\textbf{\textit{\X}}
+\endgroup
+
+\MSG{AFF TO ITALICS}
+\begingroup
+  \addfontfeature{ItalicFeatures={Numbers=Lowercase}}
+  \X\textit{\X}\textbf{\X}\textbf{\textit{\X}}
+\endgroup
+
+\end{document}

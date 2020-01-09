@@ -93,9 +93,9 @@ Please note: At time of writing this function only supports OpenType fonts; AAT/
 
 \cmdbox{\cmd\addfontfeatures\marg{font features}}
 
-This command allows font features to
+This command allows font features in an entire font family to
 be changed without knowing what features are currently selected or even what
-font is being used. A good example of this could be to add a hook to all
+font family is being used. A good example of this could be to add a hook to all
 tabular material to use monospaced numbers, as shown in \exref{aff}.
 If you attempt to \emph{change} an already-selected feature, \pkg{fontspec} will try to de-activate any features that clash with the new ones.
 \Eg, the following two invocations are mutually exclusive:
@@ -105,6 +105,13 @@ If you attempt to \emph{change} an already-selected feature, \pkg{fontspec} will
 123
 \end{Verbatim}
 Since |Numbers=Lining| comes last, it takes precedence and deactivates the call |Numbers=OldStyle|.
+
+If you wish to apply the change to only one of the fonts of a family (say, italics only)
+you can write
+\begin{Verbatim}
+\addfontfeature{ItalicFeatures={Numbers=Lowercase}}
+\end{Verbatim}
+
 
 \begin{Lexample}{aff}{A demonstration of the \cs{addfontfeatures} command.}
   \fontspec{texgyreadventor-regular.otf}%

@@ -1,0 +1,55 @@
+This is a generated file for the l3build validation system.
+Don't change this file in any respect.
+NO FEATURE
+TU/texgyrepagella(0)/m/n:
+  "[texgyrepagella-regular.otf]/OT:script=latn;language=DFLT;mapping=tex-text;" at 10.0pt
+TU/texgyrepagella(0)/m/sc:
+  "[texgyrepagella-regular.otf]/OT:script=latn;language=DFLT;+smcp;mapping=tex-text;" at 10.0pt
+TU/texgyrepagella(0)/m/it:
+  "[texgyrepagella-italic.otf]/OT:script=latn;language=DFLT;mapping=tex-text;color=AA0000FF ;" at 10.0pt
+TU/texgyrepagella(0)/m/scit:
+  "[texgyrepagella-italic.otf]/OT:script=latn;language=DFLT;+smcp;mapping=tex-text;color=AA0000FF ;" at 10.0pt
+TU/texgyrepagella(0)/bx/n:
+  "[texgyrepagella-bold.otf]/OT:script=latn;language=DFLT;mapping=tex-text;" at 10.0pt
+TU/texgyrepagella(0)/bx/sc:
+  "[texgyrepagella-bold.otf]/OT:script=latn;language=DFLT;+smcp;mapping=tex-text;" at 10.0pt
+TU/texgyrepagella(0)/bx/it:
+  "[texgyrepagella-bolditalic.otf]/OT:script=latn;language=DFLT;mapping=tex-text;" at 10.0pt
+TU/texgyrepagella(0)/bx/scit:
+  "[texgyrepagella-bolditalic.otf]/OT:script=latn;language=DFLT;+smcp;mapping=tex-text;" at 10.0pt
+AFF TO ALL
+TU/texgyrepagella(1)/m/n:
+  "[texgyrepagella-regular.otf]/OT:script=latn;language=DFLT;+onum;mapping=tex-text;" at 10.0pt
+TU/texgyrepagella(1)/m/sc:
+  "[texgyrepagella-regular.otf]/OT:script=latn;language=DFLT;+onum;+smcp;mapping=tex-text;" at 10.0pt
+TU/texgyrepagella(1)/m/it:
+  "[texgyrepagella-italic.otf]/OT:script=latn;language=DFLT;+onum;mapping=tex-text;color=AA0000FF ;" at 10.0pt
+TU/texgyrepagella(1)/m/scit:
+  "[texgyrepagella-italic.otf]/OT:script=latn;language=DFLT;+onum;+smcp;mapping=tex-text;color=AA0000FF ;" at 10.0pt
+TU/texgyrepagella(1)/bx/n:
+  "[texgyrepagella-bold.otf]/OT:script=latn;language=DFLT;+onum;mapping=tex-text;" at 10.0pt
+TU/texgyrepagella(1)/bx/sc:
+  "[texgyrepagella-bold.otf]/OT:script=latn;language=DFLT;+onum;+smcp;mapping=tex-text;" at 10.0pt
+TU/texgyrepagella(1)/bx/it:
+  "[texgyrepagella-bolditalic.otf]/OT:script=latn;language=DFLT;+onum;mapping=tex-text;" at 10.0pt
+TU/texgyrepagella(1)/bx/scit:
+  "[texgyrepagella-bolditalic.otf]/OT:script=latn;language=DFLT;+onum;+smcp;mapping=tex-text;" at 10.0pt
+AFF TO ITALICS
+TU/texgyrepagella(2)/m/n:
+  "[texgyrepagella-regular.otf]/OT:script=latn;language=DFLT;mapping=tex-text;" at 10.0pt
+TU/texgyrepagella(2)/m/sc:
+  "[texgyrepagella-regular.otf]/OT:script=latn;language=DFLT;+smcp;mapping=tex-text;" at 10.0pt
+TU/texgyrepagella(2)/m/it:
+  "[texgyrepagella-italic.otf]/OT:script=latn;language=DFLT;+onum;mapping=tex-text;color=AA0000FF ;" at 10.0pt
+TU/texgyrepagella(2)/m/scit:
+  "[texgyrepagella-italic.otf]/OT:script=latn;language=DFLT;+onum;+smcp;mapping=tex-text;color=AA0000FF ;" at 10.0pt
+TU/texgyrepagella(2)/bx/n:
+  "[texgyrepagella-bold.otf]/OT:script=latn;language=DFLT;mapping=tex-text;" at 10.0pt
+TU/texgyrepagella(2)/bx/sc:
+  "[texgyrepagella-bold.otf]/OT:script=latn;language=DFLT;+smcp;mapping=tex-text;" at 10.0pt
+TU/texgyrepagella(2)/bx/it:
+  "[texgyrepagella-bolditalic.otf]/OT:script=latn;language=DFLT;mapping=tex-text;" at 10.0pt
+TU/texgyrepagella(2)/bx/scit:
+  "[texgyrepagella-bolditalic.otf]/OT:script=latn;language=DFLT;+smcp;mapping=tex-text;" at 10.0pt
+***************
+Compilation 1 of test file completed with exit status 0

@@ -62,13 +62,13 @@
 %    \end{macrocode}
 %
 %    \begin{macrocode}
-\@@_define_opentype_onoffreset:nnnnn {Letters} {Uppercase} {case} {case} {+smcp,+pcap,+c2sc,+c2pc,+unic,+rand}
-\@@_define_opentype_onoffreset:nnnnn {Letters} {SmallCaps} {smcp} {smcp} {+pcap,+unic,+rand}
-\@@_define_opentype_onoffreset:nnnnn {Letters} {PetiteCaps} {pcap} {pcap} {+smcp,+unic,+rand}
-\@@_define_opentype_onoffreset:nnnnn {Letters} {UppercaseSmallCaps} {c2sc} {c2sc} {+c2pc,+unic,+rand}
-\@@_define_opentype_onoffreset:nnnnn {Letters} {UppercasePetiteCaps} {c2pc} {c2pc} {+c2sc,+unic,+rand}
-\@@_define_opentype_onoffreset:nnnnn {Letters} {Unicase} {unic} {unic} {+rand}
-\@@_define_opentype_onoffreset:nnnnn {Letters} {Random} {rand} {rand} {+unic}
+\@@_define_opentype_onoffreset:nnnnn {Letters} {Uppercase} {case} {case} {}
+\@@_define_opentype_onoffreset:nnnnn {Letters} {SmallCaps} {smcp} {smcp} {+pcap,+unic}
+\@@_define_opentype_onoffreset:nnnnn {Letters} {PetiteCaps} {pcap} {pcap} {+smcp,+unic}
+\@@_define_opentype_onoffreset:nnnnn {Letters} {UppercaseSmallCaps} {c2sc} {c2sc} {+c2pc,+unic}
+\@@_define_opentype_onoffreset:nnnnn {Letters} {UppercasePetiteCaps} {c2pc} {c2pc} {+c2sc,+unic}
+\@@_define_opentype_onoffreset:nnnnn {Letters} {Unicase} {unic} {unic} {}
+\@@_define_opentype_onoffreset:nnnnn {Letters} {Random} {rand} {rand} {}
 %    \end{macrocode}
 %
 % \subsection{Numbers}
@@ -241,6 +241,7 @@
 \@@_define_opentype_onoffreset:nnnnn {Style} {ProportionalKana} {pkna} {pkna} {+vkna,+hkna}
 \@@_define_opentype_feature:nnnnn    {Style} {MathScript}       {ssty} {+ssty=0} {+ssty=1}
 \@@_define_opentype_feature:nnnnn    {Style} {MathScriptScript} {ssty} {+ssty=1} {+ssty=0}
+\@@_define_opentype_onoffreset:nnnnn {Style} {Uppercase} {case} {case} {}
 %    \end{macrocode}
 %
 % \subsection{CJK shape}

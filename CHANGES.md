@@ -1,6 +1,12 @@
 Change history
 ==============
 
+## v2.7f (2020/01/09)
+
+  * Rename font feature `Letters=Uppercase` to `Style=Uppercase`, as this feature does
+    not generally affect the letters themselves, only symbols and accents.
+    The old name will be retained for the time being.
+
 ## v2.7e (2020/01/09)
 
   * Rename for `Renderer=HarfBuzz` (the old `Harfbuzz` name is kept for compatibility)

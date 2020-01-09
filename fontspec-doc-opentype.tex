@@ -1034,12 +1034,11 @@ controlled by the \opt{On}/\opt{Off} options.
 \subsubsection{Letters} \label{sec:letters}
 The \opt{Letters} feature specifies how the letters in the current font
 will look. OpenType fonts may contain the following options:
-\opt{Uppercase}, \opt{SmallCaps}, \opt{PetiteCaps},
+\opt{SmallCaps}, \opt{PetiteCaps},
 \opt{UppercaseSmallCaps}, \opt{UppercasePetiteCaps}, and
 \opt{Unicase}.
 
 \begin{features}{Letters}
-\otf*{Uppercase}{case}
 \otf*{SmallCaps}{smcp}
 \otf*{PetiteCaps}{pcap}
 \otf*{UppercaseSmallCaps}{c2sc}
@@ -1066,24 +1065,6 @@ This difference is shown in \exref{caps}.
    THIS SENTENCE no verb
 \end{Lexample}
 
-Note that the \opt{Uppercase} option will (probably)
-not actually map letters to uppercase.
- \note{If you want automatic uppercase letters, look to \LaTeX's
-      \cmd\MakeUppercase\ command.}
-It is designed to select various
-uppercase forms for glyphs such as accents and dashes, such as shown
-in \exref{letters-uppercase}; note the raised position of the hyphen
-to better match the surrounding letters.
-
-\begin{Lexample}{letters-uppercase}{An example of the \opt{Uppercase} option of the \feat{Letters} feature.}
-  \fontspec{LinLibertine_R.otf}
-   UPPER-CASE example \\
-  \addfontfeature{Letters=Uppercase}
-   UPPER-CASE example
-\end{Lexample}
-
-The \feat{Kerning} feature also contains an \opt{Uppercase} option,
-which adds a small amount of spacing in between letters (see \vref{sec:kerning}).
 
 
 \subsubsection{Ligatures}
@@ -1220,6 +1201,26 @@ particular substitutions are organised with which feature largely up to the font
   \addfontfeature{Style=Alternate}
    M Q W
 \end{Xexample}
+
+The \opt{Uppercase} option is designed to select various
+uppercase forms for glyphs such as accents and dashes, such as shown
+in \exref{style-uppercase}; note the raised position of the hyphen
+to better match the surrounding letters.
+It will (probably) not actually map letters to uppercase.
+ \note{If you want automatic uppercase letters, look to \LaTeX's
+      \cmd\MakeUppercase\ command.}
+This option used to be selected under the \feat{Letters} feature, but moved here
+as it generally does not actually affect the letters themselves.
+The \feat{Kerning} feature also contains an \opt{Uppercase} option,
+which adds a small amount of spacing in between letters (see \vref{sec:kerning}).
+
+\begin{Lexample}{style-uppercase}{An example of the \opt{Uppercase} option of the \feat{Style} feature.}
+  \fontspec{LinLibertine_R.otf}
+   UPPER-CASE example \\
+  \addfontfeature{Style=Uppercase}
+   UPPER-CASE example
+\end{Lexample}
+
 
 In other features, larger breadths of changes can be seen, covering
 the style of an entire alphabet.

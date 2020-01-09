@@ -1,18 +1,13 @@
 Change history
 ==============
 
-## v2.7f (2020/01/02)
+## v2.7e (2020/01/02)
 
   * Rename for `Renderer=HarfBuzz` (the old `Harfbuzz` name is kept for compatibility)
   * Track upcoming changes in LaTeX2e release for 2020.
   * Remove/reword some out-of-date documentation.
   * Remove entirely the patches for 3rd party verbatim packages as `\verbvisiblespace`
     has now been offered by the kernel for a year.
-
-
-## v2.7e (2019/10/19)
-
-  * `Renderer=Harfbuzz` changed to `Renderer=HarfBuzz`.
 
 
 ## v2.7d (2019/10/19)

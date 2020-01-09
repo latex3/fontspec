@@ -99,9 +99,13 @@ the \verb|TUR| tag will be queried and used if possible as a fallback.
 
 
 \section{Going behind \pkg{fontspec}'s back}
+
 Expert users may wish not to use \pkg{fontspec}'s feature handling at all,
 while still taking advantage of its \LaTeX\ font selection conveniences. The
-\feat{RawFeature} font feature allows font feature selection using a literal feature selection string if you happen to have the OpenType feature tag memorised.
+\feat{RawFeature} font feature allows font feature selection using a literal feature
+selection string if you happen to have the OpenType feature tag memorised.
+More importantly, this can be used to enable features for which \pkg{fontspec}
+does not yet have a user interface to.
 
 \begin{Xexample}{raw}{Using raw font features directly.}
   \fontspec{texgyrepagella-regular.otf}[RawFeature=+smcp]
@@ -112,6 +116,10 @@ Multiple features can either be included in a single declaration:\par
 {\centering|[RawFeature=+smcp;+onum]|\par}
 \noindent or with multiple declarations:\par
 {\centering|[RawFeature=+smcp, RawFeature=+onum]|\par}
+
+Note that there is no error-checking when using |RawFeature|. Where a \pkg{fontspec}
+interface exists to a feature it is generally better to use it. If the font lacks the feature
+or if it would clash with another feature, \pkg{fontspec} will attemmpt to warn and/or resolve the issues.
 
 
 \section{Renaming existing features \& options}

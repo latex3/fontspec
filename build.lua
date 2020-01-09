@@ -23,10 +23,23 @@ recordstatus = true
 
 packtdszip = true
 
-checkdev = false
+--[===[
+   DEV
+--]===]
 
+function os.capture(cmd)
+  local f = assert(io.popen(cmd, 'r'))
+  local s = assert(f:read('*a'))
+  f:close()
+  s = string.gsub(s, '^%s+', '')
+  s = string.gsub(s, '%s+$', '')
+  s = string.gsub(s, '[\n\r]+', ' ')
+  return s
+end
+
+gitbranch = os.capture('git symbolic-ref --short HEAD')
 specialformats = specialformats or {}
-if checkdev then
+if not(gitbranch == "master") then
   specialformats.latex = {
     xetex  = {binary = "xetex",    format = "xelatex-dev"},
     luatex = {binary = "luahbtex", format = "lualatex-dev"},

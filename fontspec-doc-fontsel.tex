@@ -442,7 +442,7 @@ In certain cases it is desirable to be able to choose this internal font family 
 \end{Verbatim}
 To select a font for use in this way in \pkg{fontspec} use the \feat{NFSSFamily} feature:\footnote{Thanks to Luca Fascione for the example and motivation for finally implementing this feature.}
 \begin{Verbatim}
-  \newfontfamily\verbatimfont[NFSSFamily=myverbatimfont]{Inconsolata}
+  \newfontfamily\verbatimfont{Inconsolata}[NFSSFamily=myverbatimfont]
 \end{Verbatim}
 It is then possible to write commands such as:
 \begin{Verbatim}

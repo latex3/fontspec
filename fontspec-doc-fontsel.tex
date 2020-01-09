@@ -390,6 +390,8 @@ feature is provided.
 When a font family has both slanted \emph{and} italic shapes, these may be specified separately using the analogous features \feat{SlantedFont} and \feat{BoldSlantedFont}.
 Without these, however, the \LaTeX\ font switches for slanted (\cs{textsl}, \cs{slshape}) will default to the italic shape.
 
+For modern OpenType fonts, small caps glyphs are included within a fontface and \pkg{fontspec} will automatically detect them
+for use with the \cs{textsc} and \cs{scshape} commands.
 Pre-OpenType, it was common for font families to be distributed with small caps glyphs in separate fonts, due to the limitations on the number of glyphs allowed in the PostScript Type~1 format.
 Such fonts may be used by declaring the \feat{SmallCapsFont} of the family you are specifying:
 \begin{Verbatim}
@@ -398,8 +400,8 @@ Such fonts may be used by declaring the \feat{SmallCapsFont} of the family you a
   ]
   Roman 123 \\ \textsc{Small caps 456}
 \end{Verbatim}
-In fact, you should specify the small caps font for each individual bold and
-italic shape as in
+In fact, this example is overly simplistic since it does not cover the other shapes in a font family.
+You should specify the small caps font for each individual bold and italic shape as in
 \begin{Verbatim}
   \setmainfont{ <upright> }[
     UprightFeatures    = { SmallCapsFont={ <sc> } } ,

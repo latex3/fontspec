@@ -78,16 +78,13 @@ Package options will be introduced below; some preliminary details are discussed
 
 
 \subsection{Font encodings}
-The 2016 release of \pkg{fontspec} initiated some changes for font encodings and the loading of \pkg{xunicode}.
-The 2017 release rolls out those changes as default.
 
-The now-default \texttt{tuenc} package option switches the \textsc{nfss} font encoding to \texttt{TU}.
+The (default) \texttt{tuenc} package option switches the \textsc{nfss} font encoding to \texttt{TU}.
 \texttt{TU} is a new Unicode font encoding, intended for both \XeTeX\ and \LuaTeX\ engines, and automatically contains support for symbols covered by \LaTeX's traditional \texttt{T1} and \texttt{TS1} font encodings (for example, |\%|, |\textbullet|, |\"u|, and so on).
-As a result, with this package option, Ross Moore's \pkg{xunicode} package is \textbf{not} loaded.
-Some new, experimental, features are now provided to customise some encoding details; see Part~\vref{part:enc} for further details.
+Some additional features are provided by \pkg{fontspec} to customise some encoding details; see Part~\vref{part:enc} for further details.
 
 Pre-2017 behaviour can be achieved with the \texttt{euenc} package option.
-This selects the \texttt{EU1} or \texttt{EU2} encoding (\XeTeX/\LuaTeX, resp.) and loads the \pkg{xunicode} package.
+This selects the \texttt{EU1} or \texttt{EU2} encoding (\XeTeX/\LuaTeX, resp.) and loads the \pkg{xunicode} package for symbol support.
 Package authors and users who have referred explicitly to the encoding names \texttt{EU1} or \texttt{EU2} should update their code or documents.
 (See internal variable names described in \vref{sec:api} for how to do this properly.)
 
@@ -132,22 +129,6 @@ This section documents some areas of adjustment that \pkg{fontspec} makes
 to improve default behaviour with \LaTeXe\ and third-party packages.
 
 
-\subsection{Verbatim}
-\label{sec:verb}
-
-Many verbatim mechanisms assume the existence of a `visible space' character that exists in the \textsc{ascii} space slot of the typewriter font. This character is known in Unicode as \unichar{2423}{box open}, which looks like this: `\verb*| |'.
-
-When a Unicode typewriter font is used, \LaTeX\ no longer prints visible spaces for the |verbatim*| environment and |\verb*| command.
-This problem is fixed by using the correct Unicode glyph, and the following packages are patched to do the same:
-\pkg{listings}, \pkg{fancyvrb}, \pkg{moreverb}, and \pkg{verbatim}.
-
-In the case that the typewriter font does not contain `\verb*| |', the Latin Modern Mono font is used as a fallback.
-
-In 2019, \LaTeX\ will use a new command \cs{verbvisiblespace} for internal commands and for
-third party packages. If this new command is defined, \pkg{fontspec}'s patching code here
-will be entirely disabled and the packages listed above should no longer rely on \pkg{fontspec}
-to redefine their internals.
-
 
 \subsection{Commands for old-style and lining numbers}
 
@@ -162,44 +143,12 @@ the reverse for \cs{liningnums}\marg{text}.
 
 \subsection{Italic small caps}
 
-\DescribeMacro{\itshape}
-\DescribeMacro{\slshape}
-\DescribeMacro{\scshape}
-Note that this package redefines the \cs{itshape}, \cs{slshape}, and \cs{scshape} commands in order to allow them to select italic small caps in conjunction.
-With these changes, writing |\itshape\scshape| will lead to italic small caps, and |\upshape| subsequently then moves back to small caps only. |\upshape| again returns from small caps to upright regular.
-(And similarly for for |\slshape|. In addition, once italic small caps are selected then |\slshape| will switch to slanted small caps, and vice versa.)
+Support now provided by \LaTeXe\ in 2020.
 
 
 \subsection{Emphasis and nested emphasis}
 
-\DescribeMacro{\eminnershape}
-\LaTeXe\ allows you to specify the behaviour of \cs{emph} nested within \cs{emph} by setting the \cs{eminnershape} command.
-For example,
-\begin{Verbatim}
-  \renewcommand\eminnershape{\upshape\scshape}
-\end{Verbatim}
-will produce small caps within |\emph{\emph{...}}|.
-
-\DescribeMacro{\emfontdeclare}
-The \pkg{fontspec} package takes this idea one step further to allow arbitrary font shape changes and arbitrary levels of nesting within emphasis.
-This is performed using the |\emfontdeclare| command, which takes a comma-separated list of font switches corresponding to increasing levels of emphasis.
-An example:
-\begin{enumerate}
-\item |\emfontdeclare{\itshape,\upshape\scshape,\itshape}| will lead to `italics', `small caps', then `italic small caps' as the level of emphasis increases, as long as italic small caps are defined for the font.
-  Note that |\upshape| is required because the font changes are cascading.
-\end{enumerate}
-The implementation of this feature tries to be `smart' and guess what level of emphasis to use in the case of manual font changing.
-This is reliable only if you use shape-changing commands in \cs{emfontdeclare}.
-For example:
-\begin{Verbatim}
-    \emfontdeclare{\itshape,\upshape\scshape,\itshape}
-    ...
-    \scshape small caps \emph{hello}
-\end{Verbatim}
-Here, the emphasised text `hello' will be printed in italic small caps since |\emph| can detect that the current font shape is already in the second `mode' of emphasis.
-
-\DescribeMacro{\emreset}
-Finally, if you have so much nested emphasis that |\emfontdeclare| runs out of options, it will insert |\emreset| (by default just |\upshape|) and start again from the beginning.
+Support now provided by \LaTeXe\ in 2020.
 
 
 \subsection{Strong emphasis}

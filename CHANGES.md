@@ -4,6 +4,9 @@ Change history
 ## v2.7f (2020/01/02)
 
   * Track changes in upcoming LaTeX2e release.
+  * Remove/reword some out of date documentation.
+  * Remove entirely the patches for 3rd party verbatim packages as `\verbvisiblespace`
+    has now been offered by the kernel for a year.
 
 
 ## v2.7e (2019/10/19)

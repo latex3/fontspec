@@ -1,0 +1,31 @@
+
+\input{fontspec-testsetup.tex}
+
+\usepackage{fontspec}
+
+\setmainfont{texgyrepagella}[
+  Extension = .otf,
+  UprightFont = *-regular ,
+  ItalicFont  = *-italic  ,
+  ItalicFeatures = {Color=AA0000},
+  BoldFont    = *-bold    ,
+  BoldItalicFont = *-bolditalic ,
+]
+
+\begin{document}
+
+\def\X{\CURRNFSS\textsc{\CURRNFSS}}
+
+\MSG{NO FEATURE}
+\X\textit{\X}\textbf{\X}\textbf{\textit{\X}}
+
+\MSG{AFF TO SC}
+\begingroup
+  \addfontfeature{
+    UprightFeatures = { SmallCapsFeatures = { Numbers=Lowercase    } } ,
+    ItalicFeatures  = { SmallCapsFeatures = { Numbers=Proportional } }
+  }
+  \X\textit{\X}\textbf{\X}\textbf{\textit{\X}}
+\endgroup
+
+\end{document}

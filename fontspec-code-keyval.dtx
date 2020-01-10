@@ -304,30 +304,30 @@
 %    \begin{macrocode}
 \@@_keys_define_code:nnn {fontspec-preparse} {UprightFeatures}
   {
-    \clist_set:Nn \l_@@_fontfeat_up_clist {#1}
+    \clist_put_right:Nn \l_@@_fontfeat_up_clist {#1}
   }
 \@@_keys_define_code:nnn {fontspec-preparse} {BoldFeatures}
   {
-    \clist_set:Nn \l_@@_fontfeat_bf_clist {#1}
+    \clist_put_right:Nn \l_@@_fontfeat_bf_clist {#1}
 
 %  \prop_put:NxV \l_@@_nfss_prop
 %     {BoldFont-\g_@@_curr_series_tl} \l_@@_curr_bfname_tl
   }
 \@@_keys_define_code:nnn {fontspec-preparse} {ItalicFeatures}
   {
-    \clist_set:Nn \l_@@_fontfeat_it_clist {#1}
+    \clist_put_right:Nn \l_@@_fontfeat_it_clist {#1}
   }
 \@@_keys_define_code:nnn {fontspec-preparse} {BoldItalicFeatures}
   {
-    \clist_set:Nn \l_@@_fontfeat_bfit_clist {#1}
+    \clist_put_right:Nn \l_@@_fontfeat_bfit_clist {#1}
   }
 \@@_keys_define_code:nnn {fontspec-preparse} {SlantedFeatures}
   {
-    \clist_set:Nn \l_@@_fontfeat_sl_clist {#1}
+    \clist_put_right:Nn \l_@@_fontfeat_sl_clist {#1}
   }
 \@@_keys_define_code:nnn {fontspec-preparse} {BoldSlantedFeatures}
   {
-    \clist_set:Nn \l_@@_fontfeat_bfsl_clist {#1}
+    \clist_put_right:Nn \l_@@_fontfeat_bfsl_clist {#1}
   }
 %    \end{macrocode}
 % Note that small caps features can vary by shape, so these in fact \emph{aren't} pre-parsed.
@@ -336,7 +336,7 @@
   {
     \bool_if:NF \l_@@_firsttime_bool
       {
-        \clist_set:Nn \l_@@_fontfeat_sc_clist {#1}
+        \clist_put_right:Nn \l_@@_fontfeat_sc_clist {#1}
       }
   }
 %    \end{macrocode}

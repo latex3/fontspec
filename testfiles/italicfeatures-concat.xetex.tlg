@@ -5,8 +5,8 @@ TU/texgyrepagella(0)/m/n:
 TU/texgyrepagella(0)/m/sc:
   "[texgyrepagella-regular.otf]/OT:script=latn;language=DFLT;+smcp;mapping=tex-text;" at 10.0pt
 TU/texgyrepagella(0)/m/it:
-  "[texgyrepagella-italic.otf]/OT:script=latn;language=DFLT;mapping=tex-text;+onum;color=AA0000FF ;" at 10.0pt
+  "[texgyrepagella-italic.otf]/OT:script=latn;language=DFLT;+onum;mapping=tex-text;color=AA0000FF ;" at 10.0pt
 TU/texgyrepagella(0)/m/scit:
-  "[texgyrepagella-italic.otf]/OT:script=latn;language=DFLT;+smcp;mapping=tex-text;+onum;color=AA0000FF ;" at 10.0pt
+  "[texgyrepagella-italic.otf]/OT:script=latn;language=DFLT;+onum;+smcp;mapping=tex-text;color=AA0000FF ;" at 10.0pt
 ***************
 Compilation 1 of test file completed with exit status 0

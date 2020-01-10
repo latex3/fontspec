@@ -919,12 +919,12 @@ particular font. These correspond to the OpenType features |cv01| to |cv99|.
 
 For each character that can be varied, it is possible to select among
 possible options for that particular glyph.
-For example, in the example below, variants are chosen for glyphs `4' and `5',
+For example, in the hypothetical example below, variants are chosen for glyphs `4' and `5',
 and the trailing |:|\meta{n} corresponds to which variety to choose.
 \begin{Verbatim}
-  \fontspec{EB Garamond 12 Italic}[CharacterVariant={4,5:2}] \& violet
+  \fontspec{CV Font}[CharacterVariant={4,5:2}] \& violet
 \end{Verbatim}
-The numbering is entirely font-soecific. Glyph `5' might be the character `v', for example.
+The numbering is entirely font-specific. Glyph `5' might be the character `v', for example.
 Character variants are specifically designed not to conflict with each
 other, so you can enable them individually per character.
 (Unlike stylistic alternates, say.)

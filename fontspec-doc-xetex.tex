@@ -32,6 +32,8 @@ The use of the latter syntax is recommended for better compatibility with
 
 \subsection{Different font technologies: \AAT, OpenType, and Graphite}\label{sec:renderer-xetex}
 
+\textbf{Note that from 2020 it appears that \XeTeX\ can no longer support \AAT\ fonts in \MacOSX.}
+
 \XeTeX\ supports three rendering technologies for typesetting, selected with
 the \feat{Renderer} font feature. The first, \opt{AAT}, is
 that provided only by \MacOSX.
@@ -77,6 +79,26 @@ explicitly.
 \end{Verbatim}
 
 
+\subsection{Vertical typesetting}
+
+\XeTeX\ provides for vertical typesetting simply with the ability to rotate
+the individual glyphs as a font is used for typesetting, as shown in
+\exref{vert}.
+
+\begin{Xexample}[firstline=2]{vert}{Vertical typesetting.}
+  \def\verttext{共産主義者は}
+  \fontspec{Hiragino Mincho Pro}
+  \verttext
+
+  \fontspec{Hiragino Mincho Pro}[Renderer=AAT,Vertical=RotatedGlyphs]
+  \rotatebox{-90}{\verttext}% requires the graphicx package
+\end{Xexample}
+
+No actual provision is made for typesetting top-to-bottom
+languages; for an example of how to do this, see the vertical Chinese
+example provided in the \XeTeX\ documentation.
+
+
 \section{The Graphite renderer}
 \label{sec:graphite-features}
 
@@ -109,6 +131,7 @@ Here's another:
 \textbf{Warning!}
 \XeTeX's implementation on \MacOSX\ is currently in a state of flux and the information contained below may well be wrong from 2013 onwards.
 There is a good chance that the features described in this section will not be available any more as \XeTeX's completes its transition to a cross-platform--only application.
+All examples in this section have now been removed.
 \end{quote}
 
 \MacOSX's font technology began life before the ubiquitous-OpenType era
@@ -160,20 +183,6 @@ The options for \AAT\ fonts are
 non-exclusive selectors, like the ligatures, you can turn them off
 by prefixing their name with \opt{No}.
 
-\begin{Xexample}{wordcx}{Contextual glyph for the beginnings and ends of words.}
-  \newfontface\fancy{Hoefler Text Italic}[%
-    Contextuals={WordInitial,WordFinal}]
-  \fancy where is all the vegemite
-\end{Xexample}
-
-\begin{Xexample}{longsaat}{A contextual feature for the `long s' can be convenient as the character does not need to be marked up explicitly.}
-  \fontspec{Hoefler Text}[Contextuals=Inner]
-  `Inner' swashes can \emph{sometimes}    \\
-   contain the archaic long~s.
-\end{Xexample}
-
-
-
 \subsection{Vertical position}
 The \feat{VerticalPosition} feature is used to access things like
 subscript (\opt{Inferior}) and superscript (\opt{Superior}) numbers and
@@ -181,22 +190,8 @@ letters (and a small amount of punctuation, sometimes).
 The \opt{Ordinal} option is (supposed to be)
 contextually sensitive to only raise characters that appear directly
 after a number.
-These are shown in \exref{aat-supp}.
 
-\begin{Xexample}{aat-supp}{Vertical position for AAT fonts.}
-  \fontspec{Skia}
-   Normal
-  \fontspec{Skia}[VerticalPosition=Superior]
-   Superior
-  \fontspec{Skia}[VerticalPosition=Inferior]
-   Inferior                \\
-  \fontspec{Skia}[VerticalPosition=Ordinal]
-   1st 2nd 3rd 4th 0th 8abcde
-\end{Xexample}
-
-The \pkg{realscripts} package
-(also loaded by \pkg{xltxtra})
-redefines the \cmd\textsubscript\ and
+The \pkg{realscripts} package redefines the \cmd\textsubscript\ and
 \cmd\textsuperscript\ commands to use the above font features,
 including for use in footnote labels.
 
@@ -209,74 +204,27 @@ in both \AAT\ and OpenType fonts.
 In \AAT\ fonts, the `fraction slash' or solidus character, is
 to be used to create fractions. When \feat{Fractions} are turned
 \opt{On}, then only pre-drawn fractions will be used.
-See \exref{aat-frac}.
 
 Using the \opt{Diagonal} option (\AAT\ only), the font will attempt
 to create the fraction from superscript and subscript
 characters.
 
-\edef\caretcc{\the\catcode`\^}
-\catcode`\^=12\relax
-\begin{Xexample}{aat-frac}{Fractions in AAT fonts. The \texttt{\relax^^^^2044} glyph is the `fraction slash' that may be typed in \MacOSX\ with \textsc{opt+shift+1}; not shown literally here due to font contraints.}
-  \fontspec[Fractions=On]{Skia}
-   1{^^^^2044}2 \quad 5{^^^^2044}6 \\ % fraction slash
-   1/2 \quad 5/6    % regular  slash
-
-  \fontspec[Fractions=Diagonal]{Skia}
-         13579{^^^^2044}24680 \\ % fraction slash
-   \quad 13579/24680    % regular  slash
-\end{Xexample}
-\catcode`\^=\caretcc\relax
-
 Some (Asian fonts predominantly) also provide for the
-\opt{Alternate} feature shown in \exref{frac-alt}.
-
-\begin{Xexample}{frac-alt}{Alternate design of pre-composed fractions.}
-  \fontspec{Hiragino Maru Gothic Pro}
-   1/2 \quad 1/4 \quad 5/6 \quad 13579/24680 \\
-  \addfontfeature{Fractions=Alternate}
-   1/2 \quad 1/4 \quad 5/6 \quad 13579/24680
-\end{Xexample}
-
+\opt{Alternate} feature.
 
 \subsection{Variants}
 The \feat{Variant} feature takes a single numerical input for
-choosing different alphabetic shapes. Don't mind my fancy \exref{aat-var}
-\texttt{:)} I'm just looping through the nine~(\,!\,) variants of
-Zapfino.
-
-\begin{Xexample}[firstline=2,lastline=9]{aat-var}{Nine variants of Zapfino.}
-  \Huge \rule{0pt}{2cm}
-  \newcounter{var}
-  \whiledo{\value{var}<9}{%
-    \edef\1{%
-    \noexpand\fontspec[Variant=\thevar,
-      Color=0099\thevar\thevar]{Zapfino}}\1%
-    \makebox[0.75\width]{d}%
-    \stepcounter{var}}
-  \hspace*{2cm}
-\end{Xexample}
-
+choosing different alphabetic shapes.
 See \vref{sec:newfeatures} for a way to assign names to variants,
 which should be done on a per-font basis.
 
 \subsection{Alternates}
-
-Selection of \feat{Alternate}s \emph{again}
-must be done numerically; see \exref{aat-alt}.
+Selection of \feat{Alternate}s again must be done numerically.
 See \vref{sec:newfeatures} for a way to assign names to alternates,
 which should be done on a per-font basis.
 
-\begin{Xexample}{aat-alt}{Alternate shape selection must be numerical.}
-  \fontspec{Hoefler Text Italic}[Alternate=0]
-   Sphinx Of Black Quartz, {\scshape Judge My Vow} \\
-  \fontspec{Hoefler Text Italic}[Alternate=1]
-   Sphinx Of Black Quartz, {\scshape Judge My Vow}
-\end{Xexample}
-
 
 \subsection{Style}
-
 The options of the \feat{Style} feature
 are defined in \AAT\ as one of the following: \opt{Display},
 \opt{Engraved}, \opt{IlluminatedCaps}, \opt{Italic},
@@ -285,11 +233,6 @@ are defined in \AAT\ as one of the following: \opt{Display},
 Japanese typography for annotations.}
 
 Typical examples for these features are shown in \ref{sec:ot-feat-style}.
-
-
-
-
-
 
 \subsection{CJK shape}
 There have been many standards for how CJK ideographic
@@ -305,34 +248,6 @@ See \vref{sec:CharacterWidth} for relevant examples; the features are
 the same between OpenType and \AAT\ fonts.
 \AAT\ also allows \feat{CharacterWidth}|=|\opt{Default} to return to
 the original font settings.
-
-
-
-
-
-
-
-\subsection{Vertical typesetting}
-
-\XeTeX\ provides for vertical typesetting simply with the ability to rotate
-the individual glyphs as a font is used for typesetting, as shown in
-\exref{vert}.
-
-\begin{Xexample}[firstline=2]{vert}{Vertical typesetting.}
-  \def\verttext{共産主義者は}
-  \fontspec{Hiragino Mincho Pro}
-  \verttext
-
-  \fontspec{Hiragino Mincho Pro}[Renderer=AAT,Vertical=RotatedGlyphs]
-  \rotatebox{-90}{\verttext}% requires the graphicx package
-\end{Xexample}
-
-No actual provision is made for typesetting top-to-bottom
-languages; for an example of how to do this, see the vertical Chinese
-example provided in the \XeTeX\ documentation.
-
-
-
 
 \subsection{Diacritics}
 Diacritics are marks, such as the acute accent or the tilde, applied to letters; they usually indicate a change in pronunciation.
@@ -350,7 +265,6 @@ in the diacritic into the ones you actually
 want. I recommend using
 the proper \LaTeX\ input conventions for obtaining such characters
 instead.
-
 
 
 \subsection{Annotation}

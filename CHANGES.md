@@ -6,6 +6,7 @@ Change history
   * Rename font feature `Letters=Uppercase` to `Style=Uppercase`, as this feature does
     not generally affect the letters themselves, only symbols and accents.
     The old name will be retained for the time being.
+  * Rename `Style=TitlingCaps` to `Style=Titling`.
 
 ## v2.7e (2020/01/09)
 

@@ -1,0 +1,18 @@
+\input{fontspec-testsetup}
+\usepackage{fontspec}
+
+\makeatletter
+\DeclareUnicodeEncoding{fakeacc}{
+  \input{tuenc.def}
+  \EncodingCommand{\d}[1]{(d)}
+}
+\makeatother
+
+\setmainfont{texgyrepagella-regular.otf}
+\setsansfont{texgyreheros-regular.otf}[NFSSEncoding=fakeacc]
+
+\begin{document}
+
+\SHIPOUT{\rmfamily abc\d d \sffamily abc\d d \rmfamily abc\d d }
+
+\end{document}

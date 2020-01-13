@@ -1,0 +1,24 @@
+This is a generated file for the l3build validation system.
+Don't change this file in any respect.
+Completed box being shipped out [1]
+\hbox(0.0+0.0)x0.0, glue set - 1.0, direction TLT
+.\TU/texgyrepagella-regular.otf(0)/m/n/10 a
+.\TU/texgyrepagella-regular.otf(0)/m/n/10 b
+.\TU/texgyrepagella-regular.otf(0)/m/n/10 c
+.\TU/texgyrepagella-regular.otf(0)/m/n/10 ḍ
+.\glue(\spaceskip) 2.5 plus 1.25 minus 0.83333
+.\fakeacc/texgyreheros-regular.otf(0)/m/n/10 a
+.\fakeacc/texgyreheros-regular.otf(0)/m/n/10 b
+.\fakeacc/texgyreheros-regular.otf(0)/m/n/10 c
+.\fakeacc/texgyreheros-regular.otf(0)/m/n/10 (
+.\fakeacc/texgyreheros-regular.otf(0)/m/n/10 d
+.\fakeacc/texgyreheros-regular.otf(0)/m/n/10 )
+.\fakeacc/texgyreheros-regular.otf(0)/m/n/10 d
+.\glue(\spaceskip) 2.78 plus 1.39 minus 0.92667
+.\TU/texgyrepagella-regular.otf(0)/m/n/10 a
+.\TU/texgyrepagella-regular.otf(0)/m/n/10 b
+.\TU/texgyrepagella-regular.otf(0)/m/n/10 c
+.\TU/texgyrepagella-regular.otf(0)/m/n/10 ḍ
+.\glue(\spaceskip) 2.5 plus 1.25 minus 0.83333
+***************
+Compilation 1 of test file completed with exit status 0

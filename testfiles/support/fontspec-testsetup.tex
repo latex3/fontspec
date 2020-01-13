@@ -46,13 +46,6 @@
   \ht#1=0pt \dp#1=0pt \wd#1=0pt
 }
 
-\newcommand\SHOWBOX[1]{%
-  \TIMO
-  \scrollmode
-  \showbox#1\relax
-  \OMIT
-}
-
 \newcommand\SHIPOUT[2][12]{%
   \OMIT
   \SETBOX{#1}{#2}%
@@ -81,7 +74,6 @@
   \OMIT
 }}
 
-\newbox\TESTBOX
 \newenvironment{fstest}
   {%
    \begingroup

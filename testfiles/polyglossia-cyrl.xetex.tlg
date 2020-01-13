@@ -1,5 +1,10 @@
 This is a generated file for the l3build validation system.
 Don't change this file in any respect.
 PACKAGE polyglossia LOADED
+Completed box being shipped out [1]
+\hbox(0.0+0.0)x0.0, glue set - 1.0
+.\TU/LinLibertine_R.otf(0)/m/n/10 Привет
+.\glue 2.5 plus 1.25 minus 0.83333
+.\TU/LinLibertine_R.otf(0)/m/n/10 мир!
 ***************
 Compilation 1 of test file completed with exit status 0

@@ -9,8 +9,7 @@
 
 \def\x{
   \CURRNFSS
-  \setbox1=\hbox{`123--456'}
-  \TIMO\showbox1\OMIT
+  \SHIPOUT{`123--456'}
 }
 
 \MSG{AAT RENDERER}

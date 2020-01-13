@@ -14,7 +14,7 @@
 \begin{document}
 \TIMO
 
-\TESTBOX{Привет мир!}
+\SHIPOUT{Привет мир!}
 
 \OMIT
 \end{document}

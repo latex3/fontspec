@@ -53,9 +53,12 @@
   \OMIT
 }
 
-\newcommand\TESTBOX[2][12]{%
+\newcommand\SHIPOUT[2][12]{%
+  \OMIT
   \SETBOX{#1}{#2}%
-  \SHOWBOX{#1}%
+  \TIMO
+  \shipout\box#1\relax
+  \OMIT
 }
 
 \makeatletter

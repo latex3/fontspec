@@ -15,11 +15,9 @@
 }
 
 \setmainfont{Vollkorn-Regular.otf}
-\setbox1=\hbox{012}
-\TIMO\showbox1\OMIT
+\SHIPOUT{012}
 
 \setmainfont{Vollkorn-Regular.otf}[RawFeature=+oneb]
-\setbox1=\hbox{012}
-\TIMO\showbox1\OMIT
+\SHIPOUT{012}
 
 \end{document}

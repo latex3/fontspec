@@ -3,130 +3,74 @@ Don't change this file in any respect.
 AAT RENDERER
 TU/CODE2000.TTF(0)/m/n:
   "[CODE2000.TTF]/AAT:script=latn;language=DFLT;+dlig;"
-> \box...=
-\hbox(8.24219+0.0)x46.95313
+Completed box being shipped out [1]
+\hbox(0.0+0.0)x0.0
 .\TU/CODE2000.TTF(0)/m/n/10 `123--456'
-! OK.
-<to be read again> 
-                   \begingroup 
-l. ......E2000.TTF}[Renderer=AAT,Ligatures=Rare] \x
 TU/CODE2000.TTF(1)/m/n:
   "[CODE2000.TTF]/AAT:script=latn;language=DFLT;mapping=tex-text;"
-> \box...=
-\hbox(8.16406+0.0)x45.41016
+Completed box being shipped out [1]
+\hbox(0.0+0.0)x0.0
 .\TU/CODE2000.TTF(1)/m/n/10 ‘123–456’
-! OK.
-<to be read again> 
-                   \begingroup 
-l. ......000.TTF}[Renderer=AAT,Mapping=tex-text] \x
 TU/CODE2000.TTF(2)/m/n:
   "[CODE2000.TTF]/AAT:script=latn;language=DFLT;mapping=thaidigits;"
-> \box...=
-\hbox(8.24219+0.01952)x57.71484
+Completed box being shipped out [1]
+\hbox(0.0+0.0)x0.0
 .\TU/CODE2000.TTF(2)/m/n/10 `๑๒๓--๔๕๖'
-! OK.
-<to be read again> 
-                   \begingroup 
-l. ......0.TTF}[Renderer=AAT,Mapping=thaidigits] \x
 TU/CODE2000.TTF(3)/m/n:
   "[CODE2000.TTF]/AAT:script=latn;language=DFLT;mapping=thaidigits;"
-> \box...=
-\hbox(8.24219+0.01952)x57.71484
+Completed box being shipped out [1]
+\hbox(0.0+0.0)x0.0
 .\TU/CODE2000.TTF(3)/m/n/10 `๑๒๓--๔๕๖'
-! OK.
-<to be read again> 
-                   \begingroup 
-l. ......AT,Mapping=tex-text,Mapping=thaidigits] \x
 TU/CODE2000.TTF(4)/m/n:
   "[CODE2000.TTF]/AAT:script=latn;language=DFLT;mapping=tex-text;"
-> \box...=
-\hbox(8.16406+0.0)x45.41016
+Completed box being shipped out [1]
+\hbox(0.0+0.0)x0.0
 .\TU/CODE2000.TTF(4)/m/n/10 ‘123–456’
-! OK.
-<to be read again> 
-                   \begingroup 
-l. ......AT,Mapping=thaidigits,Mapping=tex-text] \x
 TU/CODE2000.TTF(5)/m/n:
   "[CODE2000.TTF]/AAT:script=latn;language=DFLT;mapping=thaidigits;"
-> \box...=
-\hbox(8.24219+0.01952)x57.71484
+Completed box being shipped out [1]
+\hbox(0.0+0.0)x0.0
 .\TU/CODE2000.TTF(5)/m/n/10 `๑๒๓--๔๕๖'
-! OK.
-<to be read again> 
-                   \begingroup 
-l. ......r=AAT,Ligatures=TeX,Mapping=thaidigits] \x
 TU/CODE2000.TTF(6)/m/n:
   "[CODE2000.TTF]/AAT:script=latn;language=DFLT;+dlig;mapping=tex-text;"
-> \box...=
-\hbox(8.16406+0.0)x45.41016
+Completed box being shipped out [1]
+\hbox(0.0+0.0)x0.0
 .\TU/CODE2000.TTF(6)/m/n/10 ‘123–456’
-! OK.
-<to be read again> 
-                   \begingroup 
-l. ......apping=thaidigits,Ligatures={TeX,Rare}] \x
 OPENTYPE RENDERER
 TU/CODE2000.TTF(7)/m/n:
   "[CODE2000.TTF]/OT:script=latn;language=DFLT;+dlig;"
-> \box...=
-\hbox(8.24219+0.0)x46.95313
+Completed box being shipped out [1]
+\hbox(0.0+0.0)x0.0
 .\TU/CODE2000.TTF(7)/m/n/10 `123--456'
-! OK.
-<to be read again> 
-                   \begingroup 
-l. .......TTF}[Renderer=OpenType,Ligatures=Rare] \x
 TU/CODE2000.TTF(8)/m/n:
   "[CODE2000.TTF]/OT:script=latn;language=DFLT;mapping=tex-text;"
-> \box...=
-\hbox(8.16406+0.0)x45.41016
+Completed box being shipped out [1]
+\hbox(0.0+0.0)x0.0
 .\TU/CODE2000.TTF(8)/m/n/10 ‘123–456’
-! OK.
-<to be read again> 
-                   \begingroup 
-l. ......TF}[Renderer=OpenType,Mapping=tex-text] \x
 TU/CODE2000.TTF(9)/m/n:
   "[CODE2000.TTF]/OT:script=latn;language=DFLT;mapping=thaidigits;"
-> \box...=
-\hbox(8.24219+0.01952)x57.71484
+Completed box being shipped out [1]
+\hbox(0.0+0.0)x0.0
 .\TU/CODE2000.TTF(9)/m/n/10 `๑๒๓--๔๕๖'
-! OK.
-<to be read again> 
-                   \begingroup 
-l. ......}[Renderer=OpenType,Mapping=thaidigits] \x
 TU/CODE2000.TTF(10)/m/n:
   "[CODE2000.TTF]/OT:script=latn;language=DFLT;mapping=thaidigits;"
-> \box...=
-\hbox(8.24219+0.01952)x57.71484
+Completed box being shipped out [1]
+\hbox(0.0+0.0)x0.0
 .\TU/CODE2000.TTF(10)/m/n/10 `๑๒๓--๔๕๖'
-! OK.
-<to be read again> 
-                   \begingroup 
-l. ......pe,Mapping=tex-text,Mapping=thaidigits] \x
 TU/CODE2000.TTF(11)/m/n:
   "[CODE2000.TTF]/OT:script=latn;language=DFLT;mapping=tex-text;"
-> \box...=
-\hbox(8.16406+0.0)x45.41016
+Completed box being shipped out [1]
+\hbox(0.0+0.0)x0.0
 .\TU/CODE2000.TTF(11)/m/n/10 ‘123–456’
-! OK.
-<to be read again> 
-                   \begingroup 
-l. ......pe,Mapping=thaidigits,Mapping=tex-text] \x
 TU/CODE2000.TTF(12)/m/n:
   "[CODE2000.TTF]/OT:script=latn;language=DFLT;mapping=thaidigits;"
-> \box...=
-\hbox(8.24219+0.01952)x57.71484
+Completed box being shipped out [1]
+\hbox(0.0+0.0)x0.0
 .\TU/CODE2000.TTF(12)/m/n/10 `๑๒๓--๔๕๖'
-! OK.
-<to be read again> 
-                   \begingroup 
-l. ......nType,Ligatures=TeX,Mapping=thaidigits] \x
 TU/CODE2000.TTF(13)/m/n:
   "[CODE2000.TTF]/OT:script=latn;language=DFLT;+dlig;mapping=tex-text;"
-> \box...=
-\hbox(8.16406+0.0)x45.41016
+Completed box being shipped out [1]
+\hbox(0.0+0.0)x0.0
 .\TU/CODE2000.TTF(13)/m/n/10 ‘123–456’
-! OK.
-<to be read again> 
-                   \begingroup 
-l. ......apping=thaidigits,Ligatures={TeX,Rare}] \x
 ***************
-Compilation 1 of test file completed with exit status 256
+Compilation 1 of test file completed with exit status 0

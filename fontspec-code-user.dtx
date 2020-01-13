@@ -32,12 +32,20 @@
 % \begin{macro}{\ttfamily}
 % Add an encoding switch to the three family commands.
 %    \begin{macrocode}
-\tl_replace_all:cnn { rmfamily~ } { \fontfamily }
-  { \fontencoding \l_@@_rmfamily_encoding_tl \fontfamily }
-\tl_replace_all:cnn { sffamily~ } { \fontfamily }
-  { \fontencoding \l_@@_sffamily_encoding_tl \fontfamily }
-\tl_replace_all:cnn { ttfamily~ } { \fontfamily }
-  { \fontencoding \l_@@_ttfamily_encoding_tl \fontfamily }
+\cs_if_exist:NTF \@rmfamilyhook
+  {
+    \tl_put_right:Nn \@rmfamilyhook {\fontencoding \l_@@_rmfamily_encoding_tl}
+    \tl_put_right:Nn \@sffamilyhook {\fontencoding \l_@@_sffamily_encoding_tl}
+    \tl_put_right:Nn \@ttfamilyhook {\fontencoding \l_@@_ttfamily_encoding_tl}
+  }
+  {
+    \tl_replace_all:cnn { rmfamily~ } { \fontfamily }
+      { \fontencoding \l_@@_rmfamily_encoding_tl \fontfamily }
+    \tl_replace_all:cnn { sffamily~ } { \fontfamily }
+      { \fontencoding \l_@@_sffamily_encoding_tl \fontfamily }
+    \tl_replace_all:cnn { ttfamily~ } { \fontfamily }
+      { \fontencoding \l_@@_ttfamily_encoding_tl \fontfamily }
+  }
 \tl_set_eq:NN \l_@@_rmfamily_encoding_tl \g_fontspec_encoding_tl
 \tl_set_eq:NN \l_@@_sffamily_encoding_tl \g_fontspec_encoding_tl
 \tl_set_eq:NN \l_@@_ttfamily_encoding_tl \g_fontspec_encoding_tl

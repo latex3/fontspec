@@ -37,9 +37,9 @@ function os.capture(cmd)
   return s
 end
 
-gitbranch = os.capture('git symbolic-ref --short HEAD')
+gitbranch = os.capture('git rev-parse --abbrev-ref HEAD')
 specialformats = specialformats or {}
-if not(gitbranch == "master") then
+if gitbranch == "develop" then
   specialformats.latex = {
     xetex  = {binary = "xetex",    format = "xelatex-dev"},
     luatex = {binary = "luahbtex", format = "lualatex-dev"},

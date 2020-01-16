@@ -128,7 +128,7 @@
 %    \begin{macrocode}
 \cs_new:Nn \@@_init_ttc:n
   {
-    \str_if_eq:eeT { \str_lower_case:f {\l_@@_extension_tl} } {.ttc}
+    \str_if_eq:eeT { \str_lowercase:f {\l_@@_extension_tl} } {.ttc}
       {
         \@@_sanitise_fontname:Nn \l_@@_fontname_it_tl   {#1}
         \@@_sanitise_fontname:Nn \l_@@_fontname_bf_tl   {#1}

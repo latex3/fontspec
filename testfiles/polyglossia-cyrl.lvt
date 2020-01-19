@@ -4,6 +4,10 @@
 \START
 \OMIT
 
+\ExplSyntaxOn
+\debug_off:n { deprecation }
+\ExplSyntaxOff
+
 \usepackage{polyglossia}
 \MSG{^^J^^J^^JPACKAGE polyglossia LOADED^^J^^J^^J}
 

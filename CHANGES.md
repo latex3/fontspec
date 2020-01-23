@@ -1,7 +1,7 @@
 Change history
 ==============
 
-## v2.7f (2020/01/09)
+## v2.7f (2020/01/24)
 
   * Rename font feature `Letters=Uppercase` to `Style=Uppercase`, as this feature does
     not generally affect the letters themselves, only symbols and accents.

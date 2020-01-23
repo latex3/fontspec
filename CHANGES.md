@@ -7,6 +7,13 @@ Change history
     not generally affect the letters themselves, only symbols and accents.
     The old name will be retained for the time being.
   * Rename `Style=TitlingCaps` to `Style=Titling`.
+  * Track changes in both LaTeX2e and `expl3`.
+  * Fix long-standing (but never noticed?) bug that successive `\addfontfeatures`
+    would overwrite previous ones when using `UprightFeatures={...}` or similar.
+    Now the ‘`UprightFeatures`’ are accumulated.
+  * Remove AAT font examples from the documentation — support for many AAT fonts now
+    appears broken with latest versions of macOS.
+
 
 ## v2.7e (2020/01/09)
 

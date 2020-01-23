@@ -9,13 +9,13 @@ TU/texgyrepagella(0)/m/it:
   "[texgyrepagella-italic.otf]:mode=node;script=latn;language=dflt;+tlig;color=AA0000FF ;"
 TU/texgyrepagella(0)/m/scit:
   "[texgyrepagella-italic.otf]:mode=node;script=latn;language=dflt;+tlig;+smcp;color=AA0000FF ;"
-TU/texgyrepagella(0)/bx/n:
+TU/texgyrepagella(0)/b/n:
   [texgyrepagella-bold.otf]:mode=node;script=latn;language=dflt;+tlig;
-TU/texgyrepagella(0)/bx/sc:
+TU/texgyrepagella(0)/b/sc:
   [texgyrepagella-bold.otf]:mode=node;script=latn;language=dflt;+tlig;+smcp;
-TU/texgyrepagella(0)/bx/it:
+TU/texgyrepagella(0)/b/it:
   [texgyrepagella-bolditalic.otf]:mode=node;script=latn;language=dflt;+tlig;
-TU/texgyrepagella(0)/bx/scit:
+TU/texgyrepagella(0)/b/scit:
   [texgyrepagella-bolditalic.otf]:mode=node;script=latn;language=dflt;+tlig;+smcp;
 AFF TO SC
 TU/texgyrepagella(1)/m/n:
@@ -26,13 +26,13 @@ TU/texgyrepagella(1)/m/it:
   "[texgyrepagella-italic.otf]:mode=node;script=latn;language=dflt;+tlig;color=AA0000FF ;"
 TU/texgyrepagella(1)/m/scit:
   "[texgyrepagella-italic.otf]:mode=node;script=latn;language=dflt;+tlig;+smcp;+pnum;color=AA0000FF ;"
-TU/texgyrepagella(1)/bx/n:
+TU/texgyrepagella(1)/b/n:
   [texgyrepagella-bold.otf]:mode=node;script=latn;language=dflt;+tlig;
-TU/texgyrepagella(1)/bx/sc:
+TU/texgyrepagella(1)/b/sc:
   [texgyrepagella-bold.otf]:mode=node;script=latn;language=dflt;+tlig;+smcp;
-TU/texgyrepagella(1)/bx/it:
+TU/texgyrepagella(1)/b/it:
   [texgyrepagella-bolditalic.otf]:mode=node;script=latn;language=dflt;+tlig;
-TU/texgyrepagella(1)/bx/scit:
+TU/texgyrepagella(1)/b/scit:
   [texgyrepagella-bolditalic.otf]:mode=node;script=latn;language=dflt;+tlig;+smcp;
 ***************
 Compilation 1 of test file completed with exit status 0

@@ -9,13 +9,13 @@ TU/texgyrepagella(0)/m/it:
   "[texgyrepagella-italic.otf]/OT:script=latn;language=dflt;mapping=tex-text;color=AA0000FF ;" at 10.0pt
 TU/texgyrepagella(0)/m/scit:
   "[texgyrepagella-italic.otf]/OT:script=latn;language=dflt;+smcp;mapping=tex-text;color=AA0000FF ;" at 10.0pt
-TU/texgyrepagella(0)/bx/n:
+TU/texgyrepagella(0)/b/n:
   "[texgyrepagella-bold.otf]/OT:script=latn;language=dflt;mapping=tex-text;" at 10.0pt
-TU/texgyrepagella(0)/bx/sc:
+TU/texgyrepagella(0)/b/sc:
   "[texgyrepagella-bold.otf]/OT:script=latn;language=dflt;+smcp;mapping=tex-text;" at 10.0pt
-TU/texgyrepagella(0)/bx/it:
+TU/texgyrepagella(0)/b/it:
   "[texgyrepagella-bolditalic.otf]/OT:script=latn;language=dflt;mapping=tex-text;" at 10.0pt
-TU/texgyrepagella(0)/bx/scit:
+TU/texgyrepagella(0)/b/scit:
   "[texgyrepagella-bolditalic.otf]/OT:script=latn;language=dflt;+smcp;mapping=tex-text;" at 10.0pt
 AFF TO ALL
 TU/texgyrepagella(1)/m/n:
@@ -26,13 +26,13 @@ TU/texgyrepagella(1)/m/it:
   "[texgyrepagella-italic.otf]/OT:script=latn;language=dflt;+onum;mapping=tex-text;color=AA0000FF ;" at 10.0pt
 TU/texgyrepagella(1)/m/scit:
   "[texgyrepagella-italic.otf]/OT:script=latn;language=dflt;+onum;+smcp;mapping=tex-text;color=AA0000FF ;" at 10.0pt
-TU/texgyrepagella(1)/bx/n:
+TU/texgyrepagella(1)/b/n:
   "[texgyrepagella-bold.otf]/OT:script=latn;language=dflt;+onum;mapping=tex-text;" at 10.0pt
-TU/texgyrepagella(1)/bx/sc:
+TU/texgyrepagella(1)/b/sc:
   "[texgyrepagella-bold.otf]/OT:script=latn;language=dflt;+onum;+smcp;mapping=tex-text;" at 10.0pt
-TU/texgyrepagella(1)/bx/it:
+TU/texgyrepagella(1)/b/it:
   "[texgyrepagella-bolditalic.otf]/OT:script=latn;language=dflt;+onum;mapping=tex-text;" at 10.0pt
-TU/texgyrepagella(1)/bx/scit:
+TU/texgyrepagella(1)/b/scit:
   "[texgyrepagella-bolditalic.otf]/OT:script=latn;language=dflt;+onum;+smcp;mapping=tex-text;" at 10.0pt
 AFF TO ITALICS
 TU/texgyrepagella(2)/m/n:
@@ -43,13 +43,13 @@ TU/texgyrepagella(2)/m/it:
   "[texgyrepagella-italic.otf]/OT:script=latn;language=dflt;+onum;mapping=tex-text;color=AA0000FF ;" at 10.0pt
 TU/texgyrepagella(2)/m/scit:
   "[texgyrepagella-italic.otf]/OT:script=latn;language=dflt;+onum;+smcp;mapping=tex-text;color=AA0000FF ;" at 10.0pt
-TU/texgyrepagella(2)/bx/n:
+TU/texgyrepagella(2)/b/n:
   "[texgyrepagella-bold.otf]/OT:script=latn;language=dflt;mapping=tex-text;" at 10.0pt
-TU/texgyrepagella(2)/bx/sc:
+TU/texgyrepagella(2)/b/sc:
   "[texgyrepagella-bold.otf]/OT:script=latn;language=dflt;+smcp;mapping=tex-text;" at 10.0pt
-TU/texgyrepagella(2)/bx/it:
+TU/texgyrepagella(2)/b/it:
   "[texgyrepagella-bolditalic.otf]/OT:script=latn;language=dflt;mapping=tex-text;" at 10.0pt
-TU/texgyrepagella(2)/bx/scit:
+TU/texgyrepagella(2)/b/scit:
   "[texgyrepagella-bolditalic.otf]/OT:script=latn;language=dflt;+smcp;mapping=tex-text;" at 10.0pt
 ***************
 Compilation 1 of test file completed with exit status 0

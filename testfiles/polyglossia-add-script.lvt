@@ -1,0 +1,14 @@
+\input{fontspec-testsetup}
+
+\ExplSyntaxOn
+\debug_off:n { deprecation }
+\ExplSyntaxOff
+
+\usepackage{polyglossia}
+\setmainfont{cmunrm.otf}
+
+\begin{document}
+
+\SHIPOUT{abc \addfontfeature {Script=Greek} τέμνω}
+
+\end{document}

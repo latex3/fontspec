@@ -1,0 +1,16 @@
+This is a generated file for the l3build validation system.
+Don't change this file in any respect.
+Completed box being shipped out [1]
+\hbox(0.0+0.0)x0.0, glue set - 1.0, direction TLT
+.\TU/cmunrm.otf(0)/m/n/10 a
+.\TU/cmunrm.otf(0)/m/n/10 b
+.\kern0.28 (font)
+.\TU/cmunrm.otf(0)/m/n/10 c
+.\glue(\spaceskip) 3.33 plus 1.665 minus 1.11
+.\TU/cmunrm.otf(1)/m/n/10 τ
+.\TU/cmunrm.otf(1)/m/n/10 έ
+.\TU/cmunrm.otf(1)/m/n/10 μ
+.\TU/cmunrm.otf(1)/m/n/10 ν
+.\TU/cmunrm.otf(1)/m/n/10 ω
+***************
+Compilation 1 of test file completed with exit status 0

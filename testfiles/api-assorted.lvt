@@ -23,7 +23,7 @@
 
 \fontspec_if_script:nTF {cyrl}{\MSG{also~has~Cyrillic}}{\ERROR}
 
-\fontspec_if_current_language:nTF {DFLT}{\MSG{is~using~`default'~language}}{\ERROR}
+\fontspec_if_current_language:nTF {dflt}{\MSG{is~using~`default'~language}}{\ERROR}
 
 \fontspec_if_language:nnTF {latn}{ROM}{\MSG{also~has~Romanian}}{\ERROR}
 

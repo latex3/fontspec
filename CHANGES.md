@@ -1,6 +1,10 @@
 Change history
 ==============
 
+## v2.7h (2020/01/26)
+
+  * Eroneous uses of `language=DFLT` changed to `language=dflt`.
+
 ## v2.7g (2020/01/26)
 
   * Fix regression that broke changing the default encoding after `fontspec` was loaded

@@ -64,6 +64,7 @@ tlmgr install   \
   stix2-otf     \
   fira          \
   tempora       \
+  cm-unicode    \
   fandol
 
 # for docs

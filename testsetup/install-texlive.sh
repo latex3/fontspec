@@ -39,6 +39,7 @@ tlmgr install   \
   ifxetex       \
   luaotfload    \
   oberdiek      \
+  ltxcmds       \
   ucharcat      \
   filehook      \
   xcolor        \

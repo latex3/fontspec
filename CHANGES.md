@@ -1,6 +1,15 @@
 Change history
 ==============
 
+## v2.7g (2020/01/24)
+
+  * Fix regression that broke changing the default encoding after `fontspec` was loaded
+    (e.g., to use legacy fonts by default but use a `fontspec` font occassionally).
+  * Fix bug exhibited in `polyglossia` and perhaps elsewhere when `Script` is set without
+    a corresponding `Language`.
+  * Use `\familydefault` instead of `\rmdefault` when calculating scaling parameters in
+    `Scale=MatchLowercase` and `Scale=MatchUppercase`.
+
 ## v2.7f (2020/01/24)
 
   * Rename font feature `Letters=Uppercase` to `Style=Uppercase`, as this feature does

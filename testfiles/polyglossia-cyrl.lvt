@@ -18,7 +18,7 @@
 \begin{document}
 \TIMO
 
-\SHIPOUT{Привет мир!}
+\SHIPOUT{При}
 
 \OMIT
 \end{document}

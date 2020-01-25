@@ -926,7 +926,9 @@
     \bool_if:NT \l_@@_ot_bool
       {
         \tl_if_empty:NF \l_@@_script_tl { script   = \l_@@_script_tl ; }
-        \tl_if_empty:NF \l_@@_lang_tl   { language = \l_@@_lang_tl   ; }
+        \bool_if:nF
+          { \tl_if_empty_p:N \l_@@_lang_tl || \str_if_eq_p:ee {\l_@@_lang_tl} {DFLT} }
+          { language = \l_@@_lang_tl   ; }
       }
   }
 %</XE>
@@ -935,7 +937,9 @@
     mode     = \l_@@_mode_tl   ;
     \tl_if_empty:NF \l_@@_shaper_tl { shaper = \l_@@_shaper_tl   ; }
     \tl_if_empty:NF \l_@@_script_tl { script   = \l_@@_script_tl ; }
-    \tl_if_empty:NF \l_@@_lang_tl   { language = \l_@@_lang_tl   ; }
+    \bool_if:nF
+      { \tl_if_empty_p:N \l_@@_lang_tl || \str_if_eq_p:ee {\l_@@_lang_tl} {DFLT} }
+      { language = \l_@@_lang_tl   ; }
   }
 %</LU>
 %    \end{macrocode}

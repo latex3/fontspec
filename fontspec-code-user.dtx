@@ -46,9 +46,9 @@
     \tl_replace_all:cnn { ttfamily~ } { \fontfamily }
       { \fontencoding \l_@@_ttfamily_encoding_tl \fontfamily }
   }
-\tl_set_eq:NN \l_@@_rmfamily_encoding_tl \g_fontspec_encoding_tl
-\tl_set_eq:NN \l_@@_sffamily_encoding_tl \g_fontspec_encoding_tl
-\tl_set_eq:NN \l_@@_ttfamily_encoding_tl \g_fontspec_encoding_tl
+\tl_set:Nn \l_@@_rmfamily_encoding_tl { \encodingdefault }
+\tl_set:Nn \l_@@_sffamily_encoding_tl { \encodingdefault }
+\tl_set:Nn \l_@@_ttfamily_encoding_tl { \encodingdefault }
 %    \end{macrocode}
 % \end{macro}
 % \end{macro}

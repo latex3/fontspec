@@ -1,0 +1,14 @@
+This is a generated file for the l3build validation system.
+Don't change this file in any respect.
+Completed box being shipped out [1]
+\hbox(0.0+0.0)x0.0, direction TLT
+.\T1/qpl/m/n/10 a
+.\T1/qpl/m/n/10 b
+.\T1/qpl/m/n/10 c
+Completed box being shipped out [1]
+\hbox(0.0+0.0)x0.0, direction TLT
+.\TU/texgyrepagella-regular.otf(0)/m/n/10 a
+.\TU/texgyrepagella-regular.otf(0)/m/n/10 b
+.\TU/texgyrepagella-regular.otf(0)/m/n/10 c
+***************
+Compilation 1 of test file completed with exit status 0

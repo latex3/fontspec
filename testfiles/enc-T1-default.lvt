@@ -1,0 +1,13 @@
+\input{fontspec-testsetup}
+\usepackage{fontspec}
+\usepackage[T1]{fontenc}
+\usepackage{tgpagella}
+\begin{document}
+
+\SHIPOUT{\rmfamily abc}
+
+\setmainfont{texgyrepagella-regular.otf}
+
+\SHIPOUT{\rmfamily abc}
+
+\end{document}

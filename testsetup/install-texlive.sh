@@ -40,6 +40,7 @@ tlmgr install   \
   luaotfload    \
   oberdiek      \
   ltxcmds       \
+  kvsetkeys     \
   ucharcat      \
   filehook      \
   xcolor        \

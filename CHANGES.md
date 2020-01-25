@@ -1,7 +1,7 @@
 Change history
 ==============
 
-## v2.7g (2020/01/24)
+## v2.7g (2020/01/25)
 
   * Fix regression that broke changing the default encoding after `fontspec` was loaded
     (e.g., to use legacy fonts by default but use a `fontspec` font occassionally).

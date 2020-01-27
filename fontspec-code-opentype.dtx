@@ -283,27 +283,27 @@
 %<*XE>
 %<debug>\typeout{::~ fontspec_check_ot_feat:nnn~ {#2}{#3}{#4}}
         \@@_iv_str_to_num:Nx \l_@@_strnum_int   {#2}
-        \@@_iv_str_to_num:Nx \l_@@_language_int {#3}
-        \@@_lang_dflt_correct:N \l_@@_language_int
+
+        \str_if_eq:eeTF {#3} {dflt}
+          { \int_zero:N \l_@@_language_int }
+          { \@@_iv_str_to_num:Nx \l_@@_language_int {#3} }
         \@@_iv_str_to_num:Nx \l_@@_script_int   {#4}
+
         \int_set:Nn \l_tmpb_int
-        {
-          \XeTeXOTcountfeatures #1
-                                \l_@@_script_int
-                                \l_@@_language_int
-        }
+          { \XeTeXOTcountfeatures #1 \l_@@_script_int \l_@@_language_int }
+
         \int_zero:N \l_tmpa_int
         \bool_set_false:N \l_@@_check_bool
         \bool_until_do:nn { \int_compare_p:nNn \l_tmpa_int = \l_tmpb_int }
-        {
-          \ifnum\XeTeXOTfeaturetag #1 \l_@@_script_int \l_@@_language_int
-              \l_tmpa_int =\l_@@_strnum_int
-            \bool_set_true:N \l_@@_check_bool
-            \int_set:Nn \l_tmpa_int {\l_tmpb_int}
-          \else
-            \int_incr:N \l_tmpa_int
-          \fi
-        }
+          {
+            \ifnum\XeTeXOTfeaturetag #1 \l_@@_script_int \l_@@_language_int
+                \l_tmpa_int =\l_@@_strnum_int
+              \bool_set_true:N \l_@@_check_bool
+              \int_set:Nn \l_tmpa_int {\l_tmpb_int}
+            \else
+              \int_incr:N \l_tmpa_int
+            \fi
+          }
         \bool_if:NTF \l_@@_check_bool \prg_return_true: \prg_return_false:
 %</XE>
 %<*LU>

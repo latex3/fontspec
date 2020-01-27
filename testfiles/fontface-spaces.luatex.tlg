@@ -1,12 +1,12 @@
 This is a generated file for the l3build validation system.
 Don't change this file in any respect.
 TU/texgyretermes-regular.otf(0)/m/n:
-  [texgyretermes-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;
+  [texgyretermes-regular.otf]:mode=node;script=latn;language=dflt;+tlig;
 TU/texgyretermes-regular.otf(0)/m/it:
-  [texgyreheros-italic.otf]:mode=node;script=latn;language=DFLT;+tlig;
+  [texgyreheros-italic.otf]:mode=node;script=latn;language=dflt;+tlig;
 TU/texgyretermes-regular.otf(0)/blub/it:
-  [texgyrecursor-italic.otf]:mode=node;script=latn;language=DFLT;+tlig;
+  [texgyrecursor-italic.otf]:mode=node;script=latn;language=dflt;+tlig;
 TU/texgyretermes-regular.otf(0)/c/n:
-  "[texgyrebonum-italic.otf]:mode=node;script=latn;language=DFLT;+tlig;color=FF0000FF ;"
+  "[texgyrebonum-italic.otf]:mode=node;script=latn;language=dflt;+tlig;color=FF0000FF ;"
 ***************
 Compilation 1 of test file completed with exit status 0

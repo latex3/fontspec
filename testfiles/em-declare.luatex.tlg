@@ -4,92 +4,92 @@ Don't change this file in any respect.
 Declare three emph levels:
 ============================================================
 TU/texgyrepagella(0)/m/n:
-  [texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;
+  [texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;+tlig;
 TU/texgyrepagella(0)/m/it:
-  [texgyrepagella-italic.otf]:mode=node;script=latn;language=DFLT;+tlig;
+  [texgyrepagella-italic.otf]:mode=node;script=latn;language=dflt;+tlig;
 TU/texgyrepagella(0)/m/sc:
-  [texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;+smcp;
+  [texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;+tlig;+smcp;
 TU/texgyrepagella(0)/m/scit:
-  [texgyrepagella-italic.otf]:mode=node;script=latn;language=DFLT;+tlig;+smcp;
+  [texgyrepagella-italic.otf]:mode=node;script=latn;language=dflt;+tlig;+smcp;
 TU/texgyrepagella(0)/m/sc:
-  [texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;+smcp;
+  [texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;+tlig;+smcp;
 TU/texgyrepagella(0)/m/scit:
-  [texgyrepagella-italic.otf]:mode=node;script=latn;language=DFLT;+tlig;+smcp;
+  [texgyrepagella-italic.otf]:mode=node;script=latn;language=dflt;+tlig;+smcp;
 ============================================================
 Check manually entering a level of emph: (should be same as above)
 ============================================================
 TU/texgyrepagella(0)/m/n:
-  [texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;
+  [texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;+tlig;
 TU/texgyrepagella(0)/m/it:
-  [texgyrepagella-italic.otf]:mode=node;script=latn;language=DFLT;+tlig;
+  [texgyrepagella-italic.otf]:mode=node;script=latn;language=dflt;+tlig;
 TU/texgyrepagella(0)/m/sc:
-  [texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;+smcp;
+  [texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;+tlig;+smcp;
 TU/texgyrepagella(0)/m/scit:
-  [texgyrepagella-italic.otf]:mode=node;script=latn;language=DFLT;+tlig;+smcp;
+  [texgyrepagella-italic.otf]:mode=node;script=latn;language=dflt;+tlig;+smcp;
 TU/texgyrepagella(0)/m/sc:
-  [texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;+smcp;
+  [texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;+tlig;+smcp;
 TU/texgyrepagella(0)/m/scit:
-  [texgyrepagella-italic.otf]:mode=node;script=latn;language=DFLT;+tlig;+smcp;
+  [texgyrepagella-italic.otf]:mode=node;script=latn;language=dflt;+tlig;+smcp;
 ============================================================
 Check just one emphasis (itshape):
 ============================================================
 TU/texgyrepagella(0)/m/n:
-  [texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;
+  [texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;+tlig;
 TU/texgyrepagella(0)/m/it:
-  [texgyrepagella-italic.otf]:mode=node;script=latn;language=DFLT;+tlig;
+  [texgyrepagella-italic.otf]:mode=node;script=latn;language=dflt;+tlig;
 TU/texgyrepagella(0)/m/n:
-  [texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;
+  [texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;+tlig;
 TU/texgyrepagella(0)/m/it:
-  [texgyrepagella-italic.otf]:mode=node;script=latn;language=DFLT;+tlig;
+  [texgyrepagella-italic.otf]:mode=node;script=latn;language=dflt;+tlig;
 TU/texgyrepagella(0)/m/n:
-  [texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;
+  [texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;+tlig;
 TU/texgyrepagella(0)/m/it:
-  [texgyrepagella-italic.otf]:mode=node;script=latn;language=DFLT;+tlig;
+  [texgyrepagella-italic.otf]:mode=node;script=latn;language=dflt;+tlig;
 ============================================================
 As above with bold; three emph:
 ============================================================
 TU/texgyrepagella(0)/bx/n:
-  [texgyrepagella-bold.otf]:mode=node;script=latn;language=DFLT;+tlig;
+  [texgyrepagella-bold.otf]:mode=node;script=latn;language=dflt;+tlig;
 TU/texgyrepagella(0)/bx/it:
-  [texgyrepagella-bolditalic.otf]:mode=node;script=latn;language=DFLT;+tlig;
+  [texgyrepagella-bolditalic.otf]:mode=node;script=latn;language=dflt;+tlig;
 TU/texgyrepagella(0)/bx/sc:
-  [texgyrepagella-bold.otf]:mode=node;script=latn;language=DFLT;+tlig;+smcp;
+  [texgyrepagella-bold.otf]:mode=node;script=latn;language=dflt;+tlig;+smcp;
 TU/texgyrepagella(0)/bx/scit:
-  [texgyrepagella-bolditalic.otf]:mode=node;script=latn;language=DFLT;+tlig;+smcp;
+  [texgyrepagella-bolditalic.otf]:mode=node;script=latn;language=dflt;+tlig;+smcp;
 TU/texgyrepagella(0)/bx/sc:
-  [texgyrepagella-bold.otf]:mode=node;script=latn;language=DFLT;+tlig;+smcp;
+  [texgyrepagella-bold.otf]:mode=node;script=latn;language=dflt;+tlig;+smcp;
 TU/texgyrepagella(0)/bx/scit:
-  [texgyrepagella-bolditalic.otf]:mode=node;script=latn;language=DFLT;+tlig;+smcp;
+  [texgyrepagella-bolditalic.otf]:mode=node;script=latn;language=dflt;+tlig;+smcp;
 ============================================================
 As above with bold; manual emph:
 ============================================================
 TU/texgyrepagella(0)/bx/n:
-  [texgyrepagella-bold.otf]:mode=node;script=latn;language=DFLT;+tlig;
+  [texgyrepagella-bold.otf]:mode=node;script=latn;language=dflt;+tlig;
 TU/texgyrepagella(0)/bx/it:
-  [texgyrepagella-bolditalic.otf]:mode=node;script=latn;language=DFLT;+tlig;
+  [texgyrepagella-bolditalic.otf]:mode=node;script=latn;language=dflt;+tlig;
 TU/texgyrepagella(0)/bx/sc:
-  [texgyrepagella-bold.otf]:mode=node;script=latn;language=DFLT;+tlig;+smcp;
+  [texgyrepagella-bold.otf]:mode=node;script=latn;language=dflt;+tlig;+smcp;
 TU/texgyrepagella(0)/bx/scit:
-  [texgyrepagella-bolditalic.otf]:mode=node;script=latn;language=DFLT;+tlig;+smcp;
+  [texgyrepagella-bolditalic.otf]:mode=node;script=latn;language=dflt;+tlig;+smcp;
 TU/texgyrepagella(0)/bx/sc:
-  [texgyrepagella-bold.otf]:mode=node;script=latn;language=DFLT;+tlig;+smcp;
+  [texgyrepagella-bold.otf]:mode=node;script=latn;language=dflt;+tlig;+smcp;
 TU/texgyrepagella(0)/bx/scit:
-  [texgyrepagella-bolditalic.otf]:mode=node;script=latn;language=DFLT;+tlig;+smcp;
+  [texgyrepagella-bolditalic.otf]:mode=node;script=latn;language=dflt;+tlig;+smcp;
 ============================================================
 As above with bold; one emph:
 ============================================================
 TU/texgyrepagella(0)/bx/n:
-  [texgyrepagella-bold.otf]:mode=node;script=latn;language=DFLT;+tlig;
+  [texgyrepagella-bold.otf]:mode=node;script=latn;language=dflt;+tlig;
 TU/texgyrepagella(0)/bx/it:
-  [texgyrepagella-bolditalic.otf]:mode=node;script=latn;language=DFLT;+tlig;
+  [texgyrepagella-bolditalic.otf]:mode=node;script=latn;language=dflt;+tlig;
 TU/texgyrepagella(0)/bx/n:
-  [texgyrepagella-bold.otf]:mode=node;script=latn;language=DFLT;+tlig;
+  [texgyrepagella-bold.otf]:mode=node;script=latn;language=dflt;+tlig;
 TU/texgyrepagella(0)/bx/it:
-  [texgyrepagella-bolditalic.otf]:mode=node;script=latn;language=DFLT;+tlig;
+  [texgyrepagella-bolditalic.otf]:mode=node;script=latn;language=dflt;+tlig;
 TU/texgyrepagella(0)/bx/n:
-  [texgyrepagella-bold.otf]:mode=node;script=latn;language=DFLT;+tlig;
+  [texgyrepagella-bold.otf]:mode=node;script=latn;language=dflt;+tlig;
 TU/texgyrepagella(0)/bx/it:
-  [texgyrepagella-bolditalic.otf]:mode=node;script=latn;language=DFLT;+tlig;
+  [texgyrepagella-bolditalic.otf]:mode=node;script=latn;language=dflt;+tlig;
 ============================================================
 ***************
 Compilation 1 of test file completed with exit status 0

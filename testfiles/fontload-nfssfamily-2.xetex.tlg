@@ -12,12 +12,12 @@ TU/newfoo/m/n:
   "[texgyreheros-regular.otf]:color=FFAA00" at 10.0pt
 USING FONTSPEC:
 TU/foo/m/n:
-  "[texgyrepagella-regular.otf]/OT:script=latn;language=DFLT;color=FF0000FF ;" at 10.0pt
+  "[texgyrepagella-regular.otf]/OT:script=latn;language=dflt;color=FF0000FF ;" at 10.0pt
 TU/foo/m/sc:
-  "[texgyrepagella-regular.otf]/OT:script=latn;language=DFLT;+smcp;color=FF0000FF ;" at 10.0pt
+  "[texgyrepagella-regular.otf]/OT:script=latn;language=dflt;+smcp;color=FF0000FF ;" at 10.0pt
 TU/foo/m/n:
-  "[texgyreheros-regular.otf]/OT:script=latn;language=DFLT;color=FF00FFFF ;" at 10.0pt
+  "[texgyreheros-regular.otf]/OT:script=latn;language=dflt;color=FF00FFFF ;" at 10.0pt
 TU/foo/m/sc:
-  "[texgyreheros-regular.otf]/OT:script=latn;language=DFLT;+smcp;color=FF00FFFF ;" at 10.0pt
+  "[texgyreheros-regular.otf]/OT:script=latn;language=dflt;+smcp;color=FF00FFFF ;" at 10.0pt
 ***************
 Compilation 1 of test file completed with exit status 0

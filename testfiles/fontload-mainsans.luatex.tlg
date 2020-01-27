@@ -1,20 +1,20 @@
 This is a generated file for the l3build validation system.
 Don't change this file in any respect.
 TU/texgyretermes(0)/m/n:
-  [texgyretermes-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;
+  [texgyretermes-regular.otf]:mode=node;script=latn;language=dflt;+tlig;
 TU/texgyretermes(0)/bx/n:
-  [texgyretermes-bold.otf]:mode=node;script=latn;language=DFLT;+tlig;
+  [texgyretermes-bold.otf]:mode=node;script=latn;language=dflt;+tlig;
 TU/texgyretermes(0)/m/it:
-  [texgyretermes-italic.otf]:mode=node;script=latn;language=DFLT;+tlig;
+  [texgyretermes-italic.otf]:mode=node;script=latn;language=dflt;+tlig;
 TU/texgyretermes(0)/bx/it:
-  [texgyretermes-bolditalic.otf]:mode=node;script=latn;language=DFLT;+tlig;
+  [texgyretermes-bolditalic.otf]:mode=node;script=latn;language=dflt;+tlig;
 TU/texgyreheros(0)/m/n:
-  [texgyreheros-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;
+  [texgyreheros-regular.otf]:mode=node;script=latn;language=dflt;+tlig;
 TU/texgyreheros(0)/bx/n:
-  [texgyreheros-bold.otf]:mode=node;script=latn;language=DFLT;+tlig;
+  [texgyreheros-bold.otf]:mode=node;script=latn;language=dflt;+tlig;
 TU/texgyreheros(0)/m/it:
-  [texgyreheros-italic.otf]:mode=node;script=latn;language=DFLT;+tlig;
+  [texgyreheros-italic.otf]:mode=node;script=latn;language=dflt;+tlig;
 TU/texgyreheros(0)/bx/it:
-  [texgyreheros-bolditalic.otf]:mode=node;script=latn;language=DFLT;+tlig;
+  [texgyreheros-bolditalic.otf]:mode=node;script=latn;language=dflt;+tlig;
 ***************
 Compilation 1 of test file completed with exit status 0

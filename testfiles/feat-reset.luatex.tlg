@@ -1,18 +1,18 @@
 This is a generated file for the l3build validation system.
 Don't change this file in any respect.
 ====== RESET ======
-[texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;+onum;
-[texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;
-[texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;+onum;
-[texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;
-[texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;+onum;
-[texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;
-[texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;+onum;
-[texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;
+[texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;+onum;
+[texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;
+[texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;+onum;
+[texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;
+[texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;+onum;
+[texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;
+[texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;+onum;
+[texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;
 ======= OFF =======
-[texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;+onum;
-[texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;-onum;
-[texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;+onum;
-[texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;-onum;
+[texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;+onum;
+[texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;-onum;
+[texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;+onum;
+[texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;-onum;
 ***************
 Compilation 1 of test file completed with exit status 0

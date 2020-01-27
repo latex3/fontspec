@@ -5,34 +5,34 @@ Not trying to extensively check logic here, just evaluation of the main function
 ============================================================
 New font family
 TU/texgyreheros-regular.otf(0)/m/n:
-  "[texgyreheros-regular.otf]/OT:script=latn;language=DFLT;" at 10.0pt
+  "[texgyreheros-regular.otf]/OT:script=latn;language=dflt;" at 10.0pt
 ============================================================
 Set font family
 TU/texgyrepagella-regular.otf(0)/m/n:
-  "[texgyrepagella-regular.otf]/OT:script=latn;language=DFLT;" at 10.0pt
+  "[texgyrepagella-regular.otf]/OT:script=latn;language=dflt;" at 10.0pt
 ============================================================
 Renew font family
 TU/texgyretermes-regular.otf(0)/m/n:
-  "[texgyretermes-regular.otf]/OT:script=latn;language=DFLT;" at 10.0pt
+  "[texgyretermes-regular.otf]/OT:script=latn;language=dflt;" at 10.0pt
 ============================================================
 Provide font family
 TU/texgyretermes-regular.otf(0)/m/n:
-  "[texgyretermes-regular.otf]/OT:script=latn;language=DFLT;" at 10.0pt
+  "[texgyretermes-regular.otf]/OT:script=latn;language=dflt;" at 10.0pt
 ============================================================
 New font face
 TU/texgyreheros-italic.otf(0)/m/n:
-  "[texgyreheros-italic.otf]/OT:script=latn;language=DFLT;" at 10.0pt
+  "[texgyreheros-italic.otf]/OT:script=latn;language=dflt;" at 10.0pt
 ============================================================
 Set font face
 TU/texgyrepagella-italic.otf(0)/m/n:
-  "[texgyrepagella-italic.otf]/OT:script=latn;language=DFLT;" at 10.0pt
+  "[texgyrepagella-italic.otf]/OT:script=latn;language=dflt;" at 10.0pt
 ============================================================
 Renew font face
 TU/texgyretermes-italic.otf(0)/m/n:
-  "[texgyretermes-italic.otf]/OT:script=latn;language=DFLT;" at 10.0pt
+  "[texgyretermes-italic.otf]/OT:script=latn;language=dflt;" at 10.0pt
 ============================================================
 Provide font face
 TU/texgyretermes-italic.otf(0)/m/n:
-  "[texgyretermes-italic.otf]/OT:script=latn;language=DFLT;" at 10.0pt
+  "[texgyretermes-italic.otf]/OT:script=latn;language=dflt;" at 10.0pt
 ***************
 Compilation 1 of test file completed with exit status 0

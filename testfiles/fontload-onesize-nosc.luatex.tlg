@@ -2,19 +2,19 @@ This is a generated file for the l3build validation system.
 Don't change this file in any respect.
 This originally was a bug report. One of these fonts lacks small caps, and at one stage this caused a problem.
 TU/TimesLTStd(0)/m/n:
-  [TimesLTStd-Roman.otf]:mode=node;script=latn;language=DFLT;+tlig; at 10.0pt
+  [TimesLTStd-Roman.otf]:mode=node;script=latn;language=dflt;+tlig; at 10.0pt
 TU/TimesLTStd(0)/m/sc:
-  [TimesLTStd-Roman.otf]:mode=node;script=latn;language=DFLT;+tlig;+smcp; at 10.0pt
+  [TimesLTStd-Roman.otf]:mode=node;script=latn;language=dflt;+tlig;+smcp; at 10.0pt
 TU/TimesLTStd(0)/bx/n:
-  [TimesLTStd-Bold.otf]:mode=node;script=latn;language=DFLT;+tlig; at 10.0pt
+  [TimesLTStd-Bold.otf]:mode=node;script=latn;language=dflt;+tlig; at 10.0pt
 TU/TimesLTStd(0)/bx/sc:
-  [TimesLTStd-Bold.otf]:mode=node;script=latn;language=DFLT;+tlig;+smcp; at 10.0pt
+  [TimesLTStd-Bold.otf]:mode=node;script=latn;language=dflt;+tlig;+smcp; at 10.0pt
 TU/TimesLTStd(0)/m/n:
-  [TimesTenLTStd-Roman.otf]:mode=node;script=latn;language=DFLT;+tlig; at 9.0pt
+  [TimesTenLTStd-Roman.otf]:mode=node;script=latn;language=dflt;+tlig; at 9.0pt
 TU/TimesLTStd(0)/m/sc:
-  [TimesTenLTStd-Roman.otf]:mode=node;script=latn;language=DFLT;+tlig;+smcp; at 9.0pt
+  [TimesTenLTStd-Roman.otf]:mode=node;script=latn;language=dflt;+tlig;+smcp; at 9.0pt
 TU/TimesLTStd(0)/bx/n:
-  [TimesTenLTStd-Bold.otf]:mode=node;script=latn;language=DFLT;+tlig; at 9.0pt
+  [TimesTenLTStd-Bold.otf]:mode=node;script=latn;language=dflt;+tlig; at 9.0pt
 TU/TimesLTStd(0)/bx/sc:
   cmr10
 ***************

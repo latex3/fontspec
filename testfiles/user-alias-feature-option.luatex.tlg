@@ -1,8 +1,8 @@
 This is a generated file for the l3build validation system.
 Don't change this file in any respect.
 TU/texgyrepagella-regular.otf(0)/m/n:
-  [texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;+lnum;
+  [texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;+lnum;
 TU/texgyrepagella-regular.otf(1)/m/n:
-  [texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;+onum;
+  [texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;+onum;
 ***************
 Compilation 1 of test file completed with exit status 0

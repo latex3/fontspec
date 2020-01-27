@@ -2,7 +2,7 @@ This is a generated file for the l3build validation system.
 Don't change this file in any respect.
 DEFAULT
 TU/texgyrepagella-regular.otf(0)/m/n:
-  [texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;
+  [texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;+tlig;
 LANG DFLT
 TU/texgyrepagella-regular.otf(1)/m/n:
   [texgyrepagella-regular.otf]:mode=node;script=latn;language=ROM;+tlig;
@@ -11,6 +11,6 @@ TU/texgyrepagella-regular.otf(2)/m/n:
   [texgyrepagella-regular.otf]:mode=node;script=latn;language=ROM;+tlig;
 LANG DFLT
 TU/texgyrepagella-regular.otf(3)/m/n:
-  [texgyrepagella-regular.otf]:mode=node;script=cyrl;language=DFLT;+tlig;
+  [texgyrepagella-regular.otf]:mode=node;script=cyrl;language=dflt;+tlig;
 ***************
 Compilation 1 of test file completed with exit status 0

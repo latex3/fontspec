@@ -3,18 +3,18 @@ Don't change this file in any respect.
 ============================================================
 shape: n
 TU/texgyrepagella-regular.otf(0)/m/n:
-  [texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;
+  [texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;+tlig;
 shape: it
 TU/texgyrepagella-regular.otf(0)/m/it:
-  [texgyrepagella-italic.otf]:mode=node;script=latn;language=DFLT;+tlig;
+  [texgyrepagella-italic.otf]:mode=node;script=latn;language=dflt;+tlig;
 shape: sc
 TU/texgyrepagella-regular.otf(0)/m/sc:
-  [texgyrepagella-regular.otf]:mode=node;script=latn;language=DFLT;+tlig;+smcp;
+  [texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;+tlig;+smcp;
 shape: scit
 TU/texgyrepagella-regular.otf(0)/m/scit:
-  [texgyrepagella-italic.otf]:mode=node;script=latn;language=DFLT;+tlig;+smcp;
+  [texgyrepagella-italic.otf]:mode=node;script=latn;language=dflt;+tlig;+smcp;
 shape: scit
 TU/texgyrepagella-regular.otf(0)/m/scit:
-  [texgyrepagella-italic.otf]:mode=node;script=latn;language=DFLT;+tlig;+smcp;
+  [texgyrepagella-italic.otf]:mode=node;script=latn;language=dflt;+tlig;+smcp;
 ***************
 Compilation 1 of test file completed with exit status 0

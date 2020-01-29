@@ -38,8 +38,7 @@ tlmgr install   \
   graphics-def  \
   luatexbase    \
   ctablestack   \
-  ifluatex      \
-  ifxetex       \
+  iftex         \
   luaotfload    \
   oberdiek      \
   ltxcmds       \

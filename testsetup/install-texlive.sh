@@ -24,7 +24,7 @@ fi
 tlmgr update --self
 
 # l3build itself and LuaTeX: need for texlua
-tlmgr install l3build luatex
+tlmgr install l3build luatex texlive-scripts
 
 # Required to build plain and LaTeX formats:
 # TeX90 plain for unpacking

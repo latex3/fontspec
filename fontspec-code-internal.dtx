@@ -241,7 +241,7 @@
     \@@_set_font_type:N \l_@@_test_font
     \@@_primitive_font_gset:Onn \l_@@_fontface_cs_tl
       {  \@@_construct_font_call:nn { \l_@@_fontname_up_tl } { \l_@@_pre_feat_sclist } }
-      { \f@size pt }
+      { \f@size pt + 2sp }
 
     \l_@@_fontface_cs_tl % this is necessary for LuaLaTeX to check the scripts properly
 
@@ -682,7 +682,7 @@
       { \clist_clear:N \l_@@_fontopts_clist }
     \keys_set_groups:nnV {fontspec/fontname} {getfontname} \l_@@_fontopts_clist
     \@@_primitive_font_set:OnnF \l_@@_fontface_cs_tl
-      { \@@_construct_font_call:nn {#1} { \l_@@_pre_feat_sclist } } { \f@size pt }
+      { \@@_construct_font_call:nn {#1} { \l_@@_pre_feat_sclist } } { \f@size pt + 2sp }
       { \@@_error:nx {font-not-found} {#2} }
   }
 %    \end{macrocode}

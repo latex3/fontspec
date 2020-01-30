@@ -52,6 +52,7 @@ tlmgr install   \
   polyglossia   \
   hyph-utf8     \
   epstopdf-pkg  \
+  lualatex-math \
   mathspec
 
 # Fonts

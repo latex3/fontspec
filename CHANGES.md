@@ -4,6 +4,10 @@ Change history
 ## v2.7h (2020/01/26)
 
   * Eroneous uses of `language=DFLT` changed to `language=dflt`.
+  * Fix spurious error in some cases of `SlantedFont` and `BoldSlantedFont`
+    being specified in a `.fontspec` file.
+  * Fix regression with `unicode-math` related log files showing the wrong
+    NFSS-based font ‘identifier’.
 
 ## v2.7g (2020/01/26)
 

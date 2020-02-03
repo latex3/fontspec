@@ -1,0 +1,30 @@
+
+\begin{filecontents}{xxcmunrm.fontspec}
+\defaultfontfeatures[xxcmunrm]
+{
+        Extension = .otf,
+        UprightFont = cmunrm ,
+        ItalicFont = cmunti ,
+        %
+        SlantedFont = cmunsl ,
+        BoldSlantedFont = cmunbl ,
+        %
+        BoldFont = cmunbx ,
+        BoldItalicFont = cmunbi ,
+}
+\end{filecontents}
+
+\input{fontspec-testsetup.tex}
+
+\usepackage{fontspec}
+\setmainfont{xxcmunrm}
+
+\begin{document}
+
+\textsl{slanted \CURRNFSS}
+\textbf{\textsl{slanted \CURRNFSS}}
+
+\end{document}
+
+
+

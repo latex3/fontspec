@@ -1,0 +1,8 @@
+This is a generated file for the l3build validation system.
+Don't change this file in any respect.
+TU/xxcmunrm(0)/m/sl:
+  "[cmunsl.otf]/OT:script=latn;language=dflt;mapping=tex-text;"
+TU/xxcmunrm(0)/bx/sl:
+  "[cmunbl.otf]/OT:script=latn;language=dflt;mapping=tex-text;"
+***************
+Compilation 1 of test file completed with exit status 0

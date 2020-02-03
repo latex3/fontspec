@@ -2,7 +2,7 @@ This is a generated file for the l3build validation system.
 Don't change this file in any respect.
 TU/xxcmunrm(0)/m/sl:
   [cmunsl.otf]:mode=node;script=latn;language=dflt;+tlig;
-TU/xxcmunrm(0)/bx/sl:
+TU/xxcmunrm(0)/b/sl:
   [cmunbl.otf]:mode=node;script=latn;language=dflt;+tlig;
 ***************
 Compilation 1 of test file completed with exit status 0

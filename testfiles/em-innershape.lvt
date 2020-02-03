@@ -7,7 +7,7 @@
     ItalicFont=texgyrepagella-italic.otf
   ]{texgyrepagella-regular.otf}
 
-\MSG{\string\eminnershape==\meaning\eminnershape}
+\MSG{[\space\string\eminnershape==\meaning\eminnershape]}
 
 hello \CURRNFSS
 \emph{hello \CURRNFSS

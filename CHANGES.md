@@ -1,7 +1,7 @@
 Change history
 ==============
 
-## v2.7h (2020/01/26)
+## v2.7h (2020/02/03)
 
   * Eroneous uses of `language=DFLT` changed to `language=dflt`.
   * Fix spurious error in some cases of `SlantedFont` and `BoldSlantedFont`

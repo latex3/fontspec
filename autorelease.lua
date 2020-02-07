@@ -79,15 +79,36 @@ exe("git pull")
 exe("git rebase working")
 
 --[=====================[--
-     START THE RELEASE
+     CLEAN UP
 --]=====================]--
 
-print("***************************")
-print("  REVIEW THE FOLLOWING     ")
-print("***************************")
+gitclean = os.capture('git clean -nx')
+if gitclean ~= "" then
+  print("Before we start, the following files are about to be deleted. Please check.")
+  exe('git clean -nx')
+  usercheck()
+end
 
-travis = os.capture("travis status")
-print("Travis status: "..travis)
+exe("git clean -fx")
+
+--[===============[--
+     UPDATE DATE
+--]===============]--
+
+exe("l3build tag")
+
+gitstatus = os.capture('git status --porcelain')
+if gitstatus ~= "" then
+  exe([===[
+git commit -a -m 'update package info for release
+
+[ci-skip]';
+      ]===])
+end
+
+--[=====================[--
+     START THE RELEASE
+--]=====================]--
 
 changeslisting = nil
 do
@@ -115,35 +136,11 @@ print('Most recent tag: '..oldversion)
 
 usercheck()
 
-gitclean = os.capture('git clean -nx')
-if gitclean ~= "" then
-  print("Before we start, the following files are about to be deleted. Please check.")
-  exe('git clean -nx')
-  usercheck()
-end
-
---[============[--
-     CONTINUE
---]============]--
-
-exe("git clean -fx")
-
-exe("l3build tag")
-
-gitstatus = os.capture('git status --porcelain')
-if gitstatus ~= "" then
-  exe([===[
-git commit -a -m 'update package info for release
-
-[ci-skip]';
-      ]===])
-end
+--[=================[--
+     BUILD and TAG
+--]=================]--
 
 exe("l3build ctan")
-
---[===========[--
-     TAGGING
---]===========]--
 
 do
   local f = assert(io.open("CHANGES-NEW.md", "w"))
@@ -165,5 +162,7 @@ exe("git push")
 exe("git checkout working")
 exe("git rebase master")
 exe("git push")
+
+exe("rm fontspec-ctan.curlopt")
 
 print("Great success! Now time to fix some more bugs.")

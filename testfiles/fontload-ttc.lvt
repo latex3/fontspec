@@ -1,0 +1,20 @@
+
+\input{fontspec-testsetup.tex}
+
+\usepackage{fontspec}
+
+\begin{document}
+
+\START
+
+\fontspec[FontIndex=0]{NotoSansCJK-Regular.ttc}
+\setbox0\hbox{i}
+\setbox2\hbox{m}
+\MSG{Sans: \the\wd0=\the\wd2}
+
+\fontspec[FontIndex=7]{NotoSansCJK-Regular.ttc}
+\setbox0\hbox{i}
+\setbox2\hbox{m}
+\MSG{Mono: \the\wd0=\the\wd2}
+
+\end{document}

@@ -885,27 +885,31 @@
       }
       {
         % bx/?
-        \@@_DeclareFontShape:xxxxxx {\g_@@_nfss_enc_tl}{\g_@@_nfss_family_tl}{bx}{#2}
-          {<->ssub*\g_@@_nfss_family_tl/\bfdefault/#2}{\l_@@_postadjust_tl}
+        \@@_DeclareFontShape:xxxxxx {\g_@@_nfss_enc_tl} {\g_@@_nfss_family_tl}
+          {bx} {#2}
+          { <->ssub*\g_@@_nfss_family_tl/\bfdefault/#2 }
+          { \l_@@_postadjust_tl }
 
-        % bx/sc
+        % bx/sc -> b/sc
         \tl_if_empty:NF \l_@@_nfss_sc_tl
           {
-            \@@_DeclareFontShape:xxxxxx {\g_@@_nfss_enc_tl} {\g_@@_nfss_family_tl} {bx}
-              { \@@_combo_sc_shape:n {#2} }
-              {\l_@@_nfss_sc_tl}
-              {\l_@@_postadjust_tl}
+            \@@_DeclareFontShape:xxxxxx {\g_@@_nfss_enc_tl} {\g_@@_nfss_family_tl}
+              {bx} { \@@_combo_sc_shape:n {#2} }
+              { <->ssub*\g_@@_nfss_family_tl/\bfdefault/#2 }
+              { \l_@@_postadjust_tl }
           }
 
-        % bx/it -> bx/sl
+        % bx/sl -> bx/it
         \bool_if:nT
           {
               \str_if_eq_p:ee {#2} {\itdefault}  &&
             !(\str_if_eq_p:ee {\itdefault} {\sldefault})
           }
           {
-            \@@_DeclareFontShape:xxxxxx {\g_@@_nfss_enc_tl}{\g_@@_nfss_family_tl}{bx}{\sldefault}
-              {<->ssub*\g_@@_nfss_family_tl/\bfdefault/\itdefault}{\l_@@_postadjust_tl}
+            \@@_DeclareFontShape:xxxxxx {\g_@@_nfss_enc_tl} {\g_@@_nfss_family_tl}
+              {bx} {\sldefault}
+              { <->ssub*\g_@@_nfss_family_tl/bx/\itdefault }
+              { \l_@@_postadjust_tl }
           }
 
       }

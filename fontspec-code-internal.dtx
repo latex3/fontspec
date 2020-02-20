@@ -724,6 +724,7 @@
     \@@_declare_shapes_normal:nn {#1} {#2}
     \@@_declare_shapes_smcaps:nn {#1} {#2}
     \@@_declare_shape_slanted:nn {#1} {#2}
+    \@@_declare_shapes_bx:nn      {#1} {#2}
     \@@_declare_shape_loginfo:nn {#1} {#2}
   }
 %    \end{macrocode}
@@ -866,6 +867,46 @@
       {
         \@@_DeclareFontShape:xxxxxx {\g_@@_nfss_enc_tl}{\g_@@_nfss_family_tl}{#1}{\sldefault}
           {<->ssub*\g_@@_nfss_family_tl/#1/\itdefault}{\l_@@_postadjust_tl}
+      }
+  }
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@@_declare_shapes_bx:nn}
+% Similar processing for setting up b/bx substitutions.
+%    \begin{macrocode}
+\cs_new:Nn \@@_declare_shapes_bx:nn
+  {
+    \bool_if:nT
+      {
+          \str_if_eq_p:ee {#1} {\bfdefault}  &&
+        !(\str_if_eq_p:ee {\bfdefault} {bx})
+      }
+      {
+        % bx/?
+        \@@_DeclareFontShape:xxxxxx {\g_@@_nfss_enc_tl}{\g_@@_nfss_family_tl}{bx}{#2}
+          {<->ssub*\g_@@_nfss_family_tl/\bfdefault/#2}{\l_@@_postadjust_tl}
+
+        % bx/sc
+        \tl_if_empty:NF \l_@@_nfss_sc_tl
+          {
+            \@@_DeclareFontShape:xxxxxx {\g_@@_nfss_enc_tl} {\g_@@_nfss_family_tl} {bx}
+              { \@@_combo_sc_shape:n {#2} }
+              {\l_@@_nfss_sc_tl}
+              {\l_@@_postadjust_tl}
+          }
+
+        % bx/it -> bx/sl
+        \bool_if:nT
+          {
+              \str_if_eq_p:ee {#2} {\itdefault}  &&
+            !(\str_if_eq_p:ee {\itdefault} {\sldefault})
+          }
+          {
+            \@@_DeclareFontShape:xxxxxx {\g_@@_nfss_enc_tl}{\g_@@_nfss_family_tl}{bx}{\sldefault}
+              {<->ssub*\g_@@_nfss_family_tl/\bfdefault/\itdefault}{\l_@@_postadjust_tl}
+          }
+
       }
   }
 %    \end{macrocode}

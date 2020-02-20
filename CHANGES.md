@@ -1,6 +1,12 @@
 Change history
 ==============
 
+## v2.7i (2020/02/03)
+
+  * Define both `b` and `bx` font series by default to avoid spurious warnings in some
+    cases, and broken behaviour in pathological cases.
+
+
 ## v2.7h (2020/02/03)
 
   * Eroneous uses of `language=DFLT` changed to `language=dflt`.

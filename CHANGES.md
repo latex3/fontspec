@@ -1,7 +1,7 @@
 Change history
 ==============
 
-## v2.7i (2020/02/03)
+## v2.7i (2020/02/21)
 
   * Define both `b` and `bx` font series by default to avoid spurious warnings in some
     cases, and broken behaviour in pathological cases.

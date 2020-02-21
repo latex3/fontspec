@@ -64,6 +64,9 @@
 %    \begin{macrocode}
 \cs_new:Nn \@@_main_setmainfont:nn
   {
+    \ifdefined\DeclareFontSeriesDefault
+      \DeclareFontSeriesDefault[rm]{bf}{\bfdefault}
+    \fi
     \fontspec_set_family:Nnn \l_@@_rmfamily_family_tl {#1} {#2}
     \tl_set_eq:NN \rmdefault \l_@@_rmfamily_family_tl
     \tl_set_eq:NN \l_@@_rmfamily_encoding_tl \g_@@_nfss_enc_tl
@@ -80,6 +83,9 @@
 %    \begin{macrocode}
 \cs_new:Nn \@@_main_setsansfont:nn
   {
+    \ifdefined\DeclareFontSeriesDefault
+      \DeclareFontSeriesDefault[sf]{bf}{\bfdefault}
+    \fi
     \fontspec_set_family:Nnn \l_@@_sffamily_family_tl {#1} {#2}
     \tl_set_eq:NN \sfdefault \l_@@_sffamily_family_tl
     \tl_set_eq:NN \l_@@_sffamily_encoding_tl \g_@@_nfss_enc_tl
@@ -96,6 +102,9 @@
 %    \begin{macrocode}
 \cs_new:Nn \@@_main_setmonofont:nn
   {
+    \ifdefined\DeclareFontSeriesDefault
+      \DeclareFontSeriesDefault[tt]{bf}{\bfdefault}
+    \fi
     \fontspec_set_family:Nnn \l_@@_ttfamily_family_tl {#1} {#2}
     \tl_set_eq:NN \ttdefault \l_@@_ttfamily_family_tl
     \tl_set_eq:NN \l_@@_ttfamily_encoding_tl \g_@@_nfss_enc_tl

@@ -865,8 +865,20 @@
         !(\str_if_eq_p:ee {\itdefault} {\sldefault})
       }
       {
+        % sl -> it
         \@@_DeclareFontShape:xxxxxx {\g_@@_nfss_enc_tl}{\g_@@_nfss_family_tl}{#1}{\sldefault}
           {<->ssub*\g_@@_nfss_family_tl/#1/\itdefault}{\l_@@_postadjust_tl}
+        % scsl -> scit
+        \bool_if:nT
+          {
+            !\str_if_empty_p:N \l_@@_nfss_sc_tl &&
+            !(\str_if_eq_p:ee {\scitdefault} {\scsldefault})
+          }
+          {
+            \@@_DeclareFontShape:xxxxxx {\g_@@_nfss_enc_tl}{\g_@@_nfss_family_tl}{#1}{\scsldefault}
+              {<->ssub*\g_@@_nfss_family_tl/#1/\scitdefault}{\l_@@_postadjust_tl}
+          }
+
       }
   }
 %    \end{macrocode}
@@ -909,6 +921,16 @@
               {bx} {\sldefault}
               { <->ssub*\g_@@_nfss_family_tl/bx/\itdefault }
               { \l_@@_postadjust_tl }
+            % bx/scsl -> bx/scit
+            \bool_if:nT
+              {
+                !\str_if_empty_p:N \l_@@_nfss_sc_tl &&
+                !(\str_if_eq_p:ee {\scitdefault} {\scsldefault})
+              }
+              {
+                \_@@_DeclareFontShape:xxxxxx {\g_@@_nfss_enc_tl}{\g_@@_nfss_family_tl}{bx}{\scsldefault}
+                  {<->ssub*\g_@@_nfss_family_tl/bx/\scitdefault}{\l_@@_postadjust_tl}
+              }
           }
 
       }

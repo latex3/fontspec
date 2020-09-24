@@ -74,7 +74,7 @@ If you wish to use the latest development version from Github, either use git to
 (For bleeding edge versions, see the `working` branch.)
 Having obtained the package from Github, install the package code by running
 
-    texlua build.lua install
+    l3build install
 
 This will compile the documentation and install all necessary files in your
 local texmf tree. Depending how your TeX distribution is configured

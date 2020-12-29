@@ -47,7 +47,7 @@
     \keys_set_known:nn {fontspec-preparse-cfg} {#1}
 
     \@@_init_ttc:n {#2}
-    \@@_load_external_fontoptions:Nn \l_fontspec_fontname_tl {#2}
+    \@@_load_external_fontoptions:N \l_fontspec_fontname_tl
 
     \@@_extract_all_features:n {#1}
     \tl_set:Nx \l_@@_fontid_tl { \tl_to_str:N \l_fontspec_fontname_tl-:-\tl_to_str:N \l_@@_all_features_clist }
@@ -138,16 +138,16 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\@@_load_external_fontoptions:Nn}
+% \begin{macro}{\@@_load_external_fontoptions:N}
 % Load a possible \texttt{.fontspec} font configuration file.
 % This file could set font-specific options for the font about to be loaded.
+% The parameter should be a tokenlist containing a sanitised fontname.
 %    \begin{macrocode}
-\cs_new:Nn \@@_load_external_fontoptions:Nn
+\cs_new:Nn \@@_load_external_fontoptions:N
   {
     \bool_if:NT \l_@@_fontcfg_bool
       {
-%<debug>  \typeout{:: @@_load_external_fontoptions:Nn \exp_not:N #1 {#2} }
-        \@@_sanitise_fontname:Nn #1 {#2}
+%<debug>  \typeout{:: @@_load_external_fontoptions:N \exp_not:N #1 }
         \tl_set:Nx \l_@@_ext_filename_tl {#1.fontspec}
         \tl_remove_all:Nn \l_@@_ext_filename_tl {~}
         \prop_if_in:NVF \g_@@_fontopts_prop #1
@@ -677,7 +677,8 @@
 \cs_new:Nn \@@_load_fontname:Nn
   {
 %<debug>    \typeout{:: @@_load_fontname:Nn \exp_not:N #1 (#1) {#2} }
-    \@@_load_external_fontoptions:Nn #1 {#2}
+    \@@_sanitise_fontname:Nn #1 {#2}
+    \@@_load_external_fontoptions:N #1
     \prop_get:NVNF \g_@@_fontopts_prop #1 \l_@@_fontopts_clist
       { \clist_clear:N \l_@@_fontopts_clist }
     \keys_set_groups:nnV {fontspec/fontname} {getfontname} \l_@@_fontopts_clist

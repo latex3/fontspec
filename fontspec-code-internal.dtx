@@ -445,7 +445,7 @@
     \prop_gput:cnx {g_@@_fontinfo_ \g_@@_nfss_family_tl _prop} {fontdef}
       {
         \@@_construct_font_call:nn {\l_fontspec_fontname_tl}
-          { \l_@@_pre_feat_sclist \g_@@_rawfeatures_sclist }
+          { \l_@@_pre_feat_sclist \g_@@_rawfeatures_sclist \@@_get_variations: }
       }
     \prop_gput:cnV {g_@@_fontinfo_ \g_@@_nfss_family_tl _prop} {script-num} \l_@@_script_int
     \prop_gput:cnV {g_@@_fontinfo_ \g_@@_nfss_family_tl _prop} {lang-num}   \l_@@_language_int
@@ -790,7 +790,7 @@
 %<debug>\typeout{====~Setup~NFSS~shape:~<\l_@@_size_tl>~\l_fontspec_fontname_tl}
 
     \@@_get_features:n { #2 , #3 , #4 }
-%<debug>\typeout{====~Gathered~features:~\g_@@_rawfeatures_sclist}
+%<debug>\typeout{====~Gathered~features:~\g_@@_rawfeatures_sclist \@@_get_variations:}
 
     \tl_if_empty:NF \l_@@_scale_tl
       {
@@ -801,7 +801,7 @@
       {
         <\l_@@_size_tl> \l_@@_scale_tl
         \@@_construct_font_call:nn { \l_fontspec_fontname_tl }
-          { \l_@@_pre_feat_sclist \g_@@_rawfeatures_sclist }
+          { \l_@@_pre_feat_sclist \g_@@_rawfeatures_sclist \@@_get_variations: }
       }
   }
 %    \end{macrocode}
@@ -1052,6 +1052,30 @@
 %    \end{macrocode}
 % \end{macro}
 %
+% \begin{macro}{\@@_get_variations:}
+% \cmd{\@@_get_variations:} builds the feature string representing the
+% current variation instance and/or axis settings.
+%    \begin{macrocode}
+\cs_new:Nn \@@_format_axis:nn
+  {
+    #1 = #2 ,
+  }
+\cs_new:Nn \@@_get_variations:
+  {
+    \tl_if_empty:NF \g_@@_instance_tl
+      {
+        instance = { \g_@@_instance_tl };
+      }
+      \prop_if_empty:NF \g_@@_rawvariations_prop
+      {
+        axis = {
+          \prop_map_function:NN \g_@@_rawvariations_prop \@@_format_axis:nn
+        };
+      }
+  }
+%    \end{macrocode}
+% \end{macro}
+%
 % \subsection{Initialisation}
 %
 % \begin{macro}{\@@_init:}
@@ -1089,6 +1113,8 @@
 \cs_new:Nn \@@_init_fontface:
   {
     \tl_gclear:N \g_@@_rawfeatures_sclist
+    \prop_gclear:N \g_@@_rawvariations_prop
+    \tl_gclear:N \g_@@_instance_tl
     \tl_clear:N \l_@@_scale_tl
     \tl_set_eq:NN \l_@@_opacity_tl \c_@@_opacity_tl
     \tl_set_eq:NN \l_@@_hexcol_tl \c_@@_hexcol_tl

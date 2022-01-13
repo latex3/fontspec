@@ -1,0 +1,39 @@
+
+\input{fontspec-testsetup.tex}
+
+\usepackage{fontspec}
+\begin{document}
+
+\setmainfont{EBGaramond-Regular.otf}[
+  ItalicFont = EBGaramond-Italic.otf ,
+   SwashFont = EBGaramond-BoldItalic.otf ,
+]
+
+\def\alphabet{ABCDEFGHIJKLMNOPQRSTUVWYXZ\\ abcdefghijklmnopqrstuvwyxz\\ 0123456789}
+
+\MSG{Default font:}
+\alphabet
+\CURRNFSS
+
+\MSG{Italic font:}
+\itshape
+\alphabet
+\CURRNFSS
+
+\MSG{Swash font:}
+\swshape
+\alphabet
+\CURRNFSS
+
+\MSG{Italic font:}
+\itshape
+\alphabet
+\CURRNFSS
+
+\MSG{Upright font:}
+\upshape
+\alphabet
+\CURRNFSS
+
+
+\end{document}

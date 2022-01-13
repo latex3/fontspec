@@ -385,23 +385,12 @@ feature is provided.
 
 
 
-\subsubsection{Small caps and slanted font shapes}
-
-When a font family has both slanted \emph{and} italic shapes, these may be specified separately using the analogous features \feat{SlantedFont} and \feat{BoldSlantedFont}.
-Without these, however, the \LaTeX\ font switches for slanted (\cs{textsl}, \cs{slshape}) will default to the italic shape.
+\subsubsection{Small caps shapes}
 
 For modern OpenType fonts, small caps glyphs are included within a fontface and \pkg{fontspec} will automatically detect them
 for use with the \cs{textsc} and \cs{scshape} commands.
 Pre-OpenType, it was common for font families to be distributed with small caps glyphs in separate fonts, due to the limitations on the number of glyphs allowed in the PostScript Type~1 format.
-Such fonts may be used by declaring the \feat{SmallCapsFont} of the family you are specifying:
-\begin{Verbatim}
-  \setmainfont{Minion MM Roman}[
-    SmallCapsFont={Minion MM Small Caps & Oldstyle Figures}
-  ]
-  Roman 123 \\ \textsc{Small caps 456}
-\end{Verbatim}
-In fact, this example is overly simplistic since it does not cover the other shapes in a font family.
-You should specify the small caps font for each individual bold and italic shape as in
+Such fonts may be used by declaring the \feat{SmallCapsFont} for each font of the family you are specifying:
 \begin{Verbatim}
   \setmainfont{ <upright> }[
     UprightFeatures    = { SmallCapsFont={ <sc> } } ,
@@ -425,6 +414,37 @@ should write instead, if necessary,
     SmallCapsFeatures={Letters=SmallCaps},
   ]
 \end{Verbatim}
+
+
+\subsubsection{Slanted font shapes}
+
+When a font family has both slanted \emph{and} italic shapes, these may be specified separately using the analogous features \feat{SlantedFont} and \feat{BoldSlantedFont}.
+Without these, however, the \LaTeX\ font switches for slanted (\cs{textsl}, \cs{slshape}) will default to the italic shape.
+
+
+\subsubsection{Swash font shapes}
+
+Swash font shapes in a family can be set up in two different ways, depending on your needs and the available font support.
+
+The first approach is to have `swash' as a sibling to `italic', where using \cs{\textsw} will switch shapes wholesale into the desired selection:
+\begin{Verbatim}
+  \setmainfont{...}[
+        SwashFont = {...} ,
+    BoldSwashFont = {...} ,
+  ]
+\end{Verbatim}
+
+The second approach is to have `swash' as a sibling to `small caps', where it applies separately to each individual shape of the family, such that you might have `swash roman' as well as a `swash italic'. In this case the syntax is:
+\begin{Verbatim}
+  \setmainfont{...}[
+    UprightFeatures = { SwashFont = {...} } ,
+     ItalicFeatures = { SwashFont = {...} } ,
+    ...
+  ]
+\end{Verbatim}
+
+Where the swash font is not specifically requested, \pkg{fontspec} will auto-detect whether each font face has a |+swsh| OpenType feature and use the second approach to set up sensible defaults.
+
 
 \subsection{Specifically choosing the \NFSS\ family}
 

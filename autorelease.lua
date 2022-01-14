@@ -33,7 +33,7 @@ function exe(s)
   print('=====================')
   print('> '..s..'\n')
   local e = os.execute(s)
-  if e > 0 then
+  if not(e) then
     error("EXECUTION FAILED: ABORT")
   end
 end

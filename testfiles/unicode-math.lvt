@@ -13,9 +13,6 @@
 \begin{document}
 $a$
 
-\SETBOX{0}{$y \gamma \symbf{x} \symbf{\alpha}$}
-\TIMO
-\shipout\box0
-\OMIT
+\SHIPOUT{$y \gamma \symbf{x} \symbf{\alpha}$}
 
 \end{document}

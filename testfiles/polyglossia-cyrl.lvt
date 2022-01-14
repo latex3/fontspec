@@ -16,11 +16,9 @@
 \newfontfamily\cyrillicfont{LinLibertine_R.otf}[Script=Cyrillic]
 
 \begin{document}
-\TIMO
 
 \SHIPOUT{При}
 
-\OMIT
 \end{document}
 
 

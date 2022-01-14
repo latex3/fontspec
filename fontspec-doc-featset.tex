@@ -418,10 +418,9 @@ automatically.
 
 \subsection{Interword space}
 
-While the space between words can be varied on an individual
-basis with the \TeX\ primitive \cmd\spaceskip\ command, it is
-more convenient to specify this information when the font is
-first defined.
+While the space between words can be varied with the \TeX\ primitive
+\cmd\spaceskip\ command, \pkg{fontspec} also supports changing the
+interword spacing when a given font is loaded.
 
 The space in between words in a paragraph will be chosen automatically,
 and generally will not need to be adjusted. For those
@@ -455,10 +454,7 @@ use this feature in \cs{addfontfeatures}.
 
 \subsection{Post-punctuation space}
 
-If \cmd\frenchspacing\ is \emph{not} in effect, \TeX\ will allow extra
-space after some punctuation in its goal of justifying the lines of text.
-Generally, this is considered old-fashioned, but occasionally in small amounts the
-effect can be justified, pardon the pun.
+If \cmd\frenchspacing\ is \emph{not} in effect (which is the default), \TeX\ will allow extra space after some punctuation in its goal of justifying the lines of text.
 
 The \feat{PunctuationSpace} feature takes a scaling factor by which to
 adjust the nominal value chosen for the font; this is demonstrated in

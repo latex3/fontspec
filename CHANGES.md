@@ -8,6 +8,8 @@ Change history
     A simple implementation that has scope to get more complex if need be.
   * Remove some legacy code that extended the NFSS in ways that are now handled by
     LaTeX2e natively.
+  * Long neglected updates through various Github Issues and pull requests.
+    Thanks for your patience with the delays.
 
 
 ## v2.7i (2020/02/21)

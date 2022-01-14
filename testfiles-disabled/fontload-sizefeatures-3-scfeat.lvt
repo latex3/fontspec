@@ -1,0 +1,40 @@
+
+\input{fontspec-testsetup.tex}
+
+\usepackage{fontspec}
+
+\setmainfont{texgyretermes-regular.otf}[
+ UprightFeatures =
+  {
+   SizeFeatures =
+    {
+     {
+      Size = -8,
+      Font = texgyrepagella-regular.otf,
+      SmallCapsFeatures = {LetterSpace=8}
+     },
+     {
+      Size = 8-12,
+      SmallCapsFeatures = {LetterSpace=5}
+     },
+     {
+      Size = 12-15,
+      Font = texgyreadventor-regular.otf,
+      SmallCapsFeatures = {LetterSpace=3}
+     },
+     {
+      Size = 15-,
+      Font = texgyreadventor-regular.otf
+      % no letter spacing small caps for 15pt or larger
+     }
+    }
+  }
+]
+\begin{document}
+
+\def\x{regular \FONTNAME \textsc{small caps \FONTNAME}\par}
+\def\xx{\tiny \x \scriptsize \x \small \x \large \x}
+
+\xx
+
+\end{document}

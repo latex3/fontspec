@@ -1,6 +1,15 @@
 Change history
 ==============
 
+## v2.8a (2022/01/15)
+
+  * Add `SwashFont` and `BoldSwashFont` features to support LaTeX's now-builtin `\textsw`
+    and `\swshape` commands, with matching `SwashFeatures` and `BoldSwashFeatures`.
+    A simple implementation that has scope to get more complex if need be.
+  * Remove some legacy code that extended the NFSS in ways that are now handled by
+    LaTeX2e natively.
+
+
 ## v2.7i (2020/02/21)
 
   * Define both `b` and `bx` font series by default to avoid spurious warnings in some
@@ -15,6 +24,7 @@ Change history
   * Fix regression with `unicode-math` related log files showing the wrong
     NFSS-based font ‘identifier’.
 
+
 ## v2.7g (2020/01/26)
 
   * Fix regression that broke changing the default encoding after `fontspec` was loaded
@@ -23,6 +33,7 @@ Change history
     a corresponding `Language`.
   * Use `\familydefault` instead of `\rmdefault` when calculating scaling parameters in
     `Scale=MatchLowercase` and `Scale=MatchUppercase`.
+
 
 ## v2.7f (2020/01/24)
 

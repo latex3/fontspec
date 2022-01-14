@@ -79,5 +79,3 @@ Having obtained the package from Github, install the package code by running
 This will compile the documentation and install all necessary files in your
 local texmf tree. Depending how your TeX distribution is configured
 you may then need to update the filename database with `texhash`.
-
-

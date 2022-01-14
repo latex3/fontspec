@@ -726,7 +726,7 @@
     \@@_declare_shapes_normal:nn {#1} {#2}
     \@@_declare_shapes_smcaps:nn {#1} {#2}
     \@@_declare_shape_slanted:nn {#1} {#2}
-    \@@_declare_shapes_bx:nn      {#1} {#2}
+    \@@_declare_shapes_bx:nn     {#1} {#2}
     \@@_declare_shape_loginfo:nn {#1} {#2}
   }
 %    \end{macrocode}
@@ -833,7 +833,7 @@
   {
     \tl_if_exist:cTF { \@@_shape_merge:nn {#1} {\scdefault} }
          { \tl_use:c { \@@_shape_merge:nn {#1} {\scdefault} } }
-         { \scdefault }
+         { \scdefault#1 }
   }
 %    \end{macrocode}
 % \end{macro}

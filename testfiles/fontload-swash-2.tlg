@@ -1,0 +1,13 @@
+This is a generated file for the l3build validation system.
+Don't change this file in any respect.
+Default font:
+TU/EBGaramond-Regular.otf(0)/m/n:
+  "[EBGaramond-Regular.otf]/OT:script=latn;language=dflt;mapping=tex-text;"
+Swash font:
+TU/EBGaramond-Regular.otf(0)/m/sw:
+  "[EBGaramond-Italic.otf]/OT:script=latn;language=dflt;+swsh;mapping=tex-text;"
+Swash font small caps:
+TU/EBGaramond-Regular.otf(0)/m/scsw:
+  "[EBGaramond-Italic.otf]/OT:script=latn;language=dflt;+swsh;+smcp;mapping=tex-text;"
+***************
+Compilation 1 of test file completed with exit status 0

@@ -150,6 +150,8 @@ features requested.
  \feat{BoldItalicFeatures}\texttt=\marg{features} \\
  \feat{SlantedFeatures}\texttt=\marg{features} \\
  \feat{BoldSlantedFeatures}\texttt=\marg{features} \\
+ \feat{SwashFeatures}\texttt=\marg{features} \\
+ \feat{BoldSwashFeatures}\texttt=\marg{features} \\
  \feat{SmallCapsFeatures}\texttt=\marg{features} \\
  \feat{UprightFeatures}\texttt=\marg{features}
 }
@@ -160,8 +162,7 @@ feature options that are completely unavailable in the upright shapes.
 
 The font features defined at the top level of the optional \cmd\fontspec\
 argument are applied to \emph{all} shapes of the family.
-Using \feat{Upright-}, \feat{SmallCaps-}, \feat{Bold-},
-\feat{Italic-}, and \feat{BoldItalicFeatures},
+Using the \feat{xxFeatures} options shown above,
 separate font features may be defined to their respective shapes
 \emph{in addition} to, and with precedence over, the `global' font features.
 See \exref{itfeat}.
@@ -178,7 +179,7 @@ Note that because most fonts include their small caps glyphs
 within the main font, features specified with \feat{SmallCapsFeatures} are applied \emph{in addition} to
 any other shape-specific features as defined above, and hence \feat{SmallCapsFeatures}
 can be nested within \feat{ItalicFeatures} and friends. Every combination
-of upright, italic, bold and small caps can thus be assigned individual
+of upright, italic, bold, (etc.), and small caps can thus be assigned individual
 features, as shown in the somewhat ludicrous \exref{scfeat}.
 
 \begin{Xexample}{scfeat}{An example of setting the \feat{SmallCapsFeatures}

@@ -12,6 +12,7 @@
 %    \begin{macrocode}
 \providecommand*\scitdefault{\scdefault\itdefault}
 \providecommand*\scsldefault{\scdefault\sldefault}
+\providecommand*\scswdefault{\scdefault\swdefault}
 %    \end{macrocode}
 % \LaTeX's `shape' font axis needs to be overloaded to support italic small caps and slanted small caps.
 % These are the combinations to support:
@@ -19,10 +20,13 @@
 \cs_new:Nn \@@_shape_merge:nn { c_@@_shape_#1_#2_tl }
 \cs_new:Nn \@@_merge_default_shapes:
   {
+    \tl_const:cn { \@@_shape_merge:nn \updefault   \scdefault    } {\scdefault}
     \tl_const:cn { \@@_shape_merge:nn \itdefault   \scdefault    } {\scitdefault}
     \tl_const:cn { \@@_shape_merge:nn \sldefault   \scdefault    } {\scsldefault}
+    \tl_const:cn { \@@_shape_merge:nn \swdefault   \scdefault    } {\scswdefault}
     \tl_const:cn { \@@_shape_merge:nn \scdefault   \itdefault    } {\scitdefault}
     \tl_const:cn { \@@_shape_merge:nn \scdefault   \sldefault    } {\scsldefault}
+    \tl_const:cn { \@@_shape_merge:nn \scdefault   \swdefault    } {\scswdefault}
     \tl_const:cn { \@@_shape_merge:nn \scsldefault \itdefault    } {\scitdefault}
     \tl_const:cn { \@@_shape_merge:nn \scitdefault \sldefault    } {\scsldefault}
     \tl_const:cn { \@@_shape_merge:nn \scitdefault \shapedefault } {\scdefault}

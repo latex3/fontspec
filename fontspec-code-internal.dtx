@@ -500,8 +500,10 @@
     \@@_add_nfssfont:nnnn \bfdefault \shapedefault \l_@@_fontname_bf_tl    \l_@@_fontfeat_bf_clist
     \@@_add_nfssfont:nnnn \mddefault \itdefault    \l_@@_fontname_it_tl    \l_@@_fontfeat_it_clist
     \@@_add_nfssfont:nnnn \mddefault \sldefault    \l_@@_fontname_sl_tl    \l_@@_fontfeat_sl_clist
+    \@@_add_nfssfont:nnnn \mddefault \swdefault    \l_@@_fontname_sw_tl    \l_@@_fontfeat_sw_clist
     \@@_add_nfssfont:nnnn \bfdefault \itdefault    \l_@@_fontname_bfit_tl  \l_@@_fontfeat_bfit_clist
     \@@_add_nfssfont:nnnn \bfdefault \sldefault    \l_@@_fontname_bfsl_tl  \l_@@_fontfeat_bfsl_clist
+    \@@_add_nfssfont:nnnn \bfdefault \swdefault    \l_@@_fontname_bfsw_tl  \l_@@_fontfeat_bfsw_clist
     \prop_map_inline:Nn \l_@@_nfssfont_prop { \@@_set_faces_aux:nnnnn ##2 }
   }
 %    \end{macrocode}
@@ -930,8 +932,10 @@
           {\bfdefault/\shapedefault} {'bold'~}
           {\mddefault/\itdefault} {'italic'~}
           {\mddefault/\sldefault} {'slanted'~}
+          {\mddefault/\swdefault} {'swash'~}
           {\bfdefault/\itdefault} {'bold~ italic'~}
           {\bfdefault/\sldefault} {'bold~ slanted'~}
+          {\bfdefault/\swdefault} {'bold~ swash'~}
         } (#1/#2)~
         with~ NFSS~ spec.:~
         \l_@@_nfss_tl

@@ -1,0 +1,34 @@
+This is a generated file for the l3build validation system.
+Don't change this file in any respect.
+Default font:
+TU/EBGaramond-Regular.otf(0)/m/n:
+  "[EBGaramond-Regular.otf]/OT:script=latn;language=dflt;mapping=tex-text;"
+Italic font:
+TU/EBGaramond-Regular.otf(0)/m/it:
+  "[EBGaramond-Italic.otf]/OT:script=latn;language=dflt;mapping=tex-text;"
+Swash font:
+TU/EBGaramond-Regular.otf(0)/m/sw:
+  "[texgyrecursor-regular.otf]/OT:script=latn;language=dflt;mapping=tex-text;" at 10.0pt
+Italic font:
+TU/EBGaramond-Regular.otf(0)/m/it:
+  "[EBGaramond-Italic.otf]/OT:script=latn;language=dflt;mapping=tex-text;"
+Upright font:
+TU/EBGaramond-Regular.otf(0)/m/n:
+  "[EBGaramond-Regular.otf]/OT:script=latn;language=dflt;mapping=tex-text;"
+Bold font:
+TU/EBGaramond-Regular.otf(0)/b/n:
+  "[EBGaramond-Bold.otf]/OT:script=latn;language=dflt;mapping=tex-text;"
+Bold Italic font:
+TU/EBGaramond-Regular.otf(0)/b/it:
+  "[EBGaramond-BoldItalic.otf]/OT:script=latn;language=dflt;mapping=tex-text;"
+Bold Swash font:
+TU/EBGaramond-Regular.otf(0)/b/sw:
+  "[texgyrecursor-bold.otf]/OT:script=latn;language=dflt;mapping=tex-text;" at 10.0pt
+Bold Italic font:
+TU/EBGaramond-Regular.otf(0)/b/it:
+  "[EBGaramond-BoldItalic.otf]/OT:script=latn;language=dflt;mapping=tex-text;"
+Bold font:
+TU/EBGaramond-Regular.otf(0)/b/n:
+  "[EBGaramond-Bold.otf]/OT:script=latn;language=dflt;mapping=tex-text;"
+***************
+Compilation 1 of test file completed with exit status 0

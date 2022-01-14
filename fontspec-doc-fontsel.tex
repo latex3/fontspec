@@ -424,15 +424,29 @@ Without these, however, the \LaTeX\ font switches for slanted (\cs{textsl}, \cs{
 
 \subsubsection{Swash font shapes}
 
-Swash font shapes in a family can be set up in two different ways, depending on your needs and the available font support.
+Swash font shapes in a family can be set up in two different ways, depending on your needs and the available font support. Swash fonts can be selected using \cs{textsw} and \cs{swshape}.
 
-The first approach is to have `swash' as a sibling to `italic', where using \cs{\textsw} will switch shapes wholesale into the desired selection:
+\paragraph{Simple approach}
+
+The first approach is to have `swash' as a sibling to `italic', where using \cs{textsw} will switch shapes wholesale into the desired selection:
 \begin{Verbatim}
   \setmainfont{...}[
         SwashFont = {...} ,
     BoldSwashFont = {...} ,
   ]
 \end{Verbatim}
+With this approach, no assumptions are made about the |+swsh| OpenType feature availability, and if desired the `Swash' feature needs to be explicitly requested as in:
+\begin{Verbatim}
+  \setmainfont{...}[
+        SwashFont = {...} ,
+        SwashFeatures = {Style=Swash} ,
+        ...
+  ]
+\end{Verbatim}
+
+\paragraph{Blended approach (autodetected)}
+
+Where the swash font is not specifically requested, \pkg{fontspec} will auto-detect whether each font face has a |+swsh| OpenType feature and use the second approach to set up sensible defaults.
 
 The second approach is to have `swash' as a sibling to `small caps', where it applies separately to each individual shape of the family, such that you might have `swash roman' as well as a `swash italic'. In this case the syntax is:
 \begin{Verbatim}
@@ -443,7 +457,6 @@ The second approach is to have `swash' as a sibling to `small caps', where it ap
   ]
 \end{Verbatim}
 
-Where the swash font is not specifically requested, \pkg{fontspec} will auto-detect whether each font face has a |+swsh| OpenType feature and use the second approach to set up sensible defaults.
 
 
 \subsection{Specifically choosing the \NFSS\ family}

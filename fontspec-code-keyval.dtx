@@ -223,6 +223,13 @@
   }
 %    \end{macrocode}
 %
+%    \begin{macrocode}
+\@@_keys_define_code:nnn {fontspec-preparse-external} {SwashFont}
+  {
+    \fontspec_complete_fontname:Nn \l_@@_fontname_sw_tl {#1}
+  }
+%    \end{macrocode}
+%
 %
 % \paragraph{Bold (NFSS) Series}
 % By default, \pkg{fontspec} uses the default bold series, \cs{bfdefault}.
@@ -282,6 +289,13 @@
   }
 %    \end{macrocode}
 %
+%    \begin{macrocode}
+\@@_keys_define_code:nnn {fontspec-preparse-external} {BoldSwashFont}
+  {
+    \fontspec_complete_fontname:Nn \l_@@_fontname_bfsw_tl {#1}
+  }
+%    \end{macrocode}
+%
 % \paragraph{Small caps}
 % Small caps isn't pre-parsed because it can vary with others above:
 %    \begin{macrocode}
@@ -309,7 +323,6 @@
 \@@_keys_define_code:nnn {fontspec-preparse} {BoldFeatures}
   {
     \clist_put_right:Nn \l_@@_fontfeat_bf_clist {#1}
-
 %  \prop_put:NxV \l_@@_nfss_prop
 %     {BoldFont-\g_@@_curr_series_tl} \l_@@_curr_bfname_tl
   }
@@ -328,6 +341,14 @@
 \@@_keys_define_code:nnn {fontspec-preparse} {BoldSlantedFeatures}
   {
     \clist_put_right:Nn \l_@@_fontfeat_bfsl_clist {#1}
+  }
+\@@_keys_define_code:nnn {fontspec-preparse} {SwashFeatures}
+  {
+    \clist_put_right:Nn \l_@@_fontfeat_sw_clist {#1}
+  }
+\@@_keys_define_code:nnn {fontspec-preparse} {BoldSwashFeatures}
+  {
+    \clist_put_right:Nn \l_@@_fontfeat_bfsw_clist {#1}
   }
 %    \end{macrocode}
 % Note that small caps features can vary by shape, so these in fact \emph{aren't} pre-parsed.

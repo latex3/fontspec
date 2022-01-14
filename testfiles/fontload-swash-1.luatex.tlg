@@ -1,0 +1,34 @@
+This is a generated file for the l3build validation system.
+Don't change this file in any respect.
+Default font:
+TU/EBGaramond-Regular.otf(0)/m/n:
+  [EBGaramond-Regular.otf]:mode=node;script=latn;language=dflt;+tlig;
+Italic font:
+TU/EBGaramond-Regular.otf(0)/m/it:
+  [EBGaramond-Italic.otf]:mode=node;script=latn;language=dflt;+tlig;
+Swash font:
+TU/EBGaramond-Regular.otf(0)/m/sw:
+  [texgyrecursor-regular.otf]:mode=node;script=latn;language=dflt;+tlig;
+Italic font:
+TU/EBGaramond-Regular.otf(0)/m/it:
+  [EBGaramond-Italic.otf]:mode=node;script=latn;language=dflt;+tlig;
+Upright font:
+TU/EBGaramond-Regular.otf(0)/m/n:
+  [EBGaramond-Regular.otf]:mode=node;script=latn;language=dflt;+tlig;
+Bold font:
+TU/EBGaramond-Regular.otf(0)/b/n:
+  [EBGaramond-Bold.otf]:mode=node;script=latn;language=dflt;+tlig;
+Bold Italic font:
+TU/EBGaramond-Regular.otf(0)/b/it:
+  [EBGaramond-BoldItalic.otf]:mode=node;script=latn;language=dflt;+tlig;
+Bold Swash font:
+TU/EBGaramond-Regular.otf(0)/b/sw:
+  [texgyrecursor-bold.otf]:mode=node;script=latn;language=dflt;+tlig;
+Bold Italic font:
+TU/EBGaramond-Regular.otf(0)/b/it:
+  [EBGaramond-BoldItalic.otf]:mode=node;script=latn;language=dflt;+tlig;
+Bold font:
+TU/EBGaramond-Regular.otf(0)/b/n:
+  [EBGaramond-Bold.otf]:mode=node;script=latn;language=dflt;+tlig;
+***************
+Compilation 1 of test file completed with exit status 0

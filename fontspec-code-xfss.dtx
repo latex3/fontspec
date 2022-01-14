@@ -51,159 +51,9 @@
 %
 %
 %    \begin{macrocode}
-\cs_if_exist:NTF \DeclareFontSeriesChangeRule
-{
-  \cs_set_eq:NN \emfontdeclare \DeclareEmphSequence
-}
-{
+\cs_set_eq:NN \emfontdeclare \DeclareEmphSequence
 %    \end{macrocode}
 %
-% \begin{macro}{\sishape}
-% \begin{macro}{\textsi}
-% These commands for actually selecting italic small caps have been defined for many years; I'm inclined to drop them.
-% They're probably used very infrequently; I personally prefer just writing
-% |\textit{\textsc{...}}| instead.
-%
-%    \begin{macrocode}
-\DeclareRobustCommand{\sishape}
-  {
-    \not@math@alphabet\sishape\relax
-    \fontshape{\scitdefault}\selectfont
-  }
-\DeclareTextFontCommand{\textsi}{\sishape}
-%    \end{macrocode}
-% \end{macro} \end{macro}
-%
-%
-% \begin{macro}{\@@_merge_shape:n}
-% These macros enable the overload on the |\..shape| commands.
-% First, a shape `new+current' (prefix) or `current+new' (suffix) is tried.
-% If not found, fall back on the `new' shape.
-%    \begin{macrocode}
-\cs_new:Nn \@@_merge_shape:n
-  {
-    \@@_if_merge_shape:nTF {#1}
-      { \fontshape { \tl_use:c { \@@_shape_merge:nn {\f@shape} {#1} } } \selectfont }
-      { \fontshape {#1} \selectfont }
-  }
-%    \end{macrocode}
-% \end{macro}
-%
-% \begin{macro}{\itshape} \begin{macro}{\scshape} \begin{macro}{\upshape} \begin{macro}{\slshape}
-% The original |\..shape| commands are redefined to use the merge shape macro.
-%    \begin{macrocode}
-\DeclareRobustCommand \itshape
-  {
-    \not@math@alphabet\itshape\mathit
-    \@@_merge_shape:n\itdefault
-  }
-\DeclareRobustCommand \slshape
-  {
-    \not@math@alphabet\slshape\relax
-    \@@_merge_shape:n\sldefault
-  }
-\DeclareRobustCommand \scshape
-  {
-    \not@math@alphabet\scshape\relax
-    \@@_merge_shape:n\scdefault
-  }
-\DeclareRobustCommand \upshape
-  {
-    \not@math@alphabet\upshape\relax
-    \@@_merge_shape:n\updefault
-  }
-%    \end{macrocode}
-% \end{macro} \end{macro} \end{macro} \end{macro}
-%
-%
-%
-% \subsection{Emphasis}
-%
-% \begin{macro}{\emfontdeclare}
-%    \begin{macrocode}
-\cs_set_protected:Npn \emfontdeclare #1
-  {
-    \prop_gclear:N    \g_@@_em_prop
-    \int_zero:N       \l_@@_emdef_int
-    \bool_gset_true:N \g_@@_em_normalise_slant_bool
-
-    \tl_if_in:nnT {#1} {\slshape}
-      {
-        \tl_if_in:nnT {#1} {\itshape}
-          {
-            \bool_gset_false:N \g_@@_em_normalise_slant_bool
-          }
-      }
-
-    \group_begin:
-      \normalfont
-      \clist_map_inline:nn {\emreset,#1}
-        {
-          ##1
-          \prop_gput_if_new:NxV \g_@@_em_prop { \f@shape } { \l_@@_emdef_int }
-          \prop_gput:Nxn \g_@@_em_prop { switch-\int_use:N \l_@@_emdef_int } { ##1 }
-          \int_incr:N \l_@@_emdef_int
-        }
-    \group_end:
-  }
-%    \end{macrocode}
-% \end{macro}
-%
-% \begin{macro}{\em}
-%    \begin{macrocode}
-\DeclareRobustCommand \em
-  {
-    \@nomath\em
-    \tl_set:Nx \l_@@_emshape_query_tl { \f@shape }
-
-    \bool_if:NT \g_@@_em_normalise_slant_bool
-      {
-        \tl_replace_all:Nnn \l_@@_emshape_query_tl {/sl} {/it}
-      }
-
-%<debug> \typeout{Emph~ level:~\int_use:N \l_@@_em_int}
-    \prop_get:NxNT \g_@@_em_prop { \l_@@_emshape_query_tl } \l_@@_em_tmp_tl
-      {
-        \int_set:Nn \l_@@_em_int { \l_@@_em_tmp_tl }
-%<debug> \typeout{Shape~ (\l_@@_emshape_query_tl)~ detected;~ new~ level:~\int_use:N \l_@@_em_int}
-      }
-
-    \int_incr:N \l_@@_em_int
-
-    \prop_get:NxNTF \g_@@_em_prop { switch-\int_use:N \l_@@_em_int } \l_@@_em_switch_tl
-      { \l_@@_em_switch_tl }
-      {
-        \int_zero:N \l_@@_em_int
-        \emreset
-      }
-
-  }
-%    \end{macrocode}
-% \end{macro}
-%
-% \begin{macro}{\emph}
-% \begin{macro}{\emshape}
-% \begin{macro}{\eminnershape}
-% \begin{macro}{\emreset}
-%    \begin{macrocode}
-\DeclareTextFontCommand{\emph}{\em}
-\cs_set:Npn \emreset { \upshape }
-\cs_set:Npn \emshape { \itshape }
-\cs_set:Npn \eminnershape { \upshape }
-%    \end{macrocode}
-% \end{macro}
-% \end{macro}
-% \end{macro}
-% \end{macro}
-%
-%    \begin{macrocode}
-\emfontdeclare{ \emshape, \eminnershape }
-\cs_new:Nn \fontspec_set_em_level:n     { \int_set:Nn \l_@@_em_int     {#1} }
-%    \end{macrocode}
-%
-%    \begin{macrocode}
-}
-%    \end{macrocode}
 %
 %
 %
@@ -271,7 +121,6 @@
 \cs_set:Npn \reset@font
   {
     \normalfont
-    \int_zero:N \l_@@_em_int
     \int_zero:N \l_@@_strong_int
   }
 %    \end{macrocode}

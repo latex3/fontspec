@@ -1036,6 +1036,15 @@ will look. OpenType fonts may contain the following options:
 \opt{SmallCaps}, \opt{PetiteCaps},
 \opt{UppercaseSmallCaps}, \opt{UppercasePetiteCaps}, and
 \opt{Unicase}.
+Additionally \opt{Uppercase} and \opt{Lowercase} are supported for all fonts
+in \LuaTeX.
+In contrast to earlier version, the \opt{Uppercase} and \opt{Lowercase} options
+turn the text into uppercase or lowercase and do not require the text to already
+have the right casing. The old behavior of \opt{Uppercase} is available with
+\verb|Style=Uppercase|. When the \opt{Uppercase} option is selected,
+\verb|Style=Uppercase| and \verb|Kerning=Uppercase| are automatically applied if
+supported by the font.
+
 
 \begin{features}{Letters}
 \otf*{SmallCaps}{smcp}
@@ -1043,6 +1052,8 @@ will look. OpenType fonts may contain the following options:
 \otf*{UppercaseSmallCaps}{c2sc}
 \otf*{UppercasePetiteCaps}{c2pc}
 \otf*{Unicase}{unic}
+\otf*{Uppercase}{}
+\otf*{Lowercase}{}
 \cmidrule{2-4}
 \otf{ResetAll}{}
 \end{features}
@@ -1208,7 +1219,7 @@ in \exref{style-uppercase}; note the raised position of the hyphen
 to better match the surrounding letters.
 It will (probably) not actually map letters to uppercase.
  \note{If you want automatic uppercase letters, look to \LaTeX's
-      \cmd\MakeUppercase\ command.}
+      \cmd\MakeUppercase\ command or, when using \LuaTeX, to the \feat{Letters} feature.}
 This option used to be selected under the \feat{Letters} feature, but moved here
 as it generally does not actually affect the letters themselves.
 The \feat{Kerning} feature also contains an \opt{Uppercase} option,

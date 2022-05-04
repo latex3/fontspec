@@ -288,7 +288,8 @@
 %    \begin{macrocode}
 \cs_new:Nn \@@_font_is_name:
   {
-    \cs_set_eq:NN \@@_fontname_wrap:n \use:n
+%<XE>  \cs_set_eq:NN \@@_fontname_wrap:n \use:n
+%<LU>  \cs_set:Npn \@@_fontname_wrap:n ##1 { name: ##1 }
   }
 %    \end{macrocode}
 %

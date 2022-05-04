@@ -1,0 +1,16 @@
+This is a generated file for the l3build validation system.
+Don't change this file in any respect.
+RM:
+TU/TeXGyrePagella(0)/m/n:
+  name:TeXGyrePagella:mode=node;script=latn;language=dflt;+tlig;
+BF:
+TU/TeXGyrePagella(0)/b/n:
+  name:TeXGyrePagella/B:mode=node;script=latn;language=dflt;+tlig;
+IT:
+TU/TeXGyrePagella(0)/m/it:
+  name:TeXGyrePagella/I:mode=node;script=latn;language=dflt;+tlig;
+BFIT:
+TU/TeXGyrePagella(0)/b/it:
+  name:TeXGyrePagella/BI:mode=node;script=latn;language=dflt;+tlig;
+***************
+Compilation 1 of test file completed with exit status 0

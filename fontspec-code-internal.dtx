@@ -282,9 +282,9 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\@@_font_is_file:,\@@_font_is_name:}
+% \begin{macro}{\@@_font_is_file:,\@@_font_is_name:,\@@_font_is_kpse:}
 % The \cs{@@_fontname_wrap:n} command takes the font name and either passes it through unchanged or wraps it in the syntax for loading a font `by filename'.
-% \XeTeX's syntax is followed since \pkg{luaotfload} provides compatibility.
+% For Lua\TeX\ there are two kinds kinds of filename based loading supported: Regular filename lookups which include system fonts and lookups restricted to kpse.
 %    \begin{macrocode}
 \cs_new:Nn \@@_font_is_name:
   {
@@ -297,6 +297,16 @@
   {
     \cs_set:Npn \@@_fontname_wrap:n ##1 { [ \l_@@_font_path_tl ##1 ] }
   }
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+%<*LU>
+\cs_new:Nn \@@_font_is_kpse:
+  {
+    \cs_set:Npn \@@_fontname_wrap:n ##1 { kpse: ##1 }
+  }
+%</LU>
+%<XE>\cs_new_eq:NN \@@_font_is_kpse: \@@_font_is_file:
 %    \end{macrocode}
 % \end{macro}
 %

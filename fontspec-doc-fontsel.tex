@@ -129,6 +129,7 @@ wish to have them all installed in your system's font directories.
 In this case, it is more convenient to load them from a different location on your disk.
 This technique is also necessary in \XeTeX\ when loading OpenType fonts that are present within your \TeX\ distribution, such as \path{/usr/local/texlive/2013/texmf-dist/fonts/opentype/public}.
 Fonts in such locations are visible to \XeTeX\ but cannot be loaded by font name, only file name; \LuaTeX\ does not have this restriction.
+(If you for some reason want to restrict the fonts to the ones provided by your \TeX\ distribution even though you are using \LuaTeX\ you can use the \texttt{KpseOnly} option)
 
 When selecting fonts by file name, any font that can be found in the default
 search paths may be used directly (including in the current directory)

@@ -67,12 +67,11 @@ If you wish to manually download the latest release version from CTAN, get the p
 
     http://mirror.ctan.org/install/macros/latex/contrib/fontspec.tds.zip
 
-If you wish to use the latest development version from Github, either use git to obtain the bleeding edge version with
+If you wish to use the latest development version from Github, use git to obtain the latest repository code with
 
     git clone git://github.com/latex3/fontspec.git
 
-(For bleeding edge versions, see the `working` branch.)
-Having obtained the package from Github, install the package code by running
+See the `working` branch for changes that have not been released to CTAN yet (no guarantees the code in that branch will always be fully functional). Having obtained the package from Github, install the package code by running
 
     l3build install
 

@@ -809,6 +809,15 @@
   }
 %    \end{macrocode}
 %
+% \subsubsection{Variation instances}
+%
+%    \begin{macrocode}
+\@@_keys_define_code:nnn {fontspec-opentype} {Instance}
+  {
+    \tl_gset:Nn \g_@@_instance_tl {#1}
+  }
+%    \end{macrocode}
+%
 % \subsubsection{Font transformations}
 % These are to be specified to apply directly to a font shape:
 %    \begin{macrocode}

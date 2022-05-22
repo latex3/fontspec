@@ -608,6 +608,64 @@ This functionality is not generally used for lowercase text in modern typesettin
 In particular, small amounts of letter spacing can be very useful, when setting small caps or all caps titles.
 Also see the OpenType \opt{Uppercase} option of the \feat{Letters} feature (\vref{sec:letters}).
 
+
+\section{Variable fonts} \label{sec:variable}
+
+OpenType variable fonts and Multiple Master fonts are parameterised over
+orthogonal font axes, allowing continuous selection along such features
+as weight, width, and optical size.
+
+
+\subsection{Optical font sizes} \label{sec:aat-opticalsize}
+Whereas traditional OpenType fonts will have only a few separate
+optical sizes, a Variable or Multiple Master font's optical size can be
+specified over a continuous range. Unfortunately, this flexibility makes
+it harder to create an automatic interface through \LaTeX, and the
+optical size for a Variable or Multiple Master font must always be specified
+explicitly.
+\begin{Verbatim}
+  \fontspec{Minion MM Roman}[OpticalSize=11]
+   MM optical size test                    \\
+  \fontspec{Minion MM Roman}[OpticalSize=47]
+   MM optical size test                    \\
+  \fontspec{Minion MM Roman}[OpticalSize=71]
+   MM optical size test                    \\
+\end{Verbatim}
+
+
+\subsection{Weight} \label{sec:variable-weight}
+For fonts with a variable weight axis, the weight can be specified through the
+\feat{Weight} feature. The value should be between 0 and 1000, where typically
+400 corresponds to regular wight and 700 is a bold font.
+\begin{Verbatim}
+  \fontspec{Source Serif Variable}[Weight=700]
+  Bold                                     \\
+  \fontspec{Source Serif Variable}[Weight=200]
+  Extra Light                              \\
+\end{Verbatim}
+
+
+\subsection{Width} \label{sec:variable-width}
+Similarly, the \feat{Width} feature allows specifying the value of the width axis,
+where the value is a percentage of normal width.
+\begin{Verbatim}
+  \fontspec{Noto Serif}[Width=100]
+  Normal Width                             \\
+  \fontspec{Noto Serif}[Width=75]
+  Condensed                                \\
+\end{Verbatim}
+
+\subsection{Other axes} \label{sec:variable-raw}
+For OpenType variable fonts, additional axis values can be specified
+if the four letter tag of these axes is known.
+Than their value can be set with the \feat{RawAxis} feature:
+\begin{Verbatim}
+  \fontspec{Noto Serif}[RawAxis={CTGR=100}]
+  Maximal contrast                        \\
+  \fontspec{Noto Serif}[RawAxis={CTGR=0}]
+  Regular contrast                        \\
+\end{Verbatim}
+
 \end{document}
 
 % /©

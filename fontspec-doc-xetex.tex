@@ -58,27 +58,6 @@ by \pkg{fontspec} before all others and will automatically and without warning
 select the \opt{OpenType} renderer.}
 
 
-\subsection{Optical font sizes} \label{sec:aat-opticalsize}
-
-Multiple Master fonts are parameterised over
-orthogonal font axes, allowing continuous selection along such
-features as weight, width, and optical size.
-Whereas an OpenType font will have only a few separate
-optical sizes, a Multiple Master font's optical size can be
-specified over a continuous range. Unfortunately, this flexibility makes
-it harder to create an automatic interface through \LaTeX, and the
-optical size for a Multiple Master font must always be specified
-explicitly.
-\begin{Verbatim}
-  \fontspec{Minion MM Roman}[OpticalSize=11]
-   MM optical size test                    \\
-  \fontspec{Minion MM Roman}[OpticalSize=47]
-   MM optical size test                    \\
-  \fontspec{Minion MM Roman}[OpticalSize=71]
-   MM optical size test                    \\
-\end{Verbatim}
-
-
 \subsection{Vertical typesetting}
 
 \XeTeX\ provides for vertical typesetting simply with the ability to rotate

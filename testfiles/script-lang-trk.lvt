@@ -6,15 +6,15 @@
 \begin{document}
 
 \MSG{DEFAULT}
-\setmainfont{STIX2Text-Regular.otf}
+\setmainfont{STIXTwoText-Regular.otf}
 \CURRNFSS
 
 \MSG{SCRIPT DFLT}
-\setmainfont{STIX2Text-Regular.otf}[Script=Latin]
+\setmainfont{STIXTwoText-Regular.otf}[Script=Latin]
 \CURRNFSS
 
 \MSG{LANG TRK}
-\setmainfont{STIX2Text-Regular.otf}[Script=Latin,Language=Turkish]
+\setmainfont{STIXTwoText-Regular.otf}[Script=Latin,Language=Turkish]
 \CURRNFSS
 
 \end{document}

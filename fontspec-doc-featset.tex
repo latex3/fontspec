@@ -657,6 +657,21 @@ where the value is a percentage of normal width.
   Condensed                                \\
 \end{Verbatim}
 
+\subsection{Slant} \label{sec:variable-slant}
+Also fonts with a slant axis can be controlled with the \feat{Slant} feature.
+In a standard compliant font the value should specify the clockwise angle in degree
+the glyphs are slanted. Therefore for a typical forward leaning slanted font, a
+negative value should be passed.
+
+Many fonts use this feature in non-standard ways, so you might have to experiment
+a bit with the value.
+\begin{Verbatim}
+  \fontspec{Roboto Flex}[Slant=0]
+  Upright                            \\
+  \fontspec{Roboto Flex}[Slant=-5]
+  Slanted                            \\
+\end{Verbatim}
+
 \subsection{Other axes} \label{sec:variable-raw}
 For OpenType variable fonts, additional axis values can be specified
 if the four letter tag of these axes is known.

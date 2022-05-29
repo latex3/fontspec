@@ -63,7 +63,13 @@
     \bool_set_true:N \l_@@_noit_bool
     \bool_set_true:N \l_@@_external_bool
     \tl_set:Nn \l_@@_font_path_tl {#1}
-    \@@_font_is_file:
+    \bool_lazy_and:nnTF { \l_@@_external_kpse_bool } { \tl_if_empty_p:N \l_@@_font_path_tl }
+      {
+        \@@_font_is_kpse:
+      }
+      {
+        \@@_font_is_file:
+      }
 %<*XE>
     \keys_set:nn {fontspec-renderer} {Renderer=OpenType}
 %</XE>
@@ -87,6 +93,22 @@
   }
 \tl_clear:N \l_@@_extension_tl
 \@@_keys_define_code:nnn {fontspec} {Extension} {}
+%    \end{macrocode}
+%
+% \paragraph{\feat{KpseOnly}}
+% If the font is specified by filename, only search for it through kpse.
+% \XeTeX\ does not support finding system fonts by filename so this is always implicitly set
+% there.
+%    \begin{macrocode}
+\@@_keys_define_code:nnn {fontspec-preparse-external} {KpseOnly}
+  {
+    \bool_set_true:N \l_@@_external_kpse_bool
+    \bool_if:NT \l_@@_external_bool
+      {
+        \@@_font_is_kpse:
+      }
+  }
+\@@_keys_define_code:nnn {fontspec} {KpseOnly} {}
 %    \end{macrocode}
 %
 %

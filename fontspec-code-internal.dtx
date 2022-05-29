@@ -660,7 +660,7 @@
     \group_begin:
     \@@_primitive_font_set:Nnn \l_@@_tmpa_font { \@@_construct_font_call:nn {#1}   { \l_@@_pre_feat_sclist } } { \f@size pt + 1sp }
     \@@_primitive_font_set:Nnn \l_@@_tmpb_font { \@@_construct_font_call:nn {#1#2} { \l_@@_pre_feat_sclist } } { \f@size pt + 1sp }
-    \str_if_eq:eeTF { \@@_primitive_font_get_name:N \l_@@_tmpa_font } { \@@_primitive_font_get_name:N \l_@@_tmpb_font }
+    \cs_if_eq:NNTF \l_@@_tmpa_font \l_@@_tmpb_font
       { \group_end: \prg_return_false: }
       { \group_end: \prg_return_true: }
   }

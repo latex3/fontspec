@@ -1056,9 +1056,10 @@
 % \cmd{\@@_get_variations:} builds the feature string representing the
 % current variation instance and/or axis settings.
 %    \begin{macrocode}
+\cs_generate_variant:Nn \tl_tail:n { e }
 \cs_new:Nn \@@_format_axis:nn
   {
-    #1 = #2 ,
+    , #1 = #2
   }
 \cs_new:Nn \@@_get_variations:
   {
@@ -1069,7 +1070,9 @@
       \prop_if_empty:NF \g_@@_rawvariations_prop
       {
         axis = {
-          \prop_map_function:NN \g_@@_rawvariations_prop \@@_format_axis:nn
+          \tl_tail:e {
+            \prop_map_function:NN \g_@@_rawvariations_prop \@@_format_axis:nn
+          }
         };
       }
   }

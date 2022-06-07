@@ -701,6 +701,7 @@
 %    \begin{macrocode}
 \@@_keys_define_code:nnn {fontspec} {Color}
   {
+%<*XE>
     \cs_if_exist:cTF { \token_to_str:N \color@ #1 }
       {
         \convertcolorspec{named}{#1}{HTML}\l_@@_hexcol_tl
@@ -717,6 +718,10 @@
               }
           }
       }
+%</XE>
+%<*LU>
+    \tl_set:Nn \l_@@_hexcol_tl {#1}
+%</LU>
   }
 %    \end{macrocode}
 %
@@ -745,6 +750,7 @@
       }
     \tl_set:Nx \l_@@_opacity_tl
       {
+%<LU>      ,
         \int_compare:nT { \l_@@_tmp_int <= "F } {0} % zero pad
         \int_to_hex:n { \l_@@_tmp_int }
       }

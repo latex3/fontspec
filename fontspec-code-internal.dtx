@@ -371,7 +371,8 @@
 
     \str_if_eq:eeF { \l_@@_hexcol_tl \l_@@_opacity_tl }
                      { \c_@@_hexcol_tl \c_@@_opacity_tl }
-      { \@@_update_featstr:n { color = \l_@@_hexcol_tl\l_@@_opacity_tl } }
+%<XE>       { \@@_update_featstr:n { color = \l_@@_hexcol_tl\l_@@_opacity_tl } }
+%<LU>       { \@@_update_featstr:n { color = {\l_@@_hexcol_tl\l_@@_opacity_tl} } }
   }
 %    \end{macrocode}
 % \end{macro}

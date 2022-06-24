@@ -1,0 +1,30 @@
+\input{fontspec-testsetup.tex}
+
+\usepackage{fontspec}
+
+\begin{document}
+% Only test in LuaTeX since in XeTeX it's unclear if the fonts ar available
+\LUATEXONLY
+
+\setmainfont{TeX Gyre Pagella}
+
+\MSG{RM:}
+`hello' 123
+\CURRNFSS
+
+\MSG{BF:}
+\bfseries
+`hello' 123
+\CURRNFSS
+
+\MSG{IT:}
+\mdseries\itshape
+`hello' 123
+\CURRNFSS
+
+\MSG{BFIT:}
+\bfseries
+`hello' 123
+\CURRNFSS
+
+\end{document}

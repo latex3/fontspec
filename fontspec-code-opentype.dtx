@@ -10,6 +10,22 @@
 %
 %
 %
+% \begin{macro}{\@@_define_opentype_variation_axis:nn}
+%    \begin{macrocode}
+\cs_new:Nn \@@_define_opentype_variation_axis:nn
+  {
+    \keys_define:nn {fontspec-opentype}
+      {
+        #1 .code:n = {
+          \prop_gput:Nnn \g_@@_rawvariations_prop { #2 } { ##1 }
+        },
+        #1 .value_required:n = true,
+        #1 .groups:n = {opentype},
+      }
+  }
+%    \end{macrocode}
+% \end{macro}
+%
 % \begin{macro}{\@@_define_opentype_feature_group:n}
 %    \begin{macrocode}
 \cs_new:Nn \@@_define_opentype_feature_group:n

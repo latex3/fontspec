@@ -1,0 +1,33 @@
+\input{fontspec-testsetup.tex}
+
+\usepackage{fontspec}
+\usepackage{iftex}
+\ifluahbtex
+  \defaultfontfeatures{Renderer=HarfBuzz}
+\fi
+
+\begin{document}
+
+\START
+
+\fontspec{NotoSerif-VF.ttf}
+\setbox0\hbox{m}
+\MSG{Default: \the\wd0}
+
+\fontspec[Weight=700]{NotoSerif-VF.ttf}
+\setbox0\hbox{m}
+\MSG{Bold: \the\wd0}
+
+\fontspec[Weight=900]{NotoSerif-VF.ttf}
+\setbox0\hbox{m}
+\MSG{Black: \the\wd0}
+
+\fontspec[Weight=900, Width=75]{NotoSerif-VF.ttf}
+\setbox0\hbox{m}
+\MSG{Black condensed: \the\wd0}
+
+\fontspec[Instance=ExtraCondensed Bold]{NotoSerif-VF.ttf}
+\setbox0\hbox{m}
+\MSG{Extracondensed Bold: \the\wd0}
+
+\end{document}

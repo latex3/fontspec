@@ -782,14 +782,21 @@
 % \subsubsection{Continuous font axes}
 %
 %    \begin{macrocode}
+%<*XE>
 \@@_keys_define_code:nnn {fontspec} {Weight}
   {
     \@@_update_featstr:n{weight=#1}
   }
+%</XE>
+%<LU>\@@_define_opentype_variation_axis:nn {Weight} {wght}
+%<*XE>
 \@@_keys_define_code:nnn {fontspec} {Width}
   {
     \@@_update_featstr:n{width=#1}
   }
+%</XE>
+%<LU>\@@_define_opentype_variation_axis:nn {Width} {wdth}
+\@@_define_opentype_variation_axis:nn {Slant} {slnt}
 \@@_keys_define_code:nnn {fontspec} {OpticalSize}
 %<*XE>
   {
@@ -815,6 +822,23 @@
     \tl_set:Nn \l_@@_optical_size_tl {/ S = #1}
   }
 %</LU>
+%    \end{macrocode}
+%
+% For other potentially font specific variation axes, there is a raw setter available:
+%    \begin{macrocode}
+\@@_keys_define_code:nnn {fontspec-opentype} {RawAxis}
+  {
+    \prop_gput_from_keyval:Nn \g_@@_rawvariations_prop {#1}
+  }
+%    \end{macrocode}
+%
+% \subsubsection{Variation instances}
+%
+%    \begin{macrocode}
+\@@_keys_define_code:nnn {fontspec-opentype} {Instance}
+  {
+    \tl_gset:Nn \g_@@_instance_tl {#1}
+  }
 %    \end{macrocode}
 %
 % \subsubsection{Font transformations}

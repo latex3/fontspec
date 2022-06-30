@@ -6,9 +6,9 @@
      ======================================
 
      * Make sure changes are up to date with new version tag.
-     * Be in the `working` branch, fully committed.
+     * Be in the `develop` branch, fully committed.
      * This file will query a couple of times to make sure all is well.
-     * If so, it sends the package off to CTAN and the `master` branch is rebased and tagged.
+     * If so, it sends the package off to CTAN and the `main` branch is rebased and tagged.
      * TODO: add Github release zip file as well.
 
 --]==========================================]--
@@ -51,9 +51,9 @@ end
 --]==================]--
 
 gitbranch = os.capture('git symbolic-ref --short HEAD')
-if gitbranch ~= "working" then
+if gitbranch ~= "develop" then
   print("Current git branch: "..gitbranch)
-  error("You must be on the 'working' branch")
+  error("You must be on the 'develop' branch")
 else
   print("Current git branch: "..gitbranch.." ... correct!")
 end
@@ -64,7 +64,7 @@ if gitstatus ~= "" then
 end
 
 --[=========================[--
-     MOVE TO MASTER BRANCH
+     MOVE TO MAIN BRANCH
 --]=========================]--
 
 exe("git fetch")
@@ -74,9 +74,9 @@ if aheadmaybe ~= "" then
   exe("git push")
 end
 
-exe("git checkout master")
+exe("git checkout main")
 exe("git pull")
-exe("git rebase working")
+exe("git rebase develop")
 
 --[=====================[--
      CLEAN UP
@@ -159,8 +159,8 @@ exe("l3build upload --file CHANGES-NEW.md")
 exe("rm CHANGES-NEW.md")
 
 exe("git push")
-exe("git checkout working")
-exe("git rebase master")
+exe("git checkout develop")
+exe("git rebase main")
 exe("git push")
 
 exe("rm fontspec-ctan.curlopt")

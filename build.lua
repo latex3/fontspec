@@ -39,7 +39,7 @@ end
 
 gitbranch = os.capture('git rev-parse --abbrev-ref HEAD')
 specialformats = specialformats or {}
-if gitbranch == "develop" then
+if os.getenv'TEST_DEV_FORMATS' then
   specialformats.latex = {
     xetex  = {binary = "xetex",    format = "xelatex-dev"},
     luatex = {binary = "luahbtex", format = "lualatex-dev"},

@@ -6,12 +6,18 @@
 
 \ExplSyntaxOn
 \debug_off:n { deprecation }
+\debug_suspend:
 \ExplSyntaxOff
 
 \usepackage{polyglossia}
 \MSG{^^J^^J^^JPACKAGE polyglossia LOADED^^J^^J^^J}
 
 \setmainlanguage{russian}
+
+\ExplSyntaxOn
+\debug_resume:
+\ExplSyntaxOff
+
 \setmainfont{texgyreheros-regular.otf}
 \newfontfamily\cyrillicfont{LinLibertine_R.otf}[Script=Cyrillic]
 

@@ -2,9 +2,15 @@
 
 \ExplSyntaxOn
 \debug_off:n { deprecation }
+\debug_suspend:
 \ExplSyntaxOff
 
 \usepackage{polyglossia}
+
+\ExplSyntaxOn
+\debug_resume:
+\ExplSyntaxOff
+
 \setmainfont{cmunrm.otf}
 
 \begin{document}

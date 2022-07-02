@@ -1,0 +1,70 @@
+# l3build itself and LuaTeX: need for texlua
+l3build luatex texlive-scripts
+
+# Required to build plain and LaTeX formats:
+# TeX90 plain for unpacking
+cm etex knuth-lib latex-bin tex tex-ini-files unicode-data
+xetex
+
+# Dependencies
+geometry
+graphics
+graphics-def
+luatexbase
+ctablestack
+iftex
+luaotfload
+oberdiek
+ltxcmds
+kvsetkeys
+ucharcat
+filehook
+xcolor
+babel
+babel-english
+unicode-math
+polyglossia
+hyph-utf8
+epstopdf-pkg
+lualatex-math
+mathspec
+
+# Fonts
+sourcecodepro
+asana-math
+lm-math
+ebgaramond
+tex-gyre
+tex-gyre-math
+gfsporson
+libertine
+stix2-otf
+fira
+tempora
+cm-unicode
+fandol
+
+# for docs
+amsmath
+booktabs
+caption
+colortbl
+csquotes
+docmute
+enumitem
+fancyvrb
+framed
+hyperref
+inconsolata
+kurier
+microtype
+oberdiek
+psnfss
+standalone
+symbol
+tocloft
+tools
+underscore
+url
+varwidth
+zapfding

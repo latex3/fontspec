@@ -1,10 +1,10 @@
 This is a generated file for the l3build validation system.
 Don't change this file in any respect.
 TU/texgyreheros-regular.otf(0)/m/n:
-  "[texgyreheros-regular.otf]:mode=node;script=latn;language=dflt;color=FF0000FF ;"
+  [texgyreheros-regular.otf]:mode=node;script=latn;language=dflt;color={red};
 TU/texgyreheros-regular.otf(1)/m/n:
-  [texgyreheros-regular.otf]:mode=node;script=latn;language=dflt;color=FF00007f;
+  [texgyreheros-regular.otf]:mode=node;script=latn;language=dflt;color={red,7f};
 TU/texgyreheros-regular.otf(2)/m/n:
-  [texgyreheros-regular.otf]:mode=node;script=latn;language=dflt;color=00FF007f;
+  [texgyreheros-regular.otf]:mode=node;script=latn;language=dflt;color={00FF00,7f};
 ***************
 Compilation 1 of test file completed with exit status 0

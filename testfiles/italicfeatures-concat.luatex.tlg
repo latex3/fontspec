@@ -5,8 +5,8 @@ TU/texgyrepagella(0)/m/n:
 TU/texgyrepagella(0)/m/sc:
   [texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;+tlig;+smcp;
 TU/texgyrepagella(0)/m/it:
-  "[texgyrepagella-italic.otf]:mode=node;script=latn;language=dflt;+tlig;+onum;color=AA0000FF ;"
+  [texgyrepagella-italic.otf]:mode=node;script=latn;language=dflt;+tlig;+onum;color={AA0000};
 TU/texgyrepagella(0)/m/scit:
-  "[texgyrepagella-italic.otf]:mode=node;script=latn;language=dflt;+tlig;+onum;+smcp;color=AA0000FF ;"
+  [texgyrepagella-italic.otf]:mode=node;script=latn;language=dflt;+tlig;+onum;+smcp;color={AA0000};
 ***************
 Compilation 1 of test file completed with exit status 0

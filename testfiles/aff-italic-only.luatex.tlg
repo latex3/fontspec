@@ -6,9 +6,9 @@ TU/texgyrepagella(0)/m/n:
 TU/texgyrepagella(0)/m/sc:
   [texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;+tlig;+smcp;
 TU/texgyrepagella(0)/m/it:
-  "[texgyrepagella-italic.otf]:mode=node;script=latn;language=dflt;+tlig;color=AA0000FF ;"
+  [texgyrepagella-italic.otf]:mode=node;script=latn;language=dflt;+tlig;color={AA0000};
 TU/texgyrepagella(0)/m/scit:
-  "[texgyrepagella-italic.otf]:mode=node;script=latn;language=dflt;+tlig;+smcp;color=AA0000FF ;"
+  [texgyrepagella-italic.otf]:mode=node;script=latn;language=dflt;+tlig;+smcp;color={AA0000};
 TU/texgyrepagella(0)/b/n:
   [texgyrepagella-bold.otf]:mode=node;script=latn;language=dflt;+tlig;
 TU/texgyrepagella(0)/b/sc:
@@ -23,9 +23,9 @@ TU/texgyrepagella(1)/m/n:
 TU/texgyrepagella(1)/m/sc:
   [texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;+tlig;+onum;+smcp;
 TU/texgyrepagella(1)/m/it:
-  "[texgyrepagella-italic.otf]:mode=node;script=latn;language=dflt;+tlig;+onum;color=AA0000FF ;"
+  [texgyrepagella-italic.otf]:mode=node;script=latn;language=dflt;+tlig;+onum;color={AA0000};
 TU/texgyrepagella(1)/m/scit:
-  "[texgyrepagella-italic.otf]:mode=node;script=latn;language=dflt;+tlig;+onum;+smcp;color=AA0000FF ;"
+  [texgyrepagella-italic.otf]:mode=node;script=latn;language=dflt;+tlig;+onum;+smcp;color={AA0000};
 TU/texgyrepagella(1)/b/n:
   [texgyrepagella-bold.otf]:mode=node;script=latn;language=dflt;+tlig;+onum;
 TU/texgyrepagella(1)/b/sc:
@@ -40,9 +40,9 @@ TU/texgyrepagella(2)/m/n:
 TU/texgyrepagella(2)/m/sc:
   [texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;+tlig;+smcp;
 TU/texgyrepagella(2)/m/it:
-  "[texgyrepagella-italic.otf]:mode=node;script=latn;language=dflt;+tlig;+onum;color=AA0000FF ;"
+  [texgyrepagella-italic.otf]:mode=node;script=latn;language=dflt;+tlig;+onum;color={AA0000};
 TU/texgyrepagella(2)/m/scit:
-  "[texgyrepagella-italic.otf]:mode=node;script=latn;language=dflt;+tlig;+onum;+smcp;color=AA0000FF ;"
+  [texgyrepagella-italic.otf]:mode=node;script=latn;language=dflt;+tlig;+onum;+smcp;color={AA0000};
 TU/texgyrepagella(2)/b/n:
   [texgyrepagella-bold.otf]:mode=node;script=latn;language=dflt;+tlig;
 TU/texgyrepagella(2)/b/sc:

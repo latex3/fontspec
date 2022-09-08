@@ -23,6 +23,8 @@ recordstatus = true
 
 packtdszip = true
 
+checksuppfiles = {"texmf.cnf"}
+
 --[===[
    DEV
 --]===]
@@ -119,8 +121,21 @@ function check_status()
   end
 end
 
+--[=================[
+  Fetching / updating test font repository
+--]=================]
 
-
+local function ensure_test_fonts()
+  local repo_mode = lfs.attributes('fontspec-test-fonts', 'mode')
+  if repo_mode == nil then
+    assert(os.execute'git clone --depth 1 https://github.com/wspr/fontspec-test-fonts fontspec-test-fonts')
+  elseif repo_mode == 'directory' then
+    assert(os.execute'git -C fontspec-test-fonts pull --ff-only')
+  else
+    error'Unexpected mode of fontspec-test-fonts'
+  end
+end
+ensure_test_fonts()
 
 --[=================[
       CTAN UPLOAD

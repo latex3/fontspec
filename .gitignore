@@ -33,3 +33,5 @@ zzz-*
 *.hd
 
 *.curlopt
+
+/fontspec-test-fonts

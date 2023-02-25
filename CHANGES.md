@@ -1,7 +1,7 @@
 Change history
 ==============
 
-## Unreleased
+## v2.9a (2023/12/19)
 
   * switched options to LaTeX keyval handler
   * added option verbose to undo silent/quiet

@@ -1,6 +1,6 @@
 Change history
 ==============
-
+  * Added a `Scale=MatchAveragecase` paramater which averages `Scale=MatchLowercase` and `Scale=MatchUppercase`.
 ## v2.8a (2022/01/15)
 
   * Add `SwashFont` and `BoldSwashFont` features to support LaTeX's now-builtin `\textsw`

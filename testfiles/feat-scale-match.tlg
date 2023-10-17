@@ -31,5 +31,14 @@ TU/texgyrecursor-regular.otf(2)/m/n:
   "[texgyrecursor-regular.otf]/OT:script=latn;language=dflt;" at 10.79132pt
 font dimen 5: 4.49998pt
 font dimen 8: 6.07552pt
+MATCH AVERAGECASE
+TU/texgyreheros-regular.otf(3)/m/n:
+  "[texgyreheros-regular.otf]/OT:script=latn;language=dflt;" at 8.83438pt
+font dimen 5: 4.62921pt
+font dimen 8: 6.44026pt
+TU/texgyrecursor-regular.otf(3)/m/n:
+  "[texgyrecursor-regular.otf]/OT:script=latn;language=dflt;" at 11.27487pt
+font dimen 5: 4.70161pt
+font dimen 8: 6.34775pt
 ***************
 Compilation 1 of test file completed with exit status 0

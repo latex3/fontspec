@@ -22,4 +22,8 @@
 \fontspec[Scale=MatchLowercase]{texgyreheros-regular.otf}  \X
 \fontspec[Scale=MatchLowercase]{texgyrecursor-regular.otf} \X
 
+\MSG{MATCH AVERAGECASE}
+\fontspec[Scale=MatchAveragecase]{texgyreheros-regular.otf}  \X
+\fontspec[Scale=MatchAveragecase]{texgyrecursor-regular.otf} \X
+
 \end{document}

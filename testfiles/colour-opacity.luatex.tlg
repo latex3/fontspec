@@ -6,5 +6,9 @@ TU/texgyreheros-regular.otf(1)/m/n:
   [texgyreheros-regular.otf]:mode=node;script=latn;language=dflt;color={red,7f};
 TU/texgyreheros-regular.otf(2)/m/n:
   [texgyreheros-regular.otf]:mode=node;script=latn;language=dflt;color={00FF00,7f};
+TU/texgyreheros-regular.otf(3)/m/n:
+  [texgyreheros-regular.otf]:mode=node;script=latn;language=dflt;color={00FF0044};
+TU/texgyreheros-regular.otf(4)/m/n:
+  [texgyreheros-regular.otf]:mode=node;script=latn;language=dflt;color={00FF00,4c};
 ***************
 Compilation 1 of test file completed with exit status 0

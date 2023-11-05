@@ -1,0 +1,113 @@
+%PDF-1.5
+%Ã’¡‘≈ÿ–ƒ∆
+1 0 obj
+<< /FunctionType 2/Domain [0 1]/C0 [0 0 0 0] /C1 [1 0.56 0 0]/N 1 >>
+endobj
+2 0 obj
+[ /Separation/PANTONE#203005#20U /DeviceCMYK 1 0 R ]
+endobj
+5 0 obj
+<< /Length 113 >>        
+stream
+/color1 cs 1.0 scn /color1 CS 1.0 SCN
+BT
+/F27 9.96264 Tf
+1 0 0 1 29.117 145.943 Tm [<006900690069>]TJ
+0 g 0 G
+ET
+endstream
+endobj
+4 0 obj
+<< /Type /Page /Contents 5 0 R /Resources 3 0 R /MediaBox [ 0 0 255.118 170.079 ] /Parent 7 0 R >>
+endobj
+3 0 obj
+<< /Font << /F27 6 0 R >> /ProcSet [ /PDF /Text ] >>
+endobj
+8 0 obj
+[ 105 [ 611 ] ]
+endobj
+10 0 obj
+<< /Length 14 >>         
+[BINARY STREAM]
+endobj
+11 0 obj
+<< /Subtype /CIDFontType0C /Length 605 >>        
+[BINARY STREAM]
+endobj
+9 0 obj
+<< /Type /FontDescriptor /FontName /GYUAGU+TeXGyreTermes-Regular /Flags 4 /FontBBox [ -526 -281 1306 1055 ] /Ascent 1055 /CapHeight 662 /Descent -281 /ItalicAngle 0 /StemV 83 /XHeight 450 /FontFile3 11 0 R /CIDSet 10 0 R >>
+endobj
+12 0 obj
+<< /Length 712 >>        
+stream
+%!PS-Adobe-3.0 Resource-CMap
+%%DocumentNeededResources: ProcSet (CIDInit)
+%%IncludeResource: ProcSet (CIDInit)
+%%BeginResource: CMap (TeX-GYUAGU-TeXGyreTermes-Regular-0)
+%%Title: (TeX-GYUAGU-TeXGyreTermes-Regular-0 TeX GYUAGU-TeXGyreTermes-Regular 0)
+%%Version: 1.000
+%%EndComments
+/CIDInit /ProcSet findresource begin
+12 dict begin
+begincmap
+/CIDSystemInfo
+<< /Registry (TeX)
+/Ordering (GYUAGU-TeXGyreTermes-Regular)
+/Supplement 0
+>> def
+/CMapName /TeX-Identity-GYUAGU-TeXGyreTermes-Regular def
+/CMapType 2 def
+1 begincodespacerange
+<0000> <FFFF>
+endcodespacerange
+0 beginbfrange
+endbfrange
+1 beginbfchar
+<0069> <0054>
+endbfchar
+endcmap
+CMapName currentdict /CMap defineresource pop
+end
+end
+%%EndResource
+%%EOF
+endstream
+endobj
+6 0 obj
+<< /Type /Font /Subtype /Type0 /Encoding /Identity-H /BaseFont /GYUAGU+TeXGyreTermes-Regular /DescendantFonts [ 13 0 R ] /ToUnicode 12 0 R >>
+endobj
+13 0 obj
+<< /Type /Font /Subtype /CIDFontType0 /BaseFont /GYUAGU+TeXGyreTermes-Regular /FontDescriptor 9 0 R /W 8 0 R /CIDSystemInfo << /Registry (Adobe) /Ordering (Identity) /Supplement 0 >> >>
+endobj
+7 0 obj
+<< /Type /Pages  /Count 1 /Kids [ 4 0 R ] >>
+endobj
+14 0 obj
+<< /Type /Catalog /Pages 7 0 R >>
+endobj
+15 0 obj
+<< /Producer (LuaTeX) /Creator (TeX) /Trapped /False >>
+endobj
+xref
+0 16
+0000000000 65535 f 
+0000000020 00000 n 
+0000000104 00000 n 
+0000000458 00000 n 
+0000000344 00000 n 
+0000000172 00000 n 
+0000002331 00000 n 
+0000002690 00000 n 
+0000000526 00000 n 
+0000001320 00000 n 
+0000000557 00000 n 
+0000000631 00000 n 
+0000001559 00000 n 
+0000002488 00000 n 
+0000002750 00000 n 
+0000002800 00000 n 
+trailer
+<< /Size 16 /Root 14 0 R /Info 15 0 R >>
+startxref
+2872
+%%EOF

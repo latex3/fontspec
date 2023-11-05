@@ -19,4 +19,14 @@ Test
 Test
 \CURRNFSS
 
+\fontspec[
+    Color=00FF0044
+      ]{texgyreheros-regular.otf}
+Test \CURRNFSS 
+
+\fontspec[
+    Color=00FF0044, Opacity=0.3
+      ]{texgyreheros-regular.otf}
+Test \CURRNFSS 
+
 \end{document}

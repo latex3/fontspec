@@ -739,7 +739,16 @@
             \convertcolorspec{named}{#1}{HTML}\l_@@_hexcol_tl
           }
           {
-            \tl_set:Nn \l_@@_hexcol_tl {#1}
+            \int_compare:nTF { \tl_count:n {#1} == 6 }
+              { \tl_set:Nn \l_@@_hexcol_tl {#1} }
+              {
+                \int_compare:nTF { \tl_count:n {#1} == 8 }
+                  { \fontspec_parse_colour:viii #1 }
+                  {
+                    \bool_if:NF \l_@@_firsttime_bool
+                      { \@@_warning:nx {bad-colour} {#1} }
+                  }
+              }
           }
       }      
 %</LU>

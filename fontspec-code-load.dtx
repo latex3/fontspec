@@ -21,7 +21,7 @@
   {
     \RequirePackage{luaotfload}
     \lua_now:e{require("fontspec")}
-    \RequirePackageWithOptions{fontspec-luatex}
+    \RequirePackage{fontspec-luatex}
     \endinput
   }
 %    \end{macrocode}
@@ -30,7 +30,7 @@
 %    \begin{macrocode}
 \sys_if_engine_xetex:T
   {
-    \RequirePackageWithOptions{fontspec-xetex}
+    \RequirePackage{fontspec-xetex}
     \endinput
   }
 %    \end{macrocode}

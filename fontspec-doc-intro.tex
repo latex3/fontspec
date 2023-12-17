@@ -75,17 +75,19 @@ For basic use, no package options are required:
   \usepackage{fontspec}
 \end{Verbatim}
 Package options will be introduced below; some preliminary details are discussed first.
-
+Package options are setup with the in-built \LaTeX{} keyval options handler. This means
+that the package can be loaded more than once with different options without triggering
+an option clash error. The \texttt{config} and \texttt{no-config} option must be used in
+the first loading and are ignored later.
 
 \subsection{Font encodings}
 
-The (default) \texttt{tuenc} package option switches the \textsc{nfss} font encoding to \texttt{TU}.
+The package switches the \textsc{nfss} font encoding to \texttt{TU}.
 \texttt{TU} is a new Unicode font encoding, intended for both \XeTeX\ and \LuaTeX\ engines, and automatically contains support for symbols covered by \LaTeX's traditional \texttt{T1} and \texttt{TS1} font encodings (for example, |\%|, |\textbullet|, |\"u|, and so on).
 Some additional features are provided by \pkg{fontspec} to customise some encoding details; see Part~\vref{part:enc} for further details.
 
-Pre-2017 behaviour can be achieved with the \texttt{euenc} package option.
-This selects the \texttt{EU1} or \texttt{EU2} encoding (\XeTeX/\LuaTeX, resp.) and loads the \pkg{xunicode} package for symbol support.
-Package authors and users who have referred explicitly to the encoding names \texttt{EU1} or \texttt{EU2} should update their code or documents.
+Pre-2017 behaviour is now obsolete. The \texttt{euenc} and \texttt{tuenc} package options are
+ignored. Package authors and users who have referred explicitly to the encoding names \texttt{EU1} or \texttt{EU2} should update their code or documents.
 (See internal variable names described in \vref{sec:api} for how to do this properly.)
 
 
@@ -108,7 +110,7 @@ A |fontspec.cfg| file is distributed with \pkg{fontspec} with a small number of 
 To customise \pkg{fontspec} to your liking, use the standard |.cfg| file as a starting point or write your own from scratch, then either place it in the same folder as the main document for isolated cases, or in a location
 that \XeTeX\ or \LuaTeX\ searches by default; \eg\ in Mac\TeX: \path{~/Library/texmf/tex/latex/}.
 
-The package option |no-config| will suppress the loading of the |fontspec.cfg| file under all circumstances.
+The package option |no-config| will suppress the loading of the |fontspec.cfg| file under all circumstances. Both options must be used the first time \pkg{fontspec} is loaded and are ignored in later calls.
 
 
 \subsection{Warnings}
@@ -121,7 +123,7 @@ transcript (\texttt{.log}) file instead.
 Use the |silent| package option to completely suppress these warnings if you
 don't even want the |.log| file cluttered up.
 
-
+Both options can also be used with \cs{Setkeys} in the document. Use the |verbose| option to get activate the warnings again.
 
 \section{Interaction with \LaTeXe\ and other packages}
 

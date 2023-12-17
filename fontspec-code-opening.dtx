@@ -4,75 +4,74 @@
 %
 % \iffalse
 %    \begin{macrocode}
-%<*fontspec>
+%<*options>
 %    \end{macrocode}
 % \fi
 %
 % \subsection{Package options}
 %
 %    \begin{macrocode}
-\DeclareOption{cm-default}
+\DeclareKeys 
   {
-    \@@_warning:n {cm-default-obsolete}
-  }
+    cm-default  .code:n = { \@@_warning:n {cm-default-obsolete} }    
 %    \end{macrocode}
 %
 %    \begin{macrocode}
-\DeclareOption {math}     { \bool_gset_true:N  \g_@@_math_bool  }
-\DeclareOption {no-math}  { \bool_gset_false:N \g_@@_math_bool  }
-\DeclareOption {config}   { \bool_gset_true:N  \g_@@_cfg_bool   }
-\DeclareOption {no-config}{ \bool_gset_false:N \g_@@_cfg_bool   }
-\DeclareOption {euenc}    { \bool_gset_true:N  \g_@@_euenc_bool }
-\DeclareOption {tuenc}    { \bool_gset_false:N \g_@@_euenc_bool }
+    ,math    .bool_gset:N = \g_@@_math_bool
+    ,math    .usage:n     =  preamble
+    ,no-math .bool_gset_inverse:N = \g_@@_math_bool
+    ,no-math .usage:n             =  preamble
+    ,config  .bool_gset:N = \g_@@_cfg_bool
+    ,config  .usage:n     = load
+    ,no-config  .bool_gset_inverse:N = \g_@@_cfg_bool
+    ,no-config  .usage:n             = load
+    ,euenc  .code:n = { \@@_warning:nx {enc-obsolete}{euenc} }    
+    ,tuenc  .code:n = { \@@_warning:nx {enc-obsolete}{tuenc} }    
 %    \end{macrocode}
 %
 %    \begin{macrocode}
-\DeclareOption {quiet}
-  {
-    \msg_redirect_module:nnn { fontspec } { warning } { info }
-    \msg_redirect_module:nnn { fontspec } { info } { none }
-  }
-\DeclareOption{silent}
-  {
-    \msg_redirect_module:nnn { fontspec } { warning } { none }
-    \msg_redirect_module:nnn { fontspec } { info } { none }
-  }
+    ,quiet .code:n = 
+      {
+        \msg_redirect_module:nnn { fontspec } { warning } { info }
+        \msg_redirect_module:nnn { fontspec } { info } { none }
+      }
+    ,silent .code:n = 
+      {
+        \msg_redirect_module:nnn { fontspec } { warning } { none }
+        \msg_redirect_module:nnn { fontspec } { info } { none }
+      }
+    ,verbose .code:n = 
+      {
+        \msg_redirect_module:nnn { fontspec } { warning } { warning }
+        \msg_redirect_module:nnn { fontspec } { info } { info }      
+      }  
+  }        
 %    \end{macrocode}
 %
 %    \begin{macrocode}
-\ExecuteOptions{config,math,tuenc}
-\ProcessOptions*
+\SetKeys{config,math}
+\ProcessKeyOptions
 %    \end{macrocode}
 %
-%
+% \iffalse
+%    \begin{macrocode}
+%</options>
+%<*fontspec>
+%    \end{macrocode}
+% \fi
 %
 %
 % \subsection{Encodings}
 %
-% Soon to be the default, with a just-in-case check:
+% Now the default, with a just-in-case check:
 %    \begin{macrocode}
-\bool_if:NF \g_@@_euenc_bool
+\cs_if_exist:cF {T@TU}
   {
-    \file_if_exist:nTF {tuenc.def}
-      {
-        \cs_if_exist:cF {T@TU}
-          {
-            \@@_warning:n {tu-clash}
-            \DeclareFontEncoding{TU}{}{}
-            \DeclareFontSubstitution{TU}{lmr}{m}{n}
-          }
-      }
-      {
-        \@@_warning:n {tu-missing}
-        \bool_gset_true:N \g_@@_euenc_bool
-      }
+    \@@_warning:n {tu-clash}
+    \DeclareFontEncoding{TU}{}{}
+    \DeclareFontSubstitution{TU}{lmr}{m}{n}
   }
-\bool_if:NTF \g_@@_euenc_bool
-  {
-%<XE>    \tl_gset:Nn \g_fontspec_encoding_tl {EU1}
-%<LU>    \tl_gset:Nn \g_fontspec_encoding_tl {EU2}
-  }
-  { \tl_gset:Nn \g_fontspec_encoding_tl { TU } }
+\tl_gset:Nn \g_fontspec_encoding_tl { TU }  
 %    \end{macrocode}
 %
 %    \begin{macrocode}
@@ -99,16 +98,6 @@
 % That latin encoding definition is repeated to suppress font warnings.
 % Something to do with \cmd\select@language\ ending up in the \texttt{.aux}
 % file which is read at the beginning of the document.
-%
-%    \begin{macrocode}
-\bool_if:NT \g_@@_euenc_bool
-  {
-%<LU>    \cs_set_eq:NN \fontspec_tmp: \XeTeXpicfile
-%<LU>    \cs_set:Npn \XeTeXpicfile {}
-    \RequirePackage{xunicode}
-%<LU>    \cs_set_eq:NN \XeTeXpicfile \fontspec_tmp:
-  }
-%    \end{macrocode}
 %
 %
 % \subsection{Generic functions}

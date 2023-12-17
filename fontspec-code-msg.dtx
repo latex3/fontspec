@@ -189,14 +189,21 @@
   Input mapping not supported in LuaTeX.\\
   Use "Ligatures=TeX" instead of "Mapping=tex-text".
  }
-\@@_msg_new:nn {cm-default-obsolete}
+%    \end{macrocode}
+% message for package options must be loaded earlier
+%    \begin{macrocode}
+%</fontspec>
+%<*options>
+\msg_new:nnn {fontspec} {cm-default-obsolete}
  {
-  The "cm-default" package option is obsolete.
+  The~"cm-default"~package~option~is~obsolete.
  }
-\@@_msg_new:nn {enc-obsolete}
+\msg_new:nnn {fontspec} {enc-obsolete}
  {
-  The "#1" package option is obsolete. TU is the default encoding.
- } 
+  The~"#1"~package~option~is~obsolete.~TU~is~the~default~encoding.
+ }
+%</options>
+%<*fontspec> 
 \@@_msg_new:nn {font-index-needs-ttc}
  {
   The "FontIndex" feature is only supported by TTC (TrueType Collection) fonts.\\

@@ -13,7 +13,7 @@
 %    \begin{macrocode}
 \DeclareKeys 
   {
-    cm-default  .code:n = { \@@_warning:n {cm-default-obsolete} }    
+    cm-default  .code:n = { \msg_warning:nn   {fontspec} {cm-default-obsolete} }    
 %    \end{macrocode}
 %
 %    \begin{macrocode}
@@ -25,8 +25,8 @@
     ,config  .usage:n     = load
     ,no-config  .bool_gset_inverse:N = \g_@@_cfg_bool
     ,no-config  .usage:n             = load
-    ,euenc  .code:n = { \@@_warning:nx {enc-obsolete}{euenc} }    
-    ,tuenc  .code:n = { \@@_warning:nx {enc-obsolete}{tuenc} }    
+    ,euenc  .code:n = { \msg_warning:nnn   {fontspec} {enc-obsolete}{euenc} }    
+    ,tuenc  .code:n = { \msg_warning:nnb   {fontspec} {enc-obsolete}{tuenc} }    
 %    \end{macrocode}
 %
 %    \begin{macrocode}

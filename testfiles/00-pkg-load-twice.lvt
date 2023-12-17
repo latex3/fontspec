@@ -1,0 +1,6 @@
+\input{fontspec-testsetup}
+\usepackage{fontspec}
+\usepackage[no-math]{fontspec}
+\begin{document}
+\SHIPOUT{hello $\mathrm{a}$ } 
+\end{document}

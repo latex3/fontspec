@@ -1,6 +1,10 @@
 Change history
 ==============
-
+## [Unreleased]
+  * switched options to LaTeX keyval handler
+  * added option verbose to undo silent/quiet
+  * euenc/tuenc options are obsolete
+  * TU is the only encoding 
 ## v2.8a (2022/01/15)
 
   * Add `SwashFont` and `BoldSwashFont` features to support LaTeX's now-builtin `\textsw`

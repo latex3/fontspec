@@ -4,9 +4,9 @@ Don't change this file in any respect.
 All font defaults
 =================
 TU/texgyrepagella-regular.otf(0)/m/n:
-  "[texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;+smcp;+tlig;color=00AA00FF ;"
+  [texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;+smcp;+tlig;color={00AA00};
 TU/texgyreheros-regular.otf(0)/m/n:
-  "[texgyreheros-regular.otf]:mode=node;script=latn;language=dflt;+smcp;+tlig;color=00AA00FF ;"
+  [texgyreheros-regular.otf]:mode=node;script=latn;language=dflt;+smcp;+tlig;color={00AA00};
 TU/texgyrepagella-regular.otf(1)/m/n:
   [texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;+tlig;
 TU/texgyreheros-regular.otf(1)/m/n:
@@ -14,12 +14,12 @@ TU/texgyreheros-regular.otf(1)/m/n:
 TU/texgyrepagella-regular.otf(2)/m/n:
   [texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;+smcp;+tlig;
 TU/texgyreheros-regular.otf(0)/m/n:
-  "[texgyreheros-regular.otf]:mode=node;script=latn;language=dflt;+smcp;+tlig;color=00AA00FF ;"
+  [texgyreheros-regular.otf]:mode=node;script=latn;language=dflt;+smcp;+tlig;color={00AA00};
 =================
 Family specific
 =================
 TU/texgyrepagella-regular.otf(3)/m/n:
-  "[texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;+smcp;color=00AA00FF ;"
+  [texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;+smcp;color={00AA00};
 TU/texgyreheros-regular.otf(1)/m/n:
   [texgyreheros-regular.otf]:mode=node;script=latn;language=dflt;+tlig;
 TU/texgyrepagella-regular.otf(4)/m/n:
@@ -27,7 +27,7 @@ TU/texgyrepagella-regular.otf(4)/m/n:
 TU/texgyreheros-regular.otf(1)/m/n:
   [texgyreheros-regular.otf]:mode=node;script=latn;language=dflt;+tlig;
 TU/texgyrepagella-regular.otf(3)/m/n:
-  "[texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;+smcp;color=00AA00FF ;"
+  [texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;+smcp;color={00AA00};
 TU/texgyreheros-regular.otf(1)/m/n:
   [texgyreheros-regular.otf]:mode=node;script=latn;language=dflt;+tlig;
 ***************

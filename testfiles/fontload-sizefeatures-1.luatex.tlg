@@ -1,10 +1,10 @@
 This is a generated file for the l3build validation system.
 Don't change this file in any respect.
 TU/texgyrechorus-mediumitalic.otf(0)/m/n:
-  "[texgyrebonum-italic.otf]:mode=node;script=latn;language=dflt;color=AA0000FF ;" at 7.0pt
+  [texgyrebonum-italic.otf]:mode=node;script=latn;language=dflt;color={AA0000}; at 7.0pt
 TU/texgyrechorus-mediumitalic.otf(0)/m/n:
-  "[texgyrechorus-mediumitalic.otf]:mode=node;script=latn;language=dflt;color=00AA00FF ;"
+  [texgyrechorus-mediumitalic.otf]:mode=node;script=latn;language=dflt;color={00AA00};
 TU/texgyrechorus-mediumitalic.otf(0)/m/n:
-  "[texgyrechorus-mediumitalic.otf]:mode=node;script=latn;language=dflt;color=0000AAFF ;" at 14.4pt
+  [texgyrechorus-mediumitalic.otf]:mode=node;script=latn;language=dflt;color={0000AA}; at 14.4pt
 ***************
 Compilation 1 of test file completed with exit status 0

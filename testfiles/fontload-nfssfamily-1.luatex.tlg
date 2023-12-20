@@ -5,12 +5,12 @@ TU/lmr/m/n:
   [lmroman10-regular]:+tlig;
 Code with particular NFSS family font:
 TU/ABC/m/n:
-  "[texgyreheros-regular.otf]:mode=node;script=latn;language=dflt;color=FF0000FF ;"
+  [texgyreheros-regular.otf]:mode=node;script=latn;language=dflt;color={FF0000};
 Back to normal font:
 TU/lmr/m/n:
   [lmroman10-regular]:+tlig;
 Loading NFSS family explicit:
 TU/ABC/m/n:
-  "[texgyreheros-regular.otf]:mode=node;script=latn;language=dflt;color=FF0000FF ;"
+  [texgyreheros-regular.otf]:mode=node;script=latn;language=dflt;color={FF0000};
 ***************
 Compilation 1 of test file completed with exit status 0

@@ -10,6 +10,8 @@ Change history
   * Support variable fonts under LuaLaTeX.
   * Skip scanning for filenames when loading fonts by name on LuaLaTeX.
   * Allow restricting filename lookup to kpathsea lookups using `KpseOnly`.
+  * added support for named colors from l3color 
+  * support with lualatex spotcolors and cmyk colors in the pdf. 
 
 
 ## v2.8a (2022/01/15)

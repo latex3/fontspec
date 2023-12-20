@@ -2,31 +2,31 @@ This is a generated file for the l3build validation system.
 Don't change this file in any respect.
 NORMAL
 TU/SourceCodePro-Regular.otf(0)/m/n:
-  "[SourceCodePro-Medium.otf]:mode=node;script=latn;language=dflt;+tlig;color=00AA00FF ;" at 5.0pt
+  [SourceCodePro-Medium.otf]:mode=node;script=latn;language=dflt;+tlig;color={00AA00}; at 5.0pt
 TU/SourceCodePro-Regular.otf(0)/m/n:
-  "[SourceCodePro-Regular.otf]:mode=node;script=latn;language=dflt;+tlig;color=00AA00FF ;"
+  [SourceCodePro-Regular.otf]:mode=node;script=latn;language=dflt;+tlig;color={00AA00};
 TU/SourceCodePro-Regular.otf(0)/m/n:
-  "[SourceCodePro-Light.otf]:mode=node;script=latn;language=dflt;+tlig;color=00AA00FF ;" at 24.88pt
+  [SourceCodePro-Light.otf]:mode=node;script=latn;language=dflt;+tlig;color={00AA00}; at 24.88pt
 ITALIC
 TU/SourceCodePro-Regular.otf(0)/m/it:
-  "[SourceCodePro-RegularIt.otf]:mode=node;script=latn;language=dflt;+tlig;color=00AA00FF ;" at 5.0pt
+  [SourceCodePro-RegularIt.otf]:mode=node;script=latn;language=dflt;+tlig;color={00AA00}; at 5.0pt
 TU/SourceCodePro-Regular.otf(0)/m/it:
-  "[SourceCodePro-RegularIt.otf]:mode=node;script=latn;language=dflt;+tlig;color=00AA00FF ;"
+  [SourceCodePro-RegularIt.otf]:mode=node;script=latn;language=dflt;+tlig;color={00AA00};
 TU/SourceCodePro-Regular.otf(0)/m/it:
-  "[SourceCodePro-RegularIt.otf]:mode=node;script=latn;language=dflt;+tlig;color=00AA00FF ;" at 24.88pt
+  [SourceCodePro-RegularIt.otf]:mode=node;script=latn;language=dflt;+tlig;color={00AA00}; at 24.88pt
 FONTSERIES C
 TU/SourceCodePro-Regular.otf(0)/c/n:
-  "[SourceCodePro-MediumIt.otf]:mode=node;script=latn;language=dflt;+tlig;color=FF0000FF ;" at 5.0pt
+  [SourceCodePro-MediumIt.otf]:mode=node;script=latn;language=dflt;+tlig;color={FF0000}; at 5.0pt
 TU/SourceCodePro-Regular.otf(0)/c/n:
-  "[texgyrecursor-regular.otf]:mode=node;script=latn;language=dflt;+tlig;color=FF00FFFF ;"
+  [texgyrecursor-regular.otf]:mode=node;script=latn;language=dflt;+tlig;color={FF00FF};
 TU/SourceCodePro-Regular.otf(0)/c/n:
-  "[SourceCodePro-LightIt.otf]:mode=node;script=latn;language=dflt;+tlig;color=0000FFFF ;" at 24.88pt
+  [SourceCodePro-LightIt.otf]:mode=node;script=latn;language=dflt;+tlig;color={0000FF}; at 24.88pt
 FONTSERIES NC
 TU/SourceCodePro-Regular.otf(0)/nc/n:
-  "[texgyreheros-regular.otf]:mode=node;script=latn;language=dflt;+tlig;color=00AA00FF ;" at 5.0pt
+  [texgyreheros-regular.otf]:mode=node;script=latn;language=dflt;+tlig;color={00AA00}; at 5.0pt
 TU/SourceCodePro-Regular.otf(0)/nc/n:
-  "[texgyreheros-regular.otf]:mode=node;script=latn;language=dflt;+tlig;color=00AA00FF ;"
+  [texgyreheros-regular.otf]:mode=node;script=latn;language=dflt;+tlig;color={00AA00};
 TU/SourceCodePro-Regular.otf(0)/nc/n:
-  "[texgyreheros-regular.otf]:mode=node;script=latn;language=dflt;+tlig;color=00AA00FF ;" at 24.88pt
+  [texgyreheros-regular.otf]:mode=node;script=latn;language=dflt;+tlig;color={00AA00}; at 24.88pt
 ***************
 Compilation 1 of test file completed with exit status 0

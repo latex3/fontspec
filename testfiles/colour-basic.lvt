@@ -9,11 +9,17 @@
 \MSG{Loading a font with hex colour:}
 {\fontspec[Color=5500FF]{texgyreheros-regular.otf}\CURRNFSS}
 
-\MSG{Loading a font by name (xcolor):}
+\MSG{Loading a font by name (l3color+xcolor):}
 {\fontspec[Color=red]{texgyreheros-regular.otf}\CURRNFSS}
 
 \MSG{Defining a new xcolor colour and using it:}
 \definecolor{Foo}{rgb}{0.3,0.4,0.5}
 {\fontspec[Color=Foo]{texgyreheros-regular.otf}\CURRNFSS}
+
+\MSG{Defining a new l3color colour and using it:}
+\ExplSyntaxOn
+\color_set:nnn{Bar}{rgb}{0.5,0.4,0.3}
+\ExplSyntaxOff
+{\fontspec[Color=Bar]{texgyreheros-regular.otf}\CURRNFSS}
 
 \end{document}

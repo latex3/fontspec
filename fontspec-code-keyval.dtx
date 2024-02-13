@@ -485,8 +485,8 @@
 %
 % \paragraph{Scale}
 % If the input isn't one of the pre-defined string options, then
-% it's gotta be numerical. \cs{fontspec_calc_scale:n} does all the work in
-% the auto-scaling cases.
+% it's gotta be numerical. \cs{fontspec_calc_scale:n} and \cs{fontspec_calc_scale:nn}
+% do all the work in the auto-scaling cases.
 %    \begin{macrocode}
 \@@_keys_define_code:nnn {fontspec} {Scale}
   {
@@ -494,8 +494,10 @@
       {
         {MatchLowercase} { \@@_calc_scale:n {5} }
         {MatchUppercase} { \@@_calc_scale:n {8} }
+        {MatchAveragecase} { \@@_calc_scale:nn {5} {8} }
       }
       { \tl_set:Nx \l_@@_scale_tl {#1} }
+      \@@_info:n {set-scale}
   }
 %    \end{macrocode}
 %
@@ -542,7 +544,6 @@
                        \dim_to_fp:n {\l_@@_tmpb_dim}   }
         }
 
-      \@@_info:n {set-scale}
       \exp_args:NNNx
     \group_end:
     \tl_set:Nx \l_@@_scale_tl { \l_@@_scale_tl }
@@ -551,6 +552,26 @@
 % \end{macro}
 %
 %
+% \begin{macro}{\@@_calc_scale:nn}
+% This macro calls \cs{fontspec_calc_scale:n} twice
+% and then sets the scale to the average of the two results.
+%    \begin{macrocode}
+\cs_new:Nn \@@_calc_scale:nn
+{
+    \group_begin:
+      \__fontspec_calc_scale:n {#1}
+      \tl_set_eq:NN \l_@@_tmp_tl \l_@@_scale_tl
+      \__fontspec_calc_scale:n {#2}
+      \tl_set:Nx \l_@@_scale_tl
+        {
+          \fp_eval:n { (\l_@@_tmp_tl + \l_@@_scale_tl)/2 }
+        }
+      \exp_args:NNNx
+    \group_end:
+    \tl_set:Nx \l_@@_scale_tl { \l_@@_scale_tl }
+  }
+%    \end{macrocode}
+% \end{macro}
 % \begin{macro}{\@@_set_font_dimen:NnN}
 % This function sets the dimension |#1| (for font |#3|) to `fontdimen' |#2|
 % for either font dimension 5 (x-height) or 8 (cap-height). If, for some

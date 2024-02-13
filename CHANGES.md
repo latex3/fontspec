@@ -1,18 +1,17 @@
 Change history
 ==============
 
-## Unreleased
+## v2.9a (2024/02/13)
 
   * Added a `Scale=MatchAveragecase` paramater which averages `Scale=MatchLowercase` and `Scale=MatchUppercase`.
-  * switched options to LaTeX keyval handler
-  * added option verbose to undo silent/quiet
-  * euenc/tuenc options are obsolete
-  * TU is the only encoding 
+  * Switched options to LaTeX keyval handler.
+  * Added option `verbose` to undo silent/quiet.
+  * `euenc`/`tuenc` options are now obsolete (TU is the only encoding). 
   * Support variable fonts under LuaLaTeX.
   * Skip scanning for filenames when loading fonts by name on LuaLaTeX.
   * Allow restricting filename lookup to kpathsea lookups using `KpseOnly`.
-  * added support for named colors from l3color 
-  * support with lualatex spotcolors and cmyk colors in the pdf. 
+  * Added support for named colors from l3color.
+  * Support with lualatex spotcolors and cmyk colors in the pdf. 
 
 
 ## v2.8a (2022/01/15)

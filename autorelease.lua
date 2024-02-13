@@ -5,8 +5,16 @@
      AUTOMATON for performing CTAN releases
      ======================================
 
-     * Make sure changes are up to date with new version tag.
-     * Be in the `develop` branch, fully committed.
+     * Save the `main` branch for releases only; this allows hotfixes to releases to be 
+       organised easily with a minimal number of branches to keep things simple. 
+     * Changes over time go into the `develop` branch.
+     * Records of changes which deserve to be included in the release notes should be added
+       CHANGES.md. Follow the formatting of the file.
+     * The topmost entry of CHANGES.md is used to populate the new version number
+       (but the date will be updated automatically by the build script).
+     * The topmost entry of the CHANGES.md file is extracted and used in the git tagging
+       and in the CTAN release notes.
+     * To commence a release, be in the `develop` branch, fully committed.
      * This file will query a couple of times to make sure all is well.
      * If so, it sends the package off to CTAN and the `main` branch is rebased and tagged.
      * TODO: add Github release zip file as well.

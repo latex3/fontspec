@@ -3,7 +3,7 @@ Don't change this file in any respect.
 TU/texgyre(0)/m/n:
   [texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;+tlig;
 TU/texgyre(0)/c/n:
-  "[texgyrebonum-regular.otf]:mode=node;script=latn;language=dflt;+tlig;color=FF0000FF ;"
+  [texgyrebonum-regular.otf]:mode=node;script=latn;language=dflt;+tlig;color={FF0000};
 TU/texgyre(0)/nc/n:
   [texgyreheros-regular.otf]:mode=node;script=latn;language=dflt;+tlig;
 ***************

@@ -3,6 +3,6 @@ Don't change this file in any respect.
 TU/texgyretermes-regular.otf(0)/m/n:
   [texgyretermes-regular.otf]:mode=node;script=latn;language=dflt;
 TU/texgyretermes-regular.otf(0)/m/it:
-  "[texgyretermes-italic.otf]:mode=node;script=latn;language=dflt;color=FF0000FF ;"
+  [texgyretermes-italic.otf]:mode=node;script=latn;language=dflt;color={FF0000};
 ***************
 Compilation 1 of test file completed with exit status 0

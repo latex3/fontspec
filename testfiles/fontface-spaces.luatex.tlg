@@ -7,6 +7,6 @@ TU/texgyretermes-regular.otf(0)/m/it:
 TU/texgyretermes-regular.otf(0)/blub/it:
   [texgyrecursor-italic.otf]:mode=node;script=latn;language=dflt;+tlig;
 TU/texgyretermes-regular.otf(0)/c/n:
-  "[texgyrebonum-italic.otf]:mode=node;script=latn;language=dflt;+tlig;color=FF0000FF ;"
+  [texgyrebonum-italic.otf]:mode=node;script=latn;language=dflt;+tlig;color={FF0000};
 ***************
 Compilation 1 of test file completed with exit status 0

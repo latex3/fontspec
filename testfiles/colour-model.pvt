@@ -1,0 +1,35 @@
+\input{fontspec-testsetup.tex}
+\usepackage{fontspec}
+\ExplSyntaxOn
+ \color_set:nnn{cmyk}{cmyk}{1,0,0.5,0}
+\ExplSyntaxOff
+
+\begin{document}
+
+\fontspec[Color=00FF00]{texgyreheros-regular.otf} Test 
+
+\fontspec[Color=red]{texgyreheros-regular.otf} Test
+
+\fontspec[Color=cmyk]{texgyreheros-regular.otf} Test 
+
+\ExplSyntaxOn
+\tl_set:Nn \l_color_fixed_model_tl{rgb}
+\ExplSyntaxOff 
+
+\fontspec[Color=00FF00]{texgyretermes-regular.otf} Test 
+
+\fontspec[Color=red]{texgyretermes-regular.otf} Test
+
+\fontspec[Color=cmyk]{texgyretermes-regular.otf} Test 
+
+\ExplSyntaxOn
+\tl_set:Nn \l_color_fixed_model_tl{cmyk}
+\ExplSyntaxOff 
+
+\fontspec[Color=00FF00]{texgyrecursor-regular.otf} Test 
+
+\fontspec[Color=red]{texgyrecursor-regular.otf} Test
+
+\fontspec[Color=cmyk]{texgyrecursor-regular.otf} Test 
+
+\end{document}

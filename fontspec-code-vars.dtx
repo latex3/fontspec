@@ -4,6 +4,7 @@
 %
 % \iffalse
 %    \begin{macrocode}
+%<@@=fontspec>
 %<*fontspec>
 %    \end{macrocode}
 % \fi
@@ -50,9 +51,12 @@
 %    \end{macrocode}
 % For package options:
 %    \begin{macrocode}
+%</fontspec>
+%<*options>
 \bool_new:N \g_@@_cfg_bool
 \bool_new:N \g_@@_math_bool
-\bool_new:N \g_@@_euenc_bool
+%</options>
+%<*fontspec>
 %    \end{macrocode}
 %
 %    \begin{macrocode}
@@ -295,7 +299,8 @@
 %
 %    \begin{macrocode}
 \tl_const:Nn \c_@@_hexcol_tl {000000}
-\tl_const:Nn \c_@@_opacity_tl {FF~}
+%<XE> \tl_const:Nn \c_@@_opacity_tl {FF~}
+%<LU> \tl_const:Nn \c_@@_opacity_tl {}
 \tl_const:Nn \c_@@_postadjust_tl { \l_@@_wordspace_adjust_tl \l_@@_punctspace_adjust_tl }
 %    \end{macrocode}
 %

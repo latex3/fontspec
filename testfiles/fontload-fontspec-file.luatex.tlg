@@ -2,18 +2,18 @@ This is a generated file for the l3build validation system.
 Don't change this file in any respect.
 Bare bones colour red loaded from file:
 TU/texgyreschola-regular.otf(0)/m/n:
-  "[texgyreschola-regular.otf]:mode=node;script=latn;language=dflt;+tlig;color=FF0000FF ;"
+  [texgyreschola-regular.otf]:mode=node;script=latn;language=dflt;+tlig;color={FF0000};
 New font name, colour blue, loaded from file:
 TU/TeXGyreTermes(0)/m/n:
-  "[texgyretermes-regular.otf]:mode=node;script=latn;language=dflt;+tlig;color=0000FFFF ;"
+  [texgyretermes-regular.otf]:mode=node;script=latn;language=dflt;+tlig;color={0000FF};
 A more comprehensive family (note nested defn for BI shape):
 TU/MyHeros(0)/m/n:
-  "[texgyreheros-regular.otf]:mode=node;script=latn;language=dflt;+tlig;color=119944FF ;"
+  [texgyreheros-regular.otf]:mode=node;script=latn;language=dflt;+tlig;color={119944};
 TU/MyHeros(0)/b/n:
-  "[texgyreheros-bold.otf]:mode=node;script=latn;language=dflt;+tlig;color=119944FF ;"
+  [texgyreheros-bold.otf]:mode=node;script=latn;language=dflt;+tlig;color={119944};
 TU/MyHeros(0)/m/it:
-  "[texgyreheros-italic.otf]:mode=node;script=latn;language=dflt;+tlig;color=119944FF ;"
+  [texgyreheros-italic.otf]:mode=node;script=latn;language=dflt;+tlig;color={119944};
 TU/MyHeros(0)/b/it:
-  "[texgyreheros-bolditalic.otf]:mode=node;script=latn;language=dflt;+tlig;color=223355FF ;"
+  [texgyreheros-bolditalic.otf]:mode=node;script=latn;language=dflt;+tlig;color={223355};
 ***************
 Compilation 1 of test file completed with exit status 0

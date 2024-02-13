@@ -1,6 +1,20 @@
 Change history
 ==============
+
+## Unreleased
+
   * Added a `Scale=MatchAveragecase` paramater which averages `Scale=MatchLowercase` and `Scale=MatchUppercase`.
+  * switched options to LaTeX keyval handler
+  * added option verbose to undo silent/quiet
+  * euenc/tuenc options are obsolete
+  * TU is the only encoding 
+  * Support variable fonts under LuaLaTeX.
+  * Skip scanning for filenames when loading fonts by name on LuaLaTeX.
+  * Allow restricting filename lookup to kpathsea lookups using `KpseOnly`.
+  * added support for named colors from l3color 
+  * support with lualatex spotcolors and cmyk colors in the pdf. 
+
+
 ## v2.8a (2022/01/15)
 
   * Add `SwashFont` and `BoldSwashFont` features to support LaTeX's now-builtin `\textsw`

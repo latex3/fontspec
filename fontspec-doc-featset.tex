@@ -330,7 +330,7 @@ Notably, this mechanism is different to that of the \pkg{color}/\pkg{xcolor}/\pk
 (For example, if you set the colour in a \verb|\setmainfont| command, \verb|\color{...}| and related commands, including hyperlink colouring, will no longer have any effect on text in this font.)
 Therefore, \pkg{fontspec}'s colour commands are best used to set explicit colours in specific situations, and the \pkg{xcolor} package is recommended for more general colour functionality.
 
-The colour is defined as a triplet of two-digit Hex RGB
+The colour can be defined as a triplet of two-digit Hex RGB
 values, with optionally another value for the transparency (where
 |00| is completely transparent and |FF| is opaque.)
 \begin{Lexample}{color}{Selecting colour with transparency.}
@@ -341,8 +341,6 @@ values, with optionally another value for the transparency (where
   {\addfontfeature{Color=DDBB2299}P}\kern-0.5ex
   {\addfontfeature{Color=00BB3399}R}
 \end{Lexample}
-Transparency is supported by \LuaLaTeX; \XeLaTeX\ with the \texttt{xdvipdfmx} driver
-does not support this feature.
 
 If you load the \pkg{xcolor} package, you may use any named colour instead
 of writing the colours in hexadecimal.
@@ -353,16 +351,60 @@ of writing the colours in hexadecimal.
  \definecolor{Foo}{rgb}{0.3,0.4,0.5}
  \fontspec[Color=Foo]{Verdana} ...
 \end{Verbatim}
-The \pkg{color} package is \emph{not} supported; use \pkg{xcolor} instead.
 
-You may specify the transparency with a named colour using the \feat{Opacity}
-feature which takes an decimal from zero to one corresponding to
-transparent to opaque respectively:
+You may also use named colours defined with the color commands of the L3 
+programming layer:
+\begin{Verbatim}
+ \ExplSyntaxOn
+ \color_set:nnn{Foo}{rgb}{0.3,0.4,0.5}
+\ExplSyntaxOff
+ ...
+ \fontspec[Color=Foo]{Verdana} ...
+\end{Verbatim}
+
+Color expressions (\verb+red!50!blue+) are not supported. The \pkg{color} 
+package is \emph{not} supported neither. 
+
+The code will at first test for color names of the L3 layer, then for xcolor 
+names and at last try to use the argument as a hexadecimal value.
+
+You may specify the transparency with a named colour using the \feat{Opacity} 
+feature which takes an decimal from zero to one corresponding to transparent 
+to opaque respectively: 
 \begin{Verbatim}
  \fontspec[Color=red,Opacity=0.7]{Verdana} ...
 \end{Verbatim}
 It is still possible to specify a colour in six-char hexadecimal form
 while defining opacity in this way, if you like.
+
+\subsubsection{Color models}
+
+With \XeTeX\ color are always written in the rgb color model into the PDF. 
+When using \LuaTeX, colors with the commands of the L3 layer can be written 
+as rgb or cmyk or as spot color depending on their definition and of the 
+value of the variable \verb+\l_color_fixed_model_tl+. 
+ 
+\subsubsection{Spot colors} 
+With \LuaTeX\ it is possible to use spot colors. This requires the use of the 
+PDF management:
+\begin{Verbatim}
+\DocumentMetadata{}
+\documentclass{article}
+\usepackage{fontspec}
+\ExplSyntaxOn
+ \color_model_new:nnn { sepblue } { Separation }
+    {
+      name = PANTONE~3005~U ,
+      alternative-model = cmyk ,
+      alternative-values = {1, 0.56, 0,0},
+    }
+ \color_set:nnn{spotblue}{sepblue}{1}
+\ExplSyntaxOff
+...
+\fontspec[Color=spotblue]{texgyreheros}
+\end{Verbatim}
+
+ 
 
 \subsection{Scale}
 

@@ -1,0 +1,19 @@
+\input{fontspec-testsetup.tex}
+\usepackage{fontspec,iftex}
+\ExplSyntaxOn
+ \color_model_new:nnn { sepblue } { Separation }
+    {
+      name = PANTONE~3005~U ,
+      alternative-model = cmyk ,
+      alternative-values = {1, 0.56, 0,0},
+    }
+  \color_set:nnn{spotblue}{sepblue}{1}
+\ExplSyntaxOff
+
+\ifluatex 
+\setmainfont{texgyretermes}[Color=spotblue] 
+\fi 
+
+\begin{document}
+ TTT 
+\end{document}

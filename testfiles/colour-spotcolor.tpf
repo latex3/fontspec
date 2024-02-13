@@ -1,0 +1,98 @@
+%PDF-1.5
+%дрнш
+7 0 obj
+<</Length 90>>
+stream
+ q 1 0 0 1 72 98.079 cm 0 G 0 g BT /F1 9.9626 Tf -42.883 47.864 Td[<006800680068>]TJ ET Q
+endstream
+endobj
+8 0 obj
+<</Font<</F1 5 0 R>>/ProcSet[/PDF/Text/ImageC/ImageB/ImageI]>>
+endobj
+4 0 obj
+<</FunctionType 2/Domain[0 1]/C0[0 0 0 0]/C1[1 .56 0 0]/N 1>>
+endobj
+3 0 obj
+<</Resources 8 0 R/Type/Page/Parent 9 0 R/Contents[7 0 R]>>
+endobj
+9 0 obj
+<</Type/Pages/Count 1/Kids[3 0 R]/MediaBox[0 0 255.12 170.08]>>
+endobj
+2 0 obj
+<</Creator(TeX)/Producer(xdvipdfmx)/CreationDate(D:20160520090000-00'00')>>
+endobj
+1 0 obj
+<</Pages 9 0 R/Type/Catalog>>
+endobj
+10 0 obj
+<</Length 356>>
+stream
+/CIDInit /ProcSet findresource begin
+12 dict begin
+begincmap
+/CMapName /EXQIVM+LMRoman10-Regular-UTF16 def
+/CMapType 2 def
+/CIDSystemInfo <<
+  /Registry (Adobe)
+  /Ordering (UCS)
+  /Supplement 0
+>> def
+1 begincodespacerange
+<0000> <FFFF>
+endcodespacerange
+1 beginbfchar
+<0068> <0054>
+endbfchar
+endcmap
+CMapName currentdict /CMap defineresource pop
+end
+end
+endstream
+endobj
+12 0 obj
+<</Subtype/CIDFontType0C/Length 596>>
+[BINARY STREAM]
+endobj
+13 0 obj
+[104[722]]
+endobj
+14 0 obj
+<</Length 14>>
+[BINARY STREAM]
+endobj
+6 0 obj
+<</Type/Font/Subtype/CIDFontType0/BaseFont/EXQIVM+LMRoman10-Regular/CIDSystemInfo<</Registry(Adobe)/Ordering(Identity)/Supplement
+0>>/FontDescriptor 11 0 R/DW 280/W 13 0 R>>
+endobj
+11 0 obj
+<</Type/FontDescriptor/Ascent 806/Descent -194/StemV 69/CapHeight 806/AvgWidth 549/FontBBox[-430
+-290 1417 1127]/ItalicAngle 0/Flags 6/Style<</Panose<000000000500000000000000>>>/FontName/EXQIVM+LMRoman10-Regular/FontFile3
+12 0 R/CIDSet 14 0 R>>
+endobj
+5 0 obj
+<</Type/Font/Subtype/Type0/BaseFont/EXQIVM+LMRoman10-Regular-Identity-H/Encoding/Identity-H/DescendantFonts[6 0 R]/ToUnicode
+10 0 R>>
+endobj
+xref
+0 15
+0000000000 65535 f 
+0000000553 00000 n 
+0000000462 00000 n 
+0000000308 00000 n 
+0000000231 00000 n 
+0000002212 00000 n 
+0000001762 00000 n 
+0000000015 00000 n 
+0000000153 00000 n 
+0000000383 00000 n 
+0000000598 00000 n 
+0000001951 00000 n 
+0000001004 00000 n 
+0000001672 00000 n 
+0000001699 00000 n 
+trailer
+<</ID[<ID-STRING><ID-STRING>]/Root
+1 0 R/Info 2 0 R/Size 15>>
+startxref
+2361
+%%EOF

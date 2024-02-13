@@ -8,9 +8,9 @@ TU/texgyreheros-regular.otf(0)/m/n:
   [texgyreheros-regular.otf]:mode=node;script=latn;language=dflt;+tlig;
 TT:
 TU/texgyrecursor-regular.otf(0)/m/n:
-  "[texgyrecursor-regular.otf]:mode=node;script=latn;language=dflt;color=FF0000FF ;"
+  [texgyrecursor-regular.otf]:mode=node;script=latn;language=dflt;color={red};
 "CODE":
 TU/texgyrecursor-regular.otf(1)/m/n:
-  "[texgyrecursor-regular.otf]:mode=node;script=latn;language=dflt;color=0000FFFF ;"
+  [texgyrecursor-regular.otf]:mode=node;script=latn;language=dflt;color={blue};
 ***************
 Compilation 1 of test file completed with exit status 0

@@ -1,6 +1,7 @@
 Change history
 ==============
 
+
 ## v2.9a (2024/02/13)
 
   * Added a `Scale=MatchAveragecase` paramater which averages `Scale=MatchLowercase` and `Scale=MatchUppercase`.

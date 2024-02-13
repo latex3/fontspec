@@ -3,6 +3,7 @@ Change history
 
 ## Unreleased
 
+  * Added a `Scale=MatchAveragecase` paramater which averages `Scale=MatchLowercase` and `Scale=MatchUppercase`.
   * switched options to LaTeX keyval handler
   * added option verbose to undo silent/quiet
   * euenc/tuenc options are obsolete

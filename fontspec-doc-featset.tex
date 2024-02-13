@@ -411,7 +411,8 @@ PDF management:
 \cmdbox{
  \feat{Scale} = \meta{number} \\
  \feat{Scale} = \opt{MatchLowercase} \\
- \feat{Scale} = \opt{MatchUppercase}
+ \feat{Scale} = \opt{MatchUppercase} \\
+ \feat{Scale} = \opt{MatchAveragecase}
 }
 
 In its explicit form, \feat{Scale} takes a single
@@ -419,10 +420,11 @@ numeric argument for linearly scaling the font, as demonstrated
 in \exref{fontload}.
 
 As well as a numerical argument, the \feat{Scale} feature
-also accepts options \opt{MatchLowercase}
-and \opt{MatchUppercase}, which will scale the font being selected to match
-the current default roman font to either the height of the lowercase or
-uppercase letters, respectively; these features are shown in \exref{scale}.
+also accepts options \opt{MatchLowercase}, \opt{MatchUppercase},
+and \opt{MatchAveragecase}, which will scale the font being selected to match
+the current default roman font to either the height of the lowercase,
+the height of the uppercase letters, or the average of the two,
+respectively; these features are shown in \exref{scale}.
 The amount of scaling used in each instance is reported in the \texttt{.log} file.
 
 \begin{Xexample}{scale}{Automatically calculated scale values.}
@@ -430,7 +432,9 @@ The amount of scaling used in each instance is reported in the \texttt{.log} fil
   \newfontfamily\lc[Scale=MatchLowercase]{Verdana}
    The perfect match {\lc is hard to find.}\\
   \newfontfamily\uc[Scale=MatchUppercase]{Arial}
-   L O G O \uc F O N T
+   L O G O {\uc F O N T}\\
+  \newfontfamily\ac[Scale=MatchAveragecase]{Fira Math}
+   Lower {\ac and UPPER} CASE
 \end{Xexample}
 
 Additional calls to the \feat{Scale} feature overwrite the settings of the former.
@@ -442,7 +446,8 @@ necessary. For example:
   [ Scale = 1.1 , ScaleAgain = 1.2 ] % -> scale of 1.32
 \end{Verbatim}
 
-Note that when |Scale=MatchLowercase| is used with |\setmainfont|, the new `main'
+Note that when |Scale=MatchLowercase|, |Scale=MatchUppercase|, or |Scale=MatchAverageCase|
+is used with |\setmainfont|, the new `main'
 font of the document will be scaled to match the old default.
 If you wish to automatically scale all fonts except have the main font use `natural'
 scaling, you may write

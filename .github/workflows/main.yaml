@@ -31,10 +31,10 @@ jobs:
         # to generate the artifact when the run is successful, not when it fails.
         include:
           - name: "Tests: LuaTeX"
-            l3build_cmd: l3build check -e luatex -q --show-log-on-error
+            l3build_cmd: l3build check -H -e luatex -q --show-log-on-error
             artifact_name: testfiles
           - name: "Tests: XeTeX"
-            l3build_cmd: l3build check -e xetex -q --show-log-on-error
+            l3build_cmd: l3build check -H -e xetex -q --show-log-on-error
             artifact_name: testfiles
           # Uses proprietary fonts
           # - name: "Documentation"

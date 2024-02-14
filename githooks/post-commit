@@ -4,7 +4,7 @@
 # Updates copyright for Will to the current year.
 
 YEAR=`date +%Y`
-sed -i'.tmp' 's/\(2004\)-[0-9]* /\1-'$YEAR' /' COPYRIGHT
+sed -i'.tmp' 's/\(2022\)-[0-9]* /\1-'$YEAR' /' COPYRIGHT
 rm COPYRIGHT.tmp
 
 for ii in *.ins *.tex *.ltx *.dtx ; do

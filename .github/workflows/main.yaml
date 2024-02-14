@@ -44,7 +44,7 @@ jobs:
     steps:
       # Boilerplate
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
         with:
@@ -52,7 +52,7 @@ jobs:
           # different workflows.
           package_file: .github/tl_packages
       - name: Checkout fonts for testing
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: zauguin/fontspec-test-fonts
           path: fontspec-test-fonts

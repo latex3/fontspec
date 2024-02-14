@@ -146,9 +146,9 @@ uploadconfig = {
   author      = "Will Robertson",
   license     = "lppl1.3c",
   summary     = "Advanced font selection in XeLaTeX and LuaLaTeX",
-  ctanPath    = "/macros/latex/contrib/fontspec",
-  repository  = "https://github.com/wspr/fontspec/",
-  bugtracker  = "https://github.com/wspr/fontspec/issues",
+  ctanPath    = "/macros/unicodetex/latex/fontspec",
+  repository  = "https://github.com/latex3/fontspec/",
+  bugtracker  = "https://github.com/latex3/fontspec/issues",
 }
 
 local function prequire(m) -- from: https://stackoverflow.com/a/17878208

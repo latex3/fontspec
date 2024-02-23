@@ -56,13 +56,26 @@
 \@@_define_opentype_feature_group:n {Letters}
 \@@_define_opentype_feature:nnnnn   {Letters} {ResetAll} {} {}
   {
-    +case,+smcp,+pcap,+c2sc,+c2pc,+unic,+rand,
-    -case,-smcp,-pcap,-c2sc,-c2pc,-unic,-rand
+%<LU>  +lower,-lower,+upper,-upper,+case,+cpsp,
+    +smcp,+pcap,+c2sc,+c2pc,+unic,+rand,
+    -smcp,-pcap,-c2sc,-c2pc,-unic,-rand
   }
 %    \end{macrocode}
 %
 %    \begin{macrocode}
-\@@_define_opentype_onoffreset:nnnnn {Letters} {Uppercase} {case} {case} {}
+%<*LU>
+\keys_define:nn {fontspec-opentype}
+  {
+    Letters / Uppercase .code:n = {
+      \@@_make_OT_feature:nnn {} {+upper} {+lower}
+      \@@_make_OT_feature:nnn {} {+case} {}
+      \@@_make_OT_feature:nnn {} {+cpsp} {}
+    },
+  }
+\@@_define_opentype_feature:nnnnn {Letters} {UppercaseOff} {} {-upper} {+case,+cpsp}
+\@@_define_opentype_feature:nnnnn {Letters} {UppercaseReset} {} {} {+upper,-upper}
+\@@_define_opentype_onoffreset:nnnnn {Letters} {Lowercase} {} {lower} {+upper,+case,+cpsp}
+%</LU>
 \@@_define_opentype_onoffreset:nnnnn {Letters} {SmallCaps} {smcp} {smcp} {+pcap,+unic}
 \@@_define_opentype_onoffreset:nnnnn {Letters} {PetiteCaps} {pcap} {pcap} {+smcp,+unic}
 \@@_define_opentype_onoffreset:nnnnn {Letters} {UppercaseSmallCaps} {c2sc} {c2sc} {+c2pc,+unic}

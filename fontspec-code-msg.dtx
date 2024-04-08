@@ -49,7 +49,10 @@
  }
 \@@_msg_new:nnn {font-not-found}
  {
-  The font "#1" cannot be found.
+  The font "#1" cannot be found; this may be but usually is not
+  a fontspec bug. Either there is a typo in the font name/file,
+  the font is not installed (correctly), or there is a bug
+  in the underlying font loading engine (XeTeX/luaotfload).
  }
  {
   A font might not be found for many reasons.\\

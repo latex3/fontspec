@@ -77,7 +77,10 @@ For basic use, no package options are required:
 Package options will be introduced below; some preliminary details are discussed first.
 Package options are setup with the in-built \LaTeX{} keyval options handler. This means
 that the package can be loaded more than once with different options without triggering
-an option clash error. The \texttt{config} and \texttt{no-config} option must be used in
+an option clash error.
+\DescribeOption{config}
+\DescribeOption{no-config}
+The \texttt{config} and \texttt{no-config} option must be used in
 the first loading and are ignored later.
 
 \subsection{Font encodings}
@@ -86,6 +89,8 @@ The package switches the \textsc{nfss} font encoding to \texttt{TU}.
 \texttt{TU} is a new Unicode font encoding, intended for both \XeTeX\ and \LuaTeX\ engines, and automatically contains support for symbols covered by \LaTeX's traditional \texttt{T1} and \texttt{TS1} font encodings (for example, |\%|, |\textbullet|, |\"u|, and so on).
 Some additional features are provided by \pkg{fontspec} to customise some encoding details; see Part~\vref{part:enc} for further details.
 
+\DescribeOption{euenc}
+\DescribeOption{tuenc}
 Pre-2017 behaviour is now obsolete. The \texttt{euenc} and \texttt{tuenc} package options are
 ignored. Package authors and users who have referred explicitly to the encoding names \texttt{EU1} or \texttt{EU2} should update their code or documents.
 (See internal variable names described in \vref{sec:api} for how to do this properly.)
@@ -95,7 +100,7 @@ ignored. Package authors and users who have referred explicitly to the encoding 
 By default, \pkg{fontspec} adjusts \LaTeX's default maths setup in order to maintain the correct Computer Modern symbols when the roman font changes.
 However, it will attempt to avoid doing this if another maths font package is loaded (such as \pkg{mathpazo} or the \pkg{unicode-math} package).
 
-If you find that \pkg{fontspec} is incorrectly changing the maths font when it shouldn't be, apply the |no-math| package option to manually suppress its behaviour here.
+If you find that \pkg{fontspec} is incorrectly changing the maths font when it shouldn't be, apply the \DescribeOption{no-math} |no-math| package option to manually suppress its behaviour here.
 
 
 \subsection{Configuration}
@@ -110,6 +115,7 @@ A |fontspec.cfg| file is distributed with \pkg{fontspec} with a small number of 
 To customise \pkg{fontspec} to your liking, use the standard |.cfg| file as a starting point or write your own from scratch, then either place it in the same folder as the main document for isolated cases, or in a location
 that \XeTeX\ or \LuaTeX\ searches by default; \eg\ in Mac\TeX: \path{~/Library/texmf/tex/latex/}.
 
+\DescribeOption{no-config}
 The package option |no-config| will suppress the loading of the |fontspec.cfg| file under all circumstances. Both options must be used the first time \pkg{fontspec} is loaded and are ignored in later calls.
 
 
@@ -117,13 +123,14 @@ The package option |no-config| will suppress the loading of the |fontspec.cfg| f
 \label{sec:quiet-warnings}
 
 This package can give some warnings that can be harmless if you know what
-you're doing. Use the |quiet| package option to write these warnings to the
+you're doing. Use the \DescribeOption{quiet} |quiet| package option to write these warnings to the
 transcript (\texttt{.log}) file instead.
 
+\DescribeOption{silent}
 Use the |silent| package option to completely suppress these warnings if you
 don't even want the |.log| file cluttered up.
 
-Both options can also be used with \cs{Setkeys} in the document. Use the |verbose| option to get activate the warnings again.
+Both options can also be used with \cs{Setkeys} in the document. Use the \DescribeOption{verbose} |verbose| option to get activate the warnings again.
 
 \section{Interaction with \LaTeXe\ and other packages}
 

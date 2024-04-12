@@ -129,7 +129,7 @@ wish to have them all installed in your system's font directories.
 In this case, it is more convenient to load them from a different location on your disk.
 This technique is also necessary in \XeTeX\ when loading OpenType fonts that are present within your \TeX\ distribution, such as \path{/usr/local/texlive/2013/texmf-dist/fonts/opentype/public}.
 Fonts in such locations are visible to \XeTeX\ but cannot be loaded by font name, only file name; \LuaTeX\ does not have this restriction.
-(If you for some reason want to restrict the fonts to the ones provided by your \TeX\ distribution even though you are using \LuaTeX\ you can use the \texttt{KpseOnly} option)
+(If you for some reason want to restrict the fonts to the ones provided by your \TeX\ distribution even though you are using \LuaTeX\ you can use the \DescribeOption{KpseOnly}\texttt{KpseOnly} option)
 
 When selecting fonts by file name, any font that can be found in the default
 search paths may be used directly (including in the current directory)
@@ -231,7 +231,7 @@ To continue the example above, here we colour the different faces:
   \defaultfontfeatures[CharisSILR]{Color=blue}
   \defaultfontfeatures[CharisSILB]{Color=red}
 \end{Verbatim}
-Such configuration lines could be stored either inline inside \texttt{My Charis.fontspec}
+Such configuration lines could be stored either inline inside \texttt{MyCharis.fontspec}
 or within their own \texttt{.fontspec} files; in this way, \pkg{fontspec} is designed to
 handle `nested' configuration options.
 
@@ -366,9 +366,9 @@ in \exref{nfface}, which is repeated in \vref{sec:contextuals}.
 The automatic bold, italic, and bold italic font selections will not be
 adequate for the needs of every font: while some fonts mayn't even
 have bold or italic shapes, in which case a skilled (or lucky)
-designer may be able to chose well-matching accompanying shapes from
+designer may be able to choose well-matching accompanying shapes from
 a different font altogether, others can have a range of bold and
-italic fonts to chose among.  The \feat{BoldFont} and
+italic fonts to choose among.  The \feat{BoldFont} and
 \feat{ItalicFont} features are provided for these situations. If only
 one of these is used, the bold italic font is requested as the
 default from the \emph{new} font. See \exref{bff}.
@@ -429,7 +429,7 @@ Without these, however, the \LaTeX\ font switches for slanted (\cs{textsl}, \cs{
 
 Swash font shapes in a family is supported by \LaTeX's commands \cs{textsw} and \cs{swshape}. These commands assume that swash shapes are in a sense `parallel' to italic shapes --- for instance, writing both \cs{swshape} and \cs{itshape} would not result in an italic swash shape (you would get whichever was declared last).
 The \pkg{fontspec} package adopts this approach, while recognising that OpenType fonts in theory could have any crazy combination of shapes such as `italic swash small caps'.
-Attempting to support arbitrarily complex situations makes setup (and the code) more difficult with let's say infrequent benefit --- \pkg{fontspec}'s alternate feature selection mechanisms (such as verb|\addfontfeature{Style=Swash}|) can be used in such situations.
+Attempting to support arbitrarily complex situations makes setup (and the code) more difficult with let's say infrequent benefit --- \pkg{fontspec}'s alternate feature selection mechanisms (such as |\addfontfeature{Style=Swash}|) can be used in such situations.
 
 Therefore, setup is quite simple:
 \begin{Verbatim}

@@ -1,5 +1,3 @@
-The FONTSPEC package
-====================
 
 Package details
 ---------------

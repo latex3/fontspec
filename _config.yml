@@ -1,1 +1,4 @@
-theme: jekyll-theme-minimal
+title: The FONTSPEC package for XeLaTeX and LuaLaTeX
+description: Package and repository documentation
+show_downloads: true
+theme: jekyll-theme-modernist

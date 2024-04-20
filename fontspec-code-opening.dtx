@@ -19,6 +19,7 @@
 %    \begin{macrocode}
     ,math    .bool_gset:N = \g_@@_math_bool
     ,math    .usage:n     =  preamble
+    ,math / unknown .code:n = { } % \msg_warning:nnn {fontspec} {math-opt-unknown} {#1}
     ,no-math .bool_gset_inverse:N = \g_@@_math_bool
     ,no-math .usage:n             =  preamble
     ,config  .bool_gset:N = \g_@@_cfg_bool
@@ -45,7 +46,12 @@
         \msg_redirect_module:nnn { fontspec } { warning } { warning }
         \msg_redirect_module:nnn { fontspec } { info } { info }      
       }  
-  }        
+  }
+\msg_new:nnn {fontspec} {math-opt-unknown}
+ {
+  The~ global~ option~ 'math=#1'~ is~ not~ recognised.~ It~ will~ be~ ignored.
+ }
+
 %    \end{macrocode}
 %
 %    \begin{macrocode}

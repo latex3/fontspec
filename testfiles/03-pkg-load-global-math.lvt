@@ -1,0 +1,8 @@
+\input{regression-test.tex} 
+\documentclass[math=yuck]{article}
+\usepackage{fontspec}
+\begin{document}
+\START
+\typeout{Checking loading; no log file data expected.}
+\OMIT
+\end{document}

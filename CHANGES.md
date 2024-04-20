@@ -1,6 +1,13 @@
 Change history
 ==============
 
+## v2.9b (2024/04/20)
+
+  * Bug fix for loading fonts which only have extensions specified internally to the font
+    shape. E.g.:
+
+        \setmainfont{pagella}[ UprightFont = texgyrepagella-regular.otf ]
+
 
 ## v2.9a (2024/02/13)
 

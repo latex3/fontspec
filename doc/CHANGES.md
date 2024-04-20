@@ -13,6 +13,8 @@ Change history
     This is now changed to always pass through the requested script so the renderer can
     make use of that information regardless of whether the font itself supports the script.
     (#507) 
+  * Adjust approach to removing spaces from font names internally. This may have unintended
+    consequences, please write if so. (#484)
 
 ## v2.9a (2024/02/13)
 

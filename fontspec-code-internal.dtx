@@ -93,13 +93,10 @@
 %
 % \begin{macro}{\@@_sanitise_fontname:Nn}
 % Assigns font name |#2| to token list variable |#1| and strips extension(s) from it in the case of an external font.
-% We strip spaces for luatex for consistency with luaotfload, although I'm not sure this is necessary any more.
-% At one stage this also lowercased the name, but this step has been removed unless someone can remind me why it was necessary.
 %    \begin{macrocode}
 \cs_new:Nn \@@_sanitise_fontname:Nn
   {
     \tl_set:Nx #1 {#2}
-%<LU>    \tl_remove_all:Nn #1 {~}
     \@@_process_ext:N #1
   }
 
@@ -156,7 +153,9 @@
 % \begin{macro}{\@@_load_external_fontoptions:N}
 % Load a possible \texttt{.fontspec} font configuration file.
 % This file could set font-specific options for the font about to be loaded.
-% The parameter should be a tokenlist containing a sanitised fontname.
+% The parameter should be a token list containing a sanitised fontname.
+% In the past this used a space-stripped version of the name, so we check for the file
+% both with and without spaces to load it.
 %    \begin{macrocode}
 \cs_new:Nn \@@_load_external_fontoptions:N
   {
@@ -167,8 +166,15 @@
         \tl_remove_all:Nn \l_@@_ext_filename_tl {~}
         \prop_if_in:NVF \g_@@_fontopts_prop #1
          {
-          \exp_args:No \file_if_exist:nT { \l_@@_ext_filename_tl }
-           { \file_input:n { \l_@@_ext_filename_tl } }
+          \exp_args:No \file_if_exist:nTF { \l_@@_ext_filename_tl }
+            {
+              \file_input:n { \l_@@_ext_filename_tl }
+            }
+            {
+              \tl_remove_all:Nn \l_@@_ext_filename_tl {~}
+              \exp_args:No \file_if_exist:nT { \l_@@_ext_filename_tl }
+                { \file_input:n { \l_@@_ext_filename_tl } }
+            }
          }
       }
   }
@@ -551,7 +557,6 @@
   {
     \tl_set:Nx #1 {#2}
     \tl_replace_all:Nnx #1 {*} {\l_@@_basename_tl}
-%<LU>  \tl_remove_all:Nn #1 {~}
     \@@_process_ext:N #1
   }
 %    \end{macrocode}

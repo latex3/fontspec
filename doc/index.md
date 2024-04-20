@@ -14,5 +14,6 @@ many others.
 See the documentation `fontspec.pdf` for full information.
 
 * [Summary of user commands](user.html)
-* [Package details](dev.html)
+* [Package installation details](dev.html)
 * [Release notes (changelog)](CHANGES.html)
+* [Github repository](https://github.com/latex3/fontspec)

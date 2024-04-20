@@ -1,6 +1,6 @@
 
-Package details
----------------
+Manual package installation
+---------------------------
 
 If you are running TeX Live, you can update to the latest version of this package by running
 

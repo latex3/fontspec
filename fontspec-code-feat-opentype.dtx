@@ -474,20 +474,14 @@
         \bool_if:NF \l_@@_scriptlang_exist_bool
           {
 %<debug>\typeout{Script~not~found!}
-            \bool_if:nF { \str_if_eq_p:ee {#1} {CustomDefault} }
+            \@@_warning:nxx {no-script} {\l_fontspec_fontname_tl} {#1}
+            \clist_set:Nn \l_tmpa_clist {#2}
+            \clist_get:NN \l_tmpa_clist \l_@@_script_tl
+            \exp_args:Noo \@@_check_script:NnT \l_@@_fontface_cs_tl \l_@@_script_tl
               {
-                \tl_clear:N \l_@@_script_name_tl
-                \@@_warning:nxx {no-script} {\l_fontspec_fontname_tl} {#1}
-              }
-
-            \bool_if:nF
-              {
-                \str_if_eq_p:ee {#1} {Default} ||
-                \str_if_eq_p:ee {#1} {Latin}   ||
-                \str_if_eq_p:ee {#1} {CustomDefault}
-              }
-              {
-                \keys_set:nn {fontspec-opentype} { Script = CustomDefault }
+                \tl_set:Nn \l_@@_script_name_tl {#1}
+                \int_set:Nn \l_@@_script_int {\l_@@_strnum_int}
+                \tl_gset:Nx \g_@@_single_feat_tl { script=\l_@@_script_tl }
               }
           }
       }

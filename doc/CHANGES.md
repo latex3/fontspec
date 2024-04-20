@@ -8,6 +8,11 @@ Change history
 
         \setmainfont{pagella}[ UprightFont = texgyrepagella-regular.otf ]
 
+  * If a font is loaded with a specific script (e.g. `Script=CJK`) and it is not
+    available within the font, `fontspec` previously would fall back on a default script.
+    This is now changed to always pass through the requested script so the renderer can
+    make use of that information regardless of whether the font itself supports the script.
+    (#507) 
 
 ## v2.9a (2024/02/13)
 

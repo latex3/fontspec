@@ -166,11 +166,10 @@
  }
 \@@_msg_new:nn {language-not-exist}
  {
-  Language '#1' not available
-  for font '\l_fontspec_fontname_tl'
+  Language '#1' not explicitly supported
+  within font '\l_fontspec_fontname_tl'
   with script '\l_@@_script_name_tl'.
-  Check the typeset output, and if it is okay the 'Language'
-  does not need to be explicitly declared.
+  Check the typeset output, and if it is okay then ignore this warning.
   Otherwise a different font should be chosen.
  }
 \@@_msg_new:nn {only-xetex-feature}
@@ -246,9 +245,8 @@
  }
 \@@_msg_new:nn {no-script}
  {
-  Font "#1" does not contain requested Script "#2".
-  Check the typeset output, and if it is okay the 'Script'
-  does not need to be explicitly declared.
+  Script '#2' not explicitly supported within font '#1'.
+  Check the typeset output, and if it is okay then ignore this warning.
   Otherwise a different font should be chosen.
  }
 \@@_msg_new:nn {opa-twice}

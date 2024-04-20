@@ -1,0 +1,30 @@
+
+\input{fontspec-testsetup.tex}
+
+\usepackage{fontspec}
+
+\begin{document}
+
+\setmainfont{texgyrepagella-regular.otf}
+hello \CURRNFSS
+
+\setmainfont{XX}[
+  Extension = .otf ,
+  UprightFont    = texgyrepagella-regular    ,
+  BoldFont       = texgyrepagella-bold       ,
+  ItalicFont     = texgyrepagella-italic     ,
+  BoldItalicFont = texgyrepagella-bolditalic ,
+]
+hello \CURRNFSS
+\emph{hello \CURRNFSS}
+
+\setmainfont{YY}[
+  UprightFont    = texgyrepagella-regular.otf    ,
+  BoldFont       = texgyrepagella-bold.otf       ,
+  ItalicFont     = texgyrepagella-italic.otf     ,
+  BoldItalicFont = texgyrepagella-bolditalic.otf ,
+]
+hello \CURRNFSS
+\emph{hello \CURRNFSS}
+
+\end{document}

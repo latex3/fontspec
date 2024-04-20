@@ -3,8 +3,11 @@ Change history
 
 ## v2.9b (2024/04/20)
 
-  * Bug fix for loading fonts which only have extensions specified internally to the font
-    shape. E.g.:
+  * Add new `Letters=Uppercase` (LuaLaTeX only) as an interface to `luaotfload`
+    feature which automatically performs case-changing at the font level
+    (i.e., not using macros to process the text tokens). (#461)
+  * Fix long-standing bug when loading fonts which only have extensions specified internally to the font
+    shape (#504). E.g.:
 
         \setmainfont{pagella}[ UprightFont = texgyrepagella-regular.otf ]
 
@@ -15,6 +18,8 @@ Change history
     (#507) 
   * Adjust approach to removing spaces from font names internally. This may have unintended
     consequences, please write if so. (#484)
+  * Work around clash if a class defines an option of (say) `math=foo`, where `fontspec`
+    is expecting `math=true`. Now, the global option will be ignored. (#501)
 
 ## v2.9a (2024/02/13)
 

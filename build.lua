@@ -9,8 +9,8 @@ module = "fontspec"
 sourcefiles  = {"*.ins","*.dtx","*.ltx","*.cfg","*.tex","fontspec-doc-style.sty"}
 installfiles = {"fontspec.sty","fontspec-xetex.sty","fontspec-luatex.sty","fontspec.lua","fontspec.cfg"}
 demofiles    = {"fontspec-example.tex"}
-textfiles    = {"README.md","CHANGES.md","LICENSE"}
-tagfiles     = {"fontspec.dtx","CHANGES.md"}
+textfiles    = {"README.md","doc/CHANGES.md","LICENSE"}
+tagfiles     = {"fontspec.dtx","doc/CHANGES.md"}
 
 typesetfiles = {"fontspec.ltx","fontspec-code.ltx"}
 typesetexe   = "xelatex"
@@ -54,7 +54,7 @@ end
 
 changeslisting = nil
 do
-  local f = assert(io.open("CHANGES.md", "r"))
+  local f = assert(io.open("doc/CHANGES.md", "r"))
   changeslisting = f:read("*all")
   f:close()
 end

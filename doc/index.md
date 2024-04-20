@@ -15,3 +15,4 @@ See the documentation `fontspec.pdf` for full information.
 
 * [Summary of user commands](user.html)
 * [Package details](dev.html)
+* [Release notes (changelog)](CHANGES.html)

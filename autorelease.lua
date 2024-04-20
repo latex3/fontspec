@@ -120,7 +120,7 @@ end
 
 changeslisting = nil
 do
-  local f = assert(io.open("CHANGES.md", "r"))
+  local f = assert(io.open("doc/CHANGES.md", "r"))
   changeslisting = f:read("*all")
   f:close()
 end

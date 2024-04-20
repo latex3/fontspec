@@ -1,0 +1,18 @@
+
+\input{fontspec-testsetup.tex}
+
+\usepackage{fontspec}
+
+\defaultfontfeatures[texgyrepagella-regular.otf]{
+  BoldFont = *,
+  BoldFeatures = {FakeBold = 1.2}
+   }
+
+\begin{document}
+
+\setmainfont{texgyrepagella-regular.otf}
+
+x\CURRNFSS
+\textbf{x\CURRNFSS}
+
+\end{document}

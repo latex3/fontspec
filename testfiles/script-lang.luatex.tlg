@@ -11,6 +11,6 @@ TU/texgyrepagella-regular.otf(2)/m/n:
   [texgyrepagella-regular.otf]:mode=node;script=latn;language=ROM;+tlig;
 LANG DFLT
 TU/texgyrepagella-regular.otf(3)/m/n:
-  [texgyrepagella-regular.otf]:mode=node;script=cyrl;language=dflt;+tlig;
+  [texgyrepagella-regular.otf]:mode=node;script=cyrl;language=ROM;+tlig;
 ***************
 Compilation 1 of test file completed with exit status 0

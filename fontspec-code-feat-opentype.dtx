@@ -470,14 +470,16 @@
                 \clist_map_break:
               }
           }
-
+%    \end{macrocode}
+% If not found give a warning but load it anyway:
+%    \begin{macrocode}
         \bool_if:NF \l_@@_scriptlang_exist_bool
           {
 %<debug>\typeout{Script~not~found!}
             \@@_warning:nxx {no-script} {\l_fontspec_fontname_tl} {#1}
             \clist_set:Nn \l_tmpa_clist {#2}
             \clist_get:NN \l_tmpa_clist \l_@@_script_tl
-            \exp_args:Noo \@@_check_script:NnT \l_@@_fontface_cs_tl \l_@@_script_tl
+            \exp_args:Noo \@@_check_script:NnF \l_@@_fontface_cs_tl \l_@@_script_tl
               {
                 \tl_set:Nn \l_@@_script_name_tl {#1}
                 \int_set:Nn \l_@@_script_int {\l_@@_strnum_int}
@@ -487,6 +489,37 @@
       }
     }
   }
+\cs_new:Nn \fontspec_default_script:nn
+  {
+    \keys_define:nn {fontspec-opentype} { Script / #1 .code:n =
+      {
+%<debug>\typeout{Trying~[Script=#1:#2]}
+        \bool_set_false:N \l_@@_scriptlang_exist_bool
+        \clist_map_inline:nn {#2}
+          {
+            \exp_args:No \@@_check_script:NnT \l_@@_fontface_cs_tl {####1}
+              {
+%<debug>\typeout{Script~tag~found:~####1}
+                \tl_set:Nn \l_@@_script_name_tl {#1}
+                \tl_set:Nn \l_@@_script_tl {####1}
+                \int_set:Nn \l_@@_script_int {\l_@@_strnum_int}
+                \bool_set_true:N \l_@@_scriptlang_exist_bool
+                \tl_gset:Nx \g_@@_single_feat_tl { script=####1 }
+                \clist_map_break:
+              }
+          }
+        \bool_if:NF \l_@@_scriptlang_exist_bool
+          {
+%<debug>\typeout{Script~not~found!}
+            \tl_clear:Nn \l_@@_script_name_tl
+          }
+      }
+    }
+  }
+%    \end{macrocode}
+% When script is not explicitly requested, use this list:
+%    \begin{macrocode}
+\fontspec_default_script:nn {CustomDefault} {latn,DFLT}
 %    \end{macrocode}
 %
 %
@@ -514,10 +547,21 @@
                 \clist_map_break:
               }
           }
+%    \end{macrocode}
+% If not found give a warning but load it anyway:
+%    \begin{macrocode}
         \bool_if:NF \l_@@_scriptlang_exist_bool
           {
+%<debug>\typeout{Lang~not~found!}
             \@@_warning:nx {language-not-exist} {#1}
-            \keys_set:nn {fontspec-opentype} { Language = Default }
+            \clist_set:Nn \l_tmpa_clist {#2}
+            \clist_get:NN \l_tmpa_clist \l_@@_lang_tl
+            \exp_args:Noo \@@_check_script:NnF \l_@@_fontface_cs_tl \l_@@_script_tl
+              {
+                \tl_set:Nn \l_@@_script_name_tl {#1}
+                \int_set:Nn \l_@@_language_int {\l_@@_strnum_int}
+                \tl_gset:Nx \g_@@_single_feat_tl { language=####1 }
+              }
           }
       }
     }

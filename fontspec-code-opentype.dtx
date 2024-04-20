@@ -159,7 +159,7 @@
 % font. \cmd\l_@@_script_int\ is used to store
 % the number corresponding to the script tag string.
 %    \begin{macrocode}
-\prg_new_conditional:Nnn \@@_check_script:Nn {TF,T}
+\prg_new_conditional:Nnn \@@_check_script:Nn {TF,T,F}
   {
 %<debug>\typeout{:: _check_script:Nn~#1~/~#2}
     \bool_if:NTF \l_@@_never_check_bool

@@ -1,6 +1,7 @@
 
 build/
 
+*.DS_Store
 *.glo
 *.idx
 *.out

@@ -64,6 +64,7 @@
 %    \begin{macrocode}
 \cs_new:Nn \@@_main_setmainfont:nn
   {
+%<debug>\typeout{::~_main_setmainfont:nn}
     \ifdefined\DeclareFontSeriesDefault
       \DeclareFontSeriesDefault[rm]{bf}{\bfdefault}
     \fi

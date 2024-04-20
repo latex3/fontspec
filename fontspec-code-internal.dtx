@@ -41,6 +41,10 @@
     \@@_sanitise_fontname:Nn \l_@@_fontname_up_tl       {#2}
     \@@_sanitise_fontname:Nn \l_@@_basename_tl          {#2}
 
+%<debug>\typeout{^^J::::::::::::::: l_fontspec_fontname_tl~ =~ \l_fontspec_fontname_tl }
+%<debug>\typeout{::::::::::::::: _fontname_up_tl~ =~ \l_@@_fontname_up_tl }
+%<debug>\typeout{::::::::::::::: l_@@_extension_tl~ =~ \l_@@_extension_tl }
+
     \@@_if_detect_external:nT {#2}
      { \keys_set:nn {fontspec-preparse-external} {Path} }
 
@@ -55,6 +59,11 @@
 %<debug>\typeout{fontid: \l_@@_fontid_tl}
 
     \@@_preparse_features:
+
+%<debug>\typeout{^^J::::::::::::::: l_fontspec_fontname_tl~ =~ \l_fontspec_fontname_tl }
+%<debug>\typeout{::::::::::::::: _fontname_up_tl~ =~ \l_@@_fontname_up_tl }
+%<debug>\typeout{::::::::::::::: l_@@_extension_tl~ =~ \l_@@_extension_tl }
+
     \@@_load_font:
     \@@_set_scriptlang:
     \@@_get_features:n {}
@@ -90,13 +99,19 @@
 \cs_new:Nn \@@_sanitise_fontname:Nn
   {
     \tl_set:Nx #1 {#2}
-%<LU>  \tl_remove_all:Nn #1 {~}
+%<LU>    \tl_remove_all:Nn #1 {~}
+    \@@_process_ext:N #1
+  }
+
+\cs_new:Nn \@@_process_ext:N
+  {
     \clist_map_inline:Nn \l_@@_extensions_clist
       {
         \tl_if_in:NnT #1 {##1}
           {
             \tl_remove_once:Nn #1 {##1}
             \tl_set:Nn \l_@@_extension_tl {##1}
+            \@@_font_is_file:
             \clist_map_break:
           }
       }
@@ -282,7 +297,7 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\@@_font_is_file:,\@@_font_is_name:,\@@_font_is_kpse:}
+% \begin{macro}{\@@_font_is_file:,\@@_font_is_name:}
 % The \cs{@@_fontname_wrap:n} command takes the font name and either passes it through unchanged or wraps it in the syntax for loading a font `by filename'.
 % For Lua\TeX\ there are two kinds kinds of filename based loading supported: Regular filename lookups which include system fonts and lookups restricted to kpse.
 %    \begin{macrocode}
@@ -296,18 +311,16 @@
 %    \begin{macrocode}
 \cs_new:Nn \@@_font_is_file:
   {
-    \cs_set:Npn \@@_fontname_wrap:n ##1 { [ \l_@@_font_path_tl ##1 ] }
+%<debug>  \typeout{:: _font_is_file:}
+    \bool_set_true:N \l_@@_external_bool
+    \bool_lazy_and:nnTF { \l_@@_external_kpse_bool } { \tl_if_empty_p:N \l_@@_font_path_tl }
+      {
+        \cs_set:Npn \@@_fontname_wrap:n ##1 { kpse: ##1 }
+      }
+      {
+        \cs_set:Npn \@@_fontname_wrap:n ##1 { [ \l_@@_font_path_tl ##1 ] }
+      }
   }
-%    \end{macrocode}
-%
-%    \begin{macrocode}
-%<*LU>
-\cs_new:Nn \@@_font_is_kpse:
-  {
-    \cs_set:Npn \@@_fontname_wrap:n ##1 { kpse: ##1 }
-  }
-%</LU>
-%<XE>\cs_new_eq:NN \@@_font_is_kpse: \@@_font_is_file:
 %    \end{macrocode}
 % \end{macro}
 %
@@ -539,6 +552,7 @@
     \tl_set:Nx #1 {#2}
     \tl_replace_all:Nnx #1 {*} {\l_@@_basename_tl}
 %<LU>  \tl_remove_all:Nn #1 {~}
+    \@@_process_ext:N #1
   }
 %    \end{macrocode}
 % \end{macro}

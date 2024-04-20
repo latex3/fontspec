@@ -61,15 +61,8 @@
   {
     \bool_set_true:N \l_@@_nobf_bool
     \bool_set_true:N \l_@@_noit_bool
-    \bool_set_true:N \l_@@_external_bool
     \tl_set:Nn \l_@@_font_path_tl {#1}
-    \bool_lazy_and:nnTF { \l_@@_external_kpse_bool } { \tl_if_empty_p:N \l_@@_font_path_tl }
-      {
-        \@@_font_is_kpse:
-      }
-      {
-        \@@_font_is_file:
-      }
+    \@@_font_is_file:
 %<*XE>
     \keys_set:nn {fontspec-renderer} {Renderer=OpenType}
 %</XE>
@@ -103,10 +96,7 @@
 \@@_keys_define_code:nnn {fontspec-preparse-external} {KpseOnly}
   {
     \bool_set_true:N \l_@@_external_kpse_bool
-    \bool_if:NT \l_@@_external_bool
-      {
-        \@@_font_is_kpse:
-      }
+    \bool_if:NT \l_@@_external_bool \@@_font_is_file:
   }
 \@@_keys_define_code:nnn {fontspec} {KpseOnly} {}
 %    \end{macrocode}

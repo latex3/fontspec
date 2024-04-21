@@ -17,6 +17,6 @@ TU/texgyrepagella-regular.otf(4)/m/n:
   "[texgyrepagella-regular.otf]/OT:script=latn;language=dflt;mapping=tex-text;" at 10.0pt
 SCRIPT CJK
 TU/texgyrepagella-regular.otf(5)/m/n:
-  "[texgyrepagella-regular.otf]/OT:script=latn;language=dflt;mapping=tex-text;" at 10.0pt
+  "[texgyrepagella-regular.otf]/OT:script=hani;language=dflt;mapping=tex-text;" at 10.0pt
 ***************
 Compilation 1 of test file completed with exit status 0

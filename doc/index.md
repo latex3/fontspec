@@ -17,3 +17,5 @@ See the documentation `fontspec.pdf` for full information.
 * [Package installation details](dev.html)
 * [Release notes (changelog)](CHANGES.html)
 * [Github repository](https://github.com/latex3/fontspec)
+
+[![Automated testing](https://github.com/latex3/fontspec/actions/workflows/main.yaml/badge.svg)](https://github.com/latex3/fontspec/actions/workflows/main.yaml)

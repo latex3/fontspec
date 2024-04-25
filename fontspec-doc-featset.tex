@@ -100,8 +100,8 @@ tabular material to use monospaced numbers, as shown in \exref{aff}.
 If you attempt to \emph{change} an already-selected feature, \pkg{fontspec} will try to de-activate any features that clash with the new ones.
 \Eg, the following two invocations are mutually exclusive:
 \begin{Verbatim}
-\addfontfeature{Numbers=OldStyle}...
-\addfontfeature{Numbers=Lining}...
+\addfontfeatures{Numbers=OldStyle}...
+\addfontfeatures{Numbers=Lining}...
 123
 \end{Verbatim}
 Since |Numbers=Lining| comes last, it takes precedence and deactivates the call |Numbers=OldStyle|.
@@ -109,7 +109,7 @@ Since |Numbers=Lining| comes last, it takes precedence and deactivates the call 
 If you wish to apply the change to only one of the fonts of a family (say, italics only)
 you can write
 \begin{Verbatim}
-\addfontfeature{ItalicFeatures={Numbers=Lowercase}}
+\addfontfeatures{ItalicFeatures={Numbers=Lowercase}}
 \end{Verbatim}
 
 
@@ -240,7 +240,7 @@ Support for TrueType Collections has only been tested in \XeTeX, but should also
 \null\quad... \\
 \char`\}}
 
-The \feat{SizeFeature} feature is a little more complicated
+The \feat{SizeFeatures} feature is a little more complicated
 than the previous features discussed. It allows different fonts
 and different font features to be selected for a given font
 family as the point size varies.

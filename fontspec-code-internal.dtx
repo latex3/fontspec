@@ -97,6 +97,7 @@
 \cs_new:Nn \@@_sanitise_fontname:Nn
   {
     \tl_set:Nx #1 {#2}
+    \tl_trim_spaces:N #1
     \@@_process_ext:N #1
   }
 

@@ -1,0 +1,14 @@
+
+\input{fontspec-testsetup.tex}
+
+\usepackage{fontspec}
+
+\begin{document}
+
+\setmainfont{texgyrepagella-regular.otf}
+hello \CURRNFSS
+
+\setmainfont{ texgyrepagella-regular.otf }
+hello \CURRNFSS
+
+\end{document}

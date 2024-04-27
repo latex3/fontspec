@@ -26,7 +26,6 @@ jobs:
         uses: zauguin/install-texlive@v3
         with:
           package_file: .github/tl_packages
-          cache_version: 2
       - name: Checkout fonts for testing
         uses: actions/checkout@v4
         with:

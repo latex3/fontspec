@@ -1,0 +1,38 @@
+name: Create release
+
+on:
+  # Manually triggered from the Actions tab
+  workflow_dispatch:
+  # For all new tags
+  push:
+    tags:
+      - "*"
+
+jobs:
+  ctan:
+    runs-on: ubuntu-latest
+    name: Build CTAN release
+    environment: Release
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Install TeX Live
+        uses: zauguin/install-texlive@v3
+        with:
+          package_file: .github/tl_packages
+      - name: Checkout fonts for testing
+        uses: actions/checkout@v4
+        with:
+          repository: wspr/fontspec-test-fonts
+          path: fontspec-test-fonts
+      - name: Install fonts for testing
+        run: ./fontspec-test-fonts/install.sh
+      - name: Run l3build
+        run: l3build ctan -q -H
+      # Now create the release (this only runs if the previous steps were successful)
+      - name: Create GitHub release
+        uses: ncipollo/release-action@2c591bcc8ecdcd2db72b97d6147f871fcd833ba5 # v1.14.0
+        id: release
+        with:
+          artifacts: "build/distrib/ctan/*.zip"
+          token: ${{ secrets.GITHUB_TOKEN }}

@@ -1339,16 +1339,15 @@ and Japanese typesetting.
 
 Some fonts are equipped with an extensive range of
 numbers and numerals in different forms. These are accessed with the
-\feat{Annotation} feature (OpenType feature |nalt|), selected numerically as shown in
-\exref{ot-annot}. Note that the indexing starts from zero.
-
-\begin{Xexample}{ot-annot}{Annotation forms for OpenType fonts.}
+\feat{Annotation} feature (OpenType feature |nalt|), selected numerically.
+Note that the indexing starts from zero.
+\begin{Verbatim}
   \fontspec{Hiragino Maru Gothic Pro}
    1 2 3 4 5 6 7 8 9
   \def\x#1{\\{\addfontfeature{Annotation=#1}
             1 2 3 4 5 6 7 8 9 }}
   \x0\x1\x2\x3\x4\x5\x6\x7\x7\x8\x9
-\end{Xexample}
+\end{Verbatim}
 
 
 \subsubsection{Character width}\label{sec:CharacterWidth}
@@ -1378,8 +1377,7 @@ glyphs (which are less complex than the kanji they are amongst) into
 a given block of space. The same features are given to roman letters
 in Japanese fonts, for typesetting foreign words in the same style
 as the surrounding text.
-
-\begin{Xexample}[firstline=2]{charwdprop}{Proportional or fixed width forms.}
+\begin{Verbatim}
   \def\texta{ようこそ}\def\textb{ワカヨタレソ}
   \def\test{\makebox[2cm][l]{\texta}%
             \makebox[2.5cm][l]{\textb}%
@@ -1388,12 +1386,11 @@ as the surrounding text.
   {\addfontfeature{CharacterWidth=Proportional}\test}\\
   {\addfontfeature{CharacterWidth=Full}\test}\\
   {\addfontfeature{CharacterWidth=Half}\test}
-\end{Xexample}
+\end{Verbatim}
 
-The same situation occurs with numbers, which are provided in
-increasingly illegible compressed forms seen in \exref{charwd}.
-
-\begin{Xexample}[firstline=2]{charwd}{Numbers can be compressed significantly.}
+The same situation occurs with numbers, which can be provided in
+increasingly illegible compressed forms:
+\begin{Verbatim}
   \centering
   \fontspec[Renderer=AAT]{Hiragino Mincho Pro}
   {\addfontfeature{CharacterWidth=Full}
@@ -1404,7 +1401,7 @@ increasingly illegible compressed forms seen in \exref{charwd}.
    ---123456787654321---}\\
   {\addfontfeature{CharacterWidth=Quarter}
    ---12345678900987654321---}
-\end{Xexample}
+\end{Verbatim}
 
 
 \subsubsection{CJK shape}

@@ -16,6 +16,8 @@ Change history
     This is now changed to always pass through the requested script so the renderer can
     make use of that information regardless of whether the font itself supports the script.
     (#507) 
+  * Rework documentation to remove reference to local and non-free fonts. This allows
+    compilation via Github Actions, which will aid streamlining/automating releases in the future.
   * Adjust approach to removing spaces from font names internally. This may have unintended
     consequences, please write if so. (#484)
   * Work around clash if a class defines an option of (say) `math=foo`, where `fontspec`

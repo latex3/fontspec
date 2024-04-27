@@ -24,6 +24,7 @@ Change history
   * Work around clash if a class defines an option of (say) `math=foo`, where `fontspec`
     is expecting `math=true`. Now, the global option will be ignored. (#501)
 
+
 ## v2.9a (2024/02/13)
 
   * Added a `Scale=MatchAveragecase` paramater which averages `Scale=MatchLowercase` and `Scale=MatchUppercase`.

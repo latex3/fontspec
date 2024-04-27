@@ -5,8 +5,10 @@
 \input{fontspec.dtx}
 \ExplSyntaxOff
 
-\usepackage{fontspec,booktabs,caption,xcolor,flafter,fancyvrb,hologo,graphicx,
-  url,varioref,varwidth,microtype,framed,xparse,docmute}
+\usepackage{fontspec,booktabs,caption,
+xcolor,flafter,fancyvrb,hologo,
+graphicx,url,varioref,varwidth,
+microtype,framed,tocloft,xparse,docmute}
 
 \let\FancyVerbSpace\verbvisiblespace
 
@@ -32,7 +34,7 @@
 \newcommand\XeLaTeX{\hologo{XeLaTeX}}
 \newcommand\LuaLaTeX{\hologo{LuaLaTeX}}
 
-% ToC formatting:
+% tocloft formatting:
 \setlength\cftsubsecnumwidth{1.4\cftsubsecnumwidth}
 %\def\@cfttocstart{\small\begin{multicols}{2}}
 %\def\@cfttocfinish{\end{multicols}}

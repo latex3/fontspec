@@ -18,7 +18,7 @@ Change history
     (#507) 
   * Remove LuaTeX code that resets various `hypenchar` settings seemingly erroneously. (#344)
   * Rework documentation to remove reference to local and non-free fonts. This allows
-    compilation via Github Actions, which will aid streamlining/automating releases in the future.
+    compilation via Github Actions, which will aid streamlining/automating releases in the future. (#157, #465)
   * Adjust approach to removing spaces from font names internally. This may have unintended
     consequences, please write if so. (#484)
   * Work around clash if a class defines an option of (say) `math=foo`, where `fontspec`

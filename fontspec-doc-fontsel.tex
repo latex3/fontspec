@@ -372,14 +372,14 @@ italic fonts to choose among.  The \feat{BoldFont} and
 one of these is used, the bold italic font is requested as the
 default from the \emph{new} font. See \exref{bff}.
 
-\begin{Xexample}{bff}{Explicit selection of the bold font.}
-  \fontspec{Helvetica Neue UltraLight}%
-           [BoldFont={Helvetica Neue}]
-                Helvetica Neue UltraLight         \\
-  {\itshape     Helvetica Neue UltraLight Italic} \\
-  {\bfseries               Helvetica Neue       } \\
-  {\bfseries\itshape       Helvetica Neue Italic} \\
-\end{Xexample}
+\begin{Lexample}{bff}{Explicit selection of the bold font.}
+  \setmainfont{Ysabeau-Hairline.otf}%
+           [BoldFont={Ysabeau-Thin.otf}]
+                Hairline         \\
+  {\itshape     Hairline Italic} \\
+  {\bfseries               Thin       } \\
+  {\bfseries\itshape       Thin Italic} \\
+\end{Lexample}
 
 If a bold italic shape is not defined, or you want to specify
 \emph{both} custom bold and italic shapes, the \feat{BoldItalicFont}

@@ -50,7 +50,7 @@ jobs:
           # List the required TeX Live packages in a separate file to allow reuse in
           # different workflows.
           package_file: .github/tl_packages
-          cache_version: 1
+          cache_version: 2
       - name: Checkout fonts for testing
         uses: actions/checkout@v4
         with:

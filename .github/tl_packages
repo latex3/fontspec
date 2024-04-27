@@ -28,6 +28,7 @@ hyph-utf8
 epstopdf-pkg
 lualatex-math
 mathspec
+makeindex
 
 # Fonts
 sourcecodepro

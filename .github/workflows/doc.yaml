@@ -1,4 +1,4 @@
-name: Automated testing
+name: Documentation typesetting
 
 # Currently we run in two situations:
 on:
@@ -30,15 +30,9 @@ jobs:
         # generate the artifact from PDF files and not the build directory and
         # to generate the artifact when the run is successful, not when it fails.
         include:
-          - name: "Tests: LuaTeX"
-            l3build_cmd: l3build check -H -e luatex -q --show-log-on-error
-            artifact_name: testfiles
-          - name: "Tests: XeTeX"
-            l3build_cmd: l3build check -H -e xetex -q --show-log-on-error
-            artifact_name: testfiles
-#          - name: "Documentation"
-#            l3build_cmd: l3build doc -q -H --show-log-on-error
-#            artifact_name: Documentation
+          - name: "Documentation"
+            l3build_cmd: l3build doc -q -H --show-log-on-error
+            artifact_name: Documentation
     name: ${{ matrix.name }}
     steps:
       # Boilerplate
@@ -47,8 +41,6 @@ jobs:
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
         with:
-          # List the required TeX Live packages in a separate file to allow reuse in
-          # different workflows.
           package_file: .github/tl_packages
           cache_version: 2
       - name: Checkout fonts for testing

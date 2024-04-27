@@ -16,6 +16,7 @@ Change history
     This is now changed to always pass through the requested script so the renderer can
     make use of that information regardless of whether the font itself supports the script.
     (#507) 
+  * Remove LuaTeX code that resets various `hypenchar` settings seemingly erroneously. (#344)
   * Rework documentation to remove reference to local and non-free fonts. This allows
     compilation via Github Actions, which will aid streamlining/automating releases in the future.
   * Adjust approach to removing spaces from font names internally. This may have unintended

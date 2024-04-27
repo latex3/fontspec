@@ -36,10 +36,9 @@ jobs:
           - name: "Tests: XeTeX"
             l3build_cmd: l3build check -H -e xetex -q --show-log-on-error
             artifact_name: testfiles
-          # Uses proprietary fonts
-          # - name: "Documentation"
-          #   l3build_cmd: l3build doc -q -H --show-log-on-error
-          #   artifact_name: Documentation
+          - name: "Documentation"
+            l3build_cmd: l3build doc -q -H --show-log-on-error
+            artifact_name: Documentation
     name: ${{ matrix.name }}
     steps:
       # Boilerplate
@@ -54,7 +53,7 @@ jobs:
       - name: Checkout fonts for testing
         uses: actions/checkout@v4
         with:
-          repository: zauguin/fontspec-test-fonts
+          repository: wspr/fontspec-test-fonts
           path: fontspec-test-fonts
       - name: Install fonts for testing
         run: ./fontspec-test-fonts/install.sh

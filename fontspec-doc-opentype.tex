@@ -213,7 +213,6 @@ Thanks to \name{Jonathan Kew}, \name{Yves Codet} and
 \begin{Xexample}[firstline=14,lastline=23]{script-lang}{An example of various Scripts and Languages.}
 \def\testfeature#1#2{%^^A
   \fontspec{\examplefont}#2 & \fontspec[#1]{\examplefont}#2\\[1ex]}
-\def \examplefont{CODE2000.TTF}
 \def \arabictext{العربي}
 \def \devanagaritext{हिन्दी}
 \def \bengalitext{লেখ}
@@ -224,6 +223,7 @@ Thanks to \name{Jonathan Kew}, \name{Yves Codet} and
 \def \hebrewtext{רִדְתָּֽהּ}
 \def \vietnamesetext{cấp số mỗi}
 \begin{tabular}{r@{\quad}l}
+  \def\examplefont{CODE2000.TTF}
   \testfeature{Script=Arabic}{\arabictext}
   \testfeature{Script=Devanagari}{\devanagaritext}
   \testfeature{Script=Bengali}{\bengalitext}

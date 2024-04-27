@@ -1237,29 +1237,15 @@ which adds a small amount of spacing in between letters (see \vref{sec:kerning})
 
 In other features, larger breadths of changes can be seen, covering
 the style of an entire alphabet.
-See \exref{style-itrub}; here, the \opt{Italic} option affects the Latin text
-and the \opt{Ruby} option the Japanese.
-
-\begin{Xexample}[firstline=2]{style-itrub}{Example of the \opt{Italic} and \opt{Ruby} options of the \feat{Style} feature.}
+For instance, in some Japanese fonts features such as |Style=Italic| or |Style=Ruby|
+respectively change the style of all Latin characters to italic or all Hiragana characters to a darker optical shape:
+\begin{Verbatim}
   \Large \def\kana{ようこそ ワカヨタレソ}
   \fontspec{Hiragino Mincho Pro}
    Latin \kana        \\
   \addfontfeature{Style={Italic, Ruby}}
    Latin \kana
-\end{Xexample}
-
-Note the difference here between the default and the horizontal style kana
-in \exref{style-hvkana}: the horizontal style is slightly wider.
-
-\begin{Xexample}[firstline=2]{style-hvkana}{Example of the \opt{HorizontalKana} and \opt{VerticalKana} options of the \feat{Style} feature.}
-  \Large \def\kana{ようこそ ワカヨタレソ}
-   \fontspec{Hiragino Mincho Pro}
-    \kana   \\
-  {\addfontfeature{Style=HorizontalKana}
-    \kana } \\
-  {\addfontfeature{Style=VerticalKana}
-    \kana }
-\end{Xexample}
+\end{Verbatim}
 
 
 \subsubsection{Stylistic Set variations --- \texttt{ssNN}}
@@ -1442,14 +1428,12 @@ fonts support the following \feat{CJKShape} options:
 \opt{JIS1990}, and \opt{Expert}. OpenType also supports the \opt{NLC} option.
 
 \begin{Xexample}[firstline=2]{ot-cjk-shape}{Different standards for CJK ideograph presentation.}
-  \LARGE\def\text{ 唖噛躯 妍并訝}
-  \fontspec{Hiragino Mincho Pro}
+  \LARGE\def\text{\noindent 唖噛躯 妍并訝}
+  \fontspec{NotoSansJP-Regular.ttf}
   {\addfontfeature{CJKShape=Traditional}
   \text }                          \\
   {\addfontfeature{CJKShape=NLC}
-  \text }                          \\
-  {\addfontfeature{CJKShape=Expert}
-  \text }
+  \text }                          
 \end{Xexample}
 
 

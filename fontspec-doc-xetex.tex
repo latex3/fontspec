@@ -61,17 +61,15 @@ select the \opt{OpenType} renderer.}
 \subsection{Vertical typesetting}
 
 \XeTeX\ provides for vertical typesetting simply with the ability to rotate
-the individual glyphs as a font is used for typesetting, as shown in
-\exref{vert}.
-
-\begin{Xexample}[firstline=2]{vert}{Vertical typesetting.}
+the individual glyphs as a font is used for typesetting:
+\begin{Verbatim}
   \def\verttext{共産主義者は}
   \fontspec{Hiragino Mincho Pro}
   \verttext
 
   \fontspec{Hiragino Mincho Pro}[Renderer=AAT,Vertical=RotatedGlyphs]
   \rotatebox{-90}{\verttext}% requires the graphicx package
-\end{Xexample}
+\end{Verbatim}
 
 No actual provision is made for typesetting top-to-bottom
 languages; for an example of how to do this, see the vertical Chinese

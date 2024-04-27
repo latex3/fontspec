@@ -347,9 +347,9 @@ of writing the colours in hexadecimal.
 \begin{Verbatim}
  \usepackage{xcolor}
  ...
- \fontspec[Color=red]{Verdana} ...
+ \fontspec[Color=red]{Montserrat-Medium.otf} ...
  \definecolor{Foo}{rgb}{0.3,0.4,0.5}
- \fontspec[Color=Foo]{Verdana} ...
+ \fontspec[Color=Foo]{Montserrat-Medium.otf} ...
 \end{Verbatim}
 
 You may also use named colours defined with the color commands of the L3 
@@ -359,20 +359,20 @@ programming layer:
  \color_set:nnn{Foo}{rgb}{0.3,0.4,0.5}
 \ExplSyntaxOff
  ...
- \fontspec[Color=Foo]{Verdana} ...
+ \fontspec[Color=Foo]{Montserrat-Medium.otf} ...
 \end{Verbatim}
 
-Color expressions (\verb+red!50!blue+) are not supported. The \pkg{color} 
+Color expressions (like \verb+red!50!blue+) are not supported. The \pkg{color} 
 package is \emph{not} supported neither. 
 
 The code will at first test for color names of the L3 layer, then for xcolor 
-names and at last try to use the argument as a hexadecimal value.
+names, and at last try to use the argument as a hexadecimal value.
 
 You may specify the transparency with a named colour using the \feat{Opacity} 
-feature which takes an decimal from zero to one corresponding to transparent 
+feature, which takes an decimal from zero to one corresponding to transparent 
 to opaque respectively: 
 \begin{Verbatim}
- \fontspec[Color=red,Opacity=0.7]{Verdana} ...
+ \fontspec[Color=red,Opacity=0.7]{Montserrat-Medium.otf} ...
 \end{Verbatim}
 It is still possible to specify a colour in six-char hexadecimal form
 while defining opacity in this way, if you like.
@@ -644,10 +644,10 @@ shown in \exref{tracking}.
 The letter spacing parameter is a normalised additive factor (not a scaling factor); it is defined as a percentage of the font size. That is, for a 10\,pt font, a letter spacing parameter of `|1.0|' will add 0.1\,pt between each letter.
 
 \begin{Xexample}{tracking}{The \feat{LetterSpace} feature.}
-  \fontspec{Didot}
+  \setmainfont{Ysabeau-Light.otf}
   \addfontfeature{LetterSpace=0.0}
   USE TRACKING FOR DISPLAY CAPS TEXT \\
-  \addfontfeature{LetterSpace=2.0}
+  \addfontfeature{LetterSpace=3.0}
   USE TRACKING FOR DISPLAY CAPS TEXT
 \end{Xexample}
 

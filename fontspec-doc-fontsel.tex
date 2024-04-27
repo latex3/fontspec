@@ -511,14 +511,14 @@ Conversely, a font face defined in terms of a non-standard font shape will not.
 
 There are some standards for choosing shape and series codes; the \LaTeXe\ font selection guide\footnote{\texttt{texdoc fntguide}} has a comprehensive listing.
 
-The \feat{FontFace} command also interacts properly with the \feat{SizeFeatures} command as follows: (nonsense set of font selection choices)
+The \feat{FontFace} command also interacts properly with the \feat{SizeFeatures} command as follows:
 \begin{Verbatim}
   FontFace = {c}{n}{
-    Font = Times ,
+    Font = lmsans10-oblique.otf ,
     SizeFeatures = {
-      { Size =   -10 , Font = Georgia } ,
-      { Size = 10-15}                 , % default "Font = Times"
-      { Size = 15-   , Font = Cochin  } ,
+      { Size =   -10 , Font = lmsans8-oblique.otf   } ,
+      { Size = 10-15                                } ,
+      { Size = 15-   , Font = lmsans17-oblique.otf  } ,
     },
   },
 \end{Verbatim}

@@ -13,7 +13,7 @@
 \cs_new:Npn \@@_error:n     { \msg_error:nn     {fontspec} }
 \cs_new:Npn \@@_error:nn    { \msg_error:nnn    {fontspec} }
 \cs_new:Npn \@@_error:nx    { \msg_error:nnx    {fontspec} }
-\cs_new:Npn \@@_error:nxx   { \msg_error:nnxx    {fontspec} }
+\cs_new:Npn \@@_error:nxx   { \msg_error:nnxx   {fontspec} }
 \cs_new:Npn \@@_warning:n   { \msg_warning:nn   {fontspec} }
 \cs_new:Npn \@@_warning:nx  { \msg_warning:nnx  {fontspec} }
 \cs_new:Npn \@@_warning:nxx { \msg_warning:nnxx {fontspec} }
@@ -28,9 +28,9 @@
 \cs_generate_variant:Nn \msg_new:nnn  {nnx}
 \cs_generate_variant:Nn \msg_new:nnnn {nnxx}
 \cs_new:Nn \@@_msg_new:nn
-  { \msg_new:nnx {fontspec} {#1} { \tl_trim_spaces:n {#2} } }
+  { \msg_new:nnx {fontspec} {#1} { ^^J \tl_trim_spaces:n {#2} } }
 \cs_new:Nn \@@_msg_new:nnn
-  { \msg_new:nnxx {fontspec} {#1} { \tl_trim_spaces:n {#2} } { \tl_trim_spaces:n {#3} } }
+  { \msg_new:nnxx {fontspec} {#1} { ^^J \tl_trim_spaces:n {#2} } { \tl_trim_spaces:n {#3} } }
 \char_set_catcode_space:n {32}
 %    \end{macrocode}
 %

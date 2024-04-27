@@ -36,7 +36,6 @@ jobs:
         run: ./fontspec-test-fonts/install.sh
       - name: Documentation
         run: l3build doc -q -H --show-log-on-error
-        artifact_name: Documentation
       # Now we create the artifacts: There are two cases where this happens.
       # 1. If we failed running tests
       - name: Archive failed test output

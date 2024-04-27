@@ -1,7 +1,7 @@
 Change history
 ==============
 
-## v2.9b (2024/04/20)
+## v2.9b (2024/04/27)
 
   * Add new `Letters=Uppercase` (LuaLaTeX only) as an interface to `luaotfload`
     feature which automatically performs case-changing at the font level

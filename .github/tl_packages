@@ -47,7 +47,7 @@ fandol
 # for docs
 alphalph
 amsmath
-amssymb
+amsfonts
 booktabs
 caption
 colortbl
@@ -55,7 +55,6 @@ csquotes
 docmute
 enumitem
 fancyvrb
-flafter
 framed
 hyperref
 inconsolata

@@ -58,10 +58,11 @@ end
      INITIAL CHECKS
 --]==================]--
 
+reqbranch = "develop"
 gitbranch = os.capture('git symbolic-ref --short HEAD')
-if gitbranch ~= "develop" then
+if gitbranch ~= reqbranch then
   print("Current git branch: "..gitbranch)
-  error("You must be on the 'develop' branch")
+  error("You must be on the '"..reqbranch.."' branch")
 else
   print("Current git branch: "..gitbranch.." ... correct!")
 end
@@ -110,7 +111,7 @@ if gitstatus ~= "" then
   exe([===[
 git commit -a -m 'update package info for release
 
-[ci-skip]';
+[ci skip]';
       ]===])
 end
 

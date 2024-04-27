@@ -22,13 +22,11 @@ know.
 New \AAT\ features may be created with this command:\par
 {\centering\cmd\newAATfeature\marg{feature}\marg{option}\marg{feature code}\marg{selector code}\par}\noindent
 Use the \XeTeX\ file \path{AAT-info.tex} to obtain the code numbers.
-See \exref{newAATfeat}.
-
-\begin{Xexample}{newAATfeat}{Assigning new \AAT\ features.}
+\begin{Verbatim}
   \newAATfeature{Alternate}{HoeflerSwash}{17}{1}
   \fontspec{Hoefler Text Italic}[Alternate=HoeflerSwash]
    This is XeTeX by Jonathan Kew.
-\end{Xexample}
+\end{Verbatim}
 
 
 \DescribeMacro{\newopentypefeature}
@@ -38,7 +36,7 @@ The synonym \cs{newICUfeature} is deprecated.
 
 Here's what it would look like in practise:
 \begin{Verbatim}
-\newopentypefeature{Style}{NoLocalForms}{-locl}
+  \newopentypefeature{Style}{NoLocalForms}{-locl}
 \end{Verbatim}
 
 \DescribeMacro{\newfontfeature}
@@ -132,9 +130,13 @@ it may be aliased to another with the
 such as shown in \exref{alias}.
 
 \begin{Xexample}{alias}{Renaming font features.}
-  \aliasfontfeature{ItalicFeatures}{IF}
-  \fontspec{Hoefler Text}[IF = {Alternate=1}]
-  Roman Letters \itshape And Swash
+  \aliasfontfeature{ItalicFont}{IF}
+  \aliasfontfeature{ItalicFeatures}{IFF}
+  \setmainfont{ EBGaramond-Regular.otf }[
+    IF  = EBGaramond-Italic.otf ,
+    IFF = {Style=Swash} ,
+  ]
+   Roman Letters \itshape And Swash
 \end{Xexample}
 
 Spaces in feature (and option names, see below) \emph{are} allowed. (You may have

@@ -336,14 +336,13 @@ A legacy \TeX\ font. {\unicodefont A unicode font.}
 
 Sometimes only a specific font face is desired, without accompanying italic or bold variants
 being automatically selected.
-This is common when selecting a fancy italic font, say, that has swash features unavailable
-in the upright forms. \cmd\newfontface\ is used for this purpose, shown
-in \exref{nfface}, which is repeated in \vref{sec:contextuals}.
+This is common when selecting a font for a very particular context within the document.
+For instance, say that a particular swash font is desired that isn't part of the document
+font setup. \cmd\newfontface\ could be used for this purpose, shown in \exref{nfface}.
 
 \begin{Xexample}{nfface}{Defining a single font face.}
-  \newfontface\fancy{Hoefler Text Italic}%
-      [Contextuals={WordInitial,WordFinal}]
-  \fancy where is all the vegemite
+  \newfontface\qedfont{EBGaramond-Regular.otf}[Style=Swash]
+  \qedfont QED
   % \emph, \textbf, etc., all don't work
 \end{Xexample}
 

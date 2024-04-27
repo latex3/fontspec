@@ -12,6 +12,9 @@ on:
 # pull request is open this runs twice. But it's important to ensure that pull
 # requests get tested even if their branch comes from a fork.
 # Also the PR check runs on the merged commit, not on the unmerged branch.
+  
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
 
 jobs:
   # The l3build job contains the actual work. We misuse the matrix mechanism to
@@ -36,19 +39,13 @@ jobs:
           - name: "Tests: XeTeX"
             l3build_cmd: l3build check -H -e xetex -q --show-log-on-error
             artifact_name: testfiles
-#          - name: "Documentation"
-#            l3build_cmd: l3build doc -q -H --show-log-on-error
-#            artifact_name: Documentation
     name: ${{ matrix.name }}
     steps:
-      # Boilerplate
       - name: Checkout repository
         uses: actions/checkout@v4
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
         with:
-          # List the required TeX Live packages in a separate file to allow reuse in
-          # different workflows.
           package_file: .github/tl_packages
           cache_version: 2
       - name: Checkout fonts for testing
@@ -60,8 +57,6 @@ jobs:
         run: ./fontspec-test-fonts/install.sh
       - name: Run l3build
         run: ${{ matrix.l3build_cmd }}
-      # Now we create the artifacts: There are two cases where this happens.
-      # 1. If we failed running tests
       - name: Archive failed test output
         if: ${{ always() }}
         uses: zauguin/l3build-failure-artifacts@v1
@@ -69,12 +64,3 @@ jobs:
           name: ${{ matrix.artifact_name }}
           # Decide how long to keep the test output artifact:
           retention-days: 3
-      # 2. If we succeed building documentation
-      - name: Archive documentation
-        if: ${{ matrix.artifact_name == 'Documentation' && success() }}
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ matrix.artifact_name }}
-          path: "**/*.pdf"
-          # Decide how long to keep the test output artifact:
-          retention-days: 21

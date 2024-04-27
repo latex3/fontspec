@@ -90,7 +90,6 @@ tlmgr install \
   psnfss      \
   standalone  \
   symbol      \
-  tocloft     \
   tools       \
   underscore  \
   url         \

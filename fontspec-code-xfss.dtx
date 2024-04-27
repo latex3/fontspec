@@ -1,6 +1,33 @@
 %%^^A%%  fontspec-code-xfss.dtx -- part of FONTSPEC <latex3.github.io/fontspec>
 
-% \section{Changes to the NFSS}
+% \section{Changes/additions to the NFSS}
+%
+% \begin{function}{\strong, \strongenv}
+% \begin{syntax}
+% "\strong" \marg{text}
+% "\begin{strongenv}" \meta{text} "\end{strongenv}"
+% \end{syntax}
+% Typesets text in the `strong' font. NFSS series equivalent to \cs{emph}. Can be nested.
+% \end{function}
+%
+% \begin{function}{\strongfontdeclare}
+% \begin{syntax}
+% "\strongfontdeclare" \marg{comma-separated font switch declarations}
+% \end{syntax}
+% Define the behaviour of nested \cs{strong} commands. 
+% \end{function}
+%
+% \begin{function}{\strongreset}
+% \begin{syntax}
+% "\renewcommand \strongreset" \marg{font switch declarations}
+% \end{syntax}
+% Define the behaviour when a \cs{strong} command is nested deeper than the definitions provided by \cs{strongfontdeclare}.
+% By default this is \meta{empty} --- i.e., bold on top of bold remains bold.
+% In certain circumstances it may be appropriate to reset to a default state. 
+% \end{function}
+%
+%
+% \section{Implementation}
 %
 %    \begin{macrocode}
 %<*fontspec>
@@ -111,18 +138,21 @@
 % \end{macro}
 %
 % \begin{macro}{\strong}
-% \begin{macro}{\strongreset}
 %    \begin{macrocode}
 \DeclareTextFontCommand{\strong}{\strongenv}
-\cs_set:Npn \strongreset {}
 %    \end{macrocode}
 % \end{macro}
+%
+% \begin{macro}{\strongreset}
+%    \begin{macrocode}
+\cs_new:N \strongreset
+%    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\reset@font}
+% \begin{macro}[int]{\reset@font}
 % Ensure nesting resets when necessary:
 %    \begin{macrocode}
-\cs_set:Npn \reset@font
+\cs_set_protected:Npn \reset@font
   {
     \normalfont
     \int_zero:N \l_@@_strong_int
@@ -130,14 +160,11 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% Programmer's interface for setting nesting levels:
-%    \begin{macrocode}
-\cs_new:Nn \fontspec_set_strong_level:n { \int_set:Nn \l_@@_strong_int {#1} }
-%    \end{macrocode}
+% \subsection{Defaults}
 %
-% Defaults:
 %    \begin{macrocode}
-\strongfontdeclare{ \bfseries }
+\strongfontdeclare{\bfseries}
+\cs_set:Npn \strongreset {}
 %    \end{macrocode}
 %
 %    \begin{macrocode}

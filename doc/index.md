@@ -20,3 +20,5 @@ See the documentation `fontspec.pdf` for full information.
 * [Development notes](dev.html)
 
 [![Automated testing](https://github.com/latex3/fontspec/actions/workflows/main.yaml/badge.svg)](https://github.com/latex3/fontspec/actions/workflows/main.yaml)
+
+[![Documentation typesetting](https://github.com/latex3/fontspec/actions/workflows/doc.yaml/badge.svg?branch=develop)](https://github.com/latex3/fontspec/actions/workflows/doc.yaml)

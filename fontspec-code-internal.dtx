@@ -344,8 +344,8 @@
         \tl_if_empty:NF \l_@@_script_name_tl
           {
 %<debug>  \typeout{:::: Script=\l_@@_script_name_tl, Language=\l_@@_lang_name_tl}
-            \keys_set:nx {fontspec-opentype} {Script=\l_@@_script_name_tl}
-            \keys_set:nx {fontspec-opentype} {Language=\l_@@_lang_name_tl}
+            \keys_set:ne {fontspec-opentype} {Script=\l_@@_script_name_tl}
+            \keys_set:ne {fontspec-opentype} {Language=\l_@@_lang_name_tl}
           }
       }
   }
@@ -557,7 +557,7 @@
 \cs_new:Nn \fontspec_complete_fontname:Nn
   {
     \tl_set:Nx #1 {#2}
-    \tl_replace_all:Nnx #1 {*} {\l_@@_basename_tl}
+    \tl_replace_all:Nne #1 {*} {\l_@@_basename_tl}
     \@@_process_ext:N #1
   }
 %    \end{macrocode}
@@ -573,13 +573,13 @@
   {
     \tl_set:Nx \l_@@_this_font_tl {#3}
 
-    \tl_if_empty:xTF {#4}
+    \tl_if_empty:eTF {#4}
       { \clist_set:Nn \l_@@_sizefeat_clist {Size={-}} }
       { \@@_keys_set_known:nxN {fontspec-preparse-nested} {#4} \l_@@_tmp_tl }
 
     \tl_if_empty:NF \l_@@_this_font_tl
       {
-        \prop_put:Nxx \l_@@_nfssfont_prop {#1/#2}
+        \prop_put:Nee \l_@@_nfssfont_prop {#1/#2}
           { {#1}{#2}{\l_@@_this_font_tl}{#4}{\l_@@_sizefeat_clist} }
       }
   }
@@ -662,7 +662,7 @@
   {
     \bool_if:NF \l_@@_external_bool
       {
-        \tl_if_empty:xF {#2}
+        \tl_if_empty:eF {#2}
           {
             \tl_if_empty:NT #1
               {
@@ -776,7 +776,7 @@
     \tl_clear:N \l_@@_size_tl
     \tl_set_eq:NN \l_@@_sizedfont_tl \l_@@_saved_fontname_tl % in case not spec'ed
 
-    \keys_set_known:nxN {fontspec-sizing} { \exp_after:wN \use:n #2 }
+    \keys_set_known:neN {fontspec-sizing} { \exp_after:wN \use:n #2 }
       \l_@@_sizing_leftover_clist
     \tl_if_empty:NT \l_@@_size_tl { \@@_error:n {no-size-info} }
 %<debug>\typeout{==~ size:~\l_@@_size_tl}

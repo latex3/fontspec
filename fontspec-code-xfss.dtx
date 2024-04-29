@@ -102,8 +102,8 @@
       \clist_map_inline:nn {\strongreset,#1}
         {
           ##1
-          \prop_gput_if_new:NxV \g_@@_strong_prop { \f@series } { \l_@@_strongdef_int }
-          \prop_gput:Nxn \g_@@_strong_prop { switch-\int_use:N \l_@@_strongdef_int } { ##1 }
+          \prop_gput_if_new:NeV \g_@@_strong_prop { \f@series } { \l_@@_strongdef_int }
+          \prop_gput:Nen \g_@@_strong_prop { switch-\int_use:N \l_@@_strongdef_int } { ##1 }
           \int_incr:N \l_@@_strongdef_int
         }
     \group_end:
@@ -118,7 +118,7 @@
     \@nomath\strongenv
 
 %<debug> \typeout{Strong~ level:~\int_use:N \l_@@_strong_int}
-    \prop_get:NxNT \g_@@_strong_prop { \f@series } \l_@@_strong_tmp_tl
+    \prop_get:NeNT \g_@@_strong_prop { \f@series } \l_@@_strong_tmp_tl
       {
         \int_set:Nn \l_@@_strong_int { \l_@@_strong_tmp_tl }
 %<debug> \typeout{Series~ (\f@series)~ detected;~ new~ level:~\int_use:N \l_@@_strong_int}
@@ -126,7 +126,7 @@
 
     \int_incr:N \l_@@_strong_int
 
-    \prop_get:NxNTF \g_@@_strong_prop { switch-\int_use:N \l_@@_strong_int } \l_@@_strong_switch_tl
+    \prop_get:NeNTF \g_@@_strong_prop { switch-\int_use:N \l_@@_strong_int } \l_@@_strong_switch_tl
       { \l_@@_strong_switch_tl }
       {
         \int_zero:N \l_@@_strong_int

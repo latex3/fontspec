@@ -273,12 +273,12 @@
             \seq_put_right:Nx \l_@@_bf_series_seq {\bfdefault}
           }
 
-        \tl_if_eq:oxT \g_@@_curr_series_tl {\bfdefault}
+        \tl_if_eq:oeT \g_@@_curr_series_tl {\bfdefault}
           {
             \tl_set_eq:NN \l_@@_fontname_bf_tl \l_@@_curr_bfname_tl
           }
 
-        \prop_put:NxV \l_@@_nfss_prop {BoldFont-\g_@@_curr_series_tl} \l_@@_curr_bfname_tl
+        \prop_put:NeV \l_@@_nfss_prop {BoldFont-\g_@@_curr_series_tl} \l_@@_curr_bfname_tl
 
 %<debug>\typeout{Setting~bold~font~"\l_@@_curr_bfname_tl"~with~series~"\g_@@_curr_series_tl"}
 
@@ -335,7 +335,7 @@
 \@@_keys_define_code:nnn {fontspec-preparse} {BoldFeatures}
   {
     \clist_put_right:Nn \l_@@_fontfeat_bf_clist {#1}
-%  \prop_put:NxV \l_@@_nfss_prop
+%  \prop_put:NeV \l_@@_nfss_prop
 %     {BoldFont-\g_@@_curr_series_tl} \l_@@_curr_bfname_tl
   }
 \@@_keys_define_code:nnn {fontspec-preparse} {ItalicFeatures}

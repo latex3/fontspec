@@ -102,7 +102,7 @@
       \clist_map_inline:nn {\strongreset,#1}
         {
           ##1
-          \prop_gput_if_new:NeV \g_@@_strong_prop { \f@series } { \l_@@_strongdef_int }
+          \prop_gput_if_not_in:NeV \g_@@_strong_prop { \f@series } { \l_@@_strongdef_int }
           \prop_gput:Nen \g_@@_strong_prop { switch-\int_use:N \l_@@_strongdef_int } { ##1 }
           \int_incr:N \l_@@_strongdef_int
         }

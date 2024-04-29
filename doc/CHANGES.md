@@ -1,6 +1,10 @@
 Change history
 ==============
 
+## v2.9c (2024/xx/xx)
+
+  * Re-sync with `expl3` for deprecated commands.
+
 ## v2.9b (2024/04/27)
 
   * Add new `Letters=Uppercase` (LuaLaTeX only) as an interface to `luaotfload`

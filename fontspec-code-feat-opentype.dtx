@@ -556,11 +556,11 @@
             \@@_warning:nx {language-not-exist} {#1}
             \clist_set:Nn \l_tmpa_clist {#2}
             \clist_get:NN \l_tmpa_clist \l_@@_lang_tl
-            \exp_args:Noo \@@_check_script:NnF \l_@@_fontface_cs_tl \l_@@_script_tl
+            \exp_args:Noo \@@_check_lang:NnF \l_@@_fontface_cs_tl \l_@@_lang_tl
               {
-                \tl_set:Nn \l_@@_script_name_tl {#1}
+                \tl_set:Nn \l_@@_lang_name_tl {#1}
                 \int_set:Nn \l_@@_language_int {\l_@@_strnum_int}
-                \tl_gset:Nx \g_@@_single_feat_tl { language=####1 }
+                \tl_gset:Nx \g_@@_single_feat_tl { language=\l_@@_lang_tl }
               }
           }
       }

@@ -1,0 +1,13 @@
+
+\input{fontspec-testsetup.tex}
+
+\usepackage[english]{babel}
+\babelfont[chinese]{rm}[
+  Extension=.otf,
+  UprightFont=*-Regular,
+  BoldFont=*-Bold
+]{FandolHei}
+
+\begin{document}
+\foreignlanguage{chinese}{你好世界\CURRNFSS}
+\end{document}

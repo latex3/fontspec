@@ -216,7 +216,7 @@
 % The script used is whatever's held in \cmd\l_@@_script_int. By default, that's the
 % number corresponding to `|latn|'.
 %    \begin{macrocode}
-\prg_new_conditional:Nnn \@@_check_lang:Nn {TF}
+\prg_new_conditional:Nnn \@@_check_lang:Nn {TF,F}
   {
     \@@_check_lang:NnnTF #1 {#2} {\l_@@_script_tl} {\prg_return_true:} {\prg_return_false:}
   }

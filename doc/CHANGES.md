@@ -3,7 +3,9 @@ Change history
 
 ## v2.9c (2024/xx/xx)
 
+  * Fix copy/paste regression bug with the `Language` feature (primarily exposed through `babel` package). (#513)
   * Re-sync with `expl3` for deprecated commands.
+
 
 ## v2.9b (2024/04/27)
 

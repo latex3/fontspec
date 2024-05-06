@@ -1,0 +1,10 @@
+TU/EBGaramond(0)/m/n:
+  [EBGaramond-Regular.otf]:mode=node;script=latn;language=ENG;+tlig;+onum;
+TU/EBGaramond(0)/m/it:
+  [EBGaramond-Italic.otf]:mode=node;script=latn;language=ENG;+tlig;+onum;
+TU/EBGaramond(0)/b/n:
+  [EBGaramond-Bold.otf]:mode=node;script=latn;language=ENG;+tlig;+onum;
+TU/EBGaramond(0)/b/it:
+  [EBGaramond-BoldItalic.otf]:mode=node;script=latn;language=ENG;+tlig;+onum;
+***************
+Compilation 1 of test file completed with exit status 0

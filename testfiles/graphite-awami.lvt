@@ -1,0 +1,8 @@
+\input{fontspec-testsetup.tex}
+
+\usepackage{fontspec}
+\setmainfont{AwamiNastaliq-Regular.ttf}[Renderer=Graphite,Script=Arabic]
+\begin{document}
+وفا
+\CURRNFSS
+\end{document}

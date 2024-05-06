@@ -173,7 +173,7 @@
 %    \begin{macrocode}
 \@@_keys_define_code:nnn {fontspec-preparse} {Script}
   {
-%<XE>    \keys_set:nn {fontspec-renderer} {Renderer=OpenType}
+%<XE>    \tl_if_empty:NT \l_@@_renderer_tl { \keys_set:nn {fontspec-renderer} {Renderer=OpenType} }
     \tl_set:Nn \l_@@_script_name_tl {#1}
   }
 %    \end{macrocode}
@@ -181,7 +181,7 @@
 %    \begin{macrocode}
 \@@_keys_define_code:nnn {fontspec-preparse} {Language}
   {
-%<XE>    \keys_set:nn {fontspec-renderer} {Renderer=OpenType}
+%<XE>    \tl_if_empty:NT \l_@@_renderer_tl { \keys_set:nn {fontspec-renderer} {Renderer=OpenType} }
     \tl_set:Nn \l_@@_lang_name_tl {#1}
   }
 %    \end{macrocode}

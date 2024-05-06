@@ -1,0 +1,27 @@
+
+\input{fontspec-testsetup.tex}
+
+\usepackage{fontspec}
+
+\MSG{EBGaramond doesn't have language=ENG but we pass it through anyway.}
+\MSG{Previously fontspec intercepted the feature request and didn't allow it.}
+
+\setmainfont
+[
+  Ligatures=TeX,
+  Numbers=Lowercase,
+  Extension=.otf,
+  UprightFont=*-Regular,
+  ItalicFont=*-Italic,
+  BoldFont=*-Bold,
+  BoldItalicFont=*-BoldItalic,
+  Language=English,
+]{EBGaramond}
+
+\begin{document}
+\CURRNFSS
+\emph{\CURRNFSS}
+\bfseries
+\CURRNFSS
+\emph{\CURRNFSS}
+\end{document}

@@ -127,21 +127,8 @@
 \cs_new:Nn \@@_make_OT_feature:nnn
   {
 %<debug>  \typeout{:: @@_make_OT_feature:nnn \exp_not:n { {#1}{#2}{#3} } }
-
-    \bool_set_true:N \l_@@_proceed_bool
-
-    \tl_if_empty:nF {#1}
-      {
-        \exp_args:No \@@_check_ot_feat:NnF \l_@@_fontface_cs_tl {#1}
-          {
-            \@@_warning:nx {icu-feature-not-exist-in-font} {#1}
-            \bool_set_false:N \l_@@_proceed_bool
-          }
-      }
-
     \@@_remove_clashing_featstr:x { #2 , \@@_swap_plus_minus:n {#2} , #3 }
-
-    \bool_if:NT \l_@@_proceed_bool { \@@_update_featstr:n {#2} }
+    \@@_update_featstr:n {#2}
   }
 \cs_generate_variant:Nn \@@_make_OT_feature:nnn {xxx}
 %    \end{macrocode}

@@ -136,7 +136,7 @@ print(currentchanges)
 print("***************************")
 
 pkgversion = string.match(currentchanges,"## (%S+) %(.-%)")
-print('New version: '..pkgversion)
+print('    New version: '..pkgversion)
 
 oldversion = os.capture('git describe $(git rev-list --tags --max-count=1)')
 print('Most recent tag: '..oldversion)

@@ -109,9 +109,7 @@ exe("l3build tag")
 gitstatus = os.capture('git status --porcelain')
 if gitstatus ~= "" then
   exe([===[
-git commit -a -m 'update package info for release
-
-[ci skip]';
+git commit -a -m 'update package info for release';
       ]===])
 end
 

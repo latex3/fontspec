@@ -1,12 +1,9 @@
 name: Create release
 
 on:
-  # Manually triggered from the Actions tab
-  workflow_dispatch:
-  # For all new tags
   push:
     tags:
-      - "*"
+      - "**"
 
 jobs:
   ctan:

@@ -31,23 +31,24 @@ mathspec
 makeindex
 
 # Fonts
-sourcecodepro
-firamath
 asana-math
-lm-math
+cm-unicode
 ebgaramond
+fandol
+fira
+firamath
+gfsporson
+lato
+libertine
+librecaslon
+lm-math
+plex
+sourcecodepro
+stix2-otf
+tempora
 tex-gyre
 tex-gyre-math
-gfsporson
-libertine
-stix2-otf
-fira
-tempora
-cm-unicode
-fandol
 ysabeau
-plex
-librecaslon
 
 # for docs
 alphalph

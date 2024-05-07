@@ -78,6 +78,7 @@
     \group_end:
 
     \tl_set_eq:NN \l_fontspec_family_tl \g_@@_nfss_family_tl
+%<debug>\typeout{::::::::::::::::::::::::::::::}
   }
 %    \end{macrocode}
 % \end{macro}
@@ -558,7 +559,10 @@
 \cs_new:Nn \fontspec_complete_fontname:Nn
   {
     \tl_set:Nx #1 {#2}
-    \tl_replace_all:Nne #1 {*} {\l_@@_basename_tl}
+    \tl_if_in:NnF \l_fontspec_fontname_tl {*}
+      {
+        \tl_replace_all:Nne #1 {*} {\l_@@_basename_tl}
+      }
   }
 %    \end{macrocode}
 % \end{macro}

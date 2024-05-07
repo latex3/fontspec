@@ -388,6 +388,7 @@
     \@@_tl_new_if_free:N #1
     #4 #1 \l_fontspec_family_tl
     \tl_set:Nn \l_@@_fontface_cs_tl {\l_fontspec_font} % reset
+%<debug>\typeout{::::::~END~fontspec_set_family:Nnn}
   }
 \cs_new:Nn \fontspec_gset_family:Nnn { \@@_set_family:NnnN #1 {#2} {#3} \tl_gset_eq:NN }
 \cs_new:Nn \fontspec_set_family:Nnn  { \@@_set_family:NnnN #1 {#2} {#3} \tl_set_eq:NN  }

@@ -1,0 +1,26 @@
+
+\input{fontspec-testsetup.tex}
+
+\usepackage{fontspec}
+
+\begin{document}
+
+\MSG{LATO normally:}
+\setmainfont{Lato-Regular.ttf}
+hello \CURRNFSS
+
+\MSG{FIRA normally:}
+\setmainfont{FiraSans-Bold.otf}
+hello \CURRNFSS
+
+\MSG{BOTH:}
+\setmainfont{MyLato}
+  [
+    UprightFont = Lato-Regular.ttf  ,
+    BoldFont    = FiraSans-Bold.otf ,
+  ]
+hello \CURRNFSS
+\bfseries
+hello \CURRNFSS
+
+\end{document}

@@ -7,6 +7,15 @@ Change history
     we can no longer check for font feature existence before applying the OpenType tags.
     This release removes checking. (#515)
 
+  * Fix regression in loading font families constructed from fonts with different extensions;
+    e.g.: (#514)
+
+        \setmainfont{MyLato}
+          [
+            UprightFont       = Lato-Regular.ttf ,
+            BoldFont          = FiraSans-Bold.otf ,
+          ]
+
 
 ## v2.9c (2024/05/03)
 

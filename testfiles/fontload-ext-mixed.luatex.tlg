@@ -1,0 +1,15 @@
+This is a generated file for the l3build validation system.
+Don't change this file in any respect.
+LATO normally:
+TU/Lato-Regular.ttf(0)/m/n:
+  [Lato-Regular.ttf]:mode=node;script=latn;language=dflt;+tlig;
+FIRA normally:
+TU/FiraSans-Bold.otf(0)/m/n:
+  [FiraSans-Bold.otf]:mode=node;script=latn;language=dflt;+tlig;
+BOTH:
+TU/MyLato(0)/m/n:
+  [Lato-Regular.ttf]:mode=node;script=latn;language=dflt;+tlig;
+TU/MyLato(0)/b/n:
+  [FiraSans-Bold.otf]:mode=node;script=latn;language=dflt;+tlig;
+***************
+Compilation 1 of test file completed with exit status 0

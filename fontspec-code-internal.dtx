@@ -37,13 +37,11 @@
     \@@_font_suppress_not_found_error:
     \@@_init:
 
-    \@@_sanitise_fontname:Nn \l_fontspec_fontname_tl    {#2}
-    \@@_sanitise_fontname:Nn \l_@@_fontname_up_tl       {#2}
-    \@@_sanitise_fontname:Nn \l_@@_basename_tl          {#2}
+    \@@_sanitise_fontname:Nn \l_fontspec_fontname_tl {#2}
+    \tl_set_eq:NN \l_@@_fontname_up_tl \l_fontspec_fontname_tl
+    \tl_set_eq:NN \l_@@_basename_tl    \l_fontspec_fontname_tl
 
 %<debug>\typeout{^^J::::::::::::::: l_fontspec_fontname_tl~ =~ \l_fontspec_fontname_tl }
-%<debug>\typeout{::::::::::::::: _fontname_up_tl~ =~ \l_@@_fontname_up_tl }
-%<debug>\typeout{::::::::::::::: l_@@_extension_tl~ =~ \l_@@_extension_tl }
 
     \@@_if_detect_external:nT {#2}
      { \keys_set:nn {fontspec-preparse-external} {Path} }
@@ -107,6 +105,7 @@
       {
         \tl_if_in:NnT #1 {##1}
           {
+%<debug>  \typeout{::@@_process_ext:N~ --~ Removing~ EXT:~ ##1}
             \tl_remove_once:Nn #1 {##1}
             \tl_set:Nn \l_@@_extension_tl {##1}
             \@@_font_is_file:
@@ -143,9 +142,9 @@
   {
     \str_if_eq:eeT { \str_lowercase:f {\l_@@_extension_tl} } {.ttc}
       {
-        \@@_sanitise_fontname:Nn \l_@@_fontname_it_tl   {#1}
-        \@@_sanitise_fontname:Nn \l_@@_fontname_bf_tl   {#1}
-        \@@_sanitise_fontname:Nn \l_@@_fontname_bfit_tl {#1}
+        \tl_set_eq:NN \l_@@_fontname_it_tl   \l_fontspec_fontname_tl
+        \tl_set_eq:NN \l_@@_fontname_bf_tl   \l_fontspec_fontname_tl
+        \tl_set_eq:NN \l_@@_fontname_bfit_tl \l_fontspec_fontname_tl
       }
   }
 %    \end{macrocode}
@@ -253,7 +252,8 @@
   {
 %<debug>\typeout{:: @@_load_font}
 
-%<debug>\typeout{Set~ base~ font~ for~ preliminary~ analysis: \@@_construct_font_call:nn { \l_@@_fontname_up_tl } {} }
+    \@@_sanitise_fontname:Nn \l_@@_fontname_up_tl { \l_@@_fontname_up_tl }
+%<debug>\typeout{Set~ base~ font~ for~ preliminary~ analysis:~ "\l_@@_fontname_up_tl"~ with~ features~ "\l_@@_pre_feat_sclist" }
     \@@_primitive_font_set:NnnF \l_@@_test_font
       { \@@_construct_font_call:nn { \l_@@_fontname_up_tl } { \l_@@_pre_feat_sclist } }
       { \f@size pt - 2sp }
@@ -543,6 +543,7 @@
 %    \begin{macrocode}
 \cs_new:Nn \@@_set_faces_aux:nnnnn
   {
+%<debug>  \typeout{:: @@_set_faces_aux:nnnnn  \exp_not:n { {#1} {#2} {#3} {#4} {#5} } }
     \fontspec_complete_fontname:Nn \l_@@_curr_fontname_tl {#3}
     \@@_make_font_shapes:Nnnnn \l_@@_curr_fontname_tl {#1} {#2} {#4} {#5}
   }
@@ -558,7 +559,6 @@
   {
     \tl_set:Nx #1 {#2}
     \tl_replace_all:Nne #1 {*} {\l_@@_basename_tl}
-    \@@_process_ext:N #1
   }
 %    \end{macrocode}
 % \end{macro}

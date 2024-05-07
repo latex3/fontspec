@@ -1,7 +1,7 @@
 Change history
 ==============
 
-## v2.9d (2024/05/03)
+## v2.9d (2024/05/07)
 
   * Now that `Script` and `Language` are retained even if the font doesn't support them,
     we can no longer check for font feature existence before applying the OpenType tags.

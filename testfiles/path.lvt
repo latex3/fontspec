@@ -1,0 +1,20 @@
+
+\input{fontspec-testsetup.tex}
+
+\usepackage{fontspec}
+
+\begin{document}
+
+\fontspec{PoetsenOne-Regular.ttf}[
+  ItalicFont=Pacifico-Regular.ttf,
+  Path=./Fonts/
+]
+
+\CURRNFSS
+\MSG{Font loaded from Path=.Fonts/}
+
+\itshape
+\CURRNFSS
+\MSG{Italic font loaded from Path=.Fonts/}
+
+\end{document}

@@ -1,0 +1,10 @@
+This is a generated file for the l3build validation system.
+Don't change this file in any respect.
+TU/PoetsenOne-Regular.ttf(0)/m/n:
+  [./Fonts/PoetsenOne-Regular.ttf]:mode=node;script=latn;language=dflt;
+Font loaded from Path=.Fonts/
+TU/PoetsenOne-Regular.ttf(0)/m/it:
+  [./Fonts/Pacifico-Regular.ttf]:mode=node;script=latn;language=dflt;
+Italic font loaded from Path=.Fonts/
+***************
+Compilation 1 of test file completed with exit status 0

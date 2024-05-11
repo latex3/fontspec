@@ -976,22 +976,25 @@
         } (#1/#2)~
         with~ NFSS~ spec.:~
         \l_@@_nfss_tl
-        \exp_not:n { \\ }
-        -~ \exp_not:N \str_case:nn { #1 / \@@_combo_sc_shape:n {#2} }
-        {
-          {\mddefault/\scdefault} {'small~ caps'~}
-          {\bfdefault/\scdefault} {'bold~ small~ caps'~}
-          {\mddefault/\scitdefault} {'italic~ small~ caps'~}
-          {\bfdefault/\scitdefault} {'bold~ italic~ small~ caps'~}
-          {\mddefault/\scsldefault} {'slanted~ small~ caps'~}
-          {\bfdefault/\scsldefault} {'bold~ slanted~ small~ caps'~}
-        }~( #1 / \@@_combo_sc_shape:n {#2} )~
-        with~ NFSS~ spec.:~
-        \l_@@_nfss_sc_tl
-        \tl_if_empty:fF {\l_@@_postadjust_tl}
+        \tl_if_empty:NF \l_@@_nfss_sc_tl
           {
-          \exp_not:N \\ and~ font~ adjustment~ code:
-          \exp_not:N \\ \l_@@_postadjust_tl
+            \exp_not:n { \\ }
+            -~ \exp_not:N \str_case:nn { #1 / \@@_combo_sc_shape:n {#2} }
+            {
+              {\mddefault/\scdefault} {'small~ caps'~}
+              {\bfdefault/\scdefault} {'bold~ small~ caps'~}
+              {\mddefault/\scitdefault} {'italic~ small~ caps'~}
+              {\bfdefault/\scitdefault} {'bold~ italic~ small~ caps'~}
+              {\mddefault/\scsldefault} {'slanted~ small~ caps'~}
+              {\bfdefault/\scsldefault} {'bold~ slanted~ small~ caps'~}
+            }~( #1 / \@@_combo_sc_shape:n {#2} )~
+            with~ NFSS~ spec.:~
+            \l_@@_nfss_sc_tl
+            \tl_if_empty:fF {\l_@@_postadjust_tl}
+              {
+              \exp_not:N \\ and~ font~ adjustment~ code:
+              \exp_not:N \\ \l_@@_postadjust_tl
+              }
           }
       }
   }

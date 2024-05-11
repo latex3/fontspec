@@ -787,7 +787,7 @@
 
     % "normal"
     \@@_load_fontname:Nn \l_fontspec_fontname_tl {\l_@@_sizedfont_tl}
-    \@@_setup_nfss:Nnnn \l_@@_nfss_tl {#1} {\l_@@_sizing_leftover_clist} {}
+    \@@_setup_nfss:Nn \l_@@_nfss_tl { #1 , \l_@@_sizing_leftover_clist }
 %<debug>    \typeout{===~ sized~ font:~ \l_@@_sizedfont_tl}
 
     % small caps
@@ -812,20 +812,22 @@
 
     \bool_if:NF \l_@@_nosc_bool
       {
-        \@@_setup_nfss:Nnnn \l_@@_nfss_sc_tl
-          {#1} {\l_@@_sizing_leftover_clist} {\l_@@_fontfeat_curr_clist}
+        \@@_setup_nfss:Nn \l_@@_nfss_sc_tl
+          {#1 , \l_@@_sizing_leftover_clist , \l_@@_fontfeat_curr_clist}
       }
   }
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\@@_setup_nfss:Nnnn}
+% \begin{macro}{\@@_setup_nfss:Nn}
 %    \begin{macrocode}
-\cs_new:Nn \@@_setup_nfss:Nnnn
+\cs_new:Nn \@@_setup_nfss:Nn
   {
 %<debug>\typeout{====~Setup~NFSS~shape:~<\l_@@_size_tl>~\l_fontspec_fontname_tl}
+%<debug>\typeout{====~Requested~features:~#2}
 
-    \@@_get_features:n { #2 , #3 , #4 }
+    \@@_get_features:n { #2 }
+
 %<debug>\typeout{====~Gathered~features:~\g_@@_rawfeatures_sclist \@@_get_variations:}
 
     \tl_if_empty:NF \l_@@_scale_tl

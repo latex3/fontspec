@@ -1,0 +1,22 @@
+\input{fontspec-testsetup.tex}
+
+\usepackage{fontspec}
+
+ 
+\begin{document}
+
+\fontspec[Script=Hebrew]{DavidCLM-Medium.otf}
+ שם ומספר הקורס
+\ExplSyntaxOn
+\fontspec_if_current_script:nTF {hebr} { \MSG{HEBR~SELECTED~(PASS)} } { \MSG{HEBR~NOT~SELECTED~(FAIL)} }
+\fontspec_if_current_language:nTF {JII} { \MSG{JII~SELECTED~(FAIL)} } { \MSG{JII~NOT~SELECTED~(PASS)} }
+\ExplSyntaxOff
+
+\fontspec[Script=Hebrew,Language=Yiddish]{DavidCLM-Medium.otf}
+ שם ומספר הקורס
+\ExplSyntaxOn
+\fontspec_if_current_script:nTF {hebr} { \MSG{HEBR~SELECTED~(PASS)} } { \MSG{HEBR~NOT~SELECTED~(FAIL)} }
+\fontspec_if_current_language:nTF {JII} { \MSG{JII~SELECTED~(PASS)} } { \MSG{JII~NOT~SELECTED~(FAIL)} }
+\ExplSyntaxOff
+
+\end{document}

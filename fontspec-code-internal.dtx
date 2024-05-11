@@ -1031,16 +1031,15 @@
 % \end{macro}
 %
 %
+% \begin{macro}{\@@_make_smallcaps:TF}
 % \begin{macro}{\@@_make_ot_smallcaps:TF}
 % \label{mac:makesmallcaps}
 % This macro checks if the font contains small caps.
 %    \begin{macrocode}
-%<LU>\cs_new:Nn \@@_make_smallcaps:TF
-%<XE>\cs_new:Nn \@@_make_ot_smallcaps:TF
+\cs_new:Nn \@@_make_ot_smallcaps:TF
   {
     \exp_args:No \@@_check_ot_feat:NnTF \l_@@_fontface_cs_tl {smcp} {#1} {#2}
   }
-%<*XE>
 \cs_new:Nn \@@_make_smallcaps:TF
   {
     \bool_if:NTF \l_@@_ot_bool
@@ -1053,8 +1052,8 @@
           }
       }
   }
-%</XE>
 %    \end{macrocode}
+% \end{macro}
 % \end{macro}
 %
 % \begin{macro}{\@@_update_featstr:n}

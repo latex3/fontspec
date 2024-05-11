@@ -476,7 +476,7 @@
         \bool_if:NF \l_@@_scriptlang_exist_bool
           {
 %<debug>\typeout{Script~not~found!}
-            \@@_warning:nxx {no-script} {\l_fontspec_fontname_tl} {#1}
+            \@@_info:nxx {script-not-exist} {\l_fontspec_fontname_tl} {#1}
             \clist_set:Nn \l_tmpa_clist {#2}
             \clist_get:NN \l_tmpa_clist \l_@@_script_tl
             \exp_args:Noo \@@_check_script:NnF \l_@@_fontface_cs_tl \l_@@_script_tl
@@ -558,7 +558,7 @@
         \bool_if:NF \l_@@_scriptlang_exist_bool
           {
 %<debug>\typeout{Lang~not~found!}
-            \@@_warning:nx {language-not-exist} {#1}
+            \@@_info:nx {language-not-exist} {#1}
             \clist_set:Nn \l_tmpa_clist {#2}
             \clist_get:NN \l_tmpa_clist \l_@@_lang_tl
             \exp_args:Noo \@@_check_lang:NnF \l_@@_fontface_cs_tl \l_@@_lang_tl

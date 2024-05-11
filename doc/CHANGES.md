@@ -1,6 +1,19 @@
 Change history
 ==============
 
+## v2.9e (2024/05/11)
+
+  * Fix regression with automatic detection and selection of small caps when the font
+    script or language was requested but not found. (#517)
+
+  * Add additional tests to check against regressions. (#516, #518)
+  
+  * Improve message in log file when defining a font without small caps.
+  
+  * Demote warnings when Script or Language are requested but not found to the log file
+    instead of the console. (#421)
+
+
 ## v2.9d (2024/05/07)
 
   * Now that `Script` and `Language` are retained even if the font doesn't support them,

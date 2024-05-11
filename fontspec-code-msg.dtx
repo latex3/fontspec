@@ -153,6 +153,12 @@
  {
   '#1' doesn't appear to have an Optical Size axis.
  }
+\@@_msg_new:nn {script-not-exist}
+ {
+  Script '#2' not explicitly supported within font '#1'.
+  Check the typeset output, and if it is okay then ignore this warning.
+  Otherwise a different font should be chosen.
+ }
 \@@_msg_new:nn {language-not-exist}
  {
   Language '#1' not explicitly supported
@@ -231,12 +237,6 @@
 \@@_msg_new:nn {setup-math}
  {
   Adjusting the maths setup (use [no-math] to avoid this).
- }
-\@@_msg_new:nn {no-script}
- {
-  Script '#2' not explicitly supported within font '#1'.
-  Check the typeset output, and if it is okay then ignore this warning.
-  Otherwise a different font should be chosen.
  }
 \@@_msg_new:nn {opa-twice}
  {

@@ -489,37 +489,42 @@
       }
     }
   }
-\cs_new:Nn \fontspec_default_script:nn
-  {
-    \keys_define:nn {fontspec-opentype} { Script / #1 .code:n =
-      {
-%<debug>\typeout{Trying~[Script=#1:#2]}
-        \bool_set_false:N \l_@@_scriptlang_exist_bool
-        \clist_map_inline:nn {#2}
-          {
-            \exp_args:No \@@_check_script:NnT \l_@@_fontface_cs_tl {####1}
-              {
-%<debug>\typeout{Script~tag~found:~####1}
-                \tl_set:Nn \l_@@_script_name_tl {#1}
-                \tl_set:Nn \l_@@_script_tl {####1}
-                \int_set:Nn \l_@@_script_int {\l_@@_strnum_int}
-                \bool_set_true:N \l_@@_scriptlang_exist_bool
-                \tl_gset:Nx \g_@@_single_feat_tl { script=####1 }
-                \clist_map_break:
-              }
-          }
-        \bool_if:NF \l_@@_scriptlang_exist_bool
-          {
-%<debug>\typeout{Script~not~found!}
-            \tl_clear:N \l_@@_script_name_tl
-          }
-      }
-    }
-  }
 %    \end{macrocode}
 % When script is not explicitly requested, use this list:
 %    \begin{macrocode}
-\fontspec_default_script:nn {CustomDefault} {latn,DFLT}
+\clist_new:N \g_@@_default_scripts_clist
+\cs_new:Nn \fontspec_default_script:n
+  {
+    \clist_gset:Nn \g_@@_default_scripts_clist {#1}
+  }
+\fontspec_default_script:n {latn,DFLT}
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+\keys_define:nn {fontspec-opentype} { Script / CustomDefault .code:n =
+  {
+%<debug>\typeout{Trying~CustomDefault~Script}
+    \bool_set_false:N \l_@@_scriptlang_exist_bool
+    \clist_map_inline:Nn \g_@@_default_scripts_clist
+      {
+        \exp_args:No \@@_check_script:NnT \l_@@_fontface_cs_tl {##1}
+          {
+%<debug>\typeout{Script~tag~found:~##1}
+            \tl_set:Nn \l_@@_script_name_tl {Default (##1)}
+            \tl_set:Nn \l_@@_script_tl {##1}
+            \int_set:Nn \l_@@_script_int {\l_@@_strnum_int}
+            \bool_set_true:N \l_@@_scriptlang_exist_bool
+            \tl_gset:Nx \g_@@_single_feat_tl { script=##1 }
+            \clist_map_break:
+          }
+      }
+    \bool_if:NF \l_@@_scriptlang_exist_bool
+      {
+%<debug>\typeout{Script~not~found!}
+        \tl_clear:N \l_@@_script_name_tl
+      }
+  }
+}
 %    \end{macrocode}
 %
 %
@@ -574,6 +579,12 @@
 % language is hardcoded to have a zero value,
 % although this might be some \XeTeX-specific thing.
 %    \begin{macrocode}
+\clist_new:N \g_@@_default_langs_clist
+\cs_new:Nn \fontspec_default_lang:n
+  {
+    \clist_gset:Nn \g_@@_default_langs_clist {#1}
+  }
+\fontspec_default_lang:n {dflt}
 \@@_keys_define_code:nnn {fontspec-opentype} { Language / Default }
   {
     \tl_set:Nn \l_@@_lang_tl {dflt}

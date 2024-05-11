@@ -1038,8 +1038,23 @@
 %    \begin{macrocode}
 \cs_new:Nn \@@_make_ot_smallcaps:TF
   {
-    \exp_args:No \@@_check_ot_feat:NnTF \l_@@_fontface_cs_tl {smcp} {#1} {#2}
+    \bool_set_false:N \l_@@_tmpa_bool
+    \exp_args:Ne \clist_map_inline:nn { \l_@@_lang_tl , \g_@@_default_langs_clist }
+      {
+        \exp_args:Ne \clist_map_inline:nn { \l_@@_script_tl , \g_@@_default_scripts_clist }
+          {
+            \exp_args:No \@@_check_ot_feat:NnnnT \l_@@_fontface_cs_tl {smcp} {##1} {####1}
+              {
+%<debug>\typeout{SMCP~found~for~script/lang: ####1/##1~-~assuming~okay}
+                \bool_set_true:N \l_@@_tmpa_bool
+                \clist_map_break:
+              }
+          }
+      }
+    \bool_if:NTF \l_@@_tmpa_bool {#1} {#2}
   }
+%    \end{macrocode}
+%    \begin{macrocode}
 \cs_new:Nn \@@_make_smallcaps:TF
   {
     \bool_if:NTF \l_@@_ot_bool

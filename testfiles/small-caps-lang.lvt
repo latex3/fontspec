@@ -1,0 +1,37 @@
+\input{fontspec-testsetup.tex}
+
+\usepackage{fontspec}
+
+\begin{document}
+
+\setmainfont{EBGaramond-Regular.otf}
+{abc \scshape abc}
+\ExplSyntaxOn
+\fontspec_if_small_caps:TF { \MSG{SMALL~CAPS~(PASS)} }{ \MSG{NO~SMALL~CAPS~(FAIL)} }
+\ExplSyntaxOff
+
+\SEPARATOR
+
+\setmainfont{EBGaramond-Regular.otf}[Script=CJK] % font does NOT have script=hani
+{abc \scshape abc}
+\ExplSyntaxOn
+\fontspec_if_small_caps:TF { \MSG{SMALL~CAPS~(PASS)} }{ \MSG{NO~SMALL~CAPS~(FAIL)} }
+\ExplSyntaxOff
+
+\SEPARATOR
+
+\setmainfont{EBGaramond-Regular.otf}[Language=English] % font does NOT have language=ENG
+{abc \scshape abc}
+\ExplSyntaxOn
+\fontspec_if_small_caps:TF { \MSG{SMALL~CAPS~(PASS)} }{ \MSG{NO~SMALL~CAPS~(FAIL)} }
+\ExplSyntaxOff
+
+\SEPARATOR
+
+\setmainfont{EBGaramond-Regular.otf}[Language=Default] % font does NOT have language=ENG
+{abc \scshape abc}
+\ExplSyntaxOn
+\fontspec_if_small_caps:TF { \MSG{SMALL~CAPS~(PASS)} }{ \MSG{NO~SMALL~CAPS~(FAIL)} }
+\ExplSyntaxOff
+
+\end{document}

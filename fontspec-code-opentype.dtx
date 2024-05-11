@@ -258,7 +258,6 @@
 % \end{macro}
 % \end{macro}
 %
-% \begin{macro}{\@@_check_ot_feat:NnTF}
 % \begin{macro}{\@@_check_ot_feat:NnnnTF}
 % This macro takes an OpenType feature tag and checks if it exists in the current
 % font/script/language.
@@ -267,15 +266,7 @@
 % number corresponding to `|latn|'. The language used is \cmd\l_@@_language_int,
 % by default |0|, the `default language'.
 %    \begin{macrocode}
-\prg_new_conditional:Nnn \@@_check_ot_feat:Nn {TF,F}
-  {
-    \@@_check_ot_feat:NnnnTF #1 {#2} {\l_@@_lang_tl} {\l_@@_script_tl}
-      {\prg_return_true:} {\prg_return_false:}
-  }
-%    \end{macrocode}
-%
-%    \begin{macrocode}
-\prg_new_conditional:Nnn \@@_check_ot_feat:Nnnn {TF,F}
+\prg_new_conditional:Nnn \@@_check_ot_feat:Nnnn {TF,T,F}
   {
     \bool_if:NTF \l_@@_never_check_bool
       { \prg_return_true: }
@@ -324,7 +315,6 @@
       }
   }
 %    \end{macrocode}
-% \end{macro}
 % \end{macro}
 %
 % \subsection{OpenType feature information}

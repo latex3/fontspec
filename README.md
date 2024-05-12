@@ -29,7 +29,8 @@ The package code is documented in typeset PDF form via
 Licence
 -------
 
-This package is distributed under the terms and conditions of the LaTeX Project Public License (LPPL), version 1.3a or higher. 
+This package is distributed under the terms and conditions of the
+LaTeX Project Public License (LPPL), version 1.3c or higher. 
 
 The maintainer of the package is Will Robertson and the LaTeX3 project.
 

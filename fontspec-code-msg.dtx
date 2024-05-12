@@ -2,13 +2,49 @@
 %
 % \section{Error/warning/info messages}
 %
+% \begin{function}{\@@_msg_new:nn,\@@_msg_new:nnn}
+% \begin{syntax}
+% |\@@_msg_new:nn | \Arg{msg id} \Arg{message}
+% |\@@_msg_new:nnn| \Arg{msg id} \Arg{message} \Arg{additional text}
+% \end{syntax}
+% These functions define messages using the standard \verb|\msg_new:nnn(n)| commands.
+% Wrappers are used to pre-set the package name and to trim spaces, allowing form convenient
+% definition later in this file.
+%
+% An additional linebreak is added to avoid awkward breaks when the filename is
+% included in the error message.
+% \end{function}
+%
+% \section{Implementation}
+%
+% \subsection{Messages for package options}
+%    \begin{macrocode}
+%<*options>
+\msg_new:nnn {fontspec} {cm-default-obsolete}
+ {
+  The~"cm-default"~package~option~is~obsolete.
+ }
+\msg_new:nnn {fontspec} {enc-obsolete}
+ {
+  The~"#1"~package~option~is~obsolete.~TU~is~the~default~encoding.
+ }
+\msg_new:nnn {fontspec} {math-opt-unknown}
+ {
+  The~ global~ option~ 'math=#1'~ is~ not~ recognised.~ It~ will~ be~ ignored.
+ }
+%</options>
+%    \end{macrocode}
+%
+%
+% \subsection{Messages for general package behaviour}
+%
 % \iffalse
 %    \begin{macrocode}
 %<*fontspec>
 %    \end{macrocode}
 % \fi
 %
-% Shorthands for messages:
+% \paragraph{Shorthands for messages}
 %    \begin{macrocode}
 \cs_new:Npn \@@_error:n     { \msg_error:nn     {fontspec} }
 \cs_new:Npn \@@_error:nn    { \msg_error:nnn    {fontspec} }
@@ -23,14 +59,25 @@
 \cs_new:Npn \@@_trace:n     { \msg_trace:nn     {fontspec} }
 %    \end{macrocode}
 %
+% \begin{macro}{\@@_msg_new:nn,\@@_msg_new:nnn}
+%    \begin{macrocode}
+\cs_new:Nn \@@_msg_new:nn
+  {
+    \msg_new:nnx {fontspec} {#1} { ^^J \tl_trim_spaces:n {#2} }
+  }
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+\cs_new:Nn \@@_msg_new:nnn
+  {
+    \msg_new:nnxx {fontspec} {#1} { ^^J \tl_trim_spaces:n {#2} }
+                                  {     \tl_trim_spaces:n {#3} }
+  }
+%    \end{macrocode}
+% \end{macro}
+%
 % Allow messages to be written with spaces acting as normal:
 %    \begin{macrocode}
-\cs_generate_variant:Nn \msg_new:nnn  {nnx}
-\cs_generate_variant:Nn \msg_new:nnnn {nnxx}
-\cs_new:Nn \@@_msg_new:nn
-  { \msg_new:nnx {fontspec} {#1} { ^^J \tl_trim_spaces:n {#2} } }
-\cs_new:Nn \@@_msg_new:nnn
-  { \msg_new:nnxx {fontspec} {#1} { ^^J \tl_trim_spaces:n {#2} } { \tl_trim_spaces:n {#3} } }
 \char_set_catcode_space:n {32}
 %    \end{macrocode}
 %
@@ -190,20 +237,8 @@
   Use "Ligatures=TeX" instead of "Mapping=tex-text".
  }
 %    \end{macrocode}
-% message for package options must be loaded earlier
+%
 %    \begin{macrocode}
-%</fontspec>
-%<*options>
-\msg_new:nnn {fontspec} {cm-default-obsolete}
- {
-  The~"cm-default"~package~option~is~obsolete.
- }
-\msg_new:nnn {fontspec} {enc-obsolete}
- {
-  The~"#1"~package~option~is~obsolete.~TU~is~the~default~encoding.
- }
-%</options>
-%<*fontspec>
 \@@_msg_new:nn {font-index-needs-ttc}
  {
   The "FontIndex" feature is only supported by TTC (TrueType Collection) fonts.\\

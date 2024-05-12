@@ -2,6 +2,44 @@
 %
 % \section{Opening code}
 %
+% \begin{function}{\FontspecSetCheckBoolTrue,\FontspecSetCheckBoolFalse}
+% Allows easy return of boolean results (\verb|\l_@@_check_bool|) without requiring specific catcode regimes.
+% Used within Lua functions.
+% \end{function}
+%
+% \begin{function}{\@@_keys_set_known:nnN,\@@_keys_set_known:nxN}
+% Wrapper around standard \verb|\keys_set_known:nnN| which permits debugging.
+% \end{function}
+%
+% \begin{function}{\@@_int_mult_truncate:Nn}
+% \begin{syntax}
+% |\@@_int_mult_truncate:nn| \meta{int} \Arg{scale}
+% \end{syntax}
+% Scales \meta{integer variable} by \meta{scale}, discarding any fractional components.
+% E.g., 
+% \begin{Verbatim}
+% \int_new:N \foo
+% \int_set:Nn \foo {3}
+% \__fontspec_int_mult_truncate:Nn \foo {3.3}
+% \int_show:N \foo % \foo = 9
+%
+% \int_set:Nn \foo {3}
+% \__fontspec_int_mult_truncate:Nn \foo {3.4}
+% \int_show:N \foo % \foo = 10
+% \end{Verbatim}
+% \end{function}
+%
+% \begin{function}{\@@_lua_function:ne,\@@_lua_function:nee,\@@_lua_function:neee,\@@_lua_function:neeee}
+% \begin{syntax}
+% |\@@_lua_function:ne| \Arg{method} \Arg{arg.~1}
+% \end{syntax}
+% Wrapper around \verb|\lua_now:e|, hard-coded to refer to a method of the \verb|fontspec| module.
+% \verb|\@@_lua_function:ne {foo} {bar}| executes \verb|fontspec.foo("bar")| in the Lua engine.
+% Variants for up to four arguments are provided.
+% \end{function}
+%
+% \section{Implementation}
+%
 % \iffalse
 %    \begin{macrocode}
 %<*options>
@@ -13,23 +51,25 @@
 %    \begin{macrocode}
 \DeclareKeys 
   {
-    cm-default  .code:n = { \msg_warning:nn   {fontspec} {cm-default-obsolete} }    
 %    \end{macrocode}
-%
 %    \begin{macrocode}
     ,math    .bool_gset:N = \g_@@_math_bool
     ,math    .usage:n     =  preamble
     ,math / unknown .code:n = { } % \msg_warning:nnn {fontspec} {math-opt-unknown} {#1}
     ,no-math .bool_gset_inverse:N = \g_@@_math_bool
     ,no-math .usage:n             =  preamble
+%    \end{macrocode}
+%    \begin{macrocode}
     ,config  .bool_gset:N = \g_@@_cfg_bool
     ,config  .usage:n     = load
     ,no-config  .bool_gset_inverse:N = \g_@@_cfg_bool
     ,no-config  .usage:n             = load
-    ,euenc  .code:n = { \msg_warning:nnn   {fontspec} {enc-obsolete}{euenc} }    
-    ,tuenc  .code:n = { \msg_warning:nnn   {fontspec} {enc-obsolete}{tuenc} }    
 %    \end{macrocode}
-%
+%    \begin{macrocode}
+    ,cm-default  .code:n = { \msg_warning:nn  {fontspec} {cm-default-obsolete} }    
+    ,euenc       .code:n = { \msg_warning:nnn {fontspec} {enc-obsolete}{euenc} }    
+    ,tuenc       .code:n = { \msg_warning:nnn {fontspec} {enc-obsolete}{tuenc} }    
+%    \end{macrocode}
 %    \begin{macrocode}
     ,quiet .code:n = 
       {
@@ -47,11 +87,6 @@
         \msg_redirect_module:nnn { fontspec } { info } { info }      
       }  
   }
-\msg_new:nnn {fontspec} {math-opt-unknown}
- {
-  The~ global~ option~ 'math=#1'~ is~ not~ recognised.~ It~ will~ be~ ignored.
- }
-
 %    \end{macrocode}
 %
 %    \begin{macrocode}
@@ -169,6 +204,10 @@
 \cs_generate_variant:Nn \tl_if_eq:nnT {oe}
 %    \end{macrocode}
 %
+%    \begin{macrocode}
+\cs_generate_variant:Nn \msg_new:nnn  {nnx}
+\cs_generate_variant:Nn \msg_new:nnnn {nnxx}
+%    \end{macrocode}
 %
 %
 %

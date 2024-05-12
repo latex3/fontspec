@@ -193,8 +193,7 @@ Since this has changed from \texttt{EU1}/\texttt{EU2} to \texttt{TU}, it is best
 
 \subsection{Functions for loading new fonts and families}
 
-\begin{macro}{\fontspec_gset_family:Nnn}
-\begin{macro}{\fontspec_set_family:Nnn}
+\begin{function}{\fontspec_gset_family:Nnn,\fontspec_set_family:Nnn}
 \darg{\LaTeX\ family}
 \darg{fontspec features}
 \darg{font name}
@@ -204,11 +203,9 @@ This font family can then be selected with standard \LaTeX\ commands
 \cs{fontfamily}\marg{family}\cs{selectfont}.
 See the standard \pkg{fontspec} user commands for applications of this
 function.
-\end{macro}
-\end{macro}
+\end{function}
 
-\begin{macro}{\fontspec_gset_fontface:NNnn}
-\begin{macro}{\fontspec_set_fontface:NNnn}
+\begin{function}{\fontspec_gset_fontface:NNnn,\fontspec_set_fontface:NNnn}
 \darg{primitive font}
 \darg{\LaTeX\ family}
 \darg{fontspec features}
@@ -219,8 +216,7 @@ If a family is loaded (with bold and italic shapes) the primitive font
 command will only select the regular face.
 This feature is designed for \LaTeX\ programmers who need to
 perform subsequent font-related tests on the \meta{primitive font}.
-\end{macro}
-\end{macro}
+\end{function}
 
 
 \subsection{Conditionals}
@@ -231,8 +227,12 @@ The following conditionals are all provided in |TF|, |T|, and |F| forms.
 
 \subsubsection{Querying font families}
 
-\begin{macro}{\fontspec_font_if_exist:nTF}
+\begin{function}{\fontspec_font_if_exist:nTF}
+\begin{syntax}
+|\fontspec_font_if_exist:nTF| \Arg{font name/file} \Arg{true code} \Arg{false code}
+\end{syntax}
 Test whether the `font name' (|#1|) exists or is loadable.
+\meta{true code} or \meta{false code} is executed accordingly.
 The syntax of |#1| is a restricted/simplified version of \pkg{fontspec}'s usual font loading syntax; fonts to be loaded by filename are detected by the presence of an appropriate extension (|.otf|, etc.), and paths should be included inline.
 E.g.:
 \begin{Verbatim}
@@ -241,22 +241,22 @@ E.g.:
   \fontspec_font_if_exist:nTF {texgyrepagella-regular.otf}{T}{F}
   \fontspec_font_if_exist:nTF {/Users/will/Library/Fonts/CODE2000.TTF}{T}{F}
 \end{Verbatim}
-\end{macro}
 The synonym \cs{IfFontExistsTF} is provided for `document authors'.
+\end{function}
 
 
-\begin{macro}{\fontspec_if_fontspec_font:TF}
+\begin{function}{\fontspec_if_fontspec_font:TF}
 Test whether the currently selected font has been loaded by fontspec.
-\end{macro}
+\end{function}
 
 
-\begin{macro}{\fontspec_if_opentype:TF}
+\begin{function}{\fontspec_if_opentype:TF}
 Test whether the currently selected font is an OpenType font.
 Always true for \LuaTeX{} fonts.
-\end{macro}
+\end{function}
 
 
-\begin{macro}{\fontspec_if_small_caps:TF}
+\begin{function}{\fontspec_if_small_caps:TF}
 Test whether the currently selected font has a `small caps' face to be selected
 with |\scshape| or similar.
 Note that testing whether the font has the |Letters=SmallCaps| font feature is
@@ -264,75 +264,75 @@ sufficient but not necessary for this command to return true, since small caps
 can also be loaded from separate font files.
 The logic of this command is complicated by the fact that \pkg{fontspec} will
 merge shapes together (for italic small caps, etc.).
-\end{macro}
+\end{function}
 
 
 \subsubsection{Availability of features}
 
-\begin{macro}{\fontspec_if_aat_feature:nnTF}
+\begin{function}{\fontspec_if_aat_feature:nnTF}
 Test whether the currently selected font contains the \AAT\
 feature (|#1|,|#2|).
-\end{macro}
+\end{function}
 
 
-\begin{macro}{\fontspec_if_feature:nTF}
+\begin{function}{\fontspec_if_feature:nTF}
 Test whether the currently selected font contains the raw OpenType
 feature |#1|. E.g.: |\fontspec_if_feature:nTF {pnum} {True} {False}|.
 Returns false if the font is not loaded by fontspec or is not an OpenType
 font.
-\end{macro}
+\end{function}
 
 
-\begin{macro}{\fontspec_if_feature:nnnTF}
+\begin{function}{\fontspec_if_feature:nnnTF}
 Test whether the currently selected font with raw OpenType script tag |#1| and raw OpenType language tag |#2| contains the raw OpenType feature tag |#3|. E.g.: |\fontspec_if_feature:nnnTF {latn} {ROM} {pnum} {True} {False}|.
 Returns false if the font is not loaded by fontspec or is not an OpenType
 font.
-\end{macro}
+\end{function}
 
 
-\begin{macro}{\fontspec_if_script:nTF}
+\begin{function}{\fontspec_if_script:nTF}
 Test whether the currently selected font contains the raw OpenType
 script |#1|. E.g.: |\fontspec_if_script:nTF {latn} {True} {False}|.
 Returns false if the font is not loaded by fontspec or is not an OpenType
 font.
-\end{macro}
+\end{function}
 
 
-\begin{macro}{\fontspec_if_language:nTF}
+\begin{function}{\fontspec_if_language:nTF}
 Test whether the currently selected font contains the raw OpenType language
 tag |#1|. E.g.: |\fontspec_if_language:nTF {ROM} {True} {False}|.
 Returns false if the font is not loaded by fontspec or is not an OpenType
 font.
-\end{macro}
+\end{function}
 
 
-\begin{macro}{\fontspec_if_language:nnTF}
+\begin{function}{\fontspec_if_language:nnTF}
 Test whether the currently selected font contains the raw OpenType language
 tag |#2| in script |#1|. E.g.: |\fontspec_if_language:nnTF {cyrl} {SRB} {True} {False}|.
 Returns false if the font is not loaded by fontspec or is not an OpenType
 font.
-\end{macro}
+\end{function}
 
 
 \subsubsection{Currently selected features}
 
-\begin{macro}{\fontspec_if_current_feature:nTF}
+\begin{function}{\fontspec_if_current_feature:nTF}
 Test whether the currently loaded font is using the specified raw
 OpenType feature tag |#1|.
 The tag string |#1| should be prefixed with |+| to query an active feature, and with a |-| (hyphen) to query a disabled feature.
-\end{macro}
+\end{function}
 
 
-\begin{macro}{\fontspec_if_current_script:nTF}
+\begin{function}{\fontspec_if_current_script:nTF}
 Test whether the currently loaded font is using the specified raw
 OpenType script tag |#1|.
-\end{macro}
+\end{function}
 
 
-\begin{macro}{\fontspec_if_current_language:nTF}
+\begin{function}{\fontspec_if_current_language:nTF}
 Test whether the currently loaded font is using the specified raw
 OpenType language tag |#1|.
-\end{macro}
+\end{function}
 
 \end{document}
 

@@ -1,30 +1,59 @@
 %%^^A%%  fontspec-code-vars.dtx -- part of FONTSPEC <latex3.github.io/fontspec>
 %
-% \section{Declaration of variables}
+% \section{Variables}
 %
-% \iffalse
-%    \begin{macrocode}
-%<@@=fontspec>
-%<*fontspec>
-%    \end{macrocode}
-% \fi
-%
-% This file consists solely of declaration of variables used by \pkg{fontspec}.
-% In some cases these variables are also initialised with default values.
-% In time I would like to move these initialisations
-%
-% \paragraph{Booleans}
-%
-% \begin{macro}{\l_@@_firsttime_bool}
+% \begin{variable}{\l_@@_firsttime_bool}
 % As \cs{keys_set:nn} is run multiple times, some of its
 % information storing only occurs once while we decide if the font family
 % has been defined or not. When the later processing is occuring per-shape
 % this no longer needs to happen; this is indicated by the `firsttime'
 % conditional.
+% \end{variable}
+%
+% \begin{variable}{\l_@@_never_check_bool}
+% Used to disable checking opentype script, language, and tags
+% when running checking code that has a user-defined return path we want to allow the higher-level
+% code to dictate the logic.
+% TODO: tidy this up!
+% \end{variable}
+%
+% \section{Implementation}
+%
+% \iffalse
+%    \begin{macrocode}
+%<@@=fontspec>
+%    \end{macrocode}
+% \fi
+%
+% This file consists solely of declaration of variables used by \pkg{fontspec}.
+% In some cases these variables are also initialised with default values.
+%
+% \paragraph{Booleans for package options}
+%
+% For package options:
+%    \begin{macrocode}
+%<*options>
+\bool_new:N \g_@@_cfg_bool
+\bool_new:N \g_@@_math_bool
+%</options>
+%<*fontspec>
+%    \end{macrocode}
+%
+% \paragraph{Booleans for flow control}
+%
+% \begin{macro}{\l_@@_firsttime_bool}
 %    \begin{macrocode}
 \bool_new:N \l_@@_firsttime_bool
 %    \end{macrocode}
 % \end{macro}
+%
+% \begin{macro}{\l_@@_never_check_bool}
+%    \begin{macrocode}
+\bool_new:N \l_@@_never_check_bool
+%    \end{macrocode}
+% \end{macro}
+%
+% \paragraph{Booleans for processing logic}
 %
 %    \begin{macrocode}
 \bool_new:N \l_@@_nobf_bool
@@ -49,15 +78,6 @@
 \bool_new:N \g_@@_math_lucida_bool
 \bool_new:N \g_@@_pkg_euler_loaded_bool
 %    \end{macrocode}
-% For package options:
-%    \begin{macrocode}
-%</fontspec>
-%<*options>
-\bool_new:N \g_@@_cfg_bool
-\bool_new:N \g_@@_math_bool
-%</options>
-%<*fontspec>
-%    \end{macrocode}
 %
 %    \begin{macrocode}
 \bool_new:N \l_@@_tmpa_bool
@@ -70,15 +90,6 @@
 \bool_new:N \l_@@_external_kpse_bool
 %    \end{macrocode}
 %
-% \begin{macro}{\l_@@_never_check_bool}
-% It is used to disable checking opentype script, language, and tags
-% when running checking code that has a user-defined return path we want to allow the higher-level
-% code to dictate the logic.
-% TODO: tidy this up!
-%    \begin{macrocode}
-\bool_new:N \l_@@_never_check_bool
-%    \end{macrocode}
-% \end{macro}
 %
 % \paragraph{Counters}
 %    \begin{macrocode}

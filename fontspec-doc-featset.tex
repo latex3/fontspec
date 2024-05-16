@@ -297,7 +297,7 @@ Input & Font size, $s$ \\
 \end{table}
 
 \paragraph{Interaction with other features}
-For \feat{SizeFeatures} to work with \feat{ItalicFeatures}, \feat{BoldFeatures}, etc., and \feat{SmallCapsFeatures}, a strict heirarchy is required:
+For \feat{SizeFeatures} to work with \feat{ItalicFeatures}, \feat{BoldFeatures}, etc., and \feat{SmallCapsFeatures}, a strict hierarchy is required:
 \begin{Verbatim}
  UprightFeatures =
   {
@@ -612,7 +612,7 @@ of font size. For example, something like:
 
 In rare situations users may want to mechanically distort the shapes of the glyphs in the current font such as shown in \exref{fake}. Please don't overuse these features; they are \emph{not} a good alternative to having the real shapes.
 
-\begin{Xexample}{fake}{Articifial font transformations.}
+\begin{Xexample}{fake}{Artificial font transformations.}
   \fontspec{Quattrocento-Regular.ttf} \emph{ABCxyz} \quad
   \fontspec{Quattrocento-Regular.ttf}[FakeSlant=0.2] ABCxyz
 
@@ -685,7 +685,7 @@ explicitly.
 \subsection{Weight} \label{sec:variable-weight}
 For fonts with a variable weight axis, the weight can be specified through the
 \feat{Weight} feature. The value should be between 0 and 1000, where typically
-400 corresponds to regular wight and 700 is a bold font.
+400 corresponds to regular weight and 700 is a bold font.
 \begin{Verbatim}
   \fontspec{Source Serif Variable}[Weight=700]
   Bold                                     \\

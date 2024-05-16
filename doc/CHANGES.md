@@ -62,7 +62,7 @@ Change history
 
 ## v2.9a (2024/02/13)
 
-  * Added a `Scale=MatchAveragecase` paramater which averages `Scale=MatchLowercase` and `Scale=MatchUppercase`.
+  * Added a `Scale=MatchAveragecase` parameter which averages `Scale=MatchLowercase` and `Scale=MatchUppercase`.
   * Switched options to LaTeX keyval handler.
   * Added option `verbose` to undo silent/quiet.
   * `euenc`/`tuenc` options are now obsolete (TU is the only encoding). 
@@ -92,7 +92,7 @@ Change history
 
 ## v2.7h (2020/02/03)
 
-  * Eroneous uses of `language=DFLT` changed to `language=dflt`.
+  * Erroneous uses of `language=DFLT` changed to `language=dflt`.
   * Fix spurious error in some cases of `SlantedFont` and `BoldSlantedFont`
     being specified in a `.fontspec` file.
   * Fix regression with `unicode-math` related log files showing the wrong
@@ -102,7 +102,7 @@ Change history
 ## v2.7g (2020/01/26)
 
   * Fix regression that broke changing the default encoding after `fontspec` was loaded
-    (e.g., to use legacy fonts by default but use a `fontspec` font occassionally).
+    (e.g., to use legacy fonts by default but use a `fontspec` font occasionally).
   * Fix bug exhibited in `polyglossia` and perhaps elsewhere when `Script` is set without
     a corresponding `Language`.
   * Use `\familydefault` instead of `\rmdefault` when calculating scaling parameters in
@@ -164,7 +164,7 @@ Change history
 
           \newfontlanguage{Turkish}{TRK,TUR}
 
-      when selected, this first checks for the existance of the TRK language tag, and if
+      when selected, this first checks for the existence of the TRK language tag, and if
       not found then checks for the TUR language tag to use if available.
 
   * Add new `Renderer` options for LuaTeX that enable the HarfBuzz engine. These only
@@ -341,7 +341,7 @@ Change history
   * Allow slanted small caps and better internal methods for "combining" font shapes; this fixes a few bugs.
   * Incorporate "new" font script tags for Indic fonts. E.g., when selecting `Script=Bengali`, fontspec will first query the font for the `bng2` OpenType script, and if not found select `beng`.
   * Restrict some font features from being able to be used within `\addfontfeatures` that were causing some font-loading confusion.
-  * Fixed behaviour in which `\baselineskip` and `\f@size` would (possibly) change values after loading the packge.
+  * Fixed behaviour in which `\baselineskip` and `\f@size` would (possibly) change values after loading the package.
   * Remove copy of `fixltx2e`'s code for footnote symbols; handled by LaTeX2e now.
   * Deprecate `ExternalLocation` for the simpler (and identical) `Path` option.
   * Improvement to some warnings/info messages.
@@ -423,7 +423,7 @@ Change history
 
 ## v2.3c (2013/05/20)
 
-  * Compatbility with luaotfload 2013/05/20 2.2c, support for older version
+  * Compatibility with luaotfload 2013/05/20 2.2c, support for older version
       removed.
 
 ## v2.3b (2013/05/12)

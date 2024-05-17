@@ -47,7 +47,7 @@ jobs:
       - name: Documentation
         run: l3build doc -q -H --show-log-on-error
       - name: Copy PDF
-        run: pwd; ls; cp *.pdf ./_site/ 
+        run: sudo cp *.pdf ./_site/
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
 

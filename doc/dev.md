@@ -19,6 +19,7 @@ The PDF documentation are built using
 
     l3build doc
 
+These are built with proprietry fonts if available and otherwise fall back on freely available fonts through a standard TeX Live installation.
 
 ## Dependencies
 
@@ -61,3 +62,17 @@ When running all test files, I often like to use
 
 This set of options randomises the order of the tests and stops after the first failure. 
 
+
+## Release procedure
+
+As the rate of development of fontspec has varied over time, I have found it necessary to automate the release proceedure so as to avoid forgetting any of the important steps.
+
+These are the steps to follow to release the package to CTAN:
+
+   * Finalise record of changes in `CHANGES.md`. The topmost tag is used to populate the version number.
+   * Be in the `develop` branch, freshly `pull`ed and fully `commit`ted.
+   * Run `lua autorelease.lua` and follow the prompts.
+
+This script will ensure that the `master` and `develop` branch are kept properly in sync, the repository is tagged with the correct version, and `l3build ctan` and `l3build upload` are used to send the package off to CTAN.
+
+A [Github Action](https://github.com/latex3/fontspec/actions) will then convert the tagged commit into a [release](https://github.com/latex3/fontspec/releases).

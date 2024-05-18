@@ -1,6 +1,13 @@
 Change history
 ==============
 
+## v2.9f (2024/05/11)
+
+  * Update Scripts supported to OpenType specification 1.9.1 / Unicode 16.0. Many thanks to Werner Lemberg. (#521)
+  * Many documentation typo fixes (included in this file!). Many thanks mbertucci47. (#522)
+  * Add prerelease PDF to the online documentation. Thanks Yukai Chou for fixing the workflow. (#523)
+
+
 ## v2.9e (2024/05/11)
 
   * Fix regression with automatic detection and selection of small caps when the font

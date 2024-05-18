@@ -11,8 +11,8 @@ available with OpenType (and other) fonts, including upper and lower case number
 proportional and monospaced numbers, swash letters, ligature control, and many
 many others.
 
-See the documentation `fontspec.pdf` ([CTAN version](http://mirrors.ctan.org/macros/unicodetex/latex/fontspec/fontspec.pdf), or [Github prerelease version](http://latex3.github.io/fontspec/fontspec.pdf)) for full information.
-
+* Full user documentation `fontspec.pdf` ([CTAN version](http://mirrors.ctan.org/macros/unicodetex/latex/fontspec/fontspec.pdf), or [Github prerelease version](http://latex3.github.io/fontspec/fontspec.pdf)) for full information.
+* Typeset package code `fontspec-code.pdf` in semi-literate programming style ([CTAN version](https://mirrors.ctan.org/macros/unicodetex/latex/fontspec/fontspec-code.pdf), or [Github prerelease version](http://latex3.github.io/fontspec/fontspec-code.pdf)) 
 * [Summary of user commands](user.html)
 * [Package installation details](install.html)
 * [Release notes (changelog)](CHANGES.html)

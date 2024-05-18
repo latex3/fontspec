@@ -19,7 +19,7 @@ The PDF documentation are built using
 
     l3build doc
 
-These are built with proprietry fonts if available and otherwise fall back on freely available fonts through a standard TeX Live installation.
+These are built with proprietary fonts if available and otherwise fall back on freely available fonts through a standard TeX Live installation.
 
 ## Dependencies
 
@@ -65,7 +65,7 @@ This set of options randomises the order of the tests and stops after the first 
 
 ## Release procedure
 
-As the rate of development of fontspec has varied over time, I have found it necessary to automate the release proceedure so as to avoid forgetting any of the important steps.
+As the rate of development of fontspec has varied over time, I have found it necessary to automate the release procedure so as to avoid forgetting any of the important steps.
 
 These are the steps to follow to release the package to CTAN:
 

@@ -1,0 +1,15 @@
+\input{fontspec-testsetup.tex}
+
+\usepackage{fontspec}
+\setmainfont{DavidCLM-Medium.otf}
+
+\begin{document}
+
+\ExplSyntaxOn
+
+\scshape
+
+\MSG{Does~ the~ David~ font~ has~ the~ 'hebr'~ script?}
+\fontspec_if_script:nTF{hebr}{\MSG{Yes!}}{\ERROR}
+
+\end{document}

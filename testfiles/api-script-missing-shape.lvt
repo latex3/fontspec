@@ -1,15 +1,15 @@
 \input{fontspec-testsetup.tex}
 
 \usepackage{fontspec}
-\setmainfont{DavidCLM-Medium.otf}
+\setmainfont{texgyrepagella-regular.otf}
 
 \begin{document}
 
 \ExplSyntaxOn
 
-\scshape
+\fontshape{foo}\selectfont
 
-\MSG{Does~ the~ David~ font~ has~ the~ 'hebr'~ script?}
-\fontspec_if_script:nTF{hebr}{\MSG{Yes!}}{\ERROR}
+\MSG{Does~ the~ TeX~ Gyre~ Pagella~ font~ has~ the~ 'cyrl'~ script?}
+\fontspec_if_script:nTF{cyrl}{\MSG{Yes!}}{\ERROR}
 
 \end{document}

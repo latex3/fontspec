@@ -246,7 +246,7 @@
         \@@_ot_validate_tag:x {#2}
         \@@_ot_validate_tag:x {#3}
         \cs_if_eq:NNTF #1 \font
-          { \tl_set:Nx \l_@@_tmp_tl {\curr@fontshape/\f@size} }
+          { \tl_set:Nx \l_@@_tmp_tl {\exp_after:wN \cs_to_str:N \the\font} }
           { \tl_set:Nx \l_@@_tmp_tl {\cs_to_str:N #1} }
         \@@_lua_function:neee {check_ot_lang} {\l_@@_tmp_tl} {#2} {#3}
         \bool_if:NTF \l__fontspec_check_bool \prg_return_true: \prg_return_false:

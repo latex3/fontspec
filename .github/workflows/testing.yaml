@@ -21,7 +21,7 @@ jobs:
   # create three jobs which only differ in minimal elements.
   # For tags we do not run this since we run the release job instead.
   l3build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         # include indicates that we want to set explicitly these combinations

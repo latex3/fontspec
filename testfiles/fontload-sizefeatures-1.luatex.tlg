@@ -3,7 +3,7 @@ Don't change this file in any respect.
 TU/texgyrechorus-mediumitalic.otf(0)/m/n:
   [texgyrebonum-italic.otf]:mode=node;script=latn;language=dflt;color={AA0000}; at 7.0pt
 TU/texgyrechorus-mediumitalic.otf(0)/m/n:
-  [texgyrechorus-mediumitalic.otf]:mode=node;script=latn;language=dflt;color={00AA00};
+  [texgyrechorus-mediumitalic.otf]:mode=node;script=latn;language=dflt;color={00AA00}; at 10.0pt
 TU/texgyrechorus-mediumitalic.otf(0)/m/n:
   [texgyrechorus-mediumitalic.otf]:mode=node;script=latn;language=dflt;color={0000AA}; at 14.4pt
 ***************

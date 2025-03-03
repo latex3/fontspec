@@ -2,33 +2,33 @@ This is a generated file for the l3build validation system.
 Don't change this file in any respect.
 Default font:
 TU/EBGaramond-Regular.otf(0)/m/n:
-  [EBGaramond-Regular.otf]:mode=node;script=latn;language=dflt;+tlig;
+  [EBGaramond-Regular.otf]:mode=node;script=latn;language=dflt;+tlig; at 10.0pt
 Italic font:
 TU/EBGaramond-Regular.otf(0)/m/it:
-  [EBGaramond-Italic.otf]:mode=node;script=latn;language=dflt;+tlig;
+  [EBGaramond-Italic.otf]:mode=node;script=latn;language=dflt;+tlig; at 10.0pt
 Swash font:
 TU/EBGaramond-Regular.otf(0)/m/sw:
-  [texgyrecursor-regular.otf]:mode=node;script=latn;language=dflt;+tlig;
+  [texgyrecursor-regular.otf]:mode=node;script=latn;language=dflt;+tlig; at 10.0pt
 Italic font:
 TU/EBGaramond-Regular.otf(0)/m/it:
-  [EBGaramond-Italic.otf]:mode=node;script=latn;language=dflt;+tlig;
+  [EBGaramond-Italic.otf]:mode=node;script=latn;language=dflt;+tlig; at 10.0pt
 Upright font:
 TU/EBGaramond-Regular.otf(0)/m/n:
-  [EBGaramond-Regular.otf]:mode=node;script=latn;language=dflt;+tlig;
+  [EBGaramond-Regular.otf]:mode=node;script=latn;language=dflt;+tlig; at 10.0pt
 Bold font:
 TU/EBGaramond-Regular.otf(0)/b/n:
-  [EBGaramond-Bold.otf]:mode=node;script=latn;language=dflt;+tlig;
+  [EBGaramond-Bold.otf]:mode=node;script=latn;language=dflt;+tlig; at 10.0pt
 Bold Italic font:
 TU/EBGaramond-Regular.otf(0)/b/it:
-  [EBGaramond-BoldItalic.otf]:mode=node;script=latn;language=dflt;+tlig;
+  [EBGaramond-BoldItalic.otf]:mode=node;script=latn;language=dflt;+tlig; at 10.0pt
 Bold Swash font:
 TU/EBGaramond-Regular.otf(0)/b/sw:
-  [texgyrecursor-bold.otf]:mode=node;script=latn;language=dflt;+tlig;
+  [texgyrecursor-bold.otf]:mode=node;script=latn;language=dflt;+tlig; at 10.0pt
 Bold Italic font:
 TU/EBGaramond-Regular.otf(0)/b/it:
-  [EBGaramond-BoldItalic.otf]:mode=node;script=latn;language=dflt;+tlig;
+  [EBGaramond-BoldItalic.otf]:mode=node;script=latn;language=dflt;+tlig; at 10.0pt
 Bold font:
 TU/EBGaramond-Regular.otf(0)/b/n:
-  [EBGaramond-Bold.otf]:mode=node;script=latn;language=dflt;+tlig;
+  [EBGaramond-Bold.otf]:mode=node;script=latn;language=dflt;+tlig; at 10.0pt
 ***************
 Compilation 1 of test file completed with exit status 0

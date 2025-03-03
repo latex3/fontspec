@@ -2,37 +2,37 @@ This is a generated file for the l3build validation system.
 Don't change this file in any respect.
 NO FEATURE
 TU/texgyrepagella(0)/m/n:
-  [texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;+tlig;
+  [texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;+tlig; at 10.0pt
 TU/texgyrepagella(0)/m/sc:
-  [texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;+tlig;+smcp;
+  [texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;+tlig;+smcp; at 10.0pt
 TU/texgyrepagella(0)/m/it:
-  [texgyrepagella-italic.otf]:mode=node;script=latn;language=dflt;+tlig;color={AA0000};
+  [texgyrepagella-italic.otf]:mode=node;script=latn;language=dflt;+tlig;color={AA0000}; at 10.0pt
 TU/texgyrepagella(0)/m/scit:
-  [texgyrepagella-italic.otf]:mode=node;script=latn;language=dflt;+tlig;+smcp;color={AA0000};
+  [texgyrepagella-italic.otf]:mode=node;script=latn;language=dflt;+tlig;+smcp;color={AA0000}; at 10.0pt
 TU/texgyrepagella(0)/b/n:
-  [texgyrepagella-bold.otf]:mode=node;script=latn;language=dflt;+tlig;
+  [texgyrepagella-bold.otf]:mode=node;script=latn;language=dflt;+tlig; at 10.0pt
 TU/texgyrepagella(0)/b/sc:
-  [texgyrepagella-bold.otf]:mode=node;script=latn;language=dflt;+tlig;+smcp;
+  [texgyrepagella-bold.otf]:mode=node;script=latn;language=dflt;+tlig;+smcp; at 10.0pt
 TU/texgyrepagella(0)/b/it:
-  [texgyrepagella-bolditalic.otf]:mode=node;script=latn;language=dflt;+tlig;
+  [texgyrepagella-bolditalic.otf]:mode=node;script=latn;language=dflt;+tlig; at 10.0pt
 TU/texgyrepagella(0)/b/scit:
-  [texgyrepagella-bolditalic.otf]:mode=node;script=latn;language=dflt;+tlig;+smcp;
+  [texgyrepagella-bolditalic.otf]:mode=node;script=latn;language=dflt;+tlig;+smcp; at 10.0pt
 AFF TO SC
 TU/texgyrepagella(1)/m/n:
-  [texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;+tlig;
+  [texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;+tlig; at 10.0pt
 TU/texgyrepagella(1)/m/sc:
-  [texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;+tlig;+smcp;+onum;
+  [texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;+tlig;+smcp;+onum; at 10.0pt
 TU/texgyrepagella(1)/m/it:
-  [texgyrepagella-italic.otf]:mode=node;script=latn;language=dflt;+tlig;color={AA0000};
+  [texgyrepagella-italic.otf]:mode=node;script=latn;language=dflt;+tlig;color={AA0000}; at 10.0pt
 TU/texgyrepagella(1)/m/scit:
-  [texgyrepagella-italic.otf]:mode=node;script=latn;language=dflt;+tlig;+smcp;+pnum;color={AA0000};
+  [texgyrepagella-italic.otf]:mode=node;script=latn;language=dflt;+tlig;+smcp;+pnum;color={AA0000}; at 10.0pt
 TU/texgyrepagella(1)/b/n:
-  [texgyrepagella-bold.otf]:mode=node;script=latn;language=dflt;+tlig;
+  [texgyrepagella-bold.otf]:mode=node;script=latn;language=dflt;+tlig; at 10.0pt
 TU/texgyrepagella(1)/b/sc:
-  [texgyrepagella-bold.otf]:mode=node;script=latn;language=dflt;+tlig;+smcp;
+  [texgyrepagella-bold.otf]:mode=node;script=latn;language=dflt;+tlig;+smcp; at 10.0pt
 TU/texgyrepagella(1)/b/it:
-  [texgyrepagella-bolditalic.otf]:mode=node;script=latn;language=dflt;+tlig;
+  [texgyrepagella-bolditalic.otf]:mode=node;script=latn;language=dflt;+tlig; at 10.0pt
 TU/texgyrepagella(1)/b/scit:
-  [texgyrepagella-bolditalic.otf]:mode=node;script=latn;language=dflt;+tlig;+smcp;
+  [texgyrepagella-bolditalic.otf]:mode=node;script=latn;language=dflt;+tlig;+smcp; at 10.0pt
 ***************
 Compilation 1 of test file completed with exit status 0

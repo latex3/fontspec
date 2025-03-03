@@ -3,24 +3,24 @@ Don't change this file in any respect.
 ============================================================
 SET FONT FAMILIES
 TU/texgyretermes-regular.otf(0)/m/n:
-  [texgyretermes-regular.otf]:mode=node;script=latn;language=dflt;+tlig;
+  [texgyretermes-regular.otf]:mode=node;script=latn;language=dflt;+tlig; at 10.0pt
 TU/texgyreheros-regular.otf(0)/m/n:
-  [texgyreheros-regular.otf]:mode=node;script=latn;language=dflt;+tlig;
+  [texgyreheros-regular.otf]:mode=node;script=latn;language=dflt;+tlig; at 10.0pt
 TU/texgyrecursor-regular.otf(0)/m/n:
-  [texgyrecursor-regular.otf]:mode=node;script=latn;language=dflt;
+  [texgyrecursor-regular.otf]:mode=node;script=latn;language=dflt; at 10.0pt
 REDEFINE FONT FAMILIES
 TU/lmr/m/n:
-  [lmroman10-regular]:+tlig;
+  [lmroman10-regular]:+tlig; at 10.0pt
 TU/lmss/m/n:
-  [lmsans10-regular]:+tlig;
+  [lmsans10-regular]:+tlig; at 10.0pt
 TU/lmtt/m/n:
-  [lmmono10-regular]:
+  [lmmono10-regular]: at 10.0pt
 SET FONT FAMILIES AGAIN
 TU/texgyretermes-regular.otf(0)/m/n:
-  [texgyretermes-regular.otf]:mode=node;script=latn;language=dflt;+tlig;
+  [texgyretermes-regular.otf]:mode=node;script=latn;language=dflt;+tlig; at 10.0pt
 TU/texgyreheros-regular.otf(0)/m/n:
-  [texgyreheros-regular.otf]:mode=node;script=latn;language=dflt;+tlig;
+  [texgyreheros-regular.otf]:mode=node;script=latn;language=dflt;+tlig; at 10.0pt
 TU/texgyrecursor-regular.otf(0)/m/n:
-  [texgyrecursor-regular.otf]:mode=node;script=latn;language=dflt;
+  [texgyrecursor-regular.otf]:mode=node;script=latn;language=dflt; at 10.0pt
 ***************
 Compilation 1 of test file completed with exit status 0

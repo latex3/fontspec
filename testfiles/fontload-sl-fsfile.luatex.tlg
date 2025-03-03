@@ -1,8 +1,8 @@
 This is a generated file for the l3build validation system.
 Don't change this file in any respect.
 TU/xxcmunrm(0)/m/sl:
-  [cmunsl.otf]:mode=node;script=latn;language=dflt;+tlig;
+  [cmunsl.otf]:mode=node;script=latn;language=dflt;+tlig; at 10.0pt
 TU/xxcmunrm(0)/b/sl:
-  [cmunbl.otf]:mode=node;script=latn;language=dflt;+tlig;
+  [cmunbl.otf]:mode=node;script=latn;language=dflt;+tlig; at 10.0pt
 ***************
 Compilation 1 of test file completed with exit status 0

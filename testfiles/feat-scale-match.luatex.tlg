@@ -1,16 +1,16 @@
 This is a generated file for the l3build validation system.
 Don't change this file in any respect.
 TU/texgyretermes-regular.otf(0)/m/n:
-  [texgyretermes-regular.otf]:mode=node;script=latn;language=dflt;+tlig;
+  [texgyretermes-regular.otf]:mode=node;script=latn;language=dflt;+tlig; at 10.0pt
 font dimen 5: 4.5pt
 font dimen 8: 6.62pt
 WITHOUT SCALING
 TU/texgyreheros-regular.otf(0)/m/n:
-  [texgyreheros-regular.otf]:mode=node;script=latn;language=dflt;
+  [texgyreheros-regular.otf]:mode=node;script=latn;language=dflt; at 10.0pt
 font dimen 5: 5.24pt
 font dimen 8: 7.29pt
 TU/texgyrecursor-regular.otf(0)/m/n:
-  [texgyrecursor-regular.otf]:mode=node;script=latn;language=dflt;
+  [texgyrecursor-regular.otf]:mode=node;script=latn;language=dflt; at 10.0pt
 font dimen 5: 4.17pt
 font dimen 8: 5.63pt
 MATCH UPPERCASE

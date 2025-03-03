@@ -2,29 +2,29 @@ This is a generated file for the l3build validation system.
 Don't change this file in any respect.
 SERIES (sc shapes defined)
 TU/texgyrepagella-regular.otf(0)/m/n:
-  [texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;+tlig;
+  [texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;+tlig; at 10.0pt
 TU/texgyrepagella-regular.otf(0)/m/sc:
-  [texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;+tlig;+smcp;
+  [texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;+tlig;+smcp; at 10.0pt
 TU/texgyrepagella-regular.otf(0)/col1/n:
-  [texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;+tlig;color={FF0000};
+  [texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;+tlig;color={FF0000}; at 10.0pt
 TU/texgyrepagella-regular.otf(0)/col1/sc:
-  [texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;+tlig;+smcp;color={FF0000};
+  [texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;+tlig;+smcp;color={FF0000}; at 10.0pt
 TU/texgyrepagella-regular.otf(0)/col2/n:
-  [texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;+tlig;color={0000FF};
+  [texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;+tlig;color={0000FF}; at 10.0pt
 TU/texgyrepagella-regular.otf(0)/col2/sc:
-  [texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;+tlig;+smcp;color={0000FF};
+  [texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;+tlig;+smcp;color={0000FF}; at 10.0pt
 SHAPE (sc shapes not defined; falls back to default)
 TU/texgyrepagella-regular.otf(1)/m/n:
-  [texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;+tlig;
+  [texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;+tlig; at 10.0pt
 TU/texgyrepagella-regular.otf(1)/m/sc:
-  [texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;+tlig;+smcp;
+  [texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;+tlig;+smcp; at 10.0pt
 TU/texgyrepagella-regular.otf(1)/m/col1:
-  [texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;+tlig;color={FF0000};
+  [texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;+tlig;color={FF0000}; at 10.0pt
 TU/texgyrepagella-regular.otf(1)/m/sc:
-  [texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;+tlig;+smcp;
+  [texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;+tlig;+smcp; at 10.0pt
 TU/texgyrepagella-regular.otf(1)/m/col2:
-  [texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;+tlig;color={0000FF};
+  [texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;+tlig;color={0000FF}; at 10.0pt
 TU/texgyrepagella-regular.otf(1)/m/sc:
-  [texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;+tlig;+smcp;
+  [texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;+tlig;+smcp; at 10.0pt
 ***************
 Compilation 1 of test file completed with exit status 0

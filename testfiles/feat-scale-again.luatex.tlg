@@ -3,7 +3,7 @@ Don't change this file in any respect.
 ============================================================
 WITHOUT SCALING
 TU/texgyreheros-regular.otf(0)/m/n:
-  [texgyreheros-regular.otf]:mode=node;script=latn;language=dflt;
+  [texgyreheros-regular.otf]:mode=node;script=latn;language=dflt; at 10.0pt
 font dimen 5: 5.24pt
 font dimen 8: 7.29pt
 ============================================================

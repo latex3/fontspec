@@ -3,21 +3,21 @@ Don't change this file in any respect.
 MANUAL FONT SELECTION:
 After DeclareFontShape:
 TU/newfoo/m/n:
-  [texgyrepagella-regular.otf]
+  [texgyrepagella-regular.otf] at 10.0pt
 After DeclareFontShape again:
 TU/newfoo/m/n:
-  [texgyrepagella-regular.otf]
+  [texgyrepagella-regular.otf] at 10.0pt
 After resetting then DeclareFontShape:
 TU/newfoo/m/n:
-  [texgyreheros-regular.otf]:color=FFAA00
+  [texgyreheros-regular.otf]:color=FFAA00 at 10.0pt
 USING FONTSPEC:
 TU/foo/m/n:
-  [texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;color={FF0000};
+  [texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;color={FF0000}; at 10.0pt
 TU/foo/m/sc:
-  [texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;+smcp;color={FF0000};
+  [texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;+smcp;color={FF0000}; at 10.0pt
 TU/foo/m/n:
-  [texgyreheros-regular.otf]:mode=node;script=latn;language=dflt;color={FF00FF};
+  [texgyreheros-regular.otf]:mode=node;script=latn;language=dflt;color={FF00FF}; at 10.0pt
 TU/foo/m/sc:
-  [texgyreheros-regular.otf]:mode=node;script=latn;language=dflt;+smcp;color={FF00FF};
+  [texgyreheros-regular.otf]:mode=node;script=latn;language=dflt;+smcp;color={FF00FF}; at 10.0pt
 ***************
 Compilation 1 of test file completed with exit status 0

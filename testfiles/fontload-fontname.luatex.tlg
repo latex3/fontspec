@@ -2,15 +2,15 @@ This is a generated file for the l3build validation system.
 Don't change this file in any respect.
 RM:
 TU/TeXGyrePagella(0)/m/n:
-  "name:TeX Gyre Pagella:mode=node;script=latn;language=dflt;+tlig;"
+  "name:TeX Gyre Pagella:mode=node;script=latn;language=dflt;+tlig;" at 10.0pt
 BF:
 TU/TeXGyrePagella(0)/b/n:
-  "name:TeX Gyre Pagella/B:mode=node;script=latn;language=dflt;+tlig;"
+  "name:TeX Gyre Pagella/B:mode=node;script=latn;language=dflt;+tlig;" at 10.0pt
 IT:
 TU/TeXGyrePagella(0)/m/it:
-  "name:TeX Gyre Pagella/I:mode=node;script=latn;language=dflt;+tlig;"
+  "name:TeX Gyre Pagella/I:mode=node;script=latn;language=dflt;+tlig;" at 10.0pt
 BFIT:
 TU/TeXGyrePagella(0)/b/it:
-  "name:TeX Gyre Pagella/BI:mode=node;script=latn;language=dflt;+tlig;"
+  "name:TeX Gyre Pagella/BI:mode=node;script=latn;language=dflt;+tlig;" at 10.0pt
 ***************
 Compilation 1 of test file completed with exit status 0

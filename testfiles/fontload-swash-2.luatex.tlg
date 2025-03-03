@@ -2,12 +2,12 @@ This is a generated file for the l3build validation system.
 Don't change this file in any respect.
 Default font:
 TU/EBGaramond-Regular.otf(0)/m/n:
-  [EBGaramond-Regular.otf]:mode=node;script=latn;language=dflt;+tlig;
+  [EBGaramond-Regular.otf]:mode=node;script=latn;language=dflt;+tlig; at 10.0pt
 Swash font:
 TU/EBGaramond-Regular.otf(0)/m/sw:
-  [EBGaramond-Italic.otf]:mode=node;script=latn;language=dflt;+tlig;+swsh;
+  [EBGaramond-Italic.otf]:mode=node;script=latn;language=dflt;+tlig;+swsh; at 10.0pt
 Swash font small caps:
 TU/EBGaramond-Regular.otf(0)/m/scsw:
-  [EBGaramond-Italic.otf]:mode=node;script=latn;language=dflt;+tlig;+swsh;+smcp;
+  [EBGaramond-Italic.otf]:mode=node;script=latn;language=dflt;+tlig;+swsh;+smcp; at 10.0pt
 ***************
 Compilation 1 of test file completed with exit status 0

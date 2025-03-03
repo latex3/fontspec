@@ -1,20 +1,20 @@
 This is a generated file for the l3build validation system.
 Don't change this file in any respect.
 TU/texgyretermes(0)/m/n:
-  [texgyretermes-regular.otf]:mode=node;script=latn;language=dflt;color={220022};
+  [texgyretermes-regular.otf]:mode=node;script=latn;language=dflt;color={220022}; at 10.0pt
 TU/texgyretermes(0)/m/sc:
-  [texgyretermes-regular.otf]:mode=node;script=latn;language=dflt;+smcp;color={115511};
+  [texgyretermes-regular.otf]:mode=node;script=latn;language=dflt;+smcp;color={115511}; at 10.0pt
 TU/texgyretermes(0)/m/it:
-  [texgyretermes-italic.otf]:mode=node;script=latn;language=dflt;color={2244FF};
+  [texgyretermes-italic.otf]:mode=node;script=latn;language=dflt;color={2244FF}; at 10.0pt
 TU/texgyretermes(0)/m/scit:
-  [texgyretermes-italic.otf]:mode=node;script=latn;language=dflt;+smcp;color={112299};
+  [texgyretermes-italic.otf]:mode=node;script=latn;language=dflt;+smcp;color={112299}; at 10.0pt
 TU/texgyretermes(0)/b/n:
-  [texgyretermes-bold.otf]:mode=node;script=latn;language=dflt;color={FF4422};
+  [texgyretermes-bold.otf]:mode=node;script=latn;language=dflt;color={FF4422}; at 10.0pt
 TU/texgyretermes(0)/b/sc:
-  [texgyretermes-bold.otf]:mode=node;script=latn;language=dflt;+smcp;color={992211};
+  [texgyretermes-bold.otf]:mode=node;script=latn;language=dflt;+smcp;color={992211}; at 10.0pt
 TU/texgyretermes(0)/b/it:
-  [texgyretermes-bolditalic.otf]:mode=node;script=latn;language=dflt;color={888844};
+  [texgyretermes-bolditalic.otf]:mode=node;script=latn;language=dflt;color={888844}; at 10.0pt
 TU/texgyretermes(0)/b/scit:
-  [texgyretermes-bolditalic.otf]:mode=node;script=latn;language=dflt;+smcp;color={444422};
+  [texgyretermes-bolditalic.otf]:mode=node;script=latn;language=dflt;+smcp;color={444422}; at 10.0pt
 ***************
 Compilation 1 of test file completed with exit status 0

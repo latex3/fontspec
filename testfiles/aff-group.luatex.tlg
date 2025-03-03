@@ -3,38 +3,38 @@ Don't change this file in any respect.
 ============================================================
 Loading a font:
 TU/texgyretermes-regular.otf(0)/m/n:
-  [texgyretermes-regular.otf]:mode=node;script=latn;language=dflt;+tlig;
+  [texgyretermes-regular.otf]:mode=node;script=latn;language=dflt;+tlig; at 10.0pt
 Adding a colour:
 TU/texgyretermes-regular.otf(1)/m/n:
-  [texgyretermes-regular.otf]:mode=node;script=latn;language=dflt;+tlig;color={AA00AA};
+  [texgyretermes-regular.otf]:mode=node;script=latn;language=dflt;+tlig;color={AA00AA}; at 10.0pt
 Back to normalfont:
 TU/texgyretermes-regular.otf(0)/m/n:
-  [texgyretermes-regular.otf]:mode=node;script=latn;language=dflt;+tlig;
+  [texgyretermes-regular.otf]:mode=node;script=latn;language=dflt;+tlig; at 10.0pt
 Open group and add a different colour:
 TU/texgyretermes-regular.otf(2)/m/n:
-  [texgyretermes-regular.otf]:mode=node;script=latn;language=dflt;+tlig;color={00AAAA};
+  [texgyretermes-regular.otf]:mode=node;script=latn;language=dflt;+tlig;color={00AAAA}; at 10.0pt
 End the group:
 TU/texgyretermes-regular.otf(0)/m/n:
-  [texgyretermes-regular.otf]:mode=node;script=latn;language=dflt;+tlig;
+  [texgyretermes-regular.otf]:mode=node;script=latn;language=dflt;+tlig; at 10.0pt
 ============================================================
 The following demonstrates strange behaviour to be wary of.
 TU/texgyrepagella-regular.otf(0)/m/n:
-  [texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;+tlig;
+  [texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;+tlig; at 10.0pt
 TU/texgyrepagella-regular.otf(0)/m/n:
-  [texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;+tlig;color={AA00AA};
+  [texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;+tlig;color={AA00AA}; at 10.0pt
 TU/texgyrepagella-regular.otf(0)/m/n:
-  [texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;+tlig;color={AA00AA};
+  [texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;+tlig;color={AA00AA}; at 10.0pt
 ============================================================
 And check NFSSFamily use inside a group.
 Reload another font:
 TU/texgyreheros-regular.otf(0)/m/n:
-  [texgyreheros-regular.otf]:mode=node;script=latn;language=dflt;+tlig;
+  [texgyreheros-regular.otf]:mode=node;script=latn;language=dflt;+tlig; at 10.0pt
 Open group and add a different colour, without changing family:
 TU/texgyreheros-regular.otf(0)/m/n:
-  [texgyreheros-regular.otf]:mode=node;script=latn;language=dflt;+tlig;color={00AAAA};
+  [texgyreheros-regular.otf]:mode=node;script=latn;language=dflt;+tlig;color={00AAAA}; at 10.0pt
 End the group:
 TU/texgyreheros-regular.otf(0)/m/n:
-  [texgyreheros-regular.otf]:mode=node;script=latn;language=dflt;+tlig;
+  [texgyreheros-regular.otf]:mode=node;script=latn;language=dflt;+tlig; at 10.0pt
 ============================================================
 ***************
 Compilation 1 of test file completed with exit status 0

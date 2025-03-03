@@ -2,15 +2,15 @@ This is a generated file for the l3build validation system.
 Don't change this file in any respect.
 RM:
 TU/texgyrepagella-regular.otf(0)/m/n:
-  [texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;+tlig;
+  [texgyrepagella-regular.otf]:mode=node;script=latn;language=dflt;+tlig; at 10.0pt
 SF:
 TU/texgyreheros-regular.otf(0)/m/n:
-  [texgyreheros-regular.otf]:mode=node;script=latn;language=dflt;+tlig;
+  [texgyreheros-regular.otf]:mode=node;script=latn;language=dflt;+tlig; at 10.0pt
 TT:
 TU/texgyrecursor-regular.otf(0)/m/n:
-  [texgyrecursor-regular.otf]:mode=node;script=latn;language=dflt;color={red};
+  [texgyrecursor-regular.otf]:mode=node;script=latn;language=dflt;color={red}; at 10.0pt
 "CODE":
 TU/texgyrecursor-regular.otf(1)/m/n:
-  [texgyrecursor-regular.otf]:mode=node;script=latn;language=dflt;color={blue};
+  [texgyrecursor-regular.otf]:mode=node;script=latn;language=dflt;color={blue}; at 10.0pt
 ***************
 Compilation 1 of test file completed with exit status 0

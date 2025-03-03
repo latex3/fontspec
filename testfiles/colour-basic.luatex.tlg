@@ -4,15 +4,15 @@ Loading xcolor...
 ...done
 Loading a font with hex colour:
 TU/texgyreheros-regular.otf(0)/m/n:
-  [texgyreheros-regular.otf]:mode=node;script=latn;language=dflt;color={5500FF};
+  [texgyreheros-regular.otf]:mode=node;script=latn;language=dflt;color={5500FF}; at 10.0pt
 Loading a font by name (l3color+xcolor):
 TU/texgyreheros-regular.otf(1)/m/n:
-  [texgyreheros-regular.otf]:mode=node;script=latn;language=dflt;color={red};
+  [texgyreheros-regular.otf]:mode=node;script=latn;language=dflt;color={red}; at 10.0pt
 Defining a new xcolor colour and using it:
 TU/texgyreheros-regular.otf(2)/m/n:
-  [texgyreheros-regular.otf]:mode=node;script=latn;language=dflt;color={4D6680};
+  [texgyreheros-regular.otf]:mode=node;script=latn;language=dflt;color={4D6680}; at 10.0pt
 Defining a new l3color colour and using it:
 TU/texgyreheros-regular.otf(3)/m/n:
-  [texgyreheros-regular.otf]:mode=node;script=latn;language=dflt;color={Bar};
+  [texgyreheros-regular.otf]:mode=node;script=latn;language=dflt;color={Bar}; at 10.0pt
 ***************
 Compilation 1 of test file completed with exit status 0

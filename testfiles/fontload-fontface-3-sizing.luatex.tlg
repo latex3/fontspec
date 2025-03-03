@@ -4,28 +4,28 @@ NORMAL
 TU/SourceCodePro-Regular.otf(0)/m/n:
   [SourceCodePro-Medium.otf]:mode=node;script=latn;language=dflt;+tlig;color={00AA00}; at 5.0pt
 TU/SourceCodePro-Regular.otf(0)/m/n:
-  [SourceCodePro-Regular.otf]:mode=node;script=latn;language=dflt;+tlig;color={00AA00};
+  [SourceCodePro-Regular.otf]:mode=node;script=latn;language=dflt;+tlig;color={00AA00}; at 10.0pt
 TU/SourceCodePro-Regular.otf(0)/m/n:
   [SourceCodePro-Light.otf]:mode=node;script=latn;language=dflt;+tlig;color={00AA00}; at 24.88pt
 ITALIC
 TU/SourceCodePro-Regular.otf(0)/m/it:
   [SourceCodePro-RegularIt.otf]:mode=node;script=latn;language=dflt;+tlig;color={00AA00}; at 5.0pt
 TU/SourceCodePro-Regular.otf(0)/m/it:
-  [SourceCodePro-RegularIt.otf]:mode=node;script=latn;language=dflt;+tlig;color={00AA00};
+  [SourceCodePro-RegularIt.otf]:mode=node;script=latn;language=dflt;+tlig;color={00AA00}; at 10.0pt
 TU/SourceCodePro-Regular.otf(0)/m/it:
   [SourceCodePro-RegularIt.otf]:mode=node;script=latn;language=dflt;+tlig;color={00AA00}; at 24.88pt
 FONTSERIES C
 TU/SourceCodePro-Regular.otf(0)/c/n:
   [SourceCodePro-MediumIt.otf]:mode=node;script=latn;language=dflt;+tlig;color={FF0000}; at 5.0pt
 TU/SourceCodePro-Regular.otf(0)/c/n:
-  [texgyrecursor-regular.otf]:mode=node;script=latn;language=dflt;+tlig;color={FF00FF};
+  [texgyrecursor-regular.otf]:mode=node;script=latn;language=dflt;+tlig;color={FF00FF}; at 10.0pt
 TU/SourceCodePro-Regular.otf(0)/c/n:
   [SourceCodePro-LightIt.otf]:mode=node;script=latn;language=dflt;+tlig;color={0000FF}; at 24.88pt
 FONTSERIES NC
 TU/SourceCodePro-Regular.otf(0)/nc/n:
   [texgyreheros-regular.otf]:mode=node;script=latn;language=dflt;+tlig;color={00AA00}; at 5.0pt
 TU/SourceCodePro-Regular.otf(0)/nc/n:
-  [texgyreheros-regular.otf]:mode=node;script=latn;language=dflt;+tlig;color={00AA00};
+  [texgyreheros-regular.otf]:mode=node;script=latn;language=dflt;+tlig;color={00AA00}; at 10.0pt
 TU/SourceCodePro-Regular.otf(0)/nc/n:
   [texgyreheros-regular.otf]:mode=node;script=latn;language=dflt;+tlig;color={00AA00}; at 24.88pt
 ***************

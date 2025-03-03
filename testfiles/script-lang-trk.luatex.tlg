@@ -2,12 +2,12 @@ This is a generated file for the l3build validation system.
 Don't change this file in any respect.
 DEFAULT
 TU/STIXTwoText-Regular.otf(0)/m/n:
-  [STIXTwoText-Regular.otf]:mode=node;script=latn;language=dflt;+tlig;
+  [STIXTwoText-Regular.otf]:mode=node;script=latn;language=dflt;+tlig; at 10.0pt
 SCRIPT DFLT
 TU/STIXTwoText-Regular.otf(1)/m/n:
-  [STIXTwoText-Regular.otf]:mode=node;script=latn;language=dflt;+tlig;
+  [STIXTwoText-Regular.otf]:mode=node;script=latn;language=dflt;+tlig; at 10.0pt
 LANG TRK
 TU/STIXTwoText-Regular.otf(2)/m/n:
-  [STIXTwoText-Regular.otf]:mode=node;script=latn;language=TRK;+tlig;
+  [STIXTwoText-Regular.otf]:mode=node;script=latn;language=TRK;+tlig; at 10.0pt
 ***************
 Compilation 1 of test file completed with exit status 0

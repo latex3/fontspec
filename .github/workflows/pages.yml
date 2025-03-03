@@ -34,7 +34,7 @@ jobs:
           source: ./doc
           destination: ./_site
       - name: Install TeX Live
-        uses: zauguin/install-texlive@v3
+        uses: zauguin/install-texlive@v4
         with:
           package_file: .github/tl_packages
       - name: Checkout fonts for testing

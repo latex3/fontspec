@@ -42,13 +42,13 @@ jobs:
     name: ${{ matrix.name }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Install TeX Live
         uses: zauguin/install-texlive@v4
         with:
           package_file: .github/tl_packages
       - name: Checkout fonts for testing
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           repository: wspr/fontspec-test-fonts
           path: fontspec-test-fonts

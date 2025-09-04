@@ -29,7 +29,7 @@ stream
 /CIDInit /ProcSet findresource begin
 12 dict begin
 begincmap
-/CMapName /EXQIVM+TeXGyreHeros-Regular-UTF16 def
+/CMapName /UIDBRH+TeXGyreHeros-Regular-UTF16 def
 /CMapType 2 def
 /CIDSystemInfo <<
   /Registry (Adobe)
@@ -57,7 +57,7 @@ stream
 /CIDInit /ProcSet findresource begin
 12 dict begin
 begincmap
-/CMapName /XUUPUX+TeXGyreTermes-Regular-UTF16 def
+/CMapName /BRXAWS+TeXGyreTermes-Regular-UTF16 def
 /CMapType 2 def
 /CIDSystemInfo <<
   /Registry (Adobe)
@@ -85,7 +85,7 @@ stream
 /CIDInit /ProcSet findresource begin
 12 dict begin
 begincmap
-/CMapName /POGXIQ+TeXGyreCursor-Regular-UTF16 def
+/CMapName /EDECRZ+TeXGyreCursor-Regular-UTF16 def
 /CMapType 2 def
 /CIDSystemInfo <<
   /Registry (Adobe)
@@ -141,42 +141,42 @@ endobj
 [BINARY STREAM]
 endobj
 6 0 obj
-<</Type/Font/Subtype/CIDFontType0/BaseFont/EXQIVM+TeXGyreHeros-Regular/CIDSystemInfo<</Registry(Adobe)/Ordering(Identity)/Supplement
+<</Type/Font/Subtype/CIDFontType0/BaseFont/UIDBRH+TeXGyreHeros-Regular/CIDSystemInfo<</Registry(Adobe)/Ordering(Identity)/Supplement
 0>>/FontDescriptor 25 0 R/DW 280/W 27 0 R>>
 endobj
 25 0 obj
 <</Type/FontDescriptor/Ascent 784/Descent -216/StemV 93/CapHeight 784/AvgWidth 534/FontBBox[-529
--284 1353 1148]/ItalicAngle 0/Flags 6/Style<</Panose<000000000500000000000000>>>/FontName/EXQIVM+TeXGyreHeros-Regular/FontFile3
+-284 1353 1148]/ItalicAngle 0/Flags 6/Style<</Panose<000000000500000000000000>>>/FontName/UIDBRH+TeXGyreHeros-Regular/FontFile3
 26 0 R/CIDSet 28 0 R>>
 endobj
 5 0 obj
-<</Type/Font/Subtype/Type0/BaseFont/EXQIVM+TeXGyreHeros-Regular-Identity-H/Encoding/Identity-H/DescendantFonts[6 0 R]/ToUnicode
+<</Type/Font/Subtype/Type0/BaseFont/UIDBRH+TeXGyreHeros-Regular-Identity-H/Encoding/Identity-H/DescendantFonts[6 0 R]/ToUnicode
 22 0 R>>
 endobj
 11 0 obj
-<</Type/Font/Subtype/CIDFontType0/BaseFont/XUUPUX+TeXGyreTermes-Regular/CIDSystemInfo<</Registry(Adobe)/Ordering(Identity)/Supplement
+<</Type/Font/Subtype/CIDFontType0/BaseFont/BRXAWS+TeXGyreTermes-Regular/CIDSystemInfo<</Registry(Adobe)/Ordering(Identity)/Supplement
 0>>/FontDescriptor 29 0 R/DW 280/W 31 0 R>>
 endobj
 29 0 obj
 <</Type/FontDescriptor/Ascent 783/Descent -217/StemV 102/CapHeight 783/AvgWidth 503/FontBBox[-526
--281 1306 1055]/ItalicAngle 0/Flags 6/Style<</Panose<000000000500000000000000>>>/FontName/XUUPUX+TeXGyreTermes-Regular/FontFile3
+-281 1306 1055]/ItalicAngle 0/Flags 6/Style<</Panose<000000000500000000000000>>>/FontName/BRXAWS+TeXGyreTermes-Regular/FontFile3
 30 0 R/CIDSet 32 0 R>>
 endobj
 10 0 obj
-<</Type/Font/Subtype/Type0/BaseFont/XUUPUX+TeXGyreTermes-Regular-Identity-H/Encoding/Identity-H/DescendantFonts[11 0 R]/ToUnicode
+<</Type/Font/Subtype/Type0/BaseFont/BRXAWS+TeXGyreTermes-Regular-Identity-H/Encoding/Identity-H/DescendantFonts[11 0 R]/ToUnicode
 23 0 R>>
 endobj
 16 0 obj
-<</Type/Font/Subtype/CIDFontType0/BaseFont/POGXIQ+TeXGyreCursor-Regular/CIDSystemInfo<</Registry(Adobe)/Ordering(Identity)/Supplement
+<</Type/Font/Subtype/CIDFontType0/BaseFont/EDECRZ+TeXGyreCursor-Regular/CIDSystemInfo<</Registry(Adobe)/Ordering(Identity)/Supplement
 0>>/FontDescriptor 33 0 R/DW 280/W 35 0 R>>
 endobj
 33 0 obj
 <</Type/FontDescriptor/Ascent 814/Descent -186/StemV 41/CapHeight 814/AvgWidth 579/FontBBox[-525
--250 1094 951]/ItalicAngle 0/Flags 7/Style<</Panose<000000000509000000000000>>>/FontName/POGXIQ+TeXGyreCursor-Regular/FontFile3
+-250 1094 951]/ItalicAngle 0/Flags 7/Style<</Panose<000000000509000000000000>>>/FontName/EDECRZ+TeXGyreCursor-Regular/FontFile3
 34 0 R/CIDSet 36 0 R>>
 endobj
 15 0 obj
-<</Type/Font/Subtype/Type0/BaseFont/POGXIQ+TeXGyreCursor-Regular-Identity-H/Encoding/Identity-H/DescendantFonts[16 0 R]/ToUnicode
+<</Type/Font/Subtype/Type0/BaseFont/EDECRZ+TeXGyreCursor-Regular-Identity-H/Encoding/Identity-H/DescendantFonts[16 0 R]/ToUnicode
 24 0 R>>
 endobj
 4 0 obj

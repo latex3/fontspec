@@ -32,23 +32,29 @@
 % \begin{macro}{\ttfamily}
 % Add an encoding switch to the three family commands.
 %    \begin{macrocode}
-\cs_if_exist:NTF \@rmfamilyhook
-  {
-    \tl_put_right:Nn \@rmfamilyhook {\fontencoding \l_@@_rmfamily_encoding_tl}
-    \tl_put_right:Nn \@sffamilyhook {\fontencoding \l_@@_sffamily_encoding_tl}
-    \tl_put_right:Nn \@ttfamilyhook {\fontencoding \l_@@_ttfamily_encoding_tl}
-  }
-  {
-    \tl_replace_all:cnn { rmfamily~ } { \fontfamily }
-      { \fontencoding \l_@@_rmfamily_encoding_tl \fontfamily }
-    \tl_replace_all:cnn { sffamily~ } { \fontfamily }
-      { \fontencoding \l_@@_sffamily_encoding_tl \fontfamily }
-    \tl_replace_all:cnn { ttfamily~ } { \fontfamily }
-      { \fontencoding \l_@@_ttfamily_encoding_tl \fontfamily }
-  }
+%FMi \cs_if_exist:NTF \@rmfamilyhook
+%FMi   {
+%FMi     \tl_put_right:Nn \@rmfamilyhook {\fontencoding \l_@@_rmfamily_encoding_tl}
+%FMi     \tl_put_right:Nn \@sffamilyhook {\fontencoding \l_@@_sffamily_encoding_tl}
+%FMi     \tl_put_right:Nn \@ttfamilyhook {\fontencoding \l_@@_ttfamily_encoding_tl}
+%FMi   }
+%FMi   {
+%FMi     \tl_replace_all:cnn { rmfamily~ } { \fontfamily }
+%FMi       { \fontencoding \l_@@_rmfamily_encoding_tl \fontfamily }
+%FMi     \tl_replace_all:cnn { sffamily~ } { \fontfamily }
+%FMi       { \fontencoding \l_@@_sffamily_encoding_tl \fontfamily }
+%FMi     \tl_replace_all:cnn { ttfamily~ } { \fontfamily }
+%FMi       { \fontencoding \l_@@_ttfamily_encoding_tl \fontfamily }
+%FMi   }
 \tl_set:Nn \l_@@_rmfamily_encoding_tl { \encodingdefault }
 \tl_set:Nn \l_@@_sffamily_encoding_tl { \encodingdefault }
 \tl_set:Nn \l_@@_ttfamily_encoding_tl { \encodingdefault }
+%    \end{macrocode}
+%    
+%    \begin{macrocode}
+\AddToHook{rmfamily}{ \fontencoding \l_@@_rmfamily_encoding_tl  }
+\AddToHook{sffamily}{ \fontencoding \l_@@_sffamily_encoding_tl  }
+\AddToHook{ttfamily}{ \fontencoding \l_@@_ttfamily_encoding_tl  }
 %    \end{macrocode}
 % \end{macro}
 % \end{macro}
@@ -65,9 +71,9 @@
 \cs_new:Nn \@@_main_setmainfont:nn
   {
 %<debug>\typeout{::~_main_setmainfont:nn}
-    \ifdefined\DeclareFontSeriesDefault
+%FMi     \ifdefined\DeclareFontSeriesDefault
       \DeclareFontSeriesDefault[rm]{bf}{\bfdefault}
-    \fi
+%FMi     \fi
     \fontspec_set_family:Nnn \l_@@_rmfamily_family_tl {#1} {#2}
     \tl_set_eq:NN \rmdefault \l_@@_rmfamily_family_tl
     \tl_set_eq:NN \l_@@_rmfamily_encoding_tl \g_@@_nfss_enc_tl
@@ -84,9 +90,9 @@
 %    \begin{macrocode}
 \cs_new:Nn \@@_main_setsansfont:nn
   {
-    \ifdefined\DeclareFontSeriesDefault
+%FMi     \ifdefined\DeclareFontSeriesDefault
       \DeclareFontSeriesDefault[sf]{bf}{\bfdefault}
-    \fi
+%FMi     \fi
     \fontspec_set_family:Nnn \l_@@_sffamily_family_tl {#1} {#2}
     \tl_set_eq:NN \sfdefault \l_@@_sffamily_family_tl
     \tl_set_eq:NN \l_@@_sffamily_encoding_tl \g_@@_nfss_enc_tl
@@ -103,9 +109,9 @@
 %    \begin{macrocode}
 \cs_new:Nn \@@_main_setmonofont:nn
   {
-    \ifdefined\DeclareFontSeriesDefault
+%FMi     \ifdefined\DeclareFontSeriesDefault
       \DeclareFontSeriesDefault[tt]{bf}{\bfdefault}
-    \fi
+%FMi     \fi
     \fontspec_set_family:Nnn \l_@@_ttfamily_family_tl {#1} {#2}
     \tl_set_eq:NN \ttdefault \l_@@_ttfamily_family_tl
     \tl_set_eq:NN \l_@@_ttfamily_encoding_tl \g_@@_nfss_enc_tl

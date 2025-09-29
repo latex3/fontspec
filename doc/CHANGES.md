@@ -1,6 +1,11 @@
 Change history
 ==============
 
+## v2.9g (2025/09/29)
+
+  * Update internals, keep the lights on.
+
+
 ## v2.9f (2024/05/11)
 
   * Update Scripts supported to OpenType specification 1.9.1 / Unicode 16.0. Many thanks to Werner Lemberg. (#521)
@@ -14,9 +19,9 @@ Change history
     script or language was requested but not found. (#517)
 
   * Add additional tests to check against regressions. (#516, #518)
-  
+
   * Improve message in log file when defining a font without small caps.
-  
+
   * Demote warnings when Script or Language are requested but not found to the log file
     instead of the console. (#421)
 
@@ -57,7 +62,7 @@ Change history
     available within the font, `fontspec` previously would fall back on a default script.
     This is now changed to always pass through the requested script so the renderer can
     make use of that information regardless of whether the font itself supports the script.
-    (#507) 
+    (#507)
   * Remove LuaTeX code that resets various `hypenchar` settings seemingly erroneously. (#344)
   * Rework documentation to remove reference to local and non-free fonts. This allows
     compilation via Github Actions, which will aid streamlining/automating releases in the future. (#157, #465)
@@ -72,12 +77,12 @@ Change history
   * Added a `Scale=MatchAveragecase` parameter which averages `Scale=MatchLowercase` and `Scale=MatchUppercase`.
   * Switched options to LaTeX keyval handler.
   * Added option `verbose` to undo silent/quiet.
-  * `euenc`/`tuenc` options are now obsolete (TU is the only encoding). 
+  * `euenc`/`tuenc` options are now obsolete (TU is the only encoding).
   * Support variable fonts under LuaLaTeX.
   * Skip scanning for filenames when loading fonts by name on LuaLaTeX.
   * Allow restricting filename lookup to kpathsea lookups using `KpseOnly`.
   * Added support for named colors from l3color.
-  * Support with lualatex spotcolors and cmyk colors in the pdf. 
+  * Support with lualatex spotcolors and cmyk colors in the pdf.
 
 
 ## v2.8a (2022/01/15)

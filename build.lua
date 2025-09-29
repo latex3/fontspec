@@ -10,7 +10,7 @@ sourcefiles  = {"*.ins","*.dtx","*.ltx","*.cfg","*.tex","fontspec-doc-style.sty"
 installfiles = {"fontspec.sty","fontspec-xetex.sty","fontspec-luatex.sty","fontspec.lua","fontspec.cfg"}
 demofiles    = {"fontspec-example.tex"}
 textfiles    = {"README.md","doc/CHANGES.md","LICENSE"}
-tagfiles     = {"fontspec.dtx","doc/CHANGES.md"}
+tagfiles     = {"fontspec.dtx","fontspec-lua.dtx","doc/CHANGES.md","fontspec-code-*.dtx","fontspec-doc-*.tex","COPYRIGHT","fontspec*.ltx","fontspec.ins"}
 
 typesetfiles = {"fontspec.ltx","fontspec-code.ltx"}
 typesetexe   = "xelatex"
@@ -70,10 +70,16 @@ print('Current version (from first entry in CHANGES.md): '..pkgversion)
 --]============]
 
 function update_tag(file, content, tagname, tagdate)
-  check_status()
 
   local date = string.gsub(tagdate, "%-", "/")
+  local year = string.gsub(date,"(%d%d%d%d)/%d%d/%d%d","%1")
 
+  if string.match(content, "Copyright%s*%d%d%d%d%-%d%d%d%d%s*The LaTeX project") then
+    print("Found LaTeX copyright line in file: "..file)
+    content = content:gsub(
+        "Copyright(%s*)(%d%d%d%d)%-(%d%d%d%d)(%s*)The LaTeX project",
+        "Copyright%1%2-"..year.."%4The LaTeX project")
+  end
   if string.match(content, "{%d%d%d%d/%d%d/%d%d}%s*{[^}]+}%s*{[^}]+}") then
     print("Found expl3 version line in file: "..file)
     content = content:gsub("{%d%d%d%d/%d%d/%d%d}(%s*){[^}]+}(%s*){([^}]+)}",

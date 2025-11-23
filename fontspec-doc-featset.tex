@@ -625,6 +625,28 @@ In rare situations users may want to mechanically distort the shapes of the glyp
 
 If values are omitted, their defaults are as shown above.
 
+\feat{FakeBold} fakes a bold font by stroking the glyph outlines with an outline
+of a constant width. This is typographically not ideal, but can give acceptable
+output when the factor and is rendered correctly by the PDF viewer. However,
+many PDF viewers---most notably Chrome---completely misrender the effect at low
+zoom levels, so you should only use this feature on fonts typeset at large
+sizes, if you know for certain which PDF viewers will be used to view the
+document, or if you're printing to paper.
+
+Internally, the value of the \feat{FakeBold} feature is divided by~10,
+multiplied by the font size in \TeX{} points (\verb|pt|), and then directly
+written to the PDF file as the stroke width (therefore treating \TeX{} points as
+PostScript points (\verb|bp|)). As an additional feature not present in \XeTeX,
+if you set the \feat{FakeBold} parameter to exactly~0, \LuaTeX{} will stroke the
+font without setting the stroke width, meaning that the stroke width will be
+inherited from the outer PDF graphics state.
+
+Setting \feat{FakeBold} to values below~0.5 is only useful for print documents,
+since many PDF viewers will always render the stroke widths at some greater
+minimum value; setting \feat{FakeBold} to values above~20 is rarely useful since
+if the stroke overlaps with itself, there will be significant visual artifacts.
+Useful values are generally between~1 and~10.
+
 If you want the bold shape to be faked automatically, or the italic shape
 to be slanted automatically, use the \feat{AutoFakeBold} and
 \feat{AutoFakeSlant} features. For example, the following two invocations
@@ -635,7 +657,6 @@ are equivalent:
 \end{Verbatim}
 If both of the \feat{AutoFake...} features are used, then the bold italic
 font will also be faked.
-
 
 \subsection{Letter spacing}
 Letter spacing, or tracking, is the term given to adding (or subtracting) a small amount of horizontal space in between adjacent characters. It is specified with the \feat{LetterSpace}, which takes a numeric argument,

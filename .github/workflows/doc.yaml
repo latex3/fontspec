@@ -46,7 +46,7 @@ jobs:
       # 2. If we succeed building documentation
       - name: Archive documentation
         if: ${{ success() }}
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: Documentation
           path: "**/*.pdf"

@@ -1,6 +1,10 @@
 Change history
 ==============
 
+## v2.9h
+
+  * Drop loading `xparse`
+
 ## v2.9g (2025/09/29)
 
   * Update internals, keep the lights on.

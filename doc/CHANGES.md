@@ -1,7 +1,7 @@
 Change history
 ==============
 
-## v2.9h
+## v2.9h (2026/08/11)
 
   * Drop loading `xparse`
 

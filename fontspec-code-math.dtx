@@ -12,7 +12,7 @@
 %    \end{macrocode}
 % \fi
 %
-% \begin{macro}{\fontspec_setup_maths:}
+% \begin{macro}[no-user-doc]{\fontspec_setup_maths:}
 % Everything here is performed \cs{AtBeginDocument} in order to
 % overwrite \pkg{euler}'s attempt. This means \pkg{fontspec} must be
 % loaded \emph{after} \pkg{euler}. We set up a conditional to return
@@ -182,7 +182,7 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\fontspec_maybe_setup_maths:}
+% \begin{macro}[no-user-doc]{\fontspec_maybe_setup_maths:}
 % We're a little less sophisticated about not executing the maths setup if various other maths font packages are loaded. This list is based on the wonderful `\LaTeX Font Catalogue': \url{http://www.tug.dk/FontCatalogue/mathfonts.html}. I'm sure there are more I've missed. Do the \TeX\ Gyre fonts have maths support yet?
 %
 % Untested: would |\unless\ifnum\Gamma=28672\relax\bool_set_false:N \g_@@_math_bool\fi| be a better test?

@@ -10,7 +10,7 @@
 %
 %
 %
-% \begin{macro}{\@@_define_opentype_variation_axis:nn}
+% \begin{macro}[int]{\@@_define_opentype_variation_axis:nn}
 %    \begin{macrocode}
 \cs_new:Nn \@@_define_opentype_variation_axis:nn
   {
@@ -26,7 +26,7 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\@@_define_opentype_feature_group:n}
+% \begin{macro}[int]{\@@_define_opentype_feature_group:n}
 %    \begin{macrocode}
 \cs_new:Nn \@@_define_opentype_feature_group:n
   {
@@ -35,7 +35,7 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\@@_define_opentype_feature:nnnnn}
+% \begin{macro}[int]{\@@_define_opentype_feature:nnnnn}
 % \darg{Feature key}
 % \darg{Feature option val}
 % \darg{Check feature --- leave empty for no check}
@@ -79,7 +79,7 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\@@_define_opentype_onoffreset:nnnnn}
+% \begin{macro}[int]{\@@_define_opentype_onoffreset:nnnnn}
 % \darg{Feature key}
 % \darg{Feature option val}
 % \darg{Check feature}
@@ -100,7 +100,7 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\@@_define_opentype_onreset:nnnnn}
+% \begin{macro}[int]{\@@_define_opentype_onreset:nnnnn}
 % \darg{Feature key}
 % \darg{Feature option val}
 % \darg{Check feature}
@@ -141,7 +141,7 @@
 % \end{macro}
 %
 %
-% \begin{macro}{\@@_check_script:NnTF}
+% \begin{macro}[int]{\@@_check_script:NnTF}
 % This macro takes an OpenType script tag and checks if it exists in the current
 % font. \cmd\l_@@_script_int\ is used to store
 % the number corresponding to the script tag string.
@@ -195,8 +195,8 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\@@_check_lang:NnnTF}
-% \begin{macro}{\@@_check_lang:NnTF}
+% \begin{macro}[int]{\@@_check_lang:NnnTF}
+% \begin{macro}[int]{\@@_check_lang:NnTF}
 % This macro takes an OpenType language tag and checks if it exists in the current
 % font/script. \cmd\l_@@_language_int\ is used to store
 % the number corresponding to the language tag string.
@@ -258,7 +258,7 @@
 % \end{macro}
 % \end{macro}
 %
-% \begin{macro}{\@@_check_ot_feat:NnnnTF}
+% \begin{macro}[int]{\@@_check_ot_feat:NnnnTF}
 % This macro takes an OpenType feature tag and checks if it exists in the current
 % font/script/language.
 % \cmd\l_@@_strnum_int\ is used to store the number corresponding to the feature tag string.

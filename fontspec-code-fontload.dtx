@@ -67,7 +67,7 @@
 %    \end{macrocode}
 % \fi
 %
-% \begin{macro}{\@@_primitive_font_set:Nnn,\@@_primitive_font_gset:Nnn}
+% \begin{macro}[int]{\@@_primitive_font_set:Nnn,\@@_primitive_font_gset:Nnn}
 %    \begin{macrocode}
 \cs_set:Npn \@@_primitive_font_set:Nnn #1#2#3
   {
@@ -82,7 +82,7 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\@@_font_suppress_not_found_error:}
+% \begin{macro}[int]{\@@_font_suppress_not_found_error:}
 %    \begin{macrocode}
 \cs_set:Npn \@@_font_suppress_not_found_error:
   {
@@ -150,7 +150,7 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\@@_primitive_font_set_hyphenchar:Nn}
+% \begin{macro}[int]{\@@_primitive_font_set_hyphenchar:Nn}
 %    \begin{macrocode}
 \cs_new:Nn \@@_primitive_font_set_hyphenchar:Nn
   {
@@ -159,8 +159,8 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\@@_primitive_font_get_name:N}
-% \begin{macro}{\@@_primitive_font_current_name:}
+% \begin{macro}[int]{\@@_primitive_font_get_name:N}
+% \begin{macro}[int]{\@@_primitive_font_current_name:}
 %    \begin{macrocode}
 \cs_new_eq:NN \@@_primitive_font_get_name:N \fontname
 \cs_new:Npn \@@_primitive_font_current_name:

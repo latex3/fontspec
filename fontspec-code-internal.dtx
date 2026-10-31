@@ -10,7 +10,7 @@
 %
 % \subsection{The main function for setting fonts}
 %
-% \begin{macro}{\@@_select_font_family:nn}
+% \begin{macro}[int]{\@@_select_font_family:nn}
 % This is the command that defines font families for use, the underlying
 % procedure of all \cmd\fontspec-like commands. Given a
 % list of font features (|#1|) for a requested font (|#2|),
@@ -83,14 +83,14 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\fontspec_select:nn}
+% \begin{macro}[no-user-doc]{\fontspec_select:nn}
 % This old name has been used by 3rd party packages so for compatibility:
 %    \begin{macrocode}
 \cs_set_eq:NN \fontspec_select:nn \@@_select_font_family:nn %% deprecated, for compatibility only
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\@@_sanitise_fontname:Nn}
+% \begin{macro}[int]{\@@_sanitise_fontname:Nn}
 % Assigns font name |#2| to token list variable |#1| and strips extension(s) from it in the case of an external font.
 %    \begin{macrocode}
 \cs_new:Nn \@@_sanitise_fontname:Nn
@@ -117,7 +117,7 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\@@_if_detect_external:nT}
+% \begin{macro}[int]{\@@_if_detect_external:nT}
 % Check if either the fontname ends with a known font extension.
 %    \begin{macrocode}
 \prg_new_conditional:Nnn \@@_if_detect_external:n {T}
@@ -135,7 +135,7 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\@@_init_ttc:n}
+% \begin{macro}[int]{\@@_init_ttc:n}
 % For TTC fonts we assume they will be loading the italic/bold fonts from the same file,
 % so prepopulate the fontnames to avoid needing to do it manually.
 %    \begin{macrocode}
@@ -151,7 +151,7 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\@@_load_external_fontoptions:N}
+% \begin{macro}[int]{\@@_load_external_fontoptions:N}
 % Load a possible \texttt{.fontspec} font configuration file.
 % This file could set font-specific options for the font about to be loaded.
 % The parameter should be a token list containing a sanitised fontname.
@@ -182,7 +182,7 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\@@_extract_all_features:}
+% \begin{macro}[int]{\@@_extract_all_features:}
 %    \begin{macrocode}
 \cs_new:Nn \@@_extract_all_features:n
   {
@@ -211,7 +211,7 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\@@_preparse_features:}
+% \begin{macro}[int]{\@@_preparse_features:}
 % \darg{feature options}
 % \darg{font name}
 % Perform the (multi-step) feature parsing process.
@@ -247,7 +247,7 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\@@_load_font:}
+% \begin{macro}[int]{\@@_load_font:}
 %    \begin{macrocode}
 \cs_new:Nn \@@_load_font:
   {
@@ -272,7 +272,7 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\@@_construct_font_call:nn}
+% \begin{macro}[int]{\@@_construct_font_call:nn}
 % Constructs the complete font invocation.
 % \darg{Base name}
 % \darg{Extension}
@@ -305,7 +305,7 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\@@_font_is_file:,\@@_font_is_name:}
+% \begin{macro}[int]{\@@_font_is_file:,\@@_font_is_name:}
 % The \cs{@@_fontname_wrap:n} command takes the font name and either passes it through unchanged or wraps it in the syntax for loading a font `by filename'.
 % For Lua\TeX\ there are two kinds kinds of filename based loading supported: Regular filename lookups which include system fonts and lookups restricted to kpse.
 %    \begin{macrocode}
@@ -332,7 +332,7 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\@@_set_scriptlang:}
+% \begin{macro}[int]{\@@_set_scriptlang:}
 % Only necessary for OpenType fonts.
 % First check if the font supports scripts, then apply defaults if
 % none are explicitly requested. Similarly with the language settings.
@@ -353,7 +353,7 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\@@_get_features:Nn}
+% \begin{macro}[int]{\@@_get_features:Nn}
 %   This macro is a wrapper for |\keys_set:nn| which expands and adds a
 %   default specification to the original passed options. It begins by
 %   initialising the commands used to hold font-feature specific
@@ -398,7 +398,7 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\@@_save_family_needed:nTF}
+% \begin{macro}[int]{\@@_save_family_needed:nTF}
 % Check if the family is unique and, if so, save its information.
 % (\cs{addfontfeature} and other macros use this data.)
 % Then the font family and its shapes are defined in the NFSS.
@@ -453,7 +453,7 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\@@_save_family:nn}
+% \begin{macro}[int]{\@@_save_family:nn}
 % Saves the relevant font information for future processing.
 %    \begin{macrocode}
 \cs_new:Nn \@@_save_family:nn
@@ -467,7 +467,7 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\@@_save_fontinfo:n}
+% \begin{macro}[int]{\@@_save_fontinfo:n}
 % Saves the relevant font information for future processing.
 %    \begin{macrocode}
 \cs_new:Nn \@@_save_fontinfo:n
@@ -499,7 +499,7 @@
 % E.g., if no bold font is specified then |set_autofont| will attempt to set it.
 % This has subtle/small ramifications on the logic of choosing the bold italic font.
 %
-% \begin{macro}{\@@_find_autofonts:}
+% \begin{macro}[int]{\@@_find_autofonts:}
 %    \begin{macrocode}
 \cs_new:Nn \@@_find_autofonts:
   {
@@ -525,7 +525,7 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\@@_set_faces:}
+% \begin{macro}[int]{\@@_set_faces:}
 %    \begin{macrocode}
 \cs_new:Nn \@@_set_faces:
   {
@@ -551,7 +551,7 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\fontspec_complete_fontname:Nn}
+% \begin{macro}[no-user-doc]{\fontspec_complete_fontname:Nn}
 % This macro defines |#1| as the input with any |*| tokens of its input
 % replaced by the font name. This lets us define supplementary fonts in full
 % (``\texttt{Baskerville Semibold}'') or in abbreviation (``\texttt{* Semibold}'').
@@ -567,7 +567,7 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\@@_add_nfssfont:nnnn}
+% \begin{macro}[int]{\@@_add_nfssfont:nnnn}
 % \darg{series}
 % \darg{shape}
 % \darg{fontname}
@@ -593,7 +593,7 @@
 %
 % \subsubsection{Fonts}
 %
-% \begin{macro}{\@@_set_font_type:N}
+% \begin{macro}[int]{\@@_set_font_type:N}
 % Now check if the font is to be rendered with \ATSUI\ or Harfbuzz. This will either
 % be automatic (based on the font type), or specified by the user via a font feature.
 %
@@ -647,7 +647,7 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\@@_set_autofont:Nnn}
+% \begin{macro}[int]{\@@_set_autofont:Nnn}
 % \darg{Font name tl}
 % \darg{Base font name}
 % \darg{Font name modifier}
@@ -692,7 +692,7 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\@@_make_font_shapes:Nnnnn}
+% \begin{macro}[int]{\@@_make_font_shapes:Nnnnn}
 %  \darg{Font name}
 %  \darg{Font series}
 %  \darg{Font shape}
@@ -735,7 +735,7 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\@@_declare_shape:nnnn}
+% \begin{macro}[int]{\@@_declare_shape:nnnn}
 % \darg{Font series}
 % \darg{Font shape}
 % \darg{Font features}
@@ -773,7 +773,7 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\@@_setup_single_size:nn}
+% \begin{macro}[int]{\@@_setup_single_size:nn}
 %    \begin{macrocode}
 \cs_new:Nn \@@_setup_single_size:nn
   {
@@ -819,7 +819,7 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\@@_setup_nfss:Nn}
+% \begin{macro}[int]{\@@_setup_nfss:Nn}
 %    \begin{macrocode}
 \cs_new:Nn \@@_setup_nfss:Nn
   {
@@ -845,7 +845,7 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\@@_declare_shapes_normal:nn}
+% \begin{macro}[int]{\@@_declare_shapes_normal:nn}
 %    \begin{macrocode}
 \cs_new:Nn \@@_declare_shapes_normal:nn
   {
@@ -855,7 +855,7 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\@@_declare_shapes_smcaps:nn}
+% \begin{macro}[int]{\@@_declare_shapes_smcaps:nn}
 %    \begin{macrocode}
 \cs_new:Nn \@@_declare_shapes_smcaps:nn
   {
@@ -877,7 +877,7 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\@@_DeclareFontShape:nnnnnn}
+% \begin{macro}[int]{\@@_DeclareFontShape:nnnnnn}
 %    \begin{macrocode}
 \cs_new:Nn \@@_DeclareFontShape:nnnnnn
   {
@@ -891,7 +891,7 @@
 \cs_generate_variant:Nn \@@_DeclareFontShape:nnnnnn {xxxxxx}
 %    \end{macrocode}
 %
-% \begin{macro}{\@@_declare_shape_slanted:nn}
+% \begin{macro}[int]{\@@_declare_shape_slanted:nn}
 % This extra stuff for the slanted shape substitution is a little bit awkward.
 % We define the slanted shape to be a synonym for it when (a)~we're defining an italic font, but also (b)~when the default slanted shape isn't `it'.
 % (Presumably this turned up once in a test and I realised it caused problems. I doubt this would happen much.)
@@ -913,7 +913,7 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\@@_declare_shapes_bx:nn}
+% \begin{macro}[int]{\@@_declare_shapes_bx:nn}
 % Similar processing for setting up b/bx substitutions.
 %    \begin{macrocode}
 \cs_new:Nn \@@_declare_shapes_bx:nn
@@ -957,7 +957,7 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\@@_declare_shape_loginfo:nn}
+% \begin{macro}[int]{\@@_declare_shape_loginfo:nn}
 % Lastly some informative messaging.
 %    \begin{macrocode}
 \cs_new:Nn \@@_declare_shape_loginfo:nn
@@ -1007,7 +1007,7 @@
 %
 % \subsubsection{Features}
 %
-% \begin{macro}{\l_@@_pre_feat_sclist}
+% \begin{macro}[int]{\l_@@_pre_feat_sclist}
 % These are the features always applied to a font selection before other
 % features.
 %    \begin{macrocode}
@@ -1033,8 +1033,8 @@
 % \end{macro}
 %
 %
-% \begin{macro}{\@@_make_smallcaps:TF}
-% \begin{macro}{\@@_make_ot_smallcaps:TF}
+% \begin{macro}[int]{\@@_make_smallcaps:TF}
+% \begin{macro}[int]{\@@_make_ot_smallcaps:TF}
 % \label{mac:makesmallcaps}
 % This macro checks if the font contains small caps.
 %    \begin{macrocode}
@@ -1073,7 +1073,7 @@
 % \end{macro}
 % \end{macro}
 %
-% \begin{macro}{\@@_update_featstr:n}
+% \begin{macro}[int]{\@@_update_featstr:n}
 % \cmd{\g_@@_rawfeatures_sclist} is the string used to define the list of specific
 % font features. Each time another font feature is requested, this
 % macro is used to add that feature to the list. Font features are
@@ -1092,7 +1092,7 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\@@_remove_clashing_featstr:n}
+% \begin{macro}[int]{\@@_remove_clashing_featstr:n}
 %    \begin{macrocode}
 \cs_new:Nn \@@_remove_clashing_featstr:n
   {
@@ -1107,7 +1107,7 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\@@_get_variations:}
+% \begin{macro}[int]{\@@_get_variations:}
 % \cmd{\@@_get_variations:} builds the feature string representing the
 % current variation instance and/or axis settings.
 %    \begin{macrocode}
@@ -1136,7 +1136,7 @@
 %
 % \subsection{Initialisation}
 %
-% \begin{macro}{\@@_init:}
+% \begin{macro}[int]{\@@_init:}
 % Initialisations that need to occur once per fontspec font invocation.
 % (Some of these may be redundant.
 % Check whether they're assigned to globally or not.)
@@ -1161,7 +1161,7 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\@@_init_fontface:}
+% \begin{macro}[int]{\@@_init_fontface:}
 % Executed in \cs{@@_get_features:Nn}.
 %    \begin{macrocode}
 \cs_new:Nn \@@_init_fontface:
@@ -1182,7 +1182,7 @@
 %
 % \subsection{Miscellaneous}
 %
-% \begin{macro}{\@@_ot_validate_tag:n}
+% \begin{macro}[int]{\@@_ot_validate_tag:n}
 % This macro takes an OpenType tag and validates it.
 %    \begin{macrocode}
 %<*LU>
@@ -1216,7 +1216,7 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\@@_iv_str_to_num:Nn}
+% \begin{macro}[int]{\@@_iv_str_to_num:Nn}
 % This macro takes a four character string and converts it to the
 % numerical representation required for \XeTeX\ OpenType script/language/feature
 % purposes. The output is stored in |#1|.

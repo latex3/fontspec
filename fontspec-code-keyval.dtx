@@ -52,7 +52,7 @@
   }
 %    \end{macrocode}
 %
-% \begin{macro}{Path}
+% \begin{macro}[no-user-doc]{Path}
 % For fonts that aren't installed in the system. If no argument is given, the font is located
 % with |kpsewhich|; it's either in the current directory or the \TeX\ tree. Otherwise, the
 % argument given defines the file path of the font.
@@ -501,7 +501,7 @@
   }
 %    \end{macrocode}
 %
-% \begin{macro}{\@@_calc_scale:n}
+% \begin{macro}[int]{\@@_calc_scale:n}
 % This macro calculates the amount of scaling between the default
 % roman font and the (default shape of) the font being selected such
 % that the font dimension that is input is equal for both. The only
@@ -542,7 +542,7 @@
 % \end{macro}
 %
 %
-% \begin{macro}{\@@_calc_scale:nn}
+% \begin{macro}[int]{\@@_calc_scale:nn}
 % This macro calls \cs{fontspec_calc_scale:n} twice
 % and then sets the scale to the average of the two results.
 %    \begin{macrocode}
@@ -562,7 +562,7 @@
   }
 %    \end{macrocode}
 % \end{macro}
-% \begin{macro}{\@@_set_font_dimen:NnN}
+% \begin{macro}[int]{\@@_set_font_dimen:NnN}
 % This function sets the dimension |#1| (for font |#3|) to `fontdimen' |#2|
 % for either font dimension 5 (x-height) or 8 (cap-height). If, for some
 % reason, these return an incorrect `zero' value (as \cs{fontdimen8} might
@@ -601,7 +601,7 @@
 \@@_aff_error:n {WordSpace}
 %    \end{macrocode}
 %
-% \begin{macro}{\_fontspec_parse_wordspace:w}
+% \begin{macro}[int]{\_fontspec_parse_wordspace:w}
 % This macro determines if the input to \feat{WordSpace} is
 % of the form |{X}| or |{X,Y,Z}| and executes the font scaling.
 % If the former input, it executes |{X,X,X}|.

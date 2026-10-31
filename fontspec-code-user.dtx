@@ -12,7 +12,7 @@
 %
 % \subsection{Font selection}
 %
-% \begin{macro}{\@@_main_fontspec:nn}
+% \begin{macro}[int]{\@@_main_fontspec:nn}
 %   This is the main command of the package that
 %   selects fonts with various features. It takes two arguments: the
 %   font name and the optional requested features of that
@@ -27,9 +27,9 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\rmfamily}
-% \begin{macro}{\sffamily}
-% \begin{macro}{\ttfamily}
+% \begin{macro}[no-user-doc]{\rmfamily}
+% \begin{macro}[no-user-doc]{\sffamily}
+% \begin{macro}[no-user-doc]{\ttfamily}
 % Add an encoding switch to the three family commands.
 %    \begin{macrocode}
 \tl_set:Nn \l_@@_rmfamily_encoding_tl { \encodingdefault }
@@ -182,7 +182,7 @@
 \tl_gset:Nn \g_@@_mathtt_tl {\ttdefault}
 %    \end{macrocode}
 %
-% \begin{macro}{\@@_main_newfontfamily:NnnN}
+% \begin{macro}[int]{\@@_main_newfontfamily:NnnN}
 %   The inner fontspec workings define a font family, which is then used in a typical
 %   NFSS \cmd\fontfamily\ declaration, saved in the macro name specified.
 %   The fourth argument determines which xparse function to set the macro with (new/renew/etc).
@@ -203,7 +203,7 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\@@_main_newfontface:NnnN}
+% \begin{macro}[int]{\@@_main_newfontface:NnnN}
 % \cmd\newfontface\ uses the fact that if the argument to \feat{BoldFont}, etc., is empty (\ie, |BoldFont={}|), then no bold font is searched for.
 %    \begin{macrocode}
 \cs_new:Nn \@@_main_newfontface:NnnN
@@ -215,7 +215,7 @@
 %
 % \subsection{Font feature selection}
 %
-% \begin{macro}{\@@_set_default_features:nn}
+% \begin{macro}[int]{\@@_set_default_features:nn}
 %    \begin{macrocode}
 \cs_new:Nn \@@_set_default_features:nn
   {
@@ -225,7 +225,7 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\@@_set_font_default_features:nnn}
+% \begin{macro}[int]{\@@_set_font_default_features:nnn}
 % The optional argument |#2| specifies font identifier(s).
 % Branch for either (a)~single token input such as \verb|\rmdefault|, or (b)~otherwise assume its a fontname.
 % In that case, strip spaces and file extensions and lower-case to ensure consistency.
@@ -307,7 +307,7 @@
 %
 % \subsection{Defining new font features}
 %
-% \begin{macro}{\newfontfeature}
+% \begin{macro}[no-user-doc]{\newfontfeature}
 %   \cs{newfontfeature} takes two arguments: the name of the feature
 %   tag by which to reference it, and the string that is used to
 %   select the font feature.
@@ -323,7 +323,7 @@
 % \end{macro}
 %
 %
-% \begin{macro}{\newAATfeature}
+% \begin{macro}[no-user-doc]{\newAATfeature}
 % This command assigns a new AAT feature by its code (|#2|,|#3|) to a new name (|#1|).
 % Better than \cmd\newfontfeature\ because it checks if the feature exists in the
 % font it's being used for.
@@ -341,7 +341,7 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\newopentypefeature}
+% \begin{macro}[no-user-doc]{\newopentypefeature}
 % This command assigns a new OpenType feature by its abbreviation (|#2|) to a new name (|#1|).
 % Better than \cmd\newfontfeature\ because it checks if the feature exists in the
 % font it's being used for.
@@ -370,7 +370,7 @@
 %
 %
 %
-% \begin{macro}{\aliasfontfeature}
+% \begin{macro}[no-user-doc]{\aliasfontfeature}
 % User commands for renaming font features and font feature options.
 %    \begin{macrocode}
 \cs_new:Nn \@@_main_aliasfontfeature:nn
@@ -395,7 +395,7 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\aliasfontfeatureoption}
+% \begin{macro}[no-user-doc]{\aliasfontfeatureoption}
 %    \begin{macrocode}
 \cs_new:Nn \@@_main_aliasfontfeatureoption:nnn
   {
@@ -433,7 +433,7 @@
 % \end{macro}
 %
 %
-% \begin{macro}{\@@_main_DeclareFontExtensions:n}
+% \begin{macro}[int]{\@@_main_DeclareFontExtensions:n}
 %    \begin{macrocode}
 \cs_new:Nn \@@_main_DeclareFontExtensions:n
   {
@@ -450,7 +450,7 @@
 % \subsection{High level conditionals}
 %
 %
-% \begin{macro}{\IfFontFeatureActiveTF}
+% \begin{macro}[no-user-doc]{\IfFontFeatureActiveTF}
 %    \begin{macrocode}
 \cs_new:Nn \@@_main_IfFontFeatureActiveTF:nnn
   {

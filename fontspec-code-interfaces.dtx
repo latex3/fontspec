@@ -51,11 +51,25 @@
 % Only the exact font specified will be defined, without attempting to find bold/italic/etc.\ shapes.
 % \end{function}
 %
+% \begin{function}{\defaultfontfeatures}
+% \begin{syntax}
+% |\defaultfontfeatures| \oarg{font name} \marg{options}
+% \end{syntax}
+% Sets the font features applied to every subsequent font selection.
+% \end{function}
+%
+% \begin{function}{\addfontfeatures}
+% \begin{syntax}
+% |\addfontfeatures| \marg{options}
+% \end{syntax}
+% Sets the font features local to a group.
+% \end{function}
+%
 % \begin{function}{\oldstylenums,\liningnums}
 % \begin{syntax}
 % |{\oldstylenums 123} {\liningnums 123}| $\to$  {\rmfamily\oldstylenums 123} {\rmfamily\liningnums 123}
 % \end{syntax}
-% Re-implementations of font-switching commands which activate the necessaru font features (|onum| and |lnum| in OpenType).
+% Re-implementations of font-switching commands which activate the necessary font features (|onum| and |lnum| in OpenType).
 % \end{function}
 %
 % \section{Implementation}
@@ -252,7 +266,7 @@
   }
 %    \end{macrocode}
 %
-% \begin{macro}{\newICUfeature}
+% \begin{macro}[no-user-doc]{\newICUfeature}
 % Deprecated.
 %    \begin{macrocode}
 \NewDocumentCommand \newICUfeature {mmm}
@@ -276,7 +290,7 @@
   }
 %    \end{macrocode}
 %
-% \begin{macro}{\newfontscript}
+% \begin{macro}[no-user-doc]{\newfontscript}
 % Mostly used internally, but also possibly useful for users, to define new OpenType
 % `scripts', mapping logical names to OpenType script tags.
 %    \begin{macrocode}
@@ -287,7 +301,7 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\newfontlanguage}
+% \begin{macro}[no-user-doc]{\newfontlanguage}
 % Mostly used internally, but also possibly useful for users, to define new OpenType
 % `languages', mapping logical names to OpenType language tags.
 %    \begin{macrocode}

@@ -153,7 +153,7 @@
 % \end{macro}
 % \end{macro}
 %
-% \begin{macro}{\@@_keys_set_known:nnN}
+% \begin{macro}[int]{\@@_keys_set_known:nnN}
 %    \begin{macrocode}
 \cs_new:Nn \@@_keys_set_known:nnN
   {
@@ -165,7 +165,7 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\@@_int_mult_truncate:Nn}
+% \begin{macro}[int]{\@@_int_mult_truncate:Nn}
 % Missing in expl3, IMO.
 %    \begin{macrocode}
 \cs_new:Nn \@@_int_mult_truncate:Nn
@@ -175,10 +175,10 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\@@_lua_function:ne}
-% \begin{macro}{\@@_lua_function:nee}
-% \begin{macro}{\@@_lua_function:neee}
-% \begin{macro}{\@@_lua_function:neeee}
+% \begin{macro}[int]{\@@_lua_function:ne}
+% \begin{macro}[int]{\@@_lua_function:nee}
+% \begin{macro}[int]{\@@_lua_function:neee}
+% \begin{macro}[int]{\@@_lua_function:neeee}
 %    \begin{macrocode}
 %<*LU>
 \cs_set:Npn \@@_lua_function:ne    #1#2       { \lua_now:e { fontspec.#1 ("#2")                } }
